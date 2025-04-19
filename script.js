@@ -264,7 +264,7 @@ function endGame() {
     if(finalScoreElement) finalScoreElement.textContent = currentScore;
     if(gameAreaElement) gameAreaElement.style.display = 'none';
     if(resultAreaElement) resultAreaElement.style.display = 'block';
-    // TODO: Додати логіку збереження результату
+    // TODO: Додати логіку збереження результатів
 }
 
 // ----- 10. Допоміжні функції -----
