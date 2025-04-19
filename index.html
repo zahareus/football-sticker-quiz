@@ -8,21 +8,32 @@
 </head>
 <body>
     <h1>Гра "Вгадай Стікер"</h1>
-    <p>Скоро тут буде гра...</p>
+
+    <div id="auth-section">
+        <button id="login-button" style="display: none;">Увійти через Google</button>
+        <div id="user-status" style="display: none;">
+            Вітаємо, <span id="user-email"></span>!
+            <button id="logout-button">Вийти</button>
+        </div>
+    </div>
+    <hr> <p id="loading-indicator" style="display: none;">Завантаження...</p>
+    <p id="error-message" style="color: red; display: none;"></p>
+
 
     <div id="game-area" style="display: none;">
-        <img id="sticker-image" src="" alt="Стікер клубу" width="150">
-        <div id="options">
+        <img id="sticker-image" src="" alt="Стікер клубу" width="150" style="display: block; margin: 10px auto;">
+        <div id="options" style="margin-top: 10px; text-align: center;">
             </div>
-        <div id="timer">Час: <span id="time-left">10</span></div>
-        <div id="score">Рахунок: <span id="current-score">0</span></div>
+        <div id="timer" style="margin-top: 10px; font-weight: bold;">Час: <span id="time-left">10</span></div>
+        <div id="score" style="margin-top: 5px; font-weight: bold;">Рахунок: <span id="current-score">0</span></div>
     </div>
 
-    <div id="result-area" style="display: none;">
+    <div id="result-area" style="display: none; margin-top: 20px; text-align: center;">
         <h2>Гру завершено!</h2>
         <p>Ваш фінальний рахунок: <span id="final-score">0</span></p>
         <button id="play-again">Грати ще раз</button>
     </div>
+
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="script.js"></script>
 </body>
