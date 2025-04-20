@@ -13,8 +13,7 @@ if (typeof supabase === 'undefined') {
   try {
     supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
     console.log('Клієнт Supabase успішно ініціалізовано');
-    // Перевіряємо стан auth до завантаження DOM, щоб мати currentUser
-    checkInitialAuthState();
+    checkInitialAuthState(); // Перевіряємо стан до завантаження DOM
     // Ініціалізуємо додаток тільки після повного завантаження DOM
     if (document.readyState === 'loading') {
         document.addEventListener('DOMContentLoaded', initializeApp);
@@ -36,19 +35,18 @@ let timerInterval = null;
 let currentUser = null; // Встановлюється checkInitialAuthState та onAuthStateChange
 let selectedDifficulty = 1; // Починаємо з легкої за замовчуванням для лідерборду
 // Змінні стану лідерборду
-let currentLeaderboardTimeframe = 'all';
-let currentLeaderboardDifficulty = 1;
+let currentLeaderboardTimeframe = 'all'; // 'today', 'week', 'month', 'all'
+let currentLeaderboardDifficulty = 1;   // 1, 2, 3
 
 // ----- 4. DOM Елементи -----
 // Оголошуємо змінні тут
 let gameAreaElement, stickerImageElement, optionsContainerElement, timeLeftElement, currentScoreElement, resultAreaElement, finalScoreElement, playAgainButton, authSectionElement, loginButton, userStatusElement, userEmailElement, logoutButton, difficultySelectionElement, loadingIndicator, errorMessageElement;
 let difficultyButtons;
-let leaderboardSectionElement, leaderboardListElement, closeLeaderboardButton, showLeaderboardButton, leaderboardTimeFilterButtons, leaderboardDifficultyFilterButtons;
+let leaderboardSectionElement, leaderboardListElement, closeLeaderboardButton, showLeaderboardButton, leaderboardTimeFilterButtons, leaderboardDifficultyFilterButtons; // Елементи лідерборду
 
 // Функція знаходить елементи і додає слухачів
 function initializeDOMElements() {
     console.log("initializeDOMElements: Пошук елементів...");
-    // Основні елементи
     gameAreaElement = document.getElementById('game-area');
     stickerImageElement = document.getElementById('sticker-image');
     optionsContainerElement = document.getElementById('options');
@@ -63,6 +61,8 @@ function initializeDOMElements() {
     userEmailElement = document.getElementById('user-email');
     logoutButton = document.getElementById('logout-button');
     difficultySelectionElement = document.getElementById('difficulty-selection');
+    loadingIndicator = document.getElementById('loading-indicator');
+    errorMessageElement = document.getElementById('error-message');
     difficultyButtons = document.querySelectorAll('.difficulty-button');
     // Елементи лідерборду
     leaderboardSectionElement = document.getElementById('leaderboard-section');
@@ -71,9 +71,6 @@ function initializeDOMElements() {
     showLeaderboardButton = document.getElementById('show-leaderboard-button');
     leaderboardTimeFilterButtons = document.querySelectorAll('.leaderboard-time-filter');
     leaderboardDifficultyFilterButtons = document.querySelectorAll('.leaderboard-difficulty-filter');
-    // Індикатори
-    loadingIndicator = document.getElementById('loading-indicator');
-    errorMessageElement = document.getElementById('error-message');
 
     // Перевірка ВСІХ елементів
     const elements = { gameAreaElement, stickerImageElement, optionsContainerElement, timeLeftElement, currentScoreElement, resultAreaElement, finalScoreElement, playAgainButton, authSectionElement, loginButton, userStatusElement, userEmailElement, logoutButton, difficultySelectionElement, leaderboardSectionElement, leaderboardListElement, closeLeaderboardButton, showLeaderboardButton, loadingIndicator, errorMessageElement };
@@ -89,18 +86,17 @@ function initializeDOMElements() {
          console.error("Помилка initializeDOMElements: Не знайдено 3 кнопки складності!");
          allFound = false;
     }
-    if (!leaderboardTimeFilterButtons || leaderboardTimeFilterButtons.length === 0) {
-        console.error("Помилка initializeDOMElements: Не знайдено кнопок фільтра часу!");
+    if (!leaderboardTimeFilterButtons || leaderboardTimeFilterButtons.length === 0) { // Має бути хоча б одна
+        console.error("Помилка initializeDOMElements: Не знайдено кнопок фільтра часу лідерборду!");
         allFound = false;
     }
-     if (!leaderboardDifficultyFilterButtons || leaderboardDifficultyFilterButtons.length === 0) {
+     if (!leaderboardDifficultyFilterButtons || leaderboardDifficultyFilterButtons.length === 0) { // Має бути хоча б одна
         console.error("Помилка initializeDOMElements: Не знайдено кнопок фільтра складності лідерборду!");
         allFound = false;
     }
 
     if (!allFound) {
         console.error("initializeDOMElements: Не всі DOM елементи знайдено. Подальша робота неможлива.");
-        // Можна викликати handleCriticalError або просто повернути false
         handleCriticalError("Помилка завантаження: відсутні необхідні елементи сторінки.");
         return false; // Повертаємо false
     }
@@ -157,10 +153,10 @@ async function logout() {
 // Функція для оновлення UI залежно від стану автентифікації
 function updateAuthStateUI(user) {
    console.log("Запуск updateAuthStateUI. User:", user ? user.id : 'null');
-   // Перевіряємо наявність ключових елементів UI
+   // Переконуємось, що елементи вже ініціалізовані
    if (!loginButton || !userStatusElement || !difficultySelectionElement || !userEmailElement || !showLeaderboardButton) {
-       console.warn("updateAuthStateUI: DOM елементи ще не готові або не знайдені!");
-       return;
+       console.warn("updateAuthStateUI: DOM елементи ще не готові!");
+       return; // Виходимо, якщо не готові
    }
    console.log("updateAuthStateUI: DOM елементи готові.");
 
@@ -209,7 +205,9 @@ async function checkAndCreateUserProfile(user) {
            console.log(`checkAndCreateUserProfile: Профіль не знайдено. Створення...`);
            const userEmail = user.email || `user_${user.id.substring(0, 8)}`;
            const potentialUsername = user.user_metadata?.full_name || user.user_metadata?.name || userEmail;
-           const { error: insertError } = await supabaseClient.from('profiles').insert({ id: user.id, username: potentialUsername, updated_at: new Date() }).select().single();
+           const profileDataToInsert = { id: user.id, username: potentialUsername, updated_at: new Date() };
+           console.log("Дані для вставки профілю:", profileDataToInsert);
+           const { error: insertError } = await supabaseClient.from('profiles').insert(profileDataToInsert).select().single();
            if (insertError) throw insertError;
            console.log(`checkAndCreateUserProfile: Профіль створено.`);
        } else {
@@ -233,8 +231,7 @@ function setupAuthStateChangeListener() {
             updateAuthStateUI(user);
          } else {
              console.warn("onAuthStateChange: DOM ще не готовий, оновлення UI відкладено.");
-             // Просто зберігаємо останній стан користувача, initializeApp оновить UI
-             currentUser = user;
+             currentUser = user; // Зберігаємо стан для initializeApp
          }
         // Перевірка/створення профілю тільки при SIGNED_IN
         if (_event === 'SIGNED_IN' && user) {
@@ -244,7 +241,9 @@ function setupAuthStateChangeListener() {
         if (_event === 'SIGNED_OUT') {
             console.log("SIGNED_OUT: Скидання стану гри.");
             stopTimer();
-            selectedDifficulty = null;
+            selectedDifficulty = 1; // Скидаємо складність на дефолтну
+            currentLeaderboardDifficulty = 1; // Скидаємо фільтр лідерборду
+            currentLeaderboardTimeframe = 'all';
             if(gameAreaElement) gameAreaElement.style.display = 'none';
             if(resultAreaElement) resultAreaElement.style.display = 'none';
             if(difficultySelectionElement) difficultySelectionElement.style.display = 'none';
@@ -276,23 +275,23 @@ function displayQuestion(questionData) {
     if (!stickerImageElement || !optionsContainerElement || !timeLeftElement || !currentScoreElement || !gameAreaElement || !resultAreaElement) {
          console.error("displayQuestion: DOM елементи не ініціалізовані!"); return;
     }
-    currentQuestionData = questionData;
+    currentQuestionData = questionData; // Зберігаємо поточні дані
     hideError();
 
     stickerImageElement.src = "";
-    stickerImageElement.alt = "Завантаження стікера...";
+    stickerImageElement.alt = "Loading sticker...";
     console.log("Встановлення src зображення:", questionData.imageUrl);
     stickerImageElement.src = questionData.imageUrl;
     stickerImageElement.onerror = () => {
         console.error(`Помилка завантаження зображення: ${questionData.imageUrl}`);
-        showError("Не вдалося завантажити зображення стікера.");
-        stickerImageElement.alt = "Помилка завантаження";
+        showError("Failed to load sticker image.");
+        stickerImageElement.alt = "Image load error";
         stickerImageElement.src = "";
-        setTimeout(endGame, 500);
+        setTimeout(endGame, 500); // Завершуємо гру
     };
-    stickerImageElement.onload = () => { stickerImageElement.alt = "Стікер клубу"; };
+    stickerImageElement.onload = () => { stickerImageElement.alt = "Club Sticker"; };
 
-    optionsContainerElement.innerHTML = '';
+    optionsContainerElement.innerHTML = ''; // Очищаємо старі кнопки
     console.log("Створення кнопок для варіантів:", questionData.options);
     if (questionData.options && Array.isArray(questionData.options)) {
         questionData.options.forEach((optionText) => {
@@ -300,44 +299,45 @@ function displayQuestion(questionData) {
             button.textContent = optionText;
             button.disabled = false;
             button.classList.remove('correct-answer', 'incorrect-answer'); // Очищаємо класи
-            button.style.backgroundColor = ''; // Очищаємо стиль (якщо був inline)
-            button.style.outline = ''; // Очищаємо стиль
             button.addEventListener('click', () => handleAnswer(optionText));
             optionsContainerElement.appendChild(button);
         });
         console.log("Цикл створення кнопок завершено.");
     } else {
         console.error("Помилка: questionData.options не є масивом!");
-        showError("Помилка відображення варіантів.");
+        showError("Error displaying answer options.");
         setTimeout(endGame, 500); return;
     }
 
-    timeLeft = 10;
-    if(timeLeftElement) timeLeftElement.textContent = timeLeft;
-    if(currentScoreElement) currentScoreElement.textContent = currentScore;
+    timeLeft = 10; // Скидаємо таймер
+    if(timeLeftElement) timeLeftElement.textContent = timeLeft; // Оновлюємо відображення
+    if(currentScoreElement) currentScoreElement.textContent = currentScore; // Показуємо поточний рахунок
 
-    if(gameAreaElement) gameAreaElement.style.display = 'block';
-    if(resultAreaElement) resultAreaElement.style.display = 'none';
+    if(gameAreaElement) gameAreaElement.style.display = 'block'; // Показуємо ігрову зону
+    if(resultAreaElement) resultAreaElement.style.display = 'none'; // Ховаємо результати
 
-    startTimer();
+    startTimer(); // Запускаємо таймер для нового запитання
 }
 
 // ----- 7. Функція обробки відповіді користувача -----
 function handleAnswer(selectedOption) {
-    stopTimer();
+    stopTimer(); // Зупиняємо таймер одразу
     console.log(`Обрано відповідь: ${selectedOption}`);
     hideError();
-    if (!currentQuestionData || !optionsContainerElement) { return; }
+    if (!currentQuestionData || !optionsContainerElement) { console.error("handleAnswer: Немає даних або контейнера"); return; }
+
     const buttons = optionsContainerElement.querySelectorAll('button');
     buttons.forEach(button => button.disabled = true); // Вимикаємо кнопки
 
-    if (selectedOption === currentQuestionData.correctAnswer) {
+    const isCorrect = selectedOption === currentQuestionData.correctAnswer;
+
+    if (isCorrect) {
         console.log("Відповідь ПРАВИЛЬНА!");
-        currentScore++;
-        if(currentScoreElement) currentScoreElement.textContent = currentScore;
+        currentScore++; // Збільшуємо рахунок
+        if(currentScoreElement) currentScoreElement.textContent = currentScore; // Оновлюємо UI
         // Додаємо клас до правильної кнопки
         buttons.forEach(button => { if (button.textContent === selectedOption) button.classList.add('correct-answer'); });
-        setTimeout(loadNextQuestion, 700);
+        setTimeout(loadNextQuestion, 700); // Наступне питання з затримкою
     } else {
         console.log("Відповідь НЕПРАВИЛЬНА!");
         // Додаємо класи до правильної і неправильної кнопок
@@ -345,16 +345,16 @@ function handleAnswer(selectedOption) {
             if (button.textContent === currentQuestionData.correctAnswer) button.classList.add('correct-answer');
             if (button.textContent === selectedOption) button.classList.add('incorrect-answer');
         });
-        setTimeout(endGame, 1500);
+        setTimeout(endGame, 1500); // Завершення гри з затримкою
     }
 }
 
  // ----- 8. Функції таймера -----
 function startTimer() {
-     stopTimer();
+    stopTimer(); // Завжди очищати попередній
     timeLeft = 10;
     if(!timeLeftElement) { console.error("startTimer: timeLeftElement не знайдено!"); return; }
-    timeLeftElement.textContent = timeLeft;
+    timeLeftElement.textContent = timeLeft; // Встановлюємо початкове значення
     console.log("Запуск інтервалу таймера...");
     timerInterval = setInterval(() => {
         timeLeft--;
@@ -365,17 +365,17 @@ function startTimer() {
         if (timeLeft <= 0) {
             console.log("Час вийшов!");
             stopTimer();
+            // Вимикаємо кнопки та показуємо правильну відповідь
              if (optionsContainerElement && currentQuestionData) {
                  const buttons = optionsContainerElement.querySelectorAll('button');
                  buttons.forEach(button => {
                     button.disabled = true;
                      if (button.textContent === currentQuestionData.correctAnswer) {
-                        // button.classList.add('correct-answer'); // Можна додати клас і для тайм-ауту
-                        button.style.outline = '2px solid orange'; // Або просто обведення
+                        button.style.outline = '2px solid orange'; // Позначаємо правильну
                      }
                  });
              }
-            setTimeout(endGame, 1500);
+            setTimeout(endGame, 1500); // Завершуємо гру
         }
     }, 1000);
 }
@@ -389,20 +389,20 @@ function showDifficultySelection() {
      console.log("Показ вибору складності");
      hideError();
       if (!gameAreaElement || !resultAreaElement || !difficultySelectionElement || !userStatusElement || !leaderboardSectionElement) {
-           console.error("DOM не готовий для показу вибору складності");
-           if (!initializeDOMElements()) { handleCriticalError("..."); return; }
+           console.error("DOM не готовий для showDifficultySelection");
+           if (!initializeDOMElements()) { handleCriticalError("Помилка інтерфейсу."); return; }
       }
      if(gameAreaElement) gameAreaElement.style.display = 'none';
      if(resultAreaElement) resultAreaElement.style.display = 'none';
      if(leaderboardSectionElement) leaderboardSectionElement.style.display = 'none';
-     if(difficultySelectionElement) difficultySelectionElement.style.display = 'block';
-     if(userStatusElement) userStatusElement.style.display = 'block'; // Статус теж видимий
+     if(difficultySelectionElement) difficultySelectionElement.style.display = 'block'; // Показати вибір
+     if(userStatusElement) userStatusElement.style.display = 'block'; // Показати статус
 }
 
 function handleDifficultySelection(event) {
      const difficulty = parseInt(event.target.dataset.difficulty, 10);
      if (![1, 2, 3].includes(difficulty)) { return; }
-     selectedDifficulty = difficulty; // Встановлюємо глобальну складність
+     selectedDifficulty = difficulty; // Встановлюємо глобальну
      console.log(`Обрано складність: ${selectedDifficulty}`);
      if(difficultySelectionElement) difficultySelectionElement.style.display = 'none'; // Ховаємо вибір
      startGame(); // Починаємо гру
@@ -411,8 +411,10 @@ function handleDifficultySelection(event) {
 async function startGame() {
     console.log(`Початок нової гри! Складність: ${selectedDifficulty}`);
     hideError();
+    // Перевіряємо, чи обрано складність
     if (selectedDifficulty === null) { console.error("Спроба почати гру без складності!"); showDifficultySelection(); return; }
-    if (!gameAreaElement || !currentScoreElement || !resultAreaElement || !difficultySelectionElement || !userStatusElement) {
+    // Перевіряємо DOM елементи
+    if (!gameAreaElement || !currentScoreElement || !resultAreaElement || !difficultySelectionElement || !userStatusElement || !optionsContainerElement) {
         console.error("startGame: Не всі DOM елементи готові.");
         if (!initializeDOMElements()) { handleCriticalError("Не вдалося ініціалізувати елементи."); return; }
     }
@@ -420,7 +422,7 @@ async function startGame() {
     if (currentScoreElement) currentScoreElement.textContent = 0; // Оновлюємо UI
     if (resultAreaElement) {
         const existingMsg = resultAreaElement.querySelector('.save-message');
-        if(existingMsg) existingMsg.remove();
+        if(existingMsg) existingMsg.remove(); // Прибираємо старі повідомлення
          resultAreaElement.style.display = 'none'; // Ховаємо результати
     }
     if(difficultySelectionElement) difficultySelectionElement.style.display = 'none'; // Ховаємо вибір складності
@@ -438,26 +440,30 @@ async function loadNextQuestion() {
     if (questionData) {
         // УСПІХ: Викликаємо displayQuestion тут!
         console.log("loadNextQuestion: Отримано дані, викликаємо displayQuestion...");
-        displayQuestion(questionData); // <--- ВИКЛИК ДЛЯ ВІДОБРАЖЕННЯ
+        displayQuestion(questionData); // <--- КЛЮЧОВИЙ ВИКЛИК
     } else {
         // ПОМИЛКА: endGame вже має бути викликано з loadNewQuestion
         console.log("loadNextQuestion: Завантаження питання не вдалося.");
-         // Можна додатково показати екран результатів для надійності
+        // Додатково можна показати екран результатів для надійності
          if(gameAreaElement) gameAreaElement.style.display = 'none';
          if(resultAreaElement) resultAreaElement.style.display = 'block';
          if(userStatusElement) userStatusElement.style.display = 'block';
     }
 }
 
+
 // Функція завантаження даних запитання (ВИПРАВЛЕНО)
  async function loadNewQuestion() {
-  if (!supabaseClient || selectedDifficulty === null) { console.error("..."); return null; }
+  if (!supabaseClient || selectedDifficulty === null) { console.error("loadNewQuestion: Клієнт/складність не готові."); return null; }
   console.log(`Завантаження запитання (Складність: ${selectedDifficulty})...`);
   showLoading();
   try {
+    // Запит кількості стікерів
     const { count: stickerCount, error: countError } = await supabaseClient.from('stickers').select('*', { count: 'exact', head: true }).eq('difficulty', selectedDifficulty);
     if (countError) throw countError;
     if (stickerCount === null || stickerCount === 0) { throw new Error(`Для складності ${selectedDifficulty} немає стікерів!`); }
+
+    // Запит кількості клубів
     const { count: totalClubCount, error: totalClubCountError } = await supabaseClient.from('clubs').select('id', { count: 'exact', head: true });
     if (totalClubCountError) throw totalClubCountError;
     if (totalClubCount === null || totalClubCount < 4) { throw new Error(`В базі недостатньо клубів (${totalClubCount})!`); }
@@ -466,24 +472,26 @@ async function loadNextQuestion() {
     const randomIndex = Math.floor(Math.random() * stickerCount);
     console.log(`Випадковий індекс: ${randomIndex}`);
 
-    // Отримуємо стікер з сортуванням
+    // Запит випадкового стікера з сортуванням
     const { data: randomStickerData, error: stickerError } = await supabaseClient
       .from('stickers')
-      .select(`id, image_url, clubs ( id, name )`)
+      .select(`id, image_url, clubs ( id, name )`) // Запит імені клубу разом зі стікером
       .eq('difficulty', selectedDifficulty)
       .order('id', { ascending: true }) // Сортування
       .range(randomIndex, randomIndex)
-      .single();
+      .single(); // Очікуємо один результат
 
     if (stickerError) { throw new Error(`Помилка отримання стікера: ${stickerError.message}`); }
     if (!randomStickerData || !randomStickerData.clubs) { throw new Error("Не вдалося отримати дані стікера/клубу."); }
 
-    // ... (Отримання неправильних варіантів) ...
+    // Запит неправильних варіантів
     const correctClubId = randomStickerData.clubs.id;
     const correctClubName = randomStickerData.clubs.name;
-    const { data: incorrectClubsData, error: incorrectClubsError } = await supabaseClient.from('clubs').select('name').neq('id', correctClubId).limit(50);
+    const { data: incorrectClubsData, error: incorrectClubsError } = await supabaseClient.from('clubs').select('name').neq('id', correctClubId).limit(50); // Беремо з запасом
     if (incorrectClubsError) throw incorrectClubsError;
     if (!incorrectClubsData || incorrectClubsData.length < 3) throw new Error("Недостатньо клубів для варіантів.");
+
+    // Формування варіантів
     const incorrectOptions = incorrectClubsData.map(club => club.name).filter(name => name !== correctClubName).sort(() => 0.5 - Math.random()).slice(0, 3);
     if (incorrectOptions.length < 3) throw new Error("Не вдалося вибрати 3 варіанти.");
 
@@ -498,7 +506,7 @@ async function loadNextQuestion() {
 
   } catch (error) {
     console.error("Помилка під час завантаження запитання:", error);
-    showError(`Помилка завантаження: ${error.message}`);
+    showError(`Loading Error: ${error.message}`); // English
     hideLoading();
     setTimeout(endGame, 500); // Завершуємо гру при помилці
     return null; // Повертаємо null
@@ -507,71 +515,72 @@ async function loadNextQuestion() {
 
 // Функція завершення гри
 function endGame() {
-     console.log(`Гра завершена! Фінальний рахунок: ${currentScore}`);
+     console.log(`Game Over! Final score: ${currentScore}`); // English
      stopTimer();
      if(finalScoreElement) finalScoreElement.textContent = currentScore;
      if(gameAreaElement) gameAreaElement.style.display = 'none';
      if(resultAreaElement) {
         const existingMsg = resultAreaElement.querySelector('.save-message');
-        if(existingMsg) existingMsg.remove();
-        resultAreaElement.style.display = 'block';
+        if(existingMsg) existingMsg.remove(); // Прибираємо старі повідомлення про збереження
+        resultAreaElement.style.display = 'block'; // Показуємо результати
      }
      if(difficultySelectionElement) difficultySelectionElement.style.display = 'none';
-     if(userStatusElement) userStatusElement.style.display = 'block'; // Показуємо статус
+     // Показуємо статус користувача знову
+     if(userStatusElement) userStatusElement.style.display = 'block';
      saveScore(); // Викликаємо збереження
 }
 
  // Функція збереження результату (з країною та дебагом GeoIP)
  async function saveScore() {
-     if (!currentUser) { console.log("saveScore: Немає користувача."); return; }
-     if (typeof currentScore !== 'number' || currentScore < 0) { console.log("saveScore: Немає рахунку."); return; }
-     if (selectedDifficulty === null) { console.error("saveScore: Складність не встановлена!"); return; }
-     // Не зберігаємо нульові результати
+     if (!currentUser) { console.log("saveScore: User not logged in."); return; } // English
+     if (typeof currentScore !== 'number' || currentScore < 0) { console.log("saveScore: Invalid score."); return; } // English
+     if (selectedDifficulty === null) { console.error("saveScore: Difficulty not set!"); return; }
+     // Don't save zero scores
      if (currentScore === 0) {
-          console.log("saveScore: Рахунок 0, не зберігаємо.");
+          console.log("saveScore: Score is 0, not saving."); // English
           const scoreInfoMsg = document.createElement('p');
-          scoreInfoMsg.textContent = 'Результати зберігаються тільки якщо рахунок більше 0.';
+          scoreInfoMsg.textContent = 'Scores are saved only if greater than 0.'; // English
           scoreInfoMsg.style.fontSize = 'small'; scoreInfoMsg.style.marginTop = '5px'; scoreInfoMsg.classList.add('save-message');
           const scoreParagraph = finalScoreElement?.parentNode;
           if (resultAreaElement && scoreParagraph) { const existingMsg = resultAreaElement.querySelector('.save-message'); if(!existingMsg) { scoreParagraph.parentNode.insertBefore(scoreInfoMsg, scoreParagraph.nextSibling); } }
           return;
      }
-     console.log(`Спроба збереження результату: ${currentScore} (Складність: ${selectedDifficulty}) для користувача ${currentUser.id}`);
+     console.log(`Attempting to save score: ${currentScore} (Difficulty: ${selectedDifficulty}) for user ${currentUser.id}`); // English
      showLoading();
      let detectedCountryCode = null;
 
-     // --- ПОЧАТОК ДЕБАГУ GeoIP ---
-     console.log("ДЕБАГ: Перед викликом fetch до ip-api.com");
+     // --- GeoIP Debug Block ---
+     console.log("DEBUG: Before fetch to ip-api.com");
      try {
          await fetch('https://ip-api.com/json/?fields=status,message,countryCode')
-             .then(response => { console.log("ДЕБАГ: Fetch відповідь (status):", response.status, response.statusText); if (!response.ok) { console.error("ДЕБАГ: Fetch НЕ ok:", response.statusText); return response.text().then(text => { console.error("ДЕБАГ: Тіло відповіді:", text); throw new Error(`GeoIP Error: ${response.statusText}`); }); } console.log("ДЕБАГ: Отримання JSON..."); return response.json(); })
-             .then(data => { console.log("ДЕБАГ: JSON дані:", data); if (data && data.status === 'success' && data.countryCode) { detectedCountryCode = String(data.countryCode).substring(0, 2).toUpperCase(); console.log(`ДЕБАГ: Країну визначено як ${detectedCountryCode}`); } else { console.warn("ДЕБАГ: Не вдалося визначити країну з даних:", data); } })
-             .catch(fetchError => { console.error("ДЕБАГ: Помилка fetch/json:", fetchError); });
-     } catch (outerError) { console.error("ДЕБАГ: Неочікувана помилка fetch:", outerError); }
-     console.log("ДЕБАГ: Після блоку fetch. detectedCountryCode =", detectedCountryCode);
-     // --- КІНЕЦЬ ДЕБАГУ GeoIP ---
+             .then(response => { console.log("DEBUG: Fetch response (status):", response.status, response.statusText); if (!response.ok) { console.error("DEBUG: Fetch NOT ok:", response.statusText); return response.text().then(text => { console.error("DEBUG: Error response body:", text); throw new Error(`GeoIP Error: ${response.statusText}`); }); } console.log("DEBUG: Getting JSON..."); return response.json(); })
+             .then(data => { console.log("DEBUG: JSON data:", data); if (data && data.status === 'success' && data.countryCode) { detectedCountryCode = String(data.countryCode).substring(0, 2).toUpperCase(); console.log(`DEBUG: Country detected as ${detectedCountryCode}`); } else { console.warn("DEBUG: Could not determine country from data:", data); } })
+             .catch(fetchError => { console.error("DEBUG: Error in fetch/json promise:", fetchError); });
+     } catch (outerError) { console.error("DEBUG: Unexpected error around fetch:", outerError); }
+     console.log("DEBUG: After fetch block. detectedCountryCode =", detectedCountryCode);
+     // --- End GeoIP Debug Block ---
 
-     // --- Початок блоку збереження в БД ---
+     // --- DB Save Block ---
      try {
-         console.log(`Зберігаємо в БД: user=${currentUser.id}, score=${currentScore}, difficulty=${selectedDifficulty}, country=${detectedCountryCode}`);
+         console.log(`Saving to DB: user=${currentUser.id}, score=${currentScore}, difficulty=${selectedDifficulty}, country=${detectedCountryCode}`);
          const { error } = await supabaseClient
              .from('scores')
              .insert({
                  user_id: currentUser.id,
                  score: currentScore,
                  difficulty: selectedDifficulty,
-                 country_code: detectedCountryCode // Передаємо отриманий код (або null)
+                 country_code: detectedCountryCode // Pass detected code (or null)
              });
          if (error) {
-            if (error.code === '42501') { throw new Error("Немає дозволу на збереження результату."); }
-            else if (error.code === '23503') { throw new Error("Помилка зв'язку з профілем користувача."); }
-            else if (error.message.includes("value too long for type character varying(2)")) { throw new Error(`Помилка: Код країни '${detectedCountryCode}' задовгий.`);}
-            else { throw error; } // Інша помилка бази даних
+            if (error.code === '42501') { throw new Error("Permission denied to save score (check RLS)."); } // English
+            else if (error.code === '23503') { throw new Error("Error linking score to user profile."); } // English
+            else if (error.message.includes("value too long for type character varying(2)")) { throw new Error(`Error: Country code '${detectedCountryCode}' is too long.`);} // English
+            else { throw error; } // Other DB error
          }
-         console.log("Результат успішно збережено!");
-         // Показуємо повідомлення про успішне збереження
+         console.log("Score saved successfully!"); // English
+         // Display success message
          const scoreSavedMessage = document.createElement('p');
-         scoreSavedMessage.textContent = 'Ваш результат збережено!';
+         scoreSavedMessage.textContent = 'Your score has been saved!'; // English
          scoreSavedMessage.style.fontSize = 'small'; scoreSavedMessage.style.marginTop = '5px'; scoreSavedMessage.classList.add('save-message');
          const scoreParagraph = finalScoreElement?.parentNode;
          if (resultAreaElement && scoreParagraph) {
@@ -579,16 +588,15 @@ function endGame() {
              if(!existingMsg) { scoreParagraph.parentNode.insertBefore(scoreSavedMessage, scoreParagraph.nextSibling); }
          }
      } catch (error) {
-         console.error("Помилка збереження результату:", error);
-         showError(`Не вдалося зберегти ваш результат: ${error.message}`);
+         console.error("Error saving score:", error);
+         showError(`Failed to save your score: ${error.message}`); // English
      } finally {
-         hideLoading(); // Завжди ховаємо індикатор
+         hideLoading();
      }
  }
 
 
-// ----- 10. ЛОГІКА ЛІДЕРБОРДУ -----
-// Допоміжна функція для розрахунку діапазонів дат в UTC
+// ----- 10. Leaderboard Logic -----
 function calculateTimeRange(timeframe) {
     const now = new Date(); let fromDate = null; let toDate = null;
     switch (timeframe) {
@@ -597,64 +605,62 @@ function calculateTimeRange(timeframe) {
         case 'month': const thirtyDaysAgo = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate())); thirtyDaysAgo.setUTCDate(thirtyDaysAgo.getUTCDate() - 30); fromDate = thirtyDaysAgo.toISOString(); break;
         case 'all': default: fromDate = null; toDate = null; break;
     }
-    console.log(`calculateTimeRange: timeframe=${timeframe}, from=${fromDate}, to=${toDate}`);
+    // console.log(`calculateTimeRange: timeframe=${timeframe}, from=${fromDate}, to=${toDate}`); // Keep commented unless debugging time
     return { fromDate, toDate };
 }
 
-// Функція завантаження даних для лідерборду
 async function fetchLeaderboardData(timeframe, difficulty) {
-    if (!supabaseClient) { showError("Немає підключення."); return null; }
-    console.log(`WorkspaceLeaderboardData: Завантаження: час=${timeframe}, складність=${difficulty}`);
+    if (!supabaseClient) { showError("Connection error."); return null; }
+    console.log(`WorkspaceLeaderboardData: Loading: time=${timeframe}, difficulty=${difficulty}`);
     showLoading(); hideError();
     try {
         const { fromDate, toDate } = calculateTimeRange(timeframe);
         let query = supabaseClient.from('scores').select(`score, created_at, profiles ( username )`).eq('difficulty', difficulty);
         if (fromDate) { query = query.gte('created_at', fromDate); }
         if (toDate) { query = query.lt('created_at', toDate); }
-        query = query.order('score', { ascending: false }).order('created_at', { ascending: true }).limit(10);
+        query = query.order('score', { ascending: false }).order('created_at', { ascending: true }).limit(10); // Top 10
         const { data, error } = await query;
         if (error) {
-             if (error.message.includes('violates row-level security policy for table "scores"')) { throw new Error("Немає доступу до результатів (scores RLS)."); }
-             if (error.message.includes('violates row-level security policy for table "profiles"')) { throw new Error("Немає доступу до імен гравців (profiles RLS)."); }
-             if (error.message.includes('relation "public.profiles" does not exist')) { throw new Error("Не знайдено таблицю профілів."); }
+             if (error.message.includes('violates row-level security policy for table "scores"')) { throw new Error("Permission denied for reading scores (RLS)."); }
+             if (error.message.includes('violates row-level security policy for table "profiles"')) { throw new Error("Permission denied for reading player names (RLS)."); }
+             if (error.message.includes('relation "public.profiles" does not exist')) { throw new Error("Could not find profiles table."); }
              throw error;
         }
-        console.log("fetchLeaderboardData: Дані отримано:", data);
+        console.log("fetchLeaderboardData: Data received:", data);
         return data;
     } catch (error) {
-        console.error("Помилка завантаження лідерборду:", error);
-        showError(`Не вдалося завантажити лідерборд: ${error.message}`);
+        console.error("Error loading leaderboard:", error);
+        showError(`Could not load leaderboard: ${error.message}`); // English
         return null;
     } finally {
         hideLoading();
     }
 }
 
-// Функція відображення даних лідерборду
 function displayLeaderboard(data) {
-    console.log("displayLeaderboard: Відображення даних:", data);
-    if (!leaderboardListElement) { console.error("displayLeaderboard: Елемент списку не знайдено!"); return; }
-    leaderboardListElement.innerHTML = ''; // Очистити
+    console.log("displayLeaderboard: Displaying data:", data);
+    if (!leaderboardListElement) { console.error("displayLeaderboard: List element not found!"); return; }
+    leaderboardListElement.innerHTML = ''; // Clear list
     if (!data || data.length === 0) {
-        leaderboardListElement.innerHTML = '<li>Немає результатів для цього фільтру.</li>';
+        leaderboardListElement.innerHTML = '<li>No results for this filter.</li>'; // English
         return;
     }
     data.forEach((entry, index) => {
         const li = document.createElement('li');
-        const username = entry.profiles?.username || 'Анонім'; // Обробка випадку, якщо профіль не знайдено або null
-        li.textContent = `${index + 1}. ${username} - ${entry.score}`;
+        const username = entry.profiles?.username || 'Anonymous'; // English (handle null profile)
+        // Use <ol> numbering, don't add manual index
+        li.textContent = `${username} - ${entry.score}`;
         leaderboardListElement.appendChild(li);
     });
 }
 
-// Оновлення активних кнопок фільтрів
 function updateFilterButtonsUI() {
-    console.log("updateFilterButtonsUI: Оновлення кнопок...");
+    console.log("updateFilterButtonsUI: Updating buttons...");
     leaderboardTimeFilterButtons?.forEach(btn => {
         if (!btn.dataset.timeframe) return;
         const isActive = btn.dataset.timeframe === currentLeaderboardTimeframe;
-        btn.classList.toggle('active', isActive); // Додати/видалити клас
-        btn.disabled = isActive; // Вимкнути активну
+        btn.classList.toggle('active', isActive);
+        btn.disabled = isActive;
     });
     leaderboardDifficultyFilterButtons?.forEach(btn => {
          if (!btn.dataset.difficulty) return;
@@ -665,98 +671,92 @@ function updateFilterButtonsUI() {
     });
 }
 
-
-// Головна функція для оновлення лідерборду
 async function updateLeaderboard() {
-    console.log(`updateLeaderboard: Початок оновлення для час=${currentLeaderboardTimeframe}, складність=${currentLeaderboardDifficulty}`);
-    if (!leaderboardListElement) { console.error("updateLeaderboard: leaderboardListElement не знайдено!"); return; }
-    leaderboardListElement.innerHTML = '<li>Завантаження...</li>'; // Показати завантаження
-    updateFilterButtonsUI(); // Оновити вигляд кнопок
+    console.log(`updateLeaderboard: Updating for time=${currentLeaderboardTimeframe}, difficulty=${currentLeaderboardDifficulty}`);
+    if (!leaderboardListElement) { console.error("updateLeaderboard: List element not found!"); return; }
+    leaderboardListElement.innerHTML = '<li>Loading...</li>'; // English
+    updateFilterButtonsUI(); // Update button styles
     const data = await fetchLeaderboardData(currentLeaderboardTimeframe, currentLeaderboardDifficulty);
-    displayLeaderboard(data); // Відобразити отримані дані
+    displayLeaderboard(data); // Display fetched data
 }
 
-// Обробники зміни фільтрів
 function handleTimeFilterChange(event) {
     const button = event.currentTarget;
     const newTimeframe = button.dataset.timeframe;
-    console.log(`handleTimeFilterChange: Клік. Новий період: ${newTimeframe}`);
+    console.log(`handleTimeFilterChange: Clicked. New timeframe: ${newTimeframe}`);
     if (newTimeframe && newTimeframe !== currentLeaderboardTimeframe) {
         currentLeaderboardTimeframe = newTimeframe;
-        updateLeaderboard(); // Оновити лідерборд
+        updateLeaderboard(); // Refresh leaderboard
     }
 }
 
 function handleDifficultyFilterChange(event) {
      const button = event.currentTarget;
     const newDifficulty = parseInt(button.dataset.difficulty, 10);
-    console.log(`handleDifficultyFilterChange: Клік. Нова складність: ${newDifficulty}`);
+    console.log(`handleDifficultyFilterChange: Clicked. New difficulty: ${newDifficulty}`);
      if (newDifficulty && !isNaN(newDifficulty) && newDifficulty !== currentLeaderboardDifficulty) {
          currentLeaderboardDifficulty = newDifficulty;
-         updateLeaderboard(); // Оновити лідерборд
+         updateLeaderboard(); // Refresh leaderboard
     }
 }
 
-// Функції відкриття/закриття лідерборду
 function openLeaderboard() {
-    console.log("openLeaderboard: Функція викликана!");
+    console.log("openLeaderboard called!");
     hideError();
      if (!gameAreaElement || !resultAreaElement || !difficultySelectionElement || !userStatusElement || !authSectionElement || !leaderboardSectionElement) {
-         console.error("openLeaderboard: Не всі DOM елементи ініціалізовані!");
-         // Спробувати ініціалізувати ще раз
-         if (!initializeDOMElements()) {
-              handleCriticalError("Критична помилка: не вдалося знайти DOM елементи для відкриття лідерборду.");
-              return;
-         }
+         console.error("openLeaderboard: DOM elements not initialized!");
+         if (!initializeDOMElements()) { handleCriticalError("UI Error"); return; }
      }
-    console.log("openLeaderboard: Приховування інших секцій...");
+    console.log("openLeaderboard: Hiding other sections...");
     if(gameAreaElement) gameAreaElement.style.display = 'none';
     if(resultAreaElement) resultAreaElement.style.display = 'none';
     if(difficultySelectionElement) difficultySelectionElement.style.display = 'none';
-    if(userStatusElement) userStatusElement.style.display = 'none'; // Ховаємо і статус
-    if(authSectionElement && !currentUser) authSectionElement.style.display = 'none'; // Ховаємо кнопку логіну
+    if(userStatusElement) userStatusElement.style.display = 'none';
+    if(authSectionElement && !currentUser) authSectionElement.style.display = 'none';
 
-    console.log("openLeaderboard: Показ секції лідерборду...");
+    console.log("openLeaderboard: Showing leaderboard section...");
     if (leaderboardSectionElement) leaderboardSectionElement.style.display = 'block';
 
-    console.log("openLeaderboard: Виклик updateLeaderboard...");
-    updateLeaderboard(); // Завантажити дані при відкритті
+    console.log("openLeaderboard: Calling updateLeaderboard...");
+    // Set default filters for leaderboard before first fetch
+    currentLeaderboardTimeframe = 'all';
+    currentLeaderboardDifficulty = 1;
+    updateLeaderboard(); // Fetch and display data for default filters
 }
 
 function closeLeaderboard() {
-     console.log("closeLeaderboard: Функція викликана!");
+     console.log("closeLeaderboard called!");
      if (leaderboardSectionElement) leaderboardSectionElement.style.display = 'none';
-     // Показати відповідний стан UI (кнопка логіну або вибір складності)
+     // Show appropriate UI based on login state
      updateAuthStateUI(currentUser);
 }
 
 
-// ----- 11. Допоміжні функції -----
-function showError(message) { console.error("Помилка гри:", message); if (errorMessageElement) { errorMessageElement.textContent = message; errorMessageElement.style.display = 'block'; } else { alert(`Помилка: ${message}`); } }
+// ----- 11. Helper Functions -----
+function showError(message) { console.error("Game Error:", message); if (errorMessageElement) { errorMessageElement.textContent = message; errorMessageElement.style.display = 'block'; } else { alert(`Error: ${message}`); } }
 function hideError() { if (errorMessageElement) { errorMessageElement.style.display = 'none'; errorMessageElement.textContent = ''; } }
-function handleCriticalError(message) { console.error("Критична помилка:", message); document.body.innerHTML = `<h1>Помилка</h1><p>${message}</p><p>Будь ласка, оновіть сторінку.</p>`; }
-function showLoading() { console.log("Завантаження..."); if (loadingIndicator) loadingIndicator.style.display = 'block'; }
-function hideLoading() { console.log("...Завантаження завершено"); if (loadingIndicator) loadingIndicator.style.display = 'none'; }
+function handleCriticalError(message) { console.error("Critical Error:", message); document.body.innerHTML = `<h1>Error</h1><p>${message}</p><p>Please refresh the page.</p>`; }
+function showLoading() { console.log("Loading..."); if (loadingIndicator) loadingIndicator.style.display = 'block'; }
+function hideLoading() { console.log("...Loading finished"); if (loadingIndicator) loadingIndicator.style.display = 'none'; }
 
-// ----- 12. Ініціалізація Додатку -----
+// ----- 12. App Initialization -----
 function initializeApp() {
-    console.log("DOM завантажено, ініціалізація додатку...");
-    // Спочатку ініціалізуємо елементи
+    console.log("DOM loaded, initializing app...");
+    // Initialize elements first and check success
     if (!initializeDOMElements()) {
-        console.error("Критична помилка ініціалізації DOM під час запуску initializeApp.");
-        // Не викликаємо handleCriticalError, бо initializeDOMElements вже вивела помилки
-        return; // Не продовжувати, якщо елементи не знайдено
+        console.error("CRITICAL: Failed to initialize DOM elements. App cannot start.");
+        // No point continuing if elements are missing
+        return;
     }
-    // Потім налаштовуємо слухача Auth
+    // Then setup auth listener
     setupAuthStateChangeListener();
-    // Потім оновлюємо UI на основі currentUser (отриманого з checkInitialAuthState)
-    updateAuthStateUI(currentUser);
-    console.log("Додаток ініціалізовано. Очікування дій користувача.");
-    // Ховаємо все зайве на старті
+    // Then update UI based on initial auth state
+    updateAuthStateUI(currentUser); // currentUser should be set by checkInitialAuthState
+    console.log("App initialized. Waiting for user actions.");
+    // Ensure all dynamic sections are hidden initially
     if(gameAreaElement) gameAreaElement.style.display = 'none';
     if(resultAreaElement) resultAreaElement.style.display = 'none';
     if(difficultySelectionElement) difficultySelectionElement.style.display = 'none';
-     // Кнопка лідерборду має бути видима, якщо вона є, але сам лідерборд - ні
-     if (showLeaderboardButton) showLeaderboardButton.style.display = 'inline-block';
-     if (leaderboardSectionElement) leaderboardSectionElement.style.display = 'none';
+    if(leaderboardSectionElement) leaderboardSectionElement.style.display = 'none';
+    // showLeaderboardButton visibility is handled in updateAuthStateUI
 }
