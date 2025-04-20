@@ -473,7 +473,7 @@ function initializeApp() {
     }
     setupAuthStateChangeListener();
     updateAuthStateUI(currentUser); // Оновити UI для початкового стану auth
-    console.log("Додаток ініціалізовано. Очікування дій користувача (Вхід або Вибір складності).");
+    console.log("Додаток ініціалізовано. Очікування дій користувача (Вхід або вибір складності).");
     if(gameAreaElement) gameAreaElement.style.display = 'none';
     if(resultAreaElement) resultAreaElement.style.display = 'none';
     if(difficultySelectionElement) difficultySelectionElement.style.display = 'none';
