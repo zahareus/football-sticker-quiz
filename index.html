@@ -2,12 +2,12 @@
 <html lang="en"> <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Guess the Club Sticker!</title> <link rel="stylesheet" href="style.css">
-    <style>
-        /* Простий стиль для активних кнопок фільтра */
+    <title>Guess the Club Sticker!</title> <link rel="stylesheet" href="style.css"> <style>
+        /* Простий стиль для активних кнопок фільтра (можна винести в style.css) */
         .active { background-color: #ddd; font-weight: bold; }
         button { margin: 2px 4px; padding: 5px 10px; cursor: pointer; }
         button:disabled { cursor: not-allowed; opacity: 0.7; }
+         /* Стилі, додані в style.css, тут не потрібні, але залиште <style> на випадок швидких тестів */
     </style>
 </head>
 <body>
@@ -15,8 +15,7 @@
         <button id="login-button" class="google-login" style="display: none;">
              <span>Sign in with Google</span> </button>
         <div id="user-status" style="display: none;">
-            Welcome, <span id="user-email"></span>!
-            <button id="logout-button">Logout</button> </div>
+            Welcome, <span id="user-email"></span>! <button id="logout-button">Logout</button> </div>
     </div>
     <hr>
 
@@ -26,9 +25,9 @@
     <p id="loading-indicator" style="display: none; text-align: center; font-style: italic;">Loading...</p> <p id="error-message" style="color: red; display: none; text-align: center; font-weight: bold;"></p>
 
     <div id="game-area" style="display: none; text-align: center;">
-        <div id="sticker-container">
-            <img id="sticker-image" src="" alt="Club Sticker"> </div>
-        <div id="options" style="margin-top: 10px;">
+        <div id="sticker-container" style="aspect-ratio: 1 / 1; width: 60%; max-width: 350px; min-width: 150px; margin: 20px auto; background-color: #f0f0f0; border: 1px solid #eee; overflow: hidden; border-radius: 5px;">
+             <img id="sticker-image" src="" alt="Club Sticker" style="display: block; width: 100%; height: 100%; object-fit: contain;"> </div>
+        <div id="options" style="margin-top: 15px; display: flex; flex-wrap: wrap; justify-content: center; gap: 10px;">
             </div>
         <div id="timer" style="margin-top: 15px; font-size: 1.2em; font-weight: bold;">Time: <span id="time-left">10</span></div> <div id="score" style="margin-top: 5px; font-size: 1.1em;">Score: <span id="current-score">0</span></div> </div>
 
