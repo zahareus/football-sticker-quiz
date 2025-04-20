@@ -7,17 +7,18 @@ let supabaseClient;
 
 // ----- 2. Ініціалізація клієнта Supabase -----
 if (typeof supabase === 'undefined') {
-  console.error('Error: Supabase client library not loaded.');
+  console.error('Помилка: Бібліотека Supabase не завантажилась.');
   handleCriticalError('Error loading game. Please refresh the page.');
 } else {
   try {
     supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
     console.log('Supabase client initialized successfully.');
-    checkInitialAuthState();
+    checkInitialAuthState(); // Перевіряємо стан до завантаження DOM
+    // Ініціалізуємо додаток тільки після повного завантаження DOM
     if (document.readyState === 'loading') {
         document.addEventListener('DOMContentLoaded', initializeApp);
     } else {
-        initializeApp();
+        initializeApp(); // DOM вже готовий
     }
   } catch (error) {
     console.error('Error initializing Supabase:', error);
@@ -37,15 +38,18 @@ let currentLeaderboardTimeframe = 'all';
 let currentLeaderboardDifficulty = 1;
 
 // ----- 4. DOM Елементи -----
+// Оголошуємо тут, знаходимо в initializeDOMElements
 let gameAreaElement, stickerImageElement, optionsContainerElement, timeLeftElement, currentScoreElement, resultAreaElement, finalScoreElement, playAgainButton, authSectionElement, loginButton, userStatusElement, userEmailElement, logoutButton, difficultySelectionElement, loadingIndicator, errorMessageElement;
 let difficultyButtons;
 let leaderboardSectionElement, leaderboardListElement, closeLeaderboardButton, showLeaderboardButton, leaderboardTimeFilterButtons, leaderboardDifficultyFilterButtons;
+// Nickname-related elements are NOT declared/searched yet
 
 // Nickname Generation Words
 const NICKNAME_ADJECTIVES = ["Fast", "Quick", "Happy", "Silent", "Blue", "Red", "Green", "Golden", "Iron", "Clever", "Brave", "Wise", "Lucky", "Shiny", "Dark", "Light"];
 const NICKNAME_NOUNS = ["Fox", "Wolf", "Mouse", "Tiger", "Car", "Tree", "Eagle", "Lion", "Shark", "Puma", "Star", "Moon", "Sun", "River", "Stone", "Blade"];
 
 
+// Функція знаходить елементи і додає слухачів (ВИПРАВЛЕНО - прибрано пошук nickname елементів)
 function initializeDOMElements() {
     console.log("initializeDOMElements: Finding elements...");
     gameAreaElement = document.getElementById('game-area');
@@ -59,12 +63,13 @@ function initializeDOMElements() {
     authSectionElement = document.getElementById('auth-section');
     loginButton = document.getElementById('login-button');
     userStatusElement = document.getElementById('user-status');
-    userEmailElement = document.getElementById('user-email');
+    userEmailElement = document.getElementById('user-email'); // Залишаємо для показу email / потім нікнейму
     logoutButton = document.getElementById('logout-button');
     difficultySelectionElement = document.getElementById('difficulty-selection');
     loadingIndicator = document.getElementById('loading-indicator');
     errorMessageElement = document.getElementById('error-message');
     difficultyButtons = document.querySelectorAll('.difficulty-button');
+    // Елементи лідерборду
     leaderboardSectionElement = document.getElementById('leaderboard-section');
     leaderboardListElement = document.getElementById('leaderboard-list');
     closeLeaderboardButton = document.getElementById('close-leaderboard-button');
@@ -72,15 +77,26 @@ function initializeDOMElements() {
     leaderboardTimeFilterButtons = document.querySelectorAll('.leaderboard-time-filter');
     leaderboardDifficultyFilterButtons = document.querySelectorAll('.leaderboard-difficulty-filter');
 
+    // Перевірка елементів (БЕЗ елементів редагування нікнейму)
     const elements = { gameAreaElement, stickerImageElement, optionsContainerElement, timeLeftElement, currentScoreElement, resultAreaElement, finalScoreElement, playAgainButton, authSectionElement, loginButton, userStatusElement, userEmailElement, logoutButton, difficultySelectionElement, leaderboardSectionElement, leaderboardListElement, closeLeaderboardButton, showLeaderboardButton, loadingIndicator, errorMessageElement };
     let allFound = true;
-    for (const key in elements) { if (!elements[key]) { console.error(`Error: Could not find DOM element '${key.replace('Element', '')}'!`); allFound = false; } }
+    for (const key in elements) {
+        if (!elements[key]) {
+             console.error(`Error: Could not find DOM element '${key.replace('Element', '')}'! Check HTML ID.`);
+             allFound = false;
+        }
+    }
     if (!difficultyButtons || difficultyButtons.length !== 3) { console.error("Error: Did not find 3 difficulty buttons!"); allFound = false; }
     if (!leaderboardTimeFilterButtons || leaderboardTimeFilterButtons.length === 0) { console.error("Error: Could not find leaderboard time filter buttons!"); allFound = false; }
     if (!leaderboardDifficultyFilterButtons || leaderboardDifficultyFilterButtons.length === 0) { console.error("Error: Could not find leaderboard difficulty filter buttons!"); allFound = false; }
 
-    if (!allFound) { console.error("initializeDOMElements: Not all required elements found."); return false; }
+    if (!allFound) {
+        console.error("initializeDOMElements: Not all required elements found.");
+        // Важливо повернути false, щоб initializeApp зупинилась
+        return false;
+    }
 
+    // Додаємо обробники подій
     console.log("initializeDOMElements: Adding event listeners...");
     playAgainButton.addEventListener('click', showDifficultySelection);
     loginButton.addEventListener('click', loginWithGoogle);
@@ -90,9 +106,10 @@ function initializeDOMElements() {
     closeLeaderboardButton.addEventListener('click', closeLeaderboard);
     leaderboardTimeFilterButtons.forEach(button => { button.addEventListener('click', handleTimeFilterChange); });
     leaderboardDifficultyFilterButtons.forEach(button => { button.addEventListener('click', handleDifficultyFilterChange); });
+    // НЕМАЄ СЛУХАЧІВ ДЛЯ РЕДАГУВАННЯ НІКНЕЙМУ
 
     console.log("DOM elements initialized and listeners added successfully.");
-    return true;
+    return true; // Все гаразд
 }
 
 
@@ -117,18 +134,23 @@ async function logout() {
         const { error } = await supabaseClient.auth.signOut();
         if (error) { console.error("Supabase signOut error object:", error); throw error; }
         console.log("supabaseClient.auth.signOut() successful.");
+        // UI оновиться через onAuthStateChange
     } catch (error) { console.error("Logout function error:", error); showError(`Logout failed: ${error.message}`); }
 }
 
+// Функція для оновлення UI (використовує userEmailElement для показу email/нікнейму)
 function updateAuthStateUI(user) {
    console.log("Running updateAuthStateUI. User:", user ? user.id : 'null');
-   if (!loginButton || !userStatusElement || !difficultySelectionElement || !userEmailElement || !showLeaderboardButton) { console.warn("updateAuthStateUI: DOM elements not ready!"); return; }
-   // console.log("updateAuthStateUI: DOM elements ready."); // Менш важливий лог
+   if (!loginButton || !userStatusElement || !difficultySelectionElement || !userEmailElement || !showLeaderboardButton) {
+       console.warn("updateAuthStateUI: DOM elements not ready!"); return;
+   }
+   // console.log("updateAuthStateUI: DOM elements ready.");
 
    if (user) {
        currentUser = user;
        // console.log("updateAuthStateUI: User exists.");
-       if (userEmailElement) userEmailElement.textContent = user.email || 'User'; // Показуємо email спочатку
+       // Показуємо email поки профіль не завантажено
+       userEmailElement.textContent = user.email || 'User';
        userStatusElement.style.display = 'block';
        loginButton.style.display = 'none';
        showLeaderboardButton.style.display = 'inline-block';
@@ -139,7 +161,8 @@ function updateAuthStateUI(user) {
    } else {
        currentUser = null;
        // console.log("updateAuthStateUI: User is null.");
-       if (loginButton) { loginButton.style.display = 'block'; } else { console.error("updateAuthStateUI: loginButton null!"); }
+       if (loginButton) { loginButton.style.display = 'block'; }
+       else { console.error("updateAuthStateUI: loginButton null!"); }
        if (userStatusElement) userStatusElement.style.display = 'none';
        if (difficultySelectionElement) difficultySelectionElement.style.display = 'none';
        if (showLeaderboardButton) showLeaderboardButton.style.display = 'inline-block';
@@ -155,44 +178,58 @@ function generateRandomNickname() { const adj = NICKNAME_ADJECTIVES[Math.floor(M
 
 async function checkAndCreateUserProfile(user) {
    if (!supabaseClient || !user) return;
-   console.log(`Checking/creating profile for ${user.id}...`);
+   console.log(`checkAndCreateUserProfile: Checking/creating profile for ${user.id}...`);
+   let profileUsername = null; // Змінна для зберігання нікнейму
    try {
-       const { data: profileData, error: selectError } = await supabaseClient.from('profiles').select('id, username').eq('id', user.id).maybeSingle(); // Вибираємо і username
+       const { data: profileData, error: selectError } = await supabaseClient.from('profiles').select('id, username').eq('id', user.id).maybeSingle();
        if (selectError && selectError.code !== 'PGRST116') throw selectError;
-       let currentUsername = null;
        if (!profileData) {
-           console.log(`Profile not found. Creating...`);
+           console.log(`checkAndCreateUserProfile: Profile not found. Creating...`);
            const randomNickname = generateRandomNickname();
            const { data: insertedProfile, error: insertError } = await supabaseClient.from('profiles').insert({ id: user.id, username: randomNickname, updated_at: new Date() }).select('username').single();
            if (insertError) throw insertError;
-           currentUsername = insertedProfile?.username;
-           console.log(`Profile created with nickname: ${currentUsername}`);
+           profileUsername = insertedProfile?.username; // Зберігаємо згенерований нікнейм
+           console.log(`checkAndCreateUserProfile: Profile created with nickname: ${profileUsername}`);
        } else {
-           currentUsername = profileData.username;
-           console.log(`Profile exists. Username: ${currentUsername}`);
+           profileUsername = profileData.username; // Зберігаємо існуючий нікнейм
+           console.log(`checkAndCreateUserProfile: Profile exists. Username: ${profileUsername}`);
        }
        // Оновлюємо UI нікнеймом (або email, якщо нікнейм відсутній)
        if (userEmailElement) {
-           userEmailElement.textContent = currentUsername || user.email || 'User';
+           userEmailElement.textContent = profileUsername || user.email || 'User';
        }
    } catch (error) {
-       console.error("Error checking/creating profile:", error);
-       showError(`Profile Error: ${error.message}`);
+       console.error("checkAndCreateUserProfile: Error:", error);
+       showError(`Failed to check/create profile: ${error.message}`);
        // Якщо профіль не створився/не завантажився, все одно покажемо email
        if (userEmailElement) userEmailElement.textContent = user.email || 'User';
    }
 }
 
 function setupAuthStateChangeListener() {
-    if (!supabaseClient) { return; }
+    if (!supabaseClient) { console.error("setupAuthStateChangeListener: client missing!"); return; }
     console.log("Setting up onAuthStateChange listener...");
     supabaseClient.auth.onAuthStateChange(async (_event, session) => {
         console.log(`Auth Event: ${_event}`);
         const user = session?.user ?? null;
-         if (loginButton) { updateAuthStateUI(user); }
-         else { console.warn("onAuthStateChange: DOM not ready"); currentUser = user; }
-        if (_event === 'SIGNED_IN' && user) { await checkAndCreateUserProfile(user); }
-        if (_event === 'SIGNED_OUT') { console.log("SIGNED_OUT: Resetting state."); stopTimer(); selectedDifficulty = 1; currentLeaderboardDifficulty = 1; currentLeaderboardTimeframe = 'all'; if(gameAreaElement) gameAreaElement.style.display = 'none'; if(resultAreaElement) resultAreaElement.style.display = 'none'; if(difficultySelectionElement) difficultySelectionElement.style.display = 'none'; if(leaderboardSectionElement) leaderboardSectionElement.style.display = 'none'; }
+         // Перевіряємо готовність DOM перед оновленням UI
+         if (initializeDOMElements()) { // Перевіряємо, чи всі елементи знайдено
+            updateAuthStateUI(user); // Оновлюємо UI
+            if (_event === 'SIGNED_IN' && user) {
+               await checkAndCreateUserProfile(user); // Перевіряємо/створюємо профіль
+            }
+         } else {
+             console.warn("onAuthStateChange: DOM not ready yet, UI update deferred.");
+             currentUser = user; // Зберігаємо стан для initializeApp
+         }
+        // Скидання гри при SIGNED_OUT
+        if (_event === 'SIGNED_OUT') {
+            console.log("SIGNED_OUT: Resetting state."); stopTimer(); selectedDifficulty = 1; currentLeaderboardDifficulty = 1; currentLeaderboardTimeframe = 'all';
+            if(gameAreaElement) gameAreaElement.style.display = 'none';
+            if(resultAreaElement) resultAreaElement.style.display = 'none';
+            if(difficultySelectionElement) difficultySelectionElement.style.display = 'none';
+            if(leaderboardSectionElement) leaderboardSectionElement.style.display = 'none';
+        }
     });
     console.log("onAuthStateChange listener setup complete.");
 }
@@ -208,88 +245,27 @@ function setupAuthStateChangeListener() {
      } catch (error) { console.error("Error getting initial session:", error); currentUser = null; }
  }
 
- async function fetchInitialUserProfile(user) {
-     if (!supabaseClient || !user || !userEmailElement) { updateAuthStateUI(user); return; }; // Оновити UI в будь-якому випадку
-     console.log("fetchInitialUserProfile: Fetching profile...");
-     try {
-          const { data: profile, error } = await supabaseClient.from('profiles').select('username').eq('id', user.id).maybeSingle(); // maybeSingle краще, бо профіль може не бути створений миттєво
-         if (error && error.code !== 'PGRST116') { throw error; } // Ігноруємо тільки "не знайдено"
-         if (profile) {
-             console.log("fetchInitialUserProfile: Profile found, username:", profile.username);
-             userEmailElement.textContent = profile.username || user.email || 'User';
-         } else {
-              console.warn("fetchInitialUserProfile: Profile not found yet.");
-              userEmailElement.textContent = user.email || 'User...'; // Тимчасово email
-         }
-         updateAuthStateUI(user); // Оновити решту UI
-     } catch(error) {
-          console.error("fetchInitialUserProfile: Error:", error);
-          if (userEmailElement) userEmailElement.textContent = user.email || 'User!'; // Fallback
-          updateAuthStateUI(user); // Все одно оновити UI
-     }
- }
-
-
-// ----- 6. Функція для відображення запитання (ДОДАНО ЛОГИ В ЦИКЛ) -----
+// ----- 6. Display Question Function -----
 function displayQuestion(questionData) {
-    console.log("--- displayQuestion START --- Data:", questionData);
-    if (!questionData) { console.error("displayQuestion: No data provided."); return; }
-    // Перевірка елементів на початку
-    if (!stickerImageElement || !optionsContainerElement || !timeLeftElement || !currentScoreElement || !gameAreaElement || !resultAreaElement) {
-         console.error("displayQuestion: DOM elements not initialized!");
-         if (!initializeDOMElements()) { handleCriticalError("Critical UI Init Error."); return; }
-    }
-    currentQuestionData = questionData;
-    hideError();
-
-    stickerImageElement.src = ""; stickerImageElement.alt = "Loading sticker...";
-    console.log("displayQuestion: Setting image src:", questionData.imageUrl);
+    if (!questionData || !stickerImageElement || !optionsContainerElement || !timeLeftElement || !currentScoreElement || !gameAreaElement || !resultAreaElement) { return; }
+    currentQuestionData = questionData; hideError();
+    stickerImageElement.src = ""; stickerImageElement.alt = "Loading...";
     stickerImageElement.src = questionData.imageUrl;
-    stickerImageElement.onerror = () => { /* ... */ }; stickerImageElement.onload = () => { /* ... */ };
-
-    optionsContainerElement.innerHTML = ''; // Очищаємо кнопки
-    console.log("displayQuestion: Creating buttons for options:", questionData.options);
+    stickerImageElement.onerror = () => { console.error(`Error loading image: ${questionData.imageUrl}`); showError("Failed to load image."); stickerImageElement.alt = "Error"; stickerImageElement.src = ""; setTimeout(endGame, 500); };
+    stickerImageElement.onload = () => { stickerImageElement.alt = "Club Sticker"; };
+    optionsContainerElement.innerHTML = '';
     if (questionData.options && Array.isArray(questionData.options)) {
-        questionData.options.forEach((optionText, index) => {
-            console.log(`displayQuestion: Loop ${index}, Option: "${optionText}"`); // ЛОГ 1: Початок ітерації
-            try {
-                const button = document.createElement('button');
-                console.log(`displayQuestion: Loop ${index}, Button created.`); // ЛОГ 2: Кнопка створена
-                button.textContent = optionText;
-                console.log(`displayQuestion: Loop ${index}, Text set.`); // ЛОГ 3: Текст встановлено
-                button.disabled = false;
-                button.classList.remove('correct-answer', 'incorrect-answer');
-                console.log(`displayQuestion: Loop ${index}, Adding listener...`); // ЛОГ 4: Перед додаванням слухача
-                button.addEventListener('click', () => handleAnswer(optionText));
-                console.log(`displayQuestion: Loop ${index}, Listener added. Appending...`); // ЛОГ 5: Перед додаванням до DOM
-                optionsContainerElement.appendChild(button);
-                console.log(`displayQuestion: Loop ${index}, Button appended.`); // ЛОГ 6: Кнопку додано
-            } catch (loopError) {
-                console.error(`displayQuestion: Error in button loop at index ${index} for option "${optionText}":`, loopError);
-                // Можна спробувати продовжити з наступною кнопкою або зупинити все
-                showError("Error creating answer buttons.");
-                return; // Зупинити подальше створення кнопок
-            }
-        });
-        console.log("displayQuestion: Button creation loop finished.");
-    } else {
-        console.error("Error: questionData.options is invalid!"); showError("Error displaying options.");
-        setTimeout(endGame, 500); return;
-    }
-
-    timeLeft = 10;
-    if(timeLeftElement) timeLeftElement.textContent = timeLeft;
+        questionData.options.forEach((optionText) => { const button = document.createElement('button'); button.textContent = optionText; button.disabled = false; button.classList.remove('correct-answer', 'incorrect-answer'); button.addEventListener('click', () => handleAnswer(optionText)); optionsContainerElement.appendChild(button); });
+    } else { console.error("Invalid options!"); showError("Error displaying options."); setTimeout(endGame, 500); return; }
+    timeLeft = 10; if(timeLeftElement) timeLeftElement.textContent = timeLeft;
     if(currentScoreElement) currentScoreElement.textContent = currentScore;
-
-    if(gameAreaElement) gameAreaElement.style.display = 'block';
-    if(resultAreaElement) resultAreaElement.style.display = 'none';
-
-    startTimer(); // Запускаємо таймер ПІСЛЯ додавання кнопок
+    if(gameAreaElement) gameAreaElement.style.display = 'block'; if(resultAreaElement) resultAreaElement.style.display = 'none';
+    startTimer();
 }
 
-// ----- 7. Функція обробки відповіді користувача -----
+// ----- 7. Handle User Answer Function -----
 function handleAnswer(selectedOption) {
-    stopTimer(); console.log(`Answer: ${selectedOption}`); hideError();
+    stopTimer(); hideError();
     if (!currentQuestionData || !optionsContainerElement) { return; }
     const buttons = optionsContainerElement.querySelectorAll('button'); buttons.forEach(button => button.disabled = true);
     const isCorrect = selectedOption === currentQuestionData.correctAnswer;
@@ -303,21 +279,16 @@ function handleAnswer(selectedOption) {
     }
 }
 
- // ----- 8. Функції таймера (ДОДАНО ЛОГ) -----
+ // ----- 8. Timer Functions -----
 function startTimer() {
-    stopTimer(); timeLeft = 10;
-    if(!timeLeftElement) { console.error("startTimer: timeLeftElement missing!"); return; }
+    stopTimer(); timeLeft = 10; if(!timeLeftElement) { return; }
     timeLeftElement.textContent = timeLeft;
-    console.log("Starting timer interval..."); // ЛОГ СТАРТУ
     timerInterval = setInterval(() => {
         timeLeft--;
-        console.log(`Timer Tick: timeLeft=${timeLeft}`); // <-- ДОДАНО ЛОГ ТІКУ
-        if(timeLeftElement) {
-            try { timeLeftElement.textContent = timeLeft.toString(); }
-            catch(e) { console.error("Timer update error:", e); stopTimer(); }
-        } else { console.error("Timer tick: timeLeftElement missing!"); stopTimer(); return; }
+        if(timeLeftElement) { try { timeLeftElement.textContent = timeLeft.toString(); } catch(e) { stopTimer(); } }
+        else { stopTimer(); return; }
         if (timeLeft <= 0) {
-            console.log("Time up!"); stopTimer();
+            stopTimer();
             if (optionsContainerElement && currentQuestionData) { const buttons = optionsContainerElement.querySelectorAll('button'); buttons.forEach(button => { button.disabled = true; if (button.textContent === currentQuestionData.correctAnswer) { button.style.outline = '2px solid orange'; } }); }
             setTimeout(endGame, 1500);
         }
@@ -325,10 +296,15 @@ function startTimer() {
 }
 function stopTimer() { if (timerInterval !== null) { clearInterval(timerInterval); timerInterval = null; } }
 
-// ----- 9. Функції керування грою -----
-function showDifficultySelection() { console.log("Showing difficulty selection"); hideError(); if (!difficultySelectionElement || !userStatusElement || !gameAreaElement || !resultAreaElement || !leaderboardSectionElement) { if (!initializeDOMElements()) { handleCriticalError("UI Error."); return; } } if(gameAreaElement) gameAreaElement.style.display = 'none'; if(resultAreaElement) resultAreaElement.style.display = 'none'; if(leaderboardSectionElement) leaderboardSectionElement.style.display = 'none'; if(difficultySelectionElement) difficultySelectionElement.style.display = 'block'; if(userStatusElement) userStatusElement.style.display = 'block'; }
-function handleDifficultySelection(event) { const difficulty = parseInt(event.target.dataset.difficulty, 10); if (![1, 2, 3].includes(difficulty)) { return; } selectedDifficulty = difficulty; console.log(`Difficulty selected: ${selectedDifficulty}`); if(difficultySelectionElement) difficultySelectionElement.style.display = 'none'; startGame(); }
-async function startGame() { console.log(`Starting game! Difficulty: ${selectedDifficulty}`); hideError(); if (selectedDifficulty === null) { showDifficultySelection(); return; } if (!gameAreaElement || !currentScoreElement || !resultAreaElement || !optionsContainerElement || !userStatusElement) { if (!initializeDOMElements()) { handleCriticalError("Failed init."); return; } } currentScore = 0; if (currentScoreElement) currentScoreElement.textContent = 0; if (resultAreaElement) { const msg = resultAreaElement.querySelector('.save-message'); if(msg) msg.remove(); resultAreaElement.style.display = 'none'; } if(difficultySelectionElement) difficultySelectionElement.style.display = 'none'; if (gameAreaElement) gameAreaElement.style.display = 'block'; if (optionsContainerElement) { optionsContainerElement.innerHTML = ''; } if(userStatusElement) userStatusElement.style.display = 'none'; await loadNextQuestion(); }
+// ----- 9. Game Flow Functions -----
+function showDifficultySelection() {
+     hideError();
+     if (!difficultySelectionElement || !userStatusElement || !gameAreaElement || !resultAreaElement || !leaderboardSectionElement) { if (!initializeDOMElements()) { handleCriticalError("UI Error."); return; } }
+     if(gameAreaElement) gameAreaElement.style.display = 'none'; if(resultAreaElement) resultAreaElement.style.display = 'none'; if(leaderboardSectionElement) leaderboardSectionElement.style.display = 'none';
+     if(difficultySelectionElement) difficultySelectionElement.style.display = 'block'; if(userStatusElement) userStatusElement.style.display = 'block';
+}
+function handleDifficultySelection(event) { const difficulty = parseInt(event.target.dataset.difficulty, 10); if (![1, 2, 3].includes(difficulty)) { return; } selectedDifficulty = difficulty; if(difficultySelectionElement) difficultySelectionElement.style.display = 'none'; startGame(); }
+async function startGame() { hideError(); if (selectedDifficulty === null) { showDifficultySelection(); return; } if (!gameAreaElement || !currentScoreElement || !resultAreaElement || !optionsContainerElement || !userStatusElement) { if (!initializeDOMElements()) { handleCriticalError("Failed init."); return; } } currentScore = 0; if (currentScoreElement) currentScoreElement.textContent = 0; if (resultAreaElement) { const msg = resultAreaElement.querySelector('.save-message'); if(msg) msg.remove(); resultAreaElement.style.display = 'none'; } if(difficultySelectionElement) difficultySelectionElement.style.display = 'none'; if (gameAreaElement) gameAreaElement.style.display = 'block'; if (optionsContainerElement) { optionsContainerElement.innerHTML = ''; } if(userStatusElement) userStatusElement.style.display = 'none'; await loadNextQuestion(); }
 async function loadNextQuestion() { console.log("loadNextQuestion: Calling loadNewQuestion..."); const questionData = await loadNewQuestion(); if (questionData) { console.log("loadNextQuestion: Data received, calling displayQuestion..."); displayQuestion(questionData); } else { console.log("loadNextQuestion: Failed to load question data."); if(gameAreaElement) gameAreaElement.style.display = 'none'; if(resultAreaElement) resultAreaElement.style.display = 'block'; if(userStatusElement) userStatusElement.style.display = 'block'; } }
 async function loadNewQuestion() { if (!supabaseClient || selectedDifficulty === null) { return null; } console.log(`Loading question (Difficulty: ${selectedDifficulty})...`); showLoading(); try { const { count: stickerCount, error: countError } = await supabaseClient.from('stickers').select('*', { count: 'exact', head: true }).eq('difficulty', selectedDifficulty); if (countError || stickerCount === null) throw (countError || new Error('Failed count')); if (stickerCount === 0) { throw new Error(`No stickers for difficulty ${selectedDifficulty}!`); } const { count: totalClubCount, error: totalClubCountError } = await supabaseClient.from('clubs').select('id', { count: 'exact', head: true }); if (totalClubCountError || totalClubCount === null) throw (totalClubCountError || new Error('Failed count')); if (totalClubCount < 4) { throw new Error(`Not enough clubs (${totalClubCount})!`); } const randomIndex = Math.floor(Math.random() * stickerCount); const { data: randomStickerData, error: stickerError } = await supabaseClient.from('stickers').select(`image_url, clubs ( id, name )`).eq('difficulty', selectedDifficulty).order('id', { ascending: true }).range(randomIndex, randomIndex).single(); if (stickerError) { throw new Error(`Sticker fetch error: ${stickerError.message}`); } if (!randomStickerData || !randomStickerData.clubs) { throw new Error("Sticker/club data missing."); } const correctClubId = randomStickerData.clubs.id; const correctClubName = randomStickerData.clubs.name; const { data: incorrectClubsData, error: incorrectClubsError } = await supabaseClient.from('clubs').select('name').neq('id', correctClubId).limit(50); if (incorrectClubsError) throw incorrectClubsError; if (!incorrectClubsData || incorrectClubsData.length < 3) throw new Error("Not enough clubs for options."); const incorrectOptions = incorrectClubsData.map(club => club.name).filter(name => name !== correctClubName).sort(() => 0.5 - Math.random()).slice(0, 3); if (incorrectOptions.length < 3) throw new Error("Failed to get 3 options."); const questionDataForDisplay = { imageUrl: randomStickerData.image_url, options: [correctClubName, ...incorrectOptions].sort(() => 0.5 - Math.random()), correctAnswer: correctClubName }; hideLoading(); return questionDataForDisplay; } catch (error) { console.error("Error loading question:", error); showError(`Loading Error: ${error.message}`); hideLoading(); setTimeout(endGame, 500); return null; } }
 function endGame() { console.log(`Game Over! Score: ${currentScore}`); stopTimer(); if(finalScoreElement) finalScoreElement.textContent = currentScore; if(gameAreaElement) gameAreaElement.style.display = 'none'; if(resultAreaElement) { const msg = resultAreaElement.querySelector('.save-message'); if(msg) msg.remove(); resultAreaElement.style.display = 'block'; } if(difficultySelectionElement) difficultySelectionElement.style.display = 'none'; if(userStatusElement) userStatusElement.style.display = 'block'; saveScore(); }
@@ -358,6 +334,7 @@ function initializeApp() {
     // Ініціалізуємо елементи і перевіряємо результат
     if (!initializeDOMElements()) {
         console.error("CRITICAL: Failed to initialize DOM elements on startup.");
+        // Не викликаємо handleCriticalError, бо initializeDOMElements вже вивела помилки
         return; // Зупиняємо ініціалізацію
     }
     // Якщо елементи знайдено, продовжуємо
