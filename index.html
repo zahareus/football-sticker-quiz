@@ -1,91 +1,53 @@
 <!DOCTYPE html>
-<html lang="uk">
-<head>
+<html lang="en"> <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Вгадай Стікер Клубу!</title>
-    <link rel="stylesheet" href="style.css"> <style>
-        /* Простий стиль для активних кнопок фільтра (можна винести в style.css) */
-        .active {
-            background-color: #ddd;
-            font-weight: bold;
-        }
-        button {
-            margin: 2px 4px;
-            padding: 5px 10px;
-            cursor: pointer;
-        }
-        button:disabled {
-            cursor: not-allowed;
-            opacity: 0.7;
-        }
+    <title>Guess the Club Sticker!</title> <link rel="stylesheet" href="style.css">
+    <style>
+        /* Простий стиль для активних кнопок фільтра */
+        .active { background-color: #ddd; font-weight: bold; }
+        button { margin: 2px 4px; padding: 5px 10px; cursor: pointer; }
+        button:disabled { cursor: not-allowed; opacity: 0.7; }
     </style>
 </head>
 <body>
-    <h1>Гра "Вгадай Стікер"</h1>
-
-    <div id="auth-section">
+    <h1>Guess the Sticker Game</h1> <div id="auth-section">
         <button id="login-button" class="google-login" style="display: none;">
-        <span>Увійти через Google</span>
-        </button>
+             <span>Sign in with Google</span> </button>
         <div id="user-status" style="display: none;">
-            Вітаємо, <span id="user-email"></span>!
-            <button id="logout-button">Вийти</button>
-        </div>
+            Welcome, <span id="user-email"></span>!
+            <button id="logout-button">Logout</button> </div>
     </div>
     <hr>
 
     <div id="difficulty-selection" style="display: none; margin: 15px 0; text-align: center;">
-        <h2>Обери рівень складності:</h2>
-        <button class="difficulty-button" data-difficulty="1">Легко (1)</button>
-        <button class="difficulty-button" data-difficulty="2">Середнє (2)</button>
-        <button class="difficulty-button" data-difficulty="3">Важко (3)</button>
-    </div>
+        <h2>Choose difficulty level:</h2> <button class="difficulty-button" data-difficulty="1">Easy (1)</button> <button class="difficulty-button" data-difficulty="2">Medium (2)</button> <button class="difficulty-button" data-difficulty="3">Hard (3)</button> </div>
 
-    <p id="loading-indicator" style="display: none; text-align: center; font-style: italic;">Завантаження...</p>
-    <p id="error-message" style="color: red; display: none; text-align: center; font-weight: bold;"></p>
-
+    <p id="loading-indicator" style="display: none; text-align: center; font-style: italic;">Loading...</p> <p id="error-message" style="color: red; display: none; text-align: center; font-weight: bold;"></p>
 
     <div id="game-area" style="display: none; text-align: center;">
-        <img id="sticker-image" src="" alt="Стікер клубу" width="150" style="display: block; margin: 10px auto; border: 1px solid #ccc;">
+        <div id="sticker-container">
+            <img id="sticker-image" src="" alt="Club Sticker"> </div>
         <div id="options" style="margin-top: 10px;">
             </div>
-        <div id="timer" style="margin-top: 15px; font-size: 1.2em; font-weight: bold;">Час: <span id="time-left">10</span></div>
-        <div id="score" style="margin-top: 5px; font-size: 1.1em;">Рахунок: <span id="current-score">0</span></div>
-    </div>
+        <div id="timer" style="margin-top: 15px; font-size: 1.2em; font-weight: bold;">Time: <span id="time-left">10</span></div> <div id="score" style="margin-top: 5px; font-size: 1.1em;">Score: <span id="current-score">0</span></div> </div>
 
     <div id="result-area" style="display: none; margin-top: 20px; text-align: center;">
-        <h2>Гру завершено!</h2>
-        <p style="font-size: 1.2em;">Ваш фінальний рахунок: <span id="final-score" style="font-weight: bold;">0</span></p>
-        <button id="play-again">Обрати іншу складність</button>
-        </div>
+        <h2>Game Over!</h2> <p style="font-size: 1.2em;">Your final score: <span id="final-score" style="font-weight: bold;">0</span></p> <button id="play-again">Choose another difficulty</button> </div>
 
     <section id="leaderboard-section" style="display: none; margin-top: 20px; padding: 15px; border-top: 1px solid #ccc;">
-        <h2>Таблиця Лідерів</h2>
-
-        <div id="leaderboard-filters" style="margin-bottom: 15px;">
+        <hr>
+        <h2>Leaderboard</h2> <div id="leaderboard-filters" style="margin-bottom: 15px;">
             <div style="margin-bottom: 10px;">
-                <strong>Час:</strong>
-                <button class="leaderboard-time-filter" data-timeframe="today">Сьогодні</button>
-                <button class="leaderboard-time-filter" data-timeframe="week">7 днів</button>
-                <button class="leaderboard-time-filter" data-timeframe="month">Місяць</button>
-                <button class="leaderboard-time-filter active" data-timeframe="all">Увесь час</button> </div>
+                <strong>Time:</strong> <button class="leaderboard-time-filter" data-timeframe="today">Today</button> <button class="leaderboard-time-filter" data-timeframe="week">7 days</button> <button class="leaderboard-time-filter" data-timeframe="month">Month</button> <button class="leaderboard-time-filter active" data-timeframe="all">All Time</button> </div>
             <div>
-                <strong>Складність:</strong>
-                <button class="leaderboard-difficulty-filter active" data-difficulty="1">Легко (1)</button> <button class="leaderboard-difficulty-filter" data-difficulty="2">Середнє (2)</button>
-                <button class="leaderboard-difficulty-filter" data-difficulty="3">Важко (3)</button>
-            </div>
+                <strong>Difficulty:</strong> <button class="leaderboard-difficulty-filter active" data-difficulty="1">Easy (1)</button> <button class="leaderboard-difficulty-filter" data-difficulty="2">Medium (2)</button> <button class="leaderboard-difficulty-filter" data-difficulty="3">Hard (3)</button> </div>
         </div>
 
-        <ol id="leaderboard-list" style="padding-left: 20px;">
-            <li>Завантаження...</li> </ol>
+        <ol id="leaderboard-list" style="padding-left: 20px;"> <li>Loading...</li> </ol>
 
-        <button id="close-leaderboard-button" style="margin-top: 15px;">Закрити лідерборд</button>
-    </section>
-    <button id="show-leaderboard-button" style="margin-top: 20px; display: none;">Показати Лідерборд</button>
-
-
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+        <button id="close-leaderboard-button">Close Leaderboard</button> </section>
+    <button id="show-leaderboard-button" style="margin-top: 20px; display: none;">Show Leaderboard</button> <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="script.js"></script>
 </body>
 </html>
