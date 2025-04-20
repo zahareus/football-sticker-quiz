@@ -621,7 +621,7 @@ function hideLoading() {
 
 // ----- 12. Ініціалізація Додатку -----
 function initializeApp() {
-    console.log("DOM завантажено, ініціалізація додатку...");
+    console.log("DOM завантажено, ініціалізація додаттку...");
     if (!initializeDOMElements()) {
         console.error("Критична помилка: Не вдалося ініціалізувати DOM елементи.");
         return;
