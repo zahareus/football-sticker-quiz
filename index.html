@@ -41,7 +41,31 @@
         <p>Ваш фінальний рахунок: <span id="final-score">0</span></p>
         <button id="play-again">Обрати іншу складність</button>
     </div>
+<section id="leaderboard-section" style="display: none; margin-top: 20px;">
+        <hr>
+        <h2>Таблиця Лідерів</h2>
 
+        <div id="leaderboard-filters">
+            <div>
+                <strong>Час:</strong>
+                <button class="leaderboard-time-filter" data-timeframe="today">Сьогодні</button>
+                <button class="leaderboard-time-filter" data-timeframe="week">7 днів</button>
+                <button class="leaderboard-time-filter" data-timeframe="month">Місяць</button>
+                <button class="leaderboard-time-filter active" data-timeframe="all">Увесь час</button> </div>
+            <div style="margin-top: 10px;">
+                <strong>Складність:</strong>
+                <button class="leaderboard-difficulty-filter active" data-difficulty="1">Легко (1)</button> <button class="leaderboard-difficulty-filter" data-difficulty="2">Середнє (2)</button>
+                <button class="leaderboard-difficulty-filter" data-difficulty="3">Важко (3)</button>
+            </div>
+        </div>
+
+        <ol id="leaderboard-list" style="margin-top: 15px; padding-left: 20px;">
+            <li>Завантаження...</li>
+        </ol>
+
+        <button id="close-leaderboard-button">Закрити лідерборд</button>
+    </section>
+    <button id="show-leaderboard-button" style="margin-top: 10px;">Показати Лідерборд</button>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="script.js"></script>
 </body>
