@@ -4,8 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Вгадай Стікер Клубу!</title>
-    <link rel="stylesheet" href="style.css">
-</head>
+    <link rel="stylesheet" href="style.css"> </head>
 <body>
     <h1>Гра "Вгадай Стікер"</h1>
 
@@ -16,9 +15,7 @@
             <button id="logout-button">Вийти</button>
         </div>
     </div>
-    <hr>
-
-    <div id="difficulty-selection" style="display: none; margin: 15px 0; text-align: center;">
+    <hr> <div id="difficulty-selection" style="display: none; margin: 15px 0; text-align: center;">
         <h2>Обери рівень складності:</h2>
         <button class="difficulty-button" data-difficulty="1">Легко (1)</button>
         <button class="difficulty-button" data-difficulty="2">Середнє (2)</button>
@@ -27,6 +24,7 @@
 
     <p id="loading-indicator" style="display: none;">Завантаження...</p>
     <p id="error-message" style="color: red; display: none;"></p>
+
 
     <div id="game-area" style="display: none;">
         <img id="sticker-image" src="" alt="Стікер клубу" width="150" style="display: block; margin: 10px auto;">
@@ -41,7 +39,8 @@
         <p>Ваш фінальний рахунок: <span id="final-score">0</span></p>
         <button id="play-again">Обрати іншу складність</button>
     </div>
-<section id="leaderboard-section" style="display: none; margin-top: 20px;">
+
+    <section id="leaderboard-section" style="display: none; margin-top: 20px;">
         <hr>
         <h2>Таблиця Лідерів</h2>
 
@@ -60,12 +59,12 @@
         </div>
 
         <ol id="leaderboard-list" style="margin-top: 15px; padding-left: 20px;">
-            <li>Завантаження...</li>
-        </ol>
+            <li>Завантаження...</li> </ol>
 
         <button id="close-leaderboard-button">Закрити лідерборд</button>
     </section>
     <button id="show-leaderboard-button" style="margin-top: 10px;">Показати Лідерборд</button>
+
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="script.js"></script>
 </body>
