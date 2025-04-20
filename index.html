@@ -6,11 +6,9 @@
     <title>Guess the Club Sticker!</title>
     <link rel="stylesheet" href="style.css">
     <style>
-        /* Стилі для активних кнопок і базові стилі */
         .active { background-color: #ddd; font-weight: bold; }
         button { margin: 2px 4px; padding: 5px 10px; cursor: pointer; border-radius: 4px; border: 1px solid #ccc;}
         button:disabled { cursor: not-allowed; opacity: 0.7; }
-        /* Стилі для редагування нікнейму */
         #user-nickname { cursor: pointer; text-decoration: underline dotted; font-weight: bold; }
         #edit-nickname-button { border:none; background:none; cursor:pointer; padding: 0 5px; font-size: 0.9em; margin-left: 2px; }
         #edit-nickname-form input { margin-right: 5px; padding: 6px; border: 1px solid #ccc; border-radius: 4px; }
@@ -49,7 +47,7 @@
          <div id="sticker-container">
             <img id="sticker-image" src="" alt="Club Sticker">
         </div>
-        <div id="options" style="margin-top: 10px;"></div>
+        <div id="options"></div>
         <div id="timer">Time: <span id="time-left">10</span></div>
         <div id="score">Score: <span id="current-score">0</span></div>
     </div>
@@ -62,26 +60,10 @@
 
     <section id="leaderboard-section" style="display: none; margin-top: 20px; padding: 15px; border-top: 1px solid #ccc;">
          <hr>
-        <h2>Leaderboard</h2>
-        <div id="leaderboard-filters" style="margin-bottom: 15px;">
-            <div style="margin-bottom: 10px;">
-                <strong>Time:</strong>
-                <button class="leaderboard-time-filter" data-timeframe="today">Today</button>
-                <button class="leaderboard-time-filter" data-timeframe="week">7 days</button>
-                <button class="leaderboard-time-filter" data-timeframe="month">Month</button>
-                <button class="leaderboard-time-filter active" data-timeframe="all">All Time</button>
-            </div>
-            <div>
-                <strong>Difficulty:</strong>
-                <button class="leaderboard-difficulty-filter active" data-difficulty="1">Easy (1)</button>
-                <button class="leaderboard-difficulty-filter" data-difficulty="2">Medium (2)</button>
-                <button class="leaderboard-difficulty-filter" data-difficulty="3">Hard (3)</button>
-            </div>
-        </div>
-        <ol id="leaderboard-list" style="padding-left: 40px; list-style-type: decimal;">
-            <li>Loading...</li>
-        </ol>
-        <button id="close-leaderboard-button">Close Leaderboard</button>
+         <h2>Leaderboard</h2>
+         <div id="leaderboard-filters"> /* ... */ </div>
+         <ol id="leaderboard-list"><li>Loading...</li></ol>
+         <button id="close-leaderboard-button">Close Leaderboard</button>
     </section>
 
      <button id="show-leaderboard-button" style="margin-top: 20px; display: none;">Show Leaderboard</button>
