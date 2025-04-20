@@ -6,135 +6,91 @@ const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBh
 let supabaseClient;
 
 // ----- 2. Ініціалізація клієнта Supabase -----
-if (typeof supabase === 'undefined') {
-  console.error('Помилка: Бібліотека Supabase не завантажилась.');
-  handleCriticalError('Помилка завантаження гри. Спробуйте оновити сторінку.');
-} else {
-  try {
-    supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-    console.log('Клієнт Supabase успішно ініціалізовано');
-    checkInitialAuthState();
-    if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', initializeApp);
-    } else {
-        initializeApp();
-    }
-  } catch (error) {
-    console.error('Помилка ініціалізації Supabase:', error);
-    handleCriticalError('Помилка підключення до гри. Спробуйте оновити сторінку.');
-    supabaseClient = null;
-  }
-}
+// (Без змін)
+if (typeof supabase === 'undefined') { /* ... */ } else { /* ... */ }
 
 // ----- 3. Глобальні змінні -----
-let currentQuestionData = null;
-let currentScore = 0;
-let timeLeft = 10;
-let timerInterval = null;
-let currentUser = null;
-let selectedDifficulty = null; // Зберігаємо обрану складність тут
+// (Без змін)
+let currentQuestionData = null; /* ... */
 
 // ----- 4. DOM Елементи -----
-let gameAreaElement, stickerImageElement, optionsContainerElement, timeLeftElement, currentScoreElement, resultAreaElement, finalScoreElement, playAgainButton, authSectionElement, loginButton, userStatusElement, userEmailElement, logoutButton, difficultySelectionElement, loadingIndicator, errorMessageElement;
+// (Без змін)
+let gameAreaElement, /* ... */ errorMessageElement;
 let difficultyButtons;
 
-function initializeDOMElements() {
-    // ... (без змін з попередньої версії) ...
-     gameAreaElement = document.getElementById('game-area');
-    stickerImageElement = document.getElementById('sticker-image');
-    optionsContainerElement = document.getElementById('options');
-    timeLeftElement = document.getElementById('time-left');
-    currentScoreElement = document.getElementById('current-score');
-    resultAreaElement = document.getElementById('result-area');
-    finalScoreElement = document.getElementById('final-score');
-    playAgainButton = document.getElementById('play-again');
-    authSectionElement = document.getElementById('auth-section');
-    loginButton = document.getElementById('login-button');
-    userStatusElement = document.getElementById('user-status');
-    userEmailElement = document.getElementById('user-email');
-    logoutButton = document.getElementById('logout-button');
-    difficultySelectionElement = document.getElementById('difficulty-selection');
-    loadingIndicator = document.getElementById('loading-indicator');
-    errorMessageElement = document.getElementById('error-message');
-    difficultyButtons = document.querySelectorAll('.difficulty-button');
-
-    const elements = { gameAreaElement, stickerImageElement, optionsContainerElement, timeLeftElement, currentScoreElement, resultAreaElement, finalScoreElement, playAgainButton, authSectionElement, loginButton, userStatusElement, userEmailElement, logoutButton, difficultySelectionElement, loadingIndicator, errorMessageElement };
-    let allFound = true;
-    for (const key in elements) {
-        if (!elements[key]) {
-             console.error(`Помилка: Не вдалося знайти DOM елемент з id '${key.replace('Element', '')}'!`);
-             allFound = false;
-        }
-    }
-    if (!difficultyButtons || difficultyButtons.length === 0) {
-         console.error("Помилка: Не вдалося знайти кнопки вибору складності!");
-         allFound = false;
-    }
-
-    if (!allFound) {
-        handleCriticalError("Помилка ініціалізації інтерфейсу гри.");
-        return false;
-    }
-
-    playAgainButton.addEventListener('click', showDifficultySelection);
-    loginButton.addEventListener('click', loginWithGoogle);
-    logoutButton.addEventListener('click', logout);
-    difficultyButtons.forEach(button => {
-        button.addEventListener('click', handleDifficultySelection);
-    });
-
-    console.log("DOM елементи успішно ініціалізовані та слухачі додані.");
-    return true;
-}
+function initializeDOMElements() { /* ... */ } // (Без змін)
 
 
 // ----- 5. Функції Автентифікації -----
-// (Без змін)
-async function loginWithGoogle() { /* ... */ }
-async function logout() { /* ... */ }
-function updateAuthStateUI(user) { /* ... */ }
-async function checkAndCreateUserProfile(user) { /* ... */ }
-function setupAuthStateChangeListener() { /* ... */ }
-async function checkInitialAuthState() { /* ... */ }
+async function loginWithGoogle() { /* ... */ } // (Без змін)
+async function logout() { /* ... */ } // (Без змін)
+function updateAuthStateUI(user) { /* ... */ } // (Без змін)
 
-// ----- 6. Функція для відображення запитання на сторінці -----
-// (Без змін)
-function displayQuestion(questionData) { /* ... */ }
+// Перевірка/Створення профілю користувача (ПРИБРАНО ВИЗНАЧЕННЯ КРАЇНИ)
+async function checkAndCreateUserProfile(user) {
+   if (!supabaseClient || !user) return;
+   console.log(`Перевірка/створення профілю для користувача ${user.id}...`);
+   try {
+       const { data, error: selectError } = await supabaseClient
+           .from('profiles')
+           .select('id')
+           .eq('id', user.id)
+           .maybeSingle();
 
-// ----- 7. Функція обробки відповіді користувача -----
-// (Без змін)
-function handleAnswer(selectedOption) { /* ... */ }
+       if (selectError && selectError.code !== 'PGRST116') throw selectError;
 
- // ----- 8. Функції таймера -----
- // (Без змін)
-function startTimer() { /* ... */ }
-function stopTimer() { /* ... */ }
+       if (!data) {
+           console.log(`Профіль для ${user.id} не знайдено. Створення...`);
+           // Готуємо дані БЕЗ країни
+           const userEmail = user.email || `user_${user.id.substring(0, 8)}`;
+           const potentialUsername = user.user_metadata?.full_name || user.user_metadata?.name || userEmail;
+           const profileDataToInsert = {
+               id: user.id,
+               username: potentialUsername,
+               // country: null, // Поле country тепер видалено з profiles
+               updated_at: new Date()
+           };
 
-// ----- 9. Функції керування грою -----
-// (Без змін)
-function showDifficultySelection() { /* ... */ }
-function handleDifficultySelection(event) { /* ... */ }
-async function startGame() { /* ... */ }
-async function loadNextQuestion() { /* ... */ }
-async function loadNewQuestion() { /* ... */ } // Використовує selectedDifficulty
-function endGame() {
-    // (Без змін, але викликає оновлену saveScore)
-     console.log(`Гра завершена! Фінальний рахунок: ${currentScore}`);
-     stopTimer();
-     if(finalScoreElement) finalScoreElement.textContent = currentScore;
-     if(gameAreaElement) gameAreaElement.style.display = 'none';
-     if(resultAreaElement) {
-        const existingMsg = resultAreaElement.querySelector('.save-message');
-        if(existingMsg) existingMsg.remove();
-        resultAreaElement.style.display = 'block';
-     }
-     if(difficultySelectionElement) difficultySelectionElement.style.display = 'none';
-     if(userStatusElement) userStatusElement.style.display = 'block';
-     saveScore(); // <--- Викликаємо оновлену функцію
+           console.log("Дані для вставки профілю:", profileDataToInsert);
+
+           const { error: insertError } = await supabaseClient
+               .from('profiles')
+               .insert(profileDataToInsert)
+               .select().single();
+
+           if (insertError) throw insertError;
+           console.log(`Профіль для ${user.id} успішно створено.`);
+       } else {
+           console.log(`Профіль для ${user.id} вже існує.`);
+       }
+   } catch (error) {
+       console.error("Загальна помилка під час перевірки/створення профілю:", error);
+       showError(`Не вдалося перевірити/створити профіль: ${error.message}`);
+   }
 }
 
- // --- Функція збереження результату (ОНОВЛЕНО) ---
- async function saveScore() {
+
+function setupAuthStateChangeListener() { /* ... */ } // (Без змін)
+async function checkInitialAuthState() { /* ... */ } // (Без змін)
+
+// ----- 6. Функція для відображення запитання на сторінці -----
+function displayQuestion(questionData) { /* ... */ } // (Без змін)
+// ----- 7. Функція обробки відповіді користувача -----
+function handleAnswer(selectedOption) { /* ... */ } // (Без змін)
+// ----- 8. Функції таймера -----
+function startTimer() { /* ... */ } // (Без змін)
+function stopTimer() { /* ... */ } // (Без змін)
+// ----- 9. Функції керування грою -----
+function showDifficultySelection() { /* ... */ } // (Без змін)
+function handleDifficultySelection(event) { /* ... */ } // (Без змін)
+async function startGame() { /* ... */ } // (Без змін)
+async function loadNextQuestion() { /* ... */ } // (Без змін)
+async function loadNewQuestion() { /* ... */ } // (Без змін)
+function endGame() { /* ... */ } // (Без змін, викликає оновлену saveScore)
+
+
+ // --- Функція збереження результату (ОНОВЛЕНО - ДОДАНО GEO IP) ---
+ async function saveScore() { // Робимо функцію асинхронною
      if (!currentUser) {
          console.log("Користувач не залогінений. Результат не збережено.");
          return;
@@ -143,16 +99,14 @@ function endGame() {
           console.log("Немає дійсного рахунку для збереження.");
           return;
      }
-     // Перевіряємо, чи обрано складність
      if (selectedDifficulty === null) {
-          console.error("Складність не була обрана (selectedDifficulty is null). Результат не збережено.");
-          // Можна показати повідомлення користувачу, хоча це не мало б статися
+          console.error("Немає обраної складності для збереження результату.");
           return;
      }
-
      if (currentScore === 0) {
           console.log("Рахунок 0, результат не збережено.");
-          const scoreInfoMsg = document.createElement('p');
+          // ... (повідомлення про нульовий рахунок, як раніше) ...
+           const scoreInfoMsg = document.createElement('p');
           scoreInfoMsg.textContent = 'Результати зберігаються тільки якщо рахунок більше 0.';
           scoreInfoMsg.style.fontSize = 'small';
           scoreInfoMsg.style.marginTop = '5px';
@@ -170,29 +124,56 @@ function endGame() {
      console.log(`Спроба збереження результату: ${currentScore} (Складність: ${selectedDifficulty}) для користувача ${currentUser.id}`);
      showLoading();
 
+     // --- Початок блоку GeoIP ---
+     let detectedCountryCode = null;
      try {
-         // Додаємо поле difficulty до об'єкту, що передається в insert
+         console.log("Спроба визначити країну за IP перед збереженням рахунку...");
+         const response = await fetch('https://ip-api.com/json/?fields=status,message,countryCode');
+         if (!response.ok) {
+             throw new Error(`Помилка мережі GeoIP: ${response.statusText}`);
+         }
+         const geoData = await response.json();
+         console.log("GeoIP Response:", geoData);
+
+         if (geoData.status === 'success' && geoData.countryCode) {
+             // Переконуємось, що код дволітерний (або обрізаємо, якщо треба)
+             detectedCountryCode = geoData.countryCode.substring(0, 2).toUpperCase();
+             console.log(`Країну для збереження результату визначено як: ${detectedCountryCode}`);
+         } else {
+             console.warn("Не вдалося визначити країну для збереження:", geoData.message || 'Статус відповіді не "success"');
+         }
+     } catch (geoError) {
+         console.error("Помилка під час запиту до GeoIP API:", geoError);
+         // Залишаємо detectedCountryCode як null
+     }
+     // --- Кінець блоку GeoIP ---
+
+
+     // --- Початок блоку збереження в БД ---
+     try {
+         console.log(`Зберігаємо в БД: user=<span class="math-inline">\{currentUser\.id\}, score\=</span>{currentScore}, difficulty=<span class="math-inline">\{selectedDifficulty\}, country\=</span>{detectedCountryCode}`);
+         // Додаємо поле country_code до об'єкту, що передається в insert
          const { error } = await supabaseClient
              .from('scores')
              .insert({
                  user_id: currentUser.id,
                  score: currentScore,
-                 difficulty: selectedDifficulty // <--- ДОДАНО СКЛАДНІСТЬ
+                 difficulty: selectedDifficulty,
+                 country_code: detectedCountryCode // <-- ДОДАНО КОД КРАЇНИ (або null)
              });
 
          if (error) {
+             // ... (обробка помилок insert, як раніше) ...
              if (error.code === '42501') { throw new Error("Немає дозволу на збереження результату. Перевірте RLS політики для таблиці 'scores'."); }
              else if (error.code === '23503') { throw new Error("Помилка зв'язку з профілем користувача при збереженні результату."); }
-             // Обробка помилки, якщо тип difficulty невірний (малоймовірно, якщо ми передаємо 1, 2 або 3)
-             else if (error.message.includes("invalid input value for enum")) { // Або інший текст помилки типу
-                   throw new Error(`Помилка типу даних для складності: ${error.message}`);
-             }
+             else if (error.message.includes("invalid input value for enum")) { throw new Error(`Помилка типу даних для складності: ${error.message}`); }
+             else if (error.message.includes("value too long for type character varying(2)")) { throw new Error(`Помилка: Код країни (${detectedCountryCode}) задовгий для стовпця.`);}
              else { throw error; }
          }
          console.log("Результат успішно збережено!");
 
-         // Показуємо повідомлення про успішне збереження
-         const scoreSavedMessage = document.createElement('p');
+         // ... (повідомлення про успішне збереження, як раніше) ...
+          const scoreSavedMessage = document.createElement('p');
          scoreSavedMessage.textContent = 'Ваш результат збережено!';
          scoreSavedMessage.style.fontSize = 'small';
          scoreSavedMessage.style.marginTop = '5px';
@@ -209,8 +190,9 @@ function endGame() {
          console.error("Помилка збереження результату:", error);
          showError(`Не вдалося зберегти ваш результат: ${error.message}`);
      } finally {
-         hideLoading();
+         hideLoading(); // Ховаємо індикатор завантаження незалежно від успіху/помилки
      }
+     // --- Кінець блоку збереження в БД ---
  }
 
 
@@ -228,7 +210,7 @@ function hideLoading() { /* ... */ }
 function initializeApp() { /* ... */ }
 
 // ----- Повний код функцій, які були скорочені як /* ... */ -----
-// (Включаємо їх знову для повноти, без змін від попередньої версії)
+// (Включаємо їх знову для повноти, без змін від попередньої версії, ОКРІМ checkAndCreateUserProfile)
 
 async function loginWithGoogle() {
     console.log("Функція loginWithGoogle ВИКЛИКАНА!");
@@ -290,43 +272,14 @@ function updateAuthStateUI(user) {
    }
 }
 
-async function checkAndCreateUserProfile(user) {
-   if (!supabaseClient || !user) return;
-   console.log(`Перевірка/створення профілю для користувача ${user.id}...`);
-   try {
-       const { data, error } = await supabaseClient
-           .from('profiles')
-           .select('id')
-           .eq('id', user.id)
-           .maybeSingle();
-
-       if (error && error.code !== 'PGRST116') throw error;
-
-       if (!data) {
-           console.log(`Профіль для ${user.id} не знайдено. Створення...`);
-           const userEmail = user.email || `user_${user.id.substring(0, 8)}`;
-           const potentialUsername = user.user_metadata?.full_name || user.user_metadata?.name || userEmail;
-           const { error: insertError } = await supabaseClient
-               .from('profiles')
-               .insert({ id: user.id, username: potentialUsername, updated_at: new Date() })
-               .select().single();
-           if (insertError) throw insertError;
-           console.log(`Профіль для ${user.id} успішно створено.`);
-       } else {
-           console.log(`Профіль для ${user.id} вже існує.`);
-       }
-   } catch (error) {
-       console.error("Помилка під час перевірки/створення профілю:", error);
-       showError(`Не вдалося перевірити/створити профіль: ${error.message}`);
-   }
-}
+// checkAndCreateUserProfile - ОНОВЛЕНА ВЕРСІЯ БЕЗ КРАЇНИ вже наведена вище
 
 function setupAuthStateChangeListener() {
     if (!supabaseClient) return;
     supabaseClient.auth.onAuthStateChange(async (_event, session) => {
         console.log(`Подія Auth State Change: ${_event}`, session);
         const user = session?.user ?? null;
-         if (loginButton) {
+         if (loginButton) { // Перевіряємо один з елементів
             updateAuthStateUI(user);
          } else {
              console.warn("onAuthStateChange: DOM ще не готовий для оновлення UI");
@@ -531,7 +484,6 @@ async function loadNextQuestion() {
         displayQuestion(questionData);
     } else {
         console.error("Не вдалося завантажити наступне запитання (з loadNextQuestion).");
-         // endGame() буде викликано з loadNewQuestion у разі помилки
     }
 }
 
@@ -632,8 +584,22 @@ async function loadNextQuestion() {
   }
 }
 
+function endGame() {
+     console.log(`Гра завершена! Фінальний рахунок: ${currentScore}`);
+     stopTimer();
+     if(finalScoreElement) finalScoreElement.textContent = currentScore;
+     if(gameAreaElement) gameAreaElement.style.display = 'none';
+     if(resultAreaElement) {
+        const existingMsg = resultAreaElement.querySelector('.save-message');
+        if(existingMsg) existingMsg.remove();
+        resultAreaElement.style.display = 'block';
+     }
+     if(difficultySelectionElement) difficultySelectionElement.style.display = 'none';
+     if(userStatusElement) userStatusElement.style.display = 'block';
+     saveScore();
+}
 
- function showError(message) {
+function showError(message) {
     console.error("Помилка гри:", message);
     if (errorMessageElement) {
         errorMessageElement.textContent = message;
