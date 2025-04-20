@@ -13,17 +13,12 @@ if (typeof supabase === 'undefined') {
   try {
     supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
     console.log('Клієнт Supabase успішно ініціалізовано');
-
-    // Перевірка початкового стану автентифікації
-    checkInitialAuthState(); // Перевіряємо стан до DOMContentLoaded
-
-    // Переконуємось, що DOM готовий перед ініціалізацією елементів та запуском гри
+    checkInitialAuthState();
     if (document.readyState === 'loading') {
         document.addEventListener('DOMContentLoaded', initializeApp);
     } else {
-        initializeApp(); // DOM вже готовий
+        initializeApp();
     }
-
   } catch (error) {
     console.error('Помилка ініціалізації Supabase:', error);
     handleCriticalError('Помилка підключення до гри. Спробуйте оновити сторінку.');
@@ -36,13 +31,11 @@ let currentQuestionData = null;
 let currentScore = 0;
 let timeLeft = 10;
 let timerInterval = null;
-let currentUser = null; // Зберігаємо інформацію про поточного користувача
+let currentUser = null;
 
 // ----- 4. DOM Елементи -----
-// Оголошуємо змінні тут, але отримуємо елементи ПІСЛЯ завантаження DOM
 let gameAreaElement, stickerImageElement, optionsContainerElement, timeLeftElement, currentScoreElement, resultAreaElement, finalScoreElement, playAgainButton, authSectionElement, loginButton, userStatusElement, userEmailElement, logoutButton, loadingIndicator, errorMessageElement;
 
-// Ініціалізація DOM елементів (викликається після завантаження DOM)
 function initializeDOMElements() {
     gameAreaElement = document.getElementById('game-area');
     stickerImageElement = document.getElementById('sticker-image');
@@ -60,24 +53,21 @@ function initializeDOMElements() {
     loadingIndicator = document.getElementById('loading-indicator');
     errorMessageElement = document.getElementById('error-message');
 
-
-    // Перевірка, чи всі елементи знайдено
     const elements = { gameAreaElement, stickerImageElement, optionsContainerElement, timeLeftElement, currentScoreElement, resultAreaElement, finalScoreElement, playAgainButton, authSectionElement, loginButton, userStatusElement, userEmailElement, logoutButton, loadingIndicator, errorMessageElement };
     for (const key in elements) {
         if (!elements[key]) {
              console.error(`Помилка: Не вдалося знайти DOM елемент з id '${key.replace('Element', '')}'!`);
              handleCriticalError("Помилка ініціалізації інтерфейсу гри.");
-             return false; // Повернути ознаку помилки
+             return false;
         }
     }
 
-    // Додаємо обробники подій до кнопок
     playAgainButton.addEventListener('click', startGame);
     loginButton.addEventListener('click', loginWithGoogle);
     logoutButton.addEventListener('click', logout);
 
     console.log("DOM елементи успішно ініціалізовані.");
-    return true; // Все гаразд
+    return true;
 }
 
 
@@ -85,13 +75,11 @@ function initializeDOMElements() {
 async function loginWithGoogle() {
     if (!supabaseClient) return showError("Клієнт Supabase не ініціалізовано.");
     console.log("Спроба входу через Google...");
-    hideError(); // Сховати попередні помилки
+    hideError();
     try {
         const { error } = await supabaseClient.auth.signInWithOAuth({
             provider: 'google',
-            options: {
-                 redirectTo: window.location.href // Явно вказуємо повертатися сюди ж
-            }
+            options: { redirectTo: window.location.href }
         });
         if (error) throw error;
     } catch (error) {
@@ -108,26 +96,19 @@ async function logout() {
         const { error } = await supabaseClient.auth.signOut();
         if (error) throw error;
         console.log("Користувач вийшов.");
-        currentUser = null; // Очищуємо дані користувача
-        updateAuthStateUI(null); // Оновлюємо UI негайно (хоча onAuthStateChange теж спрацює)
-        // Можливо, потрібно скинути стан гри при виході
-        // resetGame(); // Якщо є така функція
+        currentUser = null;
+        updateAuthStateUI(null);
     } catch (error) {
         console.error("Помилка виходу:", error);
         showError(`Помилка виходу: ${error.message}`);
     }
 }
 
-// Функція для оновлення UI залежно від стану автентифікації
 function updateAuthStateUI(user) {
-   // Переконуємось, що елементи вже ініціалізовані
    if (!loginButton || !userStatusElement || !userEmailElement) {
        console.warn("Елементи UI для автентифікації ще не готові для оновлення.");
-       // Якщо initializeDOMElements ще не викликалась, то ці елементи null
-       // Вони будуть оновлені при першому виклику checkInitialAuthState після initializeApp
        return;
    }
-
    if (user) {
        currentUser = user;
        userEmailElement.textContent = user.email || 'невідомий email';
@@ -142,7 +123,6 @@ function updateAuthStateUI(user) {
    }
 }
 
-// Перевірка/Створення профілю користувача в базі даних
 async function checkAndCreateUserProfile(user) {
    if (!supabaseClient || !user) return;
    console.log(`Перевірка/створення профілю для користувача ${user.id}...`);
@@ -157,53 +137,44 @@ async function checkAndCreateUserProfile(user) {
 
        if (!data) {
            console.log(`Профіль для ${user.id} не знайдено. Створення...`);
-           const userEmail = user.email || `user_${user.id.substring(0, 8)}`; // Запасний варіант
+           const userEmail = user.email || `user_${user.id.substring(0, 8)}`;
            const potentialUsername = user.user_metadata?.full_name || user.user_metadata?.name || userEmail;
-
            const { error: insertError } = await supabaseClient
                .from('profiles')
-               .insert({
-                   id: user.id,
-                   username: potentialUsername,
-                   updated_at: new Date()
-               })
-               .select() // Повертаємо створений запис (не обов'язково, але корисно для логування)
-               .single(); // Очікуємо один запис
-
+               .insert({ id: user.id, username: potentialUsername, updated_at: new Date() })
+               .select().single();
            if (insertError) throw insertError;
            console.log(`Профіль для ${user.id} успішно створено.`);
        } else {
            console.log(`Профіль для ${user.id} вже існує.`);
        }
-
    } catch (error) {
        console.error("Помилка під час перевірки/створення профілю:", error);
        showError(`Не вдалося перевірити/створити профіль: ${error.message}`);
    }
 }
 
-// Слухач змін стану автентифікації
 function setupAuthStateChangeListener() {
     if (!supabaseClient) return;
     supabaseClient.auth.onAuthStateChange(async (_event, session) => {
         console.log(`Подія Auth State Change: ${_event}`, session);
         const user = session?.user ?? null;
-        updateAuthStateUI(user); // Оновлюємо UI
+        // Оновлюємо UI тільки якщо DOM вже ініціалізовано
+         if (loginButton) { // Перевіряємо один з елементів
+            updateAuthStateUI(user);
+         } else {
+            currentUser = user; // Зберігаємо користувача, UI оновиться пізніше
+         }
 
         if (_event === 'SIGNED_IN' && user) {
            await checkAndCreateUserProfile(user);
         }
-
-        // Якщо користувач змінився, можливо, треба перезапустити гру або оновити дані
-        // Наприклад, скинути гру при виході
         if (_event === 'SIGNED_OUT') {
             console.log("Користувач вийшов, можливо скинути гру?");
-            // resetGame(); // Функція для скидання гри
         }
     });
 }
 
- // Перевірка початкового стану (чи користувач вже залогінений?)
  async function checkInitialAuthState() {
      if (!supabaseClient) {
         console.log("checkInitialAuthState: Supabase client ще не готовий.");
@@ -211,19 +182,13 @@ function setupAuthStateChangeListener() {
      };
      console.log("Перевірка початкового стану автентифікації...");
      try {
-         // getSession тепер основний метод замість getUser
          const { data: { session }, error } = await supabaseClient.auth.getSession();
          if (error) throw error;
          console.log("Початкова сесія:", session);
-         currentUser = session?.user ?? null; // Оновлюємо глобальну змінну currentUser
-         // Оновлюємо UI ПІСЛЯ ініціалізації DOM
-         if (document.readyState !== 'loading') {
-             updateAuthStateUI(currentUser);
-         }
-         // Не викликаємо checkAndCreateUserProfile тут, це зробить onAuthStateChange при потребі
+         currentUser = session?.user ?? null;
+         // UI оновиться в initializeApp після того, як елементи будуть готові
      } catch (error) {
          console.error("Помилка отримання початкової сесії:", error);
-         // Не показуємо помилку користувачу тут, бо це може бути нормальним станом (немає сесії)
      }
  }
 
@@ -236,20 +201,17 @@ function displayQuestion(questionData) {
     }
     if (!stickerImageElement || !optionsContainerElement || !timeLeftElement || !currentScoreElement || !gameAreaElement || !resultAreaElement) {
          console.error("DOM елементи не ініціалізовані перед displayQuestion!");
-         return; // Якщо елементів немає, нічого не робити
+         return;
     }
-
     currentQuestionData = questionData;
-    hideError(); // Ховаємо попередні помилки
+    hideError();
 
     stickerImageElement.src = questionData.imageUrl;
     stickerImageElement.onerror = () => {
         console.error(`Помилка завантаження зображення: ${questionData.imageUrl}`);
         showError("Не вдалося завантажити зображення стікера.");
         stickerImageElement.alt = "Помилка завантаження зображення";
-        stickerImageElement.src = ""; // Очистити src, щоб не показувати зламану іконку
-        // Можливо, варто завантажити інше запитання або завершити гру
-        // loadNextQuestion(); // Спробувати наступне?
+        stickerImageElement.src = "";
     };
     stickerImageElement.alt = "Стікер клубу";
 
@@ -264,10 +226,8 @@ function displayQuestion(questionData) {
     timeLeft = 10;
     timeLeftElement.textContent = timeLeft;
     currentScoreElement.textContent = currentScore;
-
     gameAreaElement.style.display = 'block';
     resultAreaElement.style.display = 'none';
-
     startTimer();
 }
 
@@ -282,30 +242,25 @@ function handleAnswer(selectedOption) {
         return;
     }
 
-    // Блокуємо кнопки після відповіді (опціонально)
     const buttons = optionsContainerElement.querySelectorAll('button');
     buttons.forEach(button => button.disabled = true);
-
 
     if (selectedOption === currentQuestionData.correctAnswer) {
         console.log("Відповідь ПРАВИЛЬНА!");
         currentScore++;
         if(currentScoreElement) currentScoreElement.textContent = currentScore;
-        // Затримка перед наступним запитанням (опціонально)
-        setTimeout(loadNextQuestion, 500); // Чекати пів секунди
+        setTimeout(loadNextQuestion, 500);
     } else {
         console.log("Відповідь НЕПРАВИЛЬНА!");
-        // Показати правильну відповідь (опціонально)
         buttons.forEach(button => {
             if (button.textContent === currentQuestionData.correctAnswer) {
-                button.style.backgroundColor = 'lightgreen'; // Виділити правильну
+                button.style.backgroundColor = 'lightgreen';
             }
              if (button.textContent === selectedOption) {
-                 button.style.backgroundColor = 'salmon'; // Виділити неправильну
+                 button.style.backgroundColor = 'salmon';
              }
         });
-        // Затримка перед екраном завершення (опціонально)
-        setTimeout(endGame, 1500); // Чекати півтори секунди
+        setTimeout(endGame, 1500);
     }
 }
 
@@ -322,7 +277,6 @@ function startTimer() {
         if (timeLeft <= 0) {
             console.log("Час вийшов!");
             stopTimer();
-            // Показати правильну відповідь (опціонально)
              if (optionsContainerElement && currentQuestionData) {
                  const buttons = optionsContainerElement.querySelectorAll('button');
                  buttons.forEach(button => {
@@ -332,7 +286,7 @@ function startTimer() {
                      }
                  });
              }
-            setTimeout(endGame, 1500); // Затримка перед екраном кінця гри
+            setTimeout(endGame, 1500);
         }
     }, 1000);
 }
@@ -347,26 +301,26 @@ async function startGame() {
     console.log("Початок нової гри!");
     hideError();
 
-    // Перевірка DOM елементів
     if (!gameAreaElement || !currentScoreElement || !resultAreaElement) {
-         console.error("Необхідні DOM елементи не ініціалізовані. Неможливо почати гру.");
-         // Спробувати ініціалізувати, якщо вони ще не готові
+         console.error("Необхідні DOM елементи не ініціалізовані.");
           if (!initializeDOMElements()) {
                handleCriticalError("Не вдалося ініціалізувати ігрові елементи.");
-               return; // Не починати гру, якщо елементи не знайдено
+               return;
           }
     }
 
-
     currentScore = 0;
     if (currentScoreElement) currentScoreElement.textContent = 0;
-    if (resultAreaElement) resultAreaElement.style.display = 'none';
+    if (resultAreaElement) {
+        // Очистити попереднє повідомлення про збереження
+        const existingMsg = resultAreaElement.querySelector('.save-message');
+        if(existingMsg) existingMsg.remove();
+         resultAreaElement.style.display = 'none';
+    }
     if (gameAreaElement) gameAreaElement.style.display = 'block';
-    // Очистити стилі кнопок, якщо вони були змінені
      if (optionsContainerElement) {
-         optionsContainerElement.innerHTML = ''; // Очистити старі кнопки
+         optionsContainerElement.innerHTML = '';
      }
-
 
     await loadNextQuestion();
 }
@@ -377,14 +331,10 @@ async function loadNextQuestion() {
         displayQuestion(questionData);
     } else {
         console.error("Не вдалося завантажити наступне запитання.");
-        // Замість виклику endGame тут, краще просто показати помилку,
-        // бо endGame може викликатися і в інших випадках (неправильна відповідь, час вийшов)
         showError("Не вдалося завантажити наступне запитання. Можливо, проблеми з мережею або базою даних. Спробуйте зіграти ще раз.");
-        // Можна показати кнопку "Грати ще раз" одразу
         if(gameAreaElement) gameAreaElement.style.display = 'none';
-        if(resultAreaElement) resultAreaElement.style.display = 'block'; // Показати екран результату з 0
-        if(finalScoreElement) finalScoreElement.textContent = currentScore; // Показати поточний (можливо 0) рахунок
-
+        if(resultAreaElement) resultAreaElement.style.display = 'block';
+        if(finalScoreElement) finalScoreElement.textContent = currentScore;
     }
 }
 
@@ -393,8 +343,13 @@ function endGame() {
      stopTimer();
      if(finalScoreElement) finalScoreElement.textContent = currentScore;
      if(gameAreaElement) gameAreaElement.style.display = 'none';
-     if(resultAreaElement) resultAreaElement.style.display = 'block';
-     saveScore(); // Викликати функцію збереження результату
+     if(resultAreaElement) {
+         // Очистити попереднє повідомлення про збереження перед показом результату
+        const existingMsg = resultAreaElement.querySelector('.save-message');
+        if(existingMsg) existingMsg.remove();
+        resultAreaElement.style.display = 'block';
+     }
+     saveScore(); // Викликаємо збереження результату ПІСЛЯ оновлення UI
 }
 
  // --- Функція збереження результату ---
@@ -407,15 +362,13 @@ function endGame() {
           console.log("Немає дійсного рахунку для збереження.");
           return;
      }
-     // Не зберігаємо нульові результати (опціонально)
      if (currentScore === 0) {
           console.log("Рахунок 0, результат не збережено.");
           return;
      }
 
-
      console.log(`Спроба збереження результату: ${currentScore} для користувача ${currentUser.id}`);
-     showLoading(); // Показати завантаження
+     showLoading();
 
      try {
          const { error } = await supabaseClient
@@ -426,53 +379,60 @@ function endGame() {
              });
 
          if (error) {
-             // Можливі помилки: RLS політика не дозволяє insert, проблеми з мережею
-             if (error.code === '42501') { // permission denied for table scores
+             if (error.code === '42501') { // RLS permission denied
                  throw new Error("Немає дозволу на збереження результату. Перевірте RLS політики для таблиці 'scores'.");
+             } else if (error.code === '23503') { // foreign key violation
+                 throw new Error("Помилка зв'язку з профілем користувача при збереженні результату.");
              }
              throw error;
          }
          console.log("Результат успішно збережено!");
-         // Можна показати повідомлення користувачу (не через alert, можливо)
-         // Наприклад, додати текст під рахунком на екрані результатів
+
+         // Показуємо повідомлення про успішне збереження
          const scoreSavedMessage = document.createElement('p');
          scoreSavedMessage.textContent = 'Ваш результат збережено!';
          scoreSavedMessage.style.fontSize = 'small';
-         if (resultAreaElement) resultAreaElement.appendChild(scoreSavedMessage);
+         scoreSavedMessage.style.marginTop = '5px';
+         scoreSavedMessage.classList.add('save-message'); // Додаємо клас для можливого очищення
+
+         // Додаємо повідомлення після <p> з рахунком
+         const scoreParagraph = finalScoreElement.parentNode;
+         if (resultAreaElement && scoreParagraph) {
+             scoreParagraph.parentNode.insertBefore(scoreSavedMessage, scoreParagraph.nextSibling);
+         }
 
 
      } catch (error) {
          console.error("Помилка збереження результату:", error);
          showError(`Не вдалося зберегти ваш результат: ${error.message}`);
      } finally {
-         hideLoading(); // Сховати завантаження
+         hideLoading();
      }
  }
+
 
 // ----- 10. Допоміжні функції -----
 function showError(message) {
     console.error("Помилка гри:", message);
     if (errorMessageElement) {
         errorMessageElement.textContent = message;
-        errorMessageElement.style.display = 'block'; // Показати елемент з помилкою
+        errorMessageElement.style.display = 'block';
     } else {
-        alert(`Помилка: ${message}`); // Запасний варіант
+        alert(`Помилка: ${message}`);
     }
 }
 
 function hideError() {
      if (errorMessageElement) {
-        errorMessageElement.style.display = 'none'; // Сховати елемент з помилкою
+        errorMessageElement.style.display = 'none';
         errorMessageElement.textContent = '';
     }
 }
 
-// Функція для критичних помилок, що зупиняють роботу
 function handleCriticalError(message) {
      console.error("Критична помилка:", message);
      document.body.innerHTML = `<h1>Помилка</h1><p>${message}</p><p>Будь ласка, оновіть сторінку.</p>`;
 }
-
 
 function showLoading() {
   console.log("Показуємо індикатор завантаження...");
@@ -484,9 +444,7 @@ function hideLoading() {
    if (loadingIndicator) loadingIndicator.style.display = 'none';
 }
 
-
-// ----- 11. Обробник кнопки "Грати ще раз" -----
-// (Тепер додається в initializeDOMElements)
+// ----- 11. Обробник кнопки "Грати ще раз" ----- (у initializeDOMElements)
 
 // ----- 12. Ініціалізація Додатку -----
 function initializeApp() {
@@ -495,11 +453,85 @@ function initializeApp() {
         console.error("Помилка ініціалізації DOM елементів.");
         return;
     }
-    // Слухач подій Auth налаштовується тут, щоб мати доступ до DOM елементів
     setupAuthStateChangeListener();
-    // Оновлюємо UI для початкового стану автентифікації
-    updateAuthStateUI(currentUser); // Використовуємо currentUser, який міг бути встановлений checkInitialAuthState
+    updateAuthStateUI(currentUser); // Оновити UI для початкового стану
+    // startGame(); // Починаємо гру одразу (можна закоментувати, якщо гра має починатись після кліку)
+    // Якщо гру не починати одразу, треба показати кнопку "Старт" або схоже
+    if(gameAreaElement) gameAreaElement.style.display = 'none'; // Сховати гру спочатку
+    if(resultAreaElement) resultAreaElement.style.display = 'none'; // Сховати результати спочатку
+    // Можливо, додати кнопку "Почати гру", яка б викликала startGame()
+}
 
-    // Запускаємо гру (або можна чекати на дії користувача)
-    // startGame(); // Вирішили починати гру одразу
+// ----- 5. Функція для завантаження даних нового запитання -----
+async function loadNewQuestion() {
+    if (!supabaseClient) {
+        console.error("Клієнт Supabase не ініціалізовано.");
+        showError("Не вдалося підключитися до сервера гри.");
+        return null;
+    }
+    console.log("Завантаження нового запитання...");
+    showLoading();
+
+    try {
+        const { count, error: countError } = await supabaseClient
+        .from('stickers')
+        .select('*', { count: 'exact', head: true });
+
+        if (countError) throw countError;
+        if (count === null || count < 4) {
+            throw new Error(`В базі даних недостатньо стікерів або клубів (знайдено ${count})! Потрібно більше для гри.`);
+        }
+        console.log(`Знайдено стікерів: ${count}`);
+        const randomIndex = Math.floor(Math.random() * count);
+        console.log(`Випадковий індекс: ${randomIndex}`);
+
+        const { data: randomStickerData, error: stickerError } = await supabaseClient
+        .from('stickers')
+        .select(`id, image_url, clubs ( id, name )`)
+        .range(randomIndex, randomIndex)
+        .single();
+
+        if (stickerError) throw stickerError;
+        if (!randomStickerData || !randomStickerData.clubs) throw new Error("Не вдалося отримати дані випадкового стікера або пов'язаного клубу.");
+
+        const stickerImageUrl = randomStickerData.image_url;
+        const correctClubId = randomStickerData.clubs.id;
+        const correctClubName = randomStickerData.clubs.name;
+        console.log(`Вибраний стікер: URL=<span class="math-inline">\{stickerImageUrl\}, ClubID\=</span>{correctClubId}, ClubName=${correctClubName}`);
+
+        const { data: incorrectClubsData, error: incorrectClubsError } = await supabaseClient
+        .from('clubs')
+        .select('name')
+        .neq('id', correctClubId)
+        .limit(50);
+
+        if (incorrectClubsError) throw incorrectClubsError;
+        if (!incorrectClubsData || incorrectClubsData.length < 3) throw new Error("Недостатньо клубів у базі для генерації 3 неправильних варіантів.");
+
+        const incorrectOptions = incorrectClubsData
+        .map(club => club.name)
+        .filter(name => name !== correctClubName)
+        .sort(() => 0.5 - Math.random())
+        .slice(0, 3);
+
+        if (incorrectOptions.length < 3) throw new Error("Не вдалося вибрати 3 унікальних неправильних варіанти.");
+        console.log(`Неправильні варіанти:`, incorrectOptions);
+
+        const allOptions = [correctClubName, ...incorrectOptions].sort(() => 0.5 - Math.random());
+        console.log(`Всі варіанти (перемішані):`, allOptions);
+
+        hideLoading();
+
+        return {
+        imageUrl: stickerImageUrl,
+        options: allOptions,
+        correctAnswer: correctClubName
+        };
+
+    } catch (error) {
+        console.error("Помилка під час завантаження запитання:", error);
+        showError(`Помилка завантаження: ${error.message}`);
+        hideLoading();
+        return null;
+    }
 }
