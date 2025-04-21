@@ -1,5 +1,3 @@
-код script.js 
-
 // script.js
 
 const SUPABASE_URL = "https://rbmeslzlbsolkxnvesqb.supabase.co"; // <-- ЗАМІНИ НА СВІЙ URL
