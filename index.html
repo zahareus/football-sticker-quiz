@@ -3,8 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>StickerHunt: Time to hunt for stickers!</title>
-  <link rel="icon" href="favicon.ico" type="image/x-icon" />
+  <title>StickerHunt</title>
   <link rel="stylesheet" href="style.css" />
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-4Y0MJKGDZS"></script>
   <script>
@@ -15,84 +14,73 @@
   </script>
 </head>
 <body>
-
-  <h1>⚽ Guess the Club: 1 Sticker, 4 Options, 10 Seconds</h1>
-
-  <!-- AUTH SECTION -->
-  <div id="auth-section">
-    <button id="login-button" class="google-login" style="display: none;">
-      <span>Sign in with Google</span>
-    </button>
-
-    <div id="user-status" style="display: none;">
-      Welcome, <strong id="user-nickname" title="Click to edit nickname">Loading...</strong>
-      <button id="edit-nickname-button" title="Edit nickname">✏️</button>
-      <button id="logout-button">Logout</button>
-
+  <div class="container">
+    <header>
+      <h1>StickerHunt</h1>
+      <div class="auth">
+        <span id="user-nickname">Loading...</span>
+        <button id="edit-nickname-button">✏️</button>
+        <button id="logout-button">Logout</button>
+        <button id="login-button" style="display: none;">Sign in with Google</button>
+      </div>
       <form id="edit-nickname-form" style="display: none;">
         <input type="text" id="nickname-input" placeholder="New nickname" required minlength="3" maxlength="25" />
         <button type="submit">Save</button>
         <button type="button" id="cancel-edit-nickname-button">Cancel</button>
       </form>
-    </div>
-  </div>
+    </header>
 
-  <!-- DIFFICULTY -->
-  <div id="difficulty-selection" style="display: none;">
-    <h2>Choose difficulty level:</h2>
-    <button class="difficulty-button" data-difficulty="1">Easy (1)</button>
-    <button class="difficulty-button" data-difficulty="2">Medium (2)</button>
-    <button class="difficulty-button" data-difficulty="3">Hard (3)</button>
-  </div>
-
-  <!-- GAME AREA -->
-  <div id="game-area" style="display: none;">
-    <div class="top-bar">
-      <div id="timer">Time: <span id="time-left">10</span></div>
-      <div id="score">Score: <span id="current-score">0</span></div>
-    </div>
-
-    <div id="sticker-container">
-      <img id="sticker-image" src="" alt="Club Sticker" />
-    </div>
-
-    <div id="options"></div>
-  </div>
-
-  <!-- RESULT -->
-  <div id="result-area" style="display: none;">
-    <h2>Game Over!</h2>
-    <p>Your final score: <span id="final-score">0</span></p>
-    <button id="play-again">Choose another difficulty</button>
-  </div>
-
-  <!-- LEADERBOARD -->
-  <section id="leaderboard-section" style="display: none;">
-    <h2>Leaderboard</h2>
-    <div id="leaderboard-filters">
-      <div>
-        <strong>Time:</strong>
-        <button class="leaderboard-time-filter" data-timeframe="today">Today</button>
-        <button class="leaderboard-time-filter" data-timeframe="week">7 days</button>
-        <button class="leaderboard-time-filter" data-timeframe="month">Month</button>
-        <button class="leaderboard-time-filter active" data-timeframe="all">All Time</button>
+    <section id="difficulty-selection" class="card">
+      <h2>Choose Difficulty</h2>
+      <div class="difficulty-buttons">
+        <button class="difficulty-button" data-difficulty="1">Easy</button>
+        <button class="difficulty-button" data-difficulty="2">Medium</button>
+        <button class="difficulty-button" data-difficulty="3">Hard</button>
       </div>
-      <div>
-        <strong>Difficulty:</strong>
-        <button class="leaderboard-difficulty-filter active" data-difficulty="1">Easy</button>
-        <button class="leaderboard-difficulty-filter" data-difficulty="2">Medium</button>
-        <button class="leaderboard-difficulty-filter" data-difficulty="3">Hard</button>
+    </section>
+
+    <section id="game-area" class="card" style="display: none;">
+      <div class="game-header">
+        <div id="timer">⏱ <span id="time-left">10</span>s</div>
+        <div id="score">🏅 <span id="current-score">0</span></div>
       </div>
-    </div>
-    <ol id="leaderboard-list"><li>Loading...</li></ol>
-    <button id="close-leaderboard-button">Close Leaderboard</button>
-  </section>
+      <div id="sticker-container">
+        <img id="sticker-image" src="" alt="Club Sticker" />
+      </div>
+      <div id="options" class="options-grid"></div>
+    </section>
 
-  <button id="show-leaderboard-button" style="display: none;">Show Leaderboard</button>
+    <section id="result-area" class="card" style="display: none;">
+      <h2>Game Over</h2>
+      <p>Your Score: <span id="final-score">0</span></p>
+      <button id="play-again">Play Again</button>
+    </section>
 
-  <!-- STATUS ELEMENTS -->
-  <p id="loading-indicator">Loading...</p>
-  <p id="error-message" style="display: none;"></p>
+    <section id="leaderboard-section" class="card" style="display: none;">
+      <h2>Leaderboard</h2>
+      <div class="filters">
+        <div>
+          <label>Time:</label>
+          <button class="leaderboard-time-filter" data-timeframe="today">Today</button>
+          <button class="leaderboard-time-filter" data-timeframe="week">Week</button>
+          <button class="leaderboard-time-filter" data-timeframe="month">Month</button>
+          <button class="leaderboard-time-filter active" data-timeframe="all">All</button>
+        </div>
+        <div>
+          <label>Difficulty:</label>
+          <button class="leaderboard-difficulty-filter active" data-difficulty="1">Easy</button>
+          <button class="leaderboard-difficulty-filter" data-difficulty="2">Medium</button>
+          <button class="leaderboard-difficulty-filter" data-difficulty="3">Hard</button>
+        </div>
+      </div>
+      <ol id="leaderboard-list"><li>Loading...</li></ol>
+      <button id="close-leaderboard-button">Close</button>
+    </section>
+
+    <button id="show-leaderboard-button" class="secondary">Show Leaderboard</button>
+    <div id="loading-indicator" class="status-message">Loading...</div>
+    <div id="error-message" class="status-message"></div>
+  </div>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="script.js"></script>
