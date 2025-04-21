@@ -1,294 +1,229 @@
 const SUPABASE_URL = "https://rbmeslzlbsolkxnvesqb.supabase.co";
-const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...";
-const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJibWVzbHpsYnNvbGt4bnZlc3FiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDUwODcxMzYsImV4cCI6MjA2MDY2MzEzNn0.cu-Qw0WoEslfKXXCiMocWFg6Uf1sK_cQYcyP2mT0-Nw";
+const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
+// Усі змінні, DOM та логіка — як у стабільній версії:
 let currentUser = null;
 let currentUserProfile = null;
+let currentScore = 0;
 let selectedDifficulty = null;
+let timerInterval;
+let timeLeft = 10;
+let currentQuestionData = null;
 
-const userNicknameElement = document.getElementById('user-nickname');
-const editNicknameButton = document.getElementById('edit-nickname-button');
+// DOM elements
+const userNickname = document.getElementById('user-nickname');
 const logoutButton = document.getElementById('logout-button');
-const editNicknameForm = document.getElementById('edit-nickname-form');
-const nicknameInputElement = document.getElementById('nickname-input');
-const cancelEditNicknameButton = document.getElementById('cancel-edit-nickname-button');
+const editNicknameBtn = document.getElementById('edit-nickname-button');
+const nicknameForm = document.getElementById('edit-nickname-form');
+const nicknameInput = document.getElementById('nickname-input');
+const cancelEdit = document.getElementById('cancel-edit-nickname-button');
 
-const difficultyButtons = document.querySelectorAll('.difficulty-button');
-const showLeaderboardButton = document.getElementById('show-leaderboard-button');
-
+const difficultySection = document.getElementById('difficulty-selection');
 const gameArea = document.getElementById('game-area');
+const resultArea = document.getElementById('result-area');
+const finalScoreElem = document.getElementById('final-score');
+const playAgainBtn = document.getElementById('play-again');
+
+const timeElem = document.getElementById('time-left');
+const scoreElem = document.getElementById('current-score');
 const stickerImage = document.getElementById('sticker-image');
 const optionsContainer = document.getElementById('options');
-const timeLeftElement = document.getElementById('time-left');
-const scoreElement = document.getElementById('current-score');
 
-const resultArea = document.getElementById('result-area');
-const finalScoreElement = document.getElementById('final-score');
-const playAgainButton = document.getElementById('play-again');
-const showLeaderboardLink = document.getElementById('show-leaderboard-link');
-
+const showLeaderboardBtn = document.getElementById('show-leaderboard-button');
 const leaderboardSection = document.getElementById('leaderboard-section');
 const leaderboardList = document.getElementById('leaderboard-list');
 const closeLeaderboardButton = document.getElementById('close-leaderboard-button');
 
-const loadingIndicator = document.getElementById('loading-indicator');
-const errorMessageElement = document.getElementById('error-message');
+// INIT
+init();
+async function init() {
+  const { data: { session } } = await supabase.auth.getSession();
+  currentUser = session?.user || null;
+  updateUI();
 
-function showError(msg) {
-  if (errorMessageElement) {
-    errorMessageElement.style.display = 'block';
-    errorMessageElement.textContent = msg;
-  }
+  supabase.auth.onAuthStateChange(async (_event, session) => {
+    currentUser = session?.user || null;
+    updateUI();
+  });
 }
 
-function hideError() {
-  if (errorMessageElement) {
-    errorMessageElement.style.display = 'none';
-    errorMessageElement.textContent = '';
-  }
-}
-
-function showLoading() {
-  if (loadingIndicator) loadingIndicator.style.display = 'block';
-}
-
-function hideLoading() {
-  if (loadingIndicator) loadingIndicator.style.display = 'none';
-}
-
-// ------------------------ Auth -----------------------
-
-supabaseClient.auth.onAuthStateChange(async (_, session) => {
-  const user = session?.user;
-  currentUser = user;
-  if (user) {
-    await checkAndCreateUserProfile(user);
-    updateUIOnLogin();
+function updateUI() {
+  if (currentUser) {
+    loadUserProfile();
   } else {
-    updateUIOnLogout();
-  }
-});
-
-async function checkInitialAuth() {
-  const { data: { session } } = await supabaseClient.auth.getSession();
-  const user = session?.user;
-  if (user) {
-    currentUser = user;
-    await checkAndCreateUserProfile(user);
-    updateUIOnLogin();
+    location.reload();
   }
 }
 
-function updateUIOnLogin() {
-  if (!currentUserProfile) return;
-  userNicknameElement.textContent = currentUserProfile.username || 'User';
-}
+async function loadUserProfile() {
+  const { data, error } = await supabase
+    .from("profiles")
+    .select("username")
+    .eq("id", currentUser.id)
+    .maybeSingle();
 
-function updateUIOnLogout() {
-  location.reload(); // simplest reset
-}
-
-async function checkAndCreateUserProfile(user) {
-  try {
-    const { data, error } = await supabaseClient
-      .from('profiles')
-      .select('username')
-      .eq('id', user.id)
-      .maybeSingle();
-
-    if (error) throw error;
-
-    if (!data) {
-      const username = "Player" + Math.floor(Math.random() * 1000);
-      const { data: created } = await supabaseClient
-        .from('profiles')
-        .insert({ id: user.id, username })
-        .select()
-        .single();
-      currentUserProfile = created;
-    } else {
-      currentUserProfile = data;
-    }
-  } catch (err) {
-    console.error(err);
-  }
-}
-
-logoutButton.addEventListener('click', async () => {
-  await supabaseClient.auth.signOut();
-  updateUIOnLogout();
-});
-
-editNicknameButton.addEventListener('click', () => {
-  nicknameInputElement.value = currentUserProfile.username;
-  editNicknameForm.style.display = 'block';
-});
-
-cancelEditNicknameButton.addEventListener('click', () => {
-  editNicknameForm.style.display = 'none';
-});
-
-editNicknameForm.addEventListener('submit', async (e) => {
-  e.preventDefault();
-  const newName = nicknameInputElement.value.trim();
-  if (!newName || newName.length < 3) return;
-
-  const { data, error } = await supabaseClient
-    .from('profiles')
-    .update({ username: newName })
-    .eq('id', currentUser.id)
-    .select()
-    .single();
-
-  if (!error) {
+  if (data) {
     currentUserProfile = data;
-    userNicknameElement.textContent = data.username;
-    editNicknameForm.style.display = 'none';
+    userNickname.textContent = data.username;
+  } else {
+    const nickname = "Player " + Math.floor(Math.random() * 1000);
+    await supabase.from("profiles").insert({ id: currentUser.id, username: nickname });
+    currentUserProfile = { username: nickname };
+    userNickname.textContent = nickname;
+  }
+}
+
+logoutButton.addEventListener("click", async () => {
+  await supabase.auth.signOut();
+  location.reload();
+});
+
+editNicknameBtn.addEventListener("click", () => {
+  nicknameForm.style.display = "inline";
+  nicknameInput.value = currentUserProfile.username;
+  userNickname.style.display = "none";
+  editNicknameBtn.style.display = "none";
+});
+
+cancelEdit.addEventListener("click", () => {
+  nicknameForm.style.display = "none";
+  userNickname.style.display = "inline";
+  editNicknameBtn.style.display = "inline";
+});
+
+nicknameForm.addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const newName = nicknameInput.value.trim();
+  if (newName.length > 2 && newName.length <= 25) {
+    const { data, error } = await supabase
+      .from("profiles")
+      .update({ username: newName })
+      .eq("id", currentUser.id);
+    if (!error) {
+      userNickname.textContent = newName;
+      nicknameForm.style.display = "none";
+      userNickname.style.display = "inline";
+      editNicknameBtn.style.display = "inline";
+    }
   }
 });
 
-// ------------------------ Game -----------------------
-
-let timer = null;
-let time = 10;
-let score = 0;
-let currentQuestion = null;
-
-difficultyButtons.forEach(btn => {
+// DIFFICULTY
+document.querySelectorAll('.difficulty-button').forEach(btn => {
   btn.addEventListener('click', () => {
     selectedDifficulty = parseInt(btn.dataset.difficulty, 10);
+    difficultySection.style.display = "none";
     startGame();
   });
 });
 
 function startGame() {
-  score = 0;
-  updateScore();
-  time = 10;
-  updateTimerDisplay();
-  document.getElementById('difficulty-selection').style.display = 'none';
-  gameArea.style.display = 'block';
-  resultArea.style.display = 'none';
+  currentScore = 0;
+  scoreElem.textContent = "0";
+  gameArea.style.display = "block";
+  resultArea.style.display = "none";
   loadNextQuestion();
 }
 
-function updateTimerDisplay() {
-  timeLeftElement.textContent = time;
+function loadNextQuestion() {
+  stopTimer();
+  stickerImage.src = "";
+  optionsContainer.innerHTML = "";
+  loadQuestion();
 }
 
-function updateScore() {
-  scoreElement.textContent = score;
+async function loadQuestion() {
+  const { count, error: countError } = await supabase
+    .from("stickers")
+    .select("*", { count: "exact", head: true })
+    .eq("difficulty", selectedDifficulty);
+
+  if (countError || count === 0) return;
+
+  const randomIndex = Math.floor(Math.random() * count);
+  const { data, error } = await supabase
+    .from("stickers")
+    .select("image_url, clubs(name)")
+    .eq("difficulty", selectedDifficulty)
+    .order("id", { ascending: true })
+    .range(randomIndex, randomIndex)
+    .single();
+
+  if (!data || error) return;
+
+  const correct = data.clubs.name;
+  const { data: clubs } = await supabase
+    .from("clubs")
+    .select("name")
+    .neq("name", correct);
+
+  const incorrect = clubs.map(c => c.name).sort(() => 0.5 - Math.random()).slice(0, 3);
+  const options = [correct, ...incorrect].sort(() => 0.5 - Math.random());
+
+  currentQuestionData = { image: data.image_url, correct };
+  displayQuestion(options);
+}
+
+function displayQuestion(options) {
+  stickerImage.src = currentQuestionData.image;
+  options.forEach(option => {
+    const btn = document.createElement("button");
+    btn.textContent = option;
+    btn.onclick = () => handleAnswer(option);
+    optionsContainer.appendChild(btn);
+  });
+  timeLeft = 10;
+  timeElem.textContent = timeLeft;
+  startTimer();
+}
+
+function handleAnswer(answer) {
+  stopTimer();
+  const buttons = optionsContainer.querySelectorAll("button");
+  buttons.forEach(b => b.disabled = true);
+  if (answer === currentQuestionData.correct) {
+    currentScore++;
+    scoreElem.textContent = currentScore;
+    setTimeout(loadNextQuestion, 800);
+  } else {
+    setTimeout(endGame, 1000);
+  }
 }
 
 function startTimer() {
-  time = 10;
-  updateTimerDisplay();
-  timer = setInterval(() => {
-    time--;
-    updateTimerDisplay();
-    if (time <= 0) {
-      clearInterval(timer);
+  timerInterval = setInterval(() => {
+    timeLeft--;
+    timeElem.textContent = timeLeft;
+    if (timeLeft <= 0) {
+      stopTimer();
       endGame();
     }
   }, 1000);
 }
 
 function stopTimer() {
-  clearInterval(timer);
-}
-
-async function loadNextQuestion() {
-  showLoading();
-  optionsContainer.innerHTML = '';
-  stickerImage.src = '';
-  try {
-    const { data, error } = await supabaseClient
-      .rpc('get_random_question', { difficulty_level: selectedDifficulty });
-
-    if (error || !data) throw error;
-    currentQuestion = data;
-    stickerImage.src = data.image_url;
-    const options = shuffle([data.correct_answer, ...data.incorrect_answers]);
-    options.forEach(opt => {
-      const btn = document.createElement('button');
-      btn.textContent = opt;
-      btn.onclick = () => handleAnswer(opt);
-      optionsContainer.appendChild(btn);
-    });
-    hideLoading();
-    startTimer();
-  } catch (err) {
-    console.error(err);
-    showError("Could not load question");
-    hideLoading();
-  }
-}
-
-function handleAnswer(answer) {
-  stopTimer();
-  const correct = answer === currentQuestion.correct_answer;
-  [...optionsContainer.children].forEach(btn => {
-    btn.disabled = true;
-    if (btn.textContent === currentQuestion.correct_answer)
-      btn.classList.add('correct-answer');
-    if (btn.textContent === answer && !correct)
-      btn.classList.add('incorrect-answer');
-  });
-
-  if (correct) {
-    score++;
-    updateScore();
-    setTimeout(loadNextQuestion, 1000);
-  } else {
-    setTimeout(endGame, 1500);
-  }
+  clearInterval(timerInterval);
 }
 
 function endGame() {
   stopTimer();
-  finalScoreElement.textContent = score;
-  gameArea.style.display = 'none';
-  resultArea.style.display = 'block';
+  gameArea.style.display = "none";
+  resultArea.style.display = "block";
+  finalScoreElem.textContent = currentScore;
+  saveScore();
 }
 
-// ------------------------ Leaderboard -----------------------
+playAgainBtn.addEventListener("click", () => {
+  resultArea.style.display = "none";
+  difficultySection.style.display = "block";
+});
 
-document.getElementById('show-leaderboard-link').onclick = showLeaderboard;
-showLeaderboardButton.onclick = showLeaderboard;
-closeLeaderboardButton.onclick = () => leaderboardSection.style.display = 'none';
-
-function showLeaderboard() {
-  leaderboardSection.style.display = 'block';
-  resultArea.style.display = 'none';
-  fetchLeaderboard();
-}
-
-async function fetchLeaderboard() {
-  leaderboardList.innerHTML = '<li>Loading...</li>';
-  const { data, error } = await supabaseClient
-    .from('scores')
-    .select('score, created_at, profiles(username)')
-    .eq('difficulty', selectedDifficulty)
-    .order('score', { ascending: false })
-    .limit(10);
-
-  if (error) return showError("Failed to load leaderboard");
-
-  leaderboardList.innerHTML = '';
-  data.forEach(entry => {
-    const li = document.createElement('li');
-    li.textContent = `${entry.profiles.username}: ${entry.score}`;
-    leaderboardList.appendChild(li);
+async function saveScore() {
+  if (!currentUser) return;
+  await supabase.from("scores").insert({
+    user_id: currentUser.id,
+    score: currentScore,
+    difficulty: selectedDifficulty
   });
 }
-
-playAgainButton.onclick = () => {
-  resultArea.style.display = 'none';
-  document.getElementById('difficulty-selection').style.display = 'block';
-};
-
-function shuffle(arr) {
-  return arr.sort(() => Math.random() - 0.5);
-}
-
-checkInitialAuth();
