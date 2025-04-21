@@ -15,14 +15,17 @@
 </head>
 <body>
   <div class="container">
-
     <header>
       <h1>StickerHunt</h1>
 
+      <!-- AUTH BLOCK (повний набір елементів) -->
       <div id="auth-section" style="display: none;">
-        Welcome, <strong id="user-nickname" title="Click to edit nickname">Loading...</strong>
-        <button id="edit-nickname-button" title="Edit nickname">✏️</button>
-        <button id="logout-button">Logout</button>
+        <div id="user-status">
+          Welcome, <strong id="user-nickname" title="Click to edit nickname">Loading...</strong>
+          <button id="edit-nickname-button" title="Edit nickname">✏️</button>
+          <button id="logout-button">Logout</button>
+        </div>
+
         <form id="edit-nickname-form" style="display: none;">
           <input type="text" id="nickname-input" placeholder="New nickname" required minlength="3" maxlength="25" />
           <button type="submit">Save</button>
@@ -34,7 +37,6 @@
     </header>
 
     <main>
-
       <section id="difficulty-selection" style="display: none;">
         <h2>Choose Difficulty</h2>
         <button class="difficulty-button" data-difficulty="1">Easy</button>
