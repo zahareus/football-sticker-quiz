@@ -14,7 +14,7 @@ body {
 h1, h2 {
     text-align: center;
     color: #444;
-    margin-bottom: 1.5rem; /* Додамо нижній відступ */
+    margin-bottom: 1.5rem;
 }
 
 hr {
@@ -37,7 +37,7 @@ button {
 }
 
 button:hover:not(:disabled) {
-    background-color: #333; /* Інверсія */
+    background-color: #333;
     color: #fff;
     border-color: #333;
 }
@@ -54,7 +54,7 @@ button:disabled {
     border: none;
     display: inline-flex;
     align-items: center;
-    padding: 8px 15px; /* Трохи менші падінги */
+    padding: 8px 15px;
 }
 .google-login:hover:not(:disabled) {
     background-color: #357ae8;
@@ -64,7 +64,6 @@ button:disabled {
 .google-login span {
     margin-left: 8px;
 }
-
 
 /* Секції */
 #auth-section, #difficulty-selection, #game-area, #result-area, #leaderboard-section {
@@ -76,30 +75,45 @@ button:disabled {
     text-align: center;
 }
 #auth-section {
-    padding: 10px 20px; /* Менші падінги для auth */
+    padding: 10px 20px;
 }
 
 /* Ігрова зона */
+#sticker-meta {
+    display: flex;
+    justify-content: space-between;
+    margin: 10px auto;
+    max-width: 350px;
+    padding: 0 10px;
+}
+
+#timer, #score {
+    font-size: 1.1em;
+    font-weight: bold;
+}
+
 /* Контейнер для стікера */
 #sticker-container {
-    aspect-ratio: 1 / 1; /* Квадратний */
-    width: 60%;          /* Ширина відносно батьківського (#game-area) */
-    max-width: 350px;    /* Максимальна ширина */
-    min-width: 150px;    /* Мінімальна ширина */
-    margin: 20px auto;   /* Центрування та відступи */
-    background-color: #f0f0f0; /* Фон для завантаження */
+    aspect-ratio: 1 / 1;
+    width: 60%;
+    max-width: 350px;
+    min-width: 150px;
+    margin: 20px auto;
+    background-color: #f0f0f0;
     border: 1px solid #eee;
     overflow: hidden;
     border-radius: 5px;
 }
+
 /* Саме зображення стікера */
 #sticker-image {
     display: block;
     width: 100%;
     height: 100%;
-    object-fit: contain; /* Вмістити повністю */
+    object-fit: contain;
 }
 
+/* Варіанти */
 #options {
     margin-top: 15px;
     display: flex;
@@ -107,71 +121,73 @@ button:disabled {
     justify-content: center;
     gap: 10px;
 }
-
 #options button {
     min-width: 150px;
     flex-grow: 1;
-    flex-basis: 40%; /* По 2 в рядку на широких екранах */
+    flex-basis: 40%;
 }
 
-/* Стилі для правильних/неправильних кнопок */
-#options button.correct-answer { /* Застосовуємо до кнопки з класом */
-    background-color: #00B078 !important; /* Зелений */
+#options button.correct-answer {
+    background-color: #00B078 !important;
     color: white !important;
     border-color: #009461 !important;
 }
 #options button.incorrect-answer {
-    background-color: #F03E5C !important; /* Червоний */
+    background-color: #F03E5C !important;
     color: white !important;
     border-color: #d9304f !important;
 }
 
-/* Мобільна верстка для кнопок відповідей */
+/* Мобільна адаптація */
 @media (max-width: 600px) {
     #options {
-        flex-direction: column; /* Стовпчик */
+        flex-direction: column;
         align-items: center;
     }
     #options button {
-        width: 90%; /* Ширші кнопки */
+        width: 90%;
         max-width: 350px;
         flex-basis: auto;
         margin: 6px 0;
     }
     #sticker-container {
-         width: 75%; /* Трохи ширше на мобільних */
+         width: 75%;
     }
-}
-
-/* Таймер та Рахунок */
-#timer, #score {
-    margin-top: 15px;
-    font-size: 1.1em;
-    font-weight: bold;
+    #sticker-meta {
+        flex-direction: column;
+        gap: 8px;
+    }
 }
 
 /* Результати */
 #result-area h2 { margin-bottom: 10px; }
 #result-area p { font-size: 1.2em; margin-bottom: 15px; }
-#result-area .save-message { font-size: 0.9em; font-style: italic; color: green; margin-top: -10px; margin-bottom: 15px; }
-
+#result-area .save-message {
+    font-size: 0.9em;
+    font-style: italic;
+    color: green;
+    margin-top: -10px;
+    margin-bottom: 15px;
+}
 
 /* Лідерборд */
 #leaderboard-section h2 { margin-bottom: 15px; }
-#leaderboard-filters { margin-bottom: 20px; padding-bottom: 15px; border-bottom: 1px solid #eee; }
+#leaderboard-filters {
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #eee;
+}
 #leaderboard-filters div { margin-bottom: 10px; }
 #leaderboard-filters strong { margin-right: 10px; }
-
-/* Активні кнопки фільтрів лідерборду */
 .leaderboard-time-filter.active, .leaderboard-difficulty-filter.active {
     background-color: #e9ecef;
     border-color: #adb5bd;
     font-weight: bold;
 }
 #leaderboard-list {
-    padding-left: 20px; /* Залишимо невеликий відступ */
-    list-style-type: decimal; /* Переконаємось, що нумерація є */
-    list-style-position: outside; /* Нумерація ззовні */
+    padding-left: 20px;
+    list-style-type: decimal;
+    list-style-position: outside;
     text-align: left;
     max-width: 450px;
     margin: 15px auto;
@@ -183,13 +199,29 @@ button:disabled {
 #leaderboard-list li:last-child { border-bottom: none; }
 
 #show-leaderboard-button, #close-leaderboard-button { margin-top: 15px; }
-/* Перемістимо кнопку Show Leaderboard трохи вище */
-#show-leaderboard-button { float: right; margin-top: -50px; margin-right: 10px; }
+#show-leaderboard-button {
+    float: right;
+    margin-top: -50px;
+    margin-right: 10px;
+}
 @media (max-width: 600px) {
-   #show-leaderboard-button { float: none; display: block; margin: 15px auto; }
+   #show-leaderboard-button {
+       float: none;
+       display: block;
+       margin: 15px auto;
+   }
 }
 
-
 /* Індикатори */
-#loading-indicator { font-style: italic; }
-#error-message { color: #F03E5C; font-weight: bold; background-color: #fdd; padding: 10px; border-radius: 5px; }
+#loading-indicator {
+    font-style: italic;
+    height: 1.2em;
+    visibility: hidden;
+}
+#error-message {
+    color: #F03E5C;
+    font-weight: bold;
+    background-color: #fdd;
+    padding: 10px;
+    border-radius: 5px;
+}
