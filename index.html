@@ -5,91 +5,77 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>StickerHunt</title>
   <link rel="stylesheet" href="style.css" />
-  <link rel="icon" href="favicon.ico" type="image/x-icon">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet" />
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-4Y0MJKGDZS"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag() { dataLayer.push(arguments); }
-    gtag('js', new Date());
-    gtag('config', 'G-4Y0MJKGDZS');
-  </script>
 </head>
 <body>
-  <header class="header">
-    <h1 class="logo">StickerHunt</h1>
-    <div id="auth-section" class="auth">
-      <button id="login-button" class="link" style="display: none;">Sign in with Google</button>
-      <div id="user-status" class="user-info" style="display: none;">
-        <span class="user-text">
-          Welcome, <span id="user-nickname" class="clickable" title="Click to edit nickname">Loading...</span>
-          <span id="edit-nickname-button" class="edit-icon" title="Edit nickname">✏️</span>
-        </span>
-        <span id="logout-button" class="link">Logout</span>
-        <form id="edit-nickname-form" class="edit-form" style="display: none;">
-          <input type="text" id="nickname-input" placeholder="New nickname" required minlength="3" maxlength="25" />
-          <button type="submit">Save</button>
-          <button type="button" id="cancel-edit-nickname-button">Cancel</button>
-        </form>
-      </div>
+  <header>
+    <h1>StickerHunt</h1>
+    <div id="user-info">
+      <span id="user-nickname" title="Click to edit nickname">Loading...</span>
+      <span id="edit-nickname-button" title="Edit nickname">✏️</span>
+      <a href="#" id="logout-button">Logout</a>
     </div>
+    <form id="edit-nickname-form" style="display: none;">
+      <input type="text" id="nickname-input" placeholder="New nickname" required minlength="3" maxlength="25" />
+      <button type="submit">Save</button>
+      <button type="button" id="cancel-edit-nickname-button">Cancel</button>
+    </form>
   </header>
 
-  <main class="container">
-    <section id="difficulty-selection" style="display: none;">
+  <main>
+    <div id="difficulty-selection">
       <h2>Choose Difficulty</h2>
-      <div class="difficulty-options">
+      <div class="difficulty-buttons">
         <button class="difficulty-button" data-difficulty="1">Easy</button>
         <button class="difficulty-button" data-difficulty="2">Medium</button>
         <button class="difficulty-button" data-difficulty="3">Hard</button>
       </div>
-    </section>
+      <a href="#" id="show-leaderboard-button">Show Leaderboard</a>
+    </div>
 
-    <div id="loading-indicator" class="status-message" style="display: none;">Loading...</div>
-    <div id="error-message" class="status-message" style="display: none;"></div>
-
-    <section id="game-area" style="display: none;">
-      <div class="game-status">
-        <div id="timer">Time: <span id="time-left">10</span></div>
-        <div id="score">Score: <span id="current-score">0</span></div>
+    <div id="game-area" style="display: none;">
+      <div class="status-bar">
+        <span id="timer">Time: <span id="time-left">10</span></span>
+        <span id="score">Score: <span id="current-score">0</span></span>
       </div>
       <div id="sticker-container">
         <img id="sticker-image" src="" alt="Sticker" />
       </div>
       <div id="options" class="options-grid"></div>
-    </section>
+    </div>
 
-    <section id="result-area" style="display: none;">
+    <div id="result-area" style="display: none;">
       <h2>Game Over!</h2>
       <p>Your final score: <span id="final-score">0</span></p>
-      <button id="play-again">Choose another difficulty</button>
-    </section>
+      <p id="result-message">Your score has been saved!</p>
+      <button id="play-again">Play Again</button>
+      <a href="#" id="show-leaderboard-link">Show Leaderboard</a>
+    </div>
 
-    <section id="leaderboard-section" style="display: none;">
+    <div id="leaderboard-section" style="display: none;">
       <h2>Leaderboard</h2>
-      <div id="leaderboard-filters" class="filters">
+      <div class="leaderboard-filters">
         <div>
-          <span>Time:</span>
+          <strong>Time:</strong>
           <button class="leaderboard-time-filter" data-timeframe="today">Today</button>
-          <button class="leaderboard-time-filter" data-timeframe="week">7 days</button>
+          <button class="leaderboard-time-filter" data-timeframe="week">Week</button>
           <button class="leaderboard-time-filter" data-timeframe="month">Month</button>
           <button class="leaderboard-time-filter active" data-timeframe="all">All Time</button>
         </div>
         <div>
-          <span>Difficulty:</span>
+          <strong>Difficulty:</strong>
           <button class="leaderboard-difficulty-filter active" data-difficulty="1">Easy</button>
           <button class="leaderboard-difficulty-filter" data-difficulty="2">Medium</button>
           <button class="leaderboard-difficulty-filter" data-difficulty="3">Hard</button>
         </div>
       </div>
-      <ol id="leaderboard-list" class="leaderboard-list">
-        <li>Loading...</li>
-      </ol>
-      <span id="close-leaderboard-button" class="link">Close Leaderboard</span>
-    </section>
+      <ol id="leaderboard-list"><li>Loading...</li></ol>
+      <button id="close-leaderboard-button">Close Leaderboard</button>
+    </div>
 
-    <span id="show-leaderboard-button" class="link" style="display: none;">Show Leaderboard</span>
+    <p id="loading-indicator" style="display: none;">Loading...</p>
+    <p id="error-message" style="display: none;"></p>
   </main>
 
   <script src="script.js"></script>
