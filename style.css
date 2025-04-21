@@ -65,6 +65,7 @@ button:disabled {
     margin-left: 8px;
 }
 
+
 /* Секції */
 #auth-section, #difficulty-selection, #game-area, #result-area, #leaderboard-section {
     background-color: #fff;
@@ -154,6 +155,7 @@ button:disabled {
 #result-area p { font-size: 1.2em; margin-bottom: 15px; }
 #result-area .save-message { font-size: 0.9em; font-style: italic; color: green; margin-top: -10px; margin-bottom: 15px; }
 
+
 /* Лідерборд */
 #leaderboard-section h2 { margin-bottom: 15px; }
 #leaderboard-filters { margin-bottom: 20px; padding-bottom: 15px; border-bottom: 1px solid #eee; }
@@ -186,6 +188,7 @@ button:disabled {
 @media (max-width: 600px) {
    #show-leaderboard-button { float: none; display: block; margin: 15px auto; }
 }
+
 
 /* Індикатори */
 #loading-indicator { font-style: italic; }
