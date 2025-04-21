@@ -1,200 +1,142 @@
-// script.js
-
 const SUPABASE_URL = "https://rbmeslzlbsolkxnvesqb.supabase.co";
 const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJibWVzbHpsYnNvbGt4bnZlc3FiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDUwODcxMzYsImV4cCI6MjA2MDY2MzEzNn0.cu-Qw0WoEslfKXXCiMocWFg6Uf1sK_cQYcyP2mT0-Nw";
 
-const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+const supabase = window.supabase;
+let supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-let currentUser = null;
 let currentScore = 0;
-let timeLeft = 10;
-let timerInterval = null;
 let selectedDifficulty = null;
+let timerInterval;
+let timeLeft = 10;
 
-const elements = {
-  loginButton: document.getElementById("login-button"),
-  logoutButton: document.getElementById("logout-button"),
-  userStatus: document.getElementById("user-status"),
-  userNickname: document.getElementById("user-nickname"),
-  editNicknameButton: document.getElementById("edit-nickname-button"),
-  editNicknameForm: document.getElementById("edit-nickname-form"),
-  nicknameInput: document.getElementById("nickname-input"),
-  cancelEditNicknameButton: document.getElementById("cancel-edit-nickname-button"),
-  difficultySelection: document.getElementById("difficulty-selection"),
-  gameArea: document.getElementById("game-area"),
-  resultArea: document.getElementById("result-area"),
-  playAgainButton: document.getElementById("play-again"),
-  stickerImage: document.getElementById("sticker-image"),
-  options: document.getElementById("options"),
-  timeLeft: document.getElementById("time-left"),
-  currentScore: document.getElementById("current-score"),
-  finalScore: document.getElementById("final-score"),
-  showLeaderboardButton: document.getElementById("show-leaderboard-button"),
-  leaderboardSection: document.getElementById("leaderboard-section"),
-  leaderboardList: document.getElementById("leaderboard-list"),
-  closeLeaderboardButton: document.getElementById("close-leaderboard-button"),
-  loadingIndicator: document.getElementById("loading-indicator"),
-  errorMessage: document.getElementById("error-message")
-};
+let stickerImageElement = document.getElementById("sticker-image");
+let optionsContainerElement = document.getElementById("options");
+let timeLeftElement = document.getElementById("time-left");
+let currentScoreElement = document.getElementById("current-score");
+let finalScoreElement = document.getElementById("final-score");
 
-function showError(message) {
-  if (elements.errorMessage) {
-    elements.errorMessage.textContent = message;
-    elements.errorMessage.style.display = "block";
+document.querySelectorAll(".difficulty-button").forEach((btn) =>
+  btn.addEventListener("click", async (e) => {
+    selectedDifficulty = parseInt(e.target.dataset.difficulty, 10);
+    document.getElementById("difficulty-selection").style.display = "none";
+    currentScore = 0;
+    document.getElementById("score").style.display = "block";
+    document.getElementById("game-area").style.display = "block";
+    document.getElementById("current-score").textContent = "0";
+    await loadNextQuestion();
+  })
+);
+
+document.getElementById("play-again").addEventListener("click", () => {
+  document.getElementById("result-area").style.display = "none";
+  document.getElementById("score").style.display = "none";
+  document.getElementById("difficulty-selection").style.display = "block";
+});
+
+async function loadNextQuestion() {
+  const question = await fetchNewQuestion();
+  if (!question) {
+    endGame();
+    return;
   }
+
+  displayQuestion(question);
 }
 
-function hideError() {
-  if (elements.errorMessage) {
-    elements.errorMessage.style.display = "none";
-    elements.errorMessage.textContent = "";
-  }
-}
+async function fetchNewQuestion() {
+  try {
+    const { data: stickers, error: stickerError } = await supabaseClient
+      .from("stickers")
+      .select("image_url, clubs ( id, name )")
+      .eq("difficulty", selectedDifficulty);
 
-function showLoading() {
-  if (elements.loadingIndicator) elements.loadingIndicator.style.display = "block";
-}
-
-function hideLoading() {
-  if (elements.loadingIndicator) elements.loadingIndicator.style.display = "none";
-}
-
-function loginWithGoogle() {
-  supabase.auth.signInWithOAuth({
-    provider: "google",
-    options: {
-      redirectTo: window.location.href
+    if (stickerError || !stickers || stickers.length === 0) {
+      console.error(stickerError || "No stickers found.");
+      return null;
     }
-  });
-}
 
-elements.loginButton.addEventListener("click", loginWithGoogle);
+    const randomSticker = stickers[Math.floor(Math.random() * stickers.length)];
+    const correctClub = randomSticker.clubs;
 
-elements.logoutButton.addEventListener("click", async () => {
-  await supabase.auth.signOut();
-  location.reload();
-});
+    const { data: allClubs, error: clubsError } = await supabaseClient
+      .from("clubs")
+      .select("id, name");
 
-function displayUser(user) {
-  elements.userNickname.textContent = user.user_metadata?.full_name || user.email;
-  elements.userStatus.style.display = "block";
-  elements.loginButton.style.display = "none";
-}
+    if (clubsError || !allClubs) {
+      console.error(clubsError || "No clubs found.");
+      return null;
+    }
 
-async function fetchUser() {
-  const {
-    data: { session }
-  } = await supabase.auth.getSession();
-  if (session?.user) {
-    currentUser = session.user;
-    displayUser(currentUser);
-    elements.difficultySelection.style.display = "block";
-  } else {
-    elements.loginButton.style.display = "inline-block";
+    const incorrectClubs = allClubs
+      .filter((club) => club.id !== correctClub.id)
+      .sort(() => 0.5 - Math.random())
+      .slice(0, 3);
+
+    const options = [...incorrectClubs.map((c) => c.name), correctClub.name].sort(() => 0.5 - Math.random());
+
+    return {
+      imageUrl: randomSticker.image_url,
+      correctAnswer: correctClub.name,
+      options: options,
+    };
+  } catch (err) {
+    console.error("Error fetching question:", err);
+    return null;
   }
 }
 
-function startGame() {
-  elements.difficultySelection.style.display = "none";
-  currentScore = 0;
-  elements.currentScore.textContent = currentScore;
-  elements.resultArea.style.display = "none";
-  elements.gameArea.style.display = "block";
-  loadNextQuestion();
+function displayQuestion(question) {
+  stickerImageElement.src = question.imageUrl;
+  stickerImageElement.alt = "Sticker";
+
+  optionsContainerElement.innerHTML = "";
+  question.options.forEach((option) => {
+    const btn = document.createElement("button");
+    btn.textContent = option;
+    btn.onclick = () => handleAnswer(option, question.correctAnswer);
+    optionsContainerElement.appendChild(btn);
+  });
+
+  timeLeft = 10;
+  timeLeftElement.textContent = timeLeft;
+  startTimer();
 }
 
-document.querySelectorAll(".difficulty-button").forEach((button) => {
-  button.addEventListener("click", () => {
-    selectedDifficulty = parseInt(button.dataset.difficulty, 10);
-    startGame();
-  });
-});
+function handleAnswer(selected, correct) {
+  stopTimer();
+  document.querySelectorAll("#options button").forEach((btn) => (btn.disabled = true));
 
-elements.playAgainButton.addEventListener("click", () => {
-  elements.resultArea.style.display = "none";
-  elements.difficultySelection.style.display = "block";
-});
+  if (selected === correct) {
+    currentScore++;
+    currentScoreElement.textContent = currentScore;
+    setTimeout(loadNextQuestion, 800);
+  } else {
+    endGame();
+  }
+}
 
 function startTimer() {
-  timeLeft = 10;
-  elements.timeLeft.textContent = timeLeft;
+  stopTimer();
   timerInterval = setInterval(() => {
     timeLeft--;
-    elements.timeLeft.textContent = timeLeft;
+    timeLeftElement.textContent = timeLeft;
+
     if (timeLeft <= 0) {
-      clearInterval(timerInterval);
+      stopTimer();
       endGame();
     }
   }, 1000);
 }
 
 function stopTimer() {
-  clearInterval(timerInterval);
+  if (timerInterval) {
+    clearInterval(timerInterval);
+    timerInterval = null;
+  }
 }
 
 function endGame() {
-  stopTimer();
-  elements.finalScore.textContent = currentScore;
-  elements.gameArea.style.display = "none";
-  elements.resultArea.style.display = "block";
+  document.getElementById("game-area").style.display = "none";
+  finalScoreElement.textContent = currentScore;
+  document.getElementById("result-area").style.display = "block";
 }
-
-async function loadNextQuestion() {
-  showLoading();
-  try {
-    const { data, error } = await supabase
-      .from("stickers")
-      .select("image_url, clubs(name)")
-      .eq("difficulty", selectedDifficulty)
-      .order("id", { ascending: false })
-      .limit(1);
-
-    if (error || !data || !data.length) {
-      showError("Failed to load question.");
-      return;
-    }
-
-    const question = data[0];
-    const correctAnswer = question.clubs.name;
-
-    const { data: clubsData } = await supabase
-      .from("clubs")
-      .select("name")
-      .neq("name", correctAnswer)
-      .limit(3);
-
-    const options = [...clubsData.map((c) => c.name), correctAnswer].sort(() => Math.random() - 0.5);
-
-    elements.stickerImage.src = question.image_url;
-    elements.options.innerHTML = "";
-
-    options.forEach((opt) => {
-      const btn = document.createElement("button");
-      btn.textContent = opt;
-      btn.onclick = () => handleAnswer(opt, correctAnswer);
-      elements.options.appendChild(btn);
-    });
-
-    hideError();
-    hideLoading();
-    startTimer();
-  } catch (e) {
-    showError("Error loading question.");
-    hideLoading();
-  }
-}
-
-function handleAnswer(selected, correct) {
-  stopTimer();
-  const buttons = elements.options.querySelectorAll("button");
-  buttons.forEach((btn) => (btn.disabled = true));
-  if (selected === correct) {
-    currentScore++;
-    elements.currentScore.textContent = currentScore;
-    setTimeout(loadNextQuestion, 700);
-  } else {
-    setTimeout(endGame, 1500);
-  }
-}
-
-document.addEventListener("DOMContentLoaded", fetchUser);
