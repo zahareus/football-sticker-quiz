@@ -17,6 +17,8 @@
     --color-success: #28a745; /* Green */
     --color-error: #dc3545; /* Red */
     --color-error-bg: #f8d7da;
+    --color-info-text: #555; /* Slightly muted color for timer/score labels */
+
 
     --border-radius: 8px;
     --container-width: 800px;
@@ -300,13 +302,16 @@ button:disabled, .btn:disabled {
     height: 50px;
 }
 
+/* --- Options Button Layout --- */
 .options-group {
-    display: grid; /* Use Grid for options */
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); /* Responsive columns */
+    display: grid;
+    /* Default to 2 columns */
+    grid-template-columns: repeat(2, 1fr);
     gap: calc(var(--spacing-unit) * 1.5);
-    max-width: 600px;
+    max-width: 600px; /* Adjust max-width as needed */
     margin: 0 auto; /* Center the options grid */
 }
+/* Style for individual buttons inside options */
 .options-group button {
     width: 100%; /* Make buttons fill grid cell */
     margin: 0; /* Remove default btn margin */
@@ -335,20 +340,38 @@ button:disabled, .btn:disabled {
    color: white ;
    opacity: 0.7; /* Dim incorrect choice slightly */
 }
-/* Removed !important - let's test if specificity is enough */
+/* Removed !important - testing if specificity is enough */
 
 
+/* --- Enhanced Timer & Score Display --- */
 .game-info {
     display: flex;
-    justify-content: space-around;
+    justify-content: space-around; /* Space out timer and score */
+    align-items: center; /* Align items vertically */
     margin-top: calc(var(--spacing-unit) * 4);
-    font-size: 1.1em;
-    font-weight: 500;
     max-width: 400px;
     margin-left: auto;
     margin-right: auto;
-    color: #555; /* Slightly muted color */
+    gap: calc(var(--spacing-unit) * 3); /* Add gap between timer/score */
 }
+
+#timer, #score {
+    font-size: 1.2em; /* Slightly larger base font */
+    color: var(--color-info-text);
+    font-weight: 500;
+    background-color: var(--color-secondary-bg); /* Subtle background */
+    padding: var(--spacing-unit) calc(var(--spacing-unit) * 2);
+    border-radius: var(--border-radius);
+    border: 1px solid var(--color-border);
+}
+
+#time-left, #current-score {
+    font-weight: 700; /* Bold numbers */
+    font-size: 1.3em; /* Larger numbers */
+    color: var(--color-text); /* Darker color for numbers */
+    margin-left: var(--spacing-unit); /* Space between label and number */
+}
+
 
 /* ------------------------------ */
 /* Result Area                    */
@@ -429,6 +452,7 @@ button:disabled, .btn:disabled {
     font-style: italic;
     color: var(--color-disabled-text);
     padding: var(--spacing-unit) 0;
+    /* Display is controlled by JS, no need to hide here permanently */
 }
 
 #error-message {
@@ -454,6 +478,12 @@ button:disabled, .btn:disabled {
 /* ------------------------------ */
 /* Responsiveness                 */
 /* ------------------------------ */
+@media (max-width: 700px) { /* Adjust breakpoint for options grid */
+    .options-group {
+        max-width: 90%; /* Allow slightly more width before stacking */
+    }
+}
+
 @media (max-width: 600px) {
     body {
         padding: 0; /* Remove side padding on small screens */
@@ -513,8 +543,18 @@ button:disabled, .btn:disabled {
 
     .game-info {
         margin-top: calc(var(--spacing-unit) * 3);
-        font-size: 1em;
+        font-size: 1em; /* Adjust base font size for mobile */
+        gap: calc(var(--spacing-unit) * 2);
+        flex-direction: column; /* Stack timer/score on mobile */
+        align-items: center;
     }
+    #timer, #score {
+        padding: calc(var(--spacing-unit)*0.75) calc(var(--spacing-unit) * 1.5);
+    }
+     #time-left, #current-score {
+        font-size: 1.2em; /* Adjust number size for mobile */
+    }
+
 
     #leaderboard-filters {
         gap: var(--spacing-unit);
