@@ -38,6 +38,7 @@ let selectedDifficulty = 1; // Default difficulty
 let currentLeaderboardTimeframe = 'all';
 let currentLeaderboardDifficulty = 1;
 let currentUserProfile = null; // Cache user profile {id, username}
+let loadingTimerId = null; // <<<--- NEW: Timer ID for delayed loading indicator
 
 // ----- 4. DOM Element References -----
 let gameAreaElement, stickerImageElement, optionsContainerElement, timeLeftElement, currentScoreElement, resultAreaElement, finalScoreElement, playAgainButton, authSectionElement, loginButton, userStatusElement, /*userEmailElement,*/ logoutButton, difficultySelectionElement, loadingIndicator, errorMessageElement;
@@ -52,7 +53,7 @@ const NICKNAME_NOUNS = ["Fox", "Wolf", "Mouse", "Tiger", "Car", "Tree", "Eagle",
 
 // Initialize DOM Elements (UPDATED for nickname edit)
 function initializeDOMElements() {
-    console.log("initializeDOMElements: Finding elements...");
+    // console.log("initializeDOMElements: Finding elements..."); // Less verbose logging
     gameAreaElement = document.getElementById('game-area');
     stickerImageElement = document.getElementById('sticker-image');
     optionsContainerElement = document.getElementById('options');
@@ -100,7 +101,7 @@ function initializeDOMElements() {
     if (!allFound) { console.error("initializeDOMElements: Not all required elements found."); handleCriticalError("UI Error: Missing page elements."); return false; }
 
     // Add event listeners
-    console.log("initializeDOMElements: Adding event listeners...");
+    // console.log("initializeDOMElements: Adding event listeners...");
     playAgainButton.addEventListener('click', showDifficultySelection);
     loginButton.addEventListener('click', loginWithGoogle);
     logoutButton.addEventListener('click', logout);
@@ -159,7 +160,7 @@ async function logout() {
 
 // Update UI based on auth state (uses userNicknameElement)
 function updateAuthStateUI(user) {
-   console.log("Running updateAuthStateUI. User:", user ? user.id : 'null');
+   // console.log("Running updateAuthStateUI. User:", user ? user.id : 'null'); // Less verbose
 
    // Ensure critical elements needed for this function are available
    if (!loginButton || !userStatusElement || !difficultySelectionElement || !userNicknameElement || !showLeaderboardButton || !editNicknameButton) {
@@ -175,7 +176,7 @@ function updateAuthStateUI(user) {
        userNicknameElement.textContent = currentUserProfile?.username || user.email || 'Loading...';
        userStatusElement.style.display = 'block'; // Show welcome message and logout
        loginButton.style.display = 'none'; // Hide login button
-       showLeaderboardButton.style.display = 'inline-block'; // Show leaderboard button
+       showLeaderboardButton.style.display = 'block'; // Show leaderboard button (make it block)
        editNicknameButton.style.display = 'inline-block'; // Show edit nickname button
 
        // If user logs in, and no game/results/leaderboard are active, show difficulty selection
@@ -185,14 +186,14 @@ function updateAuthStateUI(user) {
            // If game/results/leaderboard *are* visible, don't show difficulty selection over them
            if (difficultySelectionElement) difficultySelectionElement.style.display = 'none';
        }
-       console.log("UI Updated: User logged in.");
+       // console.log("UI Updated: User logged in."); // Less verbose
    } else {
        currentUser = null; // Clear user object
        currentUserProfile = null; // Clear profile cache
        if (loginButton) { loginButton.style.display = 'block'; } else { console.error("updateAuthStateUI: loginButton is null!"); } // Show login button
        if (userStatusElement) userStatusElement.style.display = 'none'; // Hide welcome message
        if (difficultySelectionElement) difficultySelectionElement.style.display = 'none'; // Hide difficulty selection
-       if (showLeaderboardButton) showLeaderboardButton.style.display = 'inline-block'; // Leaderboard button might still be visible
+       if (showLeaderboardButton) showLeaderboardButton.style.display = 'block'; // Leaderboard button might still be visible (make it block)
        if (editNicknameButton) editNicknameButton.style.display = 'none'; // Hide edit nickname button
 
        // Stop game if user logs out during play
@@ -201,7 +202,7 @@ function updateAuthStateUI(user) {
        if(resultAreaElement) resultAreaElement.style.display = 'none';
        if(leaderboardSectionElement) leaderboardSectionElement.style.display = 'none'; // Also hide leaderboard
 
-       console.log("UI Updated: User logged out.");
+       // console.log("UI Updated: User logged out."); // Less verbose
    }
 }
 
@@ -282,31 +283,24 @@ function setupAuthStateChangeListener() {
     console.log("Setting up onAuthStateChange listener...");
 
     supabaseClient.auth.onAuthStateChange(async (_event, session) => {
-        console.log(`Auth Event: ${_event}, Session exists: ${!!session}`);
+        // console.log(`Auth Event: ${_event}, Session exists: ${!!session}`); // Less verbose
         const user = session?.user ?? null;
 
          // Ensure DOM elements are ready before updating UI (important for initial load)
-         if (initializeDOMElements()) { // Check if elements are found
-            updateAuthStateUI(user); // Update basic UI (show/hide login/logout, welcome msg)
+         // We assume elements are found after initializeApp runs successfully
+         updateAuthStateUI(user); // Update basic UI (show/hide login/logout, welcome msg)
 
-            // If user just signed in, check/create their profile
-            if (_event === 'SIGNED_IN' && user) {
-                 await checkAndCreateUserProfile(user); // Load/Create profile & update display name
-            }
-         } else {
-            // Fallback: Store user temporarily if DOM is not ready yet (might happen on very fast auth redirects)
-            currentUser = user;
-            console.warn("Auth state changed but DOM elements not fully ready. Stored user state.");
+         // If user just signed in, check/create their profile
+         if (_event === 'SIGNED_IN' && user) {
+              await checkAndCreateUserProfile(user); // Load/Create profile & update display name
          }
 
         // Additional logic based on event type if needed
         if (_event === 'SIGNED_OUT') {
-            // Reset any game state or sensitive info if required
             console.log("User signed out, resetting state.");
         }
          if (_event === 'USER_UPDATED') {
             console.log("User data updated (e.g., email change).");
-             // Optionally re-fetch profile if needed, though username is separate
          }
     });
     console.log("onAuthStateChange listener setup complete.");
@@ -352,9 +346,9 @@ function showNicknameEditForm() {
     nicknameInputElement.value = currentUserProfile.username || '';
 
     // Hide the display elements, show the form
-    userNicknameElement.style.display = 'none';
-    editNicknameButton.style.display = 'none'; // Hide the pencil icon too
-    editNicknameForm.style.display = 'inline-block'; // Show the form
+    // userNicknameElement.style.display = 'none'; // Keep nickname visible maybe?
+    // editNicknameButton.style.display = 'none'; // Hide the pencil icon too
+    editNicknameForm.style.display = 'block'; // Show the form (CSS positions it)
 
     // Focus and select the input field for easier editing
     nicknameInputElement.focus();
@@ -363,17 +357,13 @@ function showNicknameEditForm() {
 
 function hideNicknameEditForm() {
     // Ensure elements exist before trying to hide/show them
-    if (!userNicknameElement || !editNicknameButton || !editNicknameForm || !nicknameInputElement) {
+    if (!editNicknameForm || !nicknameInputElement) {
         return;
     }
     editNicknameForm.style.display = 'none'; // Hide the form
     nicknameInputElement.value = ''; // Clear the input
 
-    // Only show the display elements if the user is still logged in
-    if (currentUser) {
-        userNicknameElement.style.display = 'inline';
-        editNicknameButton.style.display = 'inline-block';
-    }
+    // Re-enable buttons if needed (handled by main UI updates)
 }
 
 async function handleNicknameSave(event) {
@@ -480,6 +470,8 @@ function displayQuestion(questionData) {
     if (questionData.options && Array.isArray(questionData.options)) {
         questionData.options.forEach((optionText) => {
             const button = document.createElement('button');
+            // Assign class for styling via CSS
+            button.className = 'btn'; // Use the base button class from new CSS
             button.textContent = optionText;
             button.disabled = false; // Ensure buttons are enabled initially
             // Remove result classes in case they were somehow left from previous round
@@ -592,9 +584,7 @@ function startTimer() {
                     button.disabled = true; // Disable buttons
                     // Optionally highlight the correct answer when time runs out
                     if (button.textContent === currentQuestionData.correctAnswer) {
-                        // Using class is better than inline style if possible
-                        // button.style.outline = '2px solid orange';
-                        button.classList.add('correct-answer'); // Or use the existing correct class
+                        button.classList.add('correct-answer'); // Use the existing correct class
                     }
                 });
             }
@@ -632,7 +622,7 @@ function showDifficultySelection() {
 
     // Show difficulty selection and user status
     if(difficultySelectionElement) difficultySelectionElement.style.display = 'block';
-    if(userStatusElement) userStatusElement.style.display = 'block'; // Show user status/login above difficulty
+    // User status visibility is handled by updateAuthStateUI
 
     console.log("Showing difficulty selection screen.");
 }
@@ -663,13 +653,15 @@ async function startGame() {
     }
 
     // Ensure essential game elements are present
-    if (!gameAreaElement || !currentScoreElement || !resultAreaElement || !optionsContainerElement || !userStatusElement) {
-        console.error("startGame: Missing critical game elements.");
-        if (!initializeDOMElements()) {
-            handleCriticalError("Failed to initialize UI for game start.");
-            return;
-        }
-    }
+    if (!gameAreaElement || !currentScoreElement || !resultAreaElement || !optionsContainerElement) {
+         console.error("startGame: Missing critical game elements.");
+         // Attempt re-init just in case, though unlikely needed if app started correctly
+         if (!initializeDOMElements()) {
+             handleCriticalError("Failed to initialize UI for game start.");
+             return;
+         }
+     }
+
 
     // Reset game state
     currentScore = 0;
@@ -690,8 +682,7 @@ async function startGame() {
     // Clear any leftover options
     if (optionsContainerElement) { optionsContainerElement.innerHTML = ''; }
 
-    // Hide user status during the game for cleaner interface
-    if(userStatusElement) userStatusElement.style.display = 'none';
+    // User status visibility is handled by updateAuthStateUI
 
     console.log(`Starting game with difficulty: ${selectedDifficulty}`);
     // Load the first question
@@ -700,10 +691,14 @@ async function startGame() {
 
 async function loadNextQuestion() {
     console.log("loadNextQuestion: Attempting to load new question data...");
+
+    // --- Optimization: Clear old options immediately for smoother transition ---
+    // if (optionsContainerElement) { optionsContainerElement.innerHTML = ''; } // Clear old buttons faster
+
     const questionData = await loadNewQuestion(); // Fetch data from Supabase
 
     if (questionData) {
-        console.log("loadNextQuestion: Data received, calling displayQuestion.");
+        // console.log("loadNextQuestion: Data received, calling displayQuestion."); // Less verbose
         displayQuestion(questionData); // Display the fetched question
     } else {
         // Handle case where loadNewQuestion failed (error already shown)
@@ -711,8 +706,7 @@ async function loadNextQuestion() {
         // Ensure UI reflects game end state even if error happened during load
         if(gameAreaElement) gameAreaElement.style.display = 'none';
         if(resultAreaElement) resultAreaElement.style.display = 'block'; // Show results area (even if score is 0)
-        if(userStatusElement) userStatusElement.style.display = 'block'; // Show user status again
-        // Maybe display final score here too if it wasn't updated by endGame yet
+        // User status visibility handled by updateAuthStateUI
         if(finalScoreElement) finalScoreElement.textContent = currentScore;
     }
 }
@@ -722,8 +716,9 @@ async function loadNewQuestion() {
     if (!supabaseClient) { showError("Database connection error."); return null; }
     if (selectedDifficulty === null) { showError("No difficulty selected."); return null; }
 
-    console.log(`Loading question (Difficulty: ${selectedDifficulty})...`);
-    showLoading(); hideError();
+    // console.log(`Loading question (Difficulty: ${selectedDifficulty})...`); // Less verbose
+    showLoading(); // <<<--- Call showLoading (which now has delay logic)
+    hideError();
 
     try {
         // 1. Get the count of stickers for the selected difficulty
@@ -808,16 +803,18 @@ async function loadNewQuestion() {
             correctAnswer: correctClubName
         };
 
-        hideLoading(); // Hide indicator on success
+        // hideLoading(); // <<<--- Moved to finally block
         return questionDataForDisplay;
 
     } catch (error) {
         console.error("Error loading new question:", error);
         showError(`Loading Error: ${error.message}`);
-        hideLoading(); // Hide indicator on error
+        // hideLoading(); // <<<--- Moved to finally block
         // Optionally end the game immediately on load failure
         setTimeout(endGame, 500);
         return null; // Return null to indicate failure
+    } finally {
+         hideLoading(); // <<<--- Ensure loading is hidden regardless of success/error
     }
 }
 
@@ -841,8 +838,7 @@ function endGame() {
     // Hide difficulty selection (should be hidden, but ensure)
     if(difficultySelectionElement) difficultySelectionElement.style.display = 'none';
 
-    // Show user status again
-    if(userStatusElement) userStatusElement.style.display = 'block';
+    // Show user status again (handled by updateAuthStateUI called from closeLeaderboard or implicitly)
 
     // Attempt to save the score
     saveScore();
@@ -858,70 +854,31 @@ async function saveScore() {
     // Don't save scores of 0
     if (currentScore === 0) {
         console.log("Score is 0, not saving.");
-        // Optionally display a message in the result area?
-        // if (resultAreaElement && !resultAreaElement.querySelector('.save-message')) {
-        //     const scoreMsg = document.createElement('p');
-        //     scoreMsg.textContent = "Score of 0 not saved to leaderboard.";
-        //     scoreMsg.className = 'save-message';
-        //     scoreMsg.style.cssText = 'font-size: small; margin-top: 5px; color: grey;';
-        //     const p = resultAreaElement.querySelector('p');
-        //     if(p) p.insertAdjacentElement('afterend', scoreMsg);
-        //     else resultAreaElement.appendChild(scoreMsg);
-        // }
         return;
     }
 
     console.log(`Attempting to save score: Score=${currentScore}, Difficulty=${selectedDifficulty}, User=${currentUser.id}`);
-    showLoading(); // Show loading indicator while saving
+    showLoading(); // Show loading indicator (with delay) while saving
 
     let detectedCountryCode = null; // Initialize country code
 
-    // --- GeoIP Fetch Block - Commented Out Due to Incomplete Original Code ---
-    /*
-    console.log("DEBUG: Fetching GeoIP...");
-    try {
-        // IMPORTANT: This fetch was incomplete in the original code.
-        // It needs proper .then() handlers to parse JSON and extract data.
-        // Also needs error handling within the fetch chain (.catch()).
-        await fetch('https://ip-api.com/json/?fields=status,message,countryCode')
-            .then(response => {
-                // Add response checking (e.g., response.ok) and .json() parsing
-                // Example: if (!response.ok) throw new Error('GeoIP fetch failed');
-                // Example: return response.json();
-                 // Placeholder: console.log("DEBUG: Fetch response received");
-            })
-            .then(data => {
-                // Extract countryCode from parsed data
-                // Example: if (data && data.status === 'success') detectedCountryCode = data.countryCode;
-                 // Placeholder: console.log("DEBUG: GeoIP data processed", data);
-            })
-            .catch(fetchError => {
-                // Handle errors during the fetch itself
-                console.error("Error fetching GeoIP:", fetchError);
-            });
-    } catch (outerError) {
-        // Catch errors from await or potential errors thrown in .then()
-        console.error("Outer error during GeoIP fetch process:", outerError);
-    }
-    console.log("DEBUG: GeoIP fetch finished. Detected Country Code =", detectedCountryCode);
-    */
+    // --- GeoIP Fetch Block - Still Commented Out ---
+    /* ... */
     // --- End of Commented Out GeoIP Block ---
 
 
     try {
-        console.log(`Saving score to database... (Country code determined as: ${detectedCountryCode})`); // Log country code being saved (will be null here)
+        // console.log(`Saving score to database... (Country code: ${detectedCountryCode})`); // Less verbose
         const { error } = await supabaseClient
             .from('scores')
             .insert({
                 user_id: currentUser.id,
                 score: currentScore,
                 difficulty: selectedDifficulty,
-                // Save null if GeoIP fetch failed or was skipped
                 country_code: detectedCountryCode
             });
 
         if (error) {
-            // Handle potential duplicate scores (if policy set) or other DB errors
             console.error("Database error saving score:", error);
             throw error; // Throw to be caught by outer catch
         }
@@ -933,9 +890,7 @@ async function saveScore() {
             const scoreSavedMessage = document.createElement('p');
             scoreSavedMessage.textContent = 'Your score has been saved!';
             scoreSavedMessage.className = 'save-message'; // Use class for styling
-            scoreSavedMessage.style.cssText = 'font-size: small; margin-top: 5px; color: green;'; // Inline style fallback
-
-            // Insert message after the main score paragraph
+            // scoreSavedMessage.style.cssText = 'font-size: small; margin-top: 5px; color: green;'; // Rely on CSS class
             const p = resultAreaElement.querySelector('p');
             if(p) p.insertAdjacentElement('afterend', scoreSavedMessage);
             else resultAreaElement.appendChild(scoreSavedMessage); // Fallback append
@@ -944,7 +899,6 @@ async function saveScore() {
     } catch (error) {
         console.error("Error during score saving process:", error);
         showError(`Failed to save score: ${error.message}`);
-        // Optionally remove any existing "saved" message if save fails
          if(resultAreaElement) {
             const msg = resultAreaElement.querySelector('.save-message');
             if(msg) msg.remove();
@@ -965,36 +919,29 @@ function calculateTimeRange(timeframe) {
 
     switch (timeframe) {
         case 'today':
-            // Start of today UTC
             const startOfDay = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate()));
-            // Start of next day UTC (exclusive end)
             const startOfNextDay = new Date(startOfDay);
             startOfNextDay.setUTCDate(startOfDay.getUTCDate() + 1);
             fromDate = startOfDay.toISOString();
             toDate = startOfNextDay.toISOString();
             break;
         case 'week':
-            // 7 days ago from start of today UTC
             const sevenDaysAgo = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate()));
             sevenDaysAgo.setUTCDate(sevenDaysAgo.getUTCDate() - 7);
             fromDate = sevenDaysAgo.toISOString();
-            // No end date means "from 7 days ago until now"
             break;
         case 'month':
-            // 30 days ago from start of today UTC
             const thirtyDaysAgo = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate()));
             thirtyDaysAgo.setUTCDate(thirtyDaysAgo.getUTCDate() - 30); // Approx. 1 month
             fromDate = thirtyDaysAgo.toISOString();
-            // No end date means "from 30 days ago until now"
             break;
         case 'all':
         default:
-            // No date filters needed for 'all time'
             fromDate = null;
             toDate = null;
             break;
     }
-    console.log(`Time range for ${timeframe}: From ${fromDate}, To ${toDate}`);
+    // console.log(`Time range for ${timeframe}: From ${fromDate}, To ${toDate}`); // Less verbose
     return { fromDate, toDate };
 }
 
@@ -1002,7 +949,8 @@ function calculateTimeRange(timeframe) {
 async function fetchLeaderboardData(timeframe, difficulty) {
     if (!supabaseClient) { showError("Database connection error."); return null; }
     console.log(`Workspaceing leaderboard data: Timeframe=${timeframe}, Difficulty=${difficulty}`);
-    showLoading(); hideError();
+    showLoading(); // <<<--- Call showLoading (with delay)
+    hideError();
 
     try {
         const { fromDate, toDate } = calculateTimeRange(timeframe); // Get date range
@@ -1022,7 +970,6 @@ async function fetchLeaderboardData(timeframe, difficulty) {
             query = query.gte('created_at', fromDate); // Greater than or equal to start date
         }
         if (toDate) {
-            // Used only for 'today' to specify an end range
             query = query.lt('created_at', toDate); // Less than end date
         }
 
@@ -1036,20 +983,21 @@ async function fetchLeaderboardData(timeframe, difficulty) {
         const { data, error } = await query;
 
         if (error) {
-            // Handle potential errors from the query (e.g., RLS issues)
             console.error("Error fetching leaderboard data from Supabase:", error);
             throw error;
         }
 
-        console.log("Leaderboard data fetched successfully:", data);
+        // console.log("Leaderboard data fetched successfully:", data); // Less verbose
+        // hideLoading(); // <<<--- Moved to finally block
         return data; // Return the array of score entries
 
     } catch (error) {
         console.error("Error in fetchLeaderboardData:", error);
         showError(`Could not load leaderboard: ${error.message}`);
+        // hideLoading(); // <<<--- Moved to finally block
         return null; // Return null on failure
     } finally {
-        hideLoading(); // Hide loading indicator
+        hideLoading(); // <<<--- Ensure loading is hidden regardless of success/error
     }
 }
 
@@ -1063,12 +1011,10 @@ function displayLeaderboard(data) {
     leaderboardListElement.innerHTML = ''; // Clear previous list items
 
     if (!data) {
-        // Handle case where fetching failed (error message shown elsewhere)
         leaderboardListElement.innerHTML = '<li>Error loading data.</li>';
         return;
     }
     if (data.length === 0) {
-        // Handle case where there are no results for the filters
         leaderboardListElement.innerHTML = '<li>No scores found for these filters.</li>';
         return;
     }
@@ -1076,11 +1022,11 @@ function displayLeaderboard(data) {
     // Create list items for each score entry
     data.forEach((entry, index) => {
         const li = document.createElement('li');
-        // Use profile username if available, otherwise fallback
         const username = entry.profiles?.username || 'Anonymous';
-        // Format: "1. Username - Score"
-        // Adding index+1 manually since we clear the list; relying on OL numbering might be reset.
-        li.textContent = `${index + 1}. ${username} - ${entry.score}`;
+        // Use textContent for security
+        // We rely on the ::before pseudo-element in CSS for the number
+        const textNode = document.createTextNode(`${username} - ${entry.score}`);
+        li.appendChild(textNode);
         leaderboardListElement.appendChild(li);
     });
 }
@@ -1125,10 +1071,9 @@ function handleTimeFilterChange(event) {
     const button = event.currentTarget;
     const newTimeframe = button.dataset.timeframe;
 
-    // Update state and refresh leaderboard only if filter changed
     if (newTimeframe && newTimeframe !== currentLeaderboardTimeframe) {
         currentLeaderboardTimeframe = newTimeframe;
-        console.log("Leaderboard time filter changed to:", newTimeframe);
+        // console.log("Leaderboard time filter changed to:", newTimeframe); // Less verbose
         updateLeaderboard();
     }
 }
@@ -1138,10 +1083,9 @@ function handleDifficultyFilterChange(event) {
     const button = event.currentTarget;
     const newDifficulty = parseInt(button.dataset.difficulty, 10);
 
-    // Update state and refresh leaderboard only if filter changed and is valid
     if (newDifficulty && !isNaN(newDifficulty) && newDifficulty !== currentLeaderboardDifficulty) {
         currentLeaderboardDifficulty = newDifficulty;
-        console.log("Leaderboard difficulty filter changed to:", newDifficulty);
+        // console.log("Leaderboard difficulty filter changed to:", newDifficulty); // Less verbose
         updateLeaderboard();
     }
 }
@@ -1151,25 +1095,19 @@ function handleDifficultyFilterChange(event) {
 function openLeaderboard() {
     console.log("Opening leaderboard..."); hideError();
 
-    // Ensure necessary elements exist
-    if (!leaderboardSectionElement || !gameAreaElement || !resultAreaElement || !difficultySelectionElement || !authSectionElement) {
-         console.warn("openLeaderboard: UI elements missing, attempting re-init.");
-         if (!initializeDOMElements()) { handleCriticalError("UI Error opening leaderboard."); return; }
-    }
+     // We assume elements are initialized by initializeApp
+     if (!leaderboardSectionElement || !gameAreaElement || !resultAreaElement || !difficultySelectionElement ) {
+         console.error("Cannot open leaderboard, core elements missing.");
+         handleCriticalError("UI Error opening leaderboard."); return;
+     }
+
 
     // Hide other main views
     if(gameAreaElement) gameAreaElement.style.display = 'none';
     if(resultAreaElement) resultAreaElement.style.display = 'none';
     if(difficultySelectionElement) difficultySelectionElement.style.display = 'none';
 
-    // Keep auth section (user status) visible OR hide login button if logged out
-    // Logic: If user is logged in, userStatusElement is visible anyway.
-    // If user is logged out, hide the authSection (which mainly contains the login button now)
-    // to avoid showing the login button *within* the leaderboard view.
-    if(authSectionElement && !currentUser) {
-        authSectionElement.style.display = 'none';
-    }
-    // We don't explicitly hide userStatusElement here, its visibility is handled by updateAuthStateUI
+    // Auth section visibility is handled by header styles / updateAuthStateUI
 
     // Show the leaderboard section
     if (leaderboardSectionElement) leaderboardSectionElement.style.display = 'block';
@@ -1184,7 +1122,6 @@ function closeLeaderboard() {
     if (leaderboardSectionElement) leaderboardSectionElement.style.display = 'none';
 
     // Restore the correct UI state based on whether user is logged in/out
-    // This will typically show the difficulty selection if logged in, or login button if logged out.
     updateAuthStateUI(currentUser);
 }
 
@@ -1196,7 +1133,6 @@ function showError(message) {
         errorMessageElement.textContent = message;
         errorMessageElement.style.display = 'block'; // Make error visible
     } else {
-        // Fallback if error element isn't found (shouldn't happen after init checks)
         alert(`Error: ${message}`);
     }
 }
@@ -1211,21 +1147,37 @@ function hideError() {
 // Used for critical errors where the app cannot recover
 function handleCriticalError(message) {
     console.error("Critical Error:", message);
-    // Stop everything - timers, etc. (though likely already failed)
     stopTimer();
     // Replace page content with an error message
     document.body.innerHTML = `<h1>Application Error</h1><p>${message}</p><p>Please try refreshing the page. If the problem persists, contact support.</p>`;
 }
 
+// --- Updated Loading Indicator Logic ---
 function showLoading() {
-    console.log("Loading indicator: Show");
-    if (loadingIndicator) {
-        loadingIndicator.style.display = 'block';
+    // Clear any pending timer to prevent showing loading if hideLoading is called quickly
+    if (loadingTimerId) {
+        clearTimeout(loadingTimerId);
+        loadingTimerId = null;
     }
+    // Set a timer to show loading only after a short delay (e.g., 300ms)
+    loadingTimerId = setTimeout(() => {
+        // console.log("Loading indicator: Show (delayed)"); // Less verbose
+        if (loadingIndicator) {
+            loadingIndicator.style.display = 'block';
+        }
+        loadingTimerId = null; // Clear the ID after execution
+    }, 300); // 300ms delay
 }
 
 function hideLoading() {
-    console.log("Loading indicator: Hide");
+    // Clear the timer if it hasn't executed yet (prevents indicator from showing)
+    if (loadingTimerId) {
+        clearTimeout(loadingTimerId);
+        loadingTimerId = null;
+        // console.log("Loading indicator: Hide (timer cleared before show)"); // Less verbose
+    }
+    // Always hide the indicator immediately if it's already visible
+    // console.log("Loading indicator: Hide (immediate)"); // Less verbose
     if (loadingIndicator) {
         loadingIndicator.style.display = 'none';
     }
@@ -1239,7 +1191,6 @@ function initializeApp() {
     // Find elements and add listeners. Crucial step.
     if (!initializeDOMElements()) {
         console.error("CRITICAL: Failed to initialize DOM elements. Application cannot start.");
-        // handleCriticalError is likely already called by initializeDOMElements
         return; // Stop initialization
     }
 
@@ -1247,7 +1198,6 @@ function initializeApp() {
     setupAuthStateChangeListener();
 
     // Manually update the UI based on the *initial* auth state checked earlier
-    // This ensures the UI reflects login status correctly on page load
     updateAuthStateUI(currentUser);
 
     console.log("Application initialized. Current user state:", currentUser ? currentUser.id : 'Logged out');
@@ -1255,10 +1205,7 @@ function initializeApp() {
     // Ensure initial view state is correct (hide game/results/leaderboard, show necessary buttons)
     if(gameAreaElement) gameAreaElement.style.display = 'none';
     if(resultAreaElement) resultAreaElement.style.display = 'none';
-    // Difficulty selection visibility is handled by updateAuthStateUI based on login status
-    // if(difficultySelectionElement) difficultySelectionElement.style.display = 'none';
     if (leaderboardSectionElement) leaderboardSectionElement.style.display = 'none'; // Ensure leaderboard hidden initially
-    // Leaderboard button visibility is also handled by updateAuthStateUI
 
     console.log("App ready. Waiting for user actions or auth changes.");
 }
