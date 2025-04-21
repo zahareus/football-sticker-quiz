@@ -1,82 +1,120 @@
+/* Base layout */
 body {
   font-family: 'Inter', sans-serif;
-  margin: 0;
-  padding: 0;
-  background: #fffbe6;
+  background-color: #fffce5;
   color: #222;
-}
-
-a,
-.link {
-  color: #222;
-  text-decoration: underline;
-  cursor: pointer;
-  font-size: 0.9em;
-}
-
-.logo {
-  font-size: 2em;
-  font-weight: 700;
   margin: 0;
-}
-
-.header {
-  text-align: center;
-  padding: 25px 20px 10px;
-}
-
-.auth {
-  margin-top: 8px;
-  font-size: 0.9em;
-  color: #444;
-}
-
-.edit-icon {
-  margin-left: 6px;
-  cursor: pointer;
-  font-size: 0.9em;
-}
-
-.container {
   padding: 20px;
   text-align: center;
 }
 
-.difficulty-options {
+h1 {
+  font-weight: 800;
+  font-size: 2.5rem;
+  margin-bottom: 10px;
+}
+
+h2 {
+  font-weight: 700;
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+a {
+  color: #222;
+  text-decoration: underline;
+  font-size: 0.95rem;
+}
+
+button {
+  font-family: inherit;
+  font-size: 1rem;
+  padding: 10px 18px;
+  border: 1px solid #bbb;
+  background-color: #fff;
+  border-radius: 8px;
+  cursor: pointer;
+  margin: 6px;
+  transition: all 0.2s ease;
+}
+
+button:hover {
+  background-color: #222;
+  color: #fff;
+}
+
+header {
+  margin-bottom: 25px;
+}
+
+#user-info {
+  font-size: 0.95rem;
+  margin-top: 5px;
+}
+
+#edit-nickname-button {
+  cursor: pointer;
+  margin-left: 6px;
+}
+
+#logout-button {
+  margin-left: 10px;
+  font-size: 0.95rem;
+}
+
+#edit-nickname-form {
+  margin-top: 10px;
+}
+
+#edit-nickname-form input {
+  padding: 6px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  margin-right: 6px;
+}
+
+/* Difficulty section */
+#difficulty-selection {
+  margin-bottom: 30px;
+}
+
+.difficulty-buttons {
   display: flex;
   justify-content: center;
-  gap: 10px;
-  margin: 20px 0;
+  gap: 12px;
+  margin-bottom: 20px;
 }
 
 .difficulty-button {
-  padding: 10px 20px;
-  background-color: #ffec99;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
+  background-color: #fff35c;
+  border: 2px solid #c9b43b;
+  border-radius: 10px;
   font-weight: 600;
   transition: all 0.2s ease;
 }
 
 .difficulty-button:hover {
-  background-color: #ffe066;
+  background-color: #000;
+  color: #fff;
 }
 
-.status-message {
-  margin: 10px 0;
-  font-style: italic;
-  font-size: 0.9em;
-  color: #c00;
+/* Game area */
+.status-bar {
+  display: flex;
+  justify-content: space-between;
+  max-width: 500px;
+  margin: 0 auto 20px auto;
+  font-weight: 600;
+  font-size: 1.2rem;
 }
 
 #sticker-container {
-  width: 80%;
-  max-width: 400px;
   aspect-ratio: 1 / 1;
-  background: #f4f4f4;
-  border-radius: 8px;
-  margin: 30px auto;
+  width: 75%;
+  max-width: 350px;
+  margin: 10px auto 20px auto;
+  background-color: #f2f2f2;
+  border-radius: 10px;
   overflow: hidden;
 }
 
@@ -90,76 +128,80 @@ a,
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 12px;
+  gap: 10px;
+  max-width: 600px;
+  margin: 0 auto;
 }
 
 .options-grid button {
-  padding: 10px 16px;
   min-width: 140px;
-  background: #fff;
-  border: 1px solid #ccc;
-  border-radius: 6px;
-  cursor: pointer;
-  transition: all 0.2s ease;
+  padding: 10px 12px;
 }
 
-.options-grid button:hover {
-  background-color: #eee;
+.options-grid button.correct-answer {
+  background-color: #00c676 !important;
+  color: white;
+  border-color: #009e5e;
 }
 
-button.correct-answer {
-  background-color: #00b078 !important;
-  color: white !important;
-  border-color: #009461 !important;
+.options-grid button.incorrect-answer {
+  background-color: #f44336 !important;
+  color: white;
+  border-color: #c62828;
 }
 
-button.incorrect-answer {
-  background-color: #f03e5c !important;
-  color: white !important;
-  border-color: #d9304f !important;
+/* Game over */
+#result-area h2 {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
 }
 
-.game-status {
-  display: flex;
-  justify-content: space-between;
-  max-width: 400px;
-  margin: 0 auto 10px;
-  font-weight: bold;
+#result-area p {
+  font-size: 1.2rem;
+  margin: 0.5rem 0;
 }
 
-#result-area {
+#play-again {
+  background-color: #fff35c;
+  border: 2px solid #c9b43b;
+  border-radius: 10px;
+  font-weight: 600;
+  margin-top: 15px;
+}
+
+#show-leaderboard-link {
+  display: block;
   margin-top: 20px;
 }
 
-.leaderboard-list {
+/* Leaderboard */
+#leaderboard-section {
+  margin-top: 40px;
+}
+
+.leaderboard-filters {
+  margin-bottom: 20px;
+}
+
+.leaderboard-filters button.active {
+  font-weight: bold;
+  background-color: #eee;
+}
+
+#leaderboard-list {
   text-align: left;
-  margin: 20px auto;
-  padding-left: 0;
-  list-style-position: inside;
   max-width: 400px;
+  margin: 20px auto;
+  padding-left: 20px;
 }
 
-.filters {
-  margin: 15px auto;
-  font-size: 0.9em;
-  text-align: center;
+#loading-indicator {
+  font-style: italic;
+  display: none;
 }
 
-.filters div {
-  margin-bottom: 10px;
-}
-
-@media (max-width: 600px) {
-  .game-status {
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .difficulty-options {
-    flex-direction: column;
-  }
-
-  .options-grid {
-    flex-direction: column;
-  }
+#error-message {
+  color: red;
+  font-weight: bold;
+  margin-top: 10px;
 }
