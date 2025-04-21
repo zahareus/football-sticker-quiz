@@ -1,111 +1,83 @@
-/* === Base styles === */
 body {
+  font-family: 'Inter', sans-serif;
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-  background-color: #fffde7; /* very light yellow */
-  color: #333;
+  padding: 0;
+  background: #fffbe6;
+  color: #222;
 }
 
-h1, h2 {
-  text-align: center;
+a,
+.link {
+  color: #222;
+  text-decoration: underline;
+  cursor: pointer;
+  font-size: 0.9em;
+}
+
+.logo {
+  font-size: 2em;
   font-weight: 700;
+  margin: 0;
+}
+
+.header {
+  text-align: center;
+  padding: 25px 20px 10px;
+}
+
+.auth {
+  margin-top: 8px;
+  font-size: 0.9em;
+  color: #444;
+}
+
+.edit-icon {
+  margin-left: 6px;
+  cursor: pointer;
+  font-size: 0.9em;
+}
+
+.container {
+  padding: 20px;
+  text-align: center;
+}
+
+.difficulty-options {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
   margin: 20px 0;
 }
 
-/* === Container and layout === */
-.container {
-  max-width: 800px;
-  margin: 0 auto;
-  padding: 20px;
-}
-
-/* === Header === */
-header {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-bottom: 25px;
-}
-
-#auth-section {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 10px;
-  margin-top: 10px;
-}
-
-#user-status {
-  display: flex;
-  gap: 12px;
-  align-items: center;
-  justify-content: center;
-  flex-wrap: wrap;
-}
-
-#edit-nickname-form {
-  display: flex;
-  gap: 10px;
-  flex-wrap: wrap;
-  justify-content: center;
-}
-
-#edit-nickname-form input {
-  padding: 8px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-}
-
-/* === Buttons === */
-button {
-  padding: 10px 18px;
-  font-size: 1rem;
+.difficulty-button {
+  padding: 10px 20px;
+  background-color: #ffec99;
+  border: none;
   border-radius: 8px;
-  border: 1px solid #fdd835;
-  background-color: #fff59d;
   cursor: pointer;
-  transition: all 0.2s ease-in-out;
   font-weight: 600;
+  transition: all 0.2s ease;
 }
 
-button:hover:not(:disabled) {
-  background-color: #fdd835;
+.difficulty-button:hover {
+  background-color: #ffe066;
 }
 
-button:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-}
-
-/* === Cards / Sections === */
-section {
-  background-color: white;
-  padding: 20px;
-  border-radius: 12px;
-  box-shadow: 0 4px 16px rgba(0,0,0,0.05);
-  margin-bottom: 20px;
-}
-
-/* === Game layout === */
-.game-status {
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 20px;
-  font-weight: bold;
-  font-size: 1.2rem;
+.status-message {
+  margin: 10px 0;
+  font-style: italic;
+  font-size: 0.9em;
+  color: #c00;
 }
 
 #sticker-container {
-  width: 100%;
+  width: 80%;
   max-width: 400px;
   aspect-ratio: 1 / 1;
-  margin: 0 auto;
-  background-color: #f9f9f9;
-  border: 2px dashed #eee;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  background: #f4f4f4;
   border-radius: 8px;
+  margin: 30px auto;
+  overflow: hidden;
 }
 
 #sticker-image {
@@ -114,94 +86,80 @@ section {
   object-fit: contain;
 }
 
-/* === Options === */
 .options-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-  gap: 10px;
-  margin-top: 20px;
-}
-
-.options-grid button.correct-answer {
-  background-color: #aed581 !important;
-  border-color: #8bc34a !important;
-  color: #1b5e20 !important;
-}
-
-.options-grid button.incorrect-answer {
-  background-color: #ef9a9a !important;
-  border-color: #e53935 !important;
-  color: #b71c1c !important;
-}
-
-/* === Filters === */
-.filters {
-  margin: 20px 0;
   display: flex;
-  flex-direction: column;
-  gap: 15px;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
 }
 
-.filters label {
-  font-weight: 600;
-  margin-right: 10px;
+.options-grid button {
+  padding: 10px 16px;
+  min-width: 140px;
+  background: #fff;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
 }
 
-.filters button.active {
-  background-color: #fdd835;
-  border-color: #fbc02d;
+.options-grid button:hover {
+  background-color: #eee;
 }
 
-/* === Leaderboard === */
-#leaderboard-list {
-  padding-left: 20px;
-  list-style-position: inside;
-  text-align: left;
+button.correct-answer {
+  background-color: #00b078 !important;
+  color: white !important;
+  border-color: #009461 !important;
 }
 
-#leaderboard-list li {
-  padding: 5px 0;
-  border-bottom: 1px solid #eee;
+button.incorrect-answer {
+  background-color: #f03e5c !important;
+  color: white !important;
+  border-color: #d9304f !important;
 }
 
-#leaderboard-list li:last-child {
-  border-bottom: none;
-}
-
-/* === Status messages === */
-.status-message {
-  text-align: center;
-  font-style: italic;
-  margin-top: 15px;
-  font-size: 0.95rem;
-}
-
-#error-message {
-  color: #b71c1c;
+.game-status {
+  display: flex;
+  justify-content: space-between;
+  max-width: 400px;
+  margin: 0 auto 10px;
   font-weight: bold;
 }
 
-#loading-indicator {
-  color: #999;
+#result-area {
+  margin-top: 20px;
 }
 
-/* === Responsive === */
+.leaderboard-list {
+  text-align: left;
+  margin: 20px auto;
+  padding-left: 0;
+  list-style-position: inside;
+  max-width: 400px;
+}
+
+.filters {
+  margin: 15px auto;
+  font-size: 0.9em;
+  text-align: center;
+}
+
+.filters div {
+  margin-bottom: 10px;
+}
+
 @media (max-width: 600px) {
   .game-status {
     flex-direction: column;
     align-items: center;
-    gap: 10px;
   }
 
-  .filters {
-    align-items: center;
-  }
-
-  #user-status {
+  .difficulty-options {
     flex-direction: column;
   }
 
-  #edit-nickname-form {
+  .options-grid {
     flex-direction: column;
   }
 }
