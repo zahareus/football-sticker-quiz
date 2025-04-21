@@ -1,195 +1,546 @@
 /* style.css */
 
-/* Базові стилі та шрифти */
+/* ------------------------------ */
+/* Variables & Basic Reset        */
+/* ------------------------------ */
+:root {
+    --font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    --color-text: #212121; /* Almost Black */
+    --color-background: #FFFFFF; /* White */
+    --color-accent: #FFC107; /* Yellow */
+    --color-accent-darker: #FFA000; /* Darker Yellow for hover/active */
+    --color-accent-text: #212121; /* Text on Yellow */
+    --color-secondary-bg: #f8f9fa; /* Light Gray BG for some elements */
+    --color-border: #E0E0E0; /* Light Gray Border */
+    --color-disabled-bg: #E0E0E0;
+    --color-disabled-text: #9E9E9E; /* Medium Gray */
+    --color-success: #28a745; /* Green */
+    --color-error: #dc3545; /* Red */
+    --color-error-bg: #f8d7da;
+
+    --border-radius: 8px;
+    --container-width: 800px;
+    --spacing-unit: 8px; /* Base for margins/paddings */
+}
+
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
 body {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    font-family: var(--font-family);
     line-height: 1.6;
-    max-width: 800px;
-    margin: 20px auto;
-    padding: 0 15px;
-    background-color: #f8f9fa;
-    color: #333;
+    background-color: var(--color-background);
+    color: var(--color-text);
+    padding: 0 var(--spacing-unit); /* Add horizontal padding */
 }
 
 h1, h2 {
-    text-align: center;
-    color: #444;
-    margin-bottom: 1.5rem; /* Додамо нижній відступ */
-}
-
-hr {
-    border: none;
-    border-top: 1px solid #eee;
-    margin: 25px 0;
-}
-
-/* Стилізація кнопок */
-button {
-    padding: 10px 18px;
-    font-size: 1em;
-    cursor: pointer;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    background-color: #fff;
-    color: #333;
-    margin: 5px;
-    transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
-}
-
-button:hover:not(:disabled) {
-    background-color: #333; /* Інверсія */
-    color: #fff;
-    border-color: #333;
-}
-
-button:disabled {
-    cursor: not-allowed;
-    opacity: 0.6;
-}
-
-/* Кнопка Google Login */
-.google-login {
-    background-color: #4285F4;
-    color: white;
-    border: none;
-    display: inline-flex;
-    align-items: center;
-    padding: 8px 15px; /* Трохи менші падінги */
-}
-.google-login:hover:not(:disabled) {
-    background-color: #357ae8;
-    color: white;
-    border: none;
-}
-.google-login span {
-    margin-left: 8px;
-}
-
-
-/* Секції */
-#auth-section, #difficulty-selection, #game-area, #result-area, #leaderboard-section {
-    background-color: #fff;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-    margin-bottom: 20px;
+    color: var(--color-text);
+    margin-bottom: calc(var(--spacing-unit) * 3);
+    font-weight: 600;
     text-align: center;
 }
-#auth-section {
-    padding: 10px 20px; /* Менші падінги для auth */
+
+h2 {
+   font-weight: 500;
+   margin-bottom: calc(var(--spacing-unit) * 2);
 }
 
-/* Ігрова зона */
-/* Контейнер для стікера */
-#sticker-container {
-    aspect-ratio: 1 / 1; /* Квадратний */
-    width: 60%;          /* Ширина відносно батьківського (#game-area) */
-    max-width: 350px;    /* Максимальна ширина */
-    min-width: 150px;    /* Мінімальна ширина */
-    margin: 20px auto;   /* Центрування та відступи */
-    background-color: #f0f0f0; /* Фон для завантаження */
-    border: 1px solid #eee;
-    overflow: hidden;
-    border-radius: 5px;
+p {
+    margin-bottom: calc(var(--spacing-unit) * 2);
 }
-/* Саме зображення стікера */
-#sticker-image {
+
+ol, ul {
+    list-style: none;
+}
+
+img {
+    max-width: 100%;
     display: block;
-    width: 100%;
-    height: 100%;
-    object-fit: contain; /* Вмістити повністю */
 }
 
-#options {
-    margin-top: 15px;
+button {
+    font-family: inherit;
+    cursor: pointer;
+}
+
+input[type="text"] {
+    font-family: inherit;
+    padding: var(--spacing-unit) calc(var(--spacing-unit) * 1.5);
+    border: 1px solid var(--color-border);
+    border-radius: var(--border-radius);
+    font-size: 1em;
+    margin-right: var(--spacing-unit);
+}
+
+/* ------------------------------ */
+/* Layout & Container             */
+/* ------------------------------ */
+.container {
+    max-width: var(--container-width);
+    margin: calc(var(--spacing-unit) * 4) auto; /* Top/bottom margin */
+    padding: 0 calc(var(--spacing-unit) * 2);
+    text-align: center;
+}
+
+.app-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: calc(var(--spacing-unit) * 2) calc(var(--spacing-unit) * 2);
+    max-width: calc(var(--container-width) + 4 * var(--spacing-unit)); /* Match container width + padding */
+    margin: 0 auto;
+    border-bottom: 1px solid var(--color-border);
+    margin-bottom: calc(var(--spacing-unit) * 3);
+}
+
+.app-header h1 {
+    margin: 0;
+    font-size: 1.5em; /* Adjust as needed */
+    font-weight: 700;
+}
+
+/* ------------------------------ */
+/* Buttons                        */
+/* ------------------------------ */
+.btn {
+    display: inline-block;
+    padding: calc(var(--spacing-unit) * 1.25) calc(var(--spacing-unit) * 2.5);
+    font-size: 1em;
+    font-weight: 500;
+    border: 1px solid transparent;
+    border-radius: var(--border-radius);
+    text-align: center;
+    text-decoration: none;
+    transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
+    margin: var(--spacing-unit); /* Add margin around buttons */
+}
+
+/* Primary Button (Yellow) */
+.btn-primary {
+    background-color: var(--color-accent);
+    color: var(--color-accent-text);
+    border-color: var(--color-accent);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+}
+.btn-primary:hover:not(:disabled) {
+    background-color: var(--color-accent-darker);
+    border-color: var(--color-accent-darker);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+/* Specific style for Google Login to potentially override default primary */
+.google-login {
+    /* You might want specific styles here if needed, otherwise it uses btn-primary */
+}
+
+
+/* Secondary Button (Outline/Subtle) */
+.btn-secondary {
+    background-color: var(--color-background);
+    color: var(--color-text);
+    border: 1px solid var(--color-border);
+}
+.btn-secondary:hover:not(:disabled) {
+    background-color: var(--color-secondary-bg);
+    border-color: var(--color-border); /* Keep border color */
+}
+
+/* Icon Button (e.g., Edit Nickname) */
+.btn-icon {
+    background: none;
+    border: none;
+    padding: 0 calc(var(--spacing-unit) * 0.5);
+    font-size: 1.1em;
+    vertical-align: middle;
+    margin-left: var(--spacing-unit);
+    color: var(--color-text);
+    opacity: 0.7;
+}
+.btn-icon:hover:not(:disabled) {
+    opacity: 1;
+}
+
+/* Filter Button (Leaderboard) */
+.btn-filter {
+    padding: calc(var(--spacing-unit) * 0.5) calc(var(--spacing-unit) * 1.5);
+    font-size: 0.9em;
+    background-color: transparent;
+    color: var(--color-text);
+    border: 1px solid transparent; /* No border initially */
+    margin: 0 calc(var(--spacing-unit) * 0.5);
+    opacity: 0.8;
+}
+.btn-filter:hover:not(:disabled) {
+    background-color: var(--color-secondary-bg);
+    opacity: 1;
+}
+.btn-filter.active {
+    font-weight: 600;
+    background-color: var(--color-accent);
+    color: var(--color-accent-text);
+    opacity: 1;
+}
+
+/* Disabled State */
+button:disabled, .btn:disabled {
+    cursor: not-allowed;
+    background-color: var(--color-disabled-bg);
+    color: var(--color-disabled-text);
+    border-color: var(--color-disabled-bg);
+    box-shadow: none;
+    opacity: 1; /* Reset opacity, rely on colors */
+}
+/* Ensure disabled filter buttons look distinct */
+.btn-filter:disabled {
+    background-color: var(--color-accent);
+    color: var(--color-accent-text);
+    opacity: 0.7; /* Slightly fade active/disabled */
+    cursor: not-allowed;
+}
+
+
+/* Button Groups */
+.button-group {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    gap: 10px;
+    gap: calc(var(--spacing-unit) * 1.5);
+    margin-top: calc(var(--spacing-unit) * 2);
 }
 
-#options button {
-    min-width: 150px;
-    flex-grow: 1;
-    flex-basis: 40%; /* По 2 в рядку на широких екранах */
+/* ------------------------------ */
+/* Authentication Section         */
+/* ------------------------------ */
+#auth-section {
+    font-size: 0.9em;
+    text-align: right; /* Align auth content to the right in the header */
 }
 
-/* Стилі для правильних/неправильних кнопок */
-#options button.correct-answer { /* Застосовуємо до кнопки з класом */
-    background-color: #00B078 !important; /* Зелений */
-    color: white !important;
-    border-color: #009461 !important;
-}
-#options button.incorrect-answer {
-    background-color: #F03E5C !important; /* Червоний */
-    color: white !important;
-    border-color: #d9304f !important;
+#user-status strong { /* Nickname */
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: underline dotted;
 }
 
-/* Мобільна верстка для кнопок відповідей */
-@media (max-width: 600px) {
-    #options {
-        flex-direction: column; /* Стовпчик */
-        align-items: center;
-    }
-    #options button {
-        width: 90%; /* Ширші кнопки */
-        max-width: 350px;
-        flex-basis: auto;
-        margin: 6px 0;
-    }
-    #sticker-container {
-         width: 75%; /* Трохи ширше на мобільних */
-    }
-}
-
-/* Таймер та Рахунок */
-#timer, #score {
-    margin-top: 15px;
-    font-size: 1.1em;
-    font-weight: bold;
-}
-
-/* Результати */
-#result-area h2 { margin-bottom: 10px; }
-#result-area p { font-size: 1.2em; margin-bottom: 15px; }
-#result-area .save-message { font-size: 0.9em; font-style: italic; color: green; margin-top: -10px; margin-bottom: 15px; }
-
-
-/* Лідерборд */
-#leaderboard-section h2 { margin-bottom: 15px; }
-#leaderboard-filters { margin-bottom: 20px; padding-bottom: 15px; border-bottom: 1px solid #eee; }
-#leaderboard-filters div { margin-bottom: 10px; }
-#leaderboard-filters strong { margin-right: 10px; }
-
-/* Активні кнопки фільтрів лідерборду */
-.leaderboard-time-filter.active, .leaderboard-difficulty-filter.active {
-    background-color: #e9ecef;
-    border-color: #adb5bd;
-    font-weight: bold;
-}
-#leaderboard-list {
-    padding-left: 20px; /* Залишимо невеликий відступ */
-    list-style-type: decimal; /* Переконаємось, що нумерація є */
-    list-style-position: outside; /* Нумерація ззовні */
+#edit-nickname-form {
+    /* display: inline-block; /* Keep it inline initially */
+    display: none; /* Controlled by JS */
+    position: absolute; /* Position it near the trigger */
+    right: calc(var(--spacing-unit) * 2); /* Align with header padding */
+    top: calc(100% + var(--spacing-unit)); /* Position below the header */
+    background-color: var(--color-background);
+    padding: calc(var(--spacing-unit) * 2);
+    border: 1px solid var(--color-border);
+    border-radius: var(--border-radius);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    z-index: 10; /* Ensure it's above other content */
+    min-width: 300px; /* Give it some width */
     text-align: left;
-    max-width: 450px;
-    margin: 15px auto;
+}
+#edit-nickname-form input {
+    margin-bottom: var(--spacing-unit); /* Add space below input */
+    display: block; /* Make input full width */
+    width: 100%;
+}
+#edit-nickname-form button {
+    margin-top: var(--spacing-unit);
+    margin-right: var(--spacing-unit);
+}
+
+
+/* ------------------------------ */
+/* Difficulty Selection           */
+/* ------------------------------ */
+#difficulty-selection .button-group .btn {
+   min-width: 120px; /* Give difficulty buttons some width */
+   background-color: var(--color-background);
+   border: 1px solid var(--color-border);
+   color: var(--color-text);
+}
+#difficulty-selection .button-group .btn:hover:not(:disabled) {
+    background-color: var(--color-accent);
+    border-color: var(--color-accent);
+    color: var(--color-accent-text);
+}
+
+/* ------------------------------ */
+/* Game Area                      */
+/* ------------------------------ */
+#game-area {
+    margin-top: calc(var(--spacing-unit) * 3);
+}
+
+#sticker-container {
+    aspect-ratio: 1 / 1;
+    width: 60%;
+    max-width: 300px; /* Slightly smaller max size */
+    min-width: 150px;
+    margin: 0 auto calc(var(--spacing-unit) * 4) auto; /* Center and add bottom margin */
+    background-color: var(--color-secondary-bg);
+    border: 1px solid var(--color-border);
+    border-radius: var(--border-radius);
+    overflow: hidden; /* Ensure image stays within bounds */
+    display: flex; /* Center image vertically */
+    align-items: center;
+    justify-content: center;
+}
+
+#sticker-image {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+#sticker-image[alt*="Loading"],
+#sticker-image[alt*="Error"] {
+    width: 50px; /* Placeholder size */
+    height: 50px;
+}
+
+.options-group {
+    display: grid; /* Use Grid for options */
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); /* Responsive columns */
+    gap: calc(var(--spacing-unit) * 1.5);
+    max-width: 600px;
+    margin: 0 auto; /* Center the options grid */
+}
+.options-group button {
+    width: 100%; /* Make buttons fill grid cell */
+    margin: 0; /* Remove default btn margin */
+    background-color: var(--color-background);
+    border: 1px solid var(--color-border);
+    color: var(--color-text);
+    font-weight: 400; /* Normal weight for options */
+    padding: calc(var(--spacing-unit) * 1.5) var(--spacing-unit); /* Adjust padding */
+}
+.options-group button:hover:not(:disabled) {
+    background-color: var(--color-accent);
+    border-color: var(--color-accent);
+    color: var(--color-accent-text);
+}
+
+/* Correct/Incorrect Answer States */
+.options-group button.correct-answer {
+   background-color: var(--color-success) ; /* Use variable */
+   border-color: var(--color-success) ;
+   color: white ;
+   font-weight: 600;
+}
+.options-group button.incorrect-answer {
+   background-color: var(--color-error) ; /* Use variable */
+   border-color: var(--color-error) ;
+   color: white ;
+   opacity: 0.7; /* Dim incorrect choice slightly */
+}
+/* Removed !important - let's test if specificity is enough */
+
+
+.game-info {
+    display: flex;
+    justify-content: space-around;
+    margin-top: calc(var(--spacing-unit) * 4);
+    font-size: 1.1em;
+    font-weight: 500;
+    max-width: 400px;
+    margin-left: auto;
+    margin-right: auto;
+    color: #555; /* Slightly muted color */
+}
+
+/* ------------------------------ */
+/* Result Area                    */
+/* ------------------------------ */
+#result-area {
+    margin-top: calc(var(--spacing-unit) * 4);
+}
+#result-area p {
+    font-size: 1.3em;
+    font-weight: 500;
+    margin-bottom: calc(var(--spacing-unit) * 3);
+}
+#result-area .save-message { /* Added by JS */
+    font-size: 0.9em;
+    font-style: italic;
+    color: var(--color-success);
+    margin-top: calc(var(--spacing-unit) * -1); /* Pull up slightly */
+    margin-bottom: calc(var(--spacing-unit) * 2);
+}
+
+/* ------------------------------ */
+/* Leaderboard                    */
+/* ------------------------------ */
+#leaderboard-section {
+    margin-top: calc(var(--spacing-unit) * 4);
+    padding-top: calc(var(--spacing-unit) * 3);
+    border-top: 1px solid var(--color-border);
+}
+
+#leaderboard-filters {
+    margin-bottom: calc(var(--spacing-unit) * 3);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: calc(var(--spacing-unit) * 1.5);
+}
+.filter-group {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap; /* Allow filters to wrap on small screens */
+    justify-content: center;
+}
+.filter-group strong {
+    margin-right: var(--spacing-unit);
+    font-weight: 500;
+}
+
+#leaderboard-list {
+    max-width: 500px;
+    margin: 0 auto calc(var(--spacing-unit) * 3) auto; /* Center list */
+    text-align: left;
+    counter-reset: leaderboard-counter; /* Use CSS counter */
 }
 #leaderboard-list li {
-    padding: 8px 0;
-    border-bottom: 1px solid #f0f0f0;
+    padding: calc(var(--spacing-unit) * 1.5) var(--spacing-unit);
+    border-bottom: 1px solid var(--color-border);
+    counter-increment: leaderboard-counter;
+    display: flex;
+    /* justify-content: space-between; */ /* Let username take space */
+    gap: var(--spacing-unit); /* Add gap between number and text */
 }
-#leaderboard-list li:last-child { border-bottom: none; }
+#leaderboard-list li:last-child {
+    border-bottom: none;
+}
+#leaderboard-list li::before {
+    content: counter(leaderboard-counter) ". "; /* Add number */
+    font-weight: 600;
+    /* min-width: 2em; */ /* Ensure some space for numbers */
+    /* text-align: right; */
+    color: #757575; /* Muted color for number */
+}
 
-#show-leaderboard-button, #close-leaderboard-button { margin-top: 15px; }
-/* Перемістимо кнопку Show Leaderboard трохи вище */
-#show-leaderboard-button { float: right; margin-top: -50px; margin-right: 10px; }
+
+/* ------------------------------ */
+/* Indicators                     */
+/* ------------------------------ */
+#loading-indicator {
+    font-style: italic;
+    color: var(--color-disabled-text);
+    padding: var(--spacing-unit) 0;
+}
+
+#error-message {
+    color: var(--color-error);
+    background-color: var(--color-error-bg);
+    padding: var(--spacing-unit) calc(var(--spacing-unit) * 2);
+    border-radius: var(--border-radius);
+    margin-top: calc(var(--spacing-unit) * 2);
+    border: 1px solid var(--color-error);
+    display: inline-block; /* Prevent full width */
+}
+
+/* ------------------------------ */
+/* Buttons outside main flow      */
+/* ------------------------------ */
+#show-leaderboard-button {
+    display: block; /* Make it block level */
+    margin: calc(var(--spacing-unit) * 3) auto 0 auto; /* Center below main content */
+    /* Remove float styling */
+}
+
+
+/* ------------------------------ */
+/* Responsiveness                 */
+/* ------------------------------ */
 @media (max-width: 600px) {
-   #show-leaderboard-button { float: none; display: block; margin: 15px auto; }
+    body {
+        padding: 0; /* Remove side padding on small screens */
+    }
+    .container {
+       padding: 0 var(--spacing-unit);
+       margin-top: calc(var(--spacing-unit) * 2);
+       margin-bottom: calc(var(--spacing-unit) * 2);
+    }
+    .app-header {
+        flex-direction: column;
+        gap: var(--spacing-unit);
+        padding: var(--spacing-unit);
+        margin-bottom: calc(var(--spacing-unit) * 2);
+        text-align: center;
+        position: relative; /* Needed for absolute positioning of edit form */
+    }
+    .app-header h1 {
+        font-size: 1.3em;
+    }
+    #auth-section {
+        text-align: center; /* Center auth on mobile */
+        width: 100%; /* Ensure it takes width */
+    }
+
+    /* Adjust nickname edit form position for mobile */
+    #edit-nickname-form {
+       position: static; /* Reset position */
+       display: none; /* Hide by default */
+       width: 100%;
+       margin-top: var(--spacing-unit);
+       padding: var(--spacing-unit);
+       box-shadow: none;
+       border: 1px solid var(--color-border);
+       background-color: var(--color-secondary-bg);
+    }
+     #edit-nickname-form input {
+         width: 100%;
+         margin-bottom: var(--spacing-unit);
+     }
+     #edit-nickname-form button {
+         /* Adjust button sizes if needed */
+     }
+
+
+    #sticker-container {
+        width: 80%; /* Slightly wider sticker */
+        max-width: 250px;
+        margin-bottom: calc(var(--spacing-unit) * 3);
+    }
+
+    .options-group {
+        grid-template-columns: 1fr; /* Stack options vertically */
+        gap: var(--spacing-unit);
+        max-width: 90%;
+    }
+
+    .game-info {
+        margin-top: calc(var(--spacing-unit) * 3);
+        font-size: 1em;
+    }
+
+    #leaderboard-filters {
+        gap: var(--spacing-unit);
+    }
+    .filter-group {
+       gap: calc(var(--spacing-unit) * 0.5);
+       font-size: 0.9em;
+    }
+    .filter-group strong {
+        display: block; /* Stack label */
+        width: 100%;
+        margin-bottom: 5px;
+        text-align: center;
+     }
+    .btn-filter { margin: 2px; }
+
+    #leaderboard-list {
+        max-width: 100%;
+        padding: 0;
+    }
+     #leaderboard-list li {
+         font-size: 0.9em;
+         padding: var(--spacing-unit);
+    }
+
+     #show-leaderboard-button {
+         margin-top: calc(var(--spacing-unit) * 2);
+     }
 }
-
-
-/* Індикатори */
-#loading-indicator { font-style: italic; }
-#error-message { color: #F03E5C; font-weight: bold; background-color: #fdd; padding: 10px; border-radius: 5px; }
