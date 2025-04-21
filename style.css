@@ -36,16 +36,12 @@ img { max-width: 100%; display: block; }
 button { font-family: inherit; cursor: pointer; }
 input[type="text"] { font-family: inherit; padding: var(--spacing-unit) calc(var(--spacing-unit) * 1.5); border: 1px solid var(--color-border); border-radius: var(--border-radius); font-size: 1em; margin-right: var(--spacing-unit); }
 
-/* ------------------------------ */
-/* Layout & Container (unchanged) */
-/* ------------------------------ */
+/* ... (Layout & Container - unchanged) ... */
 .container { max-width: var(--container-width); margin: calc(var(--spacing-unit) * 4) auto; padding: 0 calc(var(--spacing-unit) * 2); text-align: center; }
 .app-header { display: flex; justify-content: space-between; align-items: center; padding: calc(var(--spacing-unit) * 2) calc(var(--spacing-unit) * 2); max-width: calc(var(--container-width) + 4 * var(--spacing-unit)); margin: 0 auto; border-bottom: 1px solid var(--color-border); margin-bottom: calc(var(--spacing-unit) * 3); }
 .app-header h1 { margin: 0; font-size: 1.5em; font-weight: 700; }
 
-/* ------------------------------ */
-/* Buttons (unchanged)            */
-/* ------------------------------ */
+/* ... (Buttons - unchanged) ... */
 .btn { display: inline-block; padding: calc(var(--spacing-unit) * 1.25) calc(var(--spacing-unit) * 2.5); font-size: 1em; font-weight: 500; border: 1px solid transparent; border-radius: var(--border-radius); text-align: center; text-decoration: none; transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease; margin: var(--spacing-unit); }
 .btn-primary { background-color: var(--color-accent); color: var(--color-accent-text); border-color: var(--color-accent); box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); }
 .btn-primary:hover:not(:disabled) { background-color: var(--color-accent-darker); border-color: var(--color-accent-darker); box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15); }
@@ -61,18 +57,14 @@ button:disabled, .btn:disabled { cursor: not-allowed; background-color: var(--co
 .btn-filter:disabled { background-color: var(--color-accent); color: var(--color-accent-text); opacity: 0.7; cursor: not-allowed; }
 .button-group { display: flex; flex-wrap: wrap; justify-content: center; gap: calc(var(--spacing-unit) * 1.5); margin-top: calc(var(--spacing-unit) * 2); }
 
-/* ------------------------------ */
-/* Authentication Section (unchanged) */
-/* ------------------------------ */
+/* ... (Authentication Section - unchanged) ... */
 #auth-section { font-size: 0.9em; text-align: right; }
 #user-status strong { font-weight: 600; cursor: pointer; text-decoration: underline dotted; }
 #edit-nickname-form { display: none; position: absolute; right: calc(var(--spacing-unit) * 2); top: calc(100% + var(--spacing-unit)); background-color: var(--color-background); padding: calc(var(--spacing-unit) * 2); border: 1px solid var(--color-border); border-radius: var(--border-radius); box-shadow: 0 4px 10px rgba(0,0,0,0.1); z-index: 10; min-width: 300px; text-align: left; }
 #edit-nickname-form input { margin-bottom: var(--spacing-unit); display: block; width: 100%; }
 #edit-nickname-form button { margin-top: var(--spacing-unit); margin-right: var(--spacing-unit); }
 
-/* ------------------------------ */
-/* Difficulty Selection (unchanged) */
-/* ------------------------------ */
+/* ... (Difficulty Selection - unchanged) ... */
 #difficulty-selection .button-group .btn { min-width: 120px; background-color: var(--color-background); border: 1px solid var(--color-border); color: var(--color-text); }
 #difficulty-selection .button-group .btn:hover:not(:disabled) { background-color: var(--color-accent); border-color: var(--color-accent); color: var(--color-accent-text); }
 
@@ -84,7 +76,7 @@ button:disabled, .btn:disabled { cursor: not-allowed; background-color: var(--co
 #sticker-image { width: 100%; height: 100%; object-fit: contain; }
 #sticker-image[alt*="Loading"], #sticker-image[alt*="Error"] { width: 50px; height: 50px; }
 
-/* --- Options Button Layout (unchanged from previous fix) --- */
+/* ... (Options Button Layout - unchanged) ... */
 .options-group { display: grid; grid-template-columns: repeat(2, 1fr); gap: calc(var(--spacing-unit) * 1.5); max-width: 600px; margin: 0 auto; }
 .options-group button { width: 100%; margin: 0; background-color: var(--color-background); border: 1px solid var(--color-border); color: var(--color-text); font-weight: 400; padding: calc(var(--spacing-unit) * 1.5) var(--spacing-unit); }
 .options-group button:hover:not(:disabled) { background-color: var(--color-accent); border-color: var(--color-accent); color: var(--color-accent-text); }
@@ -99,18 +91,20 @@ button:disabled, .btn:disabled { cursor: not-allowed; background-color: var(--co
 #time-left {
     display: inline-block; /* Needed for min-width */
     min-width: 2ch; /* Approx width of 2 digits */
-    text-align: right; /* Align text to right if needed */
+    text-align: right; /* Align text to right */
     font-weight: 700;
     font-size: 1.3em;
     color: var(--color-text);
     margin-left: var(--spacing-unit);
+    vertical-align: baseline; /* Align with label text */
 }
 #current-score {
+    display: inline-block; /* Allow animation/transform */
     font-weight: 700;
     font-size: 1.3em;
     color: var(--color-text);
     margin-left: var(--spacing-unit);
-    /* Animation will be applied via class */
+    vertical-align: baseline;
 }
 
 /* --- Score Update Animation --- */
@@ -127,16 +121,12 @@ button:disabled, .btn:disabled { cursor: not-allowed; background-color: var(--co
 }
 
 
-/* ------------------------------ */
-/* Result Area (unchanged)        */
-/* ------------------------------ */
+/* ... (Result Area - unchanged) ... */
 #result-area { margin-top: calc(var(--spacing-unit) * 4); }
 #result-area p { font-size: 1.3em; font-weight: 500; margin-bottom: calc(var(--spacing-unit) * 3); }
 #result-area .save-message { font-size: 0.9em; font-style: italic; color: var(--color-success); margin-top: calc(var(--spacing-unit) * -1); margin-bottom: calc(var(--spacing-unit) * 2); }
 
-/* ------------------------------ */
-/* Leaderboard (unchanged)       */
-/* ------------------------------ */
+/* ... (Leaderboard - unchanged) ... */
 #leaderboard-section { margin-top: calc(var(--spacing-unit) * 4); padding-top: calc(var(--spacing-unit) * 3); border-top: 1px solid var(--color-border); }
 #leaderboard-filters { margin-bottom: calc(var(--spacing-unit) * 3); display: flex; flex-direction: column; align-items: center; gap: calc(var(--spacing-unit) * 1.5); }
 .filter-group { display: flex; align-items: center; flex-wrap: wrap; justify-content: center; }
@@ -146,19 +136,13 @@ button:disabled, .btn:disabled { cursor: not-allowed; background-color: var(--co
 #leaderboard-list li:last-child { border-bottom: none; }
 #leaderboard-list li::before { content: counter(leaderboard-counter) ". "; font-weight: 600; color: #757575; }
 
-/* ------------------------------ */
-/* Indicators (unchanged)         */
-/* ------------------------------ */
+/* ... (Indicators - unchanged) ... */
 #loading-indicator { font-style: italic; color: var(--color-disabled-text); padding: var(--spacing-unit) 0; }
 #error-message { color: var(--color-error); background-color: var(--color-error-bg); padding: var(--spacing-unit) calc(var(--spacing-unit) * 2); border-radius: var(--border-radius); margin-top: calc(var(--spacing-unit) * 2); border: 1px solid var(--color-error); display: inline-block; }
 
-/* ------------------------------ */
-/* Buttons outside main flow (unchanged) */
-/* ------------------------------ */
+/* ... (Buttons outside main flow - unchanged) ... */
 #show-leaderboard-button { display: block; margin: calc(var(--spacing-unit) * 3) auto 0 auto; }
 
-/* ------------------------------ */
-/* Responsiveness (unchanged)    */
-/* ------------------------------ */
+/* ... (Responsiveness - unchanged) ... */
 @media (max-width: 700px) { .options-group { max-width: 90%; } }
 @media (max-width: 600px) { body { padding: 0; } .container { padding: 0 var(--spacing-unit); margin-top: calc(var(--spacing-unit) * 2); margin-bottom: calc(var(--spacing-unit) * 2); } .app-header { flex-direction: column; gap: var(--spacing-unit); padding: var(--spacing-unit); margin-bottom: calc(var(--spacing-unit) * 2); text-align: center; position: relative; } .app-header h1 { font-size: 1.3em; } #auth-section { text-align: center; width: 100%; } #edit-nickname-form { position: static; display: none; width: 100%; margin-top: var(--spacing-unit); padding: var(--spacing-unit); box-shadow: none; border: 1px solid var(--color-border); background-color: var(--color-secondary-bg); } #edit-nickname-form input { width: 100%; margin-bottom: var(--spacing-unit); } #sticker-container { width: 80%; max-width: 250px; margin-bottom: calc(var(--spacing-unit) * 3); } .options-group { grid-template-columns: 1fr; gap: var(--spacing-unit); max-width: 90%; } .game-info { margin-top: calc(var(--spacing-unit) * 3); font-size: 1em; gap: calc(var(--spacing-unit) * 2); flex-direction: column; align-items: center; } #timer, #score { padding: calc(var(--spacing-unit)*0.75) calc(var(--spacing-unit) * 1.5); } #time-left, #current-score { font-size: 1.2em; } #leaderboard-filters { gap: var(--spacing-unit); } .filter-group { gap: calc(var(--spacing-unit) * 0.5); font-size: 0.9em; } .filter-group strong { display: block; width: 100%; margin-bottom: 5px; text-align: center; } .btn-filter { margin: 2px; } #leaderboard-list { max-width: 100%; padding: 0; } #leaderboard-list li { font-size: 0.9em; padding: var(--spacing-unit); } #show-leaderboard-button { margin-top: calc(var(--spacing-unit) * 2); } }
