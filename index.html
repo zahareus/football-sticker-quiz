@@ -32,7 +32,7 @@
              <div id="user-status" style="display: none;">
                  <button id="show-leaderboard-header-button" class="btn btn-secondary btn-small">🏆 Leaderboard</button>
                  <strong id="user-nickname" title="Click to edit nickname">Loading...</strong>
-                 <button id="logout-button" class="btn btn-secondary btn-small">Logout</button>
+                 <button id="logout-button" class="btn-link">Logout</button>
                  <form id="edit-nickname-form" style="display: none;">
                      <input type="text" id="nickname-input" placeholder="Enter new nickname" required minlength="3" maxlength="25" size="15">
                      <button type="submit" class="btn btn-primary">Save</button>
@@ -66,7 +66,9 @@
 
         <div id="result-area" style="display: none;">
              <h2>Game Over!</h2>
-             <p class="final-score-container">Your final score: <span id="final-score">0</span></p> <button id="play-again" class="btn btn-primary btn-large">Play Again</button> </div>
+             <p class="final-score-container">Your final score: <span id="final-score">0</span></p>
+             <button id="play-again" class="btn btn-primary btn-large">Play Again</button>
+         </div>
 
         <section id="leaderboard-section" style="display: none;">
              <h2>Leaderboard</h2>
