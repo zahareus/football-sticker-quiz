@@ -27,12 +27,33 @@ header {
   margin-bottom: 25px;
 }
 
-header .auth {
+#auth-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
   margin-top: 10px;
+}
+
+#user-status {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+#edit-nickname-form {
   display: flex;
   gap: 10px;
   flex-wrap: wrap;
   justify-content: center;
+}
+
+#edit-nickname-form input {
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
 }
 
 /* === Buttons === */
@@ -174,5 +195,13 @@ section {
 
   .filters {
     align-items: center;
+  }
+
+  #user-status {
+    flex-direction: column;
+  }
+
+  #edit-nickname-form {
+    flex-direction: column;
   }
 }
