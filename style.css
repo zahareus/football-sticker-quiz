@@ -38,7 +38,7 @@ h2 { font-weight: 500; margin-bottom: calc(var(--spacing-unit) * 2); }
 p { margin-bottom: calc(var(--spacing-unit) * 2); }
 ol, ul { list-style: none; }
 img { max-width: 100%; display: block; }
-button { font-family: inherit; cursor: pointer; background: none; border: none; padding: 0; } /* Reset button defaults */
+button { font-family: inherit; cursor: pointer; background: none; border: none; padding: 0; color: inherit; } /* Reset button defaults, inherit color */
 input[type="text"] { font-family: inherit; padding: var(--spacing-unit) calc(var(--spacing-unit) * 1.5); border: 1px solid var(--color-border); border-radius: var(--border-radius); font-size: 1em; margin-right: var(--spacing-unit); }
 
 /* ------------------------------ */
@@ -70,32 +70,44 @@ input[type="text"] { font-family: inherit; padding: var(--spacing-unit) calc(var
 .btn-small { padding: calc(var(--spacing-unit) * 0.75) calc(var(--spacing-unit) * 1.5); font-size: 0.9em; }
 .btn-large { padding: calc(var(--spacing-unit) * 1.5) calc(var(--spacing-unit) * 3); font-size: 1.1em; }
 .btn-icon { background: none; border: none; padding: 0 calc(var(--spacing-unit) * 0.5); font-size: 1.1em; vertical-align: middle; margin-left: var(--spacing-unit); color: var(--color-text); opacity: 0.7; cursor: pointer; }
-.btn-filter { padding: calc(var(--spacing-unit) * 0.5) calc(var(--spacing-unit) * 1.5); font-size: 0.9em; background-color: transparent; color: var(--color-text); border: 1px solid transparent; margin: 0 calc(var(--spacing-unit) * 0.5); opacity: 0.8; cursor: pointer; border-radius: var(--border-radius);} /* Add radius */
+.btn-filter { padding: calc(var(--spacing-unit) * 0.5) calc(var(--spacing-unit) * 1.5); font-size: 0.9em; background-color: transparent; color: var(--color-text); border: 1px solid transparent; margin: 0 calc(var(--spacing-unit) * 0.5); opacity: 0.8; cursor: pointer; border-radius: var(--border-radius); }
 .btn-filter.active { font-weight: 600; background-color: var(--color-accent); color: var(--color-accent-text); opacity: 1; }
 button:disabled, .btn:disabled { cursor: not-allowed !important; background-color: var(--color-disabled-bg) !important; color: var(--color-disabled-text) !important; border-color: var(--color-disabled-bg) !important; box-shadow: none !important; opacity: 1 !important; }
-.btn-filter:disabled { background-color: var(--color-accent) !important; color: var(--color-accent-text) !important; opacity: 0.7 !important; cursor: not-allowed !important; } /* Ensure filter disabled is clear */
+.btn-filter:disabled { background-color: var(--color-accent) !important; color: var(--color-accent-text) !important; opacity: 0.7 !important; cursor: not-allowed !important; }
 
-/* --- Link Style Button (for Logout) --- */
+/* --- Link Style Button --- */
 .btn-link {
     background: none;
     border: none;
     color: var(--color-link);
     text-decoration: none;
-    padding: calc(var(--spacing-unit) * 0.75) var(--spacing-unit); /* Add some padding */
+    padding: calc(var(--spacing-unit) * 0.75) var(--spacing-unit);
     font-size: 0.9em; /* Match small buttons */
     font-weight: 500;
     vertical-align: middle;
     cursor: pointer;
+    margin: calc(var(--spacing-unit)/2); /* Match other buttons */
+    line-height: 1; /* Adjust line height for better alignment */
 }
+/* Style specifically for leaderboard link button if needed */
+#show-leaderboard-header-button.btn-link {
+    color: var(--color-text); /* Make it look less like a standard link */
+    font-weight: 500;
+    text-decoration: none;
+}
+#show-leaderboard-header-button.btn-link .trophy-emoji { /* Target emoji if needed */
+    margin-right: 4px;
+}
+
 
 .button-group { display: flex; flex-wrap: wrap; justify-content: center; gap: calc(var(--spacing-unit) * 1.5); margin-top: calc(var(--spacing-unit) * 2); }
 
 /* ------------------------------ */
 /* Authentication Section         */
 /* ------------------------------ */
-#auth-section { font-size: 0.9em; text-align: right; display: flex; align-items: center; gap: var(--spacing-unit); flex-wrap: wrap; /* Allow wrapping if needed */ }
-#user-status { display: flex; align-items: center; gap: var(--spacing-unit); flex-wrap: nowrap; /* Try to keep on one line */ }
-#user-status strong { font-weight: 600; cursor: pointer; text-decoration: underline dotted; display: inline-block; /* Needed for potential ellipsis */ white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 150px; /* Adjust max-width as needed */ vertical-align: middle; }
+#auth-section { font-size: 0.9em; text-align: right; display: flex; align-items: center; gap: var(--spacing-unit); flex-wrap: wrap; }
+#user-status { display: flex; align-items: center; gap: var(--spacing-unit); flex-wrap: nowrap; }
+#user-status strong { font-weight: 600; cursor: pointer; text-decoration: underline dotted; display: inline-block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 120px; /* Slightly reduced max-width for nickname */ vertical-align: middle; }
 #edit-nickname-form { display: none; position: absolute; right: calc(var(--spacing-unit) * 2); top: calc(var(--header-height) + var(--spacing-unit)); background-color: var(--color-background); padding: calc(var(--spacing-unit) * 2); border: 1px solid var(--color-border); border-radius: var(--border-radius); box-shadow: 0 4px 10px rgba(0,0,0,0.1); z-index: 10; min-width: 300px; text-align: left; }
 #edit-nickname-form input { margin-bottom: var(--spacing-unit); display: block; width: 100%; }
 #edit-nickname-form button { margin-top: var(--spacing-unit); margin-right: var(--spacing-unit); }
@@ -123,7 +135,7 @@ button:disabled, .btn:disabled { cursor: not-allowed !important; background-colo
 @keyframes score-bump { 0% { transform: scale(1); color: var(--color-text); } 50% { transform: scale(1.3); color: var(--color-accent-darker); } 100% { transform: scale(1); color: var(--color-text); } }
 #score.score-updated { animation: score-bump 0.4s ease-out; }
 
-/* ... (Result Area - unchanged styles, only HTML classes modified) ... */
+/* ... (Result Area - unchanged) ... */
 #result-area { margin-top: calc(var(--spacing-unit) * 4); padding: calc(var(--spacing-unit) * 3) calc(var(--spacing-unit) * 2); }
 #result-area h2 { font-size: 2.5em; font-weight: 700; color: var(--color-text); margin-bottom: var(--spacing-unit); }
 #result-area .final-score-container { font-size: 1.8em; font-weight: 500; color: var(--color-info-text); margin-bottom: calc(var(--spacing-unit) * 4); }
@@ -131,7 +143,7 @@ button:disabled, .btn:disabled { cursor: not-allowed !important; background-colo
 #result-area .save-message { font-size: 0.9em; font-style: italic; color: var(--color-success); margin-top: calc(var(--spacing-unit) * -2); margin-bottom: calc(var(--spacing-unit) * 3); }
 #result-area #play-again { margin-top: calc(var(--spacing-unit) * 2); }
 
-/* ... (Leaderboard - unchanged styles, only JS logic modified) ... */
+/* ... (Leaderboard - unchanged) ... */
 #leaderboard-section { margin-top: calc(var(--spacing-unit) * 4); padding-top: calc(var(--spacing-unit) * 3); }
 #leaderboard-filters { margin-bottom: calc(var(--spacing-unit) * 3); display: flex; flex-direction: column; align-items: center; gap: calc(var(--spacing-unit) * 1.5); }
 .filter-group { display: flex; align-items: center; flex-wrap: wrap; justify-content: center; }
@@ -150,7 +162,9 @@ button:disabled, .btn:disabled { cursor: not-allowed !important; background-colo
 @media (hover: hover) {
     .btn-primary:hover:not(:disabled) { background-color: var(--color-accent-darker); border-color: var(--color-accent-darker); box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15); }
     .btn-secondary:hover:not(:disabled) { background-color: var(--color-secondary-bg-hover); }
+    /* Update link button hover */
     .btn-link:hover { color: var(--color-link-hover); text-decoration: underline; }
+    #show-leaderboard-header-button.btn-link:hover { color: var(--color-text); background-color: var(--color-secondary-bg-hover); text-decoration: none;} /* Specific hover for leaderboard link */
     .btn-icon:hover:not(:disabled) { opacity: 1; }
     .btn-filter:hover:not(:disabled) { background-color: var(--color-secondary-bg-hover); opacity: 1; }
     #difficulty-selection .button-group .btn:hover:not(:disabled) { background-color: var(--color-accent); border-color: var(--color-accent); color: var(--color-accent-text); }
@@ -161,35 +175,49 @@ button:disabled, .btn:disabled { cursor: not-allowed !important; background-colo
 /* ------------------------------ */
 /* Responsiveness                 */
 /* ------------------------------ */
-@media (max-width: 768px) {
+@media (max-width: 768px) { /* Apply mobile header earlier */
     .app-header {
-        /* Keep header flex row */
-        height: auto; /* Allow height to adjust for wrapping */
-        padding: var(--spacing-unit); /* Reduce padding */
-        flex-wrap: wrap; /* Allow wrapping if needed */
-        justify-content: space-between; /* Keep space-between */
+        /* Ensure header stays as row */
+        flex-wrap: nowrap; /* Prevent wrapping */
+        overflow: hidden; /* Hide overflow if it happens */
+        padding: 0 var(--spacing-unit); /* Adjust padding */
     }
      #auth-section {
-        /* Remove width: 100% to allow shrinking */
-        justify-content: flex-end; /* Align to right */
-     }
-     #user-status {
-        /* Remove width: 100% */
+        /* Allow shrinking but prevent wrapping within auth */
+        flex-shrink: 1;
+        min-width: 0; /* Allow shrinking below content size */
         justify-content: flex-end;
      }
-     #user-status strong { max-width: 100px; } /* Further reduce max-width for nickname */
-     #user-status .btn-small, #user-status .btn-link { margin: 2px; font-size: 0.85em; padding: 4px 8px; } /* Smaller buttons/link */
-     .logo-container { flex-shrink: 0; } /* Prevent logo from shrinking too much */
+     #user-status {
+        /* Ensure items stay in line */
+        flex-wrap: nowrap;
+        overflow: hidden;
+     }
+     /* Reduce font/padding for ALL items in user-status on mobile */
+     #user-status > * {
+        font-size: 0.85em;
+        margin: 0 2px; /* Minimal margin */
+     }
+     #user-status .btn-link, #user-status .btn-small {
+        padding: 4px 6px; /* Reduced padding */
+        white-space: nowrap; /* Prevent button text wrapping */
+     }
+     #user-status strong {
+        max-width: 80px; /* Even smaller max-width for nickname */
+        flex-shrink: 1; /* Allow nickname to shrink */
+     }
+     .logo-container { flex-shrink: 0; }
 
     #edit-nickname-form { position: static; width: 100%; margin-top: var(--spacing-unit); box-shadow: none; border: 1px solid var(--color-border); background-color: var(--color-secondary-bg); }
 }
 @media (max-width: 700px) {
     .options-group { max-width: 90%; }
     /* Make game area elements smaller to fit */
+    #game-area { margin-top: var(--spacing-unit); } /* Reduce top margin */
     #sticker-container { width: 70%; max-width: 220px; margin-bottom: calc(var(--spacing-unit) * 2); }
-    .options-group { gap: var(--spacing-unit); }
+    .options-group { gap: var(--spacing-unit); margin-bottom: calc(var(--spacing-unit) * 2); } /* Add bottom margin */
     .options-group button { padding: var(--spacing-unit); font-size: 0.9em;}
-    .game-info { margin-top: calc(var(--spacing-unit) * 2); }
+    .game-info { margin-top: 0; } /* Remove top margin */
     #timer, #score { font-size: 1em; padding: calc(var(--spacing-unit)*0.75) var(--spacing-unit); }
     #time-left, #current-score { font-size: 1.1em; }
 }
@@ -197,9 +225,10 @@ button:disabled, .btn:disabled { cursor: not-allowed !important; background-colo
 @media (max-width: 600px) {
     body { padding: 0; }
     .container { padding: 0 var(--spacing-unit); margin-top: calc(var(--spacing-unit) * 2); margin-bottom: calc(var(--spacing-unit) * 2); }
-    /* Further mobile adjustments if needed */
+    /* Mobile header already handled by 768px breakpoint */
+
     .options-group { grid-template-columns: 1fr; } /* Force single column */
-    .game-info { flex-direction: row; /* Keep side-by-side */ justify-content: space-around; gap: var(--spacing-unit); }
+    .game-info { flex-direction: row; justify-content: space-around; gap: var(--spacing-unit); }
     /* Result Screen on Mobile */
      #result-area h2 { font-size: 2em; }
      #result-area .final-score-container { font-size: 1.5em; }
