@@ -13,12 +13,13 @@ if (typeof supabase === 'undefined') {
     try {
         supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
         console.log('Supabase client initialized successfully.');
-        checkInitialAuthState();
+        checkInitialAuthState(); // Check auth state immediately
 
+        // Initialize app after DOM is ready
         if (document.readyState === 'loading') {
             document.addEventListener('DOMContentLoaded', initializeApp);
         } else {
-            initializeApp();
+            initializeApp(); // DOM already loaded
         }
     } catch (error) {
         console.error('Error initializing Supabase:', error);
@@ -36,21 +37,21 @@ let currentUser = null;
 let selectedDifficulty = 1;
 let currentLeaderboardTimeframe = 'all';
 let currentLeaderboardDifficulty = 1;
-let currentUserProfile = null;
+let currentUserProfile = null; // Cache for { id, username }
 
 // ----- 4. DOM Element References -----
 let gameAreaElement, stickerImageElement, optionsContainerElement, timeLeftElement, currentScoreElement, resultAreaElement, finalScoreElement, playAgainButton, authSectionElement, loginButton, userStatusElement, logoutButton, difficultySelectionElement, loadingIndicator, errorMessageElement;
 let difficultyButtons;
 let leaderboardSectionElement, leaderboardListElement, closeLeaderboardButton;
-let showLeaderboardHeaderButton; // Renamed
+let showLeaderboardHeaderButton; // Header leaderboard button
 let userNicknameElement, editNicknameForm, nicknameInputElement, cancelEditNicknameButton;
-let scoreDisplayElement;
+let scoreDisplayElement; // Target for score animation
 
 // Nickname Generation Words
 const NICKNAME_ADJECTIVES = ["Fast", "Quick", "Happy", "Silent", "Blue", "Red", "Green", "Golden", "Iron", "Clever", "Brave", "Wise", "Lucky", "Shiny", "Dark", "Light", "Great", "Tiny", "Magic"];
 const NICKNAME_NOUNS = ["Fox", "Wolf", "Mouse", "Tiger", "Car", "Tree", "Eagle", "Lion", "Shark", "Puma", "Star", "Moon", "Sun", "River", "Stone", "Blade", "Bear", "Horse", "Ship"];
 
-// Helper function to truncate strings (reduced limit slightly)
+// Helper function to truncate strings
 function truncateString(str, num = 12) { // Default limit 12
   if (!str) return '';
   if (str.length <= num) {
@@ -89,7 +90,6 @@ function initializeDOMElements() {
     nicknameInputElement = document.getElementById('nickname-input');
     cancelEditNicknameButton = document.getElementById('cancel-edit-nickname-button');
 
-    // Updated check
     const elements = { gameAreaElement, stickerImageElement, optionsContainerElement, timeLeftElement, currentScoreElement, scoreDisplayElement, resultAreaElement, finalScoreElement, playAgainButton, authSectionElement, loginButton, userStatusElement, userNicknameElement, logoutButton, difficultySelectionElement, leaderboardSectionElement, leaderboardListElement, closeLeaderboardButton, showLeaderboardHeaderButton, loadingIndicator, errorMessageElement, editNicknameForm, nicknameInputElement, cancelEditNicknameButton };
     let allFound = true;
     for (const key in elements) {
@@ -105,10 +105,10 @@ function initializeDOMElements() {
 
     if (!allFound) { console.error("initializeDOMElements: Not all required elements found."); handleCriticalError("UI Error: Missing page elements."); return false; }
 
-    // Updated listeners
+    // Add event listeners
     playAgainButton.addEventListener('click', showDifficultySelection);
     loginButton.addEventListener('click', loginWithGoogle);
-    logoutButton.addEventListener('click', logout);
+    logoutButton.addEventListener('click', logout); // Listener for logout
     difficultyButtons.forEach(button => { button.addEventListener('click', handleDifficultySelection); });
     if (showLeaderboardHeaderButton) showLeaderboardHeaderButton.addEventListener('click', openLeaderboard);
     closeLeaderboardButton.addEventListener('click', closeLeaderboard);
@@ -136,13 +136,34 @@ async function loginWithGoogle() {
         if (error) throw error;
     } catch (error) { console.error("Login error:", error); showError(`Login failed: ${error.message}`); }
 }
+
 async function logout() {
-    if (!supabaseClient) { return showError("Supabase client is not initialized."); }
-    console.log("Attempting to sign out..."); hideError();
-    try { const { error } = await supabaseClient.auth.signOut(); if (error) { throw error; } console.log("SignOut successful."); }
-    catch (error) { console.error("Logout error:", error); showError(`Logout failed: ${error.message}`); }
+    // Add check for client before attempting sign out
+    if (!supabaseClient) {
+        console.error("Logout error: Supabase client not initialized.");
+        return showError("Cannot logout: Client error.");
+    }
+    console.log("Attempting to sign out...");
+    hideError();
+    showLoading(); // Show loading during logout process
+    try {
+        const { error } = await supabaseClient.auth.signOut();
+        if (error) {
+            console.error("Supabase signOut error:", error);
+            throw error; // Throw to handle in catch block
+        }
+        console.log("SignOut successful.");
+        // UI update will be handled by onAuthStateChange
+    } catch (error) {
+        console.error("Logout error:", error);
+        showError(`Logout failed: ${error.message || 'Unknown error'}`);
+    } finally {
+        hideLoading(); // Hide loading indicator
+    }
 }
 
+
+// Update UI based on auth state
 function updateAuthStateUI(user) {
    if (!loginButton || !userStatusElement || !difficultySelectionElement || !userNicknameElement || !showLeaderboardHeaderButton ) {
        console.warn("updateAuthStateUI: Key DOM elements not ready yet!");
@@ -150,26 +171,32 @@ function updateAuthStateUI(user) {
    }
    hideNicknameEditForm();
    if (user) {
-       currentUser = user;
+       // Use cached profile username if available, otherwise fallback to email or 'Loading...'
        const displayName = currentUserProfile?.username || user.email || 'Loading...';
-       userNicknameElement.textContent = truncateString(displayName); // Use default limit (12)
+       userNicknameElement.textContent = truncateString(displayName); // Truncate name
        userStatusElement.style.display = 'flex';
        loginButton.style.display = 'none';
        showLeaderboardHeaderButton.style.display = 'inline-block';
 
+       // Show difficulty selection only if no other main view is active
        if (gameAreaElement?.style.display === 'none' && resultAreaElement?.style.display === 'none' && leaderboardSectionElement?.style.display === 'none') {
            showDifficultySelection();
        } else {
            if (difficultySelectionElement) difficultySelectionElement.style.display = 'none';
        }
    } else {
+       // User logged out
        currentUser = null; currentUserProfile = null;
        if (loginButton) { loginButton.style.display = 'block'; } else { console.error("updateAuthStateUI: loginButton is null!"); }
        if (userStatusElement) userStatusElement.style.display = 'none';
        if (difficultySelectionElement) difficultySelectionElement.style.display = 'none';
        if (showLeaderboardHeaderButton) showLeaderboardHeaderButton.style.display = 'none';
 
-       stopTimer(); if(gameAreaElement) gameAreaElement.style.display = 'none'; if(resultAreaElement) resultAreaElement.style.display = 'none'; if(leaderboardSectionElement) leaderboardSectionElement.style.display = 'none';
+       // Stop game and hide all main sections
+       stopTimer();
+       if(gameAreaElement) gameAreaElement.style.display = 'none';
+       if(resultAreaElement) resultAreaElement.style.display = 'none';
+       if(leaderboardSectionElement) leaderboardSectionElement.style.display = 'none';
    }
 }
 
@@ -177,31 +204,120 @@ function generateRandomNickname() {
     const adj = NICKNAME_ADJECTIVES[Math.floor(Math.random() * NICKNAME_ADJECTIVES.length)]; const noun = NICKNAME_NOUNS[Math.floor(Math.random() * NICKNAME_NOUNS.length)]; return `${adj} ${noun}`;
 }
 async function checkAndCreateUserProfile(user) {
-   if (!supabaseClient || !user) return; console.log(`checkAndCreateUserProfile for user ${user.id}...`); currentUserProfile = null; let finalUsernameToShow = user.email || 'User';
+   if (!supabaseClient || !user) {
+        console.error("checkAndCreateUserProfile: Invalid client or user.");
+        return; // Exit if client or user is invalid
+   }
+   console.log(`checkAndCreateUserProfile for user ${user.id}...`);
+   currentUserProfile = null; // Reset cache
+   let finalUsernameToShow = user.email || 'User'; // Fallback
+
    try {
-       let { data: profileData, error: selectError } = await supabaseClient .from('profiles') .select('id, username') .eq('id', user.id) .maybeSingle();
-       if (selectError && selectError.code !== 'PGRST116') { throw selectError; }
+       // Add logging before the call
+       console.log("Attempting to fetch profile from Supabase...");
+       let { data: profileData, error: selectError } = await supabaseClient
+           .from('profiles')
+           .select('id, username')
+           .eq('id', user.id)
+           .maybeSingle();
+
+       // Log result or error
+       if (selectError && selectError.code !== 'PGRST116') {
+           console.error("Supabase profile select error:", selectError);
+           throw selectError;
+       }
+       console.log("Profile fetch result:", profileData);
+
        if (!profileData) {
-           console.log(`Profile not found for user ${user.id}. Creating...`); const randomNickname = generateRandomNickname(); const { data: insertedProfile, error: insertError } = await supabaseClient .from('profiles') .insert({ id: user.id, username: randomNickname, updated_at: new Date() }) .select('id, username') .single();
-           if (insertError) throw insertError; currentUserProfile = insertedProfile; finalUsernameToShow = insertedProfile?.username || finalUsernameToShow; console.log(`Profile created with nickname: ${finalUsernameToShow}`);
-       } else { currentUserProfile = profileData; finalUsernameToShow = profileData.username || finalUsernameToShow; console.log(`Profile exists for user ${user.id}. Username: ${finalUsernameToShow}`); }
-       if (userNicknameElement) {
-            userNicknameElement.textContent = truncateString(finalUsernameToShow); // Use default limit (12)
-       } else { console.warn("checkAndCreateUserProfile: userNicknameElement not found."); }
-   } catch (error) { console.error("Error in checkAndCreateUserProfile:", error); showError(`Profile Error: ${error.message}`); if (userNicknameElement) { userNicknameElement.textContent = truncateString(finalUsernameToShow); } currentUserProfile = null; }
+           console.log(`Profile not found for user ${user.id}. Creating...`);
+           const randomNickname = generateRandomNickname();
+           const { data: insertedProfile, error: insertError } = await supabaseClient
+               .from('profiles')
+               .insert({ id: user.id, username: randomNickname, updated_at: new Date() })
+               .select('id, username')
+               .single();
+
+           if (insertError) {
+                console.error("Supabase profile insert error:", insertError);
+                throw insertError;
+           }
+           currentUserProfile = insertedProfile;
+           finalUsernameToShow = insertedProfile?.username || finalUsernameToShow;
+           console.log(`Profile created with nickname: ${finalUsernameToShow}`);
+       } else {
+           currentUserProfile = profileData;
+           finalUsernameToShow = profileData.username || finalUsernameToShow;
+           console.log(`Profile exists for user ${user.id}. Username: ${finalUsernameToShow}`);
+       }
+        // Update cache with fetched/created profile
+        currentUserProfile = profileData || insertedProfile;
+
+   } catch (error) {
+       console.error("Error during checkAndCreateUserProfile:", error);
+       showError(`Profile Error: ${error.message || 'Could not load profile.'}`);
+       // Don't update UI with potentially incorrect fallback here on error
+       currentUserProfile = null; // Ensure cache is null
+   }
+    // Return the username (or fallback) so caller can update UI AFTER profile check
+    return finalUsernameToShow;
 }
+
+
+// Auth State Change Listener Setup
 function setupAuthStateChangeListener() {
-    if (!supabaseClient) { return; } console.log("Setting up onAuthStateChange listener...");
-    supabaseClient.auth.onAuthStateChange(async (_event, session) => { const user = session?.user ?? null; updateAuthStateUI(user); if (_event === 'SIGNED_IN' && user) { await checkAndCreateUserProfile(user); } if (_event === 'SIGNED_OUT') { console.log("User signed out, resetting state."); } if (_event === 'USER_UPDATED') { console.log("User data updated."); } });
+    if (!supabaseClient) { return; }
+    console.log("Setting up onAuthStateChange listener...");
+
+    supabaseClient.auth.onAuthStateChange(async (_event, session) => {
+        console.log(`Auth Event: ${_event}, Session: ${session ? 'Exists' : 'Null'}`);
+        const user = session?.user ?? null;
+
+        if (user) {
+            // If user exists (SIGNED_IN or already logged in)
+            currentUser = user; // Set global user first
+            if (_event === 'SIGNED_IN') {
+                showLoading(); // Show loading while profile is checked
+                await checkAndCreateUserProfile(user); // Ensure profile is loaded/created
+                hideLoading();
+            }
+            // Always update UI after potential profile check/load
+            updateAuthStateUI(user);
+        } else {
+            // If user is null (SIGNED_OUT or initial state without session)
+             // Clear profile cache immediately on sign out
+            if (_event === 'SIGNED_OUT') {
+                currentUserProfile = null;
+                console.log("User signed out, clearing profile cache.");
+            }
+            updateAuthStateUI(null); // Update UI for logged-out state
+        }
+    });
     console.log("onAuthStateChange listener setup complete.");
 }
+
+// Check Initial Auth State on Load
 async function checkInitialAuthState() {
-    if (!supabaseClient) { return; }; console.log("Checking initial auth state..."); try { const { data: { session }, error } = await supabaseClient.auth.getSession(); if (error) throw error; currentUser = session?.user ?? null; console.log("Initial auth state checked.", currentUser ? `User logged in: ${currentUser.id}` : "No active session found."); if (currentUser) { await checkAndCreateUserProfile(currentUser); } } catch (error) { console.error("Error getting initial session:", error); currentUser = null; currentUserProfile = null; }
+    if (!supabaseClient) { return; };
+    console.log("Checking initial auth state...");
+    try {
+        const { data: { session }, error } = await supabaseClient.auth.getSession();
+        if (error) throw error;
+        // Set global user based on initial session check
+        currentUser = session?.user ?? null;
+        console.log("Initial session checked.", currentUser ? `User: ${currentUser.id}` : "No session");
+        // We no longer fetch profile here; onAuthStateChange will handle it if needed.
+    } catch (error) {
+        console.error("Error getting initial session:", error);
+        currentUser = null;
+        currentUserProfile = null;
+    }
 }
+
+
 // ----- 5.5 Nickname Editing Functions -----
 function showNicknameEditForm() {
     if (!currentUserProfile || !userNicknameElement || !editNicknameForm || !nicknameInputElement) { return; } console.log("Showing nickname edit form."); hideError();
-    nicknameInputElement.value = currentUserProfile.username || ''; // Show full name in input
+    nicknameInputElement.value = currentUserProfile.username || '';
     editNicknameForm.style.display = 'block'; nicknameInputElement.focus(); nicknameInputElement.select();
 }
 function hideNicknameEditForm() {
@@ -211,7 +327,7 @@ async function handleNicknameSave(event) {
     event.preventDefault(); if (!currentUser || !nicknameInputElement || !supabaseClient || !currentUserProfile) { showError("Cannot save nickname. Please ensure you are logged in."); return; } const newNickname = nicknameInputElement.value.trim(); if (!newNickname || newNickname.length < 3 || newNickname.length > 25) { showError("Nickname must be between 3 and 25 characters long."); return; } if (newNickname === currentUserProfile.username) { hideNicknameEditForm(); return; } showLoading(); hideError();
     try { const { data: updatedData, error } = await supabaseClient .from('profiles') .update({ username: newNickname, updated_at: new Date() }) .eq('id', currentUser.id) .select('username') .single(); if (error) throw error; console.log("Nickname updated successfully in DB:", updatedData); currentUserProfile.username = updatedData.username;
         if (userNicknameElement) {
-            userNicknameElement.textContent = truncateString(updatedData.username); // Use default limit (12)
+            userNicknameElement.textContent = truncateString(updatedData.username);
         }
         hideNicknameEditForm(); showError("Nickname updated successfully!"); setTimeout(hideError, 2500); if (leaderboardSectionElement?.style.display === 'block') { updateLeaderboard(); } } catch (error) { console.error("Error updating nickname:", error); showError(`Failed to update nickname: ${error.message}`); } finally { hideLoading(); }
 }
@@ -275,33 +391,77 @@ async function loadNextQuestion(isQuickTransition = false) {
         displayQuestion(questionData);
     } else {
         console.error("loadNextQuestion: Failed to load question data. Ending game.");
-        if(gameAreaElement) gameAreaElement.style.display = 'none'; if(resultAreaElement) resultAreaElement.style.display = 'block'; if(finalScoreElement) finalScoreElement.textContent = currentScore;
+        // Ensure UI reflects game end state even if error happened during load
+        if(gameAreaElement) gameAreaElement.style.display = 'none';
+        if(resultAreaElement) {
+             resultAreaElement.style.display = 'block';
+             // Ensure final score is displayed in results if question load fails
+             if(finalScoreElement) finalScoreElement.textContent = currentScore;
+        }
+        // UI state (like user status) should be handled correctly by updateAuthStateUI
     }
 }
 
 async function loadNewQuestion(isQuickTransition = false) {
     if (!supabaseClient) { showError("Database connection error."); return null; }
     if (selectedDifficulty === null) { showError("No difficulty selected."); return null; }
-    if (!isQuickTransition) { showLoading(); } hideError();
+
+    if (!isQuickTransition) {
+        showLoading(); // Show loading only if not quick transition
+    }
+    hideError();
+
     try {
+        // Add check for client just before query
+        if (!supabaseClient) throw new Error("Supabase client not available before query.");
+
         // Database query logic...
+        console.log("Attempting to fetch sticker count...");
         const { count: stickerCount, error: countError } = await supabaseClient .from('stickers') .select('*', { count: 'exact', head: true }) .eq('difficulty', selectedDifficulty);
-        if (countError || stickerCount === null || stickerCount === 0) throw new Error(`Sticker count error/missing for difficulty ${selectedDifficulty}.`);
+        if (countError) { console.error("Sticker count error:", countError); throw new Error(`Sticker count error: ${countError.message}`); }
+        if (stickerCount === null || stickerCount === 0) throw new Error(`No stickers found for difficulty ${selectedDifficulty}.`);
+        console.log(`Sticker count: ${stickerCount}`);
+
+        console.log("Attempting to fetch club count...");
         const { count: totalClubCount, error: totalClubCountError } = await supabaseClient .from('clubs') .select('id', { count: 'exact', head: true });
-        if (totalClubCountError || totalClubCount === null || totalClubCount < 4) throw new Error(`Club count error/insufficient (${totalClubCount}).`);
+        if (totalClubCountError) { console.error("Club count error:", totalClubCountError); throw new Error(`Club count error: ${totalClubCountError.message}`); }
+        if (totalClubCount === null || totalClubCount < 4) throw new Error(`Not enough clubs (${totalClubCount})`);
+        console.log(`Club count: ${totalClubCount}`);
+
+        console.log("Attempting to fetch random sticker...");
         const randomIndex = Math.floor(Math.random() * stickerCount);
         const { data: randomStickerData, error: stickerError } = await supabaseClient .from('stickers') .select(`image_url, clubs ( id, name )`) .eq('difficulty', selectedDifficulty) .order('id', { ascending: true }) .range(randomIndex, randomIndex) .single();
-        if (stickerError || !randomStickerData || !randomStickerData.clubs) throw new Error("Sticker data fetch error or incomplete data.");
+        if (stickerError) { console.error("Sticker fetch error:", stickerError); throw new Error(`Sticker data fetch error: ${stickerError.message}`); }
+        if (!randomStickerData || !randomStickerData.clubs) throw new Error("Incomplete sticker or club data received.");
+        console.log("Sticker fetched:", randomStickerData.image_url);
+
         const correctClubId = randomStickerData.clubs.id; const correctClubName = randomStickerData.clubs.name; const imageUrl = randomStickerData.image_url;
+
+        console.log("Attempting to fetch incorrect clubs...");
         const { data: incorrectClubsData, error: incorrectClubsError } = await supabaseClient .from('clubs') .select('name') .neq('id', correctClubId) .limit(50);
-        if (incorrectClubsError || !incorrectClubsData || incorrectClubsData.length < 3) throw new Error("Incorrect club options fetch error or insufficient data.");
+        if (incorrectClubsError) { console.error("Incorrect clubs fetch error:", incorrectClubsError); throw incorrectClubsError; }
+        if (!incorrectClubsData || incorrectClubsData.length < 3) throw new Error("Incorrect club options fetch error or insufficient data.");
+        console.log(`Workspaceed ${incorrectClubsData.length} potential incorrect options.`);
+
         const incorrectOptions = incorrectClubsData .map(club => club.name) .filter(name => name !== correctClubName) .sort(() => 0.5 - Math.random()) .slice(0, 3);
         if (incorrectOptions.length < 3) throw new Error("Failed to get 3 distinct incorrect options.");
+
         const allOptions = [correctClubName, ...incorrectOptions].sort(() => 0.5 - Math.random());
         const questionDataForDisplay = { imageUrl: imageUrl, options: allOptions, correctAnswer: correctClubName };
         return questionDataForDisplay;
-    } catch (error) { console.error("Error loading new question:", error); showError(`Loading Error: ${error.message}`); if (!isQuickTransition) { hideLoading(); } setTimeout(endGame, 500); return null;
-    } finally { hideLoading(); }
+
+    } catch (error) {
+        console.error("Error during loadNewQuestion:", error);
+        showError(`Loading Error: ${error.message || 'Failed to load question'}`);
+        // Ensure loading is hidden if it was shown
+        if (!isQuickTransition) { hideLoading(); }
+        // Don't necessarily end the game here, let loadNextQuestion handle it
+        // setTimeout(endGame, 500);
+        return null; // Indicate failure
+    } finally {
+         // Always hide loading in finally, it handles cases where it wasn't shown
+         hideLoading();
+    }
 }
 
 function endGame() {
@@ -309,7 +469,7 @@ function endGame() {
 }
 async function saveScore() {
     if (!currentUser) { return; } if (typeof currentScore !== 'number' || currentScore < 0) { return; } if (selectedDifficulty === null) { return; } if (currentScore === 0) { return; } console.log(`Attempting to save score: Score=${currentScore}, Difficulty=${selectedDifficulty}, User=${currentUser.id}`); showLoading(); let detectedCountryCode = null;
-    try { const { error } = await supabaseClient .from('scores') .insert({ user_id: currentUser.id, score: currentScore, difficulty: selectedDifficulty, country_code: detectedCountryCode }); if (error) { throw error; } console.log("Score saved successfully to database!"); if (resultAreaElement && !resultAreaElement.querySelector('.save-message')) { const scoreSavedMessage = document.createElement('p'); scoreSavedMessage.textContent = 'Your score has been saved!'; scoreSavedMessage.className = 'save-message'; const p = resultAreaElement.querySelector('p.final-score-container'); /* Target specific p */ if(p) p.insertAdjacentElement('afterend', scoreSavedMessage); else resultAreaElement.appendChild(scoreSavedMessage); } } catch (error) { console.error("Error during score saving process:", error); showError(`Failed to save score: ${error.message}`); if(resultAreaElement) { const msg = resultAreaElement.querySelector('.save-message'); if(msg) msg.remove(); } } finally { hideLoading(); }
+    try { const { error } = await supabaseClient .from('scores') .insert({ user_id: currentUser.id, score: currentScore, difficulty: selectedDifficulty, country_code: detectedCountryCode }); if (error) { throw error; } console.log("Score saved successfully to database!"); if (resultAreaElement && !resultAreaElement.querySelector('.save-message')) { const scoreSavedMessage = document.createElement('p'); scoreSavedMessage.textContent = 'Your score has been saved!'; scoreSavedMessage.className = 'save-message'; const p = resultAreaElement.querySelector('p.final-score-container'); if(p) p.insertAdjacentElement('afterend', scoreSavedMessage); else resultAreaElement.appendChild(scoreSavedMessage); } } catch (error) { console.error("Error during score saving process:", error); showError(`Failed to save score: ${error.message}`); if(resultAreaElement) { const msg = resultAreaElement.querySelector('.save-message'); if(msg) msg.remove(); } } finally { hideLoading(); }
 }
 
 // ----- 10. Leaderboard Logic -----
@@ -318,10 +478,7 @@ async function fetchLeaderboardData(timeframe, difficulty) {
     if (!supabaseClient) { showError("Database connection error."); return null; } console.log(`Workspaceing leaderboard data: Timeframe=${timeframe}, Difficulty=${difficulty}`); showLoading(); hideError();
     try {
         const { fromDate, toDate } = calculateTimeRange(timeframe);
-        let query = supabaseClient
-            .from('scores')
-            .select(`score, created_at, user_id, profiles ( username )`) // Added user_id
-            .eq('difficulty', difficulty);
+        let query = supabaseClient .from('scores') .select(`score, created_at, user_id, profiles ( username )`) .eq('difficulty', difficulty);
         if (fromDate) { query = query.gte('created_at', fromDate); }
         if (toDate) { query = query.lt('created_at', toDate); }
         query = query .order('score', { ascending: false }) .order('created_at', { ascending: true }) .limit(10);
@@ -342,9 +499,7 @@ function displayLeaderboard(data) {
         const username = entry.profiles?.username || 'Anonymous';
         const textNode = document.createTextNode(`${username} - ${entry.score}`);
         li.appendChild(textNode);
-        if (currentUserId && entry.user_id === currentUserId) {
-            li.classList.add('user-score'); // Add class to highlight
-        }
+        if (currentUserId && entry.user_id === currentUserId) { li.classList.add('user-score'); }
         leaderboardListElement.appendChild(li);
     });
 }
@@ -363,4 +518,4 @@ function showLoading() { if (loadingIndicator) { loadingIndicator.style.display 
 function hideLoading() { if (loadingIndicator) { loadingIndicator.style.display = 'none'; } }
 
 // ----- 12. App Initialization -----
-function initializeApp() { console.log("DOM fully loaded, initializing application..."); if (!initializeDOMElements()) { return; } setupAuthStateChangeListener(); updateAuthStateUI(currentUser); console.log("Application initialized. Current user state:", currentUser ? currentUser.id : 'Logged out'); if(gameAreaElement) gameAreaElement.style.display = 'none'; if(resultAreaElement) resultAreaElement.style.display = 'none'; if (leaderboardSectionElement) leaderboardSectionElement.style.display = 'none'; console.log("App ready. Waiting for user actions or auth changes."); }
+function initializeApp() { console.log("DOM fully loaded, initializing application..."); if (!initializeDOMElements()) { return; } setupAuthStateChangeListener(); /* updateAuthStateUI called by listener */ console.log("App init finished. Waiting for auth state..."); /* Removed explicit updateAuthStateUI call here */ if(gameAreaElement) gameAreaElement.style.display = 'none'; if(resultAreaElement) resultAreaElement.style.display = 'none'; if (leaderboardSectionElement) leaderboardSectionElement.style.display = 'none'; /* Log initial currentUser state handled within listener setup */ }
