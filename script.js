@@ -1,7 +1,7 @@
-// script.js (Повна версія з попереднього кроку)
+// script.js
 
-const SUPABASE_URL = "https://rbmeslzlbsolkxnvesqb.supabase.co"; // <-- ЗАМІНИ НА СВІЙ URL
-const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJibWVzbHpsYnNvbGt4bnZlc3FiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDUwODcxMzYsImV4cCI6MjA2MDY2MzEzNn0.cu-Qw0WoEslfKXXCiMocWFg6Uf1sK_cQYcyP2mT0-Nw"; // <-- ЗАМІНИ НА СВІЙ ANON KEY
+const SUPABASE_URL = "https://rbmeslzlbsolkxnvesqb.supabase.co";
+const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJibWVzbHpsYnNvbGt4bnZlc3FiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDUwODcxMzYsImV4cCI6MjA2MDY2MzEzNn0.cu-Qw0WoEslfKXXCiMocWFg6Uf1sK_cQYcyP2mT0-Nw";
 
 let supabaseClient;
 
@@ -37,18 +37,29 @@ let selectedDifficulty = 1;
 let currentLeaderboardTimeframe = 'all';
 let currentLeaderboardDifficulty = 1;
 let currentUserProfile = null;
-// Removed loadingTimerId
 
 // ----- 4. DOM Element References -----
 let gameAreaElement, stickerImageElement, optionsContainerElement, timeLeftElement, currentScoreElement, resultAreaElement, finalScoreElement, playAgainButton, authSectionElement, loginButton, userStatusElement, logoutButton, difficultySelectionElement, loadingIndicator, errorMessageElement;
 let difficultyButtons;
-let leaderboardSectionElement, leaderboardListElement, closeLeaderboardButton, showLeaderboardButton, leaderboardTimeFilterButtons, leaderboardDifficultyFilterButtons;
-let userNicknameElement, editNicknameButton, editNicknameForm, nicknameInputElement, cancelEditNicknameButton;
-let scoreDisplayElement; // Reference for score animation target
+let leaderboardSectionElement, leaderboardListElement, closeLeaderboardButton;
+// Removed showLeaderboardButton, Added showLeaderboardHeaderButton
+let showLeaderboardHeaderButton;
+let userNicknameElement, editNicknameForm, nicknameInputElement, cancelEditNicknameButton;
+// Removed editNicknameButton
+let scoreDisplayElement;
 
 // Nickname Generation Words
 const NICKNAME_ADJECTIVES = ["Fast", "Quick", "Happy", "Silent", "Blue", "Red", "Green", "Golden", "Iron", "Clever", "Brave", "Wise", "Lucky", "Shiny", "Dark", "Light", "Great", "Tiny", "Magic"];
 const NICKNAME_NOUNS = ["Fox", "Wolf", "Mouse", "Tiger", "Car", "Tree", "Eagle", "Lion", "Shark", "Puma", "Star", "Moon", "Sun", "River", "Stone", "Blade", "Bear", "Horse", "Ship"];
+
+// Helper function to truncate strings
+function truncateString(str, num) {
+  if (!str) return '';
+  if (str.length <= num) {
+    return str;
+  }
+  return str.slice(0, num) + '...';
+}
 
 // Initialize DOM Elements
 function initializeDOMElements() {
@@ -57,7 +68,7 @@ function initializeDOMElements() {
     optionsContainerElement = document.getElementById('options');
     timeLeftElement = document.getElementById('time-left');
     currentScoreElement = document.getElementById('current-score');
-    scoreDisplayElement = document.getElementById('score'); // Get the parent score element
+    scoreDisplayElement = document.getElementById('score');
     resultAreaElement = document.getElementById('result-area');
     finalScoreElement = document.getElementById('final-score');
     playAgainButton = document.getElementById('play-again');
@@ -73,15 +84,17 @@ function initializeDOMElements() {
     leaderboardSectionElement = document.getElementById('leaderboard-section');
     leaderboardListElement = document.getElementById('leaderboard-list');
     closeLeaderboardButton = document.getElementById('close-leaderboard-button');
-    showLeaderboardButton = document.getElementById('show-leaderboard-button');
+    // Get NEW leaderboard button
+    showLeaderboardHeaderButton = document.getElementById('show-leaderboard-header-button');
     leaderboardTimeFilterButtons = document.querySelectorAll('.leaderboard-time-filter');
     leaderboardDifficultyFilterButtons = document.querySelectorAll('.leaderboard-difficulty-filter');
-    editNicknameButton = document.getElementById('edit-nickname-button');
+    // Removed editNicknameButton
     editNicknameForm = document.getElementById('edit-nickname-form');
     nicknameInputElement = document.getElementById('nickname-input');
     cancelEditNicknameButton = document.getElementById('cancel-edit-nickname-button');
 
-    const elements = { gameAreaElement, stickerImageElement, optionsContainerElement, timeLeftElement, currentScoreElement, scoreDisplayElement, resultAreaElement, finalScoreElement, playAgainButton, authSectionElement, loginButton, userStatusElement, userNicknameElement, logoutButton, difficultySelectionElement, leaderboardSectionElement, leaderboardListElement, closeLeaderboardButton, showLeaderboardButton, loadingIndicator, errorMessageElement, editNicknameButton, editNicknameForm, nicknameInputElement, cancelEditNicknameButton };
+    // Simplified check, includes NEW leaderboard button, removed old one and pencil
+    const elements = { gameAreaElement, stickerImageElement, optionsContainerElement, timeLeftElement, currentScoreElement, scoreDisplayElement, resultAreaElement, finalScoreElement, playAgainButton, authSectionElement, loginButton, userStatusElement, userNicknameElement, logoutButton, difficultySelectionElement, leaderboardSectionElement, leaderboardListElement, closeLeaderboardButton, showLeaderboardHeaderButton, loadingIndicator, errorMessageElement, editNicknameForm, nicknameInputElement, cancelEditNicknameButton };
     let allFound = true;
     for (const key in elements) {
         if (!elements[key]) {
@@ -96,16 +109,18 @@ function initializeDOMElements() {
 
     if (!allFound) { console.error("initializeDOMElements: Not all required elements found."); handleCriticalError("UI Error: Missing page elements."); return false; }
 
+    // Add event listeners
     playAgainButton.addEventListener('click', showDifficultySelection);
     loginButton.addEventListener('click', loginWithGoogle);
     logoutButton.addEventListener('click', logout);
     difficultyButtons.forEach(button => { button.addEventListener('click', handleDifficultySelection); });
-    showLeaderboardButton.addEventListener('click', openLeaderboard);
+    // Add listener to NEW leaderboard button
+    if (showLeaderboardHeaderButton) showLeaderboardHeaderButton.addEventListener('click', openLeaderboard);
     closeLeaderboardButton.addEventListener('click', closeLeaderboard);
     leaderboardTimeFilterButtons.forEach(button => { button.addEventListener('click', handleTimeFilterChange); });
     leaderboardDifficultyFilterButtons.forEach(button => { button.addEventListener('click', handleDifficultyFilterChange); });
-    userNicknameElement.addEventListener('click', showNicknameEditForm);
-    editNicknameButton.addEventListener('click', showNicknameEditForm);
+    userNicknameElement.addEventListener('click', showNicknameEditForm); // Keep this
+    // Removed listener for editNicknameButton
     editNicknameForm.addEventListener('submit', handleNicknameSave);
     cancelEditNicknameButton.addEventListener('click', hideNicknameEditForm);
 
@@ -133,25 +148,49 @@ async function logout() {
     try { const { error } = await supabaseClient.auth.signOut(); if (error) { throw error; } console.log("SignOut successful."); }
     catch (error) { console.error("Logout error:", error); showError(`Logout failed: ${error.message}`); }
 }
+
+// Update UI based on auth state
 function updateAuthStateUI(user) {
-   if (!loginButton || !userStatusElement || !difficultySelectionElement || !userNicknameElement || !showLeaderboardButton || !editNicknameButton) { console.warn("updateAuthStateUI: Key DOM elements not ready yet!"); return; }
-   hideNicknameEditForm();
+   // Check for elements needed in THIS function specifically
+   if (!loginButton || !userStatusElement || !difficultySelectionElement || !userNicknameElement || !showLeaderboardHeaderButton ) {
+       console.warn("updateAuthStateUI: Key DOM elements not ready yet!");
+       return;
+   }
+
+   hideNicknameEditForm(); // Always hide edit form
+
    if (user) {
        currentUser = user;
-       userNicknameElement.textContent = currentUserProfile?.username || user.email || 'Loading...';
-       userStatusElement.style.display = 'block'; loginButton.style.display = 'none'; showLeaderboardButton.style.display = 'block'; editNicknameButton.style.display = 'inline-block';
-       if (gameAreaElement?.style.display === 'none' && resultAreaElement?.style.display === 'none' && leaderboardSectionElement?.style.display === 'none') { showDifficultySelection(); }
-       else { if (difficultySelectionElement) difficultySelectionElement.style.display = 'none'; }
+       const displayName = currentUserProfile?.username || user.email || 'Loading...';
+       // Apply truncation here
+       userNicknameElement.textContent = truncateString(displayName, 15);
+       userStatusElement.style.display = 'flex'; // Use flex for logged-in status
+       loginButton.style.display = 'none';
+       showLeaderboardHeaderButton.style.display = 'inline-block'; // Show new button
+       // Removed logic for editNicknameButton
+
+       if (gameAreaElement?.style.display === 'none' && resultAreaElement?.style.display === 'none' && leaderboardSectionElement?.style.display === 'none') {
+           showDifficultySelection();
+       } else {
+           if (difficultySelectionElement) difficultySelectionElement.style.display = 'none';
+       }
    } else {
        currentUser = null; currentUserProfile = null;
        if (loginButton) { loginButton.style.display = 'block'; } else { console.error("updateAuthStateUI: loginButton is null!"); }
-       if (userStatusElement) userStatusElement.style.display = 'none'; if (difficultySelectionElement) difficultySelectionElement.style.display = 'none'; if (showLeaderboardButton) showLeaderboardButton.style.display = 'block'; if (editNicknameButton) editNicknameButton.style.display = 'none';
+       if (userStatusElement) userStatusElement.style.display = 'none';
+       if (difficultySelectionElement) difficultySelectionElement.style.display = 'none';
+       if (showLeaderboardHeaderButton) showLeaderboardHeaderButton.style.display = 'none'; // Hide header button
+       // Removed logic for editNicknameButton
+
        stopTimer(); if(gameAreaElement) gameAreaElement.style.display = 'none'; if(resultAreaElement) resultAreaElement.style.display = 'none'; if(leaderboardSectionElement) leaderboardSectionElement.style.display = 'none';
    }
 }
+
 function generateRandomNickname() {
     const adj = NICKNAME_ADJECTIVES[Math.floor(Math.random() * NICKNAME_ADJECTIVES.length)]; const noun = NICKNAME_NOUNS[Math.floor(Math.random() * NICKNAME_NOUNS.length)]; return `${adj} ${noun}`;
 }
+
+// Check/Create User Profile
 async function checkAndCreateUserProfile(user) {
    if (!supabaseClient || !user) return; console.log(`checkAndCreateUserProfile for user ${user.id}...`); currentUserProfile = null; let finalUsernameToShow = user.email || 'User';
    try {
@@ -161,9 +200,14 @@ async function checkAndCreateUserProfile(user) {
            console.log(`Profile not found for user ${user.id}. Creating...`); const randomNickname = generateRandomNickname(); const { data: insertedProfile, error: insertError } = await supabaseClient .from('profiles') .insert({ id: user.id, username: randomNickname, updated_at: new Date() }) .select('id, username') .single();
            if (insertError) throw insertError; currentUserProfile = insertedProfile; finalUsernameToShow = insertedProfile?.username || finalUsernameToShow; console.log(`Profile created with nickname: ${finalUsernameToShow}`);
        } else { currentUserProfile = profileData; finalUsernameToShow = profileData.username || finalUsernameToShow; console.log(`Profile exists for user ${user.id}. Username: ${finalUsernameToShow}`); }
-       if (userNicknameElement) { userNicknameElement.textContent = finalUsernameToShow; } else { console.warn("checkAndCreateUserProfile: userNicknameElement not found to update UI."); }
-   } catch (error) { console.error("Error in checkAndCreateUserProfile:", error); showError(`Profile Error: ${error.message}`); if (userNicknameElement) { userNicknameElement.textContent = finalUsernameToShow; } currentUserProfile = null; }
+
+       // Apply truncation when updating UI
+       if (userNicknameElement) {
+            userNicknameElement.textContent = truncateString(finalUsernameToShow, 15);
+       } else { console.warn("checkAndCreateUserProfile: userNicknameElement not found."); }
+   } catch (error) { console.error("Error in checkAndCreateUserProfile:", error); showError(`Profile Error: ${error.message}`); if (userNicknameElement) { userNicknameElement.textContent = truncateString(finalUsernameToShow, 15); } currentUserProfile = null; }
 }
+
 function setupAuthStateChangeListener() {
     if (!supabaseClient) { return; } console.log("Setting up onAuthStateChange listener...");
     supabaseClient.auth.onAuthStateChange(async (_event, session) => { const user = session?.user ?? null; updateAuthStateUI(user); if (_event === 'SIGNED_IN' && user) { await checkAndCreateUserProfile(user); } if (_event === 'SIGNED_OUT') { console.log("User signed out, resetting state."); } if (_event === 'USER_UPDATED') { console.log("User data updated."); } });
@@ -172,17 +216,37 @@ function setupAuthStateChangeListener() {
 async function checkInitialAuthState() {
     if (!supabaseClient) { return; }; console.log("Checking initial auth state..."); try { const { data: { session }, error } = await supabaseClient.auth.getSession(); if (error) throw error; currentUser = session?.user ?? null; console.log("Initial auth state checked.", currentUser ? `User logged in: ${currentUser.id}` : "No active session found."); if (currentUser) { await checkAndCreateUserProfile(currentUser); } } catch (error) { console.error("Error getting initial session:", error); currentUser = null; currentUserProfile = null; }
 }
+
 // ----- 5.5 Nickname Editing Functions -----
 function showNicknameEditForm() {
-    if (!currentUserProfile || !userNicknameElement || !editNicknameButton || !editNicknameForm || !nicknameInputElement) { return; } console.log("Showing nickname edit form."); hideError();
-    nicknameInputElement.value = currentUserProfile.username || ''; editNicknameForm.style.display = 'block'; nicknameInputElement.focus(); nicknameInputElement.select();
+    // Removed check for editNicknameButton
+    if (!currentUserProfile || !userNicknameElement || !editNicknameForm || !nicknameInputElement) {
+        console.error("Cannot show nickname edit form - elements missing or profile not loaded.");
+        return;
+    }
+    console.log("Showing nickname edit form."); hideError();
+    // Show full name in input, not truncated version
+    nicknameInputElement.value = currentUserProfile.username || '';
+    editNicknameForm.style.display = 'block';
+    nicknameInputElement.focus(); nicknameInputElement.select();
 }
+
 function hideNicknameEditForm() {
-    if (!editNicknameForm || !nicknameInputElement) { return; } editNicknameForm.style.display = 'none'; nicknameInputElement.value = '';
+    // Removed check for editNicknameButton
+    if (!editNicknameForm || !nicknameInputElement) { return; }
+    editNicknameForm.style.display = 'none';
+    nicknameInputElement.value = '';
 }
+
+// Handle Nickname Save
 async function handleNicknameSave(event) {
     event.preventDefault(); if (!currentUser || !nicknameInputElement || !supabaseClient || !currentUserProfile) { showError("Cannot save nickname. Please ensure you are logged in."); return; } const newNickname = nicknameInputElement.value.trim(); if (!newNickname || newNickname.length < 3 || newNickname.length > 25) { showError("Nickname must be between 3 and 25 characters long."); return; } if (newNickname === currentUserProfile.username) { hideNicknameEditForm(); return; } showLoading(); hideError();
-    try { const { data: updatedData, error } = await supabaseClient .from('profiles') .update({ username: newNickname, updated_at: new Date() }) .eq('id', currentUser.id) .select('username') .single(); if (error) throw error; console.log("Nickname updated successfully in DB:", updatedData); currentUserProfile.username = updatedData.username; if (userNicknameElement) { userNicknameElement.textContent = updatedData.username; } hideNicknameEditForm(); showError("Nickname updated successfully!"); setTimeout(hideError, 2500); if (leaderboardSectionElement?.style.display === 'block') { updateLeaderboard(); } } catch (error) { console.error("Error updating nickname:", error); showError(`Failed to update nickname: ${error.message}`); } finally { hideLoading(); }
+    try { const { data: updatedData, error } = await supabaseClient .from('profiles') .update({ username: newNickname, updated_at: new Date() }) .eq('id', currentUser.id) .select('username') .single(); if (error) throw error; console.log("Nickname updated successfully in DB:", updatedData); currentUserProfile.username = updatedData.username;
+        // Apply truncation when updating UI
+        if (userNicknameElement) {
+            userNicknameElement.textContent = truncateString(updatedData.username, 15);
+        }
+        hideNicknameEditForm(); showError("Nickname updated successfully!"); setTimeout(hideError, 2500); if (leaderboardSectionElement?.style.display === 'block') { updateLeaderboard(); } } catch (error) { console.error("Error updating nickname:", error); showError(`Failed to update nickname: ${error.message}`); } finally { hideLoading(); }
 }
 
 
@@ -201,10 +265,7 @@ function handleAnswer(selectedOption) {
     stopTimer();
     hideError();
 
-    if (!currentQuestionData || !optionsContainerElement) {
-        console.error("handleAnswer: Missing question data or options container.");
-        return;
-    }
+    if (!currentQuestionData || !optionsContainerElement) { return; }
 
     const buttons = optionsContainerElement.querySelectorAll('button');
     buttons.forEach(button => button.disabled = true);
@@ -214,29 +275,15 @@ function handleAnswer(selectedOption) {
     if (isCorrect) {
         currentScore++;
         if (currentScoreElement) currentScoreElement.textContent = currentScore;
-
         if (scoreDisplayElement) {
              scoreDisplayElement.classList.remove('score-updated');
-             void scoreDisplayElement.offsetWidth; // Force reflow
+             void scoreDisplayElement.offsetWidth;
              scoreDisplayElement.classList.add('score-updated');
         }
-
-        buttons.forEach(button => {
-            if (button.textContent === selectedOption) {
-                button.classList.add('correct-answer');
-            }
-        });
-        // Pass 'true' to indicate quick transition
-        setTimeout(() => loadNextQuestion(true), 700);
+        buttons.forEach(button => { if (button.textContent === selectedOption) { button.classList.add('correct-answer'); } });
+        setTimeout(() => loadNextQuestion(true), 700); // Pass flag for quick transition
     } else {
-        buttons.forEach(button => {
-            if (button.textContent === currentQuestionData.correctAnswer) {
-                button.classList.add('correct-answer');
-            }
-            if (button.textContent === selectedOption) {
-                button.classList.add('incorrect-answer');
-            }
-        });
+        buttons.forEach(button => { if (button.textContent === currentQuestionData.correctAnswer) { button.classList.add('correct-answer'); } if (button.textContent === selectedOption) { button.classList.add('incorrect-answer'); } });
         setTimeout(endGame, 1500);
     }
 }
@@ -264,12 +311,12 @@ function handleDifficultySelection(event) {
 async function startGame() {
     hideError(); if (selectedDifficulty === null || ![1, 2, 3].includes(selectedDifficulty)) { showDifficultySelection(); return; } if (!gameAreaElement || !currentScoreElement || !resultAreaElement || !optionsContainerElement) { if (!initializeDOMElements()) { handleCriticalError("Failed to initialize UI for game start."); return; } }
     currentScore = 0; if (currentScoreElement) currentScoreElement.textContent = 0; if (resultAreaElement) { const msg = resultAreaElement.querySelector('.save-message'); if(msg) msg.remove(); resultAreaElement.style.display = 'none'; } if(difficultySelectionElement) difficultySelectionElement.style.display = 'none'; if (gameAreaElement) gameAreaElement.style.display = 'block'; if (optionsContainerElement) { optionsContainerElement.innerHTML = ''; } console.log(`Starting game with difficulty: ${selectedDifficulty}`);
-    await loadNextQuestion(); // First load - no flag needed
+    await loadNextQuestion(); // First load - no flag
 }
 
-async function loadNextQuestion(isQuickTransition = false) { // Default false
+async function loadNextQuestion(isQuickTransition = false) {
     console.log(`loadNextQuestion called (isQuickTransition: ${isQuickTransition})`);
-    const questionData = await loadNewQuestion(isQuickTransition);
+    const questionData = await loadNewQuestion(isQuickTransition); // Pass flag
 
     if (questionData) {
         displayQuestion(questionData);
@@ -280,17 +327,17 @@ async function loadNextQuestion(isQuickTransition = false) { // Default false
 }
 
 
-async function loadNewQuestion(isQuickTransition = false) { // Accept flag
+async function loadNewQuestion(isQuickTransition = false) {
     if (!supabaseClient) { showError("Database connection error."); return null; }
     if (selectedDifficulty === null) { showError("No difficulty selected."); return null; }
 
     if (!isQuickTransition) {
-        showLoading(); // Show loading only if not a quick transition
+        showLoading(); // Show loading only if not quick transition
     }
     hideError();
 
     try {
-        // Database query logic...
+        // Database query logic... (remains same)
         const { count: stickerCount, error: countError } = await supabaseClient .from('stickers') .select('*', { count: 'exact', head: true }) .eq('difficulty', selectedDifficulty);
         if (countError || stickerCount === null || stickerCount === 0) throw new Error(`Sticker count error/missing for difficulty ${selectedDifficulty}.`);
         const { count: totalClubCount, error: totalClubCountError } = await supabaseClient .from('clubs') .select('id', { count: 'exact', head: true });
@@ -311,13 +358,11 @@ async function loadNewQuestion(isQuickTransition = false) { // Accept flag
     } catch (error) {
         console.error("Error loading new question:", error);
         showError(`Loading Error: ${error.message}`);
-        // Ensure loading is hidden even if error happens before finally
-        if (!isQuickTransition) { hideLoading(); }
+        if (!isQuickTransition) { hideLoading(); } // Hide if shown
         setTimeout(endGame, 500);
         return null;
     } finally {
-         // Always hide loading in finally, it handles cases where it wasn't shown
-         hideLoading();
+         hideLoading(); // Always call hideLoading in finally
     }
 }
 
@@ -326,7 +371,7 @@ function endGame() {
     console.log(`Game Over! Final Score: ${currentScore}`); stopTimer(); if(finalScoreElement) finalScoreElement.textContent = currentScore; if(gameAreaElement) gameAreaElement.style.display = 'none'; if(resultAreaElement) { const msg = resultAreaElement.querySelector('.save-message'); if(msg) msg.remove(); resultAreaElement.style.display = 'block'; } if(difficultySelectionElement) difficultySelectionElement.style.display = 'none'; saveScore();
 }
 async function saveScore() {
-    if (!currentUser) { return; } if (typeof currentScore !== 'number' || currentScore < 0) { return; } if (selectedDifficulty === null) { return; } if (currentScore === 0) { return; } console.log(`Attempting to save score: Score=${currentScore}, Difficulty=${selectedDifficulty}, User=${currentUser.id}`); showLoading(); let detectedCountryCode = null; /* GeoIP commented out */
+    if (!currentUser) { return; } if (typeof currentScore !== 'number' || currentScore < 0) { return; } if (selectedDifficulty === null) { return; } if (currentScore === 0) { return; } console.log(`Attempting to save score: Score=${currentScore}, Difficulty=${selectedDifficulty}, User=${currentUser.id}`); showLoading(); let detectedCountryCode = null;
     try { const { error } = await supabaseClient .from('scores') .insert({ user_id: currentUser.id, score: currentScore, difficulty: selectedDifficulty, country_code: detectedCountryCode }); if (error) { throw error; } console.log("Score saved successfully to database!"); if (resultAreaElement && !resultAreaElement.querySelector('.save-message')) { const scoreSavedMessage = document.createElement('p'); scoreSavedMessage.textContent = 'Your score has been saved!'; scoreSavedMessage.className = 'save-message'; const p = resultAreaElement.querySelector('p'); if(p) p.insertAdjacentElement('afterend', scoreSavedMessage); else resultAreaElement.appendChild(scoreSavedMessage); } } catch (error) { console.error("Error during score saving process:", error); showError(`Failed to save score: ${error.message}`); if(resultAreaElement) { const msg = resultAreaElement.querySelector('.save-message'); if(msg) msg.remove(); } } finally { hideLoading(); }
 }
 
@@ -356,7 +401,6 @@ function handleCriticalError(message) {
     console.error("Critical Error:", message); stopTimer(); document.body.innerHTML = `<h1>Application Error</h1><p>${message}</p><p>Please try refreshing the page. If the problem persists, contact support.</p>`;
 }
 
-// --- Reverted Loading Indicator Logic (Immediate show/hide) ---
 function showLoading() {
     if (loadingIndicator) {
         loadingIndicator.style.display = 'block';
