@@ -11,6 +11,7 @@
     --color-accent-darker: #FFA000; /* Darker Yellow for hover/active */
     --color-accent-text: #212121; /* Text on Yellow */
     --color-secondary-bg: #f8f9fa; /* Light Gray BG for some elements */
+    --color-secondary-bg-hover: #e9ecef; /* Slightly darker gray for hover */
     --color-border: #E0E0E0; /* Light Gray Border */
     --color-disabled-bg: #E0E0E0;
     --color-disabled-text: #9E9E9E; /* Medium Gray */
@@ -18,6 +19,7 @@
     --color-error: #dc3545; /* Red */
     --color-error-bg: #f8d7da;
     --color-info-text: #555; /* Slightly muted color for timer/score labels */
+    --color-rank: #757575; /* Color for rank numbers */
 
 
     --border-radius: 8px;
@@ -29,7 +31,6 @@
 /* ... (Reset styles - unchanged) ... */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 body { font-family: var(--font-family); line-height: 1.6; background-color: var(--color-background); color: var(--color-text); padding: 0 var(--spacing-unit); }
-/* h1, h2 - H1 видалено */
 h2 { color: var(--color-text); margin-bottom: calc(var(--spacing-unit) * 3); font-weight: 600; text-align: center; }
 h2 { font-weight: 500; margin-bottom: calc(var(--spacing-unit) * 2); }
 p { margin-bottom: calc(var(--spacing-unit) * 2); }
@@ -47,48 +48,37 @@ input[type="text"] { font-family: inherit; padding: var(--spacing-unit) calc(var
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0 calc(var(--spacing-unit) * 2); /* Vertical padding removed, use height */
+    padding: 0 calc(var(--spacing-unit) * 2);
     height: var(--header-height);
     max-width: calc(var(--container-width) + 4 * var(--spacing-unit));
     margin: 0 auto;
-    border-bottom: 1px solid var(--color-border);
+    /* border-bottom: 1px solid var(--color-border); */ /* <<< Прибрано лінію під шапкою */
     margin-bottom: calc(var(--spacing-unit) * 3);
-    position: relative; /* Needed for nickname edit form positioning */
+    position: relative;
 }
 
-/* --- Logo Styling --- */
-.logo-container {
-    height: 100%; /* Take full header height */
-    display: flex;
-    align-items: center;
-}
-#app-logo {
-    height: calc(var(--header-height) * 0.65); /* Adjust multiplier (e.g., 65%) */
-    width: auto; /* Maintain aspect ratio */
-    max-height: 40px; /* Ensure max height */
-}
-
+.logo-container { height: 100%; display: flex; align-items: center; }
+#app-logo { height: calc(var(--header-height) * 0.65); width: auto; max-height: 40px; }
 
 /* ------------------------------ */
 /* Buttons                        */
 /* ------------------------------ */
-.btn { display: inline-block; padding: calc(var(--spacing-unit) * 1.25) calc(var(--spacing-unit) * 2.5); font-size: 1em; font-weight: 500; border: 1px solid transparent; border-radius: var(--border-radius); text-align: center; text-decoration: none; transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease; margin: calc(var(--spacing-unit)/2); /* Reduced margin for tighter groups */ vertical-align: middle; }
+.btn { display: inline-block; padding: calc(var(--spacing-unit) * 1.25) calc(var(--spacing-unit) * 2.5); font-size: 1em; font-weight: 500; border: 1px solid transparent; border-radius: var(--border-radius); text-align: center; text-decoration: none; transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease; margin: calc(var(--spacing-unit)/2); vertical-align: middle; }
 .btn-primary { background-color: var(--color-accent); color: var(--color-accent-text); border-color: var(--color-accent); box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); }
 .btn-primary:hover:not(:disabled) { background-color: var(--color-accent-darker); border-color: var(--color-accent-darker); box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15); }
 .google-login { /* No specific overrides needed now */ }
 .btn-secondary { background-color: var(--color-background); color: var(--color-text); border: 1px solid var(--color-border); }
-.btn-secondary:hover:not(:disabled) { background-color: var(--color-secondary-bg); border-color: var(--color-border); }
-
-/* --- Small Button Variant (for header) --- */
-.btn-small {
-    padding: calc(var(--spacing-unit) * 0.75) calc(var(--spacing-unit) * 1.5);
-    font-size: 0.9em;
+.btn-secondary:hover:not(:disabled) { background-color: var(--color-secondary-bg-hover); border-color: var(--color-border); }
+.btn-small { padding: calc(var(--spacing-unit) * 0.75) calc(var(--spacing-unit) * 1.5); font-size: 0.9em; }
+/* --- Large Button Variant (for Play Again) --- */
+.btn-large {
+    padding: calc(var(--spacing-unit) * 1.5) calc(var(--spacing-unit) * 3);
+    font-size: 1.1em;
 }
-
 .btn-icon { background: none; border: none; padding: 0 calc(var(--spacing-unit) * 0.5); font-size: 1.1em; vertical-align: middle; margin-left: var(--spacing-unit); color: var(--color-text); opacity: 0.7; }
 .btn-icon:hover:not(:disabled) { opacity: 1; }
 .btn-filter { padding: calc(var(--spacing-unit) * 0.5) calc(var(--spacing-unit) * 1.5); font-size: 0.9em; background-color: transparent; color: var(--color-text); border: 1px solid transparent; margin: 0 calc(var(--spacing-unit) * 0.5); opacity: 0.8; }
-.btn-filter:hover:not(:disabled) { background-color: var(--color-secondary-bg); opacity: 1; }
+.btn-filter:hover:not(:disabled) { background-color: var(--color-secondary-bg-hover); opacity: 1; }
 .btn-filter.active { font-weight: 600; background-color: var(--color-accent); color: var(--color-accent-text); opacity: 1; }
 button:disabled, .btn:disabled { cursor: not-allowed; background-color: var(--color-disabled-bg); color: var(--color-disabled-text); border-color: var(--color-disabled-bg); box-shadow: none; opacity: 1; }
 .btn-filter:disabled { background-color: var(--color-accent); color: var(--color-accent-text); opacity: 0.7; cursor: not-allowed; }
@@ -97,41 +87,12 @@ button:disabled, .btn:disabled { cursor: not-allowed; background-color: var(--co
 /* ------------------------------ */
 /* Authentication Section         */
 /* ------------------------------ */
-#auth-section {
-    font-size: 0.9em;
-    text-align: right;
-    display: flex; /* Align items inside */
-    align-items: center;
-    gap: var(--spacing-unit); /* Add gap between elements */
-}
-
-#user-status {
-    display: flex; /* Use flex for user status elements */
-    align-items: center;
-    gap: var(--spacing-unit); /* Gap between Welcome, Nickname, Buttons */
-}
-
-#user-status strong { font-weight: 600; cursor: pointer; text-decoration: underline dotted; }
-
-/* --- Nickname Edit Form Styling --- */
-#edit-nickname-form {
-    display: none; /* Controlled by JS */
-    position: absolute;
-    /* Position relative to the header */
-    right: calc(var(--spacing-unit) * 2);
-    top: calc(var(--header-height) + var(--spacing-unit)); /* Below header */
-    background-color: var(--color-background);
-    padding: calc(var(--spacing-unit) * 2);
-    border: 1px solid var(--color-border);
-    border-radius: var(--border-radius);
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-    z-index: 10;
-    min-width: 300px;
-    text-align: left;
-}
+#auth-section { font-size: 0.9em; text-align: right; display: flex; align-items: center; gap: var(--spacing-unit); }
+#user-status { display: flex; align-items: center; gap: var(--spacing-unit); /* Відповідає за відступи між кнопками/ніком */}
+#user-status strong { font-weight: 600; cursor: pointer; text-decoration: underline dotted; /* Текст "Welcome," видалено з HTML */ }
+#edit-nickname-form { display: none; position: absolute; right: calc(var(--spacing-unit) * 2); top: calc(var(--header-height) + var(--spacing-unit)); background-color: var(--color-background); padding: calc(var(--spacing-unit) * 2); border: 1px solid var(--color-border); border-radius: var(--border-radius); box-shadow: 0 4px 10px rgba(0,0,0,0.1); z-index: 10; min-width: 300px; text-align: left; }
 #edit-nickname-form input { margin-bottom: var(--spacing-unit); display: block; width: 100%; }
 #edit-nickname-form button { margin-top: var(--spacing-unit); margin-right: var(--spacing-unit); }
-
 
 /* ... (Difficulty Selection - unchanged) ... */
 #difficulty-selection .button-group .btn { min-width: 120px; background-color: var(--color-background); border: 1px solid var(--color-border); color: var(--color-text); }
@@ -160,84 +121,120 @@ button:disabled, .btn:disabled { cursor: not-allowed; background-color: var(--co
 @keyframes score-bump { 0% { transform: scale(1); color: var(--color-text); } 50% { transform: scale(1.3); color: var(--color-accent-darker); } 100% { transform: scale(1); color: var(--color-text); } }
 #score.score-updated { animation: score-bump 0.4s ease-out; }
 
-/* ... (Result Area - unchanged) ... */
-#result-area { margin-top: calc(var(--spacing-unit) * 4); }
-#result-area p { font-size: 1.3em; font-weight: 500; margin-bottom: calc(var(--spacing-unit) * 3); }
-#result-area .save-message { font-size: 0.9em; font-style: italic; color: var(--color-success); margin-top: calc(var(--spacing-unit) * -1); margin-bottom: calc(var(--spacing-unit) * 2); }
+/* ------------------------------ */
+/* Result Area (Game Over)        */
+/* ------------------------------ */
+#result-area {
+    margin-top: calc(var(--spacing-unit) * 4);
+    padding: calc(var(--spacing-unit) * 3) calc(var(--spacing-unit) * 2); /* Add some padding */
+    /* Optional: Add a subtle background or border */
+    /* background-color: var(--color-secondary-bg); */
+    /* border-radius: var(--border-radius); */
+}
+#result-area h2 {
+    font-size: 2.5em; /* Larger Heading */
+    font-weight: 700;
+    color: var(--color-text); /* Darker color */
+    margin-bottom: var(--spacing-unit);
+}
+#result-area .final-score-container { /* Target the paragraph containing the score */
+    font-size: 1.8em; /* Larger base text for score line */
+    font-weight: 500;
+    color: var(--color-info-text); /* Muted text */
+    margin-bottom: calc(var(--spacing-unit) * 4); /* More space before button */
+}
+#result-area #final-score {
+    font-size: 2.2em; /* Make score number significantly larger */
+    font-weight: 700;
+    color: var(--color-accent-darker); /* Use accent color for score */
+    display: inline-block;
+    margin-left: var(--spacing-unit);
+    /* Optional: Add animation on appearance */
+    /* animation: score-appear 0.5s ease-out; */
+}
+/* @keyframes score-appear { from { opacity: 0; transform: scale(0.5); } to { opacity: 1; transform: scale(1); } } */
 
-/* ... (Leaderboard - unchanged) ... */
-#leaderboard-section { margin-top: calc(var(--spacing-unit) * 4); padding-top: calc(var(--spacing-unit) * 3); border-top: 1px solid var(--color-border); }
+#result-area .save-message { font-size: 0.9em; font-style: italic; color: var(--color-success); margin-top: calc(var(--spacing-unit) * -2); margin-bottom: calc(var(--spacing-unit) * 3); }
+
+/* Make Play Again button more prominent */
+#result-area #play-again {
+    margin-top: calc(var(--spacing-unit) * 2);
+}
+
+
+/* ------------------------------ */
+/* Leaderboard                    */
+/* ------------------------------ */
+#leaderboard-section { margin-top: calc(var(--spacing-unit) * 4); padding-top: calc(var(--spacing-unit) * 3); /* Removed top border from here, header border removed */ }
 #leaderboard-filters { margin-bottom: calc(var(--spacing-unit) * 3); display: flex; flex-direction: column; align-items: center; gap: calc(var(--spacing-unit) * 1.5); }
 .filter-group { display: flex; align-items: center; flex-wrap: wrap; justify-content: center; }
 .filter-group strong { margin-right: var(--spacing-unit); font-weight: 500; }
-#leaderboard-list { max-width: 500px; margin: 0 auto calc(var(--spacing-unit) * 3) auto; text-align: left; counter-reset: leaderboard-counter; }
-#leaderboard-list li { padding: calc(var(--spacing-unit) * 1.5) var(--spacing-unit); border-bottom: 1px solid var(--color-border); counter-increment: leaderboard-counter; display: flex; gap: var(--spacing-unit); }
+#leaderboard-list { max-width: 500px; margin: 0 auto calc(var(--spacing-unit) * 3) auto; text-align: left; counter-reset: leaderboard-counter; border: 1px solid var(--color-border); border-radius: var(--border-radius); overflow: hidden; /* To contain background colors */}
+#leaderboard-list li {
+    padding: calc(var(--spacing-unit) * 1.5) var(--spacing-unit);
+    border-bottom: 1px solid var(--color-border);
+    counter-increment: leaderboard-counter;
+    display: flex;
+    gap: var(--spacing-unit);
+    transition: background-color 0.2s ease; /* Add hover transition */
+}
 #leaderboard-list li:last-child { border-bottom: none; }
-#leaderboard-list li::before { content: counter(leaderboard-counter) ". "; font-weight: 600; color: #757575; }
+#leaderboard-list li::before {
+    content: counter(leaderboard-counter) ". ";
+    font-weight: 600;
+    color: var(--color-accent-darker); /* Make rank number yellow */
+    min-width: 2.5em; /* Ensure space for numbers */
+    text-align: right;
+}
+/* Hover effect for leaderboard items */
+#leaderboard-list li:hover {
+    background-color: var(--color-secondary-bg-hover);
+}
+
+/* Highlighting user's own score */
+#leaderboard-list li.user-score {
+    font-weight: 700; /* Bold */
+    background-color: color-mix(in srgb, var(--color-accent) 15%, transparent); /* Subtle yellow background */
+}
+
 
 /* ... (Indicators - unchanged) ... */
 #loading-indicator { font-style: italic; color: var(--color-disabled-text); padding: var(--spacing-unit) 0; }
 #error-message { color: var(--color-error); background-color: var(--color-error-bg); padding: var(--spacing-unit) calc(var(--spacing-unit) * 2); border-radius: var(--border-radius); margin-top: calc(var(--spacing-unit) * 2); border: 1px solid var(--color-error); display: inline-block; }
 
-/* --- Buttons outside main flow --- */
-/* Стару кнопку видалено з HTML, тому селектор не потрібен */
-/* #show-leaderboard-button { ... } */
+/* ... (Buttons outside main flow - old button removed) ... */
 
 
 /* ------------------------------ */
 /* Responsiveness                 */
 /* ------------------------------ */
-@media (max-width: 768px) { /* Adjust breakpoint for header changes */
-    .app-header {
-        flex-direction: column;
-        height: auto; /* Allow height to adjust */
-        gap: var(--spacing-unit);
-        padding: var(--spacing-unit);
-    }
-    #auth-section {
-        width: 100%;
-        justify-content: center; /* Center auth items */
-        flex-wrap: wrap; /* Allow wrapping */
-    }
-     #user-status {
-        width: 100%;
-        justify-content: center;
-        flex-wrap: wrap;
-     }
-     /* Ensure small buttons fit well */
-     #user-status .btn-small {
-        margin: calc(var(--spacing-unit)/2);
-     }
-     /* Adjust nickname edit form position for stacked header */
-    #edit-nickname-form {
-       position: static; /* Reset position */
-       width: 100%;
-       margin-top: var(--spacing-unit);
-       box-shadow: none;
-       border: 1px solid var(--color-border);
-       background-color: var(--color-secondary-bg);
-    }
+@media (max-width: 768px) {
+    .app-header { flex-direction: column; height: auto; gap: var(--spacing-unit); padding: var(--spacing-unit); }
+    #auth-section { width: 100%; justify-content: center; flex-wrap: wrap; }
+     #user-status { width: 100%; justify-content: center; flex-wrap: wrap; }
+     #user-status .btn-small { margin: calc(var(--spacing-unit)/2); }
+    #edit-nickname-form { position: static; width: 100%; margin-top: var(--spacing-unit); box-shadow: none; border: 1px solid var(--color-border); background-color: var(--color-secondary-bg); }
 }
-
 @media (max-width: 700px) { .options-group { max-width: 90%; } }
-
 @media (max-width: 600px) {
     body { padding: 0; }
     .container { padding: 0 var(--spacing-unit); margin-top: calc(var(--spacing-unit) * 2); margin-bottom: calc(var(--spacing-unit) * 2); }
-
-    /* Mobile header already handled by 768px breakpoint */
-
     #sticker-container { width: 80%; max-width: 250px; margin-bottom: calc(var(--spacing-unit) * 3); }
     .options-group { grid-template-columns: 1fr; gap: var(--spacing-unit); max-width: 90%; }
     .game-info { margin-top: calc(var(--spacing-unit) * 3); font-size: 1em; gap: calc(var(--spacing-unit) * 2); flex-direction: column; align-items: center; }
     #timer, #score { padding: calc(var(--spacing-unit)*0.75) calc(var(--spacing-unit) * 1.5); }
     #time-left, #current-score { font-size: 1.2em; }
+    /* Result Screen on Mobile */
+     #result-area h2 { font-size: 2em; }
+     #result-area .final-score-container { font-size: 1.5em; }
+     #result-area #final-score { font-size: 1.8em; }
+     #result-area #play-again { font-size: 1em; padding: calc(var(--spacing-unit) * 1.25) calc(var(--spacing-unit) * 2.5); } /* Reset size from btn-large */
+
     #leaderboard-filters { gap: var(--spacing-unit); }
     .filter-group { gap: calc(var(--spacing-unit) * 0.5); font-size: 0.9em; }
     .filter-group strong { display: block; width: 100%; margin-bottom: 5px; text-align: center; }
     .btn-filter { margin: 2px; }
     #leaderboard-list { max-width: 100%; padding: 0; }
     #leaderboard-list li { font-size: 0.9em; padding: var(--spacing-unit); }
-
-    /* No show-leaderboard-button at bottom anymore */
+    #leaderboard-list li::before { min-width: 2em; } /* Adjust rank number spacing */
 }
