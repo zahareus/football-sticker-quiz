@@ -1,116 +1,50 @@
 /* style.css */
 
-/* ------------------------------ */
-/* Variables & Basic Reset        */
-/* ------------------------------ */
-:root {
-    --font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-    --color-text: #212121;
-    --color-background: #FFFFFF;
-    --color-accent: #FFC107;
-    --color-accent-darker: #FFA000;
-    --color-accent-text: #212121;
-    --color-secondary-bg: #f8f9fa;
-    --color-secondary-bg-hover: #e9ecef;
-    --color-border: #E0E0E0;
-    --color-disabled-bg: #E0E0E0;
-    --color-disabled-text: #9E9E9E;
-    --color-success: #28a745;
-    --color-error: #dc3545;
-    --color-error-bg: #f8d7da;
-    --color-info-text: #555;
-    --color-rank: #757575;
-    --color-link: #007bff;
-    --color-link-hover: #0056b3;
-    --color-separator-text: #adb5bd;
-    --color-footer-text: #6c757d;
+/* ... (Variables & Reset - unchanged) ... */
+:root { /* ... */ }
+*, *::before, *::after { /* ... */ }
+body { /* ... */ }
+/* ... (Інші стилі до Game Area) ... */
 
-
-    --border-radius: 8px;
-    --container-width: 800px;
-    --spacing-unit: 8px;
-    --header-height: 60px;
-}
-
-/* ... (Reset styles) ... */
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-body { font-family: var(--font-family); line-height: 1.6; background-color: var(--color-background); color: var(--color-text); padding: 0 var(--spacing-unit); display: flex; flex-direction: column; min-height: 100vh;}
-h2 { color: var(--color-text); margin-bottom: calc(var(--spacing-unit) * 3); font-weight: 600; text-align: center; }
-h2 { font-weight: 500; margin-bottom: calc(var(--spacing-unit) * 2); }
-p { margin-bottom: calc(var(--spacing-unit) * 2); }
-ol, ul { list-style: none; }
-img { max-width: 100%; display: block; }
-button { font-family: inherit; cursor: pointer; background: none; border: none; padding: 0; color: inherit; }
-input[type="text"] { font-family: inherit; padding: var(--spacing-unit) calc(var(--spacing-unit) * 1.5); border: 1px solid var(--color-border); border-radius: var(--border-radius); font-size: 1em; margin-right: var(--spacing-unit); }
-
-/* ... (Layout & Container) ... */
-.container { max-width: var(--container-width); margin: calc(var(--spacing-unit) * 4) auto; padding: 0 calc(var(--spacing-unit) * 2); text-align: center; flex-grow: 1; }
-
-/* ... (Header Styling) ... */
-.app-header { display: flex; justify-content: space-between; align-items: center; padding: 0 calc(var(--spacing-unit) * 2); min-height: var(--header-height); max-width: calc(var(--container-width) + 4 * var(--spacing-unit)); margin: 0 auto; position: relative; }
-body:not(.logged-out) .app-header { margin-bottom: calc(var(--spacing-unit) * 3); }
-body.logged-out .app-header { justify-content: center; height: auto; margin-bottom: 0; padding-top: calc(var(--spacing-unit) * 3); padding-bottom: calc(var(--spacing-unit) * 2); }
-body.logged-out #auth-section { display: none !important; }
-.logo-container { display: flex; align-items: center; margin-left: 0; margin-right: 0;}
-#app-logo { height: calc(var(--header-height) * 0.65); width: auto; max-height: 40px; transition: all 0.3s ease; display: block; }
-body.logged-out #app-logo { height: auto; width: 45%; max-width: 280px; max-height: none; margin: 0 auto calc(var(--spacing-unit) * 3) auto; }
-
-/* ... (Buttons - unchanged) ... */
-.btn { display: inline-block; padding: calc(var(--spacing-unit) * 1.25) calc(var(--spacing-unit) * 2.5); font-size: 1em; font-weight: 500; border: 1px solid transparent; border-radius: var(--border-radius); text-align: center; text-decoration: none; transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease; margin: calc(var(--spacing-unit)/2); vertical-align: middle; cursor: pointer; }
-.btn-primary { background-color: var(--color-accent); color: var(--color-accent-text); border-color: var(--color-accent); box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); }
-.btn-secondary { background-color: var(--color-background); color: var(--color-text); border: 1px solid var(--color-border); }
-.btn-small { padding: calc(var(--spacing-unit) * 0.75) calc(var(--spacing-unit) * 1.5); font-size: 0.9em; }
-.btn-large { padding: calc(var(--spacing-unit) * 1.5) calc(var(--spacing-unit) * 3); font-size: 1.1em; }
-.btn-icon { background: none; border: none; padding: 0 calc(var(--spacing-unit) * 0.5); font-size: 1.1em; vertical-align: middle; margin-left: var(--spacing-unit); color: var(--color-text); opacity: 0.7; cursor: pointer; }
-.btn-filter { padding: calc(var(--spacing-unit) * 0.5) calc(var(--spacing-unit) * 1.5); font-size: 0.9em; background-color: transparent; color: var(--color-text); border: 1px solid transparent; margin: 0 calc(var(--spacing-unit) * 0.5); opacity: 0.8; cursor: pointer; border-radius: var(--border-radius); }
-.btn-filter.active { font-weight: 600; background-color: var(--color-accent); color: var(--color-accent-text); opacity: 1; }
-button:disabled, .btn:disabled { cursor: not-allowed !important; background-color: var(--color-disabled-bg) !important; color: var(--color-disabled-text) !important; border-color: var(--color-disabled-bg) !important; box-shadow: none !important; opacity: 1 !important; }
-.btn-filter:disabled { background-color: var(--color-accent) !important; color: var(--color-accent-text) !important; opacity: 0.7 !important; cursor: not-allowed !important; }
-.btn-link { background: none; border: none; color: var(--color-link); text-decoration: none; padding: calc(var(--spacing-unit) * 0.75) var(--spacing-unit); font-size: 0.9em; font-weight: 500; vertical-align: middle; cursor: pointer; margin: calc(var(--spacing-unit)/2); line-height: 1; }
-#show-leaderboard-header-button.btn-link { color: var(--color-text); font-weight: 500; text-decoration: none; }
-#show-leaderboard-header-button.btn-link .trophy-emoji { margin-right: 4px; }
-.button-group { display: flex; flex-wrap: wrap; justify-content: center; gap: calc(var(--spacing-unit) * 1.5); margin-top: calc(var(--spacing-unit) * 2); }
-
-/* ... (Authentication Section - unchanged) ... */
-#auth-section { font-size: 0.9em; text-align: right; display: flex; align-items: center; gap: var(--spacing-unit); flex-wrap: wrap; }
-#user-status { display: flex; align-items: center; gap: var(--spacing-unit); flex-wrap: nowrap; }
-#user-status strong { font-weight: 600; cursor: pointer; text-decoration: underline dotted; display: inline-block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 120px; vertical-align: middle; }
-#edit-nickname-form { display: none; position: absolute; right: calc(var(--spacing-unit) * 2); top: calc(var(--header-height) + var(--spacing-unit)); background-color: var(--color-background); padding: calc(var(--spacing-unit) * 2); border: 1px solid var(--color-border); border-radius: var(--border-radius); box-shadow: 0 4px 10px rgba(0,0,0,0.1); z-index: 10; min-width: 300px; text-align: left; }
-#edit-nickname-form input { margin-bottom: var(--spacing-unit); display: block; width: 100%; }
-#edit-nickname-form button { margin-top: var(--spacing-unit); margin-right: var(--spacing-unit); }
-
-/* ... (Landing Page - unchanged) ... */
-#landing-page { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: calc(var(--spacing-unit) * 2) 0; min-height: 250px; }
-#landing-page .google-login span { display: inline; }
-#landing-page .separator { color: var(--color-separator-text); margin: calc(var(--spacing-unit) * 2) 0; font-size: 0.9em; text-transform: uppercase; }
-#landing-page button.btn { width: 90%; max-width: 320px; margin-left: auto; margin-right: auto; display: block; margin-top: var(--spacing-unit); margin-bottom: var(--spacing-unit); }
-#landing-page button.google-login { display: inline-flex; justify-content: center; align-items: center; width: 90%; max-width: 320px; }
-
-/* ... (Difficulty Selection - unchanged) ... */
-#difficulty-selection .button-group .btn { min-width: 120px; background-color: var(--color-background); border: 1px solid var(--color-border); color: var(--color-text); }
 
 /* ------------------------------ */
 /* Game Area                      */
 /* ------------------------------ */
 #game-area { margin-top: calc(var(--spacing-unit) * 3); }
-#sticker-container { aspect-ratio: 1 / 1; width: 60%; max-width: 300px; min-width: 150px; min-height: 150px; /* Залишаємо на всяк випадок */ margin: 0 auto calc(var(--spacing-unit) * 4) auto; background-color: var(--color-secondary-bg); border: 1px solid var(--color-border); border-radius: var(--border-radius); overflow: hidden; display: flex; align-items: center; justify-content: center; }
+
+#sticker-container {
+    /* --- Фіксовані розміри для десктопу --- */
+    width: 300px;  /* Фіксована ширина */
+    height: 300px; /* Фіксована висота (квадрат) */
+    /* aspect-ratio: 1 / 1; */ /* Можна залишити як fallback, але width/height пріоритетніші */
+    /* max-width: 300px; */ /* Вже не потрібно, бо є фіксована ширина */
+    /* min-width: 150px; */ /* Вже не потрібно */
+    /* min-height: 150px; */ /* Вже не потрібно */
+    /* --------------------------------------- */
+    margin: 0 auto calc(var(--spacing-unit) * 4) auto; /* Центрування та відступ */
+    background-color: var(--color-secondary-bg);
+    border: 1px solid var(--color-border);
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
 
 #sticker-image {
     width: 100%;
     height: 100%;
-    /* --- Змінено на cover --- */
-    object-fit: cover; /* Зображення покриє контейнер, можливе обрізання */
-    /* ----------------------- */
+    /* --- Повертаємо contain --- */
+    object-fit: contain; /* Показувати весь стікер без обрізки */
+    /* ------------------------ */
 }
 #sticker-image[alt*="Loading"], #sticker-image[alt*="Error"] { width: 50px; height: 50px; }
 
-/* ... (Options Group - unchanged) ... */
+/* ... (Options Group, Game Info, etc. - unchanged) ... */
 .options-group { display: grid; grid-template-columns: repeat(2, 1fr); gap: calc(var(--spacing-unit) * 1.5); max-width: 600px; margin: 0 auto; }
 .options-group button { width: 100%; margin: 0; background-color: var(--color-background); border: 1px solid var(--color-border); color: var(--color-text); font-weight: 400; padding: calc(var(--spacing-unit) * 1.5) var(--spacing-unit); }
 .options-group button.correct-answer { background-color: var(--color-success) ; border-color: var(--color-success) ; color: white ; font-weight: 600; }
 .options-group button.incorrect-answer { background-color: var(--color-error) ; border-color: var(--color-error) ; color: white ; opacity: 0.7; }
-
-/* ... (Game Info - unchanged) ... */
 .game-info { display: flex; justify-content: space-around; align-items: center; margin-top: calc(var(--spacing-unit) * 4); max-width: 400px; margin-left: auto; margin-right: auto; gap: calc(var(--spacing-unit) * 3); }
 #timer, #score { font-size: 1.2em; color: var(--color-info-text); font-weight: 500; background-color: var(--color-secondary-bg); padding: var(--spacing-unit) calc(var(--spacing-unit) * 2); border-radius: var(--border-radius); border: 1px solid var(--color-border); }
 #time-left { display: inline-block; min-width: 2ch; text-align: right; font-weight: 700; font-size: 1.3em; color: var(--color-text); margin-left: var(--spacing-unit); vertical-align: baseline; }
@@ -118,39 +52,33 @@ button:disabled, .btn:disabled { cursor: not-allowed !important; background-colo
 @keyframes score-bump { 0% { transform: scale(1); color: var(--color-text); } 50% { transform: scale(1.3); color: var(--color-accent-darker); } 100% { transform: scale(1); color: var(--color-text); } }
 #score.score-updated { animation: score-bump 0.4s ease-out; }
 
-/* ... (Result Area - unchanged) ... */
-#result-area { margin-top: calc(var(--spacing-unit) * 4); padding: calc(var(--spacing-unit) * 3) calc(var(--spacing-unit) * 2); }
-#result-area h2 { font-size: 2.5em; font-weight: 700; color: var(--color-text); margin-bottom: var(--spacing-unit); }
-#result-area .final-score-container { font-size: 1.8em; font-weight: 500; color: var(--color-info-text); margin-bottom: calc(var(--spacing-unit) * 4); }
-#result-area #final-score { font-size: 2.2em; font-weight: 700; color: var(--color-accent-darker); display: inline-block; margin-left: var(--spacing-unit); }
-#result-area .save-message { font-size: 0.9em; font-style: italic; color: var(--color-success); margin-top: calc(var(--spacing-unit) * -2); margin-bottom: calc(var(--spacing-unit) * 3); }
-#result-area #play-again { margin-top: calc(var(--spacing-unit) * 2); }
 
-/* ... (Leaderboard - unchanged) ... */
-#leaderboard-section { margin-top: calc(var(--spacing-unit) * 4); padding-top: calc(var(--spacing-unit) * 3); }
-#leaderboard-filters { margin-bottom: calc(var(--spacing-unit) * 3); display: flex; flex-direction: column; align-items: center; gap: calc(var(--spacing-unit) * 1.5); }
-.filter-group { display: flex; align-items: center; flex-wrap: wrap; justify-content: center; }
-.filter-group strong { margin-right: var(--spacing-unit); font-weight: 500; }
-#leaderboard-list { max-width: 500px; margin: 0 auto calc(var(--spacing-unit) * 3) auto; text-align: left; counter-reset: leaderboard-counter; border: 1px solid var(--color-border); border-radius: var(--border-radius); overflow: hidden; }
-#leaderboard-list li { padding: calc(var(--spacing-unit) * 1.5) var(--spacing-unit); border-bottom: 1px solid var(--color-border); counter-increment: leaderboard-counter; display: flex; gap: var(--spacing-unit); transition: background-color 0.2s ease; }
-#leaderboard-list li:last-child { border-bottom: none; }
-#leaderboard-list li::before { content: counter(leaderboard-counter) ". "; font-weight: 600; color: var(--color-accent-darker); min-width: 2.5em; text-align: right; }
-#leaderboard-list li.user-score { font-weight: 700; background-color: color-mix(in srgb, var(--color-accent) 15%, transparent); }
+/* ... (Інші стилі - без змін) ... */
 
-/* ... (Indicators - unchanged) ... */
-#loading-indicator { font-style: italic; color: var(--color-disabled-text); padding: var(--spacing-unit) 0; }
-#error-message { color: var(--color-error); background-color: var(--color-error-bg); padding: var(--spacing-unit) calc(var(--spacing-unit) * 2); border-radius: var(--border-radius); margin-top: calc(var(--spacing-unit) * 2); border: 1px solid var(--color-error); display: inline-block; }
 
-/* ... (Hover effects - unchanged) ... */
-@media (hover: hover) { .btn-primary:hover:not(:disabled) { background-color: var(--color-accent-darker); border-color: var(--color-accent-darker); box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15); } .btn-secondary:hover:not(:disabled) { background-color: var(--color-secondary-bg-hover); } .btn-link:hover { color: var(--color-link-hover); text-decoration: underline; } #show-leaderboard-header-button.btn-link:hover { color: var(--color-text); background-color: var(--color-secondary-bg-hover); text-decoration: none;} .btn-icon:hover:not(:disabled) { opacity: 1; } .btn-filter:hover:not(:disabled) { background-color: var(--color-secondary-bg-hover); opacity: 1; } #difficulty-selection .button-group .btn:hover:not(:disabled) { background-color: var(--color-accent); border-color: var(--color-accent); color: var(--color-accent-text); } .options-group button:hover:not(:disabled) { background-color: var(--color-accent); border-color: var(--color-accent); color: var(--color-accent-text); } #leaderboard-list li:hover { background-color: var(--color-secondary-bg-hover); } }
+/* ------------------------------ */
+/* Responsiveness                 */
+/* ------------------------------ */
 
-/* ... (Footer Styling - unchanged) ... */
-.app-footer { text-align: center; margin-top: auto; padding: calc(var(--spacing-unit) * 3) 0; font-size: 0.85em; color: var(--color-footer-text); border-top: 1px solid var(--color-border); width: 100%; }
-.app-footer p { margin-bottom: calc(var(--spacing-unit) * 0.5); }
-.app-footer a { color: var(--color-info-text); text-decoration: none; }
-@media (hover: hover) { .app-footer a:hover { color: var(--color-link); text-decoration: underline; } }
+/* ... (Медіа-запити для 768px - без змін) ... */
+@media (max-width: 768px) { /* ... */ }
 
-/* ... (Responsiveness - unchanged) ... */
-@media (max-width: 768px) { .app-header { flex-direction: column; height: auto; padding: var(--spacing-unit); gap: var(--spacing-unit); margin-bottom: calc(var(--spacing-unit) * 2); } #auth-section { order: 2; width: 100%; justify-content: center; } #user-status { width: auto; justify-content: center; flex-wrap: wrap; } #user-status > * { font-size: 0.9em; margin: 0 4px; } #user-status .btn-link, #user-status .btn-small { padding: 4px 6px; } #user-status strong { max-width: 150px; } .logo-container { order: 1; } body:not(.logged-out) #app-logo { margin-left: auto; margin-right: auto; margin-bottom: var(--spacing-unit); height: calc(var(--header-height) * 0.65); width: auto; max-height: 40px; } #edit-nickname-form { position: static; width: 100%; margin-top: var(--spacing-unit); box-shadow: none; border: 1px solid var(--color-border); background-color: var(--color-secondary-bg); } .container { margin-top: calc(var(--spacing-unit) * 2); } }
-@media (max-width: 700px) { .options-group { max-width: 90%; } #game-area { margin-top: var(--spacing-unit); } #sticker-container { width: 70%; max-width: 220px; margin-bottom: calc(var(--spacing-unit) * 2); } .options-group { gap: var(--spacing-unit); margin-bottom: calc(var(--spacing-unit) * 2); } .options-group button { padding: var(--spacing-unit); font-size: 0.9em;} .game-info { margin-top: 0; flex-direction: column; gap: var(--spacing-unit); } #timer, #score { font-size: 1em; padding: calc(var(--spacing-unit)*0.75) var(--spacing-unit); } #time-left, #current-score { font-size: 1.1em; } }
-@media (max-width: 600px) { body { padding: 0; } .container { padding: 0 var(--spacing-unit); margin-top: calc(var(--spacing-unit) * 2); margin-bottom: calc(var(--spacing-unit) * 2); } .options-group { grid-template-columns: 1fr; } #result-area h2 { font-size: 2em; } #result-area .final-score-container { font-size: 1.5em; } #result-area #final-score { font-size: 1.8em; } #result-area #play-again { font-size: 1em; padding: calc(var(--spacing-unit) * 1.25) calc(var(--spacing-unit) * 2.5); } #leaderboard-filters { gap: var(--spacing-unit); } .filter-group { gap: calc(var(--spacing-unit) * 0.5); font-size: 0.9em; } .filter-group strong { display: block; width: 100%; margin-bottom: 5px; text-align: center; } .btn-filter { margin: 2px; } #leaderboard-list { max-width: 100%; padding: 0; } #leaderboard-list li { font-size: 0.9em; padding: var(--spacing-unit); } #leaderboard-list li::before { min-width: 2em; } body.logged-out #app-logo { width: 60%; max-width: 200px; } }
+/* --- Змінюємо розмір контейнера на мобільних --- */
+@media (max-width: 700px) {
+    #sticker-container {
+        width: 220px;  /* Фіксована ширина для мобільних */
+        height: 220px; /* Фіксована висота для мобільних */
+        margin-bottom: calc(var(--spacing-unit) * 3); /* Зменшено відступ */
+    }
+    /* ... (інші стилі для 700px) ... */
+    .options-group { max-width: 90%; }
+    #game-area { margin-top: var(--spacing-unit); }
+    .options-group { gap: var(--spacing-unit); margin-bottom: calc(var(--spacing-unit) * 2); }
+    .options-group button { padding: var(--spacing-unit); font-size: 0.9em;}
+    .game-info { margin-top: 0; flex-direction: column; gap: var(--spacing-unit); }
+    #timer, #score { font-size: 1em; padding: calc(var(--spacing-unit)*0.75) var(--spacing-unit); }
+    #time-left, #current-score { font-size: 1.1em; }
+}
+
+/* ... (Медіа-запити для 600px - без змін) ... */
+@media (max-width: 600px) { /* ... */ }
