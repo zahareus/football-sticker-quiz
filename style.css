@@ -24,7 +24,6 @@
     --color-link-hover: #0056b3;
     --color-separator-text: #adb5bd;
 
-
     --border-radius: 8px;
     --container-width: 800px;
     --spacing-unit: 8px;
@@ -50,7 +49,6 @@ input[type="text"] { font-family: inherit; padding: var(--spacing-unit) calc(var
 /* --- Header Styling --- */
 .app-header {
     display: flex;
-    /* Default: Logo left, Auth right */
     justify-content: space-between;
     align-items: center;
     padding: 0 calc(var(--spacing-unit) * 2);
@@ -59,45 +57,46 @@ input[type="text"] { font-family: inherit; padding: var(--spacing-unit) calc(var
     margin: 0 auto;
     position: relative;
 }
-/* Add bottom margin ONLY when logged in */
 body:not(.logged-out) .app-header {
     margin-bottom: calc(var(--spacing-unit) * 3);
 }
 
-
 /* --- Logged-Out Header: Center Logo --- */
 body.logged-out .app-header {
-    justify-content: center; /* <<< ЦЕ МАЄ ЦЕНТРУВАТИ ЛОГОТИП */
-    height: auto; /* Дозволити висоті змінюватися */
-    margin-bottom: 0; /* Прибрати відступ знизу */
-    padding-top: calc(var(--spacing-unit) * 2);
-    padding-bottom: calc(var(--spacing-unit) * 2); /* Додати відступ знизу */
-    /* Секція авторизації прихована через JS */
+    /* Центрування логотипу, який є єдиним дочірнім елементом flex */
+    justify-content: center;
+    height: auto;
+    margin-bottom: 0;
+    padding-top: calc(var(--spacing-unit) * 3); /* Більше відступу зверху */
+    padding-bottom: calc(var(--spacing-unit) * 2);
+}
+/* Додатково ховаємо секцію авторизації */
+body.logged-out #auth-section {
+    display: none !important;
 }
 
 .logo-container {
-    display: flex;
+    display: flex; /* Залишаємо flex для align-items */
     align-items: center;
-    /* Не потрібен width: 100% тут */
+    /* Прибираємо width: 100% звідси */
+     margin-left: 0; /* Скидаємо авто-відступи для лого-контейнера */
+     margin-right: 0;
 }
-
+/* Логотип за замовчуванням (залогінений стан) */
 #app-logo {
-    /* Default size for logged-in state */
     height: calc(var(--header-height) * 0.65);
     width: auto;
     max-height: 40px;
     transition: all 0.3s ease;
-    display: block; /* Ensure it's block for centering if needed */
+    display: block;
 }
-/* --- Збільшуємо логотип для НЕЗАЛОГІНЕНОГО стану --- */
+/* --- Збільшуємо та центруємо логотип для НЕЗАЛОГІНЕНОГО стану --- */
 body.logged-out #app-logo {
-    height: auto; /* Скидаємо фіксовану висоту */
-    width: 45%;   /* Збільшимо ширину */
-    max-width: 250px; /* Трохи збільшимо макс. ширину */
-    max-height: none; /* Знімаємо обмеження по висоті */
-    margin-left: auto;   /* Центрування блочного елемента */
-    margin-right: auto;
-    margin-bottom: calc(var(--spacing-unit) * 2); /* Відступ знизу */
+    height: auto;
+    width: 50%; /* Збільшимо ширину */
+    max-width: 280px; /* Збільшимо максимальну ширину */
+    max-height: none;
+    margin: 0 auto calc(var(--spacing-unit) * 3) auto; /* Центрування (auto зліва/справа) та відступ знизу */
 }
 
 
@@ -125,11 +124,29 @@ button:disabled, .btn:disabled { cursor: not-allowed !important; background-colo
 #edit-nickname-form input { margin-bottom: var(--spacing-unit); display: block; width: 100%; }
 #edit-nickname-form button { margin-top: var(--spacing-unit); margin-right: var(--spacing-unit); }
 
-/* ... (Landing Page - unchanged) ... */
-#landing-page { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: calc(var(--spacing-unit) * 5) 0; min-height: 300px; }
+/* --- Landing Page --- */
+#landing-page { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: calc(var(--spacing-unit) * 2) 0; /* Зменшено верхній/нижній відступ */ min-height: 250px; }
 #landing-page .google-login span { display: inline; }
 #landing-page .separator { color: var(--color-separator-text); margin: calc(var(--spacing-unit) * 2) 0; font-size: 0.9em; text-transform: uppercase; }
-#landing-page button { margin: var(--spacing-unit) 0; }
+/* --- Робимо кнопки на лендінгу однаковими по ширині --- */
+#landing-page button.btn {
+    width: 90%; /* Ширина відносно контейнера */
+    max-width: 320px; /* Максимальна ширина */
+    margin-left: auto;
+    margin-right: auto;
+    display: block; /* Робимо блочними для застосування ширини */
+    margin-top: var(--spacing-unit);
+    margin-bottom: var(--spacing-unit);
+}
+/* Додаткові стилі для центрування тексту/іконки в кнопці Google */
+#landing-page button.google-login {
+    display: inline-flex; /* Повертаємо flex для внутрішнього контенту */
+    justify-content: center;
+    align-items: center;
+    width: 90%; /* Потрібно повторити для inline-flex */
+    max-width: 320px;
+}
+
 
 /* ... (Difficulty Selection - unchanged) ... */
 #difficulty-selection .button-group .btn { min-width: 120px; background-color: var(--color-background); border: 1px solid var(--color-border); color: var(--color-text); }
@@ -181,32 +198,14 @@ button:disabled, .btn:disabled { cursor: not-allowed !important; background-colo
 /* ------------------------------ */
 @media (max-width: 768px) {
     /* Mobile Header: Stacked & Centered */
-    .app-header {
-        flex-direction: column;
-        height: auto;
-        padding: var(--spacing-unit);
-        gap: var(--spacing-unit);
-        /* Прибираємо justify-content: center тут, бо .logo-container має margin:auto */
-    }
-    /* Центрування auth section */
+    .app-header { flex-direction: column; height: auto; padding: var(--spacing-unit); gap: var(--spacing-unit); margin-bottom: calc(var(--spacing-unit) * 2); }
     #auth-section { order: 2; width: 100%; justify-content: center; }
      #user-status { width: auto; justify-content: center; flex-wrap: wrap; }
-     #user-status > * { font-size: 0.9em; margin: 0 4px; } /* Збільшено розмір шрифту */
+     #user-status > * { font-size: 0.9em; margin: 0 4px; }
      #user-status .btn-link, #user-status .btn-small { padding: 4px 6px; }
      #user-status strong { max-width: 150px; }
      .logo-container { order: 1; }
-     /* --- Центрування лого на мобільному для ЗАЛОГІНЕНОГО стану --- */
-     body:not(.logged-out) #app-logo {
-         margin-left: auto;
-         margin-right: auto;
-         margin-bottom: var(--spacing-unit); /* Додаємо відступ під лого */
-         /* Розміри успадковуються з базового стилю #app-logo */
-         height: calc(var(--header-height) * 0.65);
-         width: auto;
-         max-height: 40px;
-     }
-
-
+     body:not(.logged-out) #app-logo { margin-left: auto; margin-right: auto; margin-bottom: var(--spacing-unit); height: calc(var(--header-height) * 0.65); width: auto; max-height: 40px; }
      #edit-nickname-form { position: static; width: 100%; margin-top: var(--spacing-unit); box-shadow: none; border: 1px solid var(--color-border); background-color: var(--color-secondary-bg); }
      .container { margin-top: calc(var(--spacing-unit) * 2); }
 }
@@ -225,12 +224,10 @@ button:disabled, .btn:disabled { cursor: not-allowed !important; background-colo
     body { padding: 0; }
     .container { padding: 0 var(--spacing-unit); margin-top: calc(var(--spacing-unit) * 2); margin-bottom: calc(var(--spacing-unit) * 2); }
     .options-group { grid-template-columns: 1fr; }
-    /* Result Screen on Mobile */
-     #result-area h2 { font-size: 2em; }
-     #result-area .final-score-container { font-size: 1.5em; }
-     #result-area #final-score { font-size: 1.8em; }
-     #result-area #play-again { font-size: 1em; padding: calc(var(--spacing-unit) * 1.25) calc(var(--spacing-unit) * 2.5); }
-    /* Leaderboard on Mobile */
+    #result-area h2 { font-size: 2em; }
+    #result-area .final-score-container { font-size: 1.5em; }
+    #result-area #final-score { font-size: 1.8em; }
+    #result-area #play-again { font-size: 1em; padding: calc(var(--spacing-unit) * 1.25) calc(var(--spacing-unit) * 2.5); }
     #leaderboard-filters { gap: var(--spacing-unit); }
     .filter-group { gap: calc(var(--spacing-unit) * 0.5); font-size: 0.9em; }
     .filter-group strong { display: block; width: 100%; margin-bottom: 5px; text-align: center; }
@@ -238,10 +235,6 @@ button:disabled, .btn:disabled { cursor: not-allowed !important; background-colo
     #leaderboard-list { max-width: 100%; padding: 0; }
     #leaderboard-list li { font-size: 0.9em; padding: var(--spacing-unit); }
     #leaderboard-list li::before { min-width: 2em; }
-
-     /* Зменшення лого для дуже малих екранів */
-     body.logged-out #app-logo {
-        width: 50%;
-        max-width: 180px;
-     }
+    /* Зменшення лого для дуже малих екранів */
+    body.logged-out #app-logo { width: 60%; max-width: 200px; } /* Трохи менше */
 }
