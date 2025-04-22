@@ -54,20 +54,52 @@ input[type="text"] { font-family: inherit; padding: var(--spacing-unit) calc(var
     justify-content: space-between;
     align-items: center;
     padding: 0 calc(var(--spacing-unit) * 2);
-    height: var(--header-height);
+    min-height: var(--header-height); /* Use min-height */
     max-width: calc(var(--container-width) + 4 * var(--spacing-unit));
     margin: 0 auto;
-    margin-bottom: calc(var(--spacing-unit) * 3);
     position: relative;
 }
+/* Add bottom margin ONLY when logged in */
+body:not(.logged-out) .app-header {
+    margin-bottom: calc(var(--spacing-unit) * 3);
+}
+
+
 /* --- Logged-Out Header: Center Logo --- */
 body.logged-out .app-header {
-    justify-content: center; /* Center the only visible child (.logo-container) */
+    justify-content: center; /* <<< ЦЕ МАЄ ЦЕНТРУВАТИ ЛОГОТИП */
+    height: auto; /* Дозволити висоті змінюватися */
+    margin-bottom: 0; /* Прибрати відступ знизу */
+    padding-top: calc(var(--spacing-unit) * 2);
+    padding-bottom: calc(var(--spacing-unit) * 2); /* Додати відступ знизу */
+    /* Секція авторизації прихована через JS */
 }
-/* JS handles hiding #auth-section when logged out */
 
-.logo-container { height: 100%; display: flex; align-items: center; }
-#app-logo { height: calc(var(--header-height) * 0.65); width: auto; max-height: 40px; }
+.logo-container {
+    display: flex;
+    align-items: center;
+    /* Не потрібен width: 100% тут */
+}
+
+#app-logo {
+    /* Default size for logged-in state */
+    height: calc(var(--header-height) * 0.65);
+    width: auto;
+    max-height: 40px;
+    transition: all 0.3s ease;
+    display: block; /* Ensure it's block for centering if needed */
+}
+/* --- Збільшуємо логотип для НЕЗАЛОГІНЕНОГО стану --- */
+body.logged-out #app-logo {
+    height: auto; /* Скидаємо фіксовану висоту */
+    width: 45%;   /* Збільшимо ширину */
+    max-width: 250px; /* Трохи збільшимо макс. ширину */
+    max-height: none; /* Знімаємо обмеження по висоті */
+    margin-left: auto;   /* Центрування блочного елемента */
+    margin-right: auto;
+    margin-bottom: calc(var(--spacing-unit) * 2); /* Відступ знизу */
+}
+
 
 /* ... (Buttons - unchanged) ... */
 .btn { display: inline-block; padding: calc(var(--spacing-unit) * 1.25) calc(var(--spacing-unit) * 2.5); font-size: 1em; font-weight: 500; border: 1px solid transparent; border-radius: var(--border-radius); text-align: center; text-decoration: none; transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease; margin: calc(var(--spacing-unit)/2); vertical-align: middle; cursor: pointer; }
@@ -141,47 +173,42 @@ button:disabled, .btn:disabled { cursor: not-allowed !important; background-colo
 #loading-indicator { font-style: italic; color: var(--color-disabled-text); padding: var(--spacing-unit) 0; }
 #error-message { color: var(--color-error); background-color: var(--color-error-bg); padding: var(--spacing-unit) calc(var(--spacing-unit) * 2); border-radius: var(--border-radius); margin-top: calc(var(--spacing-unit) * 2); border: 1px solid var(--color-error); display: inline-block; }
 
-/* --- Disable hover effects for non-hover devices --- */
-@media (hover: hover) {
-    .btn-primary:hover:not(:disabled) { background-color: var(--color-accent-darker); border-color: var(--color-accent-darker); box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15); }
-    .btn-secondary:hover:not(:disabled) { background-color: var(--color-secondary-bg-hover); }
-    .btn-link:hover { color: var(--color-link-hover); text-decoration: underline; }
-    #show-leaderboard-header-button.btn-link:hover { color: var(--color-text); background-color: var(--color-secondary-bg-hover); text-decoration: none;}
-    .btn-icon:hover:not(:disabled) { opacity: 1; }
-    .btn-filter:hover:not(:disabled) { background-color: var(--color-secondary-bg-hover); opacity: 1; }
-    #difficulty-selection .button-group .btn:hover:not(:disabled) { background-color: var(--color-accent); border-color: var(--color-accent); color: var(--color-accent-text); }
-    .options-group button:hover:not(:disabled) { background-color: var(--color-accent); border-color: var(--color-accent); color: var(--color-accent-text); }
-    #leaderboard-list li:hover { background-color: var(--color-secondary-bg-hover); }
-}
+/* ... (Hover effects - unchanged) ... */
+@media (hover: hover) { .btn-primary:hover:not(:disabled) { background-color: var(--color-accent-darker); border-color: var(--color-accent-darker); box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15); } .btn-secondary:hover:not(:disabled) { background-color: var(--color-secondary-bg-hover); } .btn-link:hover { color: var(--color-link-hover); text-decoration: underline; } #show-leaderboard-header-button.btn-link:hover { color: var(--color-text); background-color: var(--color-secondary-bg-hover); text-decoration: none;} .btn-icon:hover:not(:disabled) { opacity: 1; } .btn-filter:hover:not(:disabled) { background-color: var(--color-secondary-bg-hover); opacity: 1; } #difficulty-selection .button-group .btn:hover:not(:disabled) { background-color: var(--color-accent); border-color: var(--color-accent); color: var(--color-accent-text); } .options-group button:hover:not(:disabled) { background-color: var(--color-accent); border-color: var(--color-accent); color: var(--color-accent-text); } #leaderboard-list li:hover { background-color: var(--color-secondary-bg-hover); } }
 
 /* ------------------------------ */
 /* Responsiveness                 */
 /* ------------------------------ */
 @media (max-width: 768px) {
-    /* --- Mobile Header: Stacked & Centered --- */
+    /* Mobile Header: Stacked & Centered */
     .app-header {
-        flex-direction: column; /* Stack logo and auth */
-        height: auto;          /* Adjust height */
+        flex-direction: column;
+        height: auto;
         padding: var(--spacing-unit);
         gap: var(--spacing-unit);
+        /* Прибираємо justify-content: center тут, бо .logo-container має margin:auto */
     }
-    /* Center auth section and its content */
-    #auth-section {
-        order: 2; /* Ensure auth section is below logo */
-        width: 100%;
-        justify-content: center;
-    }
-     #user-status {
-        width: auto; /* Don't force full width */
-        justify-content: center;
-        flex-wrap: wrap; /* Allow wrapping for user status items if needed */
+    /* Центрування auth section */
+    #auth-section { order: 2; width: 100%; justify-content: center; }
+     #user-status { width: auto; justify-content: center; flex-wrap: wrap; }
+     #user-status > * { font-size: 0.9em; margin: 0 4px; } /* Збільшено розмір шрифту */
+     #user-status .btn-link, #user-status .btn-small { padding: 4px 6px; }
+     #user-status strong { max-width: 150px; }
+     .logo-container { order: 1; }
+     /* --- Центрування лого на мобільному для ЗАЛОГІНЕНОГО стану --- */
+     body:not(.logged-out) #app-logo {
+         margin-left: auto;
+         margin-right: auto;
+         margin-bottom: var(--spacing-unit); /* Додаємо відступ під лого */
+         /* Розміри успадковуються з базового стилю #app-logo */
+         height: calc(var(--header-height) * 0.65);
+         width: auto;
+         max-height: 40px;
      }
-     #user-status > * { font-size: 0.9em; margin: 0 4px; } /* Adjust size/margin */
-     #user-status .btn-link, #user-status .btn-small { padding: 4px 6px; white-space: nowrap; }
-     #user-status strong { max-width: 150px; } /* Allow a bit more space */
-     .logo-container { order: 1; /* Ensure logo is on top */ }
+
 
      #edit-nickname-form { position: static; width: 100%; margin-top: var(--spacing-unit); box-shadow: none; border: 1px solid var(--color-border); background-color: var(--color-secondary-bg); }
+     .container { margin-top: calc(var(--spacing-unit) * 2); }
 }
 @media (max-width: 700px) {
     .options-group { max-width: 90%; }
@@ -189,7 +216,7 @@ button:disabled, .btn:disabled { cursor: not-allowed !important; background-colo
     #sticker-container { width: 70%; max-width: 220px; margin-bottom: calc(var(--spacing-unit) * 2); }
     .options-group { gap: var(--spacing-unit); margin-bottom: calc(var(--spacing-unit) * 2); }
     .options-group button { padding: var(--spacing-unit); font-size: 0.9em;}
-    .game-info { margin-top: 0; flex-direction: column; gap: var(--spacing-unit); } /* Stack timer/score earlier */
+    .game-info { margin-top: 0; flex-direction: column; gap: var(--spacing-unit); }
     #timer, #score { font-size: 1em; padding: calc(var(--spacing-unit)*0.75) var(--spacing-unit); }
     #time-left, #current-score { font-size: 1.1em; }
 }
@@ -198,7 +225,6 @@ button:disabled, .btn:disabled { cursor: not-allowed !important; background-colo
     body { padding: 0; }
     .container { padding: 0 var(--spacing-unit); margin-top: calc(var(--spacing-unit) * 2); margin-bottom: calc(var(--spacing-unit) * 2); }
     .options-group { grid-template-columns: 1fr; }
-    /* .game-info { flex-direction: row; justify-content: space-around; gap: var(--spacing-unit); } /* Keep side-by-side if possible? Stacked earlier */
     /* Result Screen on Mobile */
      #result-area h2 { font-size: 2em; }
      #result-area .final-score-container { font-size: 1.5em; }
@@ -212,4 +238,10 @@ button:disabled, .btn:disabled { cursor: not-allowed !important; background-colo
     #leaderboard-list { max-width: 100%; padding: 0; }
     #leaderboard-list li { font-size: 0.9em; padding: var(--spacing-unit); }
     #leaderboard-list li::before { min-width: 2em; }
+
+     /* Зменшення лого для дуже малих екранів */
+     body.logged-out #app-logo {
+        width: 50%;
+        max-width: 180px;
+     }
 }
