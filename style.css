@@ -23,7 +23,7 @@
     --color-link: #007bff;
     --color-link-hover: #0056b3;
     --color-separator-text: #adb5bd;
-    --color-footer-text: #6c757d; /* Колір тексту підвалу */
+    --color-footer-text: #6c757d;
 
 
     --border-radius: 8px;
@@ -46,13 +46,7 @@ input[type="text"] { font-family: inherit; padding: var(--spacing-unit) calc(var
 /* ------------------------------ */
 /* Layout & Container             */
 /* ------------------------------ */
-.container {
-    max-width: var(--container-width);
-    margin: calc(var(--spacing-unit) * 4) auto;
-    padding: 0 calc(var(--spacing-unit) * 2);
-    text-align: center;
-    flex-grow: 1; /* Allow main to take available space */
-}
+.container { max-width: var(--container-width); margin: calc(var(--spacing-unit) * 4) auto; padding: 0 calc(var(--spacing-unit) * 2); text-align: center; flex-grow: 1; }
 
 /* --- Header Styling --- */
 .app-header { display: flex; justify-content: space-between; align-items: center; padding: 0 calc(var(--spacing-unit) * 2); min-height: var(--header-height); max-width: calc(var(--container-width) + 4 * var(--spacing-unit)); margin: 0 auto; position: relative; }
@@ -101,27 +95,9 @@ button:disabled, .btn:disabled { cursor: not-allowed !important; background-colo
 /* Game Area                      */
 /* ------------------------------ */
 #game-area { margin-top: calc(var(--spacing-unit) * 3); }
-
-#sticker-container {
-    width: 300px;  /* Фіксована ширина */
-    height: 300px; /* Фіксована висота (квадрат) */
-    margin: 0 auto calc(var(--spacing-unit) * 4) auto; /* Центрування та відступ */
-    background-color: var(--color-secondary-bg);
-    border: 1px solid var(--color-border);
-    border-radius: var(--border-radius);
-    overflow: hidden;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-#sticker-image {
-    width: 100%;
-    height: 100%;
-    object-fit: contain; /* Показувати весь стікер без обрізки */
-}
+#sticker-container { width: 300px; height: 300px; margin: 0 auto calc(var(--spacing-unit) * 4) auto; background-color: var(--color-secondary-bg); border: 1px solid var(--color-border); border-radius: var(--border-radius); overflow: hidden; display: flex; align-items: center; justify-content: center; }
+#sticker-image { width: 100%; height: 100%; object-fit: contain; }
 #sticker-image[alt*="Loading"], #sticker-image[alt*="Error"] { width: 50px; height: 50px; }
-
 .options-group { display: grid; grid-template-columns: repeat(2, 1fr); gap: calc(var(--spacing-unit) * 1.5); max-width: 600px; margin: 0 auto; }
 .options-group button { width: 100%; margin: 0; background-color: var(--color-background); border: 1px solid var(--color-border); color: var(--color-text); font-weight: 400; padding: calc(var(--spacing-unit) * 1.5) var(--spacing-unit); }
 .options-group button.correct-answer { background-color: var(--color-success) ; border-color: var(--color-success) ; color: white ; font-weight: 600; }
@@ -137,24 +113,19 @@ button:disabled, .btn:disabled { cursor: not-allowed !important; background-colo
 #result-area { margin-top: calc(var(--spacing-unit) * 4); padding: calc(var(--spacing-unit) * 3) calc(var(--spacing-unit) * 2); }
 #result-area h2 { font-size: 2.5em; font-weight: 700; color: var(--color-text); margin-bottom: var(--spacing-unit); }
 #result-area .final-score-container { font-size: 1.8em; font-weight: 500; color: var(--color-info-text); margin-bottom: calc(var(--spacing-unit) * 4); }
-#result-area #final-score {
-    font-size: 2.2em;
-    font-weight: 700;
-    color: var(--color-accent-darker);
-    display: inline-block;
-    margin-left: var(--spacing-unit);
-}
-/* --- Final Score Animation --- */
+#result-area #final-score { font-size: 2.2em; font-weight: 700; color: var(--color-accent-darker); display: inline-block; margin-left: var(--spacing-unit); }
+/* --- Оновлена анімація фінального рахунку --- */
 @keyframes final-score-flash {
-  0%, 100% { opacity: 1; transform: scale(1); }
-  50% { opacity: 0.6; transform: scale(1.1); }
+  0% { opacity: 1; transform: scale(1); }
+  30% { opacity: 0.5; transform: scale(1.3); } /* Швидко збільшуємо */
+  70% { opacity: 1; transform: scale(1.05); } /* Повертаємо з невеликим "відскоком" */
+  100% { opacity: 1; transform: scale(1); }
 }
 #final-score.final-score-animated {
   display: inline-block; /* Required for transform */
-  animation: final-score-flash 0.7s ease-in-out;
+  animation: final-score-flash 1.1s ease-in-out; /* Збільшено тривалість */
 }
-/* --------------------------- */
-
+/* ------------------------------------------ */
 #result-area .save-message { font-size: 0.9em; font-style: italic; color: var(--color-success); margin-top: calc(var(--spacing-unit) * -2); margin-bottom: calc(var(--spacing-unit) * 3); }
 #result-area #play-again { margin-top: calc(var(--spacing-unit) * 2); }
 
