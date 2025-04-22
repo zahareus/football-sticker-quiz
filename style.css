@@ -23,7 +23,7 @@
     --color-link: #007bff;
     --color-link-hover: #0056b3;
     --color-separator-text: #adb5bd;
-    --color-footer-text: #6c757d; /* Колір тексту підвалу */
+    --color-footer-text: #6c757d;
 
 
     --border-radius: 8px;
@@ -32,9 +32,9 @@
     --header-height: 60px;
 }
 
-/* --- Reset Styles --- */
+/* ... (Reset styles) ... */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-body { font-family: var(--font-family); line-height: 1.6; background-color: var(--color-background); color: var(--color-text); padding: 0 var(--spacing-unit); display: flex; flex-direction: column; min-height: 100vh;} /* Для притискання підвалу */
+body { font-family: var(--font-family); line-height: 1.6; background-color: var(--color-background); color: var(--color-text); padding: 0 var(--spacing-unit); display: flex; flex-direction: column; min-height: 100vh;}
 h2 { color: var(--color-text); margin-bottom: calc(var(--spacing-unit) * 3); font-weight: 600; text-align: center; }
 h2 { font-weight: 500; margin-bottom: calc(var(--spacing-unit) * 2); }
 p { margin-bottom: calc(var(--spacing-unit) * 2); }
@@ -43,18 +43,10 @@ img { max-width: 100%; display: block; }
 button { font-family: inherit; cursor: pointer; background: none; border: none; padding: 0; color: inherit; }
 input[type="text"] { font-family: inherit; padding: var(--spacing-unit) calc(var(--spacing-unit) * 1.5); border: 1px solid var(--color-border); border-radius: var(--border-radius); font-size: 1em; margin-right: var(--spacing-unit); }
 
-/* ------------------------------ */
-/* Layout & Container             */
-/* ------------------------------ */
-.container {
-    max-width: var(--container-width);
-    margin: calc(var(--spacing-unit) * 4) auto;
-    padding: 0 calc(var(--spacing-unit) * 2);
-    text-align: center;
-    flex-grow: 1; /* Дозволяє main зайняти доступний простір */
-}
+/* ... (Layout & Container) ... */
+.container { max-width: var(--container-width); margin: calc(var(--spacing-unit) * 4) auto; padding: 0 calc(var(--spacing-unit) * 2); text-align: center; flex-grow: 1; }
 
-/* --- Header Styling --- */
+/* ... (Header Styling) ... */
 .app-header { display: flex; justify-content: space-between; align-items: center; padding: 0 calc(var(--spacing-unit) * 2); min-height: var(--header-height); max-width: calc(var(--container-width) + 4 * var(--spacing-unit)); margin: 0 auto; position: relative; }
 body:not(.logged-out) .app-header { margin-bottom: calc(var(--spacing-unit) * 3); }
 body.logged-out .app-header { justify-content: center; height: auto; margin-bottom: 0; padding-top: calc(var(--spacing-unit) * 3); padding-bottom: calc(var(--spacing-unit) * 2); }
@@ -97,15 +89,28 @@ button:disabled, .btn:disabled { cursor: not-allowed !important; background-colo
 /* ... (Difficulty Selection - unchanged) ... */
 #difficulty-selection .button-group .btn { min-width: 120px; background-color: var(--color-background); border: 1px solid var(--color-border); color: var(--color-text); }
 
-/* ... (Game Area - unchanged) ... */
+/* ------------------------------ */
+/* Game Area                      */
+/* ------------------------------ */
 #game-area { margin-top: calc(var(--spacing-unit) * 3); }
-#sticker-container { aspect-ratio: 1 / 1; width: 60%; max-width: 300px; min-width: 150px; margin: 0 auto calc(var(--spacing-unit) * 4) auto; background-color: var(--color-secondary-bg); border: 1px solid var(--color-border); border-radius: var(--border-radius); overflow: hidden; display: flex; align-items: center; justify-content: center; }
-#sticker-image { width: 100%; height: 100%; object-fit: contain; }
+#sticker-container { aspect-ratio: 1 / 1; width: 60%; max-width: 300px; min-width: 150px; min-height: 150px; /* Залишаємо на всяк випадок */ margin: 0 auto calc(var(--spacing-unit) * 4) auto; background-color: var(--color-secondary-bg); border: 1px solid var(--color-border); border-radius: var(--border-radius); overflow: hidden; display: flex; align-items: center; justify-content: center; }
+
+#sticker-image {
+    width: 100%;
+    height: 100%;
+    /* --- Змінено на cover --- */
+    object-fit: cover; /* Зображення покриє контейнер, можливе обрізання */
+    /* ----------------------- */
+}
 #sticker-image[alt*="Loading"], #sticker-image[alt*="Error"] { width: 50px; height: 50px; }
+
+/* ... (Options Group - unchanged) ... */
 .options-group { display: grid; grid-template-columns: repeat(2, 1fr); gap: calc(var(--spacing-unit) * 1.5); max-width: 600px; margin: 0 auto; }
 .options-group button { width: 100%; margin: 0; background-color: var(--color-background); border: 1px solid var(--color-border); color: var(--color-text); font-weight: 400; padding: calc(var(--spacing-unit) * 1.5) var(--spacing-unit); }
 .options-group button.correct-answer { background-color: var(--color-success) ; border-color: var(--color-success) ; color: white ; font-weight: 600; }
 .options-group button.incorrect-answer { background-color: var(--color-error) ; border-color: var(--color-error) ; color: white ; opacity: 0.7; }
+
+/* ... (Game Info - unchanged) ... */
 .game-info { display: flex; justify-content: space-around; align-items: center; margin-top: calc(var(--spacing-unit) * 4); max-width: 400px; margin-left: auto; margin-right: auto; gap: calc(var(--spacing-unit) * 3); }
 #timer, #score { font-size: 1.2em; color: var(--color-info-text); font-weight: 500; background-color: var(--color-secondary-bg); padding: var(--spacing-unit) calc(var(--spacing-unit) * 2); border-radius: var(--border-radius); border: 1px solid var(--color-border); }
 #time-left { display: inline-block; min-width: 2ch; text-align: right; font-weight: 700; font-size: 1.3em; color: var(--color-text); margin-left: var(--spacing-unit); vertical-align: baseline; }
@@ -136,67 +141,16 @@ button:disabled, .btn:disabled { cursor: not-allowed !important; background-colo
 #loading-indicator { font-style: italic; color: var(--color-disabled-text); padding: var(--spacing-unit) 0; }
 #error-message { color: var(--color-error); background-color: var(--color-error-bg); padding: var(--spacing-unit) calc(var(--spacing-unit) * 2); border-radius: var(--border-radius); margin-top: calc(var(--spacing-unit) * 2); border: 1px solid var(--color-error); display: inline-block; }
 
-/* --- Hover effects --- */
+/* ... (Hover effects - unchanged) ... */
 @media (hover: hover) { .btn-primary:hover:not(:disabled) { background-color: var(--color-accent-darker); border-color: var(--color-accent-darker); box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15); } .btn-secondary:hover:not(:disabled) { background-color: var(--color-secondary-bg-hover); } .btn-link:hover { color: var(--color-link-hover); text-decoration: underline; } #show-leaderboard-header-button.btn-link:hover { color: var(--color-text); background-color: var(--color-secondary-bg-hover); text-decoration: none;} .btn-icon:hover:not(:disabled) { opacity: 1; } .btn-filter:hover:not(:disabled) { background-color: var(--color-secondary-bg-hover); opacity: 1; } #difficulty-selection .button-group .btn:hover:not(:disabled) { background-color: var(--color-accent); border-color: var(--color-accent); color: var(--color-accent-text); } .options-group button:hover:not(:disabled) { background-color: var(--color-accent); border-color: var(--color-accent); color: var(--color-accent-text); } #leaderboard-list li:hover { background-color: var(--color-secondary-bg-hover); } }
 
-/* ------------------------------ */
-/* Footer Styling                 */
-/* ------------------------------ */
-.app-footer {
-    text-align: center;
-    margin-top: auto; /* Притискає підвал до низу */
-    padding: calc(var(--spacing-unit) * 3) 0; /* Збільшено відступ */
-    font-size: 0.85em;
-    color: var(--color-footer-text);
-    border-top: 1px solid var(--color-border);
-    width: 100%; /* Ensure it spans width */
-}
+/* ... (Footer Styling - unchanged) ... */
+.app-footer { text-align: center; margin-top: auto; padding: calc(var(--spacing-unit) * 3) 0; font-size: 0.85em; color: var(--color-footer-text); border-top: 1px solid var(--color-border); width: 100%; }
 .app-footer p { margin-bottom: calc(var(--spacing-unit) * 0.5); }
 .app-footer a { color: var(--color-info-text); text-decoration: none; }
 @media (hover: hover) { .app-footer a:hover { color: var(--color-link); text-decoration: underline; } }
 
-
-/* ------------------------------ */
-/* Responsiveness                 */
-/* ------------------------------ */
-@media (max-width: 768px) {
-    /* Mobile Header: Stacked & Centered */
-    .app-header { flex-direction: column; height: auto; padding: var(--spacing-unit); gap: var(--spacing-unit); margin-bottom: calc(var(--spacing-unit) * 2); }
-    #auth-section { order: 2; width: 100%; justify-content: center; }
-     #user-status { width: auto; justify-content: center; flex-wrap: wrap; }
-     #user-status > * { font-size: 0.9em; margin: 0 4px; }
-     #user-status .btn-link, #user-status .btn-small { padding: 4px 6px; }
-     #user-status strong { max-width: 150px; }
-     .logo-container { order: 1; }
-     body:not(.logged-out) #app-logo { margin-left: auto; margin-right: auto; margin-bottom: var(--spacing-unit); height: calc(var(--header-height) * 0.65); width: auto; max-height: 40px; }
-     #edit-nickname-form { position: static; width: 100%; margin-top: var(--spacing-unit); box-shadow: none; border: 1px solid var(--color-border); background-color: var(--color-secondary-bg); }
-     .container { margin-top: calc(var(--spacing-unit) * 2); }
-}
-@media (max-width: 700px) {
-    .options-group { max-width: 90%; }
-    #game-area { margin-top: var(--spacing-unit); }
-    #sticker-container { width: 70%; max-width: 220px; margin-bottom: calc(var(--spacing-unit) * 2); }
-    .options-group { gap: var(--spacing-unit); margin-bottom: calc(var(--spacing-unit) * 2); }
-    .options-group button { padding: var(--spacing-unit); font-size: 0.9em;}
-    .game-info { margin-top: 0; flex-direction: column; gap: var(--spacing-unit); }
-    #timer, #score { font-size: 1em; padding: calc(var(--spacing-unit)*0.75) var(--spacing-unit); }
-    #time-left, #current-score { font-size: 1.1em; }
-}
-@media (max-width: 600px) {
-    body { padding: 0; }
-    .container { padding: 0 var(--spacing-unit); margin-top: calc(var(--spacing-unit) * 2); margin-bottom: calc(var(--spacing-unit) * 2); }
-    .options-group { grid-template-columns: 1fr; }
-    #result-area h2 { font-size: 2em; }
-    #result-area .final-score-container { font-size: 1.5em; }
-    #result-area #final-score { font-size: 1.8em; }
-    #result-area #play-again { font-size: 1em; padding: calc(var(--spacing-unit) * 1.25) calc(var(--spacing-unit) * 2.5); }
-    #leaderboard-filters { gap: var(--spacing-unit); }
-    .filter-group { gap: calc(var(--spacing-unit) * 0.5); font-size: 0.9em; }
-    .filter-group strong { display: block; width: 100%; margin-bottom: 5px; text-align: center; }
-    .btn-filter { margin: 2px; }
-    #leaderboard-list { max-width: 100%; padding: 0; }
-    #leaderboard-list li { font-size: 0.9em; padding: var(--spacing-unit); }
-    #leaderboard-list li::before { min-width: 2em; }
-    /* Зменшення лого для дуже малих екранів */
-    body.logged-out #app-logo { width: 60%; max-width: 200px; }
-}
+/* ... (Responsiveness - unchanged) ... */
+@media (max-width: 768px) { .app-header { flex-direction: column; height: auto; padding: var(--spacing-unit); gap: var(--spacing-unit); margin-bottom: calc(var(--spacing-unit) * 2); } #auth-section { order: 2; width: 100%; justify-content: center; } #user-status { width: auto; justify-content: center; flex-wrap: wrap; } #user-status > * { font-size: 0.9em; margin: 0 4px; } #user-status .btn-link, #user-status .btn-small { padding: 4px 6px; } #user-status strong { max-width: 150px; } .logo-container { order: 1; } body:not(.logged-out) #app-logo { margin-left: auto; margin-right: auto; margin-bottom: var(--spacing-unit); height: calc(var(--header-height) * 0.65); width: auto; max-height: 40px; } #edit-nickname-form { position: static; width: 100%; margin-top: var(--spacing-unit); box-shadow: none; border: 1px solid var(--color-border); background-color: var(--color-secondary-bg); } .container { margin-top: calc(var(--spacing-unit) * 2); } }
+@media (max-width: 700px) { .options-group { max-width: 90%; } #game-area { margin-top: var(--spacing-unit); } #sticker-container { width: 70%; max-width: 220px; margin-bottom: calc(var(--spacing-unit) * 2); } .options-group { gap: var(--spacing-unit); margin-bottom: calc(var(--spacing-unit) * 2); } .options-group button { padding: var(--spacing-unit); font-size: 0.9em;} .game-info { margin-top: 0; flex-direction: column; gap: var(--spacing-unit); } #timer, #score { font-size: 1em; padding: calc(var(--spacing-unit)*0.75) var(--spacing-unit); } #time-left, #current-score { font-size: 1.1em; } }
+@media (max-width: 600px) { body { padding: 0; } .container { padding: 0 var(--spacing-unit); margin-top: calc(var(--spacing-unit) * 2); margin-bottom: calc(var(--spacing-unit) * 2); } .options-group { grid-template-columns: 1fr; } #result-area h2 { font-size: 2em; } #result-area .final-score-container { font-size: 1.5em; } #result-area #final-score { font-size: 1.8em; } #result-area #play-again { font-size: 1em; padding: calc(var(--spacing-unit) * 1.25) calc(var(--spacing-unit) * 2.5); } #leaderboard-filters { gap: var(--spacing-unit); } .filter-group { gap: calc(var(--spacing-unit) * 0.5); font-size: 0.9em; } .filter-group strong { display: block; width: 100%; margin-bottom: 5px; text-align: center; } .btn-filter { margin: 2px; } #leaderboard-list { max-width: 100%; padding: 0; } #leaderboard-list li { font-size: 0.9em; padding: var(--spacing-unit); } #leaderboard-list li::before { min-width: 2em; } body.logged-out #app-logo { width: 60%; max-width: 200px; } }
