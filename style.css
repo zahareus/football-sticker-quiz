@@ -23,7 +23,7 @@
     --color-link: #007bff;
     --color-link-hover: #0056b3;
     --color-separator-text: #adb5bd;
-    --color-footer-text: #6c757d;
+    --color-footer-text: #6c757d; /* Колір тексту підвалу */
 
 
     --border-radius: 8px;
@@ -103,12 +103,10 @@ button:disabled, .btn:disabled { cursor: not-allowed !important; background-colo
 #game-area { margin-top: calc(var(--spacing-unit) * 3); }
 
 #sticker-container {
-    /* --- Фіксовані розміри для десктопу --- */
     width: 300px;  /* Фіксована ширина */
     height: 300px; /* Фіксована висота (квадрат) */
-    /* --------------------------------------- */
     margin: 0 auto calc(var(--spacing-unit) * 4) auto; /* Центрування та відступ */
-    background-color: var(--color-secondary-bg); /* Важливо для стабільного фону */
+    background-color: var(--color-secondary-bg);
     border: 1px solid var(--color-border);
     border-radius: var(--border-radius);
     overflow: hidden;
@@ -120,9 +118,7 @@ button:disabled, .btn:disabled { cursor: not-allowed !important; background-colo
 #sticker-image {
     width: 100%;
     height: 100%;
-    /* --- Повертаємо contain --- */
     object-fit: contain; /* Показувати весь стікер без обрізки */
-    /* ------------------------ */
 }
 #sticker-image[alt*="Loading"], #sticker-image[alt*="Error"] { width: 50px; height: 50px; }
 
@@ -141,7 +137,24 @@ button:disabled, .btn:disabled { cursor: not-allowed !important; background-colo
 #result-area { margin-top: calc(var(--spacing-unit) * 4); padding: calc(var(--spacing-unit) * 3) calc(var(--spacing-unit) * 2); }
 #result-area h2 { font-size: 2.5em; font-weight: 700; color: var(--color-text); margin-bottom: var(--spacing-unit); }
 #result-area .final-score-container { font-size: 1.8em; font-weight: 500; color: var(--color-info-text); margin-bottom: calc(var(--spacing-unit) * 4); }
-#result-area #final-score { font-size: 2.2em; font-weight: 700; color: var(--color-accent-darker); display: inline-block; margin-left: var(--spacing-unit); }
+#result-area #final-score {
+    font-size: 2.2em;
+    font-weight: 700;
+    color: var(--color-accent-darker);
+    display: inline-block;
+    margin-left: var(--spacing-unit);
+}
+/* --- Final Score Animation --- */
+@keyframes final-score-flash {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.6; transform: scale(1.1); }
+}
+#final-score.final-score-animated {
+  display: inline-block; /* Required for transform */
+  animation: final-score-flash 0.7s ease-in-out;
+}
+/* --------------------------- */
+
 #result-area .save-message { font-size: 0.9em; font-style: italic; color: var(--color-success); margin-top: calc(var(--spacing-unit) * -2); margin-bottom: calc(var(--spacing-unit) * 3); }
 #result-area #play-again { margin-top: calc(var(--spacing-unit) * 2); }
 
@@ -188,11 +201,10 @@ button:disabled, .btn:disabled { cursor: not-allowed !important; background-colo
 
 @media (max-width: 700px) {
     #sticker-container {
-        /* --- Фіксовані розміри для мобільних --- */
+        /* Фіксовані розміри для мобільних */
         width: 220px;
         height: 220px;
-        /* ------------------------------------- */
-        margin-bottom: calc(var(--spacing-unit) * 3); /* Відступ знизу */
+        margin-bottom: calc(var(--spacing-unit) * 3);
     }
     .options-group { max-width: 90%; }
     #game-area { margin-top: var(--spacing-unit); }
