@@ -43,6 +43,8 @@
     </header>
 
     <main class="container">
+        <div class="intro-text" id="intro-text-element" style="display: none;"> <p>An online quiz where you have to guess a football club from a photo of a sticker. You have 10 seconds to choose 1 correct option out of 4. <a href="/about.html">Read more about the project</a></p>
+        </div>
         <div id="landing-page" style="display: none;">
             <button id="landing-login-button" class="btn btn-primary btn-large google-login">
                 <span>Sign in with Google</span>
@@ -53,10 +55,16 @@
 
         <div id="difficulty-selection" style="display: none;">
             <h2>Choose difficulty:</h2>
-            <div class="button-group">
-                <button class="btn difficulty-button" data-difficulty="1">Easy (1)</button>
-                <button class="btn difficulty-button" data-difficulty="2">Medium (2)</button>
-                <button class="btn difficulty-button" data-difficulty="3">Hard (3)</button>
+            <div class="difficulty-options-container">
+                <div class="difficulty-option">
+                    <button class="btn btn-large difficulty-button" data-difficulty="1">Easy</button> <p class="difficulty-description">Very easy. Just pay attention</p>
+                </div>
+                <div class="difficulty-option">
+                    <button class="btn btn-large difficulty-button" data-difficulty="2">Medium</button> <p class="difficulty-description">You need to know a little bit about football</p>
+                </div>
+                <div class="difficulty-option">
+                    <button class="btn btn-large difficulty-button" data-difficulty="3">Hard</button> <p class="difficulty-description">For real experts. My respect!</p>
+                </div>
             </div>
         </div>
 
@@ -112,7 +120,9 @@
             <a href="/terms.html">Terms of Service</a> |
             <a href="/privacy.html">Privacy Policy</a>
         </p>
-        <p>StickerHunt &copy; 2025</p> </footer>
+        <p>StickerHunt &copy; 2025</p>
+    </footer>
+
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="script.js"></script>
 </body>
