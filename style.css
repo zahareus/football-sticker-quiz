@@ -1,4 +1,4 @@
-/* style.css (Повний код з поверненням !important для відповідей) */
+/* style.css */
 
 /* ------------------------------ */
 /* Variables & Basic Reset        */
@@ -96,26 +96,25 @@ button:disabled, .btn:disabled { cursor: not-allowed !important; background-colo
 /* ------------------------------ */
 #game-area { margin-top: calc(var(--spacing-unit) * 3); }
 #sticker-container { width: 300px; height: 300px; margin: 0 auto calc(var(--spacing-unit) * 4) auto; background-color: var(--color-secondary-bg); border: 1px solid var(--color-border); border-radius: var(--border-radius); overflow: hidden; display: flex; align-items: center; justify-content: center; }
+
 #sticker-image { width: 100%; height: 100%; object-fit: contain; }
 #sticker-image[alt*="Loading"], #sticker-image[alt*="Error"] { width: 50px; height: 50px; }
+
+/* --- Sticker Fade-In Animation --- */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+#sticker-image.fade-in {
+  animation: fadeIn 0.4s ease-out; /* Adjust duration/timing */
+}
+/* ------------------------------- */
+
+
 .options-group { display: grid; grid-template-columns: repeat(2, 1fr); gap: calc(var(--spacing-unit) * 1.5); max-width: 600px; margin: 0 auto; }
 .options-group button { width: 100%; margin: 0; background-color: var(--color-background); border: 1px solid var(--color-border); color: var(--color-text); font-weight: 400; padding: calc(var(--spacing-unit) * 1.5) var(--spacing-unit); }
-
-/* --- Повертаємо !important для гарантованого перекриття :disabled --- */
-.options-group button.correct-answer {
-   background-color: var(--color-success) !important;
-   border-color: var(--color-success) !important;
-   color: white !important;
-   font-weight: 600;
-}
-.options-group button.incorrect-answer {
-   background-color: var(--color-error) !important;
-   border-color: var(--color-error) !important;
-   color: white !important;
-   opacity: 0.7;
-}
-/* ------------------------------------------------------------------ */
-
+.options-group button.correct-answer { background-color: var(--color-success) !important; border-color: var(--color-success) !important; color: white !important; font-weight: 600; }
+.options-group button.incorrect-answer { background-color: var(--color-error) !important; border-color: var(--color-error) !important; color: white !important; opacity: 0.7; }
 .game-info { display: flex; justify-content: space-around; align-items: center; margin-top: calc(var(--spacing-unit) * 4); max-width: 400px; margin-left: auto; margin-right: auto; gap: calc(var(--spacing-unit) * 3); }
 #timer, #score { font-size: 1.2em; color: var(--color-info-text); font-weight: 500; background-color: var(--color-secondary-bg); padding: var(--spacing-unit) calc(var(--spacing-unit) * 2); border-radius: var(--border-radius); border: 1px solid var(--color-border); }
 #time-left { display: inline-block; min-width: 2ch; text-align: right; font-weight: 700; font-size: 1.3em; color: var(--color-text); margin-left: var(--spacing-unit); vertical-align: baseline; }
@@ -175,12 +174,7 @@ button:disabled, .btn:disabled { cursor: not-allowed !important; background-colo
 }
 
 @media (max-width: 700px) {
-    #sticker-container {
-        /* Фіксовані розміри для мобільних */
-        width: 220px;
-        height: 220px;
-        margin-bottom: calc(var(--spacing-unit) * 3);
-    }
+    #sticker-container { width: 220px; height: 220px; margin-bottom: calc(var(--spacing-unit) * 3); }
     .options-group { max-width: 90%; }
     #game-area { margin-top: var(--spacing-unit); }
     .options-group { gap: var(--spacing-unit); margin-bottom: calc(var(--spacing-unit) * 2); }
