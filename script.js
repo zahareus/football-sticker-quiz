@@ -1,4 +1,4 @@
-// script.js (Повний, виправлений код)
+// script.js (Повний код з останніми змінами)
 
 const SUPABASE_URL = "https://rbmeslzlbsolkxnvesqb.supabase.co";
 const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJibWVzbHpsYnNvbGt4bnZlc3FiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDUwODcxMzYsImV4cCI6MjA2MDY2MzEzNn0.cu-Qw0WoEslfKXXCiMocWFg6Uf1sK_cQYcyP2mT0-Nw";
@@ -63,41 +63,18 @@ function initializeDOMElements() {
     playAgainButton.addEventListener('click', showDifficultySelection); loginButton.addEventListener('click', loginWithGoogle); landingLoginButton.addEventListener('click', loginWithGoogle); logoutButton.addEventListener('click', logout); difficultyButtons.forEach(button => { button.addEventListener('click', handleDifficultySelection); }); if (showLeaderboardHeaderButton) showLeaderboardHeaderButton.addEventListener('click', openLeaderboard); if (landingLeaderboardButton) landingLeaderboardButton.addEventListener('click', openLeaderboard); closeLeaderboardButton.addEventListener('click', closeLeaderboard); leaderboardTimeFilterButtons.forEach(button => { button.addEventListener('click', handleTimeFilterChange); }); leaderboardDifficultyFilterButtons.forEach(button => { button.addEventListener('click', handleDifficultyFilterChange); }); userNicknameElement.addEventListener('click', showNicknameEditForm); editNicknameForm.addEventListener('submit', handleNicknameSave); cancelEditNicknameButton.addEventListener('click', hideNicknameEditForm); if (scoreDisplayElement) { scoreDisplayElement.addEventListener('animationend', () => { scoreDisplayElement.classList.remove('score-updated'); }); } if (finalScoreElement) { finalScoreElement.addEventListener('animationend', () => { finalScoreElement.classList.remove('final-score-animated'); }); } console.log("DOM elements initialized."); return true;
 }
 
-// --- Ось визначення функції, якої не вистачало ---
+// --- Function: Load All Club Names ---
 async function loadAllClubNames() {
-    if (clubNamesLoaded) {
-        console.log("Club names already loaded.");
-        return true;
-    }
-    if (!supabaseClient) {
-        console.error("Cannot load club names: Supabase client not available.");
-        return false;
-    }
+    if (clubNamesLoaded) { console.log("Club names already loaded."); return true; }
+    if (!supabaseClient) { console.error("Cannot load club names: Supabase client not available."); return false; }
     console.log("Loading all club names...");
     try {
-        const { data, error } = await supabaseClient
-            .from('clubs')
-            .select('name'); // Запитуємо тільки імена
-
+        const { data, error } = await supabaseClient.from('clubs').select('name');
         if (error) { throw error; }
-
-        if (data) {
-            allClubNames = data.map(club => club.name);
-            clubNamesLoaded = true;
-            console.log(`Successfully loaded ${allClubNames.length} club names.`);
-            return true;
-        } else {
-            throw new Error("No data received for club names.");
-        }
-    } catch (error) {
-        console.error("Error loading club names:", error);
-        // Не показуємо помилку користувачу тут, але логуємо
-        clubNamesLoaded = false;
-        allClubNames = [];
-        return false;
-    }
+        if (data) { allClubNames = data.map(club => club.name); clubNamesLoaded = true; console.log(`Successfully loaded ${allClubNames.length} club names.`); return true; }
+        else { throw new Error("No data received for club names."); }
+    } catch (error) { console.error("Error loading club names:", error); clubNamesLoaded = false; allClubNames = []; return false; }
 }
-// --------------------------------------------------
 
 // ----- 5. Authentication Functions -----
 async function loginWithGoogle() { if (!supabaseClient) return showError("Supabase client not initialized."); hideError(); showLoading(); try { const { error } = await supabaseClient.auth.signInWithOAuth({ provider: 'google', options: { redirectTo: window.location.href } }); if (error) throw error; } catch (error) { console.error("Login error:", error); showError(`Login failed: ${error.message}`); hideLoading(); } }
@@ -114,8 +91,103 @@ async function handleNicknameSave(event) { event.preventDefault(); if (!currentU
 // ----- 6. Display Question Function -----
 function displayQuestion(questionData) { if (!questionData || !stickerImageElement || !optionsContainerElement || !timeLeftElement || !currentScoreElement || !gameAreaElement || !resultAreaElement) { console.error("displayQuestion: Missing elements/data."); showError("Error displaying question."); endGame(); return; } currentQuestionData = questionData; hideError(); stickerImageElement.src = ""; stickerImageElement.alt = "Loading sticker..."; stickerImageElement.src = questionData.imageUrl; stickerImageElement.onerror = () => { console.error(`Error loading image: ${questionData.imageUrl}`); showError("Failed to load image."); stickerImageElement.alt = "Error"; stickerImageElement.src = ""; setTimeout(endGame, 500); }; stickerImageElement.onload = () => { stickerImageElement.alt = "Club Sticker"; }; optionsContainerElement.innerHTML = ''; if (questionData.options && Array.isArray(questionData.options)) { questionData.options.forEach((optionText) => { const button = document.createElement('button'); button.className = 'btn'; button.textContent = optionText; button.disabled = false; button.classList.remove('correct-answer', 'incorrect-answer'); button.addEventListener('click', () => handleAnswer(optionText)); optionsContainerElement.appendChild(button); }); } else { console.error("Invalid options:", questionData.options); showError("Error displaying options."); setTimeout(endGame, 500); return; } timeLeft = 10; if(timeLeftElement) timeLeftElement.textContent = timeLeft; if(currentScoreElement) currentScoreElement.textContent = currentScore; if(gameAreaElement) gameAreaElement.style.display = 'block'; if(resultAreaElement) resultAreaElement.style.display = 'none'; startTimer(); }
 
-// ----- 7. Handle User Answer Function -----
-function handleAnswer(selectedOption) { stopTimer(); hideError(); if (!currentQuestionData || !optionsContainerElement) { return; } const buttons = optionsContainerElement.querySelectorAll('button'); buttons.forEach(button => button.disabled = true); const isCorrect = selectedOption === currentQuestionData.correctAnswer; if (isCorrect) { currentScore++; if (currentScoreElement) currentScoreElement.textContent = currentScore; if (scoreDisplayElement) { scoreDisplayElement.classList.remove('score-updated'); void scoreDisplayElement.offsetWidth; scoreDisplayElement.classList.add('score-updated'); } buttons.forEach(button => { if (button.textContent === selectedOption) { button.classList.add('correct-answer'); } }); setTimeout(() => loadNextQuestion(true), 700); } else { buttons.forEach(button => { if (button.textContent === currentQuestionData.correctAnswer) { button.classList.add('correct-answer'); } if (button.textContent === selectedOption) { button.classList.add('incorrect-answer'); } }); setTimeout(endGame, 1500); } }
+// ----- 7. Handle User Answer Function (Оновлено)-----
+async function handleAnswer(selectedOption) {
+    stopTimer();
+    hideError();
+
+    if (!currentQuestionData || !optionsContainerElement) {
+        console.error("handleAnswer: Missing question data or options container.");
+        return;
+    }
+
+    const buttons = optionsContainerElement.querySelectorAll('button');
+    buttons.forEach(button => button.disabled = true); // Disable all buttons
+
+    const isCorrect = selectedOption === currentQuestionData.correctAnswer;
+
+    // Find the button elements
+    let selectedButton = null;
+    let correctButton = null;
+    buttons.forEach(button => {
+        if (button.textContent === selectedOption) {
+            selectedButton = button;
+        }
+        if (button.textContent === currentQuestionData.correctAnswer) {
+            correctButton = button;
+        }
+    });
+
+    if (isCorrect) {
+        // --- CORRECT ANSWER ---
+        currentScore++;
+        if (currentScoreElement) currentScoreElement.textContent = currentScore;
+        if (scoreDisplayElement) { // Trigger score bump animation
+             scoreDisplayElement.classList.remove('score-updated');
+             void scoreDisplayElement.offsetWidth;
+             scoreDisplayElement.classList.add('score-updated');
+        }
+
+        // 1. Highlight correct button
+        if (selectedButton) {
+            selectedButton.classList.add('correct-answer');
+        }
+
+        // 2. Start preloading next question (returns a promise)
+        console.log("Correct answer: Starting preload for next question...");
+        let nextQuestionPromise = loadNewQuestion(true); // true = quick transition
+
+        // 3. Wait 1 second for visual feedback
+        await new Promise(resolve => setTimeout(resolve, 1000));
+
+        // 4. Remove highlight
+        if (selectedButton) {
+            selectedButton.classList.remove('correct-answer');
+        }
+
+        // 5. Wait for preload to finish and display
+        try {
+            console.log("Waiting for preload to finish...");
+            const questionData = await nextQuestionPromise; // Wait for the promise
+            console.log("Preload finished.");
+            if (questionData) {
+                displayQuestion(questionData); // Display next question
+            } else {
+                console.error("handleAnswer (Correct): Failed to load next question after delay.");
+                endGame(); // End game if loading failed
+            }
+        } catch (error) {
+             console.error("handleAnswer (Correct): Error awaiting preloaded question:", error);
+             endGame(); // End game on error
+        }
+
+    } else {
+        // --- INCORRECT ANSWER ---
+
+        // 1. Highlight incorrect red, correct green
+        if (selectedButton) {
+            selectedButton.classList.add('incorrect-answer');
+        }
+        if (correctButton) {
+            correctButton.classList.add('correct-answer');
+        }
+
+        // 2. Wait 1 second for visual feedback
+        await new Promise(resolve => setTimeout(resolve, 1000));
+
+        // 3. Remove highlights
+        if (selectedButton) {
+            selectedButton.classList.remove('incorrect-answer');
+        }
+        if (correctButton) {
+            correctButton.classList.remove('correct-answer');
+        }
+
+        // 4. End the game
+        endGame();
+    }
+}
+// ---------------------------------------------
 
 // ----- 8. Timer Functions -----
 function startTimer() { stopTimer(); timeLeft = 10; if(!timeLeftElement) { return; } timeLeftElement.textContent = timeLeft; timerInterval = setInterval(() => { timeLeft--; if(timeLeftElement) { try { timeLeftElement.textContent = timeLeft.toString(); } catch(e) { stopTimer(); } } else { stopTimer(); return; } if (timeLeft <= 0) { stopTimer(); if (optionsContainerElement && currentQuestionData) { const buttons = optionsContainerElement.querySelectorAll('button'); buttons.forEach(button => { button.disabled = true; if (button.textContent === currentQuestionData.correctAnswer) { button.classList.add('correct-answer'); } }); } setTimeout(endGame, 1500); } }, 1000); }
@@ -126,64 +198,50 @@ function showDifficultySelection() { hideError(); if (!difficultySelectionElemen
 function handleDifficultySelection(event) { const difficulty = parseInt(event.target.dataset.difficulty, 10); if (![1, 2, 3].includes(difficulty)) { return; } selectedDifficulty = difficulty; console.log(`Difficulty ${selectedDifficulty} selected.`); if(difficultySelectionElement) difficultySelectionElement.style.display = 'none'; startGame(); }
 async function startGame() { hideError(); if (selectedDifficulty === null || ![1, 2, 3].includes(selectedDifficulty)) { showDifficultySelection(); return; } if (!gameAreaElement || !currentScoreElement || !resultAreaElement || !optionsContainerElement) { if (!initializeDOMElements()) { handleCriticalError("Failed init."); return; } } currentScore = 0; if (currentScoreElement) currentScoreElement.textContent = 0; if (resultAreaElement) { const msg = resultAreaElement.querySelector('.save-message'); if(msg) msg.remove(); resultAreaElement.style.display = 'none'; } if(difficultySelectionElement) difficultySelectionElement.style.display = 'none'; if (gameAreaElement) gameAreaElement.style.display = 'block'; if (optionsContainerElement) { optionsContainerElement.innerHTML = ''; } if(landingPageElement) landingPageElement.style.display = 'none'; console.log(`Starting game: Diff ${selectedDifficulty}`); await loadNextQuestion(); }
 async function loadNextQuestion(isQuickTransition = false) { const questionData = await loadNewQuestion(isQuickTransition); if (questionData) { displayQuestion(questionData); } else { console.error("loadNextQuestion: Failed. Ending game."); if(gameAreaElement) gameAreaElement.style.display = 'none'; if(resultAreaElement) { resultAreaElement.style.display = 'block'; if(finalScoreElement) finalScoreElement.textContent = currentScore; } } }
+async function loadNewQuestion(isQuickTransition = false) { if (!supabaseClient) { showError("DB connection error."); return null; } if (selectedDifficulty === null) { showError("No difficulty selected."); return null; } if (!clubNamesLoaded) { console.log("Club names not loaded, attempting to load..."); showLoading(); const loaded = await loadAllClubNames(); hideLoading(); if (!loaded) { showError("Failed to load essential game data. Cannot continue."); return null; } } if (!isQuickTransition) { showLoading(); } hideError(); try { if (!supabaseClient) throw new Error("Supabase client lost before query."); console.log("Fetching sticker..."); const { count: stickerCount, error: countError } = await supabaseClient .from('stickers') .select('*', { count: 'exact', head: true }) .eq('difficulty', selectedDifficulty); if (countError) throw new Error(`Sticker count error: ${countError.message}`); if (stickerCount === null || stickerCount === 0) throw new Error(`No stickers for difficulty ${selectedDifficulty}.`); const randomIndex = Math.floor(Math.random() * stickerCount); const { data: randomStickerData, error: stickerError } = await supabaseClient .from('stickers') .select(`image_url, clubs ( id, name )`) .eq('difficulty', selectedDifficulty) .order('id', { ascending: true }) .range(randomIndex, randomIndex) .single(); if (stickerError) throw new Error(`Sticker fetch error: ${stickerError.message}`); if (!randomStickerData || !randomStickerData.clubs) throw new Error("Incomplete sticker/club data."); const correctClubName = randomStickerData.clubs.name; const imageUrl = randomStickerData.image_url; console.log(`Correct answer: ${correctClubName}`); if (allClubNames.length < 4) { throw new Error("Not enough club names loaded."); } const potentialOptions = allClubNames.filter(name => name !== correctClubName); potentialOptions.sort(() => 0.5 - Math.random()); const incorrectOptions = potentialOptions.slice(0, 3); if (incorrectOptions.length < 3) { throw new Error("Failed to get 3 distinct incorrect options."); } console.log("Incorrect options chosen from cache:", incorrectOptions); const allOptions = [correctClubName, ...incorrectOptions].sort(() => 0.5 - Math.random()); const questionDataForDisplay = { imageUrl: imageUrl, options: allOptions, correctAnswer: correctClubName }; return questionDataForDisplay; } catch (error) { console.error("Error during loadNewQuestion:", error); showError(`Loading Error: ${error.message || 'Failed to load question'}`); return null; } finally { hideLoading(); } }
 
-// --- Оновлено для використання кешу імен клубів ---
-async function loadNewQuestion(isQuickTransition = false) {
-    if (!supabaseClient) { showError("DB connection error."); return null; }
-    if (selectedDifficulty === null) { showError("No difficulty selected."); return null; }
-
-    if (!clubNamesLoaded) { // Перевірка, чи завантажено кеш
-        console.log("Club names not loaded, attempting to load...");
-        showLoading(); // Показуємо індикатор під час цього потенційно довгого завантаження
-        const loaded = await loadAllClubNames();
-        hideLoading();
-        if (!loaded) {
-             showError("Failed to load essential game data. Cannot continue.");
-             return null; // Зупиняємо завантаження питання
-        }
+// --- Оновлено endGame ---
+function endGame() {
+    console.log(`Game Over! Final Score: ${currentScore}`);
+    stopTimer();
+    if(finalScoreElement) {
+        finalScoreElement.textContent = currentScore;
+        // Анімація фінального рахунку
+        finalScoreElement.classList.remove('final-score-animated');
+        void finalScoreElement.offsetWidth;
+        finalScoreElement.classList.add('final-score-animated');
     }
+    if(gameAreaElement) gameAreaElement.style.display = 'none';
+    if(resultAreaElement) {
+        const msg = resultAreaElement.querySelector('.save-message');
+        if(msg) msg.remove(); // Прибираємо старе повідомлення (якщо було)
+        resultAreaElement.style.display = 'block';
+    }
+    if(difficultySelectionElement) difficultySelectionElement.style.display = 'none';
+    saveScore(); // Зберігаємо рахунок (без повідомлення "saved")
+}
 
-    if (!isQuickTransition) { showLoading(); }
-    hideError();
-
+// --- Оновлено saveScore (видалено повідомлення) ---
+async function saveScore() {
+    if (!currentUser) { console.log("Score not saved: User not logged in."); return; }
+    if (typeof currentScore !== 'number' || currentScore < 0) { console.log("Score not saved: Invalid score."); return; }
+    if (selectedDifficulty === null) { console.log("Score not saved: Difficulty not set."); return; }
+    if (currentScore === 0) { console.log("Score is 0, not saving."); return; }
+    console.log(`Saving score: ${currentScore}, Diff: ${selectedDifficulty}`);
+    showLoading(); let detectedCountryCode = null;
     try {
-        if (!supabaseClient) throw new Error("Supabase client lost before query.");
-        console.log("Fetching sticker..."); // Лог для дебагу
-        const { count: stickerCount, error: countError } = await supabaseClient .from('stickers') .select('*', { count: 'exact', head: true }) .eq('difficulty', selectedDifficulty);
-        if (countError) throw new Error(`Sticker count error: ${countError.message}`); if (stickerCount === null || stickerCount === 0) throw new Error(`No stickers for difficulty ${selectedDifficulty}.`);
-        const randomIndex = Math.floor(Math.random() * stickerCount);
-        const { data: randomStickerData, error: stickerError } = await supabaseClient .from('stickers') .select(`image_url, clubs ( id, name )`) .eq('difficulty', selectedDifficulty) .order('id', { ascending: true }) .range(randomIndex, randomIndex) .single();
-        if (stickerError) throw new Error(`Sticker fetch error: ${stickerError.message}`); if (!randomStickerData || !randomStickerData.clubs) throw new Error("Incomplete sticker/club data.");
-
-        const correctClubName = randomStickerData.clubs.name;
-        const imageUrl = randomStickerData.image_url;
-        console.log(`Correct answer: ${correctClubName}`);
-
-        // --- Нова логіка вибору неправильних варіантів з кешу ---
-        if (allClubNames.length < 4) { throw new Error("Not enough club names loaded."); }
-        const potentialOptions = allClubNames.filter(name => name !== correctClubName);
-        potentialOptions.sort(() => 0.5 - Math.random()); // Перемішуємо відфільтрований список
-        const incorrectOptions = potentialOptions.slice(0, 3); // Беремо перші 3
-        if (incorrectOptions.length < 3) { throw new Error("Failed to get 3 distinct incorrect options."); }
-        console.log("Incorrect options chosen from cache:", incorrectOptions);
-        // --- Кінець нової логіки ---
-
-        const allOptions = [correctClubName, ...incorrectOptions].sort(() => 0.5 - Math.random());
-        const questionDataForDisplay = { imageUrl: imageUrl, options: allOptions, correctAnswer: correctClubName };
-        return questionDataForDisplay;
-
+        const { error } = await supabaseClient .from('scores') .insert({ user_id: currentUser.id, score: currentScore, difficulty: selectedDifficulty, country_code: detectedCountryCode });
+        if (error) { throw error; }
+        console.log("Score saved successfully to database!");
+        // Повідомлення про збереження видалено
     } catch (error) {
-        console.error("Error during loadNewQuestion:", error);
-        showError(`Loading Error: ${error.message || 'Failed to load question'}`);
-        return null;
+        console.error("Error saving score:", error);
+        showError(`Failed to save score: ${error.message}`);
     } finally {
         hideLoading();
     }
 }
-// ------------------------------------------------------
 
-function endGame() { console.log(`Game Over! Score: ${currentScore}`); stopTimer(); if(finalScoreElement) { finalScoreElement.textContent = currentScore; finalScoreElement.classList.remove('final-score-animated'); void finalScoreElement.offsetWidth; finalScoreElement.classList.add('final-score-animated'); } if(gameAreaElement) gameAreaElement.style.display = 'none'; if(resultAreaElement) { const msg = resultAreaElement.querySelector('.save-message'); if(msg) msg.remove(); resultAreaElement.style.display = 'block'; } if(difficultySelectionElement) difficultySelectionElement.style.display = 'none'; saveScore(); }
-async function saveScore() { if (!currentUser) { return; } if (typeof currentScore !== 'number' || currentScore < 0) { return; } if (selectedDifficulty === null) { return; } if (currentScore === 0) { return; } console.log(`Saving score: ${currentScore}, Diff: ${selectedDifficulty}`); showLoading(); let detectedCountryCode = null; try { const { error } = await supabaseClient .from('scores') .insert({ user_id: currentUser.id, score: currentScore, difficulty: selectedDifficulty, country_code: detectedCountryCode }); if (error) { throw error; } console.log("Score saved!"); /* Повідомлення видалено */ } catch (error) { console.error("Error saving score:", error); showError(`Failed to save score: ${error.message}`); } finally { hideLoading(); } }
 
 // ----- 10. Leaderboard Logic -----
 function calculateTimeRange(timeframe) { const now = new Date(); let fromDate = null; let toDate = null; switch (timeframe) { case 'today': const startOfDay=new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate())); const startOfNextDay=new Date(startOfDay); startOfNextDay.setUTCDate(startOfDay.getUTCDate()+1); fromDate=startOfDay.toISOString(); toDate=startOfNextDay.toISOString(); break; case 'week': const sevenDaysAgo=new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate())); sevenDaysAgo.setUTCDate(sevenDaysAgo.getUTCDate()-7); fromDate=sevenDaysAgo.toISOString(); break; case 'month': const thirtyDaysAgo=new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate())); thirtyDaysAgo.setUTCDate(thirtyDaysAgo.getUTCDate()-30); fromDate=thirtyDaysAgo.toISOString(); break; case 'all': default: fromDate=null; toDate=null; break; } return { fromDate, toDate }; }
@@ -206,18 +264,16 @@ function hideLoading() { if (loadingIndicator) { loadingIndicator.style.display 
 // ----- 12. App Initialization -----
 function initializeApp() {
     console.log("DOM fully loaded, initializing application...");
-    if (!initializeDOMElements()) { return; } // Stop if elements not found
+    if (!initializeDOMElements()) { return; }
 
-    // --- Завантажуємо імена клубів АСИНХРОННО ---
-    loadAllClubNames().then(success => {
-        if (success) { console.log("Club names pre-loaded successfully."); }
-        else { console.error("Failed to pre-load club names."); /* Помилка вже показана в loadAllClubNames */ }
+    loadAllClubNames().then(success => { // Завантажуємо назви клубів
+        if (success) { console.log("Club names pre-loaded."); }
+        else { console.error("Failed to pre-load club names."); showError("Error loading game data."); }
     });
-    // -------------------------------------------
 
-    setupAuthStateChangeListener(); // Setup listener
+    setupAuthStateChangeListener(); // Налаштовуємо слухача змін стану авторизації
     console.log("App init finished. Waiting for auth state...");
-    // Hide all sections initially; updateAuthStateUI will show the correct one
+    // Початковий стан UI встановлюється через onAuthStateChange
     if(landingPageElement) landingPageElement.style.display = 'none';
     if(difficultySelectionElement) difficultySelectionElement.style.display = 'none';
     if(gameAreaElement) gameAreaElement.style.display = 'none';
