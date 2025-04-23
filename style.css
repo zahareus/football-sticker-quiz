@@ -1,4 +1,4 @@
-/* style.css */
+/* style.css (Повний код) */
 
 /* ------------------------------ */
 /* Variables & Basic Reset        */
@@ -57,6 +57,29 @@ body.logged-out #auth-section { display: none !important; }
 #app-logo { height: calc(var(--header-height) * 0.65); width: auto; max-height: 40px; transition: all 0.3s ease; display: block; }
 body.logged-out #app-logo { height: auto; width: 45%; max-width: 280px; max-height: none; margin: 0 auto calc(var(--spacing-unit) * 3) auto; }
 
+/* --- Intro Text --- */
+.intro-text {
+    max-width: 600px; /* Обмеження ширини для читабельності */
+    margin: calc(var(--spacing-unit) * -2) auto calc(var(--spacing-unit) * 4) auto; /* Від'ємний верхній для ближче до шапки, відступ знизу */
+    font-size: 1em;
+    line-height: 1.6;
+    color: var(--color-info-text); /* Трохи приглушений колір */
+}
+.intro-text p {
+    margin-bottom: 0; /* Прибираємо відступ параграфа за замовчуванням */
+}
+.intro-text a {
+    color: var(--color-link);
+    text-decoration: underline;
+    font-weight: 500;
+}
+@media (hover: hover) {
+    .intro-text a:hover {
+        color: var(--color-link-hover);
+    }
+}
+
+
 /* --- Buttons --- */
 .btn { display: inline-block; padding: calc(var(--spacing-unit) * 1.25) calc(var(--spacing-unit) * 2.5); font-size: 1em; font-weight: 500; border: 1px solid transparent; border-radius: var(--border-radius); text-align: center; text-decoration: none; transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease; margin: calc(var(--spacing-unit)/2); vertical-align: middle; cursor: pointer; }
 .btn-primary { background-color: var(--color-accent); color: var(--color-accent-text); border-color: var(--color-accent); box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); }
@@ -89,7 +112,36 @@ button:disabled, .btn:disabled { cursor: not-allowed !important; background-colo
 #landing-page button.google-login { display: inline-flex; justify-content: center; align-items: center; width: 90%; max-width: 320px; }
 
 /* --- Difficulty Selection --- */
-#difficulty-selection .button-group .btn { min-width: 120px; background-color: var(--color-background); border: 1px solid var(--color-border); color: var(--color-text); }
+#difficulty-selection {
+    max-width: 450px;
+    margin-left: auto;
+    margin-right: auto;
+}
+.difficulty-options-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: calc(var(--spacing-unit) * 2.5);
+    margin-top: calc(var(--spacing-unit) * 2);
+}
+.difficulty-option {
+    width: 100%;
+    text-align: center;
+}
+.difficulty-option button.difficulty-button {
+    width: 100%; /* Кнопка займає всю ширину */
+    display: block;
+    margin-bottom: calc(var(--spacing-unit) * 0.75);
+    /* Клас btn-large додано в HTML */
+}
+.difficulty-description {
+    font-size: 0.85em;
+    color: var(--color-info-text);
+    padding: 0 var(--spacing-unit);
+    margin: 0;
+    line-height: 1.4;
+}
+
 
 /* ------------------------------ */
 /* Game Area                      */
@@ -134,7 +186,7 @@ button:disabled, .btn:disabled { cursor: not-allowed !important; background-colo
 #error-message { color: var(--color-error); background-color: var(--color-error-bg); padding: var(--spacing-unit) calc(var(--spacing-unit) * 2); border-radius: var(--border-radius); margin-top: calc(var(--spacing-unit) * 2); border: 1px solid var(--color-error); display: inline-block; }
 
 /* --- Hover effects --- */
-@media (hover: hover) { .btn-primary:hover:not(:disabled) { background-color: var(--color-accent-darker); border-color: var(--color-accent-darker); box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15); } .btn-secondary:hover:not(:disabled) { background-color: var(--color-secondary-bg-hover); } .btn-link:hover { color: var(--color-link-hover); text-decoration: underline; } #show-leaderboard-header-button.btn-link:hover { color: var(--color-text); background-color: var(--color-secondary-bg-hover); text-decoration: none;} .btn-icon:hover:not(:disabled) { opacity: 1; } .btn-filter:hover:not(:disabled) { background-color: var(--color-secondary-bg-hover); opacity: 1; } #difficulty-selection .button-group .btn:hover:not(:disabled) { background-color: var(--color-accent); border-color: var(--color-accent); color: var(--color-accent-text); } .options-group button:hover:not(:disabled) { background-color: var(--color-accent); border-color: var(--color-accent); color: var(--color-accent-text); } #leaderboard-list li:hover { background-color: var(--color-secondary-bg-hover); } }
+@media (hover: hover) { .btn-primary:hover:not(:disabled) { background-color: var(--color-accent-darker); border-color: var(--color-accent-darker); box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15); } .btn-secondary:hover:not(:disabled) { background-color: var(--color-secondary-bg-hover); } .btn-link:hover { color: var(--color-link-hover); text-decoration: underline; } #show-leaderboard-header-button.btn-link:hover { color: var(--color-text); background-color: var(--color-secondary-bg-hover); text-decoration: none;} .btn-icon:hover:not(:disabled) { opacity: 1; } .btn-filter:hover:not(:disabled) { background-color: var(--color-secondary-bg-hover); opacity: 1; } #difficulty-selection .difficulty-option button.difficulty-button:hover:not(:disabled) { background-color: var(--color-accent); border-color: var(--color-accent); color: var(--color-accent-text); } .options-group button:hover:not(:disabled) { background-color: var(--color-accent); border-color: var(--color-accent); color: var(--color-accent-text); } #leaderboard-list li:hover { background-color: var(--color-secondary-bg-hover); } }
 
 /* --- Footer Styling --- */
 .app-footer { text-align: center; margin-top: auto; padding: calc(var(--spacing-unit) * 3) 0; font-size: 0.85em; color: var(--color-footer-text); border-top: 1px solid var(--color-border); width: 100%; }
@@ -142,9 +194,7 @@ button:disabled, .btn:disabled { cursor: not-allowed !important; background-colo
 .app-footer a { color: var(--color-info-text); text-decoration: none; }
 @media (hover: hover) { .app-footer a:hover { color: var(--color-link); text-decoration: underline; } }
 
-/* ------------------------------ */
-/* Legal/About Page Specific Styles */
-/* ------------------------------ */
+/* --- Legal/About Page Specific Styles --- */
 .legal-container { max-width: 800px; margin: calc(var(--spacing-unit) * 3) auto; padding: calc(var(--spacing-unit) * 2) calc(var(--spacing-unit) * 3); background-color: #fff; border-radius: var(--border-radius); box-shadow: 0 2px 5px rgba(0,0,0,0.05); text-align: left; }
 .legal-container h1 { text-align: center; margin-bottom: 1.5em; font-size: 1.8em; color: var(--color-text);}
 .legal-container h2 { margin-top: 1.5em; margin-bottom: 0.5em; font-size: 1.3em; color: var(--color-text);}
@@ -171,6 +221,7 @@ button:disabled, .btn:disabled { cursor: not-allowed !important; background-colo
 /* Responsiveness                 */
 /* ------------------------------ */
 @media (max-width: 768px) {
+    /* Mobile Header: Stacked & Centered */
     .app-header { flex-direction: column; height: auto; padding: var(--spacing-unit); gap: var(--spacing-unit); margin-bottom: calc(var(--spacing-unit) * 2); }
     #auth-section { order: 2; width: 100%; justify-content: center; }
      #user-status { width: auto; justify-content: center; flex-wrap: wrap; }
@@ -181,7 +232,8 @@ button:disabled, .btn:disabled { cursor: not-allowed !important; background-colo
      body:not(.logged-out) #app-logo { margin-left: auto; margin-right: auto; margin-bottom: var(--spacing-unit); height: calc(var(--header-height) * 0.65); width: auto; max-height: 40px; }
      #edit-nickname-form { position: static; width: 100%; margin-top: var(--spacing-unit); box-shadow: none; border: 1px solid var(--color-border); background-color: var(--color-secondary-bg); }
      .container { margin-top: calc(var(--spacing-unit) * 2); }
-     .legal-container { padding: calc(var(--spacing-unit) * 2); margin: var(--spacing-unit) auto; } /* Adjust padding for legal on mobile */
+     .legal-container { padding: calc(var(--spacing-unit) * 2); margin: var(--spacing-unit) auto; }
+     .intro-text { margin-bottom: calc(var(--spacing-unit) * 3);}
 }
 
 @media (max-width: 700px) {
@@ -193,6 +245,8 @@ button:disabled, .btn:disabled { cursor: not-allowed !important; background-colo
     .game-info { margin-top: 0; flex-direction: column; gap: var(--spacing-unit); }
     #timer, #score { font-size: 1em; padding: calc(var(--spacing-unit)*0.75) var(--spacing-unit); }
     #time-left, #current-score { font-size: 1.1em; }
+    /* Reduce difficulty options gap */
+    .difficulty-options-container { gap: calc(var(--spacing-unit) * 1.5); }
 }
 
 @media (max-width: 600px) {
@@ -211,5 +265,10 @@ button:disabled, .btn:disabled { cursor: not-allowed !important; background-colo
     #leaderboard-list li { font-size: 0.9em; padding: var(--spacing-unit); }
     #leaderboard-list li::before { min-width: 2em; }
     body.logged-out #app-logo { width: 60%; max-width: 200px; }
-    .about-photo-figure { width: 100%; } /* Make photo full width on small mobile */
+    .about-photo-figure { width: 100%; }
+    /* Ensure difficulty options fit */
+     #difficulty-selection h2 { font-size: 1.5em; margin-bottom: var(--spacing-unit) * 1.5; }
+     .difficulty-options-container { gap: var(--spacing-unit); }
+     .difficulty-option button.difficulty-button { padding: calc(var(--spacing-unit) * 1.25) calc(var(--spacing-unit) * 2); font-size: 1em;}
+     .difficulty-description { font-size: 0.8em;}
 }
