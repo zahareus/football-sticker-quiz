@@ -16,7 +16,7 @@
     --color-disabled-bg: #E0E0E0;
     --color-disabled-text: #9E9E9E;
     --color-success: #28a745;
-    --color-error: #dc3545;
+    --color-error: #dc3545; /* Червоний для помилок і таймера */
     --color-error-bg: #f8d7da;
     --color-info-text: #555;
     --color-rank: #757575;
@@ -58,27 +58,10 @@ body.logged-out #auth-section { display: none !important; }
 body.logged-out #app-logo { height: auto; width: 45%; max-width: 280px; max-height: none; margin: 0 auto calc(var(--spacing-unit) * 3) auto; }
 
 /* --- Intro Text --- */
-.intro-text {
-    max-width: 600px; /* Обмеження ширини для читабельності */
-    margin: calc(var(--spacing-unit) * -2) auto calc(var(--spacing-unit) * 4) auto; /* Від'ємний верхній для ближче до шапки, відступ знизу */
-    font-size: 1em;
-    line-height: 1.6;
-    color: var(--color-info-text); /* Трохи приглушений колір */
-}
-.intro-text p {
-    margin-bottom: 0; /* Прибираємо відступ параграфа за замовчуванням */
-}
-.intro-text a {
-    color: var(--color-link);
-    text-decoration: underline;
-    font-weight: 500;
-}
-@media (hover: hover) {
-    .intro-text a:hover {
-        color: var(--color-link-hover);
-    }
-}
-
+.intro-text { max-width: 600px; margin: calc(var(--spacing-unit) * -2) auto calc(var(--spacing-unit) * 4) auto; font-size: 1em; line-height: 1.6; color: var(--color-info-text); }
+.intro-text p { margin-bottom: 0; }
+.intro-text a { color: var(--color-link); text-decoration: underline; font-weight: 500; }
+@media (hover: hover) { .intro-text a:hover { color: var(--color-link-hover); } }
 
 /* --- Buttons --- */
 .btn { display: inline-block; padding: calc(var(--spacing-unit) * 1.25) calc(var(--spacing-unit) * 2.5); font-size: 1em; font-weight: 500; border: 1px solid transparent; border-radius: var(--border-radius); text-align: center; text-decoration: none; transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease; margin: calc(var(--spacing-unit)/2); vertical-align: middle; cursor: pointer; }
@@ -112,36 +95,11 @@ button:disabled, .btn:disabled { cursor: not-allowed !important; background-colo
 #landing-page button.google-login { display: inline-flex; justify-content: center; align-items: center; width: 90%; max-width: 320px; }
 
 /* --- Difficulty Selection --- */
-#difficulty-selection {
-    max-width: 450px;
-    margin-left: auto;
-    margin-right: auto;
-}
-.difficulty-options-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: calc(var(--spacing-unit) * 2.5);
-    margin-top: calc(var(--spacing-unit) * 2);
-}
-.difficulty-option {
-    width: 100%;
-    text-align: center;
-}
-.difficulty-option button.difficulty-button {
-    width: 100%; /* Кнопка займає всю ширину */
-    display: block;
-    margin-bottom: calc(var(--spacing-unit) * 0.75);
-    /* Клас btn-large додано в HTML */
-}
-.difficulty-description {
-    font-size: 0.85em;
-    color: var(--color-info-text);
-    padding: 0 var(--spacing-unit);
-    margin: 0;
-    line-height: 1.4;
-}
-
+#difficulty-selection { max-width: 450px; margin-left: auto; margin-right: auto; }
+.difficulty-options-container { display: flex; flex-direction: column; align-items: center; gap: calc(var(--spacing-unit) * 2.5); margin-top: calc(var(--spacing-unit) * 2); }
+.difficulty-option { width: 100%; text-align: center; }
+.difficulty-option button.difficulty-button { width: 100%; display: block; margin-bottom: calc(var(--spacing-unit) * 0.75); }
+.difficulty-description { font-size: 0.85em; color: var(--color-info-text); padding: 0 var(--spacing-unit); margin: 0; line-height: 1.4; }
 
 /* ------------------------------ */
 /* Game Area                      */
@@ -155,18 +113,61 @@ button:disabled, .btn:disabled { cursor: not-allowed !important; background-colo
 .options-group button { width: 100%; margin: 0; background-color: var(--color-background); border: 1px solid var(--color-border); color: var(--color-text); font-weight: 400; padding: calc(var(--spacing-unit) * 1.5) var(--spacing-unit); }
 .options-group button.correct-answer { background-color: var(--color-success) !important; border-color: var(--color-success) !important; color: white !important; font-weight: 600; }
 .options-group button.incorrect-answer { background-color: var(--color-error) !important; border-color: var(--color-error) !important; color: white !important; opacity: 0.7; }
-.game-info { display: flex; justify-content: space-around; align-items: center; margin-top: calc(var(--spacing-unit) * 4); max-width: 400px; margin-left: auto; margin-right: auto; gap: calc(var(--spacing-unit) * 3); }
-#timer, #score { font-size: 1.2em; color: var(--color-info-text); font-weight: 500; background-color: var(--color-secondary-bg); padding: var(--spacing-unit) calc(var(--spacing-unit) * 2); border-radius: var(--border-radius); border: 1px solid var(--color-border); }
-#time-left { display: inline-block; min-width: 2ch; text-align: right; font-weight: 700; font-size: 1.3em; color: var(--color-text); margin-left: var(--spacing-unit); vertical-align: baseline; }
-#current-score { display: inline-block; font-weight: 700; font-size: 1.3em; color: var(--color-text); margin-left: var(--spacing-unit); vertical-align: baseline; }
+
+/* --- Оновлено стилі Timer & Score --- */
+.game-info { display: flex; justify-content: space-around; align-items: baseline; margin-top: calc(var(--spacing-unit) * 3); max-width: 300px; margin-left: auto; margin-right: auto; gap: calc(var(--spacing-unit) * 4); }
+#timer, #score {
+    font-size: 1.3em; /* Збільшено базовий розмір */
+    color: var(--color-info-text);
+    font-weight: 500;
+    /* Видалено фон, рамку, падінги */
+}
+#time-left {
+    display: inline-block;
+    min-width: 2ch;
+    text-align: right;
+    font-weight: 700;
+    font-size: 1.5em; /* Збільшено цифри */
+    color: var(--color-text); /* Стандартний колір */
+    margin-left: calc(var(--spacing-unit) * 0.75);
+    vertical-align: baseline;
+    transition: color 0.3s ease;
+}
+#current-score {
+    display: inline-block;
+    font-weight: 700;
+    font-size: 1.5em; /* Збільшено цифри */
+    color: var(--color-text);
+    margin-left: calc(var(--spacing-unit) * 0.75);
+    vertical-align: baseline;
+}
+#time-left.low-time { /* Клас для останніх секунд */
+  color: var(--color-error);
+}
+#time-left.timer-tick-animation { /* Клас для анімації тіку */
+  color: var(--color-error) !important; /* Гарантуємо червоний під час анімації */
+  animation: timer-tick 0.35s ease-in-out;
+}
+/* -------------------------------- */
+
+/* --- Анімації --- */
+@keyframes score-bump { 0% { transform: scale(1); color: var(--color-text); } 50% { transform: scale(1.3); color: var(--color-accent-darker); } 100% { transform: scale(1); color: var(--color-text); } }
+@keyframes final-score-flash { 0% { opacity: 1; transform: scale(1); } 30% { opacity: 0.5; transform: scale(1.3); } 70% { opacity: 1; transform: scale(1.05); } 100% { opacity: 1; transform: scale(1); } }
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+@keyframes timer-tick { 0% { transform: scale(1); } 50% { transform: scale(1.4); } 100% { transform: scale(1); } }
+
+/* --- Класи Анімацій --- */
 #score.score-updated { animation: score-bump 0.4s ease-out; }
+#final-score.final-score-animated { display: inline-block; animation: final-score-flash 1.1s ease-in-out; }
+#sticker-image.fade-in { animation: fadeIn 0.4s ease-out; }
+/* Клас timer-tick-animation додається/видаляється через JS */
+
 
 /* --- Result Area --- */
 #result-area { margin-top: calc(var(--spacing-unit) * 4); padding: calc(var(--spacing-unit) * 3) calc(var(--spacing-unit) * 2); }
 #result-area h2 { font-size: 2.5em; font-weight: 700; color: var(--color-text); margin-bottom: var(--spacing-unit); }
 #result-area .final-score-container { font-size: 1.8em; font-weight: 500; color: var(--color-info-text); margin-bottom: calc(var(--spacing-unit) * 4); }
 #result-area #final-score { font-size: 2.2em; font-weight: 700; color: var(--color-accent-darker); display: inline-block; margin-left: var(--spacing-unit); }
-#final-score.final-score-animated { display: inline-block; animation: final-score-flash 1.1s ease-in-out; }
 #result-area .save-message { font-size: 0.9em; font-style: italic; color: var(--color-success); margin-top: calc(var(--spacing-unit) * -2); margin-bottom: calc(var(--spacing-unit) * 3); }
 #result-area #play-again { margin-top: calc(var(--spacing-unit) * 2); }
 
@@ -207,68 +208,9 @@ button:disabled, .btn:disabled { cursor: not-allowed !important; background-colo
 .about-photo-figure figcaption { margin-top: 0.8em; font-size: 0.9em; color: var(--color-info-text); font-style: italic; }
 .twitter-link { font-weight: 500; }
 
-/* --- Animations --- */
-@keyframes score-bump { 0% { transform: scale(1); color: var(--color-text); } 50% { transform: scale(1.3); color: var(--color-accent-darker); } 100% { transform: scale(1); color: var(--color-text); } }
-@keyframes final-score-flash { 0% { opacity: 1; transform: scale(1); } 30% { opacity: 0.5; transform: scale(1.3); } 70% { opacity: 1; transform: scale(1.05); } 100% { opacity: 1; transform: scale(1); } }
-@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-
-/* --- Animation Classes --- */
-#score.score-updated { animation: score-bump 0.4s ease-out; }
-#final-score.final-score-animated { display: inline-block; animation: final-score-flash 1.1s ease-in-out; }
-#sticker-image.fade-in { animation: fadeIn 0.4s ease-out; }
-
 /* ------------------------------ */
 /* Responsiveness                 */
 /* ------------------------------ */
-@media (max-width: 768px) {
-    /* Mobile Header: Stacked & Centered */
-    .app-header { flex-direction: column; height: auto; padding: var(--spacing-unit); gap: var(--spacing-unit); margin-bottom: calc(var(--spacing-unit) * 2); }
-    #auth-section { order: 2; width: 100%; justify-content: center; }
-     #user-status { width: auto; justify-content: center; flex-wrap: wrap; }
-     #user-status > * { font-size: 0.9em; margin: 0 4px; }
-     #user-status .btn-link, #user-status .btn-small { padding: 4px 6px; }
-     #user-status strong { max-width: 150px; }
-     .logo-container { order: 1; }
-     body:not(.logged-out) #app-logo { margin-left: auto; margin-right: auto; margin-bottom: var(--spacing-unit); height: calc(var(--header-height) * 0.65); width: auto; max-height: 40px; }
-     #edit-nickname-form { position: static; width: 100%; margin-top: var(--spacing-unit); box-shadow: none; border: 1px solid var(--color-border); background-color: var(--color-secondary-bg); }
-     .container { margin-top: calc(var(--spacing-unit) * 2); }
-     .legal-container { padding: calc(var(--spacing-unit) * 2); margin: var(--spacing-unit) auto; }
-     .intro-text { margin-bottom: calc(var(--spacing-unit) * 3);}
-}
-
-@media (max-width: 700px) {
-    #sticker-container { width: 220px; height: 220px; margin-bottom: calc(var(--spacing-unit) * 3); }
-    .options-group { max-width: 90%; }
-    #game-area { margin-top: var(--spacing-unit); }
-    .options-group { gap: var(--spacing-unit); margin-bottom: calc(var(--spacing-unit) * 2); }
-    .options-group button { padding: var(--spacing-unit); font-size: 0.9em;}
-    .game-info { margin-top: 0; flex-direction: column; gap: var(--spacing-unit); }
-    #timer, #score { font-size: 1em; padding: calc(var(--spacing-unit)*0.75) var(--spacing-unit); }
-    #time-left, #current-score { font-size: 1.1em; }
-    /* Reduce difficulty options gap */
-    .difficulty-options-container { gap: calc(var(--spacing-unit) * 1.5); }
-}
-
-@media (max-width: 600px) {
-    body { padding: 0; }
-    .container { padding: 0 var(--spacing-unit); margin-top: calc(var(--spacing-unit) * 2); margin-bottom: calc(var(--spacing-unit) * 2); }
-    .options-group { grid-template-columns: 1fr; }
-    #result-area h2 { font-size: 2em; }
-    #result-area .final-score-container { font-size: 1.5em; }
-    #result-area #final-score { font-size: 1.8em; }
-    #result-area #play-again { font-size: 1em; padding: calc(var(--spacing-unit) * 1.25) calc(var(--spacing-unit) * 2.5); }
-    #leaderboard-filters { gap: var(--spacing-unit); }
-    .filter-group { gap: calc(var(--spacing-unit) * 0.5); font-size: 0.9em; }
-    .filter-group strong { display: block; width: 100%; margin-bottom: 5px; text-align: center; }
-    .btn-filter { margin: 2px; }
-    #leaderboard-list { max-width: 100%; padding: 0; }
-    #leaderboard-list li { font-size: 0.9em; padding: var(--spacing-unit); }
-    #leaderboard-list li::before { min-width: 2em; }
-    body.logged-out #app-logo { width: 60%; max-width: 200px; }
-    .about-photo-figure { width: 100%; }
-    /* Ensure difficulty options fit */
-     #difficulty-selection h2 { font-size: 1.5em; margin-bottom: var(--spacing-unit) * 1.5; }
-     .difficulty-options-container { gap: var(--spacing-unit); }
-     .difficulty-option button.difficulty-button { padding: calc(var(--spacing-unit) * 1.25) calc(var(--spacing-unit) * 2); font-size: 1em;}
-     .difficulty-description { font-size: 0.8em;}
-}
+@media (max-width: 768px) { /* Mobile Header: Stacked & Centered */ .app-header { flex-direction: column; height: auto; padding: var(--spacing-unit); gap: var(--spacing-unit); margin-bottom: calc(var(--spacing-unit) * 2); } #auth-section { order: 2; width: 100%; justify-content: center; } #user-status { width: auto; justify-content: center; flex-wrap: wrap; } #user-status > * { font-size: 0.9em; margin: 0 4px; } #user-status .btn-link, #user-status .btn-small { padding: 4px 6px; } #user-status strong { max-width: 150px; } .logo-container { order: 1; } body:not(.logged-out) #app-logo { margin-left: auto; margin-right: auto; margin-bottom: var(--spacing-unit); height: calc(var(--header-height) * 0.65); width: auto; max-height: 40px; } #edit-nickname-form { position: static; width: 100%; margin-top: var(--spacing-unit); box-shadow: none; border: 1px solid var(--color-border); background-color: var(--color-secondary-bg); } .container { margin-top: calc(var(--spacing-unit) * 2); } .legal-container { padding: calc(var(--spacing-unit) * 2); margin: var(--spacing-unit) auto; } .intro-text { margin-bottom: calc(var(--spacing-unit) * 3);} }
+@media (max-width: 700px) { #sticker-container { width: 220px; height: 220px; margin-bottom: calc(var(--spacing-unit) * 3); } .options-group { max-width: 90%; } #game-area { margin-top: var(--spacing-unit); } .options-group { gap: var(--spacing-unit); margin-bottom: calc(var(--spacing-unit) * 2); } .options-group button { padding: var(--spacing-unit); font-size: 0.9em;} .game-info { margin-top: 0; flex-direction: column; gap: var(--spacing-unit); } #timer, #score { font-size: 1em; padding: calc(var(--spacing-unit)*0.75) var(--spacing-unit); } #time-left, #current-score { font-size: 1.1em; } .difficulty-options-container { gap: calc(var(--spacing-unit) * 1.5); } }
+@media (max-width: 600px) { body { padding: 0; } .container { padding: 0 var(--spacing-unit); margin-top: calc(var(--spacing-unit) * 2); margin-bottom: calc(var(--spacing-unit) * 2); } .options-group { grid-template-columns: 1fr; } #result-area h2 { font-size: 2em; } #result-area .final-score-container { font-size: 1.5em; } #result-area #final-score { font-size: 1.8em; } #result-area #play-again { font-size: 1em; padding: calc(var(--spacing-unit) * 1.25) calc(var(--spacing-unit) * 2.5); } #leaderboard-filters { gap: var(--spacing-unit); } .filter-group { gap: calc(var(--spacing-unit) * 0.5); font-size: 0.9em; } .filter-group strong { display: block; width: 100%; margin-bottom: 5px; text-align: center; } .btn-filter { margin: 2px; } #leaderboard-list { max-width: 100%; padding: 0; } #leaderboard-list li { font-size: 0.9em; padding: var(--spacing-unit); } #leaderboard-list li::before { min-width: 2em; } body.logged-out #app-logo { width: 60%; max-width: 200px; } .about-photo-figure { width: 100%; } #difficulty-selection h2 { font-size: 1.5em; margin-bottom: var(--spacing-unit) * 1.5; } .difficulty-options-container { gap: var(--spacing-unit); } .difficulty-option button.difficulty-button { padding: calc(var(--spacing-unit) * 1.25) calc(var(--spacing-unit) * 2); font-size: 1em;} .difficulty-description { font-size: 0.8em;} }
