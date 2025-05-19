@@ -1,33 +1,25 @@
 // catalogue.js
 
-const SUPABASE_URL = 'https://rbmeslzlbsolkxnvesqb.supabase.co'; // ЗАМІНИ НА СВІЙ URL
-const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJibWVzbHpsYnNvbGt4bnZlc3FiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDUwODcxMzYsImV4cCI6MjA2MDY2MzEzNn0.cu-Qw0WoEslfKXXCiMocWFg6Uf1sK_cQYcyP2mT0-Nw'; // ЗАМІНИ НА СВІЙ КЛЮЧ
+const SUPABASE_URL = 'https://rbmeslzlbsolkxnvesqb.supabase.co';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJibWVzbHpsYnNvbGt4bnZlc3FiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDUwODcxMzYsImV4cCI6MjA2MDY2MzEzNn0.cu-Qw0WoEslfKXXCiMocWFg6Uf1sK_cQYcyP2mT0-Nw';
+
+let supabaseClient;
 
 try {
-    // Correct way to initialize the client:
-    // The Supabase library exports 'createClient' on its global object (usually window.supabase or just supabase after script load)
-    // Or, more robustly, use the destructured export if available in the context
     if (window.supabase && typeof window.supabase.createClient === 'function') {
         supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
     } else {
-        // Fallback if the library loads differently, though cdn.jsdelivr.net/npm/@supabase/supabase-js@2
-        // should make it available as supabase.createClient
-        // This is a common pattern for UMD modules.
-        const { createClient } = supabase; // Assuming 'supabase' is the global object from the CDN script
+        const { createClient } = supabase;
         supabaseClient = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
     }
 } catch (error) {
     console.error("Error initializing Supabase client:", error);
     const contentDiv = document.getElementById('catalogue-content');
     if (contentDiv) {
-        // Error message on screenshot: "Initialization error. Catalogue cannot be loaded."
         contentDiv.innerHTML = "<p>Initialization error. Catalogue cannot be loaded.</p>";
     }
 }
 
-// Generic mapping of country codes to full names and continents.
-// The script will only use entries relevant to the countries found in your 'clubs' table.
-// You can extend this list if new countries appear in your data that are not covered.
 const countryCodeToDetails_Generic = {
     "AFG": { name: "Afghanistan", continent: "Asia" },
     "ALB": { name: "Albania", continent: "Europe" },
@@ -65,13 +57,13 @@ const countryCodeToDetails_Generic = {
     "CRI": { name: "Costa Rica", continent: "North America" },
     "HRV": { name: "Croatia", continent: "Europe" },
     "CUB": { name: "Cuba", continent: "North America" },
-    "CYP": { name: "Cyprus", continent: "Europe" }, // Or Europe geographically
+    "CYP": { name: "Cyprus", continent: "Europe" },
     "CZE": { name: "Czech Republic", continent: "Europe" },
     "DNK": { name: "Denmark", continent: "Europe" },
     "DJI": { name: "Djibouti", continent: "Africa" },
     "DOM": { name: "Dominican Republic", continent: "North America" },
     "ECU": { name: "Ecuador", continent: "South America" },
-    "EGY": { name: "Egypt", continent: "Africa" }, // Also Asia
+    "EGY": { name: "Egypt", continent: "Africa" },
     "SLV": { name: "El Salvador", continent: "North America" },
     "GNQ": { name: "Equatorial Guinea", continent: "Africa" },
     "EST": { name: "Estonia", continent: "Europe" },
@@ -81,7 +73,7 @@ const countryCodeToDetails_Generic = {
     "FRA": { name: "France", continent: "Europe" },
     "GAB": { name: "Gabon", continent: "Africa" },
     "GMB": { name: "Gambia", continent: "Africa" },
-    "GEO": { name: "Georgia", continent: "Europe" }, // Or Europe
+    "GEO": { name: "Georgia", continent: "Europe" },
     "DEU": { name: "Germany", continent: "Europe" },
     "GHA": { name: "Ghana", continent: "Africa" },
     "GRC": { name: "Greece", continent: "Europe" },
@@ -102,7 +94,7 @@ const countryCodeToDetails_Generic = {
     "JAM": { name: "Jamaica", continent: "North America" },
     "JPN": { name: "Japan", continent: "Asia" },
     "JOR": { name: "Jordan", continent: "Asia" },
-    "KAZ": { name: "Kazakhstan", continent: "Europe" }, // Also Europe
+    "KAZ": { name: "Kazakhstan", continent: "Europe" },
     "KEN": { name: "Kenya", continent: "Africa" },
     "KWT": { name: "Kuwait", continent: "Asia" },
     "KGZ": { name: "Kyrgyzstan", continent: "Asia" },
@@ -146,7 +138,7 @@ const countryCodeToDetails_Generic = {
     "PRT": { name: "Portugal", continent: "Europe" },
     "QAT": { name: "Qatar", continent: "Asia" },
     "ROU": { name: "Romania", continent: "Europe" },
-    "RUS": { name: "Russia", continent: "Europe" }, // Also Asia
+    "RUS": { name: "Russia", continent: "Europe" },
     "RWA": { name: "Rwanda", continent: "Africa" },
     "SAU": { name: "Saudi Arabia", continent: "Asia" },
     "SEN": { name: "Senegal", continent: "Africa" },
@@ -169,7 +161,7 @@ const countryCodeToDetails_Generic = {
     "THA": { name: "Thailand", continent: "Asia" },
     "TGO": { name: "Togo", continent: "Africa" },
     "TUN": { name: "Tunisia", continent: "Africa" },
-    "TUR": { name: "Turkey", continent: "Europe" }, // Also Europe
+    "TUR": { name: "Turkey", continent: "Europe" },
     "UGA": { name: "Uganda", continent: "Africa" },
     "UKR": { name: "Ukraine", continent: "Europe" },
     "ARE": { name: "United Arab Emirates", continent: "Asia" },
@@ -185,21 +177,46 @@ const countryCodeToDetails_Generic = {
     "ENG": { name: "England", continent: "Europe" },
     "SCO": { name: "Scotland", continent: "Europe" },
     "WLS": { name: "Wales", continent: "Europe" },
-    // Add more countries as needed, using their 3-letter ISO codes.
-    // FIFA codes might sometimes differ (e.g., ENG, SCO, WAL for GBR components).
-    // For simplicity, we'll stick to ISO 3166-1 alpha-3 codes where possible,
-    // but ensure they match what's in your 'clubs' table 'country' column.
 };
 
+// NEW: Mapping of country codes to flag emojis
+const countryCodeToFlagEmoji = {
+    "AFG": "🇦🇫", "ALB": "🇦🇱", "DZA": "🇩🇿", "AND": "🇦🇩", "AGO": "🇦🇴", "ARG": "🇦🇷", "ARM": "🇦🇲",
+    "AUS": "🇦🇺", "AUT": "🇦🇹", "AZE": "🇦🇿", "BHS": "🇧🇸", "BHR": "🇧🇭", "BGD": "🇧🇩", "BLR": "🇧🇾",
+    "BEL": "🇧🇪", "BLZ": "🇧🇿", "BEN": "🇧🇯", "BOL": "🇧🇴", "BIH": "🇧🇦", "BWA": "🇧🇼", "BRA": "🇧🇷",
+    "BGR": "🇧🇬", "BFA": "🇧🇫", "KHM": "🇰🇭", "CMR": "🇨🇲", "CAN": "🇨🇦", "CPV": "🇨🇻", "CAF": "🇨🇫",
+    "TCD": "🇹🇩", "CHL": "🇨🇱", "CHN": "🇨🇳", "COL": "🇨🇴", "COG": "🇨🇬", "CRI": "🇨🇷", "HRV": "🇭🇷",
+    "CUB": "🇨🇺", "CYP": "🇨🇾", "CZE": "🇨🇿", "DNK": "🇩🇰", "DJI": "🇩🇯", "DOM": "🇩🇴", "ECU": "🇪🇨",
+    "EGY": "🇪🇬", "SLV": "🇸🇻", "GNQ": "🇬🇶", "EST": "🇪🇪", "ETH": "🇪🇹", "FJI": "🇫🇯", "FIN": "🇫🇮",
+    "FRA": "🇫🇷", "GAB": "🇬🇦", "GMB": "🇬🇲", "GEO": "🇬🇪", "DEU": "🇩🇪", "GHA": "🇬🇭", "GRC": "🇬🇷",
+    "GTM": "🇬🇹", "GIN": "🇬🇳", "HTI": "🇭🇹", "HND": "🇭🇳", "HUN": "🇭🇺", "ISL": "🇮🇸", "IND": "🇮🇳",
+    "IDN": "🇮🇩", "IRN": "🇮🇷", "IRQ": "🇮🇶", "IRL": "🇮🇪", "ISR": "🇮🇱", "ITA": "🇮🇹", "CIV": "🇨🇮",
+    "JAM": "🇯🇲", "JPN": "🇯🇵", "JOR": "🇯🇴", "KAZ": "🇰🇿", "KEN": "🇰🇪", "KWT": "🇰🇼", "KGZ": "🇰🇬",
+    "LVA": "🇱🇻", "LBN": "🇱🇧", "LBR": "🇱🇷", "LBY": "🇱🇾", "LIE": "🇱🇮", "LTU": "🇱🇹", "LUX": "🇱🇺",
+    "MKD": "🇲🇰", "MDG": "🇲🇬", "MWI": "🇲🇼", "MYS": "🇲🇾", "MLI": "🇲🇱", "MLT": "🇲🇹", "MRT": "🇲🇷",
+    "MEX": "🇲🇽", "MDA": "🇲🇩", "MCO": "🇲🇨", "MNG": "🇲🇳", "MNE": "🇲🇪", "MAR": "🇲🇦", "MOZ": "🇲🇿",
+    "NPL": "🇳🇵", "NLD": "🇳🇱", "NZL": "🇳🇿", "NIC": "🇳🇮", "NER": "🇳🇪", "NGA": "🇳🇬", "PRK": "🇰🇵",
+    "NOR": "🇳🇴", "OMN": "🇴🇲", "PAK": "🇵🇰", "PAN": "🇵🇦", "PNG": "🇵🇬", "PRY": "🇵🇾", "PER": "🇵🇪",
+    "PHL": "🇵🇭", "POL": "🇵🇱", "PRT": "🇵🇹", "QAT": "🇶🇦", "ROU": "🇷🇴", "RUS": "🇷🇺", "RWA": "🇷🇼",
+    "SAU": "🇸🇦", "SEN": "🇸🇳", "SRB": "🇷🇸", "SLE": "🇸🇱", "SGP": "🇸🇬", "SVK": "🇸🇰", "SVN": "🇸🇮",
+    "SOM": "🇸🇴", "ZAF": "🇿🇦", "KOR": "🇰🇷", "ESP": "🇪🇸", "LKA": "🇱🇰", "SDN": "🇸🇩", "SWE": "🇸🇪",
+    "CHE": "🇨🇭", "SYR": "🇸🇾", "TWN": "🇹🇼", "TZA": "🇹🇿", "THA": "🇹🇭", "TGO": "🇹🇬", "TUN": "🇹🇳",
+    "TUR": "🇹🇷", "UGA": "🇺🇬", "UKR": "🇺🇦", "ARE": "🇦🇪", "GBR": "🇬🇧", "USA": "🇺🇸", "URY": "🇺🇾",
+    "UZB": "🇺🇿", "VEN": "🇻🇪", "VNM": "🇻🇳", "YEM": "🇾🇪", "ZMB": "🇿🇲", "ZWE": "🇿🇼",
+    "ENG": "🏴󠁧󠁢󠁥󠁮󠁧󠁿", "SCO": "🏴󠁧󠁢󠁳󠁣󠁴󠁿", "WLS": "🏴󠁧󠁢󠁷󠁬󠁳󠁿"
+    // Note: England, Scotland, Wales flags are subdivision flags and might not render on all platforms
+    // Standard GBR (🇬🇧) is United Kingdom.
+};
+
+
 document.addEventListener('DOMContentLoaded', () => {
-    if (supabaseClient) { // Check the renamed variable
+    if (supabaseClient) {
         console.log('Supabase client initialized for catalogue.');
         routeContent();
     } else {
         console.error('Supabase client failed to initialize. Catalogue functionality will be limited.');
         const contentDiv = document.getElementById('catalogue-content');
         if (contentDiv) {
-            // Error message on screenshot: "Initialization error. Catalogue cannot be loaded."
             contentDiv.innerHTML = "<p>Initialization error. Catalogue cannot be loaded.</p>";
         }
     }
@@ -238,15 +255,15 @@ function routeContent() {
 
 async function loadContinentsAndCountries() {
     const contentDiv = document.getElementById('catalogue-content');
-    contentDiv.innerHTML = '<h2>Countries by Continent</h2><p>Loading data...</p>'; // English
+    contentDiv.innerHTML = '<h2>Countries by Continent</h2><p>Loading data...</p>';
 
-    if (!supabaseClient) { // Check if client is initialized before making a call
+    if (!supabaseClient) {
         contentDiv.innerHTML = '<p>Error: Supabase client not initialized. Cannot load data.</p>';
         return;
     }
 
     try {
-        const { data: clubs, error: clubsError } = await supabaseClient // Use the renamed variable
+        const { data: clubs, error: clubsError } = await supabaseClient
             .from('clubs')
             .select('id, country');
 
@@ -307,7 +324,9 @@ async function loadContinentsAndCountries() {
             const countriesInContinent = continents[continentName].sort((a, b) => a.name.localeCompare(b.name));
 
             countriesInContinent.forEach(country => {
-                htmlOutput += `<li><a href="catalogue.html?country=${country.code}">${country.name} (${country.clubCount} clubs)</a></li>`;
+                const flagEmoji = countryCodeToFlagEmoji[country.code.toUpperCase()] || '🏳️'; // Default flag if not found
+                // ADDED flagEmoji to the output string
+                htmlOutput += `<li><a href="catalogue.html?country=${country.code}"><span class="flag-emoji">${flagEmoji}</span> ${country.name} (${country.clubCount} clubs)</a></li>`;
             });
 
             htmlOutput += `</ul>`;
@@ -315,7 +334,7 @@ async function loadContinentsAndCountries() {
         });
 
         if (htmlOutput === '') {
-            contentDiv.innerHTML = '<p>No data to display. Check the `countryCodeToDetails_Generic` map and database entries.</p>';
+            contentDiv.innerHTML = '<p>No data to display. Check the maps and database entries.</p>';
         } else {
             const currentHeading = contentDiv.querySelector('h2');
             contentDiv.innerHTML = (currentHeading ? currentHeading.outerHTML : '<h2>Countries by Continent</h2>') + htmlOutput;
