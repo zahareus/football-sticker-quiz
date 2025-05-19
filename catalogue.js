@@ -1,4 +1,4 @@
-// catalogue.js
+// catalogue.js (Твоя версія з попереднього кроку, я вношу зміни)
 
 const SUPABASE_URL = 'https://rbmeslzlbsolkxnvesqb.supabase.co';
 const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJibWVzbHpsYnNvbGt4bnZlc3FiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDUwODcxMzYsImV4cCI6MjA2MDY2MzEzNn0.cu-Qw0WoEslfKXXCiMocWFg6Uf1sK_cQYcyP2mT0-Nw';
@@ -247,13 +247,13 @@ function updateBreadcrumbs(crumbs = []) {
     }
 
     let html = '<nav aria-label="breadcrumb"><ol class="breadcrumb-list">';
-    crumbs.forEach((crumb, index) => {
+    crumbs.forEach((crumb) => { // Removed index, as it's not needed for the new logic
         html += `<li class="breadcrumb-item">`;
-        // A breadcrumb is a link if it's not the VERY LAST item in the trail AND it has a link property.
-        if (index < crumbs.length - 1 && crumb.link) {
+        if (crumb.link) { // If a link is provided, always make it a link
             html += `<a href="${crumb.link}">${crumb.text}</a>`;
-        } else {
-            // Last item is always text, or any item without a link property is text.
+        } else { 
+            // This case should ideally not be hit if all breadcrumb path items are links.
+            // But as a fallback, or if a crumb is intentionally not a link.
             html += `<span>${crumb.text}</span>`; 
         }
         html += `</li>`;
@@ -263,12 +263,13 @@ function updateBreadcrumbs(crumbs = []) {
     breadcrumbsDiv.style.display = 'block';
 }
 
+
 function routeContent() {
     const params = new URLSearchParams(window.location.search);
     const countryCode = params.get('country');
     const clubId = params.get('club_id');
     const stickerId = params.get('sticker_id');
-    const mainHeading = document.getElementById('main-catalogue-heading');
+    const mainHeading = document.getElementById('main-catalogue-heading'); 
 
     if (!mainHeading) {
         console.error("Main heading H1 for catalogue not found!");
@@ -378,7 +379,6 @@ async function loadCountryDetails(countryCode) {
     const contentDiv = document.getElementById('catalogue-content');
     contentDiv.innerHTML = `<p>Loading clubs...</p>`; 
     
-    // Breadcrumbs for Country page: "All Countries" is a link. Current country is context (in H1).
     updateBreadcrumbs([
         { text: `All Countries (${totalCountriesInCatalogue})`, link: 'catalogue.html' }
     ]);
@@ -420,16 +420,7 @@ async function loadCountryDetails(countryCode) {
                     clubsWithStickerCounts.push({ ...club, stickerCount: count === null ? 0 : count });
                 }
             }
-
             clubsWithStickerCounts.sort((a, b) => a.name.localeCompare(b.name));
-            
-            // Update breadcrumb for country page to show club count after fetching
-            // The H1 already describes the current page, so breadcrumbs lead *up to* it.
-            // "All Countries (X)" is the only breadcrumb needed here.
-            // If you want "All Countries (X) > Spain (Y clubs)", then Spain part is current.
-            // Let's stick to the user's example: "All countries (230)" on country page
-            // which implies the country itself is the current context shown in H1.
-
             let clubListHtml = '<ul class="club-list">';
             clubsWithStickerCounts.forEach(club => {
                 let countText = `(${club.stickerCount} sticker${club.stickerCount !== 1 ? 's' : ''})`;
@@ -441,9 +432,7 @@ async function loadCountryDetails(countryCode) {
             clubListHtml += '</ul>';
             contentBodyHtml = clubListHtml;
         }
-        
         contentDiv.innerHTML = contentBodyHtml; 
-
     } catch (error) {
         console.error(`An error occurred while loading clubs for ${countryCode}:`, error);
         contentDiv.innerHTML = `<p>An unexpected error occurred: ${error.message}. Please check the console for more details.</p>`;
@@ -454,7 +443,7 @@ async function loadClubDetails(clubId) {
     const contentDiv = document.getElementById('catalogue-content');
     contentDiv.innerHTML = `<p>Loading club stickers...</p>`;  
     const mainHeading = document.getElementById('main-catalogue-heading');
-    updateBreadcrumbs([]); // Clear breadcrumbs initially while fetching
+    updateBreadcrumbs([]); 
 
     if (!supabaseClient) {
         contentDiv.innerHTML = '<p>Error: Supabase client not initialized. Cannot load data.</p>';
@@ -481,14 +470,12 @@ async function loadClubDetails(clubId) {
             const countryFlag = countryCodeToFlagEmoji[clubData.country.toUpperCase()] || '';
             
             if(mainHeading) mainHeading.textContent = `${clubData.name} ${countryFlag} - Sticker Gallery`;
-
+            
             const { count: totalClubsInCountry } = await supabaseClient
                 .from('clubs')
                 .select('*', { count: 'exact', head: true })
                 .eq('country', clubData.country);
             
-            // Breadcrumbs for Club page: "All Countries" (link) > "All clubs from [Country]" (link)
-            // Current page is the club itself (in H1)
             updateBreadcrumbs([
                 { text: `All Countries (${totalCountriesInCatalogue})`, link: 'catalogue.html' },
                 { text: `All clubs from ${countryDisplayName} (${totalClubsInCountry || 0})`, link: `catalogue.html?country=${clubData.country}` }
@@ -517,9 +504,7 @@ async function loadClubDetails(clubId) {
                 contentBodyHtml = galleryHtml;
             }
         }
-        
         contentDiv.innerHTML = contentBodyHtml; 
-
     } catch (error) {
         console.error(`An error occurred while loading club details for ID ${clubId}:`, error);
         contentDiv.innerHTML = `<p>An unexpected error occurred: ${error.message}</p>`;
@@ -531,7 +516,7 @@ async function loadStickerDetails(stickerId) {
     const mainHeading = document.getElementById('main-catalogue-heading');
     
     contentDiv.innerHTML = `<p>Loading sticker details...</p>`; 
-    updateBreadcrumbs([]); // Clear initially
+    updateBreadcrumbs([]); 
 
     if (!supabaseClient) {
         if(mainHeading) mainHeading.textContent = "Error";
@@ -569,9 +554,7 @@ async function loadStickerDetails(stickerId) {
             if(mainHeading) mainHeading.textContent = "Sticker Not Found";
             contentBodyHtml = `<p>Could not load sticker details. The sticker may not exist or there was an error.</p>`;
             if(stickerError && stickerError.message) contentBodyHtml += `<p><em>Error: ${stickerError.message}</em></p>`;
-            // Try to build some breadcrumbs even on error if possible
             updateBreadcrumbs([{ text: `All Countries (${totalCountriesInCatalogue})`, link: 'catalogue.html' }]);
-
         } else {
             let clubName = "N/A";
             let countryDisplayNameForBreadcrumb = "Country";
@@ -596,13 +579,11 @@ async function loadStickerDetails(stickerId) {
                     .select('*', { count: 'exact', head: true })
                     .eq('club_id', sticker.club_id);
 
-                // Breadcrumbs for Sticker page: All linkable except current (which is implied by H1)
                 updateBreadcrumbs([
                     { text: `All Countries (${totalCountriesInCatalogue})`, link: 'catalogue.html' },
                     { text: `All clubs from ${countryDisplayNameForBreadcrumb} (${totalClubsInCountry || 0})`, link: `catalogue.html?country=${countryCodeForBreadcrumb}` },
                     { text: `All stickers from ${clubName} (${totalStickersInClub || 0})`, link: `catalogue.html?club_id=${sticker.club_id}` }
                 ]);
-
             } else {
                  if(mainHeading) mainHeading.textContent = `Sticker #${sticker.id}`;
                  updateBreadcrumbs([{ text: `All Countries (${totalCountriesInCatalogue})`, link: 'catalogue.html' }]);
@@ -623,9 +604,7 @@ async function loadStickerDetails(stickerId) {
                 </div>
             `;
         }
-        
         contentDiv.innerHTML = contentBodyHtml; 
-
     } catch (error) {
         console.error(`An error occurred while loading sticker ID ${stickerId}:`, error);
         if(mainHeading) mainHeading.textContent = "Error Loading Sticker";
