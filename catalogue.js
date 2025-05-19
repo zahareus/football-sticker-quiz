@@ -179,7 +179,6 @@ const countryCodeToDetails_Generic = {
     "WLS": { name: "Wales", continent: "Europe" },
 };
 
-// NEW: Mapping of country codes to flag emojis
 const countryCodeToFlagEmoji = {
     "AFG": "🇦🇫", "ALB": "🇦🇱", "DZA": "🇩🇿", "AND": "🇦🇩", "AGO": "🇦🇴", "ARG": "🇦🇷", "ARM": "🇦🇲",
     "AUS": "🇦🇺", "AUT": "🇦🇹", "AZE": "🇦🇿", "BHS": "🇧🇸", "BHR": "🇧🇭", "BGD": "🇧🇩", "BLR": "🇧🇾",
@@ -204,10 +203,7 @@ const countryCodeToFlagEmoji = {
     "TUR": "🇹🇷", "UGA": "🇺🇬", "UKR": "🇺🇦", "ARE": "🇦🇪", "GBR": "🇬🇧", "USA": "🇺🇸", "URY": "🇺🇾",
     "UZB": "🇺🇿", "VEN": "🇻🇪", "VNM": "🇻🇳", "YEM": "🇾🇪", "ZMB": "🇿🇲", "ZWE": "🇿🇼",
     "ENG": "🏴󠁧󠁢󠁥󠁮󠁧󠁿", "SCO": "🏴󠁧󠁢󠁳󠁣󠁴󠁿", "WLS": "🏴󠁧󠁢󠁷󠁬󠁳󠁿"
-    // Note: England, Scotland, Wales flags are subdivision flags and might not render on all platforms
-    // Standard GBR (🇬🇧) is United Kingdom.
 };
-
 
 document.addEventListener('DOMContentLoaded', () => {
     if (supabaseClient) {
@@ -233,20 +229,22 @@ function routeContent() {
         console.error("Main heading H1 for catalogue not found!");
         return;
     }
+    const contentDiv = document.getElementById('catalogue-content');
 
     if (stickerId) {
         mainHeading.textContent = "Sticker Details";
+        // loadStickerDetails(stickerId); // To be implemented
         console.log(`Loading sticker: ${stickerId}`);
-        document.getElementById('catalogue-content').innerHTML = `<p>Details for Sticker ID: ${stickerId} coming soon!</p><p><a href="catalogue.html">Back to Catalogue Home</a></p>`;
+        contentDiv.innerHTML = `<p>Details for Sticker ID: ${stickerId} coming soon!</p><p><a href="catalogue.html">Back to Catalogue Home</a></p>`;
     } else if (clubId) {
         mainHeading.textContent = "Club Gallery";
+        // loadClubDetails(clubId); // To be implemented
         console.log(`Loading club: ${clubId}`);
-        document.getElementById('catalogue-content').innerHTML = `<p>Gallery for Club ID: ${clubId} coming soon!</p><p><a href="catalogue.html">Back to Catalogue Home</a></p>`;
+        contentDiv.innerHTML = `<p>Gallery for Club ID: ${clubId} coming soon!</p><p><a href="catalogue.html">Back to Catalogue Home</a></p>`;
     } else if (countryCode) {
         const countryInfo = countryCodeToDetails_Generic[countryCode.toUpperCase()];
         mainHeading.textContent = countryInfo ? `${countryInfo.name} Clubs` : "Clubs from Country";
-        console.log(`Loading country: ${countryCode}`);
-        document.getElementById('catalogue-content').innerHTML = `<p>List of clubs for ${countryInfo ? countryInfo.name : countryCode} coming soon!</p><p><a href="catalogue.html">Back to Catalogue Home</a></p>`;
+        loadCountryDetails(countryCode.toUpperCase()); // Ensure countryCode is uppercase
     } else {
         mainHeading.textContent = "Sticker Catalogue";
         loadContinentsAndCountries();
@@ -261,7 +259,6 @@ async function loadContinentsAndCountries() {
         contentDiv.innerHTML = '<p>Error: Supabase client not initialized. Cannot load data.</p>';
         return;
     }
-
     try {
         const { data: clubs, error: clubsError } = await supabaseClient
             .from('clubs')
@@ -272,7 +269,6 @@ async function loadContinentsAndCountries() {
             contentDiv.innerHTML = `<p>Could not load club data: ${clubsError.message}</p>`;
             return;
         }
-
         if (!clubs || clubs.length === 0) {
             contentDiv.innerHTML = '<p>No clubs found in the catalogue.</p>';
             return;
@@ -293,7 +289,6 @@ async function loadContinentsAndCountries() {
         for (const countryCode in clubsByCountryCode) {
             const detail = countryCodeToDetails_Generic[countryCode];
             let continentName, countryName;
-
             if (detail) {
                 continentName = detail.continent;
                 countryName = detail.name;
@@ -302,7 +297,6 @@ async function loadContinentsAndCountries() {
                 countryName = countryCode;
                 console.warn(`Details for country code ${countryCode} not found in countryCodeToDetails_Generic map.`);
             }
-
             if (!continents[continentName]) {
                 continents[continentName] = [];
             }
@@ -315,22 +309,16 @@ async function loadContinentsAndCountries() {
 
         let htmlOutput = '';
         const sortedContinentNames = Object.keys(continents).sort((a,b) => a.localeCompare(b));
-
         sortedContinentNames.forEach(continentName => {
             htmlOutput += `<div class="continent-section">`;
             htmlOutput += `<h3>${continentName}</h3>`;
             htmlOutput += `<ul class="country-list">`;
-
             const countriesInContinent = continents[continentName].sort((a, b) => a.name.localeCompare(b.name));
-
             countriesInContinent.forEach(country => {
-                const flagEmoji = countryCodeToFlagEmoji[country.code.toUpperCase()] || '🏳️'; // Default flag if not found
-                // ADDED flagEmoji to the output string
+                const flagEmoji = countryCodeToFlagEmoji[country.code.toUpperCase()] || '🏳️';
                 htmlOutput += `<li><a href="catalogue.html?country=${country.code}"><span class="flag-emoji">${flagEmoji}</span> ${country.name} (${country.clubCount} clubs)</a></li>`;
             });
-
-            htmlOutput += `</ul>`;
-            htmlOutput += `</div>`;
+            htmlOutput += `</ul></div>`;
         });
 
         if (htmlOutput === '') {
@@ -339,9 +327,87 @@ async function loadContinentsAndCountries() {
             const currentHeading = contentDiv.querySelector('h2');
             contentDiv.innerHTML = (currentHeading ? currentHeading.outerHTML : '<h2>Countries by Continent</h2>') + htmlOutput;
         }
-
     } catch (error) {
         console.error('An error occurred while loading countries:', error);
         contentDiv.innerHTML = `<p>An unexpected error occurred: ${error.message}</p>`;
+    }
+}
+
+// NEW FUNCTION to load clubs for a specific country
+async function loadCountryDetails(countryCode) {
+    const contentDiv = document.getElementById('catalogue-content');
+    const countryInfo = countryCodeToDetails_Generic[countryCode]; // countryCode is already uppercase
+    const countryDisplayName = countryInfo ? countryInfo.name : countryCode;
+    const flagEmoji = countryCodeToFlagEmoji[countryCode] || '🏳️';
+
+    contentDiv.innerHTML = `<h2><span class="flag-emoji">${flagEmoji}</span> ${countryDisplayName} - Clubs</h2><p>Loading clubs...</p>`;
+
+    if (!supabaseClient) {
+        contentDiv.innerHTML = '<p>Error: Supabase client not initialized. Cannot load data.</p>';
+        return;
+    }
+
+    try {
+        // 1. Fetch clubs for the given countryCode
+        const { data: clubsInCountry, error: clubsError } = await supabaseClient
+            .from('clubs')
+            .select('id, name, country') // Select name and id
+            .eq('country', countryCode); // Filter by country code
+
+        if (clubsError) {
+            console.error(`Error fetching clubs for ${countryCode}:`, clubsError);
+            contentDiv.innerHTML = `<p>Could not load clubs for ${countryDisplayName}: ${clubsError.message}</p>`;
+            return;
+        }
+
+        if (!clubsInCountry || clubsInCountry.length === 0) {
+            contentDiv.innerHTML += `<p>No clubs found for ${countryDisplayName} in the catalogue.</p>`;
+            // Add a back button to the main catalogue page
+            contentDiv.innerHTML += `<p><a href="catalogue.html" class="btn btn-secondary btn-small">Back to All Countries</a></p>`;
+            return;
+        }
+
+        // 2. For each club, fetch its sticker count
+        // This can be N+1 queries, for a large number of clubs, consider a more optimized approach later if needed
+        // (e.g., a database function or fetching all stickers and grouping client-side, but that might be too much data)
+        const clubsWithStickerCounts = [];
+        for (const club of clubsInCountry) {
+            const { count, error: countError } = await supabaseClient
+                .from('stickers_dev') // Assuming your stickers table is 'stickers_dev'
+                .select('id', { count: 'exact', head: true })
+                .eq('club_id', club.id);
+
+            if (countError) {
+                console.warn(`Could not fetch sticker count for club ${club.name} (ID: ${club.id}):`, countError.message);
+                clubsWithStickerCounts.push({ ...club, stickerCount: 0, errorLoadingCount: true });
+            } else {
+                clubsWithStickerCounts.push({ ...club, stickerCount: count });
+            }
+        }
+
+        // 3. Sort clubs alphabetically by name
+        clubsWithStickerCounts.sort((a, b) => a.name.localeCompare(b.name));
+
+        // 4. Display the list of clubs
+        let htmlOutput = '<ul class="club-list">'; // New class for styling club list
+        clubsWithStickerCounts.forEach(club => {
+            let countText = `(${club.stickerCount} sticker${club.stickerCount !== 1 ? 's' : ''})`;
+            if (club.errorLoadingCount) {
+                countText = "(sticker count unavailable)";
+            }
+            htmlOutput += `<li><a href="catalogue.html?club_id=${club.id}">${club.name} ${countText}</a></li>`;
+        });
+        htmlOutput += '</ul>';
+
+        // Keep the H2 heading and replace the "Loading clubs..." paragraph
+        const currentH2 = contentDiv.querySelector('h2');
+        contentDiv.innerHTML = (currentH2 ? currentH2.outerHTML : `<h2>${countryDisplayName} - Clubs</h2>`) + htmlOutput;
+        contentDiv.innerHTML += `<p style="margin-top: 20px;"><a href="catalogue.html" class="btn btn-secondary btn-small">Back to All Countries</a></p>`;
+
+
+    } catch (error) {
+        console.error(`An error occurred while loading clubs for ${countryCode}:`, error);
+        contentDiv.innerHTML = `<p>An unexpected error occurred: ${error.message}</p>`;
+        contentDiv.innerHTML += `<p><a href="catalogue.html" class="btn btn-secondary btn-small">Back to All Countries</a></p>`;
     }
 }
