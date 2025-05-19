@@ -538,10 +538,10 @@ async function loadStickerDetails(stickerId) {
                     </div>
                     <div class="sticker-detail-info">
                         <h3>Details:</h3>
-                        <p><strong>Description:</strong></p>
-                        <div class="sticker-description-text">${sticker.description || 'No description available.'}</div>
                         <p><strong>Location Found:</strong> ${sticker.location || 'N/A'}</p> 
                         <p><strong>Date Found:</strong> ${sticker.found ? new Date(sticker.found).toLocaleDateString() : 'N/A'}</p>
+                        <p><strong>Description:</strong></p>
+                        <div class="sticker-description-text">${sticker.description || 'No description available.'}</div>
                     </div>
                 </div>
             `;
