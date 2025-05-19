@@ -37,7 +37,8 @@
     </header>
 
     <main class="container" id="catalogue-container">
-        <h1>Sticker Catalogue</h1>
+        <h1 id="main-catalogue-heading">Sticker Catalogue</h1> {/* Added ID for easier targeting */}
+        <div id="catalogue-breadcrumbs"></div> {/* NEW: Breadcrumbs container */}
         <div id="catalogue-content">
             <p>Loading data...</p>
         </div>
@@ -54,6 +55,6 @@
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script src="catalogue.js"></script>
+    <script src="catalogue.js"></script> {/* Make sure this uses your latest version */}
 </body>
 </html>
