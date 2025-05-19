@@ -3,14 +3,25 @@
 const SUPABASE_URL = 'https://rbmeslzlbsolkxnvesqb.supabase.co'; // ЗАМІНИ НА СВІЙ URL
 const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJibWVzbHpsYnNvbGt4bnZlc3FiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDUwODcxMzYsImV4cCI6MjA2MDY2MzEzNn0.cu-Qw0WoEslfKXXCiMocWFg6Uf1sK_cQYcyP2mT0-Nw'; // ЗАМІНИ НА СВІЙ КЛЮЧ
 
-let supabase;
 try {
-    supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    // Correct way to initialize the client:
+    // The Supabase library exports 'createClient' on its global object (usually window.supabase or just supabase after script load)
+    // Or, more robustly, use the destructured export if available in the context
+    if (window.supabase && typeof window.supabase.createClient === 'function') {
+        supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    } else {
+        // Fallback if the library loads differently, though cdn.jsdelivr.net/npm/@supabase/supabase-js@2
+        // should make it available as supabase.createClient
+        // This is a common pattern for UMD modules.
+        const { createClient } = supabase; // Assuming 'supabase' is the global object from the CDN script
+        supabaseClient = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    }
 } catch (error) {
     console.error("Error initializing Supabase client:", error);
     const contentDiv = document.getElementById('catalogue-content');
     if (contentDiv) {
-        contentDiv.innerHTML = "<p>Error loading data. Please try refreshing the page.</p>";
+        // Error message on screenshot: "Initialization error. Catalogue cannot be loaded."
+        contentDiv.innerHTML = "<p>Initialization error. Catalogue cannot be loaded.</p>";
     }
 }
 
@@ -180,15 +191,15 @@ const countryCodeToDetails_Generic = {
     // but ensure they match what's in your 'clubs' table 'country' column.
 };
 
-
 document.addEventListener('DOMContentLoaded', () => {
-    if (supabase) {
+    if (supabaseClient) { // Check the renamed variable
         console.log('Supabase client initialized for catalogue.');
         routeContent();
     } else {
         console.error('Supabase client failed to initialize. Catalogue functionality will be limited.');
         const contentDiv = document.getElementById('catalogue-content');
         if (contentDiv) {
+            // Error message on screenshot: "Initialization error. Catalogue cannot be loaded."
             contentDiv.innerHTML = "<p>Initialization error. Catalogue cannot be loaded.</p>";
         }
     }
@@ -200,27 +211,23 @@ function routeContent() {
     const clubId = params.get('club_id');
     const stickerId = params.get('sticker_id');
 
-    // Update main heading based on view
     const mainHeading = document.querySelector('#catalogue-container > h1');
-    if (!mainHeading) { // Should not happen if HTML is correct
+    if (!mainHeading) {
         console.error("Main heading H1 for catalogue not found!");
         return;
     }
 
     if (stickerId) {
-        mainHeading.textContent = "Sticker Details"; // Placeholder
-        // loadStickerDetails(stickerId); // We'll create this function later
+        mainHeading.textContent = "Sticker Details";
         console.log(`Loading sticker: ${stickerId}`);
         document.getElementById('catalogue-content').innerHTML = `<p>Details for Sticker ID: ${stickerId} coming soon!</p><p><a href="catalogue.html">Back to Catalogue Home</a></p>`;
     } else if (clubId) {
-        mainHeading.textContent = "Club Gallery"; // Placeholder
-        // loadClubDetails(clubId); // We'll create this function later
+        mainHeading.textContent = "Club Gallery";
         console.log(`Loading club: ${clubId}`);
-        document.getElementById('catalogue-content').innerHTML = `<p>Gallery for Club ID: ${clubId} coming soon!</p><p><a href="catalogue.html">Back to Catalogue Home</a></p>`; //
+        document.getElementById('catalogue-content').innerHTML = `<p>Gallery for Club ID: ${clubId} coming soon!</p><p><a href="catalogue.html">Back to Catalogue Home</a></p>`;
     } else if (countryCode) {
         const countryInfo = countryCodeToDetails_Generic[countryCode.toUpperCase()];
         mainHeading.textContent = countryInfo ? `${countryInfo.name} Clubs` : "Clubs from Country";
-        // loadCountryDetails(countryCode); // We'll create this function later
         console.log(`Loading country: ${countryCode}`);
         document.getElementById('catalogue-content').innerHTML = `<p>List of clubs for ${countryInfo ? countryInfo.name : countryCode} coming soon!</p><p><a href="catalogue.html">Back to Catalogue Home</a></p>`;
     } else {
@@ -231,13 +238,16 @@ function routeContent() {
 
 async function loadContinentsAndCountries() {
     const contentDiv = document.getElementById('catalogue-content');
-    contentDiv.innerHTML = '<h2>Countries by Continent</h2><p>Loading data...</p>';
+    contentDiv.innerHTML = '<h2>Countries by Continent</h2><p>Loading data...</p>'; // English
+
+    if (!supabaseClient) { // Check if client is initialized before making a call
+        contentDiv.innerHTML = '<p>Error: Supabase client not initialized. Cannot load data.</p>';
+        return;
+    }
 
     try {
-        // 1. Fetch all clubs to determine represented countries and club counts
-        // Select only 'id' and 'country' to minimize data transfer
-        const { data: clubs, error: clubsError } = await supabase
-            .from('clubs') // Ensure your table is named 'clubs'
+        const { data: clubs, error: clubsError } = await supabaseClient // Use the renamed variable
+            .from('clubs')
             .select('id, country');
 
         if (clubsError) {
@@ -251,11 +261,10 @@ async function loadContinentsAndCountries() {
             return;
         }
 
-        // 2. Group clubs by country and count them
         const clubsByCountryCode = {};
         clubs.forEach(club => {
-            if (club.country) { // Check if country is specified
-                const countryCodeNormalized = club.country.toUpperCase(); // Normalize to uppercase
+            if (club.country) {
+                const countryCodeNormalized = club.country.toUpperCase();
                 if (!clubsByCountryCode[countryCodeNormalized]) {
                     clubsByCountryCode[countryCodeNormalized] = 0;
                 }
@@ -263,18 +272,17 @@ async function loadContinentsAndCountries() {
             }
         });
 
-        // 3. Group countries by continents using the generic map
         const continents = {};
         for (const countryCode in clubsByCountryCode) {
-            const detail = countryCodeToDetails_Generic[countryCode]; // Lookup in our generic map
+            const detail = countryCodeToDetails_Generic[countryCode];
             let continentName, countryName;
 
             if (detail) {
                 continentName = detail.continent;
                 countryName = detail.name;
             } else {
-                continentName = "Other Countries / Unclassified"; // Group for unknown codes
-                countryName = countryCode; // Show the code if full name is unknown
+                continentName = "Other Countries / Unclassified";
+                countryName = countryCode;
                 console.warn(`Details for country code ${countryCode} not found in countryCodeToDetails_Generic map.`);
             }
 
@@ -288,7 +296,6 @@ async function loadContinentsAndCountries() {
             });
         }
 
-        // 4. Sort continents and countries within continents alphabetically
         let htmlOutput = '';
         const sortedContinentNames = Object.keys(continents).sort((a,b) => a.localeCompare(b));
 
@@ -300,7 +307,6 @@ async function loadContinentsAndCountries() {
             const countriesInContinent = continents[continentName].sort((a, b) => a.name.localeCompare(b.name));
 
             countriesInContinent.forEach(country => {
-                // Create links to navigate to the country page view
                 htmlOutput += `<li><a href="catalogue.html?country=${country.code}">${country.name} (${country.clubCount} clubs)</a></li>`;
             });
 
@@ -311,8 +317,7 @@ async function loadContinentsAndCountries() {
         if (htmlOutput === '') {
             contentDiv.innerHTML = '<p>No data to display. Check the `countryCodeToDetails_Generic` map and database entries.</p>';
         } else {
-            // Replace "Loading data..." with the generated HTML
-            const currentHeading = contentDiv.querySelector('h2'); // Keep the "Countries by Continent" h2
+            const currentHeading = contentDiv.querySelector('h2');
             contentDiv.innerHTML = (currentHeading ? currentHeading.outerHTML : '<h2>Countries by Continent</h2>') + htmlOutput;
         }
 
@@ -321,26 +326,3 @@ async function loadContinentsAndCountries() {
         contentDiv.innerHTML = `<p>An unexpected error occurred: ${error.message}</p>`;
     }
 }
-
-// Placeholder functions for later steps -
-// We will implement these in subsequent steps.
-
-// async function loadCountryDetails(countryCode) {
-//     const contentDiv = document.getElementById('catalogue-content');
-//     const countryInfo = countryCodeToDetails_Generic[countryCode.toUpperCase()];
-//     const countryDisplayName = countryInfo ? countryInfo.name : countryCode;
-//     contentDiv.innerHTML = `<h2>Clubs in ${countryDisplayName}</h2><p>Loading clubs...</p>`;
-//     // ... (logic to fetch and display clubs for this country)
-// }
-
-// async function loadClubDetails(clubId) {
-//     const contentDiv = document.getElementById('catalogue-content');
-//     contentDiv.innerHTML = `<h2>Club Sticker Gallery (ID: ${clubId})</h2><p>Loading stickers...</p>`;
-//     // ... (logic to fetch and display stickers for this club)
-// }
-
-// async function loadStickerDetails(stickerId) {
-//     const contentDiv = document.getElementById('catalogue-content');
-//     contentDiv.innerHTML = `<h2>Sticker Details (ID: ${stickerId})</h2><p>Loading sticker info...</p>`;
-//     // ... (logic to fetch and display full details for this sticker)
-// }
