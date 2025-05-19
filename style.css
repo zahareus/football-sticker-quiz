@@ -220,6 +220,45 @@ button:disabled, .btn:disabled { cursor: not-allowed !important; background-colo
 /* ------------------------------ */
 /* Catalogue Specific Styles      */
 /* ------------------------------ */
+
+/* Додати до секції Catalogue Specific Styles в style.css */
+
+.club-country-indicator {
+    font-size: 0.8em;
+    font-weight: normal;
+    color: var(--color-info-text);
+}
+
+.sticker-gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); /* Адаптивна сітка */
+    gap: var(--spacing-unit);
+    margin-top: calc(var(--spacing-unit) * 2);
+    text-align: left;
+}
+
+.sticker-preview-link {
+    display: block;
+    border: 1px solid var(--color-border);
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    background-color: var(--color-secondary-bg);
+    aspect-ratio: 1 / 1; /* Робить прев'ю квадратними */
+    transition: box-shadow 0.2s ease;
+}
+
+.sticker-preview-link:hover {
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    border-color: var(--color-accent);
+}
+
+.sticker-preview-image {
+    width: 100%;
+    height: 100%;
+    object-fit: contain; /* Або 'cover', якщо хочеш заповнювати квадрат */
+    display: block;
+}
+
 #catalogue-container > h1 { /* The main H1 title for the catalogue page (e.g., "Sticker Catalogue") */
     font-size: 2em;
     margin-bottom: calc(var(--spacing-unit) * 3);
