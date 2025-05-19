@@ -1,4 +1,4 @@
-// catalogue.js (Твоя версія з попереднього кроку, я додаю зміни)
+// catalogue.js
 
 const SUPABASE_URL = 'https://rbmeslzlbsolkxnvesqb.supabase.co';
 const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJibWVzbHpsYnNvbGt4bnZlc3FiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDUwODcxMzYsImV4cCI6MjA2MDY2MzEzNn0.cu-Qw0WoEslfKXXCiMocWFg6Uf1sK_cQYcyP2mT0-Nw';
@@ -205,32 +205,27 @@ const countryCodeToFlagEmoji = {
     "ENG": "🏴󠁧󠁢󠁥󠁮󠁧󠁿", "SCO": "🏴󠁧󠁢󠁳󠁣󠁴󠁿", "WLS": "🏴󠁧󠁢󠁷󠁬󠁳󠁿"
 };
 
-let totalCountries = 0;
-let totalClubs = 0;
-// We might need to fetch total counts once, or pass them down if easily available.
-// For now, let's make a simple global count for "All countries" link.
+let totalCountriesInCatalogue = 0; 
+
 async function updateTotalCountriesCount() {
     if (!supabaseClient) return;
     try {
-        const { data: countries, error } = await supabaseClient
-            .from('clubs')
-            .select('country', { count: 'exact', head: true }); // This might not give distinct countries
-        
-        // To get distinct countries count, we'd need a more complex query or post-processing
-        // For simplicity, let's count distinct countries from the clubs table for the breadcrumb
         const { data: allClubs, error: allClubsError } = await supabaseClient.from('clubs').select('country');
+        if (allClubsError) {
+            console.error("Error fetching all clubs for total country count:", allClubsError);
+            return;
+        }
         if (allClubs) {
             const distinctCountries = new Set(allClubs.map(c => c.country));
-            totalCountries = distinctCountries.size;
+            totalCountriesInCatalogue = distinctCountries.size;
         }
-    } catch(e){ console.error("Error fetching total countries", e)}
+    } catch(e){ console.error("Error calculating total countries", e)}
 }
-
 
 document.addEventListener('DOMContentLoaded', async () => {
     if (supabaseClient) {
         console.log('Supabase client initialized for catalogue.');
-        await updateTotalCountriesCount(); // Fetch total countries count on load
+        await updateTotalCountriesCount(); 
         routeContent();
     } else {
         console.error('Supabase client failed to initialize. Catalogue functionality will be limited.');
@@ -240,7 +235,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         if (breadcrumbsDiv) breadcrumbsDiv.innerHTML = "";
     }
 });
-
 
 function updateBreadcrumbs(crumbs = []) {
     const breadcrumbsDiv = document.getElementById('catalogue-breadcrumbs');
@@ -255,10 +249,12 @@ function updateBreadcrumbs(crumbs = []) {
     let html = '<nav aria-label="breadcrumb"><ol class="breadcrumb-list">';
     crumbs.forEach((crumb, index) => {
         html += `<li class="breadcrumb-item">`;
+        // A breadcrumb is a link if it's not the VERY LAST item in the trail AND it has a link property.
         if (index < crumbs.length - 1 && crumb.link) {
             html += `<a href="${crumb.link}">${crumb.text}</a>`;
         } else {
-            html += `<span>${crumb.text}</span>`; // Last item is not a link or item has no link
+            // Last item is always text, or any item without a link property is text.
+            html += `<span>${crumb.text}</span>`; 
         }
         html += `</li>`;
     });
@@ -267,14 +263,13 @@ function updateBreadcrumbs(crumbs = []) {
     breadcrumbsDiv.style.display = 'block';
 }
 
-
 function routeContent() {
     const params = new URLSearchParams(window.location.search);
     const countryCode = params.get('country');
     const clubId = params.get('club_id');
     const stickerId = params.get('sticker_id');
+    const mainHeading = document.getElementById('main-catalogue-heading');
 
-    const mainHeading = document.getElementById('main-catalogue-heading'); // Use ID
     if (!mainHeading) {
         console.error("Main heading H1 for catalogue not found!");
         return;
@@ -300,7 +295,7 @@ function routeContent() {
 async function loadContinentsAndCountries() {
     const contentDiv = document.getElementById('catalogue-content');
     contentDiv.innerHTML = '<p>Loading data...</p>'; 
-    updateBreadcrumbs([]); // No breadcrumbs on the main page
+    updateBreadcrumbs([]); 
 
     if (!supabaseClient) {
         contentDiv.innerHTML = '<p>Error: Supabase client not initialized. Cannot load data.</p>';
@@ -383,17 +378,13 @@ async function loadCountryDetails(countryCode) {
     const contentDiv = document.getElementById('catalogue-content');
     contentDiv.innerHTML = `<p>Loading clubs...</p>`; 
     
-    const countryInfo = countryCodeToDetails_Generic[countryCode];
-    const countryDisplayName = countryInfo ? countryInfo.name : countryCode;
-    // Breadcrumbs for Country page
+    // Breadcrumbs for Country page: "All Countries" is a link. Current country is context (in H1).
     updateBreadcrumbs([
-        { text: `All Countries (${totalCountries})`, link: 'catalogue.html' }
+        { text: `All Countries (${totalCountriesInCatalogue})`, link: 'catalogue.html' }
     ]);
-
 
     if (!supabaseClient) {
         contentDiv.innerHTML = '<p>Error: Supabase client not initialized. Cannot load data.</p>';
-        // No longer adding back button here, breadcrumbs handle navigation
         return;
     }
 
@@ -407,8 +398,12 @@ async function loadCountryDetails(countryCode) {
 
         if (clubsError) {
             console.error(`Error fetching clubs for ${countryCode}:`, clubsError);
+            const countryInfo = countryCodeToDetails_Generic[countryCode];
+            const countryDisplayName = countryInfo ? countryInfo.name : countryCode;
             contentBodyHtml = `<p>Could not load clubs for ${countryDisplayName}: ${clubsError.message}</p>`;
         } else if (!clubsInCountry || clubsInCountry.length === 0) {
+            const countryInfo = countryCodeToDetails_Generic[countryCode];
+            const countryDisplayName = countryInfo ? countryInfo.name : countryCode;
             contentBodyHtml = `<p>No clubs found for ${countryDisplayName} in the catalogue.</p>`;
         } else {
             const clubsWithStickerCounts = [];
@@ -427,13 +422,13 @@ async function loadCountryDetails(countryCode) {
             }
 
             clubsWithStickerCounts.sort((a, b) => a.name.localeCompare(b.name));
-
-            // Update breadcrumbs with club count for this country
-            updateBreadcrumbs([
-                { text: `All Countries (${totalCountries})`, link: 'catalogue.html' },
-                { text: `All clubs from ${countryDisplayName} (${clubsInCountry.length})`} // Current page, no link
-            ]);
-
+            
+            // Update breadcrumb for country page to show club count after fetching
+            // The H1 already describes the current page, so breadcrumbs lead *up to* it.
+            // "All Countries (X)" is the only breadcrumb needed here.
+            // If you want "All Countries (X) > Spain (Y clubs)", then Spain part is current.
+            // Let's stick to the user's example: "All countries (230)" on country page
+            // which implies the country itself is the current context shown in H1.
 
             let clubListHtml = '<ul class="club-list">';
             clubsWithStickerCounts.forEach(club => {
@@ -448,12 +443,10 @@ async function loadCountryDetails(countryCode) {
         }
         
         contentDiv.innerHTML = contentBodyHtml; 
-        // Removed back button from here
 
     } catch (error) {
         console.error(`An error occurred while loading clubs for ${countryCode}:`, error);
         contentDiv.innerHTML = `<p>An unexpected error occurred: ${error.message}. Please check the console for more details.</p>`;
-        // Removed back button from here
     }
 }
 
@@ -461,7 +454,7 @@ async function loadClubDetails(clubId) {
     const contentDiv = document.getElementById('catalogue-content');
     contentDiv.innerHTML = `<p>Loading club stickers...</p>`;  
     const mainHeading = document.getElementById('main-catalogue-heading');
-    updateBreadcrumbs([]); // Clear breadcrumbs initially
+    updateBreadcrumbs([]); // Clear breadcrumbs initially while fetching
 
     if (!supabaseClient) {
         contentDiv.innerHTML = '<p>Error: Supabase client not initialized. Cannot load data.</p>';
@@ -481,25 +474,25 @@ async function loadClubDetails(clubId) {
             console.error(`Error fetching club details for ID ${clubId}:`, clubError);
             if(mainHeading) mainHeading.textContent = "Club Not Found";
             contentBodyHtml = `<p>Could not load club details. The club may not exist.</p>`;
-            updateBreadcrumbs([{ text: `All Countries (${totalCountries})`, link: 'catalogue.html' }]);
+            updateBreadcrumbs([{ text: `All Countries (${totalCountriesInCatalogue})`, link: 'catalogue.html' }]);
         } else {
             const countryInfo = countryCodeToDetails_Generic[clubData.country.toUpperCase()];
             const countryDisplayName = countryInfo ? countryInfo.name : clubData.country;
             const countryFlag = countryCodeToFlagEmoji[clubData.country.toUpperCase()] || '';
             
             if(mainHeading) mainHeading.textContent = `${clubData.name} ${countryFlag} - Sticker Gallery`;
-            
-            // Fetch total clubs in this country for breadcrumb
+
             const { count: totalClubsInCountry } = await supabaseClient
                 .from('clubs')
                 .select('*', { count: 'exact', head: true })
                 .eq('country', clubData.country);
-
+            
+            // Breadcrumbs for Club page: "All Countries" (link) > "All clubs from [Country]" (link)
+            // Current page is the club itself (in H1)
             updateBreadcrumbs([
-                { text: `All Countries (${totalCountries})`, link: 'catalogue.html' },
+                { text: `All Countries (${totalCountriesInCatalogue})`, link: 'catalogue.html' },
                 { text: `All clubs from ${countryDisplayName} (${totalClubsInCountry || 0})`, link: `catalogue.html?country=${clubData.country}` }
             ]);
-
 
             const { data: stickersResponse, error: stickersError } = await supabaseClient
                 .from('stickers') 
@@ -526,22 +519,19 @@ async function loadClubDetails(clubId) {
         }
         
         contentDiv.innerHTML = contentBodyHtml; 
-        // Removed back button from here
 
     } catch (error) {
         console.error(`An error occurred while loading club details for ID ${clubId}:`, error);
         contentDiv.innerHTML = `<p>An unexpected error occurred: ${error.message}</p>`;
-        // Removed back button from here
     }
 }
-
 
 async function loadStickerDetails(stickerId) {
     const contentDiv = document.getElementById('catalogue-content');
     const mainHeading = document.getElementById('main-catalogue-heading');
     
     contentDiv.innerHTML = `<p>Loading sticker details...</p>`; 
-    updateBreadcrumbs([]); // Clear breadcrumbs initially
+    updateBreadcrumbs([]); // Clear initially
 
     if (!supabaseClient) {
         if(mainHeading) mainHeading.textContent = "Error";
@@ -579,68 +569,54 @@ async function loadStickerDetails(stickerId) {
             if(mainHeading) mainHeading.textContent = "Sticker Not Found";
             contentBodyHtml = `<p>Could not load sticker details. The sticker may not exist or there was an error.</p>`;
             if(stickerError && stickerError.message) contentBodyHtml += `<p><em>Error: ${stickerError.message}</em></p>`;
-            updateBreadcrumbs([{ text: `All Countries (${totalCountries})`, link: 'catalogue.html' }]);
+            // Try to build some breadcrumbs even on error if possible
+            updateBreadcrumbs([{ text: `All Countries (${totalCountriesInCatalogue})`, link: 'catalogue.html' }]);
+
         } else {
             let clubName = "N/A";
-            let clubCountryText = ""; 
-            let clubLinkHtml = "N/A";
             let countryDisplayNameForBreadcrumb = "Country";
             let countryCodeForBreadcrumb = "";
-            let totalClubsInCountryForBreadcrumb = 0;
-            let totalStickersInClubForBreadcrumb = 0;
-
 
             if (sticker.clubs) {
                 clubName = sticker.clubs.name;
                 countryCodeForBreadcrumb = sticker.clubs.country;
                 if (sticker.clubs.country) {
                     const countryDetail = countryCodeToDetails_Generic[sticker.clubs.country.toUpperCase()];
-                    const countryFlag = countryCodeToFlagEmoji[sticker.clubs.country.toUpperCase()] || '';
-                    clubCountryText = `${countryFlag} ${countryDetail ? countryDetail.name : sticker.clubs.country}`;
                     countryDisplayNameForBreadcrumb = countryDetail ? countryDetail.name : sticker.clubs.country;
                 }
-                clubLinkHtml = `<a href="catalogue.html?club_id=${sticker.club_id}">${clubName} ${clubCountryText}</a>`;
-                
                 if(mainHeading) mainHeading.textContent = `Sticker #${sticker.id} - ${clubName}`;
 
-                // Fetch total clubs in this country for breadcrumb
                 const { count: totalClubsInCountry } = await supabaseClient
                     .from('clubs')
                     .select('*', { count: 'exact', head: true })
                     .eq('country', countryCodeForBreadcrumb);
-                totalClubsInCountryForBreadcrumb = totalClubsInCountry || 0;
                 
-                // Fetch total stickers for this club for breadcrumb
                 const { count: totalStickersInClub } = await supabaseClient
                     .from('stickers')
                     .select('*', { count: 'exact', head: true })
                     .eq('club_id', sticker.club_id);
-                totalStickersInClubForBreadcrumb = totalStickersInClub || 0;
 
-
+                // Breadcrumbs for Sticker page: All linkable except current (which is implied by H1)
                 updateBreadcrumbs([
-                    { text: `All Countries (${totalCountries})`, link: 'catalogue.html' },
-                    { text: `All clubs from ${countryDisplayNameForBreadcrumb} (${totalClubsInCountryForBreadcrumb})`, link: `catalogue.html?country=${countryCodeForBreadcrumb}` },
-                    { text: `All stickers from ${clubName} (${totalStickersInClubForBreadcrumb})`, link: `catalogue.html?club_id=${sticker.club_id}` }
+                    { text: `All Countries (${totalCountriesInCatalogue})`, link: 'catalogue.html' },
+                    { text: `All clubs from ${countryDisplayNameForBreadcrumb} (${totalClubsInCountry || 0})`, link: `catalogue.html?country=${countryCodeForBreadcrumb}` },
+                    { text: `All stickers from ${clubName} (${totalStickersInClub || 0})`, link: `catalogue.html?club_id=${sticker.club_id}` }
                 ]);
 
             } else {
                  if(mainHeading) mainHeading.textContent = `Sticker #${sticker.id}`;
-                 updateBreadcrumbs([{ text: `All Countries (${totalCountries})`, link: 'catalogue.html' }]);
+                 updateBreadcrumbs([{ text: `All Countries (${totalCountriesInCatalogue})`, link: 'catalogue.html' }]);
             }
             
+            // User's preferred structure for sticker details:
             contentBodyHtml = `
                 <div class="sticker-detail-view">
                     <div class="sticker-detail-image-container">
                         <img src="${sticker.image_url}" alt="Sticker ${sticker.id} ${sticker.clubs ? `- ${sticker.clubs.name}`:''}" class="sticker-detail-image">
                     </div>
                     <div class="sticker-detail-info">
-                        <h3>Details:</h3>
-                        <p><strong>Club:</strong> ${clubLinkHtml}</p>
-                        <p><strong>Difficulty:</strong> ${sticker.difficulty || 'N/A'}</p>
                         <p><strong>Location Found:</strong> ${sticker.location || 'N/A'}</p> 
                         <p><strong>Date Found:</strong> ${sticker.found ? new Date(sticker.found).toLocaleDateString() : 'N/A'}</p>
-                        <p><strong>Coordinates:</strong> ${sticker.latitude && sticker.longitude ? `Lat: ${sticker.latitude}, Lon: ${sticker.longitude}` : 'N/A'}</p>
                         <p><strong>Description:</strong></p>
                         <div class="sticker-description-text">${sticker.description || 'No description available.'}</div>
                     </div>
@@ -649,12 +625,10 @@ async function loadStickerDetails(stickerId) {
         }
         
         contentDiv.innerHTML = contentBodyHtml; 
-        // No "Go Back" button here, breadcrumbs handle navigation
 
     } catch (error) {
         console.error(`An error occurred while loading sticker ID ${stickerId}:`, error);
         if(mainHeading) mainHeading.textContent = "Error Loading Sticker";
         contentDiv.innerHTML = `<p>An unexpected error occurred: ${error.message}</p>`;
-        // No "Go Back" button here
     }
 }
