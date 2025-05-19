@@ -231,14 +231,16 @@ function routeContent() {
     }
 
     if (stickerId) {
-        mainHeading.textContent = "Sticker Details";
+        mainHeading.textContent = "Sticker Details"; // Will be refined in loadStickerDetails
         loadStickerDetails(stickerId); 
     } else if (clubId) {
-        mainHeading.textContent = "Club Sticker Gallery";
+        // H1 title will be set more specifically in loadClubDetails after fetching club name
+        mainHeading.textContent = "Club Sticker Gallery"; 
         loadClubDetails(clubId);
     } else if (countryCode) {
         const countryInfo = countryCodeToDetails_Generic[countryCode.toUpperCase()];
-        mainHeading.textContent = countryInfo ? `${countryInfo.name} Clubs` : "Clubs from Country";
+        const flagEmoji = countryCodeToFlagEmoji[countryCode.toUpperCase()] || '';
+        mainHeading.textContent = countryInfo ? `${flagEmoji} ${countryInfo.name} - Clubs` : `${flagEmoji} Clubs from ${countryCode}`;
         loadCountryDetails(countryCode.toUpperCase());
     } else {
         mainHeading.textContent = "Sticker Catalogue";
@@ -248,11 +250,10 @@ function routeContent() {
 
 async function loadContinentsAndCountries() {
     const contentDiv = document.getElementById('catalogue-content');
-    const pageTitleHtml = '<h2>Countries by Continent</h2>'; // Define H2 title
-    contentDiv.innerHTML = pageTitleHtml + '<p>Loading data...</p>'; // Set initial content with H2
+    contentDiv.innerHTML = '<p>Loading data...</p>'; // NO H2 here
 
     if (!supabaseClient) {
-        contentDiv.innerHTML = pageTitleHtml + '<p>Error: Supabase client not initialized. Cannot load data.</p>';
+        contentDiv.innerHTML = '<p>Error: Supabase client not initialized. Cannot load data.</p>';
         return;
     }
     try {
@@ -262,11 +263,11 @@ async function loadContinentsAndCountries() {
 
         if (clubsError) {
             console.error('Error fetching clubs:', clubsError);
-            contentDiv.innerHTML = pageTitleHtml + `<p>Could not load club data: ${clubsError.message}</p>`;
+            contentDiv.innerHTML = `<p>Could not load club data: ${clubsError.message}</p>`;
             return;
         }
         if (!clubs || clubs.length === 0) {
-            contentDiv.innerHTML = pageTitleHtml + '<p>No clubs found in the catalogue.</p>';
+            contentDiv.innerHTML = '<p>No clubs found in the catalogue.</p>';
             return;
         }
 
@@ -307,7 +308,7 @@ async function loadContinentsAndCountries() {
         const sortedContinentNames = Object.keys(continents).sort((a,b) => a.localeCompare(b));
         sortedContinentNames.forEach(continentName => {
             listHtml += `<div class="continent-section">`;
-            listHtml += `<h3>${continentName}</h3>`;
+            listHtml += `<h3>${continentName}</h3>`; // H3 for continent name is fine
             listHtml += `<ul class="country-list">`;
             const countriesInContinent = continents[continentName].sort((a, b) => a.name.localeCompare(b.name));
             countriesInContinent.forEach(country => {
@@ -318,28 +319,23 @@ async function loadContinentsAndCountries() {
         });
 
         if (listHtml === '') {
-            contentDiv.innerHTML = pageTitleHtml + '<p>No data to display. Check the maps and database entries.</p>';
+            contentDiv.innerHTML = '<p>No data to display. Check the maps and database entries.</p>';
         } else {
-            contentDiv.innerHTML = pageTitleHtml + listHtml; // Combine H2 with the list
+            contentDiv.innerHTML = listHtml; // Just the list, no extra H2
         }
     } catch (error) {
         console.error('An error occurred while loading countries:', error);
-        contentDiv.innerHTML = pageTitleHtml + `<p>An unexpected error occurred: ${error.message}</p>`;
+        contentDiv.innerHTML = `<p>An unexpected error occurred: ${error.message}</p>`;
     }
 }
 
 async function loadCountryDetails(countryCode) {
     const contentDiv = document.getElementById('catalogue-content');
-    const countryInfo = countryCodeToDetails_Generic[countryCode];
-    const countryDisplayName = countryInfo ? countryInfo.name : countryCode;
-    const flagEmoji = countryCodeToFlagEmoji[countryCode] || '🏳️';
-
-    // Define the H2 title once
-    const pageTitleHtml = `<h2><span class="flag-emoji">${flagEmoji}</span> ${countryDisplayName} - Clubs</h2>`;
-    contentDiv.innerHTML = pageTitleHtml + `<p>Loading clubs...</p>`; // Set H2 and loading message
+    // H1 is already set by routeContent. We only set the body here.
+    contentDiv.innerHTML = `<p>Loading clubs...</p>`; 
 
     if (!supabaseClient) {
-        contentDiv.innerHTML = pageTitleHtml + '<p>Error: Supabase client not initialized. Cannot load data.</p>';
+        contentDiv.innerHTML = '<p>Error: Supabase client not initialized. Cannot load data.</p>';
         contentDiv.innerHTML += `<p style="margin-top: 20px;"><a href="catalogue.html" class="btn btn-secondary btn-small">Back to All Countries</a></p>`;
         return;
     }
@@ -350,12 +346,16 @@ async function loadCountryDetails(countryCode) {
             .select('id, name, country')
             .eq('country', countryCode);
 
-        let contentBodyHtml = ''; // To store list or error message
+        let contentBodyHtml = ''; 
 
         if (clubsError) {
             console.error(`Error fetching clubs for ${countryCode}:`, clubsError);
+            const countryInfo = countryCodeToDetails_Generic[countryCode];
+            const countryDisplayName = countryInfo ? countryInfo.name : countryCode;
             contentBodyHtml = `<p>Could not load clubs for ${countryDisplayName}: ${clubsError.message}</p>`;
         } else if (!clubsInCountry || clubsInCountry.length === 0) {
+            const countryInfo = countryCodeToDetails_Generic[countryCode];
+            const countryDisplayName = countryInfo ? countryInfo.name : countryCode;
             contentBodyHtml = `<p>No clubs found for ${countryDisplayName} in the catalogue.</p>`;
         } else {
             const clubsWithStickerCounts = [];
@@ -387,24 +387,23 @@ async function loadCountryDetails(countryCode) {
             contentBodyHtml = clubListHtml;
         }
         
-        contentDiv.innerHTML = pageTitleHtml + contentBodyHtml; // Combine H2 with the actual content body
+        contentDiv.innerHTML = contentBodyHtml; // Set ONLY the body content
         contentDiv.innerHTML += `<p style="margin-top: 20px;"><a href="catalogue.html" class="btn btn-secondary btn-small">Back to All Countries</a></p>`;
 
     } catch (error) {
         console.error(`An error occurred while loading clubs for ${countryCode}:`, error);
-        contentDiv.innerHTML = pageTitleHtml + `<p>An unexpected error occurred: ${error.message}. Please check the console for more details.</p>`;
+        contentDiv.innerHTML = `<p>An unexpected error occurred: ${error.message}. Please check the console for more details.</p>`;
         contentDiv.innerHTML += `<p style="margin-top: 20px;"><a href="catalogue.html" class="btn btn-secondary btn-small">Back to All Countries</a></p>`;
     }
 }
 
 async function loadClubDetails(clubId) {
     const contentDiv = document.getElementById('catalogue-content');
-    // Clear contentDiv and set a general loading message first
     contentDiv.innerHTML = `<p>Loading club stickers...</p>`; 
-    let pageTitleHtml = '<h2>Club Sticker Gallery</h2>'; // Default H2 title
+    // H1 is set by routeContent. We might refine H1 here after fetching club name.
 
     if (!supabaseClient) {
-        contentDiv.innerHTML = pageTitleHtml + '<p>Error: Supabase client not initialized. Cannot load data.</p>';
+        contentDiv.innerHTML = '<p>Error: Supabase client not initialized. Cannot load data.</p>';
         contentDiv.innerHTML += `<p style="margin-top: 20px;"><a href="catalogue.html" class="btn btn-secondary btn-small">Back to Catalogue Home</a></p>`;
         return;
     }
@@ -416,22 +415,23 @@ async function loadClubDetails(clubId) {
             .eq('id', clubId)
             .single();
 
-        let contentBodyHtml = ''; // For sticker gallery or error messages
-        let backButtonUrl = 'catalogue.html'; // Default back button
+        let contentBodyHtml = '';
+        let backButtonUrl = 'catalogue.html';
         let backButtonText = 'Back to Catalogue Home';
+        
+        // Refine H1 title if club data is fetched
+        const mainHeading = document.querySelector('#catalogue-container > h1');
 
         if (clubError || !clubData) {
             console.error(`Error fetching club details for ID ${clubId}:`, clubError);
+            if(mainHeading) mainHeading.textContent = "Club Not Found";
             contentBodyHtml = `<p>Could not load club details. The club may not exist.</p>`;
         } else {
             const countryInfo = countryCodeToDetails_Generic[clubData.country.toUpperCase()];
             const countryDisplayName = countryInfo ? countryInfo.name : clubData.country;
-            const countryFlag = countryCodeToFlagEmoji[clubData.country.toUpperCase()] || '';
+            // const countryFlag = countryCodeToFlagEmoji[clubData.country.toUpperCase()] || ''; // Flag can be part of H1 now
             
-            pageTitleHtml = `<h2>${clubData.name} <span class="club-country-indicator">(${countryFlag} ${countryDisplayName})</span> - Stickers</h2>`;
-            
-            const mainHeading = document.querySelector('#catalogue-container > h1');
-            if(mainHeading) mainHeading.textContent = `${clubData.name} - Sticker Gallery`;
+            if(mainHeading) mainHeading.textContent = `${clubData.name} - Sticker Gallery`; // Update H1
 
             backButtonUrl = `catalogue.html?country=${clubData.country}`;
             backButtonText = `Back to ${countryDisplayName} Clubs`;
@@ -460,12 +460,12 @@ async function loadClubDetails(clubId) {
             }
         }
         
-        contentDiv.innerHTML = pageTitleHtml + contentBodyHtml; // Combine H2 with the content body
+        contentDiv.innerHTML = contentBodyHtml; // Set ONLY the body content
         contentDiv.innerHTML += `<p style="margin-top: 20px;"><a href="${backButtonUrl}" class="btn btn-secondary btn-small">${backButtonText}</a></p>`;
 
     } catch (error) {
         console.error(`An error occurred while loading club details for ID ${clubId}:`, error);
-        contentDiv.innerHTML = pageTitleHtml + `<p>An unexpected error occurred: ${error.message}</p>`;
+        contentDiv.innerHTML = `<p>An unexpected error occurred: ${error.message}</p>`;
         contentDiv.innerHTML += `<p style="margin-top: 20px;"><a href="catalogue.html" class="btn btn-secondary btn-small">Back to Catalogue Home</a></p>`;
     }
 }
@@ -474,21 +474,20 @@ async function loadClubDetails(clubId) {
 async function loadStickerDetails(stickerId) {
     const contentDiv = document.getElementById('catalogue-content');
     const mainHeading = document.querySelector('#catalogue-container > h1');
-    if(mainHeading) mainHeading.textContent = "Sticker Details"; // General title for now
+    // H1 will be refined after fetching sticker data
+    if(mainHeading) mainHeading.textContent = `Loading Sticker #${stickerId}...`; 
 
-    // Clear previous content and set loading message
-    contentDiv.innerHTML = `<h2>Sticker Information</h2><p>Loading sticker details...</p>`;
-    let pageTitleHtml = `<h2>Sticker Information</h2>`; // Default H2 if sticker data fails
+    contentDiv.innerHTML = `<p>Loading sticker details...</p>`; // General loading message
 
     if (!supabaseClient) {
-        contentDiv.innerHTML = pageTitleHtml + '<p>Error: Supabase client not initialized. Cannot load data.</p>';
+        contentDiv.innerHTML = '<p>Error: Supabase client not initialized. Cannot load data.</p>';
         contentDiv.innerHTML += `<p style="margin-top: 20px;"><a href="javascript:history.back()" class="btn btn-secondary btn-small">Go Back</a></p>`;
         return;
     }
 
     try {
         const { data: sticker, error: stickerError } = await supabaseClient
-            .from('stickers') // Assuming 'stickers' is the correct table name
+            .from('stickers')
             .select(`
                 id, 
                 image_url, 
@@ -499,67 +498,65 @@ async function loadStickerDetails(stickerId) {
                 longitude, 
                 found_date, 
                 club_id, 
-                clubs (name, country) 
-            `) // Fetch related club name and country
+                clubs (id, name, country) 
+            `)
             .eq('id', stickerId)
             .single();
 
         let contentBodyHtml = '';
-        let backButtonUrl = `javascript:history.back()`;
+        let backButtonUrl = `javascript:history.back()`; // Default back
         let backButtonText = `Go Back`;
-
 
         if (stickerError || !sticker) {
             console.error(`Error fetching sticker details for ID ${stickerId}:`, stickerError);
+            if(mainHeading) mainHeading.textContent = "Sticker Not Found";
             contentBodyHtml = `<p>Could not load sticker details. The sticker may not exist or there was an error.</p>`;
             if(stickerError) contentBodyHtml += `<p><em>Error: ${stickerError.message}</em></p>`;
         } else {
-            // Update H1 and H2 with more specific info if sticker is found
-            if(mainHeading) mainHeading.textContent = `Sticker #${sticker.id}`;
-            pageTitleHtml = `<h2>Sticker #${sticker.id} ${sticker.clubs ? `- ${sticker.clubs.name}` : ''}</h2>`;
-            
             let clubName = "N/A";
-            let countryName = "N/A";
-            let countryFlag = "";
+            let clubCountryText = ""; // For display next to club name
 
             if (sticker.clubs) {
                 clubName = sticker.clubs.name;
                 if (sticker.clubs.country) {
                     const countryDetail = countryCodeToDetails_Generic[sticker.clubs.country.toUpperCase()];
-                    countryName = countryDetail ? countryDetail.name : sticker.clubs.country;
-                    countryFlag = countryCodeToFlagEmoji[sticker.clubs.country.toUpperCase()] || '';
+                    const countryFlag = countryCodeToFlagEmoji[sticker.clubs.country.toUpperCase()] || '';
+                    clubCountryText = `(${countryFlag} ${countryDetail ? countryDetail.name : sticker.clubs.country})`;
                 }
-                // Set back button to the club's page if club_id exists
+                // Refine H1
+                if(mainHeading) mainHeading.textContent = `Sticker #${sticker.id} - ${clubName}`;
+                // Set back button to the club's page
                 backButtonUrl = `catalogue.html?club_id=${sticker.club_id}`;
                 backButtonText = `Back to ${clubName} Stickers`;
+            } else {
+                 if(mainHeading) mainHeading.textContent = `Sticker #${sticker.id}`;
             }
-
-
+            
             contentBodyHtml = `
                 <div class="sticker-detail-view">
                     <div class="sticker-detail-image-container">
-                        <img src="${sticker.image_url}" alt="Sticker ${sticker.id} - ${clubName}" class="sticker-detail-image">
+                        <img src="${sticker.image_url}" alt="Sticker ${sticker.id} ${sticker.clubs ? `- ${sticker.clubs.name}`:''}" class="sticker-detail-image">
                     </div>
                     <div class="sticker-detail-info">
-                        <p><strong>Club:</strong> <a href="catalogue.html?club_id=${sticker.club_id}">${countryFlag} ${clubName}</a></p>
-                        <p><strong>Country:</strong> ${countryName}</p>
+                        <h3>Details:</h3>
+                        ${sticker.clubs ? `<p><strong>Club:</strong> <a href="catalogue.html?club_id=${sticker.club_id}">${clubName} ${clubCountryText}</a></p>` : '<p><strong>Club:</strong> N/A</p>'}
                         <p><strong>Difficulty:</strong> ${sticker.difficulty || 'N/A'}</p>
                         <p><strong>Location Found:</strong> ${sticker.location || 'N/A'}</p>
                         <p><strong>Date Found:</strong> ${sticker.found_date ? new Date(sticker.found_date).toLocaleDateString() : 'N/A'}</p>
-                        <p><strong>Coordinates:</strong> Lat: ${sticker.latitude || 'N/A'}, Lon: ${sticker.longitude || 'N/A'}</p>
+                        <p><strong>Coordinates:</strong> ${sticker.latitude && sticker.longitude ? `Lat: ${sticker.latitude}, Lon: ${sticker.longitude}` : 'N/A'}</p>
                         <p><strong>Description:</strong></p>
-                        <p>${sticker.description || 'No description available.'}</p>
+                        <div class="sticker-description-text">${sticker.description || 'No description available.'}</div>
                     </div>
                 </div>
             `;
         }
         
-        contentDiv.innerHTML = pageTitleHtml + contentBodyHtml;
+        contentDiv.innerHTML = contentBodyHtml; // Set ONLY the body content
         contentDiv.innerHTML += `<p style="margin-top: 20px;"><a href="${backButtonUrl}" class="btn btn-secondary btn-small">${backButtonText}</a></p>`;
 
     } catch (error) {
         console.error(`An error occurred while loading sticker ID ${stickerId}:`, error);
-        contentDiv.innerHTML = pageTitleHtml + `<p>An unexpected error occurred: ${error.message}</p>`;
+        contentDiv.innerHTML = `<p>An unexpected error occurred: ${error.message}</p>`;
         contentDiv.innerHTML += `<p style="margin-top: 20px;"><a href="javascript:history.back()" class="btn btn-secondary btn-small">Go Back</a></p>`;
     }
 }
