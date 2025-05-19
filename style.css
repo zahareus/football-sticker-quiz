@@ -221,8 +221,55 @@ button:disabled, .btn:disabled { cursor: not-allowed !important; background-colo
 /* Catalogue Specific Styles      */
 /* ------------------------------ */
 
-/* Додати до секції Catalogue Specific Styles в style.css */
 
+/* --- Breadcrumbs Styling --- */
+#catalogue-breadcrumbs {
+    margin-bottom: calc(var(--spacing-unit) * 2.5); /* Відступ під breadcrumbs */
+    text-align: left; /* Вирівнювання по лівому краю */
+    font-size: 0.9em;
+    padding-bottom: var(--spacing-unit);
+    border-bottom: 1px solid var(--color-border);
+}
+
+.breadcrumb-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex; /* Розміщуємо елементи в ряд */
+    flex-wrap: wrap; /* Дозволяємо переносити на новий рядок, якщо не вміщаються */
+}
+
+.breadcrumb-item {
+    display: inline-flex; /* Для правильного відображення розділювача */
+    align-items: center;
+}
+
+.breadcrumb-item a {
+    color: var(--color-link);
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.breadcrumb-item a:hover {
+    color: var(--color-link-hover);
+    text-decoration: underline;
+}
+
+.breadcrumb-item span { /* Для останнього елемента, який не є посиланням */
+    color: var(--color-text); /* Або var(--color-info-text) для менш яскравого */
+    font-weight: 500;
+}
+
+.breadcrumb-item::after { /* Розділювач */
+    content: '>'; /* Можна використовувати інший символ, наприклад / або → */
+    margin: 0 calc(var(--spacing-unit) * 0.75);
+    color: var(--color-separator-text);
+}
+
+.breadcrumb-item:last-child::after { /* Прибираємо розділювач для останнього елемента */
+    content: '';
+    margin: 0;
+}
 .club-country-indicator {
     font-size: 0.8em;
     font-weight: normal;
