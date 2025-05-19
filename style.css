@@ -1,4 +1,4 @@
-/* style.css (Повний код) */
+/* style.css (Full code) */
 
 /* ------------------------------ */
 /* Variables & Basic Reset        */
@@ -35,7 +35,8 @@
 /* --- Reset Styles --- */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 body { font-family: var(--font-family); line-height: 1.6; background-color: var(--color-background); color: var(--color-text); padding: 0 var(--spacing-unit); display: flex; flex-direction: column; min-height: 100vh;}
-h2 { color: var(--color-text); margin-bottom: calc(var(--spacing-unit) * 3); font-weight: 600; text-align: center; }
+h1, h2, h3, h4, h5, h6 { color: var(--color-text); } /* General heading color */
+h1 { font-weight: 600; margin-bottom: calc(var(--spacing-unit) * 3); text-align: center; }
 h2 { font-weight: 500; margin-bottom: calc(var(--spacing-unit) * 2); }
 p { margin-bottom: calc(var(--spacing-unit) * 2); }
 ol, ul { list-style: none; }
@@ -214,3 +215,73 @@ button:disabled, .btn:disabled { cursor: not-allowed !important; background-colo
 @media (max-width: 768px) { /* Mobile Header: Stacked & Centered */ .app-header { flex-direction: column; height: auto; padding: var(--spacing-unit); gap: var(--spacing-unit); margin-bottom: calc(var(--spacing-unit) * 2); } #auth-section { order: 2; width: 100%; justify-content: center; } #user-status { width: auto; justify-content: center; flex-wrap: wrap; } #user-status > * { font-size: 0.9em; margin: 0 4px; } #user-status .btn-link, #user-status .btn-small { padding: 4px 6px; } #user-status strong { max-width: 150px; } .logo-container { order: 1; } body:not(.logged-out) #app-logo { margin-left: auto; margin-right: auto; margin-bottom: var(--spacing-unit); height: calc(var(--header-height) * 0.65); width: auto; max-height: 40px; } #edit-nickname-form { position: static; width: 100%; margin-top: var(--spacing-unit); box-shadow: none; border: 1px solid var(--color-border); background-color: var(--color-secondary-bg); } .container { margin-top: calc(var(--spacing-unit) * 2); } .legal-container { padding: calc(var(--spacing-unit) * 2); margin: var(--spacing-unit) auto; } .intro-text { margin-bottom: calc(var(--spacing-unit) * 3);} }
 @media (max-width: 700px) { #sticker-container { width: 220px; height: 220px; margin-bottom: calc(var(--spacing-unit) * 3); } .options-group { max-width: 90%; } #game-area { margin-top: var(--spacing-unit); } .options-group { gap: var(--spacing-unit); margin-bottom: calc(var(--spacing-unit) * 2); } .options-group button { padding: var(--spacing-unit); font-size: 0.9em;} .game-info { margin-top: 0; flex-direction: column; gap: var(--spacing-unit); } #timer, #score { font-size: 1em; padding: calc(var(--spacing-unit)*0.75) var(--spacing-unit); } #time-left, #current-score { font-size: 1.1em; } .difficulty-options-container { gap: calc(var(--spacing-unit) * 1.5); } }
 @media (max-width: 600px) { body { padding: 0; } .container { padding: 0 var(--spacing-unit); margin-top: calc(var(--spacing-unit) * 2); margin-bottom: calc(var(--spacing-unit) * 2); } .options-group { grid-template-columns: 1fr; } #result-area h2 { font-size: 2em; } #result-area .final-score-container { font-size: 1.5em; } #result-area #final-score { font-size: 1.8em; } #result-area #play-again { font-size: 1em; padding: calc(var(--spacing-unit) * 1.25) calc(var(--spacing-unit) * 2.5); } #leaderboard-filters { gap: var(--spacing-unit); } .filter-group { gap: calc(var(--spacing-unit) * 0.5); font-size: 0.9em; } .filter-group strong { display: block; width: 100%; margin-bottom: 5px; text-align: center; } .btn-filter { margin: 2px; } #leaderboard-list { max-width: 100%; padding: 0; } #leaderboard-list li { font-size: 0.9em; padding: var(--spacing-unit); } #leaderboard-list li::before { min-width: 2em; } body.logged-out #app-logo { width: 60%; max-width: 200px; } .about-photo-figure { width: 100%; } #difficulty-selection h2 { font-size: 1.5em; margin-bottom: var(--spacing-unit) * 1.5; } .difficulty-options-container { gap: var(--spacing-unit); } .difficulty-option button.difficulty-button { padding: calc(var(--spacing-unit) * 1.25) calc(var(--spacing-unit) * 2); font-size: 1em;} .difficulty-description { font-size: 0.8em;} }
+
+
+/* --- Catalogue Specific Styles --- */
+/* The main H1 title for the catalogue page (e.g., "Sticker Catalogue") */
+#catalogue-container > h1 {
+    font-size: 2em; /* Slightly larger for the main page title */
+    margin-bottom: calc(var(--spacing-unit) * 3);
+    text-align: center;
+}
+
+/* The H2 subtitle (e.g., "Countries by Continent") */
+#catalogue-content h2 {
+    font-size: 1.8em;
+    margin-top: calc(var(--spacing-unit) * 1); /* Reduced top margin */
+    margin-bottom: calc(var(--spacing-unit) * 2.5);
+    text-align: left; /* Align to the left for a list appearance */
+    border-bottom: 1px solid var(--color-border);
+    padding-bottom: var(--spacing-unit);
+}
+
+.continent-section {
+    margin-bottom: calc(var(--spacing-unit) * 3);
+    text-align: left; /* Ensure content within section is left-aligned */
+}
+
+.continent-section h3 { /* Continent Name (e.g., "Europe") */
+    font-size: 1.4em;
+    font-weight: 600;
+    color: var(--color-text);
+    margin-bottom: calc(var(--spacing-unit) * 1.5);
+    padding-bottom: calc(var(--spacing-unit) * 0.5);
+    border-bottom: 1px dashed var(--color-border);
+}
+
+.country-list {
+    list-style: none;
+    padding-left: 0; /* Remove default list padding */
+}
+
+.country-list li {
+    margin-bottom: var(--spacing-unit);
+    font-size: 1.1em;
+}
+
+.country-list li a {
+    text-decoration: none;
+    color: var(--color-link);
+    font-weight: 500;
+    padding: calc(var(--spacing-unit) * 0.5) 0; /* Add some padding for easier clicking */
+    display: inline-block; /* Allows padding to take effect */
+}
+
+.country-list li a:hover {
+    color: var(--color-link-hover);
+    text-decoration: underline;
+}
+
+/* Style for loading/error messages within the catalogue content area */
+#catalogue-content > p { /* Direct p children for messages */
+    font-size: 1em;
+    color: var(--color-info-text);
+    text-align: center;
+    margin-top: calc(var(--spacing-unit) * 3);
+    margin-bottom: calc(var(--spacing-unit) * 3);
+}
+
+/* Back to Catalogue Home link style */
+#catalogue-content p a { /* More specific if needed */
+    font-weight: 500;
+}
