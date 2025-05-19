@@ -350,9 +350,9 @@ async function loadCountryDetails(countryCode) {
     try {
         // 1. Fetch clubs for the given countryCode
         const { data: clubsInCountry, error: clubsError } = await supabaseClient
-            .from('clubs')
-            .select('id, name, country') // Select name and id
-            .eq('country', countryCode); // Filter by country code
+            .from('clubs') // This should be correct as per your confirmation
+            .select('id, name, country')
+            .eq('country', countryCode);
 
         if (clubsError) {
             console.error(`Error fetching clubs for ${countryCode}:`, clubsError);
@@ -361,7 +361,6 @@ async function loadCountryDetails(countryCode) {
         }
 
         if (!clubsInCountry || clubsInCountry.length === 0) {
-            // Keep the H2 heading when displaying "No clubs found"
             contentDiv.innerHTML = `<h2><span class="flag-emoji">${flagEmoji}</span> ${countryDisplayName} - Clubs</h2><p>No clubs found for ${countryDisplayName} in the catalogue.</p>`;
             contentDiv.innerHTML += `<p style="margin-top: 20px;"><a href="catalogue.html" class="btn btn-secondary btn-small">Back to All Countries</a></p>`;
             return;
@@ -370,17 +369,16 @@ async function loadCountryDetails(countryCode) {
         // 2. For each club, fetch its sticker count
         const clubsWithStickerCounts = [];
         for (const club of clubsInCountry) {
-            // Corrected sticker count query
             const { data, error: countError, count } = await supabaseClient
-                .from('stickers_dev') // <<< ENSURE 'stickers_dev' IS YOUR CORRECT STICKERS TABLE NAME
-                .select('*', { count: 'exact', head: false }) // Select nothing substantial, just get the count. head:false is important.
+                .from('stickers') // CORRECTED TABLE NAME TO 'stickers'
+                .select('*', { count: 'exact', head: false })
                 .eq('club_id', club.id);
 
             if (countError) {
                 console.warn(`Could not fetch sticker count for club ${club.name} (ID: ${club.id}):`, countError.message);
                 clubsWithStickerCounts.push({ ...club, stickerCount: 0, errorLoadingCount: true });
             } else {
-                clubsWithStickerCounts.push({ ...club, stickerCount: count === null ? 0 : count }); // Handle if count itself is null (e.g. no matching rows)
+                clubsWithStickerCounts.push({ ...club, stickerCount: count === null ? 0 : count });
             }
         }
 
@@ -398,7 +396,6 @@ async function loadCountryDetails(countryCode) {
         });
         htmlOutput += '</ul>';
 
-        // Keep the H2 heading and replace the "Loading clubs..." paragraph
         const currentH2 = contentDiv.querySelector('h2');
         contentDiv.innerHTML = (currentH2 ? currentH2.outerHTML : `<h2><span class="flag-emoji">${flagEmoji}</span> ${countryDisplayName} - Clubs</h2>`) + htmlOutput;
         contentDiv.innerHTML += `<p style="margin-top: 20px;"><a href="catalogue.html" class="btn btn-secondary btn-small">Back to All Countries</a></p>`;
