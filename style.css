@@ -16,7 +16,7 @@
     --color-disabled-bg: #E0E0E0;
     --color-disabled-text: #9E9E9E;
     --color-success: #28a745;
-    --color-error: #dc3545; /* Червоний для помилок і таймера */
+    --color-error: #dc3545;
     --color-error-bg: #f8d7da;
     --color-info-text: #555;
     --color-rank: #757575;
@@ -36,7 +36,7 @@
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 body { font-family: var(--font-family); line-height: 1.6; background-color: var(--color-background); color: var(--color-text); padding: 0 var(--spacing-unit); display: flex; flex-direction: column; min-height: 100vh;}
 h1, h2, h3, h4, h5, h6 { color: var(--color-text); } /* General heading color */
-h1 { font-weight: 600; margin-bottom: calc(var(--spacing-unit) * 3); text-align: center; }
+h1 { font-weight: 600; margin-bottom: calc(var(--spacing-unit) * 3); text-align: center; } /* Default H1, will be overridden by #catalogue-container > h1 for catalogue page */
 h2 { font-weight: 500; margin-bottom: calc(var(--spacing-unit) * 2); }
 p { margin-bottom: calc(var(--spacing-unit) * 2); }
 ol, ul { list-style: none; }
@@ -115,21 +115,20 @@ button:disabled, .btn:disabled { cursor: not-allowed !important; background-colo
 .options-group button.correct-answer { background-color: var(--color-success) !important; border-color: var(--color-success) !important; color: white !important; font-weight: 600; }
 .options-group button.incorrect-answer { background-color: var(--color-error) !important; border-color: var(--color-error) !important; color: white !important; opacity: 0.7; }
 
-/* --- Оновлено стилі Timer & Score --- */
+/* --- Game Info Timer & Score --- */
 .game-info { display: flex; justify-content: space-around; align-items: baseline; margin-top: calc(var(--spacing-unit) * 3); max-width: 300px; margin-left: auto; margin-right: auto; gap: calc(var(--spacing-unit) * 4); }
 #timer, #score {
-    font-size: 1.3em; /* Збільшено базовий розмір */
+    font-size: 1.3em;
     color: var(--color-info-text);
     font-weight: 500;
-    /* Видалено фон, рамку, падінги */
 }
 #time-left {
     display: inline-block;
     min-width: 2ch;
     text-align: right;
     font-weight: 700;
-    font-size: 1.5em; /* Збільшено цифри */
-    color: var(--color-text); /* Стандартний колір */
+    font-size: 1.5em;
+    color: var(--color-text);
     margin-left: calc(var(--spacing-unit) * 0.75);
     vertical-align: baseline;
     transition: color 0.3s ease;
@@ -137,31 +136,29 @@ button:disabled, .btn:disabled { cursor: not-allowed !important; background-colo
 #current-score {
     display: inline-block;
     font-weight: 700;
-    font-size: 1.5em; /* Збільшено цифри */
+    font-size: 1.5em;
     color: var(--color-text);
     margin-left: calc(var(--spacing-unit) * 0.75);
     vertical-align: baseline;
 }
-#time-left.low-time { /* Клас для останніх секунд */
+#time-left.low-time {
   color: var(--color-error);
 }
-#time-left.timer-tick-animation { /* Клас для анімації тіку */
-  color: var(--color-error) !important; /* Гарантуємо червоний під час анімації */
+#time-left.timer-tick-animation {
+  color: var(--color-error) !important;
   animation: timer-tick 0.35s ease-in-out;
 }
-/* -------------------------------- */
 
-/* --- Анімації --- */
+/* --- Animations --- */
 @keyframes score-bump { 0% { transform: scale(1); color: var(--color-text); } 50% { transform: scale(1.3); color: var(--color-accent-darker); } 100% { transform: scale(1); color: var(--color-text); } }
 @keyframes final-score-flash { 0% { opacity: 1; transform: scale(1); } 30% { opacity: 0.5; transform: scale(1.3); } 70% { opacity: 1; transform: scale(1.05); } 100% { opacity: 1; transform: scale(1); } }
 @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 @keyframes timer-tick { 0% { transform: scale(1); } 50% { transform: scale(1.4); } 100% { transform: scale(1); } }
 
-/* --- Класи Анімацій --- */
+/* --- Animation Classes --- */
 #score.score-updated { animation: score-bump 0.4s ease-out; }
 #final-score.final-score-animated { display: inline-block; animation: final-score-flash 1.1s ease-in-out; }
 #sticker-image.fade-in { animation: fadeIn 0.4s ease-out; }
-/* Клас timer-tick-animation додається/видаляється через JS */
 
 
 /* --- Result Area --- */
@@ -188,7 +185,18 @@ button:disabled, .btn:disabled { cursor: not-allowed !important; background-colo
 #error-message { color: var(--color-error); background-color: var(--color-error-bg); padding: var(--spacing-unit) calc(var(--spacing-unit) * 2); border-radius: var(--border-radius); margin-top: calc(var(--spacing-unit) * 2); border: 1px solid var(--color-error); display: inline-block; }
 
 /* --- Hover effects --- */
-@media (hover: hover) { .btn-primary:hover:not(:disabled) { background-color: var(--color-accent-darker); border-color: var(--color-accent-darker); box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15); } .btn-secondary:hover:not(:disabled) { background-color: var(--color-secondary-bg-hover); } .btn-link:hover { color: var(--color-link-hover); text-decoration: underline; } #show-leaderboard-header-button.btn-link:hover { color: var(--color-text); background-color: var(--color-secondary-bg-hover); text-decoration: none;} .btn-icon:hover:not(:disabled) { opacity: 1; } .btn-filter:hover:not(:disabled) { background-color: var(--color-secondary-bg-hover); opacity: 1; } #difficulty-selection .difficulty-option button.difficulty-button:hover:not(:disabled) { background-color: var(--color-accent); border-color: var(--color-accent); color: var(--color-accent-text); } .options-group button:hover:not(:disabled) { background-color: var(--color-accent); border-color: var(--color-accent); color: var(--color-accent-text); } #leaderboard-list li:hover { background-color: var(--color-secondary-bg-hover); } }
+@media (hover: hover) {
+    .btn-primary:hover:not(:disabled) { background-color: var(--color-accent-darker); border-color: var(--color-accent-darker); box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15); }
+    .btn-secondary:hover:not(:disabled) { background-color: var(--color-secondary-bg-hover); }
+    .btn-link:hover { color: var(--color-link-hover); text-decoration: underline; }
+    #show-leaderboard-header-button.btn-link:hover { color: var(--color-text); background-color: var(--color-secondary-bg-hover); text-decoration: none;}
+    .btn-icon:hover:not(:disabled) { opacity: 1; }
+    .btn-filter:hover:not(:disabled) { background-color: var(--color-secondary-bg-hover); opacity: 1; }
+    #difficulty-selection .difficulty-option button.difficulty-button:hover:not(:disabled) { background-color: var(--color-accent); border-color: var(--color-accent); color: var(--color-accent-text); }
+    .options-group button:hover:not(:disabled) { background-color: var(--color-accent); border-color: var(--color-accent); color: var(--color-accent-text); }
+    #leaderboard-list li:hover { background-color: var(--color-secondary-bg-hover); }
+    .country-list li a:hover { color: var(--color-link-hover); text-decoration: underline; } /* Added for catalogue links */
+}
 
 /* --- Footer Styling --- */
 .app-footer { text-align: center; margin-top: auto; padding: calc(var(--spacing-unit) * 3) 0; font-size: 0.85em; color: var(--color-footer-text); border-top: 1px solid var(--color-border); width: 100%; }
@@ -210,34 +218,26 @@ button:disabled, .btn:disabled { cursor: not-allowed !important; background-colo
 .twitter-link { font-weight: 500; }
 
 /* ------------------------------ */
-/* Responsiveness                 */
+/* Catalogue Specific Styles      */
 /* ------------------------------ */
-@media (max-width: 768px) { /* Mobile Header: Stacked & Centered */ .app-header { flex-direction: column; height: auto; padding: var(--spacing-unit); gap: var(--spacing-unit); margin-bottom: calc(var(--spacing-unit) * 2); } #auth-section { order: 2; width: 100%; justify-content: center; } #user-status { width: auto; justify-content: center; flex-wrap: wrap; } #user-status > * { font-size: 0.9em; margin: 0 4px; } #user-status .btn-link, #user-status .btn-small { padding: 4px 6px; } #user-status strong { max-width: 150px; } .logo-container { order: 1; } body:not(.logged-out) #app-logo { margin-left: auto; margin-right: auto; margin-bottom: var(--spacing-unit); height: calc(var(--header-height) * 0.65); width: auto; max-height: 40px; } #edit-nickname-form { position: static; width: 100%; margin-top: var(--spacing-unit); box-shadow: none; border: 1px solid var(--color-border); background-color: var(--color-secondary-bg); } .container { margin-top: calc(var(--spacing-unit) * 2); } .legal-container { padding: calc(var(--spacing-unit) * 2); margin: var(--spacing-unit) auto; } .intro-text { margin-bottom: calc(var(--spacing-unit) * 3);} }
-@media (max-width: 700px) { #sticker-container { width: 220px; height: 220px; margin-bottom: calc(var(--spacing-unit) * 3); } .options-group { max-width: 90%; } #game-area { margin-top: var(--spacing-unit); } .options-group { gap: var(--spacing-unit); margin-bottom: calc(var(--spacing-unit) * 2); } .options-group button { padding: var(--spacing-unit); font-size: 0.9em;} .game-info { margin-top: 0; flex-direction: column; gap: var(--spacing-unit); } #timer, #score { font-size: 1em; padding: calc(var(--spacing-unit)*0.75) var(--spacing-unit); } #time-left, #current-score { font-size: 1.1em; } .difficulty-options-container { gap: calc(var(--spacing-unit) * 1.5); } }
-@media (max-width: 600px) { body { padding: 0; } .container { padding: 0 var(--spacing-unit); margin-top: calc(var(--spacing-unit) * 2); margin-bottom: calc(var(--spacing-unit) * 2); } .options-group { grid-template-columns: 1fr; } #result-area h2 { font-size: 2em; } #result-area .final-score-container { font-size: 1.5em; } #result-area #final-score { font-size: 1.8em; } #result-area #play-again { font-size: 1em; padding: calc(var(--spacing-unit) * 1.25) calc(var(--spacing-unit) * 2.5); } #leaderboard-filters { gap: var(--spacing-unit); } .filter-group { gap: calc(var(--spacing-unit) * 0.5); font-size: 0.9em; } .filter-group strong { display: block; width: 100%; margin-bottom: 5px; text-align: center; } .btn-filter { margin: 2px; } #leaderboard-list { max-width: 100%; padding: 0; } #leaderboard-list li { font-size: 0.9em; padding: var(--spacing-unit); } #leaderboard-list li::before { min-width: 2em; } body.logged-out #app-logo { width: 60%; max-width: 200px; } .about-photo-figure { width: 100%; } #difficulty-selection h2 { font-size: 1.5em; margin-bottom: var(--spacing-unit) * 1.5; } .difficulty-options-container { gap: var(--spacing-unit); } .difficulty-option button.difficulty-button { padding: calc(var(--spacing-unit) * 1.25) calc(var(--spacing-unit) * 2); font-size: 1em;} .difficulty-description { font-size: 0.8em;} }
-
-
-/* --- Catalogue Specific Styles --- */
-/* The main H1 title for the catalogue page (e.g., "Sticker Catalogue") */
-#catalogue-container > h1 {
-    font-size: 2em; /* Slightly larger for the main page title */
+#catalogue-container > h1 { /* The main H1 title for the catalogue page (e.g., "Sticker Catalogue") */
+    font-size: 2em;
     margin-bottom: calc(var(--spacing-unit) * 3);
     text-align: center;
 }
 
-/* The H2 subtitle (e.g., "Countries by Continent") */
-#catalogue-content h2 {
+#catalogue-content h2 { /* The H2 subtitle (e.g., "Countries by Continent") */
     font-size: 1.8em;
-    margin-top: calc(var(--spacing-unit) * 1); /* Reduced top margin */
+    margin-top: calc(var(--spacing-unit) * 1);
     margin-bottom: calc(var(--spacing-unit) * 2.5);
-    text-align: left; /* Align to the left for a list appearance */
+    text-align: left;
     border-bottom: 1px solid var(--color-border);
     padding-bottom: var(--spacing-unit);
 }
 
 .continent-section {
     margin-bottom: calc(var(--spacing-unit) * 3);
-    text-align: left; /* Ensure content within section is left-aligned */
+    text-align: left;
 }
 
 .continent-section h3 { /* Continent Name (e.g., "Europe") */
@@ -251,7 +251,7 @@ button:disabled, .btn:disabled { cursor: not-allowed !important; background-colo
 
 .country-list {
     list-style: none;
-    padding-left: 0; /* Remove default list padding */
+    padding-left: 0;
 }
 
 .country-list li {
@@ -263,17 +263,19 @@ button:disabled, .btn:disabled { cursor: not-allowed !important; background-colo
     text-decoration: none;
     color: var(--color-link);
     font-weight: 500;
-    padding: calc(var(--spacing-unit) * 0.5) 0; /* Add some padding for easier clicking */
-    display: inline-block; /* Allows padding to take effect */
+    padding: calc(var(--spacing-unit) * 0.5) 0;
+    display: inline-block;
+    line-height: 1.3; /* Improve alignment with flag emoji */
+}
+/* Hover effect for country list links is already covered by the global @media (hover: hover) section */
+
+.flag-emoji {
+    margin-right: calc(var(--spacing-unit) * 1); /* Space between flag and country name */
+    font-size: 1.2em; /* Slightly larger flags, adjust as needed */
+    vertical-align: middle; /* Helps align emoji with text */
 }
 
-.country-list li a:hover {
-    color: var(--color-link-hover);
-    text-decoration: underline;
-}
-
-/* Style for loading/error messages within the catalogue content area */
-#catalogue-content > p { /* Direct p children for messages */
+#catalogue-content > p { /* Direct p children for messages (loading, error, etc.) */
     font-size: 1em;
     color: var(--color-info-text);
     text-align: center;
@@ -281,7 +283,66 @@ button:disabled, .btn:disabled { cursor: not-allowed !important; background-colo
     margin-bottom: calc(var(--spacing-unit) * 3);
 }
 
-/* Back to Catalogue Home link style */
-#catalogue-content p a { /* More specific if needed */
+#catalogue-content p a { /* For "Back to Catalogue Home" links etc. inside #catalogue-content */
     font-weight: 500;
+    /* color: var(--color-link); Inherits from .country-list a if not specific enough, but good to have */
+}
+
+
+/* ------------------------------ */
+/* Responsiveness                 */
+/* ------------------------------ */
+@media (max-width: 768px) {
+    .app-header { flex-direction: column; height: auto; padding: var(--spacing-unit); gap: var(--spacing-unit); margin-bottom: calc(var(--spacing-unit) * 2); }
+    #auth-section { order: 2; width: 100%; justify-content: center; }
+    #user-status { width: auto; justify-content: center; flex-wrap: wrap; }
+    #user-status > * { font-size: 0.9em; margin: 0 4px; }
+    #user-status .btn-link, #user-status .btn-small { padding: 4px 6px; }
+    #user-status strong { max-width: 150px; }
+    .logo-container { order: 1; }
+    body:not(.logged-out) #app-logo { margin-left: auto; margin-right: auto; margin-bottom: var(--spacing-unit); height: calc(var(--header-height) * 0.65); width: auto; max-height: 40px; }
+    #edit-nickname-form { position: static; width: 100%; margin-top: var(--spacing-unit); box-shadow: none; border: 1px solid var(--color-border); background-color: var(--color-secondary-bg); }
+    .container { margin-top: calc(var(--spacing-unit) * 2); }
+    .legal-container { padding: calc(var(--spacing-unit) * 2); margin: var(--spacing-unit) auto; }
+    .intro-text { margin-bottom: calc(var(--spacing-unit) * 3);}
+}
+@media (max-width: 700px) {
+    #sticker-container { width: 220px; height: 220px; margin-bottom: calc(var(--spacing-unit) * 3); }
+    .options-group { max-width: 90%; }
+    #game-area { margin-top: var(--spacing-unit); }
+    .options-group { gap: var(--spacing-unit); margin-bottom: calc(var(--spacing-unit) * 2); }
+    .options-group button { padding: var(--spacing-unit); font-size: 0.9em;}
+    .game-info { margin-top: 0; flex-direction: column; gap: var(--spacing-unit); }
+    #timer, #score { font-size: 1em; padding: calc(var(--spacing-unit)*0.75) var(--spacing-unit); }
+    #time-left, #current-score { font-size: 1.1em; }
+    .difficulty-options-container { gap: calc(var(--spacing-unit) * 1.5); }
+}
+@media (max-width: 600px) {
+    body { padding: 0; }
+    .container { padding: 0 var(--spacing-unit); margin-top: calc(var(--spacing-unit) * 2); margin-bottom: calc(var(--spacing-unit) * 2); }
+    .options-group { grid-template-columns: 1fr; }
+    #result-area h2 { font-size: 2em; }
+    #result-area .final-score-container { font-size: 1.5em; }
+    #result-area #final-score { font-size: 1.8em; }
+    #result-area #play-again { font-size: 1em; padding: calc(var(--spacing-unit) * 1.25) calc(var(--spacing-unit) * 2.5); }
+    #leaderboard-filters { gap: var(--spacing-unit); }
+    .filter-group { gap: calc(var(--spacing-unit) * 0.5); font-size: 0.9em; }
+    .filter-group strong { display: block; width: 100%; margin-bottom: 5px; text-align: center; }
+    .btn-filter { margin: 2px; }
+    #leaderboard-list { max-width: 100%; padding: 0; } /* Was #leaderboard-list { max-width: 100%; padding: 0 var(--spacing-unit); } */
+    #leaderboard-list li { font-size: 0.9em; padding: var(--spacing-unit); }
+    #leaderboard-list li::before { min-width: 2em; }
+    body.logged-out #app-logo { width: 60%; max-width: 200px; }
+    .about-photo-figure { width: 100%; }
+    #difficulty-selection h2 { font-size: 1.5em; margin-bottom: var(--spacing-unit) * 1.5; }
+    .difficulty-options-container { gap: var(--spacing-unit); }
+    .difficulty-option button.difficulty-button { padding: calc(var(--spacing-unit) * 1.25) calc(var(--spacing-unit) * 2); font-size: 1em;}
+    .difficulty-description { font-size: 0.8em;}
+
+    /* Catalogue specific responsiveness adjustments for small screens */
+    #catalogue-container > h1 { font-size: 1.8em; }
+    #catalogue-content h2 { font-size: 1.5em; }
+    .continent-section h3 { font-size: 1.2em; }
+    .country-list li { font-size: 1em; }
+    .flag-emoji { font-size: 1.1em; }
 }
