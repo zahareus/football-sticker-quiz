@@ -359,7 +359,7 @@ async function loadCountryDetails(countryCode) {
             const clubsWithStickerCounts = [];
             for (const club of clubsInCountry) {
                 const { error: countError, count } = await supabaseClient
-                    .from('stickers') // CORRECTED: Using 'stickers' table
+                    .from('stickers') // Using 'stickers' table
                     .select('*', { count: 'exact', head: false })
                     .eq('club_id', club.id);
 
@@ -431,7 +431,7 @@ async function loadClubDetails(clubId) {
             backButtonUrl = `catalogue.html?country=${clubData.country}`;
             backButtonText = `Back to ${countryDisplayName} Clubs`;
 
-            const { data: stickers, error: stickersError } = await supabaseClient
+            const { data: stickersResponse, error: stickersError } = await supabaseClient // Renamed to avoid conflict with stickers variable name
                 .from('stickers') // CORRECTED: Using 'stickers' table
                 .select('id, image_url')
                 .eq('club_id', clubId)
@@ -440,11 +440,11 @@ async function loadClubDetails(clubId) {
             if (stickersError) {
                 console.error(`Error fetching stickers for club ID ${clubId}:`, stickersError);
                 contentBodyHtml = `<p>Could not load stickers for this club: ${stickersError.message}</p>`;
-            } else if (!stickers || stickers.length === 0) {
+            } else if (!stickersResponse || stickersResponse.length === 0) {
                 contentBodyHtml = '<p>No stickers found for this club.</p>';
             } else {
                 let galleryHtml = '<div class="sticker-gallery">';
-                stickers.forEach(sticker => {
+                stickersResponse.forEach(sticker => { // Use stickersResponse here
                     galleryHtml += `
                         <a href="catalogue.html?sticker_id=${sticker.id}" class="sticker-preview-link">
                             <img src="${sticker.image_url}" alt="Sticker ID ${sticker.id} for ${clubData.name}" class="sticker-preview-image">
@@ -482,7 +482,7 @@ async function loadStickerDetails(stickerId) {
 
     try {
         const { data: sticker, error: stickerError } = await supabaseClient
-            .from('stickers') // CORRECTED: Using 'stickers' table
+            .from('stickers') 
             .select(`
                 id, 
                 image_url, 
