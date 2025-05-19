@@ -184,7 +184,7 @@ const countryCodeToDetails_Generic = {
     "ZWE": { name: "Zimbabwe", continent: "Africa" },
     "ENG": { name: "England", continent: "Europe" },
     "SCO": { name: "Scotland", continent: "Europe" },
-    "WAL": { name: "Wales", continent: "Europe" },
+    "WLS": { name: "Wales", continent: "Europe" },
     // Add more countries as needed, using their 3-letter ISO codes.
     // FIFA codes might sometimes differ (e.g., ENG, SCO, WAL for GBR components).
     // For simplicity, we'll stick to ISO 3166-1 alpha-3 codes where possible,
