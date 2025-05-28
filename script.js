@@ -352,7 +352,7 @@ async function loadNewQuestion(isQuickTransition = false) {
 
     try {
         if (!supabaseClient) throw new Error("Supabase client lost.");
-        console.log("Fetching sticker...");
+        console.log("Fetching sticker data from Supabase..."); // More specific log
         const { count: stickerCount, error: countError } = await supabaseClient
             .from('stickers')
             .select('*', { count: 'exact', head: true })
@@ -366,19 +366,19 @@ async function loadNewQuestion(isQuickTransition = false) {
             .from('stickers')
             .select(`image_url, clubs ( id, name )`)
             .eq('difficulty', selectedDifficulty)
-            .order('id', { ascending: true }) // It's good to have an order for deterministic random sampling if possible, or just consistency
+            .order('id', { ascending: true })
             .range(randomIndex, randomIndex)
             .single();
 
         if (stickerError) throw new Error(`Sticker fetch error: ${stickerError.message}`);
-        if (!randomStickerData || !randomStickerData.clubs) throw new Error("Incomplete sticker/club data.");
+        if (!randomStickerData || !randomStickerData.clubs) throw new Error("Incomplete sticker/club data from Supabase.");
 
         const correctClubName = randomStickerData.clubs.name;
         const imageUrl = randomStickerData.image_url;
-        console.log(`Correct answer: ${correctClubName}`);
+        console.log(`Correct answer determined: ${correctClubName}, Image URL: ${imageUrl}`);
 
         if (allClubNames.length < 4) {
-            throw new Error("Not enough club names loaded.");
+            throw new Error("Not enough club names loaded to generate options.");
         }
 
         const potentialOptions = allClubNames.filter(name => name !== correctClubName);
@@ -392,43 +392,41 @@ async function loadNewQuestion(isQuickTransition = false) {
 
         const allOptions = [correctClubName, ...incorrectOptions].sort(() => 0.5 - Math.random());
 
-        console.log(`Preloading image: ${imageUrl}`);
+        console.log(`Attempting to preload image: ${imageUrl}`);
+        // This Promise must either resolve successfully or reject with an error
+        // that will be caught by the outer `catch` block.
         await new Promise((resolve, reject) => {
             const img = new Image();
             img.onload = () => {
-                console.log(`Image preloaded: ${imageUrl}`);
+                console.log(`Image successfully preloaded: ${imageUrl}`);
                 resolve();
             };
-            img.onerror = (err) => {
-                console.error(`Failed preload: ${imageUrl}`, err);
-                // Pass a more informative error object if possible, or a custom one
-                reject(new Error(`Image preloading failed for ${imageUrl}. Status: ${err.type || 'unknown'}`)); 
+            img.onerror = (event) => { // 'event' is an Event object
+                console.error(`Failed to preload image (img.onerror event): ${imageUrl}`, event);
+                // Create a new Error object to be rejected
+                reject(new Error(`Image preloading failed for ${imageUrl}. Event type: ${event.type || 'unknown'}`));
             };
             img.src = imageUrl;
         });
         
-        // Define questionDataForDisplay only AFTER successful preload
+        // This part should only execute if the await new Promise above resolves successfully.
+        // If it rejects, the execution should jump to the catch block below.
         const questionDataForDisplay = { imageUrl: imageUrl, options: allOptions, correctAnswer: correctClubName };
-        console.log("Returning preloaded question data.");
+        console.log("Returning question data after successful image preload.");
         return questionDataForDisplay;
 
     } catch (error) {
-        console.error("Error loadNewQuestion:", error);
-        // Ensure showError is called with a meaningful message from the error object
+        // This catch block is intended to handle any error from the try block,
+        // including errors from Supabase calls, option generation, or the image preloading Promise.
+        console.error("Error in loadNewQuestion (this should catch preload errors too):", error);
         showError(`Loading Error: ${error.message || 'Failed to load question'}`);
-        return null;
+        return null; // Ensure null is returned on any error
     } finally {
-        // hideLoading should only be called here if it was shown in this function's scope
-        // and not in a quick transition.
+        // This block executes regardless of try/catch outcome.
+        // Only hide loading if it was shown for a full load, not a quick transition.
         if (!isQuickTransition) {
             hideLoading();
         }
-        // If isQuickTransition is true, loading indicator might be handled by the calling function
-        // or not shown at all. If it *was* shown by the caller for a quick transition,
-        // it should be hidden by the caller.
-        // For simplicity, the current finally block is okay, 
-        // but if !isQuickTransition, hideLoading() is called, which is correct.
-        // If isQuickTransition, hideLoading() is not called from here.
     }
 }
 function endGame() { console.log(`Game Over! Score: ${currentScore}`); stopTimer(); if(finalScoreElement) { finalScoreElement.textContent = currentScore; finalScoreElement.classList.remove('final-score-animated'); void finalScoreElement.offsetWidth; finalScoreElement.classList.add('final-score-animated'); } if(gameAreaElement) gameAreaElement.style.display = 'none'; if(resultAreaElement) { const msg = resultAreaElement.querySelector('.save-message'); if(msg) msg.remove(); resultAreaElement.style.display = 'block'; } if(difficultySelectionElement) difficultySelectionElement.style.display = 'none'; if(introTextElement) introTextElement.style.display = 'block'; saveScore(); }
