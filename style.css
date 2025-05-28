@@ -134,7 +134,25 @@ button:disabled, .btn:disabled { cursor: not-allowed !important; background-colo
 #sticker-image[alt*="Loading"], #sticker-image[alt*="Error"] { width: 50px; height: 50px; }
 #sticker-image.fade-in { animation: fadeIn 0.4s ease-out; }
 .options-group { display: grid; grid-template-columns: repeat(2, 1fr); gap: calc(var(--spacing-unit) * 1.5); max-width: 600px; margin: 0 auto; }
-.options-group button { width: 100%; margin: 0; background-color: var(--color-background); border: 1px solid var(--color-border); color: var(--color-text); font-weight: 400; padding: calc(var(--spacing-unit) * 1.5) var(--spacing-unit); }
+.options-group button {
+    width: 100%; 
+    margin: 0;
+    background-color: var(--color-background);
+    border: 1px solid var(--color-border);
+    color: var(--color-text);
+    font-weight: 400; /* Existing */
+    
+    /* --- New/Modified styles for fixed size and text handling --- */
+    height: 4.5em; 
+    padding: 0.5em var(--spacing-unit); /* Adjusted padding */
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center; /* Should be inherited from .btn but good to ensure */
+}
 .options-group button.correct-answer { background-color: var(--color-success) !important; border-color: var(--color-success) !important; color: white !important; font-weight: 600; }
 .options-group button.incorrect-answer { background-color: var(--color-error) !important; border-color: var(--color-error) !important; color: white !important; opacity: 0.7; }
 
@@ -460,6 +478,12 @@ button:disabled, .btn:disabled { cursor: not-allowed !important; background-colo
     body { padding: 0; }
     .container { padding: 0 var(--spacing-unit); margin-top: calc(var(--spacing-unit) * 2); margin-bottom: calc(var(--spacing-unit) * 2); }
     .options-group { grid-template-columns: 1fr; }
+    .options-group button {
+        height: 4em; /* Slightly smaller height */
+        /* Consider reducing font-size if text often gets truncated on mobile */
+        /* font-size: 0.9em; */ 
+        /* padding might also need slight adjustment if height/font changes */
+    }
     #result-area h2 { font-size: 2em; }
     #result-area .final-score-container { font-size: 1.5em; }
     #result-area #final-score { font-size: 1.8em; }
