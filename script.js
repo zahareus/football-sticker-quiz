@@ -41,7 +41,7 @@ let allClubNames = [];
 let clubNamesLoaded = false;
 
 // ----- 4. DOM Element References -----
-let gameAreaElement, stickerImageElement, optionsContainerElement, timeLeftElement, currentScoreElement, resultAreaElement, finalScoreElement, playAgainButton, authSectionElement, loginButton, userStatusElement, logoutButton, difficultySelectionElement, loadingIndicator, errorMessageElement;
+let gameAreaElement, stickerImageElement, optionsContainerElement, timeLeftElement, currentScoreElement, resultAreaElement, finalScoreElement, playAgainButton, authSectionElement, loginButton, userStatusElement, logoutButton, difficultySelectionElement, loadingIndicator, errorMessageElement, stickerLoadingIndicatorElement; // Added stickerLoadingIndicatorElement
 let difficultyButtons;
 let leaderboardSectionElement, leaderboardListElement, closeLeaderboardButton;
 let showLeaderboardHeaderButton;
@@ -59,8 +59,8 @@ function truncateString(str, num = 12) { if (!str) return ''; if (str.length <= 
 
 // Initialize DOM Elements
 function initializeDOMElements() {
-    gameAreaElement = document.getElementById('game-area'); stickerImageElement = document.getElementById('sticker-image'); optionsContainerElement = document.getElementById('options'); timeLeftElement = document.getElementById('time-left'); currentScoreElement = document.getElementById('current-score'); scoreDisplayElement = document.getElementById('score'); resultAreaElement = document.getElementById('result-area'); finalScoreElement = document.getElementById('final-score'); playAgainButton = document.getElementById('play-again'); authSectionElement = document.getElementById('auth-section'); loginButton = document.getElementById('login-button'); userStatusElement = document.getElementById('user-status'); userNicknameElement = document.getElementById('user-nickname'); logoutButton = document.getElementById('logout-button'); difficultySelectionElement = document.getElementById('difficulty-selection'); loadingIndicator = document.getElementById('loading-indicator'); errorMessageElement = document.getElementById('error-message'); difficultyButtons = document.querySelectorAll('.difficulty-option .difficulty-button'); leaderboardSectionElement = document.getElementById('leaderboard-section'); leaderboardListElement = document.getElementById('leaderboard-list'); closeLeaderboardButton = document.getElementById('close-leaderboard-button'); showLeaderboardHeaderButton = document.getElementById('show-leaderboard-header-button'); leaderboardTimeFilterButtons = document.querySelectorAll('.leaderboard-time-filter'); leaderboardDifficultyFilterButtons = document.querySelectorAll('.leaderboard-difficulty-filter'); editNicknameForm = document.getElementById('edit-nickname-form'); nicknameInputElement = document.getElementById('nickname-input'); cancelEditNicknameButton = document.getElementById('cancel-edit-nickname-button'); landingPageElement = document.getElementById('landing-page'); landingLoginButton = document.getElementById('landing-login-button'); landingLeaderboardButton = document.getElementById('landing-leaderboard-button'); introTextElement = document.getElementById('intro-text-element');
-    const elements = { gameAreaElement, stickerImageElement, optionsContainerElement, timeLeftElement, currentScoreElement, scoreDisplayElement, resultAreaElement, finalScoreElement, playAgainButton, authSectionElement, loginButton, userStatusElement, userNicknameElement, logoutButton, difficultySelectionElement, leaderboardSectionElement, leaderboardListElement, closeLeaderboardButton, showLeaderboardHeaderButton, loadingIndicator, errorMessageElement, editNicknameForm, nicknameInputElement, cancelEditNicknameButton, landingPageElement, landingLoginButton, landingLeaderboardButton, introTextElement }; let allFound = true; for (const key in elements) { if (!elements[key]) { const idName = key.replace(/([A-Z])/g, '-$1').toLowerCase().replace('-element', '').replace('-button', '').replace('-display', ''); console.error(`Error: Could not find DOM element with expected ID near '${idName}'! Check HTML.`); allFound = false; } } if (!difficultyButtons || difficultyButtons.length !== 3) { console.error(`Error: Found ${difficultyButtons?.length || 0} difficulty buttons, expected 3! Check selector '.difficulty-option .difficulty-button'.`); allFound = false; } if (!leaderboardTimeFilterButtons || leaderboardTimeFilterButtons.length === 0) { console.error("Error: Could not find leaderboard time filter buttons!"); allFound = false; } if (!leaderboardDifficultyFilterButtons || leaderboardDifficultyFilterButtons.length === 0) { console.error("Error: Could not find leaderboard difficulty filter buttons!"); allFound = false; } if (!allFound) { console.error("initializeDOMElements: Not all required elements found."); handleCriticalError("UI Error: Missing page elements."); return false; }
+    gameAreaElement = document.getElementById('game-area'); stickerImageElement = document.getElementById('sticker-image'); optionsContainerElement = document.getElementById('options'); timeLeftElement = document.getElementById('time-left'); currentScoreElement = document.getElementById('current-score'); scoreDisplayElement = document.getElementById('score'); resultAreaElement = document.getElementById('result-area'); finalScoreElement = document.getElementById('final-score'); playAgainButton = document.getElementById('play-again'); authSectionElement = document.getElementById('auth-section'); loginButton = document.getElementById('login-button'); userStatusElement = document.getElementById('user-status'); userNicknameElement = document.getElementById('user-nickname'); logoutButton = document.getElementById('logout-button'); difficultySelectionElement = document.getElementById('difficulty-selection'); loadingIndicator = document.getElementById('loading-indicator'); errorMessageElement = document.getElementById('error-message'); difficultyButtons = document.querySelectorAll('.difficulty-option .difficulty-button'); leaderboardSectionElement = document.getElementById('leaderboard-section'); leaderboardListElement = document.getElementById('leaderboard-list'); closeLeaderboardButton = document.getElementById('close-leaderboard-button'); showLeaderboardHeaderButton = document.getElementById('show-leaderboard-header-button'); leaderboardTimeFilterButtons = document.querySelectorAll('.leaderboard-time-filter'); leaderboardDifficultyFilterButtons = document.querySelectorAll('.leaderboard-difficulty-filter'); editNicknameForm = document.getElementById('edit-nickname-form'); nicknameInputElement = document.getElementById('nickname-input'); cancelEditNicknameButton = document.getElementById('cancel-edit-nickname-button'); landingPageElement = document.getElementById('landing-page'); landingLoginButton = document.getElementById('landing-login-button'); landingLeaderboardButton = document.getElementById('landing-leaderboard-button'); introTextElement = document.getElementById('intro-text-element'); stickerLoadingIndicatorElement = document.getElementById('sticker-loading-indicator'); // Added this line
+    const elements = { gameAreaElement, stickerImageElement, optionsContainerElement, timeLeftElement, currentScoreElement, scoreDisplayElement, resultAreaElement, finalScoreElement, playAgainButton, authSectionElement, loginButton, userStatusElement, userNicknameElement, logoutButton, difficultySelectionElement, leaderboardSectionElement, leaderboardListElement, closeLeaderboardButton, showLeaderboardHeaderButton, loadingIndicator, errorMessageElement, editNicknameForm, nicknameInputElement, cancelEditNicknameButton, landingPageElement, landingLoginButton, landingLeaderboardButton, introTextElement, stickerLoadingIndicatorElement }; let allFound = true; for (const key in elements) { if (!elements[key]) { const idName = key.replace(/([A-Z])/g, '-$1').toLowerCase().replace('-element', '').replace('-button', '').replace('-display', ''); console.error(`Error: Could not find DOM element with expected ID near '${idName}'! Check HTML.`); allFound = false; } } if (!difficultyButtons || difficultyButtons.length !== 3) { console.error(`Error: Found ${difficultyButtons?.length || 0} difficulty buttons, expected 3! Check selector '.difficulty-option .difficulty-button'.`); allFound = false; } if (!leaderboardTimeFilterButtons || leaderboardTimeFilterButtons.length === 0) { console.error("Error: Could not find leaderboard time filter buttons!"); allFound = false; } if (!leaderboardDifficultyFilterButtons || leaderboardDifficultyFilterButtons.length === 0) { console.error("Error: Could not find leaderboard difficulty filter buttons!"); allFound = false; } if (!allFound) { console.error("initializeDOMElements: Not all required elements found."); handleCriticalError("UI Error: Missing page elements."); return false; }
 
     // --- Add Event Listeners ---
     playAgainButton.addEventListener('click', showDifficultySelection); loginButton.addEventListener('click', loginWithGoogle); landingLoginButton.addEventListener('click', loginWithGoogle); logoutButton.addEventListener('click', logout); difficultyButtons.forEach(button => { button.addEventListener('click', handleDifficultySelection); }); if (showLeaderboardHeaderButton) showLeaderboardHeaderButton.addEventListener('click', openLeaderboard); if (landingLeaderboardButton) landingLeaderboardButton.addEventListener('click', openLeaderboard); closeLeaderboardButton.addEventListener('click', closeLeaderboard); leaderboardTimeFilterButtons.forEach(button => { button.addEventListener('click', handleTimeFilterChange); }); leaderboardDifficultyFilterButtons.forEach(button => { button.addEventListener('click', handleDifficultyFilterChange); }); userNicknameElement.addEventListener('click', showNicknameEditForm); editNicknameForm.addEventListener('submit', handleNicknameSave); cancelEditNicknameButton.addEventListener('click', hideNicknameEditForm);
@@ -98,10 +98,171 @@ function hideNicknameEditForm() { if (!editNicknameForm || !nicknameInputElement
 async function handleNicknameSave(event) { event.preventDefault(); if (!currentUser || !nicknameInputElement || !supabaseClient || !currentUserProfile) { showError("Cannot save."); return; } const newNickname = nicknameInputElement.value.trim(); if (!newNickname || newNickname.length < 3 || newNickname.length > 25) { showError("3-25 chars needed."); return; } if (newNickname === currentUserProfile.username) { hideNicknameEditForm(); return; } showLoading(); hideError(); try { const { data: updatedData, error } = await supabaseClient .from('profiles') .update({ username: newNickname, updated_at: new Date() }) .eq('id', currentUser.id) .select('username') .single(); if (error) throw error; console.log("Nickname updated:", updatedData); currentUserProfile.username = updatedData.username; if (userNicknameElement) { userNicknameElement.textContent = truncateString(updatedData.username); } hideNicknameEditForm(); showError("Nickname updated!"); setTimeout(hideError, 2500); if (leaderboardSectionElement?.style.display === 'block') { updateLeaderboard(); } } catch (error) { console.error("Error updating nickname:", error); showError(`Update failed: ${error.message}`); } finally { hideLoading(); } }
 
 // ----- 6. Display Question Function -----
-function displayQuestion(questionData) { if (!questionData || !stickerImageElement || !optionsContainerElement || !timeLeftElement || !currentScoreElement || !gameAreaElement || !resultAreaElement) { showError("Error displaying question."); endGame(); return; } currentQuestionData = questionData; hideError(); if (stickerImageElement) { stickerImageElement.classList.remove('fade-in'); void stickerImageElement.offsetWidth; } stickerImageElement.src = questionData.imageUrl; stickerImageElement.alt = "Club Sticker"; if (stickerImageElement) { stickerImageElement.classList.add('fade-in'); } stickerImageElement.onerror = () => { console.error(`Error loading image AFTER preload: ${questionData.imageUrl}`); showError("Failed to display image."); stickerImageElement.alt = "Error"; stickerImageElement.src = ""; setTimeout(endGame, 500); }; optionsContainerElement.innerHTML = ''; if (questionData.options && Array.isArray(questionData.options)) { questionData.options.forEach((optionText) => { const button = document.createElement('button'); button.className = 'btn'; button.textContent = optionText; button.disabled = false; button.classList.remove('correct-answer', 'incorrect-answer'); button.addEventListener('click', () => handleAnswer(optionText)); optionsContainerElement.appendChild(button); }); } else { showError("Error displaying options."); setTimeout(endGame, 500); return; } timeLeft = 10; if(timeLeftElement) { timeLeftElement.textContent = timeLeft; timeLeftElement.classList.remove('low-time'); /* Скидаємо червоний колір */ } if(currentScoreElement) currentScoreElement.textContent = currentScore; if(gameAreaElement) gameAreaElement.style.display = 'block'; if(resultAreaElement) resultAreaElement.style.display = 'none'; startTimer(); }
+function displayQuestion(questionData) {
+    if (!questionData || !optionsContainerElement || !timeLeftElement || !currentScoreElement || !gameAreaElement || !resultAreaElement) {
+        showError("Error displaying question (core elements missing).");
+        endGame();
+        return;
+    }
+
+    currentQuestionData = questionData;
+    hideError();
+
+    if (stickerLoadingIndicatorElement) stickerLoadingIndicatorElement.style.display = 'flex'; // Or 'block'
+    if (stickerImageElement) {
+        stickerImageElement.style.display = 'none'; // Hide image while loading new one
+        stickerImageElement.src = ''; // Clear previous image
+    }
+    
+    if (stickerImageElement) {
+        stickerImageElement.classList.remove('fade-in'); 
+        void stickerImageElement.offsetWidth; // Trigger reflow if needed for animation restart
+        
+        stickerImageElement.src = questionData.imageUrl;
+        stickerImageElement.alt = "Club Sticker";
+
+        stickerImageElement.onload = () => {
+            if (stickerLoadingIndicatorElement) stickerLoadingIndicatorElement.style.display = 'none';
+            stickerImageElement.style.display = 'block'; // Or its default (e.g. 'inline-block' if that was it)
+            stickerImageElement.classList.add('fade-in');
+        };
+        stickerImageElement.onerror = () => {
+            console.error(`Error loading image: ${questionData.imageUrl}`);
+            if (stickerLoadingIndicatorElement) stickerLoadingIndicatorElement.style.display = 'none';
+            if (stickerImageElement) stickerImageElement.style.display = 'block'; // Show for alt text
+            showError("Failed to display image.");
+            stickerImageElement.alt = "Error loading image";
+            stickerImageElement.src = ""; // Clear broken src
+            // Consider if endGame() is too abrupt here, or if a "next question" attempt should be made.
+            // For now, following the existing pattern of ending game on critical display issue.
+            setTimeout(endGame, 500); 
+        };
+    } else {
+        // If stickerImageElement itself is missing (which initializeDOMElements should prevent)
+        if (stickerLoadingIndicatorElement) stickerLoadingIndicatorElement.style.display = 'none';
+        showError("Error displaying question (image element missing).");
+        endGame();
+        return;
+    }
+
+    optionsContainerElement.innerHTML = '';
+    if (questionData.options && Array.isArray(questionData.options)) {
+        questionData.options.forEach((optionText) => {
+            const button = document.createElement('button');
+            button.className = 'btn';
+            button.textContent = optionText;
+            button.disabled = false;
+            button.classList.remove('correct-answer', 'incorrect-answer');
+            button.addEventListener('click', () => handleAnswer(optionText));
+            optionsContainerElement.appendChild(button);
+        });
+    } else {
+        showError("Error displaying options.");
+        setTimeout(endGame, 500);
+        return;
+    }
+
+    timeLeft = 10;
+    if(timeLeftElement) {
+        timeLeftElement.textContent = timeLeft;
+        timeLeftElement.classList.remove('low-time'); 
+    }
+    if(currentScoreElement) currentScoreElement.textContent = currentScore;
+    if(gameAreaElement) gameAreaElement.style.display = 'block';
+    if(resultAreaElement) resultAreaElement.style.display = 'none';
+    startTimer();
+}
 
 // ----- 7. Handle User Answer Function -----
-async function handleAnswer(selectedOption) { stopTimer(); hideError(); if (!currentQuestionData || !optionsContainerElement) { return; } const buttons = optionsContainerElement.querySelectorAll('button'); buttons.forEach(button => button.disabled = true); const isCorrect = selectedOption === currentQuestionData.correctAnswer; let selectedButton = null; let correctButton = null; buttons.forEach(button => { if (button.textContent === selectedOption) { selectedButton = button; } if (button.textContent === currentQuestionData.correctAnswer) { correctButton = button; } }); if (isCorrect) { currentScore++; if (currentScoreElement) currentScoreElement.textContent = currentScore; if (scoreDisplayElement) { scoreDisplayElement.classList.remove('score-updated'); void scoreDisplayElement.offsetWidth; scoreDisplayElement.classList.add('score-updated'); } if (selectedButton) { selectedButton.classList.add('correct-answer'); } console.log("Correct: Preloading..."); let nextQuestionPromise = loadNewQuestion(true); console.log("Waiting 1.5s..."); await new Promise(resolve => setTimeout(resolve, 1500)); if (selectedButton) { selectedButton.classList.remove('correct-answer'); } console.log("Waiting 0.5s..."); await new Promise(resolve => setTimeout(resolve, 500)); try { console.log("Waiting preload finish..."); const questionData = await nextQuestionPromise; console.log("Preload finished."); if (questionData) { displayQuestion(questionData); } else { console.error("Correct: Failed preload."); endGame(); } } catch (error) { console.error("Correct: Error awaiting preload:", error); endGame(); } } else { if (selectedButton) { selectedButton.classList.add('incorrect-answer'); } if (correctButton) { correctButton.classList.add('correct-answer'); } console.log("Incorrect: Waiting 1.5s..."); await new Promise(resolve => setTimeout(resolve, 1500)); if (selectedButton) { selectedButton.classList.remove('incorrect-answer'); } if (correctButton) { correctButton.classList.remove('correct-answer'); } console.log("Incorrect: Waiting 0.5s..."); await new Promise(resolve => setTimeout(resolve, 500)); endGame(); } }
+async function handleAnswer(selectedOption) {
+    stopTimer();
+    hideError();
+    if (!currentQuestionData || !optionsContainerElement) {
+        return;
+    }
+
+    const buttons = optionsContainerElement.querySelectorAll('button');
+    buttons.forEach(button => button.disabled = true);
+
+    const isCorrect = selectedOption === currentQuestionData.correctAnswer;
+    let selectedButton = null;
+    let correctButton = null;
+
+    buttons.forEach(button => {
+        if (button.textContent === selectedOption) {
+            selectedButton = button;
+        }
+        if (button.textContent === currentQuestionData.correctAnswer) {
+            correctButton = button;
+        }
+    });
+
+    if (isCorrect) {
+        currentScore++;
+        if (currentScoreElement) currentScoreElement.textContent = currentScore;
+        if (scoreDisplayElement) {
+            scoreDisplayElement.classList.remove('score-updated');
+            void scoreDisplayElement.offsetWidth; // Reflow to restart animation
+            scoreDisplayElement.classList.add('score-updated');
+        }
+        if (selectedButton) {
+            selectedButton.classList.add('correct-answer');
+        }
+
+        console.log("Correct: Preloading next question...");
+        try {
+            // Directly await the preloading and data fetching
+            const questionData = await loadNewQuestion(true); // isQuickTransition = true
+
+            if (selectedButton) { // Remove highlight just before new question is displayed
+                selectedButton.classList.remove('correct-answer');
+            }
+
+            if (questionData) {
+                console.log("Preload finished. Displaying question.");
+                displayQuestion(questionData);
+            } else {
+                console.error("Correct: Failed to load next question data after preload.");
+                // Ensure UI cleanup even if questionData is null
+                if (correctButton && correctButton !== selectedButton) { // If a different button was the correct one
+                    correctButton.classList.remove('correct-answer'); // Potentially remove its highlight if it was shown
+                }
+                endGame();
+            }
+        } catch (error) {
+            // This catch block will handle errors from loadNewQuestion (including image preload failure)
+            console.error("Correct: Error loading or preloading next question:", error);
+            if (selectedButton) {
+                selectedButton.classList.remove('correct-answer');
+            }
+            if (correctButton && correctButton !== selectedButton) { // If a different button was the correct one
+                 correctButton.classList.remove('correct-answer');
+            }
+            endGame();
+        }
+    } else { // Incorrect answer
+        if (selectedButton) {
+            selectedButton.classList.add('incorrect-answer');
+        }
+        if (correctButton) {
+            correctButton.classList.add('correct-answer'); // Highlight the correct one
+        }
+
+        console.log("Incorrect: Waiting 1.5s...");
+        await new Promise(resolve => setTimeout(resolve, 1500));
+
+        if (selectedButton) {
+            selectedButton.classList.remove('incorrect-answer');
+        }
+        if (correctButton) {
+            correctButton.classList.remove('correct-answer');
+        }
+        
+        console.log("Incorrect: Waiting 0.5s...");
+        await new Promise(resolve => setTimeout(resolve, 500)); // Short delay before ending game
+        endGame();
+    }
+}
 
 // ----- 8. Timer Functions (Оновлено для анімації та кольору) -----
 function startTimer() {
@@ -165,7 +326,111 @@ function showDifficultySelection() { hideError(); if (!difficultySelectionElemen
 function handleDifficultySelection(event) { const difficulty = parseInt(event.target.dataset.difficulty, 10); if (![1, 2, 3].includes(difficulty)) { return; } selectedDifficulty = difficulty; console.log(`Difficulty ${selectedDifficulty} selected.`); if(difficultySelectionElement) difficultySelectionElement.style.display = 'none'; if(introTextElement) introTextElement.style.display = 'none'; startGame(); }
 async function startGame() { hideError(); if (selectedDifficulty === null || ![1, 2, 3].includes(selectedDifficulty)) { showDifficultySelection(); return; } if (!gameAreaElement || !currentScoreElement || !resultAreaElement || !optionsContainerElement) { if (!initializeDOMElements()) { handleCriticalError("Failed init."); return; } } currentScore = 0; if (currentScoreElement) currentScoreElement.textContent = 0; if (resultAreaElement) { const msg = resultAreaElement.querySelector('.save-message'); if(msg) msg.remove(); resultAreaElement.style.display = 'none'; } if(difficultySelectionElement) difficultySelectionElement.style.display = 'none'; if(introTextElement) introTextElement.style.display = 'none'; if (gameAreaElement) gameAreaElement.style.display = 'block'; if (optionsContainerElement) { optionsContainerElement.innerHTML = ''; } if(landingPageElement) landingPageElement.style.display = 'none'; console.log(`Starting game: Diff ${selectedDifficulty}`); await loadNextQuestion(); }
 async function loadNextQuestion(isQuickTransition = false) { const questionData = await loadNewQuestion(isQuickTransition); if (questionData) { displayQuestion(questionData); } else { console.error("loadNextQuestion: Failed. Ending game."); if(gameAreaElement) gameAreaElement.style.display = 'none'; if(resultAreaElement) { resultAreaElement.style.display = 'block'; if(finalScoreElement) finalScoreElement.textContent = currentScore; } if(introTextElement) introTextElement.style.display = 'block'; } }
-async function loadNewQuestion(isQuickTransition = false) { if (!supabaseClient) { showError("DB connection error."); return null; } if (selectedDifficulty === null) { showError("No difficulty selected."); return null; } if (!clubNamesLoaded) { console.log("Club names not loaded..."); showLoading(); const loaded = await loadAllClubNames(); hideLoading(); if (!loaded) { showError("Failed to load essential game data."); return null; } } if (!isQuickTransition) { showLoading(); } hideError(); try { if (!supabaseClient) throw new Error("Supabase client lost."); console.log("Fetching sticker..."); const { count: stickerCount, error: countError } = await supabaseClient .from('stickers') .select('*', { count: 'exact', head: true }) .eq('difficulty', selectedDifficulty); if (countError) throw new Error(`Sticker count error: ${countError.message}`); if (stickerCount === null || stickerCount === 0) throw new Error(`No stickers for difficulty ${selectedDifficulty}.`); const randomIndex = Math.floor(Math.random() * stickerCount); const { data: randomStickerData, error: stickerError } = await supabaseClient .from('stickers') .select(`image_url, clubs ( id, name )`) .eq('difficulty', selectedDifficulty) .order('id', { ascending: true }) .range(randomIndex, randomIndex) .single(); if (stickerError) throw new Error(`Sticker fetch error: ${stickerError.message}`); if (!randomStickerData || !randomStickerData.clubs) throw new Error("Incomplete sticker/club data."); const correctClubName = randomStickerData.clubs.name; const imageUrl = randomStickerData.image_url; console.log(`Correct answer: ${correctClubName}`); if (allClubNames.length < 4) { throw new Error("Not enough club names loaded."); } const potentialOptions = allClubNames.filter(name => name !== correctClubName); potentialOptions.sort(() => 0.5 - Math.random()); const incorrectOptions = potentialOptions.slice(0, 3); if (incorrectOptions.length < 3) { throw new Error("Failed to get 3 distinct incorrect options."); } console.log("Incorrect options chosen:", incorrectOptions); const allOptions = [correctClubName, ...incorrectOptions].sort(() => 0.5 - Math.random()); const questionDataForDisplay = { imageUrl: imageUrl, options: allOptions, correctAnswer: correctClubName }; console.log(`Preloading image: ${imageUrl}`); await new Promise((resolve) => { const img = new Image(); img.onload = () => { console.log(`Image preloaded: ${imageUrl}`); resolve(); }; img.onerror = (err) => { console.error(`Failed preload: ${imageUrl}`, err); resolve(); }; img.src = imageUrl; }); console.log("Returning preloaded question data."); return questionDataForDisplay; } catch (error) { console.error("Error loadNewQuestion:", error); showError(`Loading Error: ${error.message || 'Failed to load question'}`); return null; } finally { hideLoading(); } }
+async function loadNewQuestion(isQuickTransition = false) {
+    if (!supabaseClient) {
+        showError("DB connection error.");
+        return null;
+    }
+    if (selectedDifficulty === null) {
+        showError("No difficulty selected.");
+        return null;
+    }
+    if (!clubNamesLoaded) {
+        console.log("Club names not loaded...");
+        showLoading();
+        const loaded = await loadAllClubNames();
+        hideLoading();
+        if (!loaded) {
+            showError("Failed to load essential game data.");
+            return null;
+        }
+    }
+    if (!isQuickTransition) {
+        showLoading();
+    }
+    hideError();
+
+    try {
+        if (!supabaseClient) throw new Error("Supabase client lost.");
+        console.log("Fetching sticker...");
+        const { count: stickerCount, error: countError } = await supabaseClient
+            .from('stickers')
+            .select('*', { count: 'exact', head: true })
+            .eq('difficulty', selectedDifficulty);
+
+        if (countError) throw new Error(`Sticker count error: ${countError.message}`);
+        if (stickerCount === null || stickerCount === 0) throw new Error(`No stickers for difficulty ${selectedDifficulty}.`);
+
+        const randomIndex = Math.floor(Math.random() * stickerCount);
+        const { data: randomStickerData, error: stickerError } = await supabaseClient
+            .from('stickers')
+            .select(`image_url, clubs ( id, name )`)
+            .eq('difficulty', selectedDifficulty)
+            .order('id', { ascending: true }) // It's good to have an order for deterministic random sampling if possible, or just consistency
+            .range(randomIndex, randomIndex)
+            .single();
+
+        if (stickerError) throw new Error(`Sticker fetch error: ${stickerError.message}`);
+        if (!randomStickerData || !randomStickerData.clubs) throw new Error("Incomplete sticker/club data.");
+
+        const correctClubName = randomStickerData.clubs.name;
+        const imageUrl = randomStickerData.image_url;
+        console.log(`Correct answer: ${correctClubName}`);
+
+        if (allClubNames.length < 4) {
+            throw new Error("Not enough club names loaded.");
+        }
+
+        const potentialOptions = allClubNames.filter(name => name !== correctClubName);
+        potentialOptions.sort(() => 0.5 - Math.random()); 
+        const incorrectOptions = potentialOptions.slice(0, 3);
+
+        if (incorrectOptions.length < 3) {
+            throw new Error("Failed to get 3 distinct incorrect options.");
+        }
+        console.log("Incorrect options chosen:", incorrectOptions);
+
+        const allOptions = [correctClubName, ...incorrectOptions].sort(() => 0.5 - Math.random());
+
+        console.log(`Preloading image: ${imageUrl}`);
+        await new Promise((resolve, reject) => {
+            const img = new Image();
+            img.onload = () => {
+                console.log(`Image preloaded: ${imageUrl}`);
+                resolve();
+            };
+            img.onerror = (err) => {
+                console.error(`Failed preload: ${imageUrl}`, err);
+                // Pass a more informative error object if possible, or a custom one
+                reject(new Error(`Image preloading failed for ${imageUrl}. Status: ${err.type || 'unknown'}`)); 
+            };
+            img.src = imageUrl;
+        });
+        
+        // Define questionDataForDisplay only AFTER successful preload
+        const questionDataForDisplay = { imageUrl: imageUrl, options: allOptions, correctAnswer: correctClubName };
+        console.log("Returning preloaded question data.");
+        return questionDataForDisplay;
+
+    } catch (error) {
+        console.error("Error loadNewQuestion:", error);
+        // Ensure showError is called with a meaningful message from the error object
+        showError(`Loading Error: ${error.message || 'Failed to load question'}`);
+        return null;
+    } finally {
+        // hideLoading should only be called here if it was shown in this function's scope
+        // and not in a quick transition.
+        if (!isQuickTransition) {
+            hideLoading();
+        }
+        // If isQuickTransition is true, loading indicator might be handled by the calling function
+        // or not shown at all. If it *was* shown by the caller for a quick transition,
+        // it should be hidden by the caller.
+        // For simplicity, the current finally block is okay, 
+        // but if !isQuickTransition, hideLoading() is called, which is correct.
+        // If isQuickTransition, hideLoading() is not called from here.
+    }
+}
 function endGame() { console.log(`Game Over! Score: ${currentScore}`); stopTimer(); if(finalScoreElement) { finalScoreElement.textContent = currentScore; finalScoreElement.classList.remove('final-score-animated'); void finalScoreElement.offsetWidth; finalScoreElement.classList.add('final-score-animated'); } if(gameAreaElement) gameAreaElement.style.display = 'none'; if(resultAreaElement) { const msg = resultAreaElement.querySelector('.save-message'); if(msg) msg.remove(); resultAreaElement.style.display = 'block'; } if(difficultySelectionElement) difficultySelectionElement.style.display = 'none'; if(introTextElement) introTextElement.style.display = 'block'; saveScore(); }
 async function saveScore() { if (!currentUser) { return; } if (typeof currentScore !== 'number' || currentScore < 0) { return; } if (selectedDifficulty === null) { return; } if (currentScore === 0) { return; } console.log(`Saving score: ${currentScore}, Diff: ${selectedDifficulty}`); showLoading(); let detectedCountryCode = null; try { const { error } = await supabaseClient .from('scores') .insert({ user_id: currentUser.id, score: currentScore, difficulty: selectedDifficulty, country_code: detectedCountryCode }); if (error) { throw error; } console.log("Score saved!"); } catch (error) { console.error("Error saving score:", error); showError(`Failed to save score: ${error.message}`); } finally { hideLoading(); } }
 

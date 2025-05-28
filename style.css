@@ -106,7 +106,30 @@ button:disabled, .btn:disabled { cursor: not-allowed !important; background-colo
 /* Game Area                      */
 /* ------------------------------ */
 #game-area { margin-top: calc(var(--spacing-unit) * 3); }
-#sticker-container { width: 300px; height: 300px; margin: 0 auto calc(var(--spacing-unit) * 4) auto; background-color: var(--color-secondary-bg); border: 1px solid var(--color-border); border-radius: var(--border-radius); overflow: hidden; display: flex; align-items: center; justify-content: center; }
+#sticker-container { 
+    width: 300px; 
+    height: 300px; 
+    margin: 0 auto calc(var(--spacing-unit) * 4) auto; 
+    background-color: var(--color-secondary-bg); 
+    border: 1px solid var(--color-border); 
+    border-radius: var(--border-radius); 
+    overflow: hidden; 
+    display: flex; 
+    align-items: center; 
+    justify-content: center; 
+    position: relative; /* Added for loading indicator positioning */
+}
+#sticker-loading-indicator {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: none; /* Initially hidden, controlled by JS */
+    font-size: 1em; 
+    color: #888; 
+    padding: 10px;
+    text-align: center; /* Ensure text is centered if it wraps */
+}
 #sticker-image { width: 100%; height: 100%; object-fit: contain; }
 #sticker-image[alt*="Loading"], #sticker-image[alt*="Error"] { width: 50px; height: 50px; }
 #sticker-image.fade-in { animation: fadeIn 0.4s ease-out; }
