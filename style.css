@@ -24,6 +24,8 @@
     --color-link-hover: #0056b3;
     --color-separator-text: #adb5bd;
     --color-footer-text: #6c757d;
+
+
     --border-radius: 8px;
     --container-width: 800px;
     --spacing-unit: 8px;
@@ -103,107 +105,48 @@ button:disabled, .btn:disabled { cursor: not-allowed !important; background-colo
 /* ------------------------------ */
 /* Game Area                      */
 /* ------------------------------ */
-#game-area { margin-top: calc(var(--spacing-unit) * 2); }
-#sticker-container { width: 300px; height: 300px; margin: 0 auto calc(var(--spacing-unit) * 3) auto; background-color: var(--color-secondary-bg); border: 1px solid var(--color-border); border-radius: var(--border-radius); overflow: hidden; display: flex; align-items: center; justify-content: center; }
+#game-area { margin-top: calc(var(--spacing-unit) * 3); }
+#sticker-container { width: 300px; height: 300px; margin: 0 auto calc(var(--spacing-unit) * 4) auto; background-color: var(--color-secondary-bg); border: 1px solid var(--color-border); border-radius: var(--border-radius); overflow: hidden; display: flex; align-items: center; justify-content: center; }
 #sticker-image { width: 100%; height: 100%; object-fit: contain; }
 #sticker-image[alt*="Loading"], #sticker-image[alt*="Error"] { width: 50px; height: 50px; }
 #sticker-image.fade-in { animation: fadeIn 0.4s ease-out; }
-
 .options-group {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: calc(var(--spacing-unit) * 1.5);
     max-width: 600px;
-    margin: 0 auto calc(var(--spacing-unit) * 2) auto;
+    margin: 0 auto;
 }
-
-/* Спеціальні стилі для кнопок варіантів відповідей */
-.options-group .quiz-option-btn {
-    /* ФІКСОВАНІ РОЗМІРИ */
-    width: 100% !important;
-    min-width: 0 !important;
-    max-width: none !important;
-    height: calc(var(--spacing-unit) * 7) !important; /* 56px фіксована висота */
-    
-    /* Скидання всіх margin/padding */
-    margin: 0 !important;
-    padding: calc(var(--spacing-unit) * 0.75) calc(var(--spacing-unit) * 1) !important;
-    
-    /* Базові стилі */
+.options-group button {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 100%;
+    margin: 0;
     background-color: var(--color-background);
     border: 1px solid var(--color-border);
     color: var(--color-text);
     font-weight: 400;
-    font-size: 1em;
-    border-radius: var(--border-radius);
-    cursor: pointer;
-    transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
-    
-    /* Текстові властивості */
+    padding: 0 calc(var(--spacing-unit) * 1.5);
+    height: calc(var(--spacing-unit) * 7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
     text-align: center;
-    vertical-align: top;
-    word-wrap: break-word;
-    overflow-wrap: break-word;
-    hyphens: auto;
-    line-height: 1.2;
+    white-space: nowrap;
     overflow: hidden;
-    
-    /* Flexbox для центрування */
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    flex-shrink: 0 !important;
-    flex-grow: 0 !important;
-    flex-basis: auto !important;
+    text-overflow: ellipsis;
 }
-
-/* Мобільні налаштування */
-@media (max-width: 700px) {
-    #game-area { margin-top: var(--spacing-unit); }
-    #sticker-container { 
-        width: 200px; 
-        height: 200px; 
-        margin-bottom: calc(var(--spacing-unit) * 2); 
-    }
-    
+@media (max-width: 600px) {
     .options-group {
         grid-template-columns: 1fr;
-        gap: var(--spacing-unit);
-        margin-bottom: var(--spacing-unit);
-    }
-    
-    .options-group .quiz-option-btn {
-        height: calc(var(--spacing-unit) * 6) !important; /* 48px для мобільних */
-        font-size: 0.9em !important;
-        padding: calc(var(--spacing-unit) * 0.5) calc(var(--spacing-unit) * 0.75) !important;
-        line-height: 1.1 !important;
     }
 }
-
-@media (max-width: 600px) {
-    .options-group .quiz-option-btn {
-        height: calc(var(--spacing-unit) * 5.5) !important; /* 44px для дуже маленьких екранів */
-        font-size: 0.85em !important;
-        padding: calc(var(--spacing-unit) * 0.5) calc(var(--spacing-unit) * 0.5) !important;
-    }
-}
-
-.options-group .quiz-option-btn.correct-answer { 
-    background-color: var(--color-success) !important; 
-    border-color: var(--color-success) !important; 
-    color: white !important; 
-    font-weight: 600 !important; 
-}
-
-.options-group .quiz-option-btn.incorrect-answer { 
-    background-color: var(--color-error) !important; 
-    border-color: var(--color-error) !important; 
-    color: white !important; 
-    opacity: 0.7 !important; 
-}
+.options-group button.correct-answer { background-color: var(--color-success) !important; border-color: var(--color-success) !important; color: white !important; font-weight: 600; }
+.options-group button.incorrect-answer { background-color: var(--color-error) !important; border-color: var(--color-error) !important; color: white !important; opacity: 0.7; }
 
 /* --- Game Info Timer & Score --- */
-.game-info { display: flex; justify-content: space-around; align-items: baseline; margin-top: calc(var(--spacing-unit) * 2); max-width: 300px; margin-left: auto; margin-right: auto; gap: calc(var(--spacing-unit) * 4); }
+.game-info { display: flex; justify-content: space-around; align-items: baseline; margin-top: calc(var(--spacing-unit) * 3); max-width: 300px; margin-left: auto; margin-right: auto; gap: calc(var(--spacing-unit) * 4); }
 #timer, #score {
     font-size: 1.3em;
     color: var(--color-info-text);
@@ -236,22 +179,6 @@ button:disabled, .btn:disabled { cursor: not-allowed !important; background-colo
   animation: timer-tick 0.35s ease-in-out;
 }
 
-@media (max-width: 700px) {
-    .game-info { 
-        margin-top: var(--spacing-unit); 
-        flex-direction: column; 
-        gap: calc(var(--spacing-unit) * 0.5); 
-        margin-bottom: calc(var(--spacing-unit) * 2);
-    }
-    #timer, #score { 
-        font-size: 1.1em; 
-        padding: calc(var(--spacing-unit)*0.5) var(--spacing-unit); 
-    }
-    #time-left, #current-score { 
-        font-size: 1.2em; 
-    }
-}
-
 /* --- Animations --- */
 @keyframes score-bump { 0% { transform: scale(1); color: var(--color-text); } 50% { transform: scale(1.3); color: var(--color-accent-darker); } 100% { transform: scale(1); color: var(--color-text); } }
 @keyframes final-score-flash { 0% { opacity: 1; transform: scale(1); } 30% { opacity: 0.5; transform: scale(1.3); } 70% { opacity: 1; transform: scale(1.05); } 100% { opacity: 1; transform: scale(1); } }
@@ -262,6 +189,7 @@ button:disabled, .btn:disabled { cursor: not-allowed !important; background-colo
 #score.score-updated { animation: score-bump 0.4s ease-out; }
 #final-score.final-score-animated { display: inline-block; animation: final-score-flash 1.1s ease-in-out; }
 #sticker-image.fade-in { animation: fadeIn 0.4s ease-out; }
+
 
 /* --- Result Area --- */
 #result-area { margin-top: calc(var(--spacing-unit) * 4); padding: calc(var(--spacing-unit) * 3) calc(var(--spacing-unit) * 2); }
@@ -295,7 +223,7 @@ button:disabled, .btn:disabled { cursor: not-allowed !important; background-colo
     .btn-icon:hover:not(:disabled) { opacity: 1; }
     .btn-filter:hover:not(:disabled) { background-color: var(--color-secondary-bg-hover); opacity: 1; }
     #difficulty-selection .difficulty-option button.difficulty-button:hover:not(:disabled) { background-color: var(--color-accent); border-color: var(--color-accent); color: var(--color-accent-text); }
-    .options-group .quiz-option-btn:hover:not(:disabled) { background-color: var(--color-accent); border-color: var(--color-accent); color: var(--color-accent-text); }
+    .options-group button:hover:not(:disabled) { background-color: var(--color-accent); border-color: var(--color-accent); color: var(--color-accent-text); }
     #leaderboard-list li:hover { background-color: var(--color-secondary-bg-hover); }
     .country-list li a:hover { color: var(--color-link-hover); text-decoration: underline; } /* Added for catalogue links */
 }
@@ -323,10 +251,11 @@ button:disabled, .btn:disabled { cursor: not-allowed !important; background-colo
 /* Catalogue Specific Styles      */
 /* ------------------------------ */
 
+
 /* --- Breadcrumbs Styling --- */
 #catalogue-breadcrumbs {
-    margin-bottom: calc(var(--spacing-unit) * 2.5); /* Відступ під breadcrumbs */
-    text-align: left; /* Вирівнювання по лівому краю */
+    margin-bottom: calc(var(--spacing-unit) * 2.5); /* Ð’Ñ–Ð´ÑÑ‚ÑƒÐ¿ Ð¿Ñ–Ð´ breadcrumbs */
+    text-align: left; /* Ð’Ð¸Ñ€Ñ–Ð²Ð½ÑŽÐ²Ð°Ð½Ð½Ñ Ð¿Ð¾ Ð»Ñ–Ð²Ð¾Ð¼Ñƒ ÐºÑ€Ð°ÑŽ */
     font-size: 0.9em;
     padding-bottom: var(--spacing-unit);
     border-bottom: 1px solid var(--color-border);
@@ -336,12 +265,12 @@ button:disabled, .btn:disabled { cursor: not-allowed !important; background-colo
     list-style: none;
     padding: 0;
     margin: 0;
-    display: flex; /* Розміщуємо елементи в ряд */
-    flex-wrap: wrap; /* Дозволяємо переносити на новий рядок, якщо не вміщаються */
+    display: flex; /* Ð Ð¾Ð·Ð¼Ñ–Ñ‰ÑƒÑ”Ð¼Ð¾ ÐµÐ»ÐµÐ¼ÐµÐ½Ñ‚Ð¸ Ð² Ñ€ÑÐ´ */
+    flex-wrap: wrap; /* Ð”Ð¾Ð·Ð²Ð¾Ð»ÑÑ”Ð¼Ð¾ Ð¿ÐµÑ€ÐµÐ½Ð¾ÑÐ¸Ñ‚Ð¸ Ð½Ð° Ð½Ð¾Ð²Ð¸Ð¹ Ñ€ÑÐ´Ð¾Ðº, ÑÐºÑ‰Ð¾ Ð½Ðµ Ð²Ð¼Ñ–Ñ‰Ð°ÑŽÑ‚ÑŒÑÑ */
 }
 
 .breadcrumb-item {
-    display: inline-flex; /* Для правильного відображення розділювача */
+    display: inline-flex; /* Ð”Ð»Ñ Ð¿Ñ€Ð°Ð²Ð¸Ð»ÑŒÐ½Ð¾Ð³Ð¾ Ð²Ñ–Ð´Ð¾Ð±Ñ€Ð°Ð¶ÐµÐ½Ð½Ñ Ñ€Ð¾Ð·Ð´Ñ–Ð»ÑŽÐ²Ð°Ñ‡Ð° */
     align-items: center;
 }
 
@@ -356,18 +285,18 @@ button:disabled, .btn:disabled { cursor: not-allowed !important; background-colo
     text-decoration: underline;
 }
 
-.breadcrumb-item span { /* Для останнього елемента, який не є посиланням */
-    color: var(--color-text); /* Або var(--color-info-text) для менш яскравого */
+.breadcrumb-item span { /* Ð”Ð»Ñ Ð¾ÑÑ‚Ð°Ð½Ð½ÑŒÐ¾Ð³Ð¾ ÐµÐ»ÐµÐ¼ÐµÐ½Ñ‚Ð°, ÑÐºÐ¸Ð¹ Ð½Ðµ Ñ” Ð¿Ð¾ÑÐ¸Ð»Ð°Ð½Ð½ÑÐ¼ */
+    color: var(--color-text); /* ÐÐ±Ð¾ var(--color-info-text) Ð´Ð»Ñ Ð¼ÐµÐ½Ñˆ ÑÑÐºÑ€Ð°Ð²Ð¾Ð³Ð¾ */
     font-weight: 500;
 }
 
-.breadcrumb-item::after { /* Розділювач */
-    content: '>'; /* Можна використовувати інший символ, наприклад / або → */
+.breadcrumb-item::after { /* Ð Ð¾Ð·Ð´Ñ–Ð»ÑŽÐ²Ð°Ñ‡ */
+    content: '>'; /* ÐœÐ¾Ð¶Ð½Ð° Ð²Ð¸ÐºÐ¾Ñ€Ð¸ÑÑ‚Ð¾Ð²ÑƒÐ²Ð°Ñ‚Ð¸ Ñ–Ð½ÑˆÐ¸Ð¹ ÑÐ¸Ð¼Ð²Ð¾Ð», Ð½Ð°Ð¿Ñ€Ð¸ÐºÐ»Ð°Ð´ / Ð°Ð±Ð¾ â†’ */
     margin: 0 calc(var(--spacing-unit) * 0.75);
     color: var(--color-separator-text);
 }
 
-.breadcrumb-item:last-child::after { /* Прибираємо розділювач для останнього елемента */
+.breadcrumb-item:last-child::after { /* ÐŸÑ€Ð¸Ð±Ð¸Ñ€Ð°Ñ”Ð¼Ð¾ Ñ€Ð¾Ð·Ð´Ñ–Ð»ÑŽÐ²Ð°Ñ‡ Ð´Ð»Ñ Ð¾ÑÑ‚Ð°Ð½Ð½ÑŒÐ¾Ð³Ð¾ ÐµÐ»ÐµÐ¼ÐµÐ½Ñ‚Ð° */
     content: '';
     margin: 0;
 }
@@ -379,7 +308,7 @@ button:disabled, .btn:disabled { cursor: not-allowed !important; background-colo
 
 .sticker-gallery {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); /* Адаптивна сітка */
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); /* ÐÐ´Ð°Ð¿Ñ‚Ð¸Ð²Ð½Ð° ÑÑ–Ñ‚ÐºÐ° */
     gap: var(--spacing-unit);
     margin-top: calc(var(--spacing-unit) * 2);
     text-align: left;
@@ -391,7 +320,7 @@ button:disabled, .btn:disabled { cursor: not-allowed !important; background-colo
     border-radius: var(--border-radius);
     overflow: hidden;
     background-color: var(--color-secondary-bg);
-    aspect-ratio: 1 / 1; /* Робить прев'ю квадратними */
+    aspect-ratio: 1 / 1; /* Ð Ð¾Ð±Ð¸Ñ‚ÑŒ Ð¿Ñ€ÐµÐ²'ÑŽ ÐºÐ²Ð°Ð´Ñ€Ð°Ñ‚Ð½Ð¸Ð¼Ð¸ */
     transition: box-shadow 0.2s ease;
 }
 
@@ -403,7 +332,7 @@ button:disabled, .btn:disabled { cursor: not-allowed !important; background-colo
 .sticker-preview-image {
     width: 100%;
     height: 100%;
-    object-fit: contain; /* Або 'cover', якщо хочеш заповнювати квадрат */
+    object-fit: contain; /* ÐÐ±Ð¾ 'cover', ÑÐºÑ‰Ð¾ Ñ…Ð¾Ñ‡ÐµÑˆ Ð·Ð°Ð¿Ð¾Ð²Ð½ÑŽÐ²Ð°Ñ‚Ð¸ ÐºÐ²Ð°Ð´Ñ€Ð°Ñ‚ */
     display: block;
 }
 
@@ -478,32 +407,32 @@ button:disabled, .btn:disabled { cursor: not-allowed !important; background-colo
 .club-list {
     list-style: none;
     padding-left: 0;
-    margin-top: calc(var(--spacing-unit) * 2); /* Відступ зверху від заголовка країни */
-    text-align: left; /* Вирівнювання списку клубів по лівому краю */
+    margin-top: calc(var(--spacing-unit) * 2); /* Ð’Ñ–Ð´ÑÑ‚ÑƒÐ¿ Ð·Ð²ÐµÑ€Ñ…Ñƒ Ð²Ñ–Ð´ Ð·Ð°Ð³Ð¾Ð»Ð¾Ð²ÐºÐ° ÐºÑ€Ð°Ñ—Ð½Ð¸ */
+    text-align: left; /* Ð’Ð¸Ñ€Ñ–Ð²Ð½ÑŽÐ²Ð°Ð½Ð½Ñ ÑÐ¿Ð¸ÑÐºÑƒ ÐºÐ»ÑƒÐ±Ñ–Ð² Ð¿Ð¾ Ð»Ñ–Ð²Ð¾Ð¼Ñƒ ÐºÑ€Ð°ÑŽ */
 }
 
 .club-list li {
     margin-bottom: var(--spacing-unit);
-    font-size: 1.1em; /* Розмір тексту як у списку країн */
-    padding: calc(var(--spacing-unit) * 0.5) calc(var(--spacing-unit) * 1); /* Трохи відступів */
-    border-bottom: 1px solid var(--color-border); /* Розділювач між клубами */
+    font-size: 1.1em; /* Ð Ð¾Ð·Ð¼Ñ–Ñ€ Ñ‚ÐµÐºÑÑ‚Ñƒ ÑÐº Ñƒ ÑÐ¿Ð¸ÑÐºÑƒ ÐºÑ€Ð°Ñ—Ð½ */
+    padding: calc(var(--spacing-unit) * 0.5) calc(var(--spacing-unit) * 1); /* Ð¢Ñ€Ð¾Ñ…Ð¸ Ð²Ñ–Ð´ÑÑ‚ÑƒÐ¿Ñ–Ð² */
+    border-bottom: 1px solid var(--color-border); /* Ð Ð¾Ð·Ð´Ñ–Ð»ÑŽÐ²Ð°Ñ‡ Ð¼Ñ–Ð¶ ÐºÐ»ÑƒÐ±Ð°Ð¼Ð¸ */
 }
 .club-list li:last-child {
-    border-bottom: none; /* Прибрати розділювач для останнього елемента */
+    border-bottom: none; /* ÐŸÑ€Ð¸Ð±Ñ€Ð°Ñ‚Ð¸ Ñ€Ð¾Ð·Ð´Ñ–Ð»ÑŽÐ²Ð°Ñ‡ Ð´Ð»Ñ Ð¾ÑÑ‚Ð°Ð½Ð½ÑŒÐ¾Ð³Ð¾ ÐµÐ»ÐµÐ¼ÐµÐ½Ñ‚Ð° */
 }
 
 .club-list li a {
     text-decoration: none;
     color: var(--color-link);
     font-weight: 500;
-    display: block; /* Щоб посилання займало всю ширину li для кращого кліку */
+    display: block; /* Ð©Ð¾Ð± Ð¿Ð¾ÑÐ¸Ð»Ð°Ð½Ð½Ñ Ð·Ð°Ð¹Ð¼Ð°Ð»Ð¾ Ð²ÑÑŽ ÑˆÐ¸Ñ€Ð¸Ð½Ñƒ li Ð´Ð»Ñ ÐºÑ€Ð°Ñ‰Ð¾Ð³Ð¾ ÐºÐ»Ñ–ÐºÑƒ */
 }
 
-/* Стилі для кнопки "Back to All Countries" вже мають бути покриті загальними .btn .btn-secondary */
-/* Але можна додати відступ, якщо потрібно */
-#catalogue-content .btn-secondary { /* Якщо кнопка всередині #catalogue-content */
+/* Ð¡Ñ‚Ð¸Ð»Ñ– Ð´Ð»Ñ ÐºÐ½Ð¾Ð¿ÐºÐ¸ "Back to All Countries" Ð²Ð¶Ðµ Ð¼Ð°ÑŽÑ‚ÑŒ Ð±ÑƒÑ‚Ð¸ Ð¿Ð¾ÐºÑ€Ð¸Ñ‚Ñ– Ð·Ð°Ð³Ð°Ð»ÑŒÐ½Ð¸Ð¼Ð¸ .btn .btn-secondary */
+/* ÐÐ»Ðµ Ð¼Ð¾Ð¶Ð½Ð° Ð´Ð¾Ð´Ð°Ñ‚Ð¸ Ð²Ñ–Ð´ÑÑ‚ÑƒÐ¿, ÑÐºÑ‰Ð¾ Ð¿Ð¾Ñ‚Ñ€Ñ–Ð±Ð½Ð¾ */
+#catalogue-content .btn-secondary { /* Ð¯ÐºÑ‰Ð¾ ÐºÐ½Ð¾Ð¿ÐºÐ° Ð²ÑÐµÑ€ÐµÐ´Ð¸Ð½Ñ– #catalogue-content */
     margin-top: calc(var(--spacing-unit) * 3);
-    display: inline-block; /* Щоб margin-top працював і кнопка не розтягувалась на всю ширину */
+    display: inline-block; /* Ð©Ð¾Ð± margin-top Ð¿Ñ€Ð°Ñ†ÑŽÐ²Ð°Ð² Ñ– ÐºÐ½Ð¾Ð¿ÐºÐ° Ð½Ðµ Ñ€Ð¾Ð·Ñ‚ÑÐ³ÑƒÐ²Ð°Ð»Ð°ÑÑŒ Ð½Ð° Ð²ÑÑŽ ÑˆÐ¸Ñ€Ð¸Ð½Ñƒ */
 }
 
 /* ------------------------------ */
@@ -523,10 +452,21 @@ button:disabled, .btn:disabled { cursor: not-allowed !important; background-colo
     .legal-container { padding: calc(var(--spacing-unit) * 2); margin: var(--spacing-unit) auto; }
     .intro-text { margin-bottom: calc(var(--spacing-unit) * 3);}
 }
-
+@media (max-width: 700px) {
+    #sticker-container { width: 220px; height: 220px; margin-bottom: calc(var(--spacing-unit) * 3); }
+    .options-group { max-width: 90%; }
+    #game-area { margin-top: var(--spacing-unit); }
+    .options-group { gap: var(--spacing-unit); margin-bottom: calc(var(--spacing-unit) * 2); }
+    .options-group button { padding: 0 var(--spacing-unit); font-size: 0.9em;}
+    .game-info { margin-top: 0; flex-direction: column; gap: var(--spacing-unit); }
+    #timer, #score { font-size: 1em; padding: calc(var(--spacing-unit)*0.75) var(--spacing-unit); }
+    #time-left, #current-score { font-size: 1.1em; }
+    .difficulty-options-container { gap: calc(var(--spacing-unit) * 1.5); }
+}
 @media (max-width: 600px) {
     body { padding: 0; }
     .container { padding: 0 var(--spacing-unit); margin-top: calc(var(--spacing-unit) * 2); margin-bottom: calc(var(--spacing-unit) * 2); }
+    .options-group { grid-template-columns: 1fr; }
     #result-area h2 { font-size: 2em; }
     #result-area .final-score-container { font-size: 1.5em; }
     #result-area #final-score { font-size: 1.8em; }
@@ -552,3 +492,4 @@ button:disabled, .btn:disabled { cursor: not-allowed !important; background-colo
     .country-list li { font-size: 1em; }
     .flag-emoji { font-size: 1.1em; }
 }
+
