@@ -111,7 +111,20 @@ button:disabled, .btn:disabled { cursor: not-allowed !important; background-colo
 #sticker-image[alt*="Loading"], #sticker-image[alt*="Error"] { width: 50px; height: 50px; }
 #sticker-image.fade-in { animation: fadeIn 0.4s ease-out; }
 .options-group { display: grid; grid-template-columns: repeat(2, 1fr); gap: calc(var(--spacing-unit) * 1.5); max-width: 600px; margin: 0 auto; }
-.options-group button { width: 100%; margin: 0; background-color: var(--color-background); border: 1px solid var(--color-border); color: var(--color-text); font-weight: 400; padding: calc(var(--spacing-unit) * 1.5) var(--spacing-unit); }
+.options-group button {
+    width: 100%;
+    margin: 0;
+    background-color: var(--color-background);
+    border: 1px solid var(--color-border);
+    color: var(--color-text);
+    font-weight: 400;
+    padding: 0 calc(var(--spacing-unit) * 1.5);
+    height: calc(var(--spacing-unit) * 7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
 .options-group button.correct-answer { background-color: var(--color-success) !important; border-color: var(--color-success) !important; color: white !important; font-weight: 600; }
 .options-group button.incorrect-answer { background-color: var(--color-error) !important; border-color: var(--color-error) !important; color: white !important; opacity: 0.7; }
 
@@ -427,7 +440,7 @@ button:disabled, .btn:disabled { cursor: not-allowed !important; background-colo
     .options-group { max-width: 90%; }
     #game-area { margin-top: var(--spacing-unit); }
     .options-group { gap: var(--spacing-unit); margin-bottom: calc(var(--spacing-unit) * 2); }
-    .options-group button { padding: var(--spacing-unit); font-size: 0.9em;}
+    .options-group button { padding: 0 var(--spacing-unit); font-size: 0.9em;}
     .game-info { margin-top: 0; flex-direction: column; gap: var(--spacing-unit); }
     #timer, #score { font-size: 1em; padding: calc(var(--spacing-unit)*0.75) var(--spacing-unit); }
     #time-left, #current-score { font-size: 1.1em; }
