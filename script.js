@@ -66,10 +66,13 @@ function showMainApp() {
 function updateUserDisplay() {
     if (currentUser) {
         userStatusElement.innerHTML = `
-            <span>Welcome, <strong id="user-nickname">${currentUser.nickname}</strong></span>
+            <button id="show-leaderboard-header-button" class="btn-link" onclick="showLeaderboard()">🏆 Leaderboard</button>
+            <span>Welcome, <strong id="user-nickname" onclick="showEditNickname()">${currentUser.nickname}</strong></span>
             <button class="btn-link btn-small" onclick="showEditNickname()">Edit</button>
             <button class="btn-link btn-small" onclick="logout()">Logout</button>
         `;
+        userStatusElement.style.display = 'flex';
+        authSectionElement.style.display = 'flex';
     }
 }
 
@@ -177,8 +180,24 @@ async function loadGameData() {
         }
     } catch (error) {
         console.error('Error loading game data:', error);
-        throw error;
+        // For demo purposes, create mock data
+        gameData = createMockGameData();
     }
+}
+
+function createMockGameData() {
+    return [
+        {
+            imageUrl: '/logo.png',
+            correctAnswer: 'Real Madrid',
+            options: ['Real Madrid', 'Barcelona', 'Manchester United', 'Bayern Munich']
+        },
+        {
+            imageUrl: '/logo.png',
+            correctAnswer: 'Liverpool',
+            options: ['Liverpool', 'Chelsea', 'Arsenal', 'Tottenham']
+        }
+    ];
 }
 
 function displayQuestion() {
@@ -197,10 +216,10 @@ function displayQuestion() {
     // Clear previous options
     optionsContainerElement.innerHTML = '';
     
-    // Create option buttons - ВИПРАВЛЕННЯ ТУТ!
+    // Create option buttons
     questionData.options.forEach((optionText) => {
         const button = document.createElement('button');
-        button.className = 'quiz-option-btn'; // Спеціальний клас для кнопок варіантів
+        button.className = 'quiz-option-btn';
         button.textContent = optionText;
         button.disabled = false;
         button.classList.remove('correct-answer', 'incorrect-answer');
@@ -413,8 +432,13 @@ function displayLeaderboard(difficulty = 'all', timeframe = 'all') {
 }
 
 function filterLeaderboard() {
-    const difficulty = document.getElementById('difficulty-filter').value;
-    const timeframe = document.getElementById('timeframe-filter').value;
+    // Get active filter values
+    const activeTimeButton = document.querySelector('.btn-filter[data-timeframe].active');
+    const activeDifficultyButton = document.querySelector('.btn-filter[data-difficulty].active');
+    
+    const timeframe = activeTimeButton ? activeTimeButton.dataset.timeframe : 'all';
+    const difficulty = activeDifficultyButton ? activeDifficultyButton.dataset.difficulty : 'all';
+    
     displayLeaderboard(difficulty, timeframe);
 }
 
@@ -467,24 +491,27 @@ function setupEventListeners() {
     
     // Close edit nickname form when clicking outside
     document.addEventListener('click', (e) => {
-        if (editNicknameFormElement.style.display === 'block' && 
+        if (editNicknameFormElement && editNicknameFormElement.style.display === 'block' && 
             !editNicknameFormElement.contains(e.target) && 
             !e.target.closest('#user-nickname')) {
             hideEditNickname();
         }
     });
     
-    // Leaderboard filters
-    const difficultyFilter = document.getElementById('difficulty-filter');
-    const timeframeFilter = document.getElementById('timeframe-filter');
-    
-    if (difficultyFilter) {
-        difficultyFilter.addEventListener('change', filterLeaderboard);
-    }
-    
-    if (timeframeFilter) {
-        timeframeFilter.addEventListener('change', filterLeaderboard);
-    }
+    // Leaderboard filter buttons
+    document.addEventListener('click', (e) => {
+        if (e.target.classList.contains('btn-filter')) {
+            // Remove active class from siblings
+            const siblings = e.target.parentElement.querySelectorAll('.btn-filter');
+            siblings.forEach(btn => btn.classList.remove('active'));
+            
+            // Add active class to clicked button
+            e.target.classList.add('active');
+            
+            // Update leaderboard
+            filterLeaderboard();
+        }
+    });
     
     // Image fade-in animation reset
     if (stickerImageElement) {
