@@ -200,7 +200,7 @@ function displayQuestion() {
     // Create option buttons - ВИПРАВЛЕННЯ ТУТ!
     questionData.options.forEach((optionText) => {
         const button = document.createElement('button');
-        // Видаляємо клас 'btn' щоб кнопки стилізувалися через .options-group button
+        button.className = 'quiz-option-btn'; // Спеціальний клас для кнопок варіантів
         button.textContent = optionText;
         button.disabled = false;
         button.classList.remove('correct-answer', 'incorrect-answer');
