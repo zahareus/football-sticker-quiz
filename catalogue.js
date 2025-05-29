@@ -596,10 +596,8 @@ async function loadStickerDetails(stickerId) {
                         <img src="${sticker.image_url}" alt="Sticker ${sticker.id} ${sticker.clubs ? `- ${sticker.clubs.name}`:''}" class="sticker-detail-image">
                     </div>
                     <div class="sticker-detail-info">
-                        <p><strong>Location Found:</strong> ${sticker.location || 'N/A'}</p> 
-                        <p><strong>Date Found:</strong> ${sticker.found ? new Date(sticker.found).toLocaleDateString() : 'N/A'}</p>
-                        <p><strong>Description:</strong></p>
-                        <div class="sticker-description-text">${sticker.description || 'No description available.'}</div>
+                        <p><strong>🌍 Location Found:</strong> ${sticker.location || 'N/A'} <strong>📅 Date Found:</strong> ${sticker.found ? new Date(sticker.found).toLocaleDateString() : 'N/A'}</p>
+                        <p><strong>⚽ Fun fact:</strong> ${sticker.description || 'No description available.'}</p>
                     </div>
                 </div>
             `;
