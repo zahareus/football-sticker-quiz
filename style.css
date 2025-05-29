@@ -118,29 +118,45 @@ button:disabled, .btn:disabled { cursor: not-allowed !important; background-colo
 }
 
 .options-group button {
-    width: 100%;
-    height: calc(var(--spacing-unit) * 7); /* Поточна висота - 56px */
-    margin: 0;
+    /* ФІКСОВАНІ РОЗМІРИ - головне! */
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: none !important;
+    height: calc(var(--spacing-unit) * 7) !important; /* 56px фіксована висота */
+    
+    /* Скидання всіх margin/padding що можуть впливати */
+    margin: 0 !important;
+    padding: calc(var(--spacing-unit) * 0.75) calc(var(--spacing-unit) * 1) !important;
+    
+    /* Базові стилі */
     background-color: var(--color-background);
     border: 1px solid var(--color-border);
     color: var(--color-text);
     font-weight: 400;
     font-size: 1em;
-    padding: calc(var(--spacing-unit) * 1) calc(var(--spacing-unit) * 1.5);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
     border-radius: var(--border-radius);
     cursor: pointer;
     transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+    
+    /* Текстові властивості для контролю переносу */
+    text-align: center;
+    vertical-align: top;
     word-wrap: break-word;
+    overflow-wrap: break-word;
     hyphens: auto;
     line-height: 1.2;
     overflow: hidden;
-    text-overflow: ellipsis;
+    
+    /* Flexbox для центрування тексту */
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    flex-shrink: 0 !important;
+    flex-grow: 0 !important;
+    flex-basis: auto !important;
 }
 
+/* Мобільні налаштування */
 @media (max-width: 700px) {
     #game-area { margin-top: var(--spacing-unit); }
     #sticker-container { 
@@ -156,26 +172,34 @@ button:disabled, .btn:disabled { cursor: not-allowed !important; background-colo
     }
     
     .options-group button {
-        height: calc(var(--spacing-unit) * 6); /* 48px для мобільних */
-        font-size: 0.9em;
-        padding: calc(var(--spacing-unit) * 0.75) var(--spacing-unit);
-        line-height: 1.1;
+        height: calc(var(--spacing-unit) * 6) !important; /* 48px для мобільних */
+        font-size: 0.9em !important;
+        padding: calc(var(--spacing-unit) * 0.5) calc(var(--spacing-unit) * 0.75) !important;
+        line-height: 1.1 !important;
     }
 }
 
 @media (max-width: 600px) {
-    .options-group {
-        grid-template-columns: 1fr;
-    }
-    
     .options-group button {
-        height: calc(var(--spacing-unit) * 5.5); /* 44px для дуже маленьких екранів */
-        font-size: 0.85em;
+        height: calc(var(--spacing-unit) * 5.5) !important; /* 44px для дуже маленьких екранів */
+        font-size: 0.85em !important;
+        padding: calc(var(--spacing-unit) * 0.5) calc(var(--spacing-unit) * 0.5) !important;
     }
 }
 
-.options-group button.correct-answer { background-color: var(--color-success) !important; border-color: var(--color-success) !important; color: white !important; font-weight: 600; }
-.options-group button.incorrect-answer { background-color: var(--color-error) !important; border-color: var(--color-error) !important; color: white !important; opacity: 0.7; }
+.options-group button.correct-answer { 
+    background-color: var(--color-success) !important; 
+    border-color: var(--color-success) !important; 
+    color: white !important; 
+    font-weight: 600 !important; 
+}
+
+.options-group button.incorrect-answer { 
+    background-color: var(--color-error) !important; 
+    border-color: var(--color-error) !important; 
+    color: white !important; 
+    opacity: 0.7 !important; 
+}
 
 /* --- Game Info Timer & Score --- */
 .game-info { display: flex; justify-content: space-around; align-items: baseline; margin-top: calc(var(--spacing-unit) * 2); max-width: 300px; margin-left: auto; margin-right: auto; gap: calc(var(--spacing-unit) * 4); }
