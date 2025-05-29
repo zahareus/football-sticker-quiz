@@ -26,44 +26,53 @@
            <img src="/logo.png" alt="StickerHunt Logo" id="app-logo">
         </div>
         <div id="auth-section">
-             <button id="login-button" class="btn btn-primary google-login" style="display: none;">
+             <button id="login-button" class="btn btn-primary google-login" onclick="loginWithGoogle()" style="display: none;">
                  <span>Sign in with Google</span>
              </button>
              <div id="user-status" style="display: none;">
-                 <button id="show-leaderboard-header-button" class="btn-link">🏆 Leaderboard</button>
-                 <strong id="user-nickname" title="Click to edit nickname">Loading...</strong>
-                 <button id="logout-button" class="btn-link">Logout</button>
-                 <form id="edit-nickname-form" style="display: none;">
+                 <button id="show-leaderboard-header-button" class="btn-link" onclick="showLeaderboard()">🏆 Leaderboard</button>
+                 <strong id="user-nickname" title="Click to edit nickname" onclick="showEditNickname()">Loading...</strong>
+                 <button id="logout-button" class="btn-link" onclick="logout()">Logout</button>
+                 <form id="edit-nickname-form" style="display: none;" onsubmit="saveNickname(); return false;">
                      <input type="text" id="nickname-input" placeholder="Enter new nickname" required minlength="3" maxlength="25" size="15">
                      <button type="submit" class="btn btn-primary">Save</button>
-                     <button type="button" id="cancel-edit-nickname-button" class="btn btn-secondary">Cancel</button>
+                     <button type="button" id="cancel-edit-nickname-button" class="btn btn-secondary" onclick="hideEditNickname()">Cancel</button>
                  </form>
              </div>
          </div>
     </header>
 
     <main class="container">
-        <div class="intro-text" id="intro-text-element" style="display: none;"> <p>An online quiz where you have to guess a football club from a photo of a sticker. You have 10 seconds to choose 1 correct option out of 4. <a href="/about.html">Read more about the project</a></p>
+        <div class="intro-text" id="intro-text-element" style="display: none;"> 
+            <p>An online quiz where you have to guess a football club from a photo of a sticker. You have 10 seconds to choose 1 correct option out of 4. <a href="/about.html">Read more about the project</a></p>
         </div>
+        
         <div id="landing-page" style="display: none;">
-            <button id="landing-login-button" class="btn btn-primary btn-large google-login">
+            <form id="guest-login-form">
+                <input type="text" id="guest-nickname" placeholder="Enter your nickname" required minlength="3" maxlength="25">
+                <button type="submit" class="btn btn-primary btn-large">Start Playing</button>
+            </form>
+            <button id="landing-login-button" class="btn btn-primary btn-large google-login" onclick="loginWithGoogle()">
                 <span>Sign in with Google</span>
             </button>
             <p class="separator">or</p>
-            <button id="landing-leaderboard-button" class="btn btn-secondary btn-large">🏆 Show Leaderboard</button>
+            <button id="landing-leaderboard-button" class="btn btn-secondary btn-large" onclick="showLeaderboard()">🏆 Show Leaderboard</button>
         </div>
 
         <div id="difficulty-selection" style="display: none;">
             <h2>Choose difficulty:</h2>
             <div class="difficulty-options-container">
                 <div class="difficulty-option">
-                    <button class="btn btn-large difficulty-button" data-difficulty="1">Easy</button> <p class="difficulty-description">Very easy. Just pay attention</p>
+                    <button class="btn btn-large difficulty-button" onclick="selectDifficulty('easy')">Easy</button> 
+                    <p class="difficulty-description">Very easy. Just pay attention</p>
                 </div>
                 <div class="difficulty-option">
-                    <button class="btn btn-large difficulty-button" data-difficulty="2">Medium</button> <p class="difficulty-description">You need to know a little bit about football</p>
+                    <button class="btn btn-large difficulty-button" onclick="selectDifficulty('medium')">Medium</button> 
+                    <p class="difficulty-description">You need to know a little bit about football</p>
                 </div>
                 <div class="difficulty-option">
-                    <button class="btn btn-large difficulty-button" data-difficulty="3">Hard</button> <p class="difficulty-description">For real experts. My respect!</p>
+                    <button class="btn btn-large difficulty-button" onclick="selectDifficulty('hard')">Hard</button> 
+                    <p class="difficulty-description">For real experts. My respect!</p>
                 </div>
             </div>
         </div>
@@ -72,8 +81,9 @@
              <div id="sticker-container">
                  <img id="sticker-image" src="" alt="Club Sticker">
              </div>
-             <div id="options" class="button-group options-group">
-                 </div>
+             <div id="options-container" class="options-group">
+                 <!-- Кнопки варіантів відповідей будуть додані динамічно -->
+             </div>
              <div class="game-info">
                  <div id="timer">Time: <span id="time-left">10</span></div>
                  <div id="score">Score: <span id="current-score">0</span></div>
@@ -83,7 +93,8 @@
         <div id="result-area" style="display: none;">
              <h2>Game Over!</h2>
              <p class="final-score-container">Your final score: <span id="final-score">0</span></p>
-             <button id="play-again" class="btn btn-primary btn-large">Play Again</button>
+             <p class="save-message" style="display: none;">Your score has been saved!</p>
+             <button id="play-again" class="btn btn-primary btn-large" onclick="playAgain()">Play Again</button>
          </div>
 
         <section id="leaderboard-section" style="display: none;">
@@ -91,22 +102,23 @@
              <div id="leaderboard-filters">
                  <div class="filter-group">
                      <strong>Time:</strong>
-                     <button class="btn btn-filter leaderboard-time-filter" data-timeframe="today">Today</button>
-                     <button class="btn btn-filter leaderboard-time-filter" data-timeframe="week">7 days</button>
-                     <button class="btn btn-filter leaderboard-time-filter" data-timeframe="month">Month</button>
-                     <button class="btn btn-filter leaderboard-time-filter active" data-timeframe="all">All Time</button>
+                     <button class="btn-filter" data-timeframe="today" onclick="filterLeaderboard()">Today</button>
+                     <button class="btn-filter" data-timeframe="week" onclick="filterLeaderboard()">7 days</button>
+                     <button class="btn-filter" data-timeframe="month" onclick="filterLeaderboard()">Month</button>
+                     <button class="btn-filter active" data-timeframe="all" onclick="filterLeaderboard()">All Time</button>
                  </div>
                  <div class="filter-group">
                      <strong>Difficulty:</strong>
-                     <button class="btn btn-filter leaderboard-difficulty-filter active" data-difficulty="1">Easy (1)</button>
-                     <button class="btn btn-filter leaderboard-difficulty-filter" data-difficulty="2">Medium (2)</button>
-                     <button class="btn btn-filter leaderboard-difficulty-filter" data-difficulty="3">Hard (3)</button>
+                     <button class="btn-filter active" data-difficulty="all" onclick="filterLeaderboard()">All</button>
+                     <button class="btn-filter" data-difficulty="easy" onclick="filterLeaderboard()">Easy</button>
+                     <button class="btn-filter" data-difficulty="medium" onclick="filterLeaderboard()">Medium</button>
+                     <button class="btn-filter" data-difficulty="hard" onclick="filterLeaderboard()">Hard</button>
                  </div>
              </div>
              <ol id="leaderboard-list">
                  <li>Loading...</li>
              </ol>
-             <button id="close-leaderboard-button" class="btn btn-secondary">Close Leaderboard</button>
+             <button id="close-leaderboard-button" class="btn btn-secondary" onclick="playAgain()">Close Leaderboard</button>
          </section>
 
         <p id="loading-indicator" style="display: none;">Loading...</p>
