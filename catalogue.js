@@ -597,7 +597,7 @@ async function loadStickerDetails(stickerId) {
                     </div>
                     <div class="sticker-detail-info">
                         <p><strong>🌍 Location Found:</strong> ${sticker.location || 'N/A'} <strong>📅 Date Found:</strong> ${sticker.found ? new Date(sticker.found).toLocaleDateString() : 'N/A'}</p>
-                        <p><strong>⚽ Fun fact:</strong> ${sticker.description || 'No description available.'}</p>
+                        <p><strong>Fun fact:</strong> ${sticker.description || 'No description available.'}</p>
                     </div>
                 </div>
             `;
