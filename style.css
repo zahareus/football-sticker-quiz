@@ -202,7 +202,9 @@ button:disabled, .btn:disabled { cursor: not-allowed !important; background-colo
 #result-area .final-score-container { font-size: 1.8em; font-weight: 500; color: var(--color-info-text); margin-bottom: calc(var(--spacing-unit) * 4); }
 #result-area #final-score { font-size: 2.2em; font-weight: 700; color: var(--color-accent-darker); display: inline-block; margin-left: var(--spacing-unit); }
 #result-area .save-message { font-size: 0.9em; font-style: italic; color: var(--color-success); margin-top: calc(var(--spacing-unit) * -2); margin-bottom: calc(var(--spacing-unit) * 3); }
+#result-area button { display: block; width: 100%; max-width: 400px; margin-left: auto; margin-right: auto; }
 #result-area #play-again { margin-top: calc(var(--spacing-unit) * 2); }
+#result-area #result-sign-in-button { margin-top: calc(var(--spacing-unit) * 1.5); }
 
 /* --- Leaderboard --- */
 #leaderboard-section { margin-top: calc(var(--spacing-unit) * 4); padding-top: calc(var(--spacing-unit) * 3); }
@@ -484,6 +486,7 @@ button:disabled, .btn:disabled { cursor: not-allowed !important; background-colo
     #result-area .final-score-container { font-size: 1.5em; }
     #result-area #final-score { font-size: 1.8em; }
     #result-area #play-again { font-size: 1em; padding: calc(var(--spacing-unit) * 1.25) calc(var(--spacing-unit) * 2.5); }
+    #result-area #result-sign-in-button { font-size: 1em; padding: calc(var(--spacing-unit) * 1.25) calc(var(--spacing-unit) * 2.5); }
     #leaderboard-filters { gap: var(--spacing-unit); }
     .filter-group { gap: calc(var(--spacing-unit) * 0.5); font-size: 0.9em; }
     .filter-group strong { display: block; width: 100%; margin-bottom: 5px; text-align: center; }
