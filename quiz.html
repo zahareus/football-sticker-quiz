@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StickerHunt: Guess the Club</title>
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="style.css">
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-4Y0MJKGDZS"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-4Y0MJKGDZS');
+    </script>
+</head>
+<body>
+    <header class="app-header">
+        <div class="logo-container">
+           <img src="/logo.png" alt="StickerHunt Logo" id="app-logo">
+        </div>
+        <div id="auth-section">
+             <button id="login-button" class="btn btn-primary google-login" style="display: none;">
+                 <span>Sign in with Google</span>
+             </button>
+             <div id="user-status" style="display: none;">
+                 <button id="show-leaderboard-header-button" class="btn-link">Leaderboard</button>
+                 <strong id="user-nickname" title="Click to edit nickname">Loading...</strong>
+                 <button id="logout-button" class="btn-link">Logout</button>
+                 <form id="edit-nickname-form" style="display: none;">
+                     <input type="text" id="nickname-input" placeholder="Enter new nickname" required minlength="3" maxlength="25" size="15">
+                     <button type="submit" class="btn btn-primary">Save</button>
+                     <button type="button" id="cancel-edit-nickname-button" class="btn btn-secondary">Cancel</button>
+                 </form>
+             </div>
+         </div>
+    </header>
+
+    <main class="container">
+        <div class="intro-text" id="intro-text-element" style="display: none;"> <p>An online quiz where you have to guess a football club from a photo of a sticker. You have 10 seconds to choose 1 correct option out of 4. <a href="/about.html">Read more about the project</a></p>
+        </div>
+        <div id="landing-page" style="display: none;">
+            <button id="landing-play-easy-button" class="btn btn-primary btn-large">Play (easy level)</button>
+            <button id="landing-login-button" class="btn btn-secondary btn-large google-login">
+                <span>Sign in (middle & hard levels)</span>
+            </button>
+            <button id="landing-leaderboard-button" class="btn btn-secondary btn-large">🏆 Show Leaderboard</button>
+        </div>
+
+        <div id="difficulty-selection" style="display: none;">
+            <h2>Choose difficulty:</h2>
+            <div class="difficulty-options-container">
+                <div class="difficulty-option">
+                    <button class="btn btn-large difficulty-button" data-difficulty="1">Easy</button> <p class="difficulty-description">Very easy. Just pay attention</p>
+                </div>
+                <div class="difficulty-option">
+                    <button class="btn btn-large difficulty-button" data-difficulty="2">Medium</button> <p class="difficulty-description">You need to know a little bit about football</p>
+                </div>
+                <div class="difficulty-option">
+                    <button class="btn btn-large difficulty-button" data-difficulty="3">Hard</button> <p class="difficulty-description">For real experts. My respect!</p>
+                </div>
+            </div>
+        </div>
+
+        <div id="game-area" style="display: none;">
+             <div id="sticker-container">
+                 <img id="sticker-image" src="" alt="Club Sticker">
+             </div>
+             <div id="options" class="button-group options-group">
+                 </div>
+             <div class="game-info">
+                 <div id="timer">Time: <span id="time-left">10</span></div>
+                 <div id="score">Score: <span id="current-score">0</span></div>
+             </div>
+         </div>
+
+        <div id="result-area" style="display: none;">
+             <h2>Game Over!</h2>
+             <p class="final-score-container">Your final score: <span id="final-score">0</span></p>
+             <p class="rank-container" id="rank-container" style="display: none;"></p>
+             <button id="play-again" class="btn btn-primary btn-large">Play Again</button>
+             <button id="result-sign-in-button" class="btn btn-secondary btn-large" style="display: none;">Sign In (hard levels, leaderboard)</button>
+         </div>
+
+        <section id="leaderboard-section" style="display: none;">
+             <h2>Leaderboard</h2>
+             <div id="leaderboard-filters">
+                 <div class="filter-group">
+                     <strong>Time:</strong>
+                     <button class="btn btn-filter leaderboard-time-filter" data-timeframe="today">Today</button>
+                     <button class="btn btn-filter leaderboard-time-filter" data-timeframe="week">7 days</button>
+                     <button class="btn btn-filter leaderboard-time-filter" data-timeframe="month">Month</button>
+                     <button class="btn btn-filter leaderboard-time-filter active" data-timeframe="all">All Time</button>
+                 </div>
+                 <div class="filter-group">
+                     <strong>Difficulty:</strong>
+                     <button class="btn btn-filter leaderboard-difficulty-filter active" data-difficulty="1">Easy (1)</button>
+                     <button class="btn btn-filter leaderboard-difficulty-filter" data-difficulty="2">Medium (2)</button>
+                     <button class="btn btn-filter leaderboard-difficulty-filter" data-difficulty="3">Hard (3)</button>
+                 </div>
+             </div>
+             <ol id="leaderboard-list">
+                 <li>Loading...</li>
+             </ol>
+             <button id="close-leaderboard-button" class="btn btn-secondary">Close Leaderboard</button>
+         </section>
+
+        <p id="loading-indicator" style="display: none;">Loading...</p>
+        <p id="error-message" style="display: none;"></p>
+
+    </main>
+
+    <footer class="app-footer">
+        <p>
+            <a href="/about.html">About</a> |
+            <a href="/terms.html">Terms of Service</a> |
+            <a href="/privacy.html">Privacy Policy</a>
+        </p>
+        <p>StickerHunt &copy; 2025</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="script.js"></script>
+</body>
+</html>
