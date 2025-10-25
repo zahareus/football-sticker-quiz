@@ -55,7 +55,7 @@ body:not(.logged-out) .app-header { margin-bottom: calc(var(--spacing-unit) * 3)
 body.logged-out .app-header { justify-content: center; height: auto; margin-bottom: 0; padding-top: calc(var(--spacing-unit) * 3); padding-bottom: calc(var(--spacing-unit) * 2); }
 body.logged-out #auth-section { display: none !important; }
 .logo-container { display: flex; align-items: center; margin-left: 0; margin-right: 0;}
-#app-logo { height: calc(var(--header-height) * 0.65); width: auto; max-height: 40px; transition: all 0.3s ease; display: block; }
+#app-logo { height: calc(var(--header-height) * 0.5); width: auto; max-height: 32px; transition: all 0.3s ease; display: block; }
 body.logged-out #app-logo { height: auto; width: 45%; max-width: 280px; max-height: none; margin: 0 auto calc(var(--spacing-unit) * 3) auto; }
 
 /* --- Intro Text --- */
@@ -80,8 +80,9 @@ button:disabled, .btn:disabled { cursor: not-allowed !important; background-colo
 
 /* --- Authentication Section --- */
 #auth-section { font-size: 0.9em; text-align: right; display: flex; align-items: center; gap: var(--spacing-unit); flex-wrap: wrap; }
-#user-status { display: flex; align-items: center; gap: var(--spacing-unit); flex-wrap: nowrap; }
+#user-status { display: flex; align-items: center; gap: calc(var(--spacing-unit) * 1.5); flex-wrap: nowrap; }
 #user-status strong { font-weight: 400; cursor: pointer; color: var(--color-info-text); text-decoration: none; display: inline-block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 120px; vertical-align: middle; }
+#user-status > *:not(:last-child)::after { content: '|'; margin-left: calc(var(--spacing-unit) * 1.5); color: var(--color-border); font-weight: 300; }
 #edit-nickname-form { display: none; position: absolute; right: calc(var(--spacing-unit) * 2); top: calc(var(--header-height) + var(--spacing-unit)); background-color: var(--color-background); padding: calc(var(--spacing-unit) * 2); border: 1px solid var(--color-border); border-radius: var(--border-radius); box-shadow: 0 4px 10px rgba(0,0,0,0.1); z-index: 10; min-width: 300px; text-align: left; }
 #edit-nickname-form input { margin-bottom: var(--spacing-unit); display: block; width: 100%; }
 #edit-nickname-form button { margin-top: var(--spacing-unit); margin-right: var(--spacing-unit); }
@@ -116,29 +117,35 @@ button:disabled, .btn:disabled { cursor: not-allowed !important; background-colo
     margin: 0 auto;
 }
 .options-group button {
-    width: 100%; /* Залишаємо */
-    margin: 0; /* Залишаємо */
-    background-color: var(--color-background); /* Залишаємо */
-    border: 1px solid var(--color-border); /* Залишаємо */
-    color: var(--color-text); /* Залишаємо */
-    font-weight: 400; /* Залишаємо (це перекриває font-weight: 500 з класу .btn) */
-    
-    /* --- Починаються зміни для перенесення тексту --- */
-    padding: calc(var(--spacing-unit) * 1.25) var(--spacing-unit); /* Приклад: 10px вертикально, 8px горизонтально. Налаштуй за потреби. */
-    min-height: calc(var(--spacing-unit) * 9); /* Приклад: 72px. Розраховано на 2 рядки тексту + відступи. */
-    height: auto; /* Дозволяє висоті кнопки змінюватися, але не бути меншою за min-height */
-    
-    display: flex; /* Залишаємо для центрування */
-    align-items: center; /* Залишаємо для центрування */
-    justify-content: center; /* Залишаємо для центрування */
-    text-align: center; /* Залишаємо для центрування */
-    
-    white-space: normal; /* Дозволяє тексту переноситися на новий рядок */
-    overflow-wrap: break-word; /* Допомагає переносити дуже довгі слова без пробілів */
-    word-break: break-word; /* Додаткове правило для перенесення слів */
-    line-height: 1.3; /* Можна налаштувати для кращого вигляду тексту в два рядки */
-    /* Властивості text-overflow, overflow: hidden, white-space: nowrap видалені, оскільки вони для обрізання тексту */
-    /* --- Кінець змін для перенесення тексту --- */
+    /* Fixed dimensions for consistent layout */
+    width: 100%;
+    min-width: 280px; /* Minimum width for ~25 characters */
+    max-width: 100%; /* Don't exceed grid cell */
+    min-height: 68px; /* Fixed height for 2 lines of text */
+    height: 68px;
+
+    margin: 0;
+    background-color: var(--color-background);
+    border: 1px solid var(--color-border);
+    color: var(--color-text);
+    font-weight: 400;
+    font-size: 1em;
+    padding: calc(var(--spacing-unit) * 1) calc(var(--spacing-unit) * 1.5);
+
+    /* Text layout */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+
+    /* Text wrapping for long names */
+    white-space: normal;
+    overflow-wrap: break-word;
+    word-break: break-word;
+    line-height: 1.35;
+
+    /* Hide overflow if text still exceeds */
+    overflow: hidden;
 }
 @media (max-width: 600px) {
     .options-group {
@@ -197,8 +204,9 @@ button:disabled, .btn:disabled { cursor: not-allowed !important; background-colo
 /* --- Result Area --- */
 #result-area { margin-top: calc(var(--spacing-unit) * 4); padding: calc(var(--spacing-unit) * 3) calc(var(--spacing-unit) * 2); }
 #result-area h2 { font-size: 2.5em; font-weight: 700; color: var(--color-text); margin-bottom: var(--spacing-unit); }
-#result-area .final-score-container { font-size: 1.8em; font-weight: 500; color: var(--color-info-text); margin-bottom: calc(var(--spacing-unit) * 4); }
+#result-area .final-score-container { font-size: 1.8em; font-weight: 500; color: var(--color-info-text); margin-bottom: calc(var(--spacing-unit) * 1); }
 #result-area #final-score { font-size: 2.2em; font-weight: 700; color: var(--color-accent-darker); display: inline-block; margin-left: var(--spacing-unit); }
+#result-area .rank-container { font-size: 1.8em; font-weight: 500; color: var(--color-info-text); margin-bottom: calc(var(--spacing-unit) * 4); margin-top: 0; }
 #result-area .save-message { font-size: 0.9em; font-style: italic; color: var(--color-success); margin-top: calc(var(--spacing-unit) * -2); margin-bottom: calc(var(--spacing-unit) * 3); }
 #result-area button { display: block; width: 100%; max-width: 400px; margin-left: auto; margin-right: auto; }
 #result-area #play-again { margin-top: calc(var(--spacing-unit) * 2); }
@@ -461,14 +469,12 @@ button:disabled, .btn:disabled { cursor: not-allowed !important; background-colo
     .options-group { max-width: 90%; }
     #game-area { margin-top: var(--spacing-unit); }
     .options-group { gap: var(--spacing-unit); margin-bottom: calc(var(--spacing-unit) * 2); }
-    .options-group button { 
-        font-size: 0.9em; /* Залишаємо менший шрифт для мобільних */
-        padding: calc(var(--spacing-unit) * 1) var(--spacing-unit); /* Приклад: 8px вертикально та 8px горизонтально. Це забезпечить відступи для тексту, що переноситься. */
-        /* min-height, встановлений у основному правилі, буде застосовуватися. 
-           З меншим шрифтом (0.9em) та цими відступами, текст у два рядки повинен добре виглядати 
-           в межах min-height: calc(var(--spacing-unit) * 9); 
-           Якщо кнопки все ще здаються занадто високими на мобільних, тут можна задати менший min-height, 
-           наприклад: min-height: calc(var(--spacing-unit) * 7.5); */
+    .options-group button {
+        font-size: 0.9em; /* Smaller font for mobile */
+        padding: calc(var(--spacing-unit) * 0.875) var(--spacing-unit);
+        min-width: 0; /* Remove min-width constraint on mobile */
+        min-height: 60px; /* Slightly smaller for mobile */
+        height: 60px;
     }
     .game-info { margin-top: 0; flex-direction: column; gap: var(--spacing-unit); }
     #timer, #score { font-size: 1em; padding: calc(var(--spacing-unit)*0.75) var(--spacing-unit); }
