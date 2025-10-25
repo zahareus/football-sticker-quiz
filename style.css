@@ -242,7 +242,7 @@ button:disabled, .btn:disabled { cursor: not-allowed !important; background-colo
 }
 
 /* --- Footer Styling --- */
-.app-footer { text-align: center; margin-top: auto; padding: calc(var(--spacing-unit) * 3) 0; font-size: 0.85em; color: var(--color-footer-text); border-top: 1px solid var(--color-border); width: 100%; }
+.app-footer { text-align: center; margin-top: auto; padding: calc(var(--spacing-unit) * 3) 0; font-size: 0.85em; color: var(--color-footer-text); width: 100%; }
 .app-footer p { margin-bottom: calc(var(--spacing-unit) * 0.5); }
 .app-footer a { color: var(--color-info-text); text-decoration: none; }
 @media (hover: hover) { .app-footer a:hover { color: var(--color-link); text-decoration: underline; } }
@@ -522,6 +522,12 @@ body.home-page .app-header {
     margin-bottom: calc(var(--spacing-unit) * 2);
 }
 
+body.home-page .logo-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
 body.home-page #app-logo {
     height: auto;
     width: 40%;
@@ -560,10 +566,18 @@ body.home-page #app-logo {
     margin-bottom: calc(var(--spacing-unit) * 4);
 }
 
+.random-sticker-label {
+    font-size: 1em;
+    color: var(--color-info-text);
+    text-align: center;
+    margin: 0 0 calc(var(--spacing-unit) * 1.5) 0;
+    font-weight: 500;
+}
+
 #home-sticker-container {
     width: 280px;
     height: 280px;
-    margin-bottom: calc(var(--spacing-unit) * 3);
+    margin-bottom: calc(var(--spacing-unit) * 2);
     background-color: var(--color-secondary-bg);
     border: 1px solid var(--color-border);
     border-radius: var(--border-radius);
@@ -580,7 +594,7 @@ body.home-page #app-logo {
 }
 
 #home-club-name {
-    font-size: 1.8em;
+    font-size: 0.9em;
     font-weight: 600;
     color: var(--color-text);
     text-align: center;
@@ -644,7 +658,7 @@ body.home-page #app-logo {
     }
 
     #home-club-name {
-        font-size: 1.5em;
+        font-size: 0.85em;
     }
 
     #featured-sticker {
