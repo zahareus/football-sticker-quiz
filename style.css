@@ -75,15 +75,13 @@ body.logged-out #app-logo { height: auto; width: 45%; max-width: 280px; max-heig
 .btn-filter.active { font-weight: 600; background-color: var(--color-accent); color: var(--color-accent-text); opacity: 1; }
 button:disabled, .btn:disabled { cursor: not-allowed !important; background-color: var(--color-disabled-bg) !important; color: var(--color-disabled-text) !important; border-color: var(--color-disabled-bg) !important; box-shadow: none !important; opacity: 1 !important; }
 .btn-filter:disabled { background-color: var(--color-accent) !important; color: var(--color-accent-text) !important; opacity: 0.7 !important; cursor: not-allowed !important; }
-.btn-link { background: none; border: none; color: var(--color-link); text-decoration: none; padding: calc(var(--spacing-unit) * 0.75) var(--spacing-unit); font-size: 0.9em; font-weight: 500; vertical-align: middle; cursor: pointer; margin: calc(var(--spacing-unit)/2); line-height: 1; }
-#show-leaderboard-header-button.btn-link { color: var(--color-text); font-weight: 500; text-decoration: none; }
-#show-leaderboard-header-button.btn-link .trophy-emoji { margin-right: 4px; }
+.btn-link { background: none; border: none; color: var(--color-info-text); text-decoration: none; padding: 0; font-size: 1em; font-weight: 400; vertical-align: middle; cursor: pointer; margin: 0; line-height: 1; }
 .button-group { display: flex; flex-wrap: wrap; justify-content: center; gap: calc(var(--spacing-unit) * 1.5); margin-top: calc(var(--spacing-unit) * 2); }
 
 /* --- Authentication Section --- */
 #auth-section { font-size: 0.9em; text-align: right; display: flex; align-items: center; gap: var(--spacing-unit); flex-wrap: wrap; }
 #user-status { display: flex; align-items: center; gap: var(--spacing-unit); flex-wrap: nowrap; }
-#user-status strong { font-weight: 600; cursor: pointer; text-decoration: underline dotted; display: inline-block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 120px; vertical-align: middle; }
+#user-status strong { font-weight: 400; cursor: pointer; color: var(--color-info-text); text-decoration: none; display: inline-block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 120px; vertical-align: middle; }
 #edit-nickname-form { display: none; position: absolute; right: calc(var(--spacing-unit) * 2); top: calc(var(--header-height) + var(--spacing-unit)); background-color: var(--color-background); padding: calc(var(--spacing-unit) * 2); border: 1px solid var(--color-border); border-radius: var(--border-radius); box-shadow: 0 4px 10px rgba(0,0,0,0.1); z-index: 10; min-width: 300px; text-align: left; }
 #edit-nickname-form input { margin-bottom: var(--spacing-unit); display: block; width: 100%; }
 #edit-nickname-form button { margin-top: var(--spacing-unit); margin-right: var(--spacing-unit); }
@@ -225,8 +223,8 @@ button:disabled, .btn:disabled { cursor: not-allowed !important; background-colo
 @media (hover: hover) {
     .btn-primary:hover:not(:disabled) { background-color: var(--color-accent-darker); border-color: var(--color-accent-darker); box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15); }
     .btn-secondary:hover:not(:disabled) { background-color: var(--color-secondary-bg-hover); }
-    .btn-link:hover { color: var(--color-link-hover); text-decoration: underline; }
-    #show-leaderboard-header-button.btn-link:hover { color: var(--color-text); background-color: var(--color-secondary-bg-hover); text-decoration: none;}
+    .btn-link:hover { color: var(--color-link); text-decoration: underline; }
+    #user-status strong:hover { color: var(--color-link); text-decoration: underline; }
     .btn-icon:hover:not(:disabled) { opacity: 1; }
     .btn-filter:hover:not(:disabled) { background-color: var(--color-secondary-bg-hover); opacity: 1; }
     #difficulty-selection .difficulty-option button.difficulty-button:hover:not(:disabled) { background-color: var(--color-accent); border-color: var(--color-accent); color: var(--color-accent-text); }
@@ -450,7 +448,6 @@ button:disabled, .btn:disabled { cursor: not-allowed !important; background-colo
     #auth-section { order: 2; width: 100%; justify-content: center; }
     #user-status { width: auto; justify-content: center; flex-wrap: wrap; }
     #user-status > * { font-size: 0.9em; margin: 0 4px; }
-    #user-status .btn-link, #user-status .btn-small { padding: 4px 6px; }
     #user-status strong { max-width: 150px; }
     .logo-container { order: 1; }
     body:not(.logged-out) #app-logo { margin-left: auto; margin-right: auto; margin-bottom: var(--spacing-unit); height: calc(var(--header-height) * 0.65); width: auto; max-height: 40px; }
