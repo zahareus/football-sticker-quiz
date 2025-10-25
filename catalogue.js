@@ -453,7 +453,7 @@ async function loadClubDetails(clubId) {
     try {
         const { data: clubData, error: clubError } = await supabaseClient
             .from('clubs')
-            .select('id, name, country')
+            .select('id, name, country, city, web, media')
             .eq('id', clubId)
             .single();
 
@@ -467,9 +467,8 @@ async function loadClubDetails(clubId) {
         } else {
             const countryInfo = countryCodeToDetails_Generic[clubData.country.toUpperCase()];
             const countryDisplayName = countryInfo ? countryInfo.name : clubData.country;
-            const countryFlag = countryCodeToFlagEmoji[clubData.country.toUpperCase()] || '';
-            
-            if(mainHeading) mainHeading.textContent = `${clubData.name} ${countryFlag} - Sticker Gallery`;
+
+            if(mainHeading) mainHeading.textContent = `${clubData.name} - Sticker Gallery`;
             
             const { count: totalClubsInCountry } = await supabaseClient
                 .from('clubs')
@@ -487,21 +486,34 @@ async function loadClubDetails(clubId) {
                 .eq('club_id', clubId)
                 .order('id', { ascending: true });
 
+            // Display club info blocks
+            let clubInfoHtml = '<div class="club-info-section">';
+            if (clubData.city) {
+                clubInfoHtml += `<p class="club-info-item">🌍 ${clubData.city}</p>`;
+            }
+            if (clubData.web) {
+                clubInfoHtml += `<p class="club-info-item">🌐 <a href="${clubData.web}" target="_blank" rel="noopener noreferrer">${clubData.web}</a></p>`;
+            }
+            if (clubData.media) {
+                clubInfoHtml += `<p class="club-info-item">#️⃣ ${clubData.media}</p>`;
+            }
+            clubInfoHtml += '</div>';
+
             if (stickersError) {
                 console.error(`Error fetching stickers for club ID ${clubId}:`, stickersError);
-                contentBodyHtml = `<p>Could not load stickers for this club: ${stickersError.message}</p>`;
+                contentBodyHtml = clubInfoHtml + `<p>Could not load stickers for this club: ${stickersError.message}</p>`;
             } else if (!stickersResponse || stickersResponse.length === 0) {
-                contentBodyHtml = '<p>No stickers found for this club.</p>';
+                contentBodyHtml = clubInfoHtml + '<p>No stickers found for this club.</p>';
             } else {
                 let galleryHtml = '<div class="sticker-gallery">';
-                stickersResponse.forEach(sticker => { 
+                stickersResponse.forEach(sticker => {
                     galleryHtml += `
                         <a href="catalogue.html?sticker_id=${sticker.id}" class="sticker-preview-link">
                             <img src="${sticker.image_url}" alt="Sticker ID ${sticker.id} for ${clubData.name}" class="sticker-preview-image">
                         </a>`;
                 });
                 galleryHtml += '</div>';
-                contentBodyHtml = galleryHtml;
+                contentBodyHtml = clubInfoHtml + galleryHtml;
             }
         }
         contentDiv.innerHTML = contentBodyHtml; 
@@ -596,8 +608,8 @@ async function loadStickerDetails(stickerId) {
                         <img src="${sticker.image_url}" alt="Sticker ${sticker.id} ${sticker.clubs ? `- ${sticker.clubs.name}`:''}" class="sticker-detail-image">
                     </div>
                     <div class="sticker-detail-info">
-                        <p><strong>🌍 Location Found:</strong> ${sticker.location || 'N/A'} <strong>📅 Date Found:</strong> ${sticker.found ? new Date(sticker.found).toLocaleDateString() : 'N/A'}</p>
-                        <p><strong>Fun fact:</strong> ${sticker.description || 'No description available.'}</p>
+                        <p><strong>🌍 Location Found:</strong> ${sticker.location || 'N/A'}</p>
+                        <p><strong>📅 Date Found:</strong> ${sticker.found ? new Date(sticker.found).toLocaleDateString() : 'N/A'}</p>
                     </div>
                 </div>
             `;
