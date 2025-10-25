@@ -111,17 +111,14 @@ button:disabled, .btn:disabled { cursor: not-allowed !important; background-colo
 #sticker-image.fade-in { animation: fadeIn 0.4s ease-out; }
 .options-group {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(2, 300px); /* Fixed width matching sticker */
     gap: calc(var(--spacing-unit) * 1.5);
-    max-width: 600px;
     margin: 0 auto;
+    justify-content: center;
 }
 .options-group button {
-    /* Fixed dimensions for consistent layout */
-    width: 100%;
-    min-width: 280px; /* Minimum width for ~25 characters */
-    max-width: 100%; /* Don't exceed grid cell */
-    min-height: 68px; /* Fixed height for 2 lines of text */
+    /* Fixed dimensions matching sticker container width */
+    width: 300px; /* Same as #sticker-container */
     height: 68px;
 
     margin: 0;
@@ -466,15 +463,17 @@ button:disabled, .btn:disabled { cursor: not-allowed !important; background-colo
 }
 @media (max-width: 700px) {
     #sticker-container { width: 220px; height: 220px; margin-bottom: calc(var(--spacing-unit) * 3); }
-    .options-group { max-width: 90%; }
     #game-area { margin-top: var(--spacing-unit); }
-    .options-group { gap: var(--spacing-unit); margin-bottom: calc(var(--spacing-unit) * 2); }
+    .options-group {
+        grid-template-columns: repeat(2, 220px); /* Match mobile sticker width */
+        gap: var(--spacing-unit);
+        margin-bottom: calc(var(--spacing-unit) * 2);
+    }
     .options-group button {
-        font-size: 0.9em; /* Smaller font for mobile */
-        padding: calc(var(--spacing-unit) * 0.875) var(--spacing-unit);
-        min-width: 0; /* Remove min-width constraint on mobile */
-        min-height: 60px; /* Slightly smaller for mobile */
+        width: 220px; /* Same as mobile #sticker-container */
         height: 60px;
+        font-size: 0.9em;
+        padding: calc(var(--spacing-unit) * 0.875) var(--spacing-unit);
     }
     .game-info { margin-top: 0; flex-direction: column; gap: var(--spacing-unit); }
     #timer, #score { font-size: 1em; padding: calc(var(--spacing-unit)*0.75) var(--spacing-unit); }
@@ -484,7 +483,9 @@ button:disabled, .btn:disabled { cursor: not-allowed !important; background-colo
 @media (max-width: 600px) {
     body { padding: 0; }
     .container { padding: 0 var(--spacing-unit); margin-top: calc(var(--spacing-unit) * 2); margin-bottom: calc(var(--spacing-unit) * 2); }
-    .options-group { grid-template-columns: 1fr; }
+    .options-group {
+        grid-template-columns: 220px; /* Single column, still matching sticker width */
+    }
     #result-area h2 { font-size: 2em; }
     #result-area .final-score-container { font-size: 1.5em; }
     #result-area #final-score { font-size: 1.8em; }
