@@ -62,29 +62,78 @@ const NICKNAME_NOUNS = ["Fox", "Wolf", "Mouse", "Tiger", "Car", "Tree", "Eagle",
 // Helper function to truncate strings
 function truncateString(str, num = 12) { if (!str) return ''; if (str.length <= num) { return str; } return str.slice(0, num) + '...'; }
 
+// Flag to track if event listeners have been added
+let eventListenersAdded = false;
+
 // Initialize DOM Elements
-function initializeDOMElements() {
+function initializeDOMElements(isRetry = false) {
+    console.log(`initializeDOMElements called (isRetry: ${isRetry})`);
+
     gameAreaElement = document.getElementById('game-area'); stickerImageElement = document.getElementById('sticker-image'); optionsContainerElement = document.getElementById('options'); timeLeftElement = document.getElementById('time-left'); currentScoreElement = document.getElementById('current-score'); scoreDisplayElement = document.getElementById('score'); resultAreaElement = document.getElementById('result-area'); finalScoreElement = document.getElementById('final-score'); rankContainerElement = document.getElementById('rank-container'); playAgainButton = document.getElementById('play-again'); resultSignInButton = document.getElementById('result-sign-in-button'); authSectionElement = document.getElementById('auth-section'); loginButton = document.getElementById('login-button'); userStatusElement = document.getElementById('user-status'); userNicknameElement = document.getElementById('user-nickname'); logoutButton = document.getElementById('logout-button'); difficultySelectionElement = document.getElementById('difficulty-selection'); loadingIndicator = document.getElementById('loading-indicator'); errorMessageElement = document.getElementById('error-message'); difficultyButtons = document.querySelectorAll('.difficulty-option .difficulty-button'); leaderboardSectionElement = document.getElementById('leaderboard-section'); leaderboardListElement = document.getElementById('leaderboard-list'); closeLeaderboardButton = document.getElementById('close-leaderboard-button'); showLeaderboardHeaderButton = document.getElementById('show-leaderboard-header-button'); leaderboardTimeFilterButtons = document.querySelectorAll('.leaderboard-time-filter'); leaderboardDifficultyFilterButtons = document.querySelectorAll('.leaderboard-difficulty-filter'); editNicknameForm = document.getElementById('edit-nickname-form'); nicknameInputElement = document.getElementById('nickname-input'); cancelEditNicknameButton = document.getElementById('cancel-edit-nickname-button'); landingPageElement = document.getElementById('landing-page'); landingLoginButton = document.getElementById('landing-login-button'); landingLeaderboardButton = document.getElementById('landing-leaderboard-button'); landingPlayEasyButton = document.getElementById('landing-play-easy-button'); introTextElement = document.getElementById('intro-text-element'); playerStatsElement = document.getElementById('player-stats-element'); playersTotalElement = document.getElementById('players-total'); playersTodayElement = document.getElementById('players-today');
-    const elements = { gameAreaElement, stickerImageElement, optionsContainerElement, timeLeftElement, currentScoreElement, scoreDisplayElement, resultAreaElement, finalScoreElement, playAgainButton, resultSignInButton, authSectionElement, loginButton, userStatusElement, userNicknameElement, logoutButton, difficultySelectionElement, leaderboardSectionElement, leaderboardListElement, closeLeaderboardButton, showLeaderboardHeaderButton, loadingIndicator, errorMessageElement, editNicknameForm, nicknameInputElement, cancelEditNicknameButton, landingPageElement, landingLoginButton, landingLeaderboardButton, landingPlayEasyButton, introTextElement }; let allFound = true; for (const key in elements) { if (!elements[key]) { const idName = key.replace(/([A-Z])/g, '-$1').toLowerCase().replace('-element', '').replace('-button', '').replace('-display', ''); console.error(`Error: Could not find DOM element with expected ID near '${idName}'! Check HTML.`); allFound = false; } } if (!difficultyButtons || difficultyButtons.length !== 3) { console.error(`Error: Found ${difficultyButtons?.length || 0} difficulty buttons, expected 3! Check selector '.difficulty-option .difficulty-button'.`); allFound = false; } if (!leaderboardTimeFilterButtons || leaderboardTimeFilterButtons.length === 0) { console.error("Error: Could not find leaderboard time filter buttons!"); allFound = false; } if (!leaderboardDifficultyFilterButtons || leaderboardDifficultyFilterButtons.length === 0) { console.error("Error: Could not find leaderboard difficulty filter buttons!"); allFound = false; } if (!allFound) { console.error("initializeDOMElements: Not all required elements found."); handleCriticalError("UI Error: Missing page elements."); return false; }
 
-    // --- Add Event Listeners ---
-    playAgainButton.addEventListener('click', showDifficultySelection); loginButton.addEventListener('click', loginWithGoogle); landingLoginButton.addEventListener('click', loginWithGoogle); if (resultSignInButton) resultSignInButton.addEventListener('click', loginWithGoogle); logoutButton.addEventListener('click', logout); difficultyButtons.forEach(button => { button.addEventListener('click', handleDifficultySelection); }); if (showLeaderboardHeaderButton) showLeaderboardHeaderButton.addEventListener('click', openLeaderboard); if (landingLeaderboardButton) landingLeaderboardButton.addEventListener('click', openLeaderboard); if (landingPlayEasyButton) landingPlayEasyButton.addEventListener('click', startEasyGame); closeLeaderboardButton.addEventListener('click', closeLeaderboard); leaderboardTimeFilterButtons.forEach(button => { button.addEventListener('click', handleTimeFilterChange); }); leaderboardDifficultyFilterButtons.forEach(button => { button.addEventListener('click', handleDifficultyFilterChange); }); userNicknameElement.addEventListener('click', showNicknameEditForm); editNicknameForm.addEventListener('submit', handleNicknameSave); cancelEditNicknameButton.addEventListener('click', hideNicknameEditForm);
+    const elements = { gameAreaElement, stickerImageElement, optionsContainerElement, timeLeftElement, currentScoreElement, scoreDisplayElement, resultAreaElement, finalScoreElement, playAgainButton, resultSignInButton, authSectionElement, loginButton, userStatusElement, userNicknameElement, logoutButton, difficultySelectionElement, leaderboardSectionElement, leaderboardListElement, closeLeaderboardButton, showLeaderboardHeaderButton, loadingIndicator, errorMessageElement, editNicknameForm, nicknameInputElement, cancelEditNicknameButton, landingPageElement, landingLoginButton, landingLeaderboardButton, landingPlayEasyButton, introTextElement };
 
-    // --- Animation End Listeners ---
-    if (scoreDisplayElement) { scoreDisplayElement.addEventListener('animationend', () => { scoreDisplayElement.classList.remove('score-updated'); }); }
-    if (finalScoreElement) { finalScoreElement.addEventListener('animationend', () => { finalScoreElement.classList.remove('final-score-animated'); }); }
-    if (stickerImageElement) { stickerImageElement.addEventListener('animationend', (event) => { if (event.animationName === 'fadeIn') { stickerImageElement.classList.remove('fade-in'); } }); }
-    // --- Listener for Timer Tick Animation ---
-    if (timeLeftElement) {
-        timeLeftElement.addEventListener('animationend', (event) => {
-            if (event.animationName === 'timer-tick') {
-                timeLeftElement.classList.remove('timer-tick-animation');
-            }
-        });
+    let allFound = true;
+    for (const key in elements) {
+        if (!elements[key]) {
+            const idName = key.replace(/([A-Z])/g, '-$1').toLowerCase().replace('-element', '').replace('-button', '').replace('-display', '');
+            console.error(`Error: Could not find DOM element with expected ID near '${idName}'! Check HTML.`);
+            allFound = false;
+        }
+    }
+
+    if (!difficultyButtons || difficultyButtons.length !== 3) {
+        console.error(`Error: Found ${difficultyButtons?.length || 0} difficulty buttons, expected 3! Check selector '.difficulty-option .difficulty-button'.`);
+        allFound = false;
+    }
+
+    if (!leaderboardTimeFilterButtons || leaderboardTimeFilterButtons.length === 0) {
+        console.error("Error: Could not find leaderboard time filter buttons!");
+        allFound = false;
+    }
+
+    if (!leaderboardDifficultyFilterButtons || leaderboardDifficultyFilterButtons.length === 0) {
+        console.error("Error: Could not find leaderboard difficulty filter buttons!");
+        allFound = false;
+    }
+
+    if (!allFound) {
+        console.error("initializeDOMElements: Not all required elements found.");
+
+        // Only show critical error on initial load, not on retries
+        if (!isRetry) {
+            handleCriticalError("UI Error: Missing page elements.");
+        }
+        return false;
+    }
+
+    // --- Add Event Listeners (only once) ---
+    if (!eventListenersAdded) {
+        console.log("Adding event listeners...");
+        playAgainButton.addEventListener('click', showDifficultySelection); loginButton.addEventListener('click', loginWithGoogle); landingLoginButton.addEventListener('click', loginWithGoogle); if (resultSignInButton) resultSignInButton.addEventListener('click', loginWithGoogle); logoutButton.addEventListener('click', logout); difficultyButtons.forEach(button => { button.addEventListener('click', handleDifficultySelection); }); if (showLeaderboardHeaderButton) showLeaderboardHeaderButton.addEventListener('click', openLeaderboard); if (landingLeaderboardButton) landingLeaderboardButton.addEventListener('click', openLeaderboard); if (landingPlayEasyButton) landingPlayEasyButton.addEventListener('click', startEasyGame); closeLeaderboardButton.addEventListener('click', closeLeaderboard); leaderboardTimeFilterButtons.forEach(button => { button.addEventListener('click', handleTimeFilterChange); }); leaderboardDifficultyFilterButtons.forEach(button => { button.addEventListener('click', handleDifficultyFilterChange); }); userNicknameElement.addEventListener('click', showNicknameEditForm); editNicknameForm.addEventListener('submit', handleNicknameSave); cancelEditNicknameButton.addEventListener('click', hideNicknameEditForm);
+
+        // --- Animation End Listeners ---
+        if (scoreDisplayElement) { scoreDisplayElement.addEventListener('animationend', () => { scoreDisplayElement.classList.remove('score-updated'); }); }
+        if (finalScoreElement) { finalScoreElement.addEventListener('animationend', () => { finalScoreElement.classList.remove('final-score-animated'); }); }
+        if (stickerImageElement) { stickerImageElement.addEventListener('animationend', (event) => { if (event.animationName === 'fadeIn') { stickerImageElement.classList.remove('fade-in'); } }); }
+        // --- Listener for Timer Tick Animation ---
+        if (timeLeftElement) {
+            timeLeftElement.addEventListener('animationend', (event) => {
+                if (event.animationName === 'timer-tick') {
+                    timeLeftElement.classList.remove('timer-tick-animation');
+                }
+            });
+        }
+
+        eventListenersAdded = true;
+        console.log("Event listeners added");
+    } else {
+        console.log("Event listeners already added, skipping");
     }
     // --------------------------------------
 
-    console.log("DOM elements initialized."); return true;
+    console.log("DOM elements initialized successfully");
+    return true;
 }
 
 // --- Function: Load All Club Names ---
@@ -181,30 +230,53 @@ async function loginWithGoogle() {
 }
 async function logout() { if (!supabaseClient) { return showError("Client error."); } console.log("Signing out..."); hideError(); showLoading(); try { const { error } = await supabaseClient.auth.signOut(); if (error) { throw error; } console.log("SignOut ok."); } catch (error) { console.error("Logout error:", error); showError(`Logout failed: ${error.message || 'Unknown'}`); } finally { hideLoading(); } }
 function updateAuthStateUI(user) {
+    console.log(`updateAuthStateUI called with user: ${user ? user.id : 'null'}`);
+    console.log(`currentUserProfile: ${currentUserProfile ? currentUserProfile.username : 'null'}`);
+
     // Check for essential elements with retry logic
     if (!loginButton || !userStatusElement || !difficultySelectionElement || !userNicknameElement || !showLeaderboardHeaderButton || !landingPageElement || !introTextElement) {
-        console.warn("updateAuthStateUI: Core UI elements not ready yet! Retrying in 500ms...");
+        console.warn("updateAuthStateUI: Core UI elements not ready yet! Attempting to re-initialize...");
 
-        // Try to re-initialize DOM elements
-        if (!initializeDOMElements()) {
-            // If still failing after retry, show error
+        // Try to re-initialize DOM elements (mark as retry to avoid critical error)
+        const initSuccess = initializeDOMElements(true);
+
+        if (!initSuccess) {
             console.error("updateAuthStateUI: Failed to initialize DOM elements");
-            hideLoading(); // Make sure loading is hidden
+            hideLoading();
+
+            // Retry after a delay
+            setTimeout(() => {
+                console.log("Retrying updateAuthStateUI after 500ms...");
+                updateAuthStateUI(user);
+            }, 500);
             return;
         }
 
         // Check again after re-initialization
         if (!loginButton || !userStatusElement || !difficultySelectionElement || !userNicknameElement || !showLeaderboardHeaderButton || !landingPageElement || !introTextElement) {
             console.error("updateAuthStateUI: Core UI elements still not found after retry!");
-            hideLoading(); // Make sure loading is hidden
+            console.error("Missing elements:", {
+                loginButton: !!loginButton,
+                userStatusElement: !!userStatusElement,
+                difficultySelectionElement: !!difficultySelectionElement,
+                userNicknameElement: !!userNicknameElement,
+                showLeaderboardHeaderButton: !!showLeaderboardHeaderButton,
+                landingPageElement: !!landingPageElement,
+                introTextElement: !!introTextElement
+            });
+            hideLoading();
             return;
         }
     }
 
+    console.log("All essential DOM elements found, proceeding with UI update");
+
     const bodyElement = document.body;
     hideNicknameEditForm();
+    hideLoading(); // Ensure loading is hidden
 
     // Hide all sections first
+    console.log("Hiding all sections...");
     if (difficultySelectionElement) difficultySelectionElement.style.display = 'none';
     if (gameAreaElement) gameAreaElement.style.display = 'none';
     if (resultAreaElement) resultAreaElement.style.display = 'none';
@@ -214,17 +286,24 @@ function updateAuthStateUI(user) {
     if (playerStatsElement) playerStatsElement.style.display = 'none';
 
     if (user) {
+        console.log("Setting up UI for logged in user");
         bodyElement.classList.remove('logged-out');
         const displayName = currentUserProfile?.username || user.email || 'Loading...';
+        console.log(`Display name: ${displayName}`);
+
         userNicknameElement.textContent = truncateString(displayName);
         userStatusElement.style.display = 'flex';
         loginButton.style.display = 'none';
         showLeaderboardHeaderButton.style.display = 'inline-block';
 
+        console.log("User status element display set to flex");
+
         if (leaderboardSectionElement?.style.display !== 'block') {
+            console.log("Calling showDifficultySelection()");
             showDifficultySelection();
         }
     } else {
+        console.log("Setting up UI for logged out user");
         bodyElement.classList.add('logged-out');
         currentUser = null;
         currentUserProfile = null;
@@ -243,6 +322,8 @@ function updateAuthStateUI(user) {
             }
         }
     }
+
+    console.log("updateAuthStateUI completed");
 }
 function generateRandomNickname() { const adj = NICKNAME_ADJECTIVES[Math.floor(Math.random() * NICKNAME_ADJECTIVES.length)]; const noun = NICKNAME_NOUNS[Math.floor(Math.random() * NICKNAME_NOUNS.length)]; return `${adj} ${noun}`; }
 async function checkAndCreateUserProfile(user) { if (!supabaseClient || !user) { return null; } console.log(`Checking profile for ${user.id}...`); let finalUsernameToShow = user.email || 'User'; let fetchedProfile = null; try { console.log("Fetching profile..."); let { data: profileData, error: selectError } = await supabaseClient .from('profiles') .select('id, username') .eq('id', user.id) .maybeSingle(); if (selectError && selectError.code !== 'PGRST116') { throw selectError; } console.log("Profile fetch result:", profileData); if (!profileData) { console.log(`Creating profile...`); const randomNickname = generateRandomNickname(); const { data: insertedProfile, error: insertError } = await supabaseClient .from('profiles') .insert({ id: user.id, username: randomNickname, updated_at: new Date() }) .select('id, username') .single(); if (insertError) { throw insertError; } fetchedProfile = insertedProfile; finalUsernameToShow = insertedProfile?.username || finalUsernameToShow; console.log(`Created: ${finalUsernameToShow}`); } else { fetchedProfile = profileData; finalUsernameToShow = profileData.username || finalUsernameToShow; console.log(`Exists: ${finalUsernameToShow}`); } currentUserProfile = fetchedProfile; return finalUsernameToShow; } catch (error) { console.error("checkAndCreateUserProfile error:", error); showError(`Profile Error: ${error.message || 'Load failed'}`); currentUserProfile = null; return user.email || 'User'; } }
@@ -260,38 +341,49 @@ function setupAuthStateChangeListener() {
             if (user) {
                 currentUser = user;
 
+                // Load profile for SIGNED_IN or INITIAL_SESSION events
                 if (!currentUserProfile || currentUserProfile.id !== user.id) {
+                    // Show loading only for SIGNED_IN (not for INITIAL_SESSION on page load)
                     if (_event === 'SIGNED_IN') {
                         showLoading();
                         loadingShown = true;
+                    }
 
-                        // Set a safety timeout to force hide loading after 10 seconds
-                        const safetyTimeout = setTimeout(() => {
-                            console.warn("Safety timeout: forcing hideLoading()");
+                    // Set a safety timeout to force hide loading after 10 seconds
+                    const safetyTimeout = setTimeout(() => {
+                        console.warn("Safety timeout: forcing hideLoading()");
+                        hideLoading();
+                        loadingShown = false;
+                    }, 10000);
+
+                    try {
+                        await checkAndCreateUserProfile(user);
+                    } finally {
+                        clearTimeout(safetyTimeout);
+                        if (loadingShown) {
                             hideLoading();
                             loadingShown = false;
-                        }, 10000);
-
-                        try {
-                            await checkAndCreateUserProfile(user);
-                        } finally {
-                            clearTimeout(safetyTimeout);
-                            if (loadingShown) {
-                                hideLoading();
-                                loadingShown = false;
-                            }
                         }
                     }
                 }
 
-                updateAuthStateUI(user);
+                // Add a small delay before updating UI to ensure DOM is fully ready
+                // This is especially important on mobile devices after OAuth redirect
+                setTimeout(() => {
+                    console.log("Updating auth UI for logged in user");
+                    updateAuthStateUI(user);
+                }, 100);
             } else {
                 if (_event === 'SIGNED_OUT') {
                     currentUserProfile = null;
                     console.log("Signed out.");
                 }
                 currentUser = null;
-                updateAuthStateUI(null);
+
+                setTimeout(() => {
+                    console.log("Updating auth UI for logged out user");
+                    updateAuthStateUI(null);
+                }, 100);
             }
         } catch (error) {
             console.error("Error in auth state change handler:", error);
@@ -400,7 +492,63 @@ function stopTimer() { if (timerInterval !== null) { clearInterval(timerInterval
 // ----------------------------------------------------
 
 // ----- 9. Game Flow Functions -----
-function showDifficultySelection() { hideError(); if (!difficultySelectionElement || !gameAreaElement || !resultAreaElement || !leaderboardSectionElement || !landingPageElement || !introTextElement ) { if (!initializeDOMElements()) { handleCriticalError("UI Error."); return; } } if(gameAreaElement) gameAreaElement.style.display = 'none'; if(resultAreaElement) resultAreaElement.style.display = 'none'; if(leaderboardSectionElement) leaderboardSectionElement.style.display = 'none'; if(introTextElement) introTextElement.style.display = 'block'; if(playerStatsElement) { playerStatsElement.style.display = 'block'; loadPlayerStatistics(); } if (currentUser) { if(landingPageElement) landingPageElement.style.display = 'none'; if(difficultySelectionElement) difficultySelectionElement.style.display = 'block'; console.log("Showing difficulty selection for logged in user."); } else { if(difficultySelectionElement) difficultySelectionElement.style.display = 'none'; if(landingPageElement) landingPageElement.style.display = 'flex'; console.log("Showing landing page for non-logged in user."); } }
+function showDifficultySelection() {
+    console.log("showDifficultySelection() called");
+    console.log(`currentUser: ${currentUser ? currentUser.id : 'null'}`);
+
+    hideError();
+
+    if (!difficultySelectionElement || !gameAreaElement || !resultAreaElement || !leaderboardSectionElement || !landingPageElement || !introTextElement ) {
+        console.warn("showDifficultySelection: Missing elements, attempting to re-initialize");
+        if (!initializeDOMElements(true)) {
+            console.error("showDifficultySelection: Failed to initialize DOM elements");
+            return;
+        }
+    }
+
+    console.log("Hiding game and result areas");
+    if(gameAreaElement) gameAreaElement.style.display = 'none';
+    if(resultAreaElement) resultAreaElement.style.display = 'none';
+    if(leaderboardSectionElement) leaderboardSectionElement.style.display = 'none';
+
+    console.log("Showing intro text and player stats");
+    if(introTextElement) {
+        introTextElement.style.display = 'block';
+        console.log("introTextElement display set to block");
+    }
+
+    if(playerStatsElement) {
+        playerStatsElement.style.display = 'block';
+        console.log("playerStatsElement display set to block");
+        loadPlayerStatistics();
+    }
+
+    if (currentUser) {
+        console.log("User is logged in, showing difficulty selection");
+        if(landingPageElement) {
+            landingPageElement.style.display = 'none';
+            console.log("landingPageElement hidden");
+        }
+        if(difficultySelectionElement) {
+            difficultySelectionElement.style.display = 'block';
+            console.log("difficultySelectionElement display set to block");
+        }
+        console.log("Showing difficulty selection for logged in user.");
+    } else {
+        console.log("User is not logged in, showing landing page");
+        if(difficultySelectionElement) {
+            difficultySelectionElement.style.display = 'none';
+            console.log("difficultySelectionElement hidden");
+        }
+        if(landingPageElement) {
+            landingPageElement.style.display = 'flex';
+            console.log("landingPageElement display set to flex");
+        }
+        console.log("Showing landing page for non-logged in user.");
+    }
+
+    console.log("showDifficultySelection() completed");
+}
 function handleDifficultySelection(event) { const difficulty = parseInt(event.target.dataset.difficulty, 10); if (![1, 2, 3].includes(difficulty)) { return; } selectedDifficulty = difficulty; console.log(`Difficulty ${selectedDifficulty} selected.`); preloadingPromise = loadNewQuestion(true); console.log('Started preloading first question...'); if(difficultySelectionElement) difficultySelectionElement.style.display = 'none'; if(introTextElement) introTextElement.style.display = 'none'; if(playerStatsElement) playerStatsElement.style.display = 'none'; startGame(); }
 function startEasyGame() { selectedDifficulty = 1; console.log('Starting Easy game without login.'); preloadingPromise = loadNewQuestion(true); console.log('Started preloading first question...'); if(landingPageElement) landingPageElement.style.display = 'none'; if(introTextElement) introTextElement.style.display = 'none'; if(playerStatsElement) playerStatsElement.style.display = 'none'; startGame(); }
 async function startGame() { hideError(); if (selectedDifficulty === null || ![1, 2, 3].includes(selectedDifficulty)) { showDifficultySelection(); return; } if (!gameAreaElement || !currentScoreElement || !resultAreaElement || !optionsContainerElement) { if (!initializeDOMElements()) { handleCriticalError("Failed init."); return; } } currentScore = 0; if (currentScoreElement) currentScoreElement.textContent = 0; if (resultAreaElement) { const msg = resultAreaElement.querySelector('.save-message'); if(msg) msg.remove(); resultAreaElement.style.display = 'none'; } if(difficultySelectionElement) difficultySelectionElement.style.display = 'none'; if(introTextElement) introTextElement.style.display = 'none'; if (gameAreaElement) gameAreaElement.style.display = 'block'; if (optionsContainerElement) { optionsContainerElement.innerHTML = ''; } if(landingPageElement) landingPageElement.style.display = 'none'; console.log(`Starting game: Diff ${selectedDifficulty}`); if (preloadingPromise) { console.log('Using preloaded first question...'); const questionData = await preloadingPromise; preloadingPromise = null; if (questionData) { displayQuestion(questionData); } else { console.error('Preloaded question failed. Loading new one...'); await loadNextQuestion(); } } else { await loadNextQuestion(); } }
