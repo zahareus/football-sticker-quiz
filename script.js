@@ -210,18 +210,22 @@ async function loginWithGoogle() {
     showLoading();
 
     try {
+        // Build the redirect URL to quiz.html
+        const baseUrl = window.location.origin;
+        const redirectUrl = `${baseUrl}/quiz.html`;
+
+        console.log(`OAuth redirect URL: ${redirectUrl}`);
+
         const { error } = await supabaseClient.auth.signInWithOAuth({
             provider: 'google',
             options: {
-                redirectTo: window.location.href
+                redirectTo: redirectUrl
             }
         });
 
         if (error) throw error;
 
-        // Note: hideLoading() is not called here because the OAuth redirect
-        // will navigate away from the page. The loading will be hidden when
-        // the user returns via the auth state change listener.
+        console.log("OAuth redirect initiated...");
     } catch (error) {
         console.error("Login error:", error);
         showError(`Login failed: ${error.message}`);
