@@ -454,6 +454,7 @@ button:disabled, .btn:disabled { cursor: not-allowed !important; background-colo
 .club-list li {
     margin-bottom: var(--spacing-unit);
     font-size: 1.1em; /* Ð Ð¾Ð·Ð¼Ñ–Ñ€ Ñ‚ÐµÐºÑÑ‚Ñƒ ÑÐº Ñƒ ÑÐ¿Ð¸ÑÐºÑƒ ÐºÑ€Ð°Ñ—Ð½ */
+}
 
 .club-list li a,
 #catalogue-content .club-list li a {
@@ -796,8 +797,6 @@ body.home-page #app-logo {
     }
 
     #home-sticker-container {
-        width: 220px;
-        height: 220px;
         margin-bottom: calc(var(--spacing-unit) * 2);
     }
 
@@ -825,10 +824,6 @@ body.home-page #app-logo {
         font-size: 0.95em;
     }
 
-    #home-sticker-container {
-        width: 200px;
-        height: 200px;
-    }
 
     #home-club-name {
         font-size: 1.3em;
