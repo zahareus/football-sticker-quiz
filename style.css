@@ -240,7 +240,8 @@ button:disabled, .btn:disabled { cursor: not-allowed !important; background-colo
     #difficulty-selection .difficulty-option button.difficulty-button:hover:not(:disabled) { background-color: var(--color-accent); border-color: var(--color-accent); color: var(--color-accent-text); }
     .options-group button:hover:not(:disabled) { background-color: var(--color-accent); border-color: var(--color-accent); color: var(--color-accent-text); }
     #leaderboard-list li:hover { background-color: var(--color-secondary-bg-hover); }
-    .country-list li a:hover { color: var(--color-link-hover); text-decoration: underline; } /* Added for catalogue links */
+    .country-list li a:hover { color: var(--color-link); text-decoration: underline; } /* Catalog links match footer style */
+    .club-list li a:hover { color: var(--color-link); text-decoration: underline; } /* Catalog links match footer style */
 }
 
 /* --- Footer Styling --- */
@@ -313,14 +314,16 @@ button:disabled, .btn:disabled { cursor: not-allowed !important; background-colo
 }
 
 .breadcrumb-item a {
-    color: var(--color-link);
+    color: var(--color-info-text);
     text-decoration: none;
     font-weight: 500;
 }
 
-.breadcrumb-item a:hover {
-    color: var(--color-link-hover);
-    text-decoration: underline;
+@media (hover: hover) {
+    .breadcrumb-item a:hover {
+        color: var(--color-link);
+        text-decoration: underline;
+    }
 }
 
 .breadcrumb-item span { /* Ð”Ð»Ñ Ð¾ÑÑ‚Ð°Ð½Ð½ÑŒÐ¾Ð³Ð¾ ÐµÐ»ÐµÐ¼ÐµÐ½Ñ‚Ð°, ÑÐºÐ¸Ð¹ Ð½Ðµ Ñ” Ð¿Ð¾ÑÐ¸Ð»Ð°Ð½Ð½ÑÐ¼ */
@@ -415,13 +418,12 @@ button:disabled, .btn:disabled { cursor: not-allowed !important; background-colo
 
 .country-list li a {
     text-decoration: none;
-    color: var(--color-link);
+    color: var(--color-info-text);
     font-weight: 500;
     padding: calc(var(--spacing-unit) * 0.5) 0;
     display: inline-block;
     line-height: 1.3; /* Improve alignment with flag emoji */
 }
-/* Hover effect for country list links is already covered by the global @media (hover: hover) section */
 
 .flag-emoji {
     margin-right: calc(var(--spacing-unit) * 1); /* Space between flag and country name */
@@ -455,7 +457,7 @@ button:disabled, .btn:disabled { cursor: not-allowed !important; background-colo
 
 .club-list li a {
     text-decoration: none;
-    color: var(--color-link);
+    color: var(--color-info-text);
     font-weight: 500;
     display: inline-block;
     padding: calc(var(--spacing-unit) * 0.5) 0;
@@ -711,8 +713,8 @@ body.home-page #app-logo {
 }
 
 #home-sticker-container {
-    width: 280px;
-    height: 280px;
+    width: 300px;
+    height: 300px;
     margin-bottom: calc(var(--spacing-unit) * 2);
     background-color: var(--color-secondary-bg);
     border: 1px solid var(--color-border);
