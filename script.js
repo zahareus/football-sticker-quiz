@@ -384,86 +384,125 @@ async function checkAndCreateUserProfile(user) {
 
     try {
         console.log("Fetching profile...");
+        // Try to fetch with session_id column, but handle if it doesn't exist
         let { data: profileData, error: selectError } = await supabaseClient
             .from('profiles')
             .select('id, username, active_session_id')
             .eq('id', user.id)
             .maybeSingle();
 
-        if (selectError && selectError.code !== 'PGRST116') {
+        // If column doesn't exist, fetch without it
+        if (selectError && selectError.message && selectError.message.includes('active_session_id')) {
+            console.warn("⚠️ active_session_id column not found, session management disabled");
+            console.log("Fetching profile without session management...");
+
+            const { data: basicProfile, error: basicError } = await supabaseClient
+                .from('profiles')
+                .select('id, username')
+                .eq('id', user.id)
+                .maybeSingle();
+
+            if (basicError && basicError.code !== 'PGRST116') {
+                throw basicError;
+            }
+
+            profileData = basicProfile;
+            selectError = null;
+        } else if (selectError && selectError.code !== 'PGRST116') {
             throw selectError;
         }
 
         console.log("Profile fetch result:", profileData);
 
-        const localSessionId = getLocalSessionId();
-        console.log(`Local session ID: ${localSessionId}`);
-
         if (!profileData) {
-            // Create new profile with this session as active
+            // Create new profile
             console.log(`Creating profile...`);
             const randomNickname = generateRandomNickname();
-            const { data: insertedProfile, error: insertError } = await supabaseClient
+
+            // Try with session management first
+            let insertResult = await supabaseClient
                 .from('profiles')
                 .insert({
                     id: user.id,
                     username: randomNickname,
-                    active_session_id: localSessionId,
+                    active_session_id: getLocalSessionId(),
                     updated_at: new Date()
                 })
                 .select('id, username, active_session_id')
                 .single();
 
-            if (insertError) {
-                throw insertError;
+            // If column doesn't exist, create without it
+            if (insertResult.error && insertResult.error.message && insertResult.error.message.includes('active_session_id')) {
+                console.warn("⚠️ Creating profile without session management");
+                insertResult = await supabaseClient
+                    .from('profiles')
+                    .insert({
+                        id: user.id,
+                        username: randomNickname,
+                        updated_at: new Date()
+                    })
+                    .select('id, username')
+                    .single();
             }
 
-            fetchedProfile = insertedProfile;
-            finalUsernameToShow = insertedProfile?.username || finalUsernameToShow;
-            console.log(`✓ Profile created with session: ${localSessionId}`);
+            if (insertResult.error) {
+                throw insertResult.error;
+            }
+
+            fetchedProfile = insertResult.data;
+            finalUsernameToShow = insertResult.data?.username || finalUsernameToShow;
+            console.log(`✓ Profile created: ${finalUsernameToShow}`);
         } else {
             fetchedProfile = profileData;
             finalUsernameToShow = profileData.username || finalUsernameToShow;
 
-            // Check if this session matches the active session
-            if (profileData.active_session_id && profileData.active_session_id !== localSessionId) {
-                console.warn(`⚠️ Session mismatch detected!`);
-                console.warn(`   Database session: ${profileData.active_session_id}`);
-                console.warn(`   Local session: ${localSessionId}`);
-                console.warn(`   This means user logged in elsewhere. Updating to current session...`);
+            // Only handle session management if column exists
+            if ('active_session_id' in profileData) {
+                const localSessionId = getLocalSessionId();
+                console.log(`Local session ID: ${localSessionId}`);
 
-                // Update to make this the active session (logout other devices)
-                const { error: updateError } = await supabaseClient
-                    .from('profiles')
-                    .update({
-                        active_session_id: localSessionId,
-                        updated_at: new Date()
-                    })
-                    .eq('id', user.id);
+                // Check if this session matches the active session
+                if (profileData.active_session_id && profileData.active_session_id !== localSessionId) {
+                    console.warn(`⚠️ Session mismatch detected!`);
+                    console.warn(`   Database session: ${profileData.active_session_id}`);
+                    console.warn(`   Local session: ${localSessionId}`);
+                    console.warn(`   This means user logged in elsewhere. Updating to current session...`);
 
-                if (updateError) {
-                    console.error("Failed to update session:", updateError);
+                    // Update to make this the active session (logout other devices)
+                    const { error: updateError } = await supabaseClient
+                        .from('profiles')
+                        .update({
+                            active_session_id: localSessionId,
+                            updated_at: new Date()
+                        })
+                        .eq('id', user.id);
+
+                    if (updateError) {
+                        console.error("Failed to update session:", updateError);
+                    } else {
+                        console.log(`✓ Session updated. Other devices will be logged out.`);
+                        fetchedProfile.active_session_id = localSessionId;
+                    }
+                } else if (!profileData.active_session_id) {
+                    // Old profile without session tracking, add it now
+                    console.log("Adding session tracking to existing profile...");
+                    const { error: updateError } = await supabaseClient
+                        .from('profiles')
+                        .update({
+                            active_session_id: localSessionId,
+                            updated_at: new Date()
+                        })
+                        .eq('id', user.id);
+
+                    if (!updateError) {
+                        fetchedProfile.active_session_id = localSessionId;
+                        console.log(`✓ Session tracking added: ${localSessionId}`);
+                    }
                 } else {
-                    console.log(`✓ Session updated. Other devices will be logged out.`);
-                    fetchedProfile.active_session_id = localSessionId;
-                }
-            } else if (!profileData.active_session_id) {
-                // Old profile without session tracking, add it now
-                console.log("Adding session tracking to existing profile...");
-                const { error: updateError } = await supabaseClient
-                    .from('profiles')
-                    .update({
-                        active_session_id: localSessionId,
-                        updated_at: new Date()
-                    })
-                    .eq('id', user.id);
-
-                if (!updateError) {
-                    fetchedProfile.active_session_id = localSessionId;
-                    console.log(`✓ Session tracking added: ${localSessionId}`);
+                    console.log(`✓ Session matches. User authenticated on this device.`);
                 }
             } else {
-                console.log(`✓ Session matches. User authenticated on this device.`);
+                console.log(`✓ Profile exists (session management not available)`);
             }
         }
 
@@ -483,6 +522,11 @@ async function validateSession() {
         return true; // No session to validate
     }
 
+    // Only validate if session management is available
+    if (!('active_session_id' in currentUserProfile)) {
+        return true; // Session management not available, skip validation
+    }
+
     try {
         const { data: profileData, error } = await supabaseClient
             .from('profiles')
@@ -491,6 +535,10 @@ async function validateSession() {
             .single();
 
         if (error) {
+            // If column doesn't exist, silently skip validation
+            if (error.message && error.message.includes('active_session_id')) {
+                return true;
+            }
             console.error("Session validation error:", error);
             return true; // Don't log out on error
         }
