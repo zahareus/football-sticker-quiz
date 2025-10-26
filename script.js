@@ -97,46 +97,29 @@ async function loadPlayerStatistics() {
     }
 
     try {
-        // Get total unique players (both authenticated and anonymous sessions)
-        const { data: allGames, error: allError } = await supabaseClient
-            .from('games')
-            .select('user_id, session_id');
+        // Get total games count from scores table (1 game = 1 player)
+        const { count: totalGames, error: totalError } = await supabaseClient
+            .from('scores')
+            .select('*', { count: 'exact', head: true });
 
-        if (allError) throw allError;
+        if (totalError) throw totalError;
 
-        // Count unique players (user_id or session_id)
-        const uniquePlayers = new Set();
-        if (allGames) {
-            allGames.forEach(game => {
-                const identifier = game.user_id || game.session_id;
-                if (identifier) uniquePlayers.add(identifier);
-            });
-        }
+        // Get games from last 24 hours
+        const twentyFourHoursAgo = new Date();
+        twentyFourHoursAgo.setHours(twentyFourHoursAgo.getHours() - 24);
+        const twentyFourHoursAgoISO = twentyFourHoursAgo.toISOString();
 
-        // Get today's unique players
-        const today = new Date();
-        today.setHours(0, 0, 0, 0);
-        const todayISO = today.toISOString();
-
-        const { data: todayGames, error: todayError } = await supabaseClient
-            .from('games')
-            .select('user_id, session_id')
-            .gte('created_at', todayISO);
+        const { count: todayGames, error: todayError } = await supabaseClient
+            .from('scores')
+            .select('*', { count: 'exact', head: true })
+            .gte('created_at', twentyFourHoursAgoISO);
 
         if (todayError) throw todayError;
 
-        const uniquePlayersToday = new Set();
-        if (todayGames) {
-            todayGames.forEach(game => {
-                const identifier = game.user_id || game.session_id;
-                if (identifier) uniquePlayersToday.add(identifier);
-            });
-        }
+        playersTotalElement.textContent = totalGames || 0;
+        playersTodayElement.textContent = todayGames || 0;
 
-        playersTotalElement.textContent = uniquePlayers.size;
-        playersTodayElement.textContent = uniquePlayersToday.size;
-
-        console.log(`Player stats loaded: ${uniquePlayers.size} total, ${uniquePlayersToday.size} today`);
+        console.log(`Player stats loaded: ${totalGames || 0} total, ${todayGames || 0} today`);
     } catch (error) {
         console.error('Error loading player statistics:', error);
         playersTotalElement.textContent = '-';
