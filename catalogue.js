@@ -450,11 +450,10 @@ async function loadCountryDetails(countryCode) {
             const countryDisplayName = countryInfo ? countryInfo.name : countryCode;
             contentBodyHtml = `<p>No clubs found for ${countryDisplayName} in the catalogue.</p>`;
         } else {
-            // Update page title with country flag and name
+            // Update page title with country name
             const countryInfo = countryCodeToDetails_Generic[countryCode];
             const countryDisplayName = countryInfo ? countryInfo.name : countryCode;
-            const countryFlag = countryInfo ? countryInfo.flag : '';
-            document.title = `${countryFlag} ${countryDisplayName} Clubs - Sticker Catalogue`;
+            document.title = `${countryDisplayName} Clubs - Sticker Catalogue`;
 
             // Get all club IDs to fetch sticker counts in one query
             const clubIds = clubsInCountry.map(club => club.id);
@@ -626,6 +625,10 @@ async function loadStickerDetails(stickerId) {
 
         let contentBodyHtml = '';
 
+        // Initialize navigation variables outside of conditional blocks
+        let prevStickerId = null;
+        let nextStickerId = null;
+
         if (stickerError || !sticker) {
             console.error(`Error fetching sticker details for ID ${stickerId}:`, stickerError);
             if(mainHeading) mainHeading.textContent = "Sticker Not Found";
@@ -675,9 +678,6 @@ async function loadStickerDetails(stickerId) {
                     .eq('club_id', sticker.club_id)
                     .order('id', { ascending: true });
 
-                let prevStickerId = null;
-                let nextStickerId = null;
-
                 if (clubStickers && clubStickers.length > 1) {
                     const currentIndex = clubStickers.findIndex(s => s.id === sticker.id);
                     if (currentIndex > 0) {
@@ -692,24 +692,33 @@ async function loadStickerDetails(stickerId) {
                  updateBreadcrumbs([{ text: `All Countries (${totalCountriesInCatalogue})`, link: 'catalogue.html' }]);
             }
 
-            // Navigation links for prev/next stickers
-            let prevLink = '';
-            let nextLink = '';
-            if (typeof prevStickerId !== 'undefined' && prevStickerId !== null) {
-                prevLink = `<a href="catalogue.html?sticker_id=${prevStickerId}" style="position: absolute; left: 10px; top: 50%; transform: translateY(-50%); color: var(--color-info-text); text-decoration: none; font-size: 1.2em;">#${prevStickerId}</a>`;
-            }
-            if (typeof nextStickerId !== 'undefined' && nextStickerId !== null) {
-                nextLink = `<a href="catalogue.html?sticker_id=${nextStickerId}" style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); color: var(--color-info-text); text-decoration: none; font-size: 1.2em;">#${nextStickerId}</a>`;
+            // Navigation links for prev/next stickers (positioned below image)
+            let navigationHtml = '';
+            if (prevStickerId !== null || nextStickerId !== null) {
+                navigationHtml = '<div style="display: flex; justify-content: space-between; align-items: center; margin-top: 16px; margin-bottom: 24px; gap: 16px;">';
+
+                if (prevStickerId !== null) {
+                    navigationHtml += `<a href="catalogue.html?sticker_id=${prevStickerId}" style="color: var(--color-info-text); text-decoration: none; font-size: 1.1em; font-weight: 500;">← #${prevStickerId}</a>`;
+                } else {
+                    navigationHtml += '<span style="visibility: hidden;">← #0</span>'; // Placeholder for alignment
+                }
+
+                if (nextStickerId !== null) {
+                    navigationHtml += `<a href="catalogue.html?sticker_id=${nextStickerId}" style="color: var(--color-info-text); text-decoration: none; font-size: 1.1em; font-weight: 500;">#${nextStickerId} →</a>`;
+                } else {
+                    navigationHtml += '<span style="visibility: hidden;">#0 →</span>'; // Placeholder for alignment
+                }
+
+                navigationHtml += '</div>';
             }
 
             // User's preferred structure for sticker details:
             contentBodyHtml = `
-                <div class="sticker-detail-view" style="position: relative;">
-                    ${prevLink}
+                <div class="sticker-detail-view">
                     <div class="sticker-detail-image-container" onclick="window.open('${sticker.image_url}', '_blank')">
                         <img src="${sticker.image_url}" alt="Sticker ${sticker.id} ${sticker.clubs ? `- ${sticker.clubs.name}`:''}" class="sticker-detail-image">
                     </div>
-                    ${nextLink}
+                    ${navigationHtml}
                     <div class="sticker-detail-info">
                         <p><strong>🌍 Location Found:</strong> ${sticker.location || 'N/A'}</p>
                         <p><strong>📅 Date Found:</strong> ${sticker.found ? new Date(sticker.found).toLocaleDateString() : 'N/A'}</p>
