@@ -489,14 +489,14 @@ button:disabled, .btn:disabled { cursor: not-allowed !important; background-colo
 }
 
 .club-info-item a {
-    color: var(--color-link);
+    color: var(--color-info-text);
     text-decoration: none;
     word-break: break-all;
 }
 
 @media (hover: hover) {
     .club-info-item a:hover {
-        color: var(--color-link-hover);
+        color: var(--color-link);
         text-decoration: underline;
     }
 }
@@ -671,10 +671,9 @@ body.home-page .logo-container {
 }
 
 body.home-page #app-logo {
-    height: auto;
-    width: 40%;
-    max-width: 220px;
-    max-height: none;
+    height: calc(var(--header-height) * 0.5);
+    width: auto;
+    max-height: 32px;
 }
 
 .home-container {
