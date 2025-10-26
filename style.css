@@ -241,7 +241,8 @@ button:disabled, .btn:disabled { cursor: not-allowed !important; background-colo
     .options-group button:hover:not(:disabled) { background-color: var(--color-accent); border-color: var(--color-accent); color: var(--color-accent-text); }
     #leaderboard-list li:hover { background-color: var(--color-secondary-bg-hover); }
     .country-list li a:hover { color: var(--color-link); text-decoration: underline; } /* Catalog links match footer style */
-    .club-list li a:hover { color: var(--color-link); text-decoration: underline; } /* Catalog links match footer style */
+    .club-list li a:hover,
+    #catalogue-content .club-list li a:hover { color: var(--color-link); text-decoration: underline; } /* Catalog links match footer style */
 }
 
 /* --- Footer Styling --- */
