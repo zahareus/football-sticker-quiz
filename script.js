@@ -233,10 +233,25 @@ async function loginWithGoogle() {
     }
 }
 async function logout() { if (!supabaseClient) { return showError("Client error."); } console.log("Signing out..."); hideError(); showLoading(); try { const { error } = await supabaseClient.auth.signOut(); if (error) { throw error; } console.log("SignOut ok."); } catch (error) { console.error("Logout error:", error); showError(`Logout failed: ${error.message || 'Unknown'}`); } finally { hideLoading(); } }
+// Prevent rapid duplicate calls to updateAuthStateUI
+let lastUpdateAuthCall = 0;
+let updateAuthDebounceMs = 100;
+
 function updateAuthStateUI(user) {
+    const now = Date.now();
+    const timeSinceLastCall = now - lastUpdateAuthCall;
+
     console.log(`========== updateAuthStateUI START ==========`);
+    console.log(`Time since last call: ${timeSinceLastCall}ms`);
     console.log(`User: ${user ? user.id : 'null'}`);
     console.log(`currentUserProfile: ${currentUserProfile ? currentUserProfile.username : 'null'}`);
+
+    // Prevent rapid duplicate calls (within 100ms)
+    if (timeSinceLastCall < updateAuthDebounceMs) {
+        console.warn(`⚠️ Ignoring duplicate call within ${updateAuthDebounceMs}ms`);
+        return;
+    }
+    lastUpdateAuthCall = now;
 
     // Force re-initialize if elements missing
     if (!loginButton || !userStatusElement || !difficultySelectionElement || !userNicknameElement || !showLeaderboardHeaderButton || !landingPageElement || !introTextElement) {
@@ -265,15 +280,15 @@ function updateAuthStateUI(user) {
     hideNicknameEditForm();
     hideLoading();
 
-    // Hide ALL sections first
-    console.log("Hiding all sections...");
-    difficultySelectionElement.style.display = 'none';
-    gameAreaElement.style.display = 'none';
-    resultAreaElement.style.display = 'none';
-    leaderboardSectionElement.style.display = 'none';
-    landingPageElement.style.display = 'none';
-    introTextElement.style.display = 'none';
-    if (playerStatsElement) playerStatsElement.style.display = 'none';
+    // Hide ALL sections first using !important
+    console.log("Hiding all sections with !important...");
+    difficultySelectionElement.style.cssText = 'display: none !important;';
+    gameAreaElement.style.cssText = 'display: none !important;';
+    resultAreaElement.style.cssText = 'display: none !important;';
+    leaderboardSectionElement.style.cssText = 'display: none !important;';
+    landingPageElement.style.cssText = 'display: none !important;';
+    introTextElement.style.cssText = 'display: none !important;';
+    if (playerStatsElement) playerStatsElement.style.cssText = 'display: none !important;';
 
     if (user) {
         console.log("==== USER IS LOGGED IN ====");
@@ -281,60 +296,248 @@ function updateAuthStateUI(user) {
         const displayName = currentUserProfile?.username || user.email || 'Loading...';
 
         userNicknameElement.textContent = truncateString(displayName);
-        userStatusElement.style.display = 'flex';
-        loginButton.style.display = 'none';
-        showLeaderboardHeaderButton.style.display = 'inline-block';
+        userStatusElement.style.cssText = 'display: flex !important;';
+        loginButton.style.cssText = 'display: none !important;';
+        showLeaderboardHeaderButton.style.cssText = 'display: inline-block !important;';
 
-        console.log(`Setting user status display to flex`);
+        console.log(`Setting user status display to flex with !important`);
         console.log(`User nickname set to: ${displayName}`);
 
-        // Show difficulty selection elements
-        console.log("Showing difficulty selection elements...");
-        difficultySelectionElement.style.display = 'block';
-        introTextElement.style.display = 'block';
+        // Show difficulty selection elements with !important to force visibility
+        console.log("Showing difficulty selection elements with !important...");
+        difficultySelectionElement.style.cssText = 'display: block !important;';
+        introTextElement.style.cssText = 'display: block !important;';
         if (playerStatsElement) {
-            playerStatsElement.style.display = 'block';
+            playerStatsElement.style.cssText = 'display: block !important;';
             loadPlayerStatistics();
         }
 
-        console.log(`difficultySelectionElement.style.display = ${difficultySelectionElement.style.display}`);
-        console.log(`introTextElement.style.display = ${introTextElement.style.display}`);
+        // Verify elements are actually visible
+        console.log(`✓ difficultySelectionElement computed display: ${window.getComputedStyle(difficultySelectionElement).display}`);
+        console.log(`✓ introTextElement computed display: ${window.getComputedStyle(introTextElement).display}`);
+        console.log(`✓ userStatusElement computed display: ${window.getComputedStyle(userStatusElement).display}`);
+
+        // Final verification after a tiny delay to ensure rendering
+        setTimeout(() => {
+            const diffStyle = window.getComputedStyle(difficultySelectionElement);
+            const introStyle = window.getComputedStyle(introTextElement);
+            console.log(`🔍 POST-RENDER CHECK:`);
+            console.log(`   difficultySelection: ${diffStyle.display}, visible: ${diffStyle.display !== 'none'}`);
+            console.log(`   introText: ${introStyle.display}, visible: ${introStyle.display !== 'none'}`);
+
+            if (diffStyle.display === 'none' || introStyle.display === 'none') {
+                console.error(`❌ ELEMENTS STILL HIDDEN AFTER !important! This should be impossible!`);
+                console.error(`   DOM structure may be corrupted or CSS is being overridden by something extremely aggressive`);
+            } else {
+                console.log(`✅ ELEMENTS CONFIRMED VISIBLE`);
+            }
+        }, 50);
     } else {
         console.log("==== USER IS LOGGED OUT ====");
         bodyElement.classList.add('logged-out');
         currentUser = null;
         currentUserProfile = null;
 
-        loginButton.style.display = 'none';
-        userStatusElement.style.display = 'none';
-        showLeaderboardHeaderButton.style.display = 'none';
+        loginButton.style.cssText = 'display: none !important;';
+        userStatusElement.style.cssText = 'display: none !important;';
+        showLeaderboardHeaderButton.style.cssText = 'display: none !important;';
         stopTimer();
 
-        // Show landing page
-        console.log("Showing landing page...");
-        landingPageElement.style.display = 'flex';
-        introTextElement.style.display = 'block';
+        // Show landing page with !important
+        console.log("Showing landing page with !important...");
+        landingPageElement.style.cssText = 'display: flex !important;';
+        introTextElement.style.cssText = 'display: block !important;';
         if (playerStatsElement) {
-            playerStatsElement.style.display = 'block';
+            playerStatsElement.style.cssText = 'display: block !important;';
             loadPlayerStatistics();
         }
 
-        console.log(`landingPageElement.style.display = ${landingPageElement.style.display}`);
-        console.log(`introTextElement.style.display = ${introTextElement.style.display}`);
+        console.log(`✓ landingPageElement computed display: ${window.getComputedStyle(landingPageElement).display}`);
+        console.log(`✓ introTextElement computed display: ${window.getComputedStyle(introTextElement).display}`);
     }
 
     console.log(`========== updateAuthStateUI END ==========`);
 }
 function generateRandomNickname() { const adj = NICKNAME_ADJECTIVES[Math.floor(Math.random() * NICKNAME_ADJECTIVES.length)]; const noun = NICKNAME_NOUNS[Math.floor(Math.random() * NICKNAME_NOUNS.length)]; return `${adj} ${noun}`; }
-async function checkAndCreateUserProfile(user) { if (!supabaseClient || !user) { return null; } console.log(`Checking profile for ${user.id}...`); let finalUsernameToShow = user.email || 'User'; let fetchedProfile = null; try { console.log("Fetching profile..."); let { data: profileData, error: selectError } = await supabaseClient .from('profiles') .select('id, username') .eq('id', user.id) .maybeSingle(); if (selectError && selectError.code !== 'PGRST116') { throw selectError; } console.log("Profile fetch result:", profileData); if (!profileData) { console.log(`Creating profile...`); const randomNickname = generateRandomNickname(); const { data: insertedProfile, error: insertError } = await supabaseClient .from('profiles') .insert({ id: user.id, username: randomNickname, updated_at: new Date() }) .select('id, username') .single(); if (insertError) { throw insertError; } fetchedProfile = insertedProfile; finalUsernameToShow = insertedProfile?.username || finalUsernameToShow; console.log(`Created: ${finalUsernameToShow}`); } else { fetchedProfile = profileData; finalUsernameToShow = profileData.username || finalUsernameToShow; console.log(`Exists: ${finalUsernameToShow}`); } currentUserProfile = fetchedProfile; return finalUsernameToShow; } catch (error) { console.error("checkAndCreateUserProfile error:", error); showError(`Profile Error: ${error.message || 'Load failed'}`); currentUserProfile = null; return user.email || 'User'; } }
+// Generate a unique session ID for this browser/tab
+function generateSessionId() {
+    return 'sess_' + Math.random().toString(36).substr(2, 9) + '_' + Date.now();
+}
+
+// Get or create session ID for this browser
+function getLocalSessionId() {
+    let sessionId = localStorage.getItem('app_session_id');
+    if (!sessionId) {
+        sessionId = generateSessionId();
+        localStorage.setItem('app_session_id', sessionId);
+        console.log(`Generated new local session ID: ${sessionId}`);
+    }
+    return sessionId;
+}
+
+async function checkAndCreateUserProfile(user) {
+    if (!supabaseClient || !user) { return null; }
+    console.log(`Checking profile for ${user.id}...`);
+
+    let finalUsernameToShow = user.email || 'User';
+    let fetchedProfile = null;
+
+    try {
+        console.log("Fetching profile...");
+        let { data: profileData, error: selectError } = await supabaseClient
+            .from('profiles')
+            .select('id, username, active_session_id')
+            .eq('id', user.id)
+            .maybeSingle();
+
+        if (selectError && selectError.code !== 'PGRST116') {
+            throw selectError;
+        }
+
+        console.log("Profile fetch result:", profileData);
+
+        const localSessionId = getLocalSessionId();
+        console.log(`Local session ID: ${localSessionId}`);
+
+        if (!profileData) {
+            // Create new profile with this session as active
+            console.log(`Creating profile...`);
+            const randomNickname = generateRandomNickname();
+            const { data: insertedProfile, error: insertError } = await supabaseClient
+                .from('profiles')
+                .insert({
+                    id: user.id,
+                    username: randomNickname,
+                    active_session_id: localSessionId,
+                    updated_at: new Date()
+                })
+                .select('id, username, active_session_id')
+                .single();
+
+            if (insertError) {
+                throw insertError;
+            }
+
+            fetchedProfile = insertedProfile;
+            finalUsernameToShow = insertedProfile?.username || finalUsernameToShow;
+            console.log(`✓ Profile created with session: ${localSessionId}`);
+        } else {
+            fetchedProfile = profileData;
+            finalUsernameToShow = profileData.username || finalUsernameToShow;
+
+            // Check if this session matches the active session
+            if (profileData.active_session_id && profileData.active_session_id !== localSessionId) {
+                console.warn(`⚠️ Session mismatch detected!`);
+                console.warn(`   Database session: ${profileData.active_session_id}`);
+                console.warn(`   Local session: ${localSessionId}`);
+                console.warn(`   This means user logged in elsewhere. Updating to current session...`);
+
+                // Update to make this the active session (logout other devices)
+                const { error: updateError } = await supabaseClient
+                    .from('profiles')
+                    .update({
+                        active_session_id: localSessionId,
+                        updated_at: new Date()
+                    })
+                    .eq('id', user.id);
+
+                if (updateError) {
+                    console.error("Failed to update session:", updateError);
+                } else {
+                    console.log(`✓ Session updated. Other devices will be logged out.`);
+                    fetchedProfile.active_session_id = localSessionId;
+                }
+            } else if (!profileData.active_session_id) {
+                // Old profile without session tracking, add it now
+                console.log("Adding session tracking to existing profile...");
+                const { error: updateError } = await supabaseClient
+                    .from('profiles')
+                    .update({
+                        active_session_id: localSessionId,
+                        updated_at: new Date()
+                    })
+                    .eq('id', user.id);
+
+                if (!updateError) {
+                    fetchedProfile.active_session_id = localSessionId;
+                    console.log(`✓ Session tracking added: ${localSessionId}`);
+                }
+            } else {
+                console.log(`✓ Session matches. User authenticated on this device.`);
+            }
+        }
+
+        currentUserProfile = fetchedProfile;
+        return finalUsernameToShow;
+    } catch (error) {
+        console.error("checkAndCreateUserProfile error:", error);
+        showError(`Profile Error: ${error.message || 'Load failed'}`);
+        currentUserProfile = null;
+        return user.email || 'User';
+    }
+}
+
+// Check if current session is still valid (not logged in elsewhere)
+async function validateSession() {
+    if (!currentUser || !currentUserProfile || !supabaseClient) {
+        return true; // No session to validate
+    }
+
+    try {
+        const { data: profileData, error } = await supabaseClient
+            .from('profiles')
+            .select('active_session_id')
+            .eq('id', currentUser.id)
+            .single();
+
+        if (error) {
+            console.error("Session validation error:", error);
+            return true; // Don't log out on error
+        }
+
+        const localSessionId = getLocalSessionId();
+
+        if (profileData.active_session_id && profileData.active_session_id !== localSessionId) {
+            console.warn(`❌ Session invalidated! User logged in elsewhere.`);
+            console.warn(`   Database session: ${profileData.active_session_id}`);
+            console.warn(`   Local session: ${localSessionId}`);
+            console.warn(`   Logging out...`);
+
+            // Log out this session
+            await supabaseClient.auth.signOut();
+            showError("You've been logged in on another device. Please log in again.");
+
+            return false;
+        }
+
+        return true;
+    } catch (error) {
+        console.error("Session validation error:", error);
+        return true; // Don't log out on error
+    }
+}
+// Track auth events to detect multiple firings
+let authEventHistory = [];
+
 function setupAuthStateChangeListener() {
     if (!supabaseClient) { return; }
     console.log("Setting up auth listener...");
 
     supabaseClient.auth.onAuthStateChange(async (_event, session) => {
-        console.log(`========== Auth Event: ${_event} ==========`);
+        const eventTimestamp = Date.now();
+        authEventHistory.push({ event: _event, timestamp: eventTimestamp });
+
+        // Keep only last 10 events
+        if (authEventHistory.length > 10) {
+            authEventHistory.shift();
+        }
+
+        console.log(`========== Auth Event: ${_event} (${new Date(eventTimestamp).toISOString()}) ==========`);
+        console.log(`Recent auth events: ${authEventHistory.map(e => `${e.event}@${e.timestamp}`).join(', ')}`);
+
         const user = session?.user ?? null;
         console.log(`User: ${user ? user.id : 'null'}`);
+        console.log(`Session: ${session ? 'EXISTS' : 'null'}`);
 
         try {
             if (user) {
@@ -348,7 +551,7 @@ function setupAuthStateChangeListener() {
                 }
 
                 // Update UI IMMEDIATELY - no delays!
-                console.log("Calling updateAuthStateUI for logged in user");
+                console.log("Calling updateAuthStateUI for logged in user from auth event");
                 updateAuthStateUI(user);
                 console.log("updateAuthStateUI completed for logged in user");
             } else {
@@ -359,19 +562,20 @@ function setupAuthStateChangeListener() {
                 currentUser = null;
 
                 // Update UI IMMEDIATELY - no delays!
-                console.log("Calling updateAuthStateUI for logged out user");
+                console.log("Calling updateAuthStateUI for logged out user from auth event");
                 updateAuthStateUI(null);
                 console.log("updateAuthStateUI completed for logged out user");
             }
         } catch (error) {
             console.error("======= ERROR in auth state change handler =======", error);
+            console.error("Error details:", error);
             hideLoading();
             showError("Authentication error. Please refresh the page.");
         } finally {
             hideLoading();
         }
 
-        console.log(`========== Auth Event ${_event} Completed ==========`);
+        console.log(`========== Auth Event ${_event} Completed ==========\n`);
     });
 
     console.log("Auth listener set up.");
@@ -664,5 +868,19 @@ function initializeApp() {
         updateAuthStateUI(user);
         console.log("========== INITIAL SESSION CHECK COMPLETE ==========");
     });
+
+    // Set up periodic session validation (every 30 seconds)
+    // This will log out users who logged in on another device
+    setInterval(async () => {
+        if (currentUser) {
+            console.log("⏰ Periodic session validation check...");
+            const isValid = await validateSession();
+            if (!isValid) {
+                console.log("Session invalidated by periodic check");
+            }
+        }
+    }, 30000); // 30 seconds
+
+    console.log("✓ Periodic session validation enabled (every 30s)");
 }
 
