@@ -230,100 +230,96 @@ async function loginWithGoogle() {
 }
 async function logout() { if (!supabaseClient) { return showError("Client error."); } console.log("Signing out..."); hideError(); showLoading(); try { const { error } = await supabaseClient.auth.signOut(); if (error) { throw error; } console.log("SignOut ok."); } catch (error) { console.error("Logout error:", error); showError(`Logout failed: ${error.message || 'Unknown'}`); } finally { hideLoading(); } }
 function updateAuthStateUI(user) {
-    console.log(`updateAuthStateUI called with user: ${user ? user.id : 'null'}`);
+    console.log(`========== updateAuthStateUI START ==========`);
+    console.log(`User: ${user ? user.id : 'null'}`);
     console.log(`currentUserProfile: ${currentUserProfile ? currentUserProfile.username : 'null'}`);
 
-    // Check for essential elements with retry logic
+    // Force re-initialize if elements missing
     if (!loginButton || !userStatusElement || !difficultySelectionElement || !userNicknameElement || !showLeaderboardHeaderButton || !landingPageElement || !introTextElement) {
-        console.warn("updateAuthStateUI: Core UI elements not ready yet! Attempting to re-initialize...");
-
-        // Try to re-initialize DOM elements (mark as retry to avoid critical error)
-        const initSuccess = initializeDOMElements(true);
-
-        if (!initSuccess) {
-            console.error("updateAuthStateUI: Failed to initialize DOM elements");
-            hideLoading();
-
-            // Retry after a delay
-            setTimeout(() => {
-                console.log("Retrying updateAuthStateUI after 500ms...");
-                updateAuthStateUI(user);
-            }, 500);
-            return;
-        }
-
-        // Check again after re-initialization
-        if (!loginButton || !userStatusElement || !difficultySelectionElement || !userNicknameElement || !showLeaderboardHeaderButton || !landingPageElement || !introTextElement) {
-            console.error("updateAuthStateUI: Core UI elements still not found after retry!");
-            console.error("Missing elements:", {
-                loginButton: !!loginButton,
-                userStatusElement: !!userStatusElement,
-                difficultySelectionElement: !!difficultySelectionElement,
-                userNicknameElement: !!userNicknameElement,
-                showLeaderboardHeaderButton: !!showLeaderboardHeaderButton,
-                landingPageElement: !!landingPageElement,
-                introTextElement: !!introTextElement
-            });
-            hideLoading();
-            return;
-        }
+        console.error("CRITICAL: UI elements not found! Re-initializing...");
+        initializeDOMElements(true);
     }
 
-    console.log("All essential DOM elements found, proceeding with UI update");
+    // Double check after re-init
+    if (!loginButton || !userStatusElement || !difficultySelectionElement || !userNicknameElement || !showLeaderboardHeaderButton || !landingPageElement || !introTextElement) {
+        console.error("CRITICAL ERROR: Elements still missing after re-init!");
+        console.error({
+            loginButton: !!loginButton,
+            userStatusElement: !!userStatusElement,
+            difficultySelectionElement: !!difficultySelectionElement,
+            userNicknameElement: !!userNicknameElement,
+            showLeaderboardHeaderButton: !!showLeaderboardHeaderButton,
+            landingPageElement: !!landingPageElement,
+            introTextElement: !!introTextElement
+        });
+        return;
+    }
+
+    console.log("All elements found, proceeding...");
 
     const bodyElement = document.body;
     hideNicknameEditForm();
-    hideLoading(); // Ensure loading is hidden
+    hideLoading();
 
-    // Hide all sections first
+    // Hide ALL sections first
     console.log("Hiding all sections...");
-    if (difficultySelectionElement) difficultySelectionElement.style.display = 'none';
-    if (gameAreaElement) gameAreaElement.style.display = 'none';
-    if (resultAreaElement) resultAreaElement.style.display = 'none';
-    if (leaderboardSectionElement) leaderboardSectionElement.style.display = 'none';
-    if (landingPageElement) landingPageElement.style.display = 'none';
-    if (introTextElement) introTextElement.style.display = 'none';
+    difficultySelectionElement.style.display = 'none';
+    gameAreaElement.style.display = 'none';
+    resultAreaElement.style.display = 'none';
+    leaderboardSectionElement.style.display = 'none';
+    landingPageElement.style.display = 'none';
+    introTextElement.style.display = 'none';
     if (playerStatsElement) playerStatsElement.style.display = 'none';
 
     if (user) {
-        console.log("Setting up UI for logged in user");
+        console.log("==== USER IS LOGGED IN ====");
         bodyElement.classList.remove('logged-out');
         const displayName = currentUserProfile?.username || user.email || 'Loading...';
-        console.log(`Display name: ${displayName}`);
 
         userNicknameElement.textContent = truncateString(displayName);
         userStatusElement.style.display = 'flex';
         loginButton.style.display = 'none';
         showLeaderboardHeaderButton.style.display = 'inline-block';
 
-        console.log("User status element display set to flex");
+        console.log(`Setting user status display to flex`);
+        console.log(`User nickname set to: ${displayName}`);
 
-        if (leaderboardSectionElement?.style.display !== 'block') {
-            console.log("Calling showDifficultySelection()");
-            showDifficultySelection();
+        // Show difficulty selection elements
+        console.log("Showing difficulty selection elements...");
+        difficultySelectionElement.style.display = 'block';
+        introTextElement.style.display = 'block';
+        if (playerStatsElement) {
+            playerStatsElement.style.display = 'block';
+            loadPlayerStatistics();
         }
+
+        console.log(`difficultySelectionElement.style.display = ${difficultySelectionElement.style.display}`);
+        console.log(`introTextElement.style.display = ${introTextElement.style.display}`);
     } else {
-        console.log("Setting up UI for logged out user");
+        console.log("==== USER IS LOGGED OUT ====");
         bodyElement.classList.add('logged-out');
         currentUser = null;
         currentUserProfile = null;
 
-        if (loginButton) loginButton.style.display = 'none';
-        if (userStatusElement) userStatusElement.style.display = 'none';
-        if (showLeaderboardHeaderButton) showLeaderboardHeaderButton.style.display = 'none';
+        loginButton.style.display = 'none';
+        userStatusElement.style.display = 'none';
+        showLeaderboardHeaderButton.style.display = 'none';
         stopTimer();
 
-        if (leaderboardSectionElement?.style.display !== 'block') {
-            if (landingPageElement) landingPageElement.style.display = 'flex';
-            if (introTextElement) introTextElement.style.display = 'block';
-            if (playerStatsElement) {
-                playerStatsElement.style.display = 'block';
-                loadPlayerStatistics();
-            }
+        // Show landing page
+        console.log("Showing landing page...");
+        landingPageElement.style.display = 'flex';
+        introTextElement.style.display = 'block';
+        if (playerStatsElement) {
+            playerStatsElement.style.display = 'block';
+            loadPlayerStatistics();
         }
+
+        console.log(`landingPageElement.style.display = ${landingPageElement.style.display}`);
+        console.log(`introTextElement.style.display = ${introTextElement.style.display}`);
     }
 
-    console.log("updateAuthStateUI completed");
+    console.log(`========== updateAuthStateUI END ==========`);
 }
 function generateRandomNickname() { const adj = NICKNAME_ADJECTIVES[Math.floor(Math.random() * NICKNAME_ADJECTIVES.length)]; const noun = NICKNAME_NOUNS[Math.floor(Math.random() * NICKNAME_NOUNS.length)]; return `${adj} ${noun}`; }
 async function checkAndCreateUserProfile(user) { if (!supabaseClient || !user) { return null; } console.log(`Checking profile for ${user.id}...`); let finalUsernameToShow = user.email || 'User'; let fetchedProfile = null; try { console.log("Fetching profile..."); let { data: profileData, error: selectError } = await supabaseClient .from('profiles') .select('id, username') .eq('id', user.id) .maybeSingle(); if (selectError && selectError.code !== 'PGRST116') { throw selectError; } console.log("Profile fetch result:", profileData); if (!profileData) { console.log(`Creating profile...`); const randomNickname = generateRandomNickname(); const { data: insertedProfile, error: insertError } = await supabaseClient .from('profiles') .insert({ id: user.id, username: randomNickname, updated_at: new Date() }) .select('id, username') .single(); if (insertError) { throw insertError; } fetchedProfile = insertedProfile; finalUsernameToShow = insertedProfile?.username || finalUsernameToShow; console.log(`Created: ${finalUsernameToShow}`); } else { fetchedProfile = profileData; finalUsernameToShow = profileData.username || finalUsernameToShow; console.log(`Exists: ${finalUsernameToShow}`); } currentUserProfile = fetchedProfile; return finalUsernameToShow; } catch (error) { console.error("checkAndCreateUserProfile error:", error); showError(`Profile Error: ${error.message || 'Load failed'}`); currentUserProfile = null; return user.email || 'User'; } }
@@ -332,66 +328,46 @@ function setupAuthStateChangeListener() {
     console.log("Setting up auth listener...");
 
     supabaseClient.auth.onAuthStateChange(async (_event, session) => {
-        console.log(`Auth Event: ${_event}`);
+        console.log(`========== Auth Event: ${_event} ==========`);
         const user = session?.user ?? null;
-
-        let loadingShown = false;
+        console.log(`User: ${user ? user.id : 'null'}`);
 
         try {
             if (user) {
                 currentUser = user;
 
-                // Load profile for SIGNED_IN or INITIAL_SESSION events
+                // Load profile if needed
                 if (!currentUserProfile || currentUserProfile.id !== user.id) {
-                    // Show loading only for SIGNED_IN (not for INITIAL_SESSION on page load)
-                    if (_event === 'SIGNED_IN') {
-                        showLoading();
-                        loadingShown = true;
-                    }
-
-                    // Set a safety timeout to force hide loading after 10 seconds
-                    const safetyTimeout = setTimeout(() => {
-                        console.warn("Safety timeout: forcing hideLoading()");
-                        hideLoading();
-                        loadingShown = false;
-                    }, 10000);
-
-                    try {
-                        await checkAndCreateUserProfile(user);
-                    } finally {
-                        clearTimeout(safetyTimeout);
-                        if (loadingShown) {
-                            hideLoading();
-                            loadingShown = false;
-                        }
-                    }
+                    console.log("Loading user profile...");
+                    await checkAndCreateUserProfile(user);
+                    console.log("User profile loaded successfully");
                 }
 
-                // Add a small delay before updating UI to ensure DOM is fully ready
-                // This is especially important on mobile devices after OAuth redirect
-                setTimeout(() => {
-                    console.log("Updating auth UI for logged in user");
-                    updateAuthStateUI(user);
-                }, 100);
+                // Update UI IMMEDIATELY - no delays!
+                console.log("Calling updateAuthStateUI for logged in user");
+                updateAuthStateUI(user);
+                console.log("updateAuthStateUI completed for logged in user");
             } else {
                 if (_event === 'SIGNED_OUT') {
                     currentUserProfile = null;
-                    console.log("Signed out.");
+                    console.log("User signed out");
                 }
                 currentUser = null;
 
-                setTimeout(() => {
-                    console.log("Updating auth UI for logged out user");
-                    updateAuthStateUI(null);
-                }, 100);
+                // Update UI IMMEDIATELY - no delays!
+                console.log("Calling updateAuthStateUI for logged out user");
+                updateAuthStateUI(null);
+                console.log("updateAuthStateUI completed for logged out user");
             }
         } catch (error) {
-            console.error("Error in auth state change handler:", error);
-            if (loadingShown) {
-                hideLoading();
-            }
+            console.error("======= ERROR in auth state change handler =======", error);
+            hideLoading();
             showError("Authentication error. Please refresh the page.");
+        } finally {
+            hideLoading();
         }
+
+        console.log(`========== Auth Event ${_event} Completed ==========`);
     });
 
     console.log("Auth listener set up.");
@@ -625,20 +601,17 @@ function hideLoading() { if (loadingIndicator) { loadingIndicator.style.display 
 
 // ----- 12. App Initialization -----
 function initializeApp() {
-    console.log("DOM loaded, initializing application...");
+    console.log("========== DOM LOADED - INITIALIZING APP ==========");
 
-    // Ensure loading indicator is hidden on page load
+    // Ensure loading indicator is hidden
     hideLoading();
 
-    // Set up a safety mechanism: if loading is still visible after 5 seconds, hide it
-    setTimeout(() => {
-        if (loadingIndicator && loadingIndicator.style.display !== 'none') {
-            console.warn("Safety mechanism: forcing hideLoading() after page load");
-            hideLoading();
-        }
-    }, 5000);
-
-    if (!initializeDOMElements()) { return; }
+    console.log("Initializing DOM elements...");
+    if (!initializeDOMElements()) {
+        console.error("Failed to initialize DOM elements!");
+        return;
+    }
+    console.log("DOM elements initialized successfully");
 
     loadAllClubNames().then(success => {
         if (success) { console.log("Club names pre-loaded."); }
@@ -654,35 +627,38 @@ function initializeApp() {
         console.log("Sticker counts pre-cached for all difficulties.");
     });
 
+    console.log("App init finished. Setting up auth...");
     setupAuthStateChangeListener();
-    console.log("App init finished. Checking current auth state...");
 
-    // Immediately check and update UI based on current auth state
-    // Don't wait for onAuthStateChange event as it might not fire or be delayed
-    supabaseClient.auth.getSession().then(({ data: { session }, error }) => {
+    // Get initial session and update UI immediately
+    console.log("Getting initial session...");
+    supabaseClient.auth.getSession().then(async ({ data: { session }, error }) => {
+        console.log("========== INITIAL SESSION CHECK ==========");
+
         if (error) {
-            console.error("Error getting session in initializeApp:", error);
+            console.error("Error getting session:", error);
+            updateAuthStateUI(null);
+            return;
         }
 
         const user = session?.user ?? null;
-        console.log(`Initial auth check: user ${user ? 'logged in' : 'not logged in'}`);
+        console.log(`User found: ${user ? 'YES' : 'NO'}`);
 
-        // Load profile if user is logged in
-        if (user && (!currentUserProfile || currentUserProfile.id !== user.id)) {
-            console.log("Loading user profile in initializeApp...");
-            checkAndCreateUserProfile(user).then(() => {
-                console.log("Profile loaded, updating UI");
-                updateAuthStateUI(user);
-            });
-        } else {
-            // Update UI immediately
-            console.log("Updating UI without profile load");
-            updateAuthStateUI(user);
+        if (user) {
+            currentUser = user;
+
+            // Load profile
+            if (!currentUserProfile || currentUserProfile.id !== user.id) {
+                console.log("Loading profile...");
+                await checkAndCreateUserProfile(user);
+                console.log("Profile loaded");
+            }
         }
-    }).catch(err => {
-        console.error("Error in session check:", err);
-        // Show landing page as fallback
-        updateAuthStateUI(null);
+
+        // Update UI
+        console.log("Updating UI from initializeApp");
+        updateAuthStateUI(user);
+        console.log("========== INITIAL SESSION CHECK COMPLETE ==========");
     });
 }
 
