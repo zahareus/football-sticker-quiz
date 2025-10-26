@@ -154,12 +154,156 @@ async function getStickerCount(difficulty) {
 }
 
 // ----- 5. Authentication Functions -----
-async function loginWithGoogle() { if (!supabaseClient) return showError("Client error."); hideError(); showLoading(); try { const { error } = await supabaseClient.auth.signInWithOAuth({ provider: 'google', options: { redirectTo: window.location.href } }); if (error) throw error; } catch (error) { console.error("Login error:", error); showError(`Login failed: ${error.message}`); hideLoading(); } }
+async function loginWithGoogle() {
+    if (!supabaseClient) return showError("Client error.");
+
+    hideError();
+    showLoading();
+
+    try {
+        const { error } = await supabaseClient.auth.signInWithOAuth({
+            provider: 'google',
+            options: {
+                redirectTo: window.location.href
+            }
+        });
+
+        if (error) throw error;
+
+        // Note: hideLoading() is not called here because the OAuth redirect
+        // will navigate away from the page. The loading will be hidden when
+        // the user returns via the auth state change listener.
+    } catch (error) {
+        console.error("Login error:", error);
+        showError(`Login failed: ${error.message}`);
+        hideLoading();
+    }
+}
 async function logout() { if (!supabaseClient) { return showError("Client error."); } console.log("Signing out..."); hideError(); showLoading(); try { const { error } = await supabaseClient.auth.signOut(); if (error) { throw error; } console.log("SignOut ok."); } catch (error) { console.error("Logout error:", error); showError(`Logout failed: ${error.message || 'Unknown'}`); } finally { hideLoading(); } }
-function updateAuthStateUI(user) { if (!loginButton || !userStatusElement || !difficultySelectionElement || !userNicknameElement || !showLeaderboardHeaderButton || !landingPageElement || !introTextElement) { console.warn("updateAuthStateUI: Core UI elements not ready yet!"); return; } const bodyElement = document.body; hideNicknameEditForm(); if (difficultySelectionElement) difficultySelectionElement.style.display = 'none'; if (gameAreaElement) gameAreaElement.style.display = 'none'; if (resultAreaElement) resultAreaElement.style.display = 'none'; if (leaderboardSectionElement) leaderboardSectionElement.style.display = 'none'; if (landingPageElement) landingPageElement.style.display = 'none'; if (introTextElement) introTextElement.style.display = 'none'; if (playerStatsElement) playerStatsElement.style.display = 'none'; if (user) { bodyElement.classList.remove('logged-out'); const displayName = currentUserProfile?.username || user.email || 'Loading...'; userNicknameElement.textContent = truncateString(displayName); userStatusElement.style.display = 'flex'; loginButton.style.display = 'none'; showLeaderboardHeaderButton.style.display = 'inline-block'; if (leaderboardSectionElement?.style.display !== 'block') { showDifficultySelection(); } } else { bodyElement.classList.add('logged-out'); currentUser = null; currentUserProfile = null; if (loginButton) loginButton.style.display = 'none'; if (userStatusElement) userStatusElement.style.display = 'none'; if (showLeaderboardHeaderButton) showLeaderboardHeaderButton.style.display = 'none'; stopTimer(); if (leaderboardSectionElement?.style.display !== 'block') { if(landingPageElement) landingPageElement.style.display = 'flex'; if(introTextElement) introTextElement.style.display = 'block'; if(playerStatsElement) { playerStatsElement.style.display = 'block'; loadPlayerStatistics(); } } } }
+function updateAuthStateUI(user) {
+    // Check for essential elements with retry logic
+    if (!loginButton || !userStatusElement || !difficultySelectionElement || !userNicknameElement || !showLeaderboardHeaderButton || !landingPageElement || !introTextElement) {
+        console.warn("updateAuthStateUI: Core UI elements not ready yet! Retrying in 500ms...");
+
+        // Try to re-initialize DOM elements
+        if (!initializeDOMElements()) {
+            // If still failing after retry, show error
+            console.error("updateAuthStateUI: Failed to initialize DOM elements");
+            hideLoading(); // Make sure loading is hidden
+            return;
+        }
+
+        // Check again after re-initialization
+        if (!loginButton || !userStatusElement || !difficultySelectionElement || !userNicknameElement || !showLeaderboardHeaderButton || !landingPageElement || !introTextElement) {
+            console.error("updateAuthStateUI: Core UI elements still not found after retry!");
+            hideLoading(); // Make sure loading is hidden
+            return;
+        }
+    }
+
+    const bodyElement = document.body;
+    hideNicknameEditForm();
+
+    // Hide all sections first
+    if (difficultySelectionElement) difficultySelectionElement.style.display = 'none';
+    if (gameAreaElement) gameAreaElement.style.display = 'none';
+    if (resultAreaElement) resultAreaElement.style.display = 'none';
+    if (leaderboardSectionElement) leaderboardSectionElement.style.display = 'none';
+    if (landingPageElement) landingPageElement.style.display = 'none';
+    if (introTextElement) introTextElement.style.display = 'none';
+    if (playerStatsElement) playerStatsElement.style.display = 'none';
+
+    if (user) {
+        bodyElement.classList.remove('logged-out');
+        const displayName = currentUserProfile?.username || user.email || 'Loading...';
+        userNicknameElement.textContent = truncateString(displayName);
+        userStatusElement.style.display = 'flex';
+        loginButton.style.display = 'none';
+        showLeaderboardHeaderButton.style.display = 'inline-block';
+
+        if (leaderboardSectionElement?.style.display !== 'block') {
+            showDifficultySelection();
+        }
+    } else {
+        bodyElement.classList.add('logged-out');
+        currentUser = null;
+        currentUserProfile = null;
+
+        if (loginButton) loginButton.style.display = 'none';
+        if (userStatusElement) userStatusElement.style.display = 'none';
+        if (showLeaderboardHeaderButton) showLeaderboardHeaderButton.style.display = 'none';
+        stopTimer();
+
+        if (leaderboardSectionElement?.style.display !== 'block') {
+            if (landingPageElement) landingPageElement.style.display = 'flex';
+            if (introTextElement) introTextElement.style.display = 'block';
+            if (playerStatsElement) {
+                playerStatsElement.style.display = 'block';
+                loadPlayerStatistics();
+            }
+        }
+    }
+}
 function generateRandomNickname() { const adj = NICKNAME_ADJECTIVES[Math.floor(Math.random() * NICKNAME_ADJECTIVES.length)]; const noun = NICKNAME_NOUNS[Math.floor(Math.random() * NICKNAME_NOUNS.length)]; return `${adj} ${noun}`; }
 async function checkAndCreateUserProfile(user) { if (!supabaseClient || !user) { return null; } console.log(`Checking profile for ${user.id}...`); let finalUsernameToShow = user.email || 'User'; let fetchedProfile = null; try { console.log("Fetching profile..."); let { data: profileData, error: selectError } = await supabaseClient .from('profiles') .select('id, username') .eq('id', user.id) .maybeSingle(); if (selectError && selectError.code !== 'PGRST116') { throw selectError; } console.log("Profile fetch result:", profileData); if (!profileData) { console.log(`Creating profile...`); const randomNickname = generateRandomNickname(); const { data: insertedProfile, error: insertError } = await supabaseClient .from('profiles') .insert({ id: user.id, username: randomNickname, updated_at: new Date() }) .select('id, username') .single(); if (insertError) { throw insertError; } fetchedProfile = insertedProfile; finalUsernameToShow = insertedProfile?.username || finalUsernameToShow; console.log(`Created: ${finalUsernameToShow}`); } else { fetchedProfile = profileData; finalUsernameToShow = profileData.username || finalUsernameToShow; console.log(`Exists: ${finalUsernameToShow}`); } currentUserProfile = fetchedProfile; return finalUsernameToShow; } catch (error) { console.error("checkAndCreateUserProfile error:", error); showError(`Profile Error: ${error.message || 'Load failed'}`); currentUserProfile = null; return user.email || 'User'; } }
-function setupAuthStateChangeListener() { if (!supabaseClient) { return; } console.log("Setting up auth listener..."); supabaseClient.auth.onAuthStateChange(async (_event, session) => { console.log(`Auth Event: ${_event}`); const user = session?.user ?? null; if (user) { currentUser = user; if (!currentUserProfile || currentUserProfile.id !== user.id) { if (_event === 'SIGNED_IN') showLoading(); await checkAndCreateUserProfile(user); if (_event === 'SIGNED_IN') hideLoading(); } updateAuthStateUI(user); } else { if (_event === 'SIGNED_OUT') { currentUserProfile = null; console.log("Signed out."); } currentUser = null; updateAuthStateUI(null); } }); console.log("Auth listener set up."); }
+function setupAuthStateChangeListener() {
+    if (!supabaseClient) { return; }
+    console.log("Setting up auth listener...");
+
+    supabaseClient.auth.onAuthStateChange(async (_event, session) => {
+        console.log(`Auth Event: ${_event}`);
+        const user = session?.user ?? null;
+
+        let loadingShown = false;
+
+        try {
+            if (user) {
+                currentUser = user;
+
+                if (!currentUserProfile || currentUserProfile.id !== user.id) {
+                    if (_event === 'SIGNED_IN') {
+                        showLoading();
+                        loadingShown = true;
+
+                        // Set a safety timeout to force hide loading after 10 seconds
+                        const safetyTimeout = setTimeout(() => {
+                            console.warn("Safety timeout: forcing hideLoading()");
+                            hideLoading();
+                            loadingShown = false;
+                        }, 10000);
+
+                        try {
+                            await checkAndCreateUserProfile(user);
+                        } finally {
+                            clearTimeout(safetyTimeout);
+                            if (loadingShown) {
+                                hideLoading();
+                                loadingShown = false;
+                            }
+                        }
+                    }
+                }
+
+                updateAuthStateUI(user);
+            } else {
+                if (_event === 'SIGNED_OUT') {
+                    currentUserProfile = null;
+                    console.log("Signed out.");
+                }
+                currentUser = null;
+                updateAuthStateUI(null);
+            }
+        } catch (error) {
+            console.error("Error in auth state change handler:", error);
+            if (loadingShown) {
+                hideLoading();
+            }
+            showError("Authentication error. Please refresh the page.");
+        }
+    });
+
+    console.log("Auth listener set up.");
+}
 async function checkInitialAuthState() { if (!supabaseClient) { return; }; console.log("Checking initial auth..."); try { const { data: { session }, error } = await supabaseClient.auth.getSession(); if (error) throw error; currentUser = session?.user ?? null; console.log("Initial session:", currentUser ? currentUser.id : "None"); } catch (error) { console.error("Error getting initial session:", error); currentUser = null; currentUserProfile = null; } }
 function showNicknameEditForm() { if (!currentUserProfile || !userNicknameElement || !editNicknameForm || !nicknameInputElement) { return; } hideError(); nicknameInputElement.value = currentUserProfile.username || ''; editNicknameForm.style.display = 'block'; nicknameInputElement.focus(); nicknameInputElement.select(); }
 function hideNicknameEditForm() { if (!editNicknameForm || !nicknameInputElement) { return; } editNicknameForm.style.display = 'none'; nicknameInputElement.value = ''; }
@@ -334,6 +478,18 @@ function hideLoading() { if (loadingIndicator) { loadingIndicator.style.display 
 // ----- 12. App Initialization -----
 function initializeApp() {
     console.log("DOM loaded, initializing application...");
+
+    // Ensure loading indicator is hidden on page load
+    hideLoading();
+
+    // Set up a safety mechanism: if loading is still visible after 5 seconds, hide it
+    setTimeout(() => {
+        if (loadingIndicator && loadingIndicator.style.display !== 'none') {
+            console.warn("Safety mechanism: forcing hideLoading() after page load");
+            hideLoading();
+        }
+    }, 5000);
+
     if (!initializeDOMElements()) { return; }
 
     loadAllClubNames().then(success => {
