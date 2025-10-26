@@ -423,27 +423,36 @@ async function loadCountryDetails(countryCode) {
             const countryDisplayName = countryInfo ? countryInfo.name : countryCode;
             contentBodyHtml = `<p>No clubs found for ${countryDisplayName} in the catalogue.</p>`;
         } else {
-            const clubsWithStickerCounts = [];
-            for (const club of clubsInCountry) {
-                const { error: countError, count } = await supabaseClient
-                    .from('stickers') 
-                    .select('*', { count: 'exact', head: false })
-                    .eq('club_id', club.id);
+            // Get all club IDs to fetch sticker counts in one query
+            const clubIds = clubsInCountry.map(club => club.id);
 
-                if (countError) {
-                    console.warn(`Could not fetch sticker count for club ${club.name} (ID: ${club.id}):`, countError.message);
-                    clubsWithStickerCounts.push({ ...club, stickerCount: 0, errorLoadingCount: true });
-                } else {
-                    clubsWithStickerCounts.push({ ...club, stickerCount: count === null ? 0 : count });
-                }
+            // Fetch all stickers for all clubs in this country in ONE query
+            const { data: stickersData, error: stickersError } = await supabaseClient
+                .from('stickers')
+                .select('club_id')
+                .in('club_id', clubIds);
+
+            // Count stickers per club
+            const stickerCountsByClub = {};
+            if (!stickersError && stickersData) {
+                stickersData.forEach(sticker => {
+                    if (!stickerCountsByClub[sticker.club_id]) {
+                        stickerCountsByClub[sticker.club_id] = 0;
+                    }
+                    stickerCountsByClub[sticker.club_id]++;
+                });
             }
+
+            // Add sticker counts to clubs
+            const clubsWithStickerCounts = clubsInCountry.map(club => ({
+                ...club,
+                stickerCount: stickerCountsByClub[club.id] || 0
+            }));
+
             clubsWithStickerCounts.sort((a, b) => a.name.localeCompare(b.name));
             let clubListHtml = '<ul class="club-list">';
             clubsWithStickerCounts.forEach(club => {
-                let countText = `(${club.stickerCount} sticker${club.stickerCount !== 1 ? 's' : ''})`;
-                if (club.errorLoadingCount) {
-                    countText = "(sticker count unavailable)";
-                }
+                const countText = `(${club.stickerCount} sticker${club.stickerCount !== 1 ? 's' : ''})`;
                 clubListHtml += `<li><a href="catalogue.html?club_id=${club.id}">${club.name} ${countText}</a></li>`;
             });
             clubListHtml += '</ul>';
