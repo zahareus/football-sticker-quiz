@@ -20,6 +20,33 @@ try {
     }
 }
 
+// Function to update meta keywords from media field
+function updateMetaKeywords(mediaString) {
+    if (!mediaString) return;
+
+    // Remove emojis and # symbols
+    const cleanedText = mediaString
+        .replace(/[\u{1F600}-\u{1F64F}\u{1F300}-\u{1F5FF}\u{1F680}-\u{1F6FF}\u{1F1E0}-\u{1F1FF}\u{2600}-\u{26FF}\u{2700}-\u{27BF}]/gu, '') // Remove emojis
+        .replace(/#/g, '') // Remove # symbols
+        .trim();
+
+    // Get or create meta keywords tag
+    let metaKeywords = document.querySelector('meta[name="keywords"]');
+    if (!metaKeywords) {
+        metaKeywords = document.createElement('meta');
+        metaKeywords.name = 'keywords';
+        document.head.appendChild(metaKeywords);
+    }
+
+    // Append to existing keywords
+    const existingKeywords = metaKeywords.content;
+    if (existingKeywords) {
+        metaKeywords.content = existingKeywords + ', ' + cleanedText;
+    } else {
+        metaKeywords.content = cleanedText;
+    }
+}
+
 const countryCodeToDetails_Generic = {
     "AFG": { name: "Afghanistan", continent: "Asia" },
     "ALB": { name: "Albania", continent: "Europe" },
@@ -423,6 +450,12 @@ async function loadCountryDetails(countryCode) {
             const countryDisplayName = countryInfo ? countryInfo.name : countryCode;
             contentBodyHtml = `<p>No clubs found for ${countryDisplayName} in the catalogue.</p>`;
         } else {
+            // Update page title with country flag and name
+            const countryInfo = countryCodeToDetails_Generic[countryCode];
+            const countryDisplayName = countryInfo ? countryInfo.name : countryCode;
+            const countryFlag = countryInfo ? countryInfo.flag : '';
+            document.title = `${countryFlag} ${countryDisplayName} Clubs - Sticker Catalogue`;
+
             // Get all club IDs to fetch sticker counts in one query
             const clubIds = clubsInCountry.map(club => club.id);
 
@@ -495,7 +528,13 @@ async function loadClubDetails(clubId) {
             const countryDisplayName = countryInfo ? countryInfo.name : clubData.country;
 
             if(mainHeading) mainHeading.textContent = `${clubData.name} - Sticker Gallery`;
-            
+            document.title = `${clubData.name} Sticker Gallery - Sticker Catalogue`;
+
+            // Update meta keywords from media field
+            if (clubData.media) {
+                updateMetaKeywords(clubData.media);
+            }
+
             const { count: totalClubsInCountry } = await supabaseClient
                 .from('clubs')
                 .select('*', { count: 'exact', head: true })
@@ -566,19 +605,19 @@ async function loadStickerDetails(stickerId) {
 
     try {
         const { data: sticker, error: stickerError } = await supabaseClient
-            .from('stickers') 
+            .from('stickers')
             .select(`
-                id, 
-                image_url, 
-                difficulty, 
-                location, 
-                description, 
-                latitude, 
-                longitude, 
-                found, 
-                club_id, 
-                clubs (id, name, country) 
-            `) 
+                id,
+                image_url,
+                difficulty,
+                location,
+                description,
+                latitude,
+                longitude,
+                found,
+                club_id,
+                clubs (id, name, country, media)
+            `)
             .eq('id', stickerId)
             .single();
 
@@ -606,6 +645,12 @@ async function loadStickerDetails(stickerId) {
                     countryDisplayNameForBreadcrumb = countryDetail ? countryDetail.name : sticker.clubs.country;
                 }
                 if(mainHeading) mainHeading.textContent = `Sticker #${sticker.id} - ${clubName}`;
+                document.title = `Sticker #${sticker.id} ${clubName} - Sticker Catalogue`;
+
+                // Update meta keywords from club media field
+                if (sticker.clubs && sticker.clubs.media) {
+                    updateMetaKeywords(sticker.clubs.media);
+                }
 
                 const { count: totalClubsInCountry } = await supabaseClient
                     .from('clubs')
@@ -622,17 +667,49 @@ async function loadStickerDetails(stickerId) {
                     { text: `All clubs from ${countryDisplayNameForBreadcrumb} (${totalClubsInCountry || 0})`, link: `catalogue.html?country=${countryCodeForBreadcrumb}` },
                     { text: `All stickers from ${clubName} (${totalStickersInClub || 0})`, link: `catalogue.html?club_id=${sticker.club_id}` }
                 ]);
+
+                // Get all stickers for this club to enable prev/next navigation
+                const { data: clubStickers, error: clubStickersError } = await supabaseClient
+                    .from('stickers')
+                    .select('id')
+                    .eq('club_id', sticker.club_id)
+                    .order('id', { ascending: true });
+
+                let prevStickerId = null;
+                let nextStickerId = null;
+
+                if (clubStickers && clubStickers.length > 1) {
+                    const currentIndex = clubStickers.findIndex(s => s.id === sticker.id);
+                    if (currentIndex > 0) {
+                        prevStickerId = clubStickers[currentIndex - 1].id;
+                    }
+                    if (currentIndex < clubStickers.length - 1) {
+                        nextStickerId = clubStickers[currentIndex + 1].id;
+                    }
+                }
             } else {
                  if(mainHeading) mainHeading.textContent = `Sticker #${sticker.id}`;
                  updateBreadcrumbs([{ text: `All Countries (${totalCountriesInCatalogue})`, link: 'catalogue.html' }]);
             }
-            
+
+            // Navigation links for prev/next stickers
+            let prevLink = '';
+            let nextLink = '';
+            if (typeof prevStickerId !== 'undefined' && prevStickerId !== null) {
+                prevLink = `<a href="catalogue.html?sticker_id=${prevStickerId}" style="position: absolute; left: 10px; top: 50%; transform: translateY(-50%); color: var(--color-info-text); text-decoration: none; font-size: 1.2em;">#${prevStickerId}</a>`;
+            }
+            if (typeof nextStickerId !== 'undefined' && nextStickerId !== null) {
+                nextLink = `<a href="catalogue.html?sticker_id=${nextStickerId}" style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); color: var(--color-info-text); text-decoration: none; font-size: 1.2em;">#${nextStickerId}</a>`;
+            }
+
             // User's preferred structure for sticker details:
             contentBodyHtml = `
-                <div class="sticker-detail-view">
+                <div class="sticker-detail-view" style="position: relative;">
+                    ${prevLink}
                     <div class="sticker-detail-image-container" onclick="window.open('${sticker.image_url}', '_blank')">
                         <img src="${sticker.image_url}" alt="Sticker ${sticker.id} ${sticker.clubs ? `- ${sticker.clubs.name}`:''}" class="sticker-detail-image">
                     </div>
+                    ${nextLink}
                     <div class="sticker-detail-info">
                         <p><strong>🌍 Location Found:</strong> ${sticker.location || 'N/A'}</p>
                         <p><strong>📅 Date Found:</strong> ${sticker.found ? new Date(sticker.found).toLocaleDateString() : 'N/A'}</p>
