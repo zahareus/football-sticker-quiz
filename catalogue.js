@@ -317,6 +317,13 @@ async function loadContinentsAndCountries() {
             return;
         }
 
+        // Fetch total sticker count
+        const { count: stickerCount, error: stickerCountError } = await supabaseClient
+            .from('stickers')
+            .select('*', { count: 'exact', head: true });
+
+        const totalStickers = stickerCountError ? 0 : (stickerCount || 0);
+
         const clubsByCountryCode = {};
         clubs.forEach(club => {
             if (club.country) {
@@ -350,16 +357,26 @@ async function loadContinentsAndCountries() {
             });
         }
 
+        // Add statistics block
+        let statsHtml = `
+            <div class="catalogue-stats">
+                <p><strong>Countries:</strong> ${totalCountriesInCatalogue}</p>
+                <p><strong>Clubs:</strong> ${clubs.length}</p>
+                <p><strong>Stickers:</strong> ${totalStickers}</p>
+            </div>
+        `;
+
         let listHtml = '';
         const sortedContinentNames = Object.keys(continents).sort((a,b) => a.localeCompare(b));
         sortedContinentNames.forEach(continentName => {
             listHtml += `<div class="continent-section">`;
-            listHtml += `<h3>${continentName}</h3>`; 
+            listHtml += `<h3>${continentName}</h3>`;
             listHtml += `<ul class="country-list">`;
             const countriesInContinent = continents[continentName].sort((a, b) => a.name.localeCompare(b.name));
             countriesInContinent.forEach(country => {
                 const flagEmoji = countryCodeToFlagEmoji[country.code.toUpperCase()] || '🏳️';
-                listHtml += `<li><a href="catalogue.html?country=${country.code}"><span class="flag-emoji">${flagEmoji}</span> ${country.name} (${country.clubCount} clubs)</a></li>`;
+                const clubWord = country.clubCount === 1 ? 'club' : 'clubs';
+                listHtml += `<li><a href="catalogue.html?country=${country.code}"><span class="flag-emoji">${flagEmoji}</span> ${country.name} (${country.clubCount} ${clubWord})</a></li>`;
             });
             listHtml += `</ul></div>`;
         });
@@ -367,7 +384,7 @@ async function loadContinentsAndCountries() {
         if (listHtml === '') {
             contentDiv.innerHTML = '<p>No data to display. Check the maps and database entries.</p>';
         } else {
-            contentDiv.innerHTML = listHtml; 
+            contentDiv.innerHTML = statsHtml + listHtml;
         }
     } catch (error) {
         console.error('An error occurred while loading countries:', error);
@@ -604,7 +621,7 @@ async function loadStickerDetails(stickerId) {
             // User's preferred structure for sticker details:
             contentBodyHtml = `
                 <div class="sticker-detail-view">
-                    <div class="sticker-detail-image-container">
+                    <div class="sticker-detail-image-container" onclick="window.open('${sticker.image_url}', '_blank')">
                         <img src="${sticker.image_url}" alt="Sticker ${sticker.id} ${sticker.clubs ? `- ${sticker.clubs.name}`:''}" class="sticker-detail-image">
                     </div>
                     <div class="sticker-detail-info">
