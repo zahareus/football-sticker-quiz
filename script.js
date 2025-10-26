@@ -655,12 +655,34 @@ function initializeApp() {
     });
 
     setupAuthStateChangeListener();
-    console.log("App init finished. Waiting for auth state...");
-    if(landingPageElement) landingPageElement.style.display = 'none';
-    if(difficultySelectionElement) difficultySelectionElement.style.display = 'none';
-    if(gameAreaElement) gameAreaElement.style.display = 'none';
-    if(resultAreaElement) resultAreaElement.style.display = 'none';
-    if (leaderboardSectionElement) leaderboardSectionElement.style.display = 'none';
-    if (introTextElement) introTextElement.style.display = 'none';
+    console.log("App init finished. Checking current auth state...");
+
+    // Immediately check and update UI based on current auth state
+    // Don't wait for onAuthStateChange event as it might not fire or be delayed
+    supabaseClient.auth.getSession().then(({ data: { session }, error }) => {
+        if (error) {
+            console.error("Error getting session in initializeApp:", error);
+        }
+
+        const user = session?.user ?? null;
+        console.log(`Initial auth check: user ${user ? 'logged in' : 'not logged in'}`);
+
+        // Load profile if user is logged in
+        if (user && (!currentUserProfile || currentUserProfile.id !== user.id)) {
+            console.log("Loading user profile in initializeApp...");
+            checkAndCreateUserProfile(user).then(() => {
+                console.log("Profile loaded, updating UI");
+                updateAuthStateUI(user);
+            });
+        } else {
+            // Update UI immediately
+            console.log("Updating UI without profile load");
+            updateAuthStateUI(user);
+        }
+    }).catch(err => {
+        console.error("Error in session check:", err);
+        // Show landing page as fallback
+        updateAuthStateUI(null);
+    });
 }
 
