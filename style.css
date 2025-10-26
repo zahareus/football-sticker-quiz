@@ -528,7 +528,7 @@ button:disabled, .btn:disabled { cursor: not-allowed !important; background-colo
 }
 
 .sticker-detail-image-container::after {
-    content: 'View full size';
+    content: 'View in full size';
     position: absolute;
     bottom: 10px;
     left: 50%;
@@ -713,8 +713,9 @@ body.home-page #app-logo {
 }
 
 #home-sticker-container {
-    width: 300px;
-    height: 300px;
+    width: 400px;
+    max-width: 80%;
+    height: 400px;
     margin-bottom: calc(var(--spacing-unit) * 2);
     background-color: var(--color-secondary-bg);
     border: 1px solid var(--color-border);
@@ -723,6 +724,7 @@ body.home-page #app-logo {
     display: flex;
     align-items: center;
     justify-content: center;
+    aspect-ratio: 1 / 1;
 }
 
 #home-sticker-image {
@@ -750,10 +752,12 @@ body.home-page #app-logo {
 
 .home-actions .btn {
     width: 100%;
+    min-width: 200px;
     text-decoration: none;
     display: flex;
     align-items: center;
     justify-content: center;
+    box-sizing: border-box;
 }
 
 #home-loading-indicator {
