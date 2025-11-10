@@ -210,6 +210,11 @@ async function loginWithGoogle() {
     showLoading();
 
     try {
+        // Save current page to localStorage before OAuth redirect
+        const currentPath = window.location.pathname;
+        localStorage.setItem('auth_return_path', currentPath);
+        console.log(`Saving return path: ${currentPath}`);
+
         // Build the redirect URL to quiz.html
         const baseUrl = window.location.origin;
         const redirectUrl = `${baseUrl}/quiz.html`;
@@ -233,25 +238,11 @@ async function loginWithGoogle() {
     }
 }
 async function logout() { if (!supabaseClient) { return showError("Client error."); } console.log("Signing out..."); hideError(); showLoading(); try { const { error } = await supabaseClient.auth.signOut(); if (error) { throw error; } console.log("SignOut ok."); } catch (error) { console.error("Logout error:", error); showError(`Logout failed: ${error.message || 'Unknown'}`); } finally { hideLoading(); } }
-// Prevent rapid duplicate calls to updateAuthStateUI
-let lastUpdateAuthCall = 0;
-let updateAuthDebounceMs = 100;
 
 function updateAuthStateUI(user) {
-    const now = Date.now();
-    const timeSinceLastCall = now - lastUpdateAuthCall;
-
     console.log(`========== updateAuthStateUI START ==========`);
-    console.log(`Time since last call: ${timeSinceLastCall}ms`);
     console.log(`User: ${user ? user.id : 'null'}`);
     console.log(`currentUserProfile: ${currentUserProfile ? currentUserProfile.username : 'null'}`);
-
-    // Prevent rapid duplicate calls (within 100ms)
-    if (timeSinceLastCall < updateAuthDebounceMs) {
-        console.warn(`⚠️ Ignoring duplicate call within ${updateAuthDebounceMs}ms`);
-        return;
-    }
-    lastUpdateAuthCall = now;
 
     // Force re-initialize if elements missing
     if (!loginButton || !userStatusElement || !difficultySelectionElement || !userNicknameElement || !showLeaderboardHeaderButton || !landingPageElement || !introTextElement) {
@@ -313,25 +304,30 @@ function updateAuthStateUI(user) {
         }
 
         // Verify elements are actually visible
-        console.log(`✓ difficultySelectionElement computed display: ${window.getComputedStyle(difficultySelectionElement).display}`);
-        console.log(`✓ introTextElement computed display: ${window.getComputedStyle(introTextElement).display}`);
-        console.log(`✓ userStatusElement computed display: ${window.getComputedStyle(userStatusElement).display}`);
+        // Force element visibility verification
+        const diffStyle = window.getComputedStyle(difficultySelectionElement);
+        const introStyle = window.getComputedStyle(introTextElement);
+        const userStyle = window.getComputedStyle(userStatusElement);
 
-        // Final verification after a tiny delay to ensure rendering
-        setTimeout(() => {
-            const diffStyle = window.getComputedStyle(difficultySelectionElement);
-            const introStyle = window.getComputedStyle(introTextElement);
-            console.log(`🔍 POST-RENDER CHECK:`);
-            console.log(`   difficultySelection: ${diffStyle.display}, visible: ${diffStyle.display !== 'none'}`);
-            console.log(`   introText: ${introStyle.display}, visible: ${introStyle.display !== 'none'}`);
+        console.log(`✓ difficultySelectionElement display: ${diffStyle.display}`);
+        console.log(`✓ introTextElement display: ${introStyle.display}`);
+        console.log(`✓ userStatusElement display: ${userStyle.display}`);
 
-            if (diffStyle.display === 'none' || introStyle.display === 'none') {
-                console.error(`❌ ELEMENTS STILL HIDDEN AFTER !important! This should be impossible!`);
-                console.error(`   DOM structure may be corrupted or CSS is being overridden by something extremely aggressive`);
-            } else {
-                console.log(`✅ ELEMENTS CONFIRMED VISIBLE`);
-            }
-        }, 50);
+        // If elements are still hidden, force them visible again
+        if (diffStyle.display === 'none') {
+            console.warn('⚠️ difficultySelection still hidden, forcing visible again');
+            difficultySelectionElement.style.setProperty('display', 'block', 'important');
+        }
+        if (introStyle.display === 'none') {
+            console.warn('⚠️ introText still hidden, forcing visible again');
+            introTextElement.style.setProperty('display', 'block', 'important');
+        }
+        if (userStyle.display === 'none' || userStyle.display === 'inline') {
+            console.warn('⚠️ userStatus display issue, forcing flex');
+            userStatusElement.style.setProperty('display', 'flex', 'important');
+        }
+
+        console.log(`✅ LOGGED IN USER UI CONFIGURED`);
     } else {
         console.log("==== USER IS LOGGED OUT ====");
         bodyElement.classList.add('logged-out');
@@ -459,16 +455,21 @@ async function checkAndCreateUserProfile(user) {
             // Only handle session management if column exists
             if ('active_session_id' in profileData) {
                 const localSessionId = getLocalSessionId();
-                console.log(`Local session ID: ${localSessionId}`);
+                console.log(`🔐 SESSION MANAGEMENT CHECK:`);
+                console.log(`   Local session ID: ${localSessionId}`);
+                console.log(`   Database session ID: ${profileData.active_session_id || 'none'}`);
 
-                // Check if this session matches the active session
-                if (profileData.active_session_id && profileData.active_session_id !== localSessionId) {
-                    console.warn(`⚠️ Session mismatch detected!`);
-                    console.warn(`   Database session: ${profileData.active_session_id}`);
-                    console.warn(`   Local session: ${localSessionId}`);
-                    console.warn(`   This means user logged in elsewhere. Updating to current session...`);
+                // ALWAYS update to current session on login (force logout other devices)
+                if (!profileData.active_session_id || profileData.active_session_id !== localSessionId) {
+                    if (profileData.active_session_id && profileData.active_session_id !== localSessionId) {
+                        console.warn(`⚠️ Different session detected in DB - force logout other devices`);
+                        console.warn(`   Old session: ${profileData.active_session_id}`);
+                        console.warn(`   New session: ${localSessionId}`);
+                    } else {
+                        console.log(`📝 Adding session tracking to profile`);
+                    }
 
-                    // Update to make this the active session (logout other devices)
+                    // Update to make this the active session (force logout other devices)
                     const { error: updateError } = await supabaseClient
                         .from('profiles')
                         .update({
@@ -478,31 +479,18 @@ async function checkAndCreateUserProfile(user) {
                         .eq('id', user.id);
 
                     if (updateError) {
-                        console.error("Failed to update session:", updateError);
+                        console.error("❌ Failed to update session:", updateError);
                     } else {
-                        console.log(`✓ Session updated. Other devices will be logged out.`);
+                        console.log(`✅ Session updated successfully`);
+                        console.log(`   Active session is now: ${localSessionId}`);
+                        console.log(`   ⚠️ All other devices with old session will be logged out`);
                         fetchedProfile.active_session_id = localSessionId;
-                    }
-                } else if (!profileData.active_session_id) {
-                    // Old profile without session tracking, add it now
-                    console.log("Adding session tracking to existing profile...");
-                    const { error: updateError } = await supabaseClient
-                        .from('profiles')
-                        .update({
-                            active_session_id: localSessionId,
-                            updated_at: new Date()
-                        })
-                        .eq('id', user.id);
-
-                    if (!updateError) {
-                        fetchedProfile.active_session_id = localSessionId;
-                        console.log(`✓ Session tracking added: ${localSessionId}`);
                     }
                 } else {
-                    console.log(`✓ Session matches. User authenticated on this device.`);
+                    console.log(`✓ Session already active on this device`);
                 }
             } else {
-                console.log(`✓ Profile exists (session management not available)`);
+                console.log(`ℹ️ Profile exists (session management not available in DB)`);
             }
         }
 
@@ -909,26 +897,49 @@ function initializeApp() {
                 await checkAndCreateUserProfile(user);
                 console.log("Profile loaded");
             }
+
+            // Check if we just returned from OAuth and should stay on quiz page
+            const savedPath = localStorage.getItem('auth_return_path');
+            if (savedPath) {
+                console.log(`Found saved return path: ${savedPath}`);
+                localStorage.removeItem('auth_return_path');
+
+                // If we're on quiz.html after OAuth login, ensure we stay here
+                if (savedPath.includes('/quiz.html') && window.location.pathname.includes('/quiz.html')) {
+                    console.log("✓ Successfully returned to quiz page after OAuth");
+                }
+            }
         }
 
-        // Update UI
+        // Update UI with a small delay to ensure DOM is ready
         console.log("Updating UI from initializeApp");
+
+        // Force immediate UI update
         updateAuthStateUI(user);
+
+        // Additional forced update after short delay to ensure rendering
+        setTimeout(() => {
+            console.log("🔄 Forced UI refresh after delay");
+            updateAuthStateUI(user);
+        }, 100);
+
         console.log("========== INITIAL SESSION CHECK COMPLETE ==========");
     });
 
-    // Set up periodic session validation (every 30 seconds)
+    // Set up periodic session validation (every 10 seconds)
     // This will log out users who logged in on another device
     setInterval(async () => {
         if (currentUser) {
             console.log("⏰ Periodic session validation check...");
             const isValid = await validateSession();
             if (!isValid) {
-                console.log("Session invalidated by periodic check");
+                console.log("❌ Session invalidated - user logged in elsewhere");
+            } else {
+                console.log("✓ Session valid");
             }
         }
-    }, 30000); // 30 seconds
+    }, 10000); // 10 seconds - faster detection of logins on other devices
 
-    console.log("✓ Periodic session validation enabled (every 30s)");
+    console.log("✓ Periodic session validation enabled (every 10s)");
 }
 
