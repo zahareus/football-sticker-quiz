@@ -586,14 +586,45 @@ function setupAuthStateChangeListener() {
                     console.log("User profile loaded successfully");
                 }
 
+                // SPECIAL HANDLING for SIGNED_IN event (after OAuth)
+                if (_event === 'SIGNED_IN') {
+                    console.log("🎉 SIGNED_IN event detected - user just logged in via OAuth");
+
+                    // Check if we have a saved return path
+                    const savedPath = localStorage.getItem('auth_return_path');
+                    console.log(`Saved return path: ${savedPath || 'none'}`);
+                    console.log(`Current path: ${window.location.pathname}`);
+
+                    // If we're NOT on the saved path and saved path exists, redirect
+                    if (savedPath && !window.location.pathname.includes(savedPath)) {
+                        console.log(`🔄 Redirecting to saved path: ${savedPath}`);
+                        localStorage.removeItem('auth_return_path');
+                        window.location.href = savedPath;
+                        return; // Don't update UI yet, wait for redirect
+                    } else if (savedPath) {
+                        console.log(`✓ Already on correct page: ${savedPath}`);
+                        localStorage.removeItem('auth_return_path');
+                    }
+                }
+
                 // Update UI IMMEDIATELY - no delays!
                 console.log("Calling updateAuthStateUI for logged in user from auth event");
                 updateAuthStateUI(user);
                 console.log("updateAuthStateUI completed for logged in user");
             } else {
+                // Don't update UI to logged out state if we're in the middle of OAuth
+                const urlHash = window.location.hash;
+                const hasOAuthParams = urlHash.includes('access_token') || urlHash.includes('refresh_token');
+
+                if (hasOAuthParams) {
+                    console.log("⏳ OAuth parameters detected in URL - waiting for SIGNED_IN event...");
+                    return; // Don't update UI yet, wait for OAuth to complete
+                }
+
                 if (_event === 'SIGNED_OUT') {
                     currentUserProfile = null;
                     console.log("User signed out");
+                    localStorage.removeItem('auth_return_path');
                 }
                 currentUser = null;
 
@@ -897,21 +928,9 @@ function initializeApp() {
                 await checkAndCreateUserProfile(user);
                 console.log("Profile loaded");
             }
-
-            // Check if we just returned from OAuth and should stay on quiz page
-            const savedPath = localStorage.getItem('auth_return_path');
-            if (savedPath) {
-                console.log(`Found saved return path: ${savedPath}`);
-                localStorage.removeItem('auth_return_path');
-
-                // If we're on quiz.html after OAuth login, ensure we stay here
-                if (savedPath.includes('/quiz.html') && window.location.pathname.includes('/quiz.html')) {
-                    console.log("✓ Successfully returned to quiz page after OAuth");
-                }
-            }
         }
 
-        // Update UI with a small delay to ensure DOM is ready
+        // Update UI - the onAuthStateChange handler will handle OAuth redirects
         console.log("Updating UI from initializeApp");
 
         // Force immediate UI update
