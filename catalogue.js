@@ -5,6 +5,10 @@ const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBh
 
 let supabaseClient;
 
+// Auth state
+let currentUser = null;
+let currentUserProfile = null;
+
 try {
     if (window.supabase && typeof window.supabase.createClient === 'function') {
         supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
@@ -252,7 +256,11 @@ async function updateTotalCountriesCount() {
 document.addEventListener('DOMContentLoaded', async () => {
     if (supabaseClient) {
         console.log('Supabase client initialized for catalogue.');
-        await updateTotalCountriesCount(); 
+
+        // Setup auth
+        setupAuth();
+
+        await updateTotalCountriesCount();
         routeContent();
     } else {
         console.error('Supabase client failed to initialize. Catalogue functionality will be limited.');
@@ -732,4 +740,246 @@ async function loadStickerDetails(stickerId) {
         if(mainHeading) mainHeading.textContent = "Error Loading Sticker";
         contentDiv.innerHTML = `<p>An unexpected error occurred: ${error.message}</p>`;
     }
+}
+
+// ========== AUTH FUNCTIONS ==========
+
+// Load cached profile from localStorage
+function loadCachedProfile(userId) {
+    if (!userId) return null;
+    try {
+        const cached = localStorage.getItem(`user_profile_${userId}`);
+        if (!cached) return null;
+
+        const cacheData = JSON.parse(cached);
+        const age = Date.now() - cacheData.timestamp;
+
+        // Cache valid for 24 hours
+        if (age > 24 * 60 * 60 * 1000) {
+            console.log('Cached profile expired');
+            localStorage.removeItem(`user_profile_${userId}`);
+            return null;
+        }
+
+        console.log(`✓ Loaded cached profile (age: ${Math.round(age / 1000)}s)`);
+        return cacheData.profile;
+    } catch (error) {
+        console.warn('Failed to load cached profile:', error);
+        return null;
+    }
+}
+
+// Cache profile to localStorage
+function cacheUserProfile(profile) {
+    if (!profile || !profile.id) return;
+    try {
+        const cacheData = {
+            profile: profile,
+            timestamp: Date.now()
+        };
+        localStorage.setItem(`user_profile_${profile.id}`, JSON.stringify(cacheData));
+        console.log(`✓ Profile cached for user ${profile.id}`);
+    } catch (error) {
+        console.warn('Failed to cache profile:', error);
+    }
+}
+
+// Clear cached profile
+function clearCachedProfile(userId) {
+    if (!userId) return;
+    try {
+        localStorage.removeItem(`user_profile_${userId}`);
+        console.log(`✓ Cleared cached profile for user ${userId}`);
+    } catch (error) {
+        console.warn('Failed to clear cached profile:', error);
+    }
+}
+
+// Truncate string helper
+function truncateString(str, maxLength = 20) {
+    if (!str) return '';
+    if (str.length <= maxLength) return str;
+    return str.substring(0, maxLength - 3) + '...';
+}
+
+// Load user profile
+async function loadUserProfile(user) {
+    if (!supabaseClient || !user) return null;
+
+    try {
+        const { data: profileData, error } = await supabaseClient
+            .from('profiles')
+            .select('id, username, active_session_id')
+            .eq('id', user.id)
+            .maybeSingle();
+
+        if (error && error.code !== 'PGRST116') {
+            // Try without active_session_id if column doesn't exist
+            if (error.message && error.message.includes('active_session_id')) {
+                const { data, error: err2 } = await supabaseClient
+                    .from('profiles')
+                    .select('id, username')
+                    .eq('id', user.id)
+                    .maybeSingle();
+
+                if (err2) throw err2;
+                return data;
+            }
+            throw error;
+        }
+
+        return profileData;
+    } catch (error) {
+        console.error('Error loading profile:', error);
+        return null;
+    }
+}
+
+// Update auth UI
+function updateAuthUI(user) {
+    const loginButton = document.getElementById('login-button');
+    const logoutButton = document.getElementById('logout-button');
+    const userStatusElement = document.getElementById('user-status');
+    const userNicknameElement = document.getElementById('user-nickname');
+
+    if (!loginButton || !userStatusElement || !userNicknameElement) return;
+
+    if (user) {
+        // User is logged in
+        let displayName = 'Loading...';
+        if (currentUserProfile?.username) {
+            displayName = currentUserProfile.username;
+        } else {
+            displayName = user.email || 'User';
+        }
+
+        userNicknameElement.textContent = truncateString(displayName);
+        loginButton.style.display = 'none';
+        userStatusElement.style.display = 'flex';
+    } else {
+        // User is logged out
+        loginButton.style.display = 'inline-block';
+        userStatusElement.style.display = 'none';
+    }
+}
+
+// Login with Google
+async function loginWithGoogle() {
+    if (!supabaseClient) return;
+
+    try {
+        const { error } = await supabaseClient.auth.signInWithOAuth({
+            provider: 'google',
+            options: {
+                redirectTo: window.location.origin + '/quiz.html'
+            }
+        });
+
+        if (error) throw error;
+    } catch (error) {
+        console.error('Login error:', error);
+        alert('Login failed. Please try again.');
+    }
+}
+
+// Logout
+async function logout() {
+    if (!supabaseClient) return;
+
+    try {
+        if (currentUser) {
+            clearCachedProfile(currentUser.id);
+        }
+
+        const { error } = await supabaseClient.auth.signOut();
+        if (error) throw error;
+
+        currentUser = null;
+        currentUserProfile = null;
+        updateAuthUI(null);
+    } catch (error) {
+        console.error('Logout error:', error);
+        alert('Logout failed. Please try again.');
+    }
+}
+
+// Setup auth
+function setupAuth() {
+    if (!supabaseClient) return;
+
+    const loginButton = document.getElementById('login-button');
+    const logoutButton = document.getElementById('logout-button');
+
+    // Set up button handlers
+    if (loginButton) {
+        loginButton.addEventListener('click', loginWithGoogle);
+    }
+    if (logoutButton) {
+        logoutButton.addEventListener('click', logout);
+    }
+
+    // Set up auth state listener
+    supabaseClient.auth.onAuthStateChange(async (event, session) => {
+        console.log(`Auth event: ${event}`);
+        const user = session?.user ?? null;
+
+        if (user) {
+            currentUser = user;
+
+            // Load cached profile immediately
+            const cachedProfile = loadCachedProfile(user.id);
+            if (cachedProfile) {
+                currentUserProfile = cachedProfile;
+                console.log(`✓ Using cached profile: ${cachedProfile.username}`);
+            }
+
+            // Update UI immediately
+            updateAuthUI(user);
+
+            // Load fresh profile in background
+            loadUserProfile(user).then(profile => {
+                if (profile) {
+                    currentUserProfile = profile;
+                    cacheUserProfile(profile);
+                    updateAuthUI(user);
+                }
+            });
+        } else {
+            if (event === 'SIGNED_OUT' && currentUser) {
+                clearCachedProfile(currentUser.id);
+            }
+            currentUser = null;
+            currentUserProfile = null;
+            updateAuthUI(null);
+        }
+    });
+
+    // Get initial session
+    supabaseClient.auth.getSession().then(({ data: { session } }) => {
+        const user = session?.user ?? null;
+
+        if (user) {
+            currentUser = user;
+
+            // Load cached profile immediately
+            const cachedProfile = loadCachedProfile(user.id);
+            if (cachedProfile) {
+                currentUserProfile = cachedProfile;
+            }
+
+            // Update UI immediately
+            updateAuthUI(user);
+
+            // Load fresh profile in background
+            loadUserProfile(user).then(profile => {
+                if (profile) {
+                    currentUserProfile = profile;
+                    cacheUserProfile(profile);
+                    updateAuthUI(user);
+                }
+            });
+        } else {
+            updateAuthUI(null);
+        }
+    });
 }
