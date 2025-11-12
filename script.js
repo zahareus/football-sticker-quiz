@@ -42,6 +42,7 @@ let clubNamesLoaded = false;
 let preloadingPromise = null;
 let stickerCountCache = {}; // Cache for sticker counts per difficulty
 let nextQuestionPromise = null; // Promise for the next preloaded question
+let initialSessionLoaded = false; // Flag to prevent race conditions during page load
 
 // ----- 4. DOM Element References -----
 let gameAreaElement, stickerImageElement, optionsContainerElement, timeLeftElement, currentScoreElement, resultAreaElement, finalScoreElement, playAgainButton, resultSignInButton, authSectionElement, loginButton, userStatusElement, logoutButton, difficultySelectionElement, loadingIndicator, errorMessageElement;
@@ -603,13 +604,14 @@ function setupAuthStateChangeListener() {
                     return; // Don't update UI yet, wait for OAuth to complete
                 }
 
-                // IMPORTANT: Only process logout for explicit SIGNED_OUT event
-                // Don't clear UI on INITIAL_SESSION if we already have a user (prevents race condition)
-                if (_event === 'INITIAL_SESSION' && currentUser) {
-                    console.log("⏭️ Skipping INITIAL_SESSION null event - user already loaded");
+                // CRITICAL: Don't process null session until initial session is loaded
+                // This prevents race condition where auth listener fires before getSession() completes
+                if (!initialSessionLoaded) {
+                    console.log("⏳ Initial session not loaded yet - ignoring null session event");
                     return;
                 }
 
+                // Only process explicit SIGNED_OUT event
                 if (_event === 'SIGNED_OUT') {
                     currentUserProfile = null;
                     console.log("User signed out");
@@ -901,6 +903,8 @@ function initializeApp() {
         if (error) {
             console.error("Error getting session:", error);
             updateAuthStateUI(null);
+            initialSessionLoaded = true; // Allow auth listener to work even if initial load failed
+            console.log("✅ Initial session marked as loaded (with error)");
             return;
         }
 
@@ -923,6 +927,10 @@ function initializeApp() {
 
         // Force immediate UI update
         updateAuthStateUI(user);
+
+        // Mark initial session as loaded - now auth listener can process events
+        initialSessionLoaded = true;
+        console.log("✅ Initial session loaded - auth listener now active");
 
         // Additional forced update after short delay to ensure rendering
         setTimeout(() => {
