@@ -210,16 +210,12 @@ async function loginWithGoogle() {
     showLoading();
 
     try {
-        // Save current page to localStorage before OAuth redirect
-        const currentPath = window.location.pathname;
-        localStorage.setItem('auth_return_path', currentPath);
-        console.log(`Saving return path: ${currentPath}`);
-
-        // Build the redirect URL to quiz.html
+        // Always redirect to quiz.html after OAuth
         const baseUrl = window.location.origin;
         const redirectUrl = `${baseUrl}/quiz.html`;
 
         console.log(`OAuth redirect URL: ${redirectUrl}`);
+        console.log(`User will be redirected to quiz page after authentication`);
 
         const { error } = await supabaseClient.auth.signInWithOAuth({
             provider: 'google',
@@ -589,22 +585,8 @@ function setupAuthStateChangeListener() {
                 // SPECIAL HANDLING for SIGNED_IN event (after OAuth)
                 if (_event === 'SIGNED_IN') {
                     console.log("🎉 SIGNED_IN event detected - user just logged in via OAuth");
-
-                    // Check if we have a saved return path
-                    const savedPath = localStorage.getItem('auth_return_path');
-                    console.log(`Saved return path: ${savedPath || 'none'}`);
-                    console.log(`Current path: ${window.location.pathname}`);
-
-                    // If we're NOT on the saved path and saved path exists, redirect
-                    if (savedPath && !window.location.pathname.includes(savedPath)) {
-                        console.log(`🔄 Redirecting to saved path: ${savedPath}`);
-                        localStorage.removeItem('auth_return_path');
-                        window.location.href = savedPath;
-                        return; // Don't update UI yet, wait for redirect
-                    } else if (savedPath) {
-                        console.log(`✓ Already on correct page: ${savedPath}`);
-                        localStorage.removeItem('auth_return_path');
-                    }
+                    console.log(`User is now on: ${window.location.pathname}`);
+                    console.log(`User should now see difficulty selection on quiz page`);
                 }
 
                 // Update UI IMMEDIATELY - no delays!
@@ -624,7 +606,6 @@ function setupAuthStateChangeListener() {
                 if (_event === 'SIGNED_OUT') {
                     currentUserProfile = null;
                     console.log("User signed out");
-                    localStorage.removeItem('auth_return_path');
                 }
                 currentUser = null;
 
