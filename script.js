@@ -603,6 +603,13 @@ function setupAuthStateChangeListener() {
                     return; // Don't update UI yet, wait for OAuth to complete
                 }
 
+                // IMPORTANT: Only process logout for explicit SIGNED_OUT event
+                // Don't clear UI on INITIAL_SESSION if we already have a user (prevents race condition)
+                if (_event === 'INITIAL_SESSION' && currentUser) {
+                    console.log("⏭️ Skipping INITIAL_SESSION null event - user already loaded");
+                    return;
+                }
+
                 if (_event === 'SIGNED_OUT') {
                     currentUserProfile = null;
                     console.log("User signed out");
