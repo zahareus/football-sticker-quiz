@@ -9,6 +9,11 @@ let supabaseClient;
 let currentUser = null;
 let currentUserProfile = null;
 
+// Edit nickname form elements
+let editNicknameForm;
+let nicknameInputElement;
+let cancelEditNicknameButton;
+
 try {
     if (window.supabase && typeof window.supabase.createClient === 'function') {
         supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
@@ -259,6 +264,12 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         // Setup auth
         setupAuth();
+
+        // Initialize nickname editing elements
+        editNicknameForm = document.getElementById('edit-nickname-form');
+        nicknameInputElement = document.getElementById('nickname-input');
+        cancelEditNicknameButton = document.getElementById('cancel-edit-nickname-button');
+        setupNicknameEditing();
 
         await updateTotalCountriesCount();
         routeContent();
@@ -982,4 +993,99 @@ function setupAuth() {
             updateAuthUI(null);
         }
     });
+}
+
+// ========== NICKNAME EDITING FUNCTIONS ==========
+
+function setupNicknameEditing() {
+    const userNicknameElement = document.getElementById('user-nickname');
+    if (!userNicknameElement) {
+        console.error('userNicknameElement not found');
+        return;
+    }
+
+    // Add click listener for nickname
+    userNicknameElement.addEventListener('click', showNicknameEditForm);
+    console.log('✓ Nickname click listener added');
+
+    // Add form handlers
+    if (editNicknameForm) {
+        editNicknameForm.addEventListener('submit', handleNicknameSave);
+    }
+    if (cancelEditNicknameButton) {
+        cancelEditNicknameButton.addEventListener('click', hideNicknameEditForm);
+    }
+}
+
+function showNicknameEditForm() {
+    console.log('showNicknameEditForm called');
+
+    if (!currentUserProfile) {
+        console.error('❌ Cannot edit nickname: profile not loaded yet');
+        alert('Please wait for your profile to load...');
+        return;
+    }
+
+    if (!editNicknameForm || !nicknameInputElement) {
+        console.error('❌ Cannot edit nickname: form elements not found');
+        return;
+    }
+
+    nicknameInputElement.value = currentUserProfile.username || '';
+    editNicknameForm.style.display = 'block';
+    nicknameInputElement.focus();
+    nicknameInputElement.select();
+    console.log('✓ Nickname edit form displayed');
+}
+
+function hideNicknameEditForm() {
+    if (!editNicknameForm || !nicknameInputElement) return;
+    editNicknameForm.style.display = 'none';
+    nicknameInputElement.value = '';
+}
+
+async function handleNicknameSave(event) {
+    event.preventDefault();
+
+    if (!currentUser || !nicknameInputElement || !supabaseClient || !currentUserProfile) {
+        alert('Cannot save nickname');
+        return;
+    }
+
+    const newNickname = nicknameInputElement.value.trim();
+    if (!newNickname || newNickname.length < 3 || newNickname.length > 25) {
+        alert('Nickname must be 3-25 characters');
+        return;
+    }
+
+    if (newNickname === currentUserProfile.username) {
+        hideNicknameEditForm();
+        return;
+    }
+
+    try {
+        const { data: updatedData, error } = await supabaseClient
+            .from('profiles')
+            .update({ username: newNickname, updated_at: new Date() })
+            .eq('id', currentUser.id)
+            .select('username')
+            .single();
+
+        if (error) throw error;
+
+        console.log('Nickname updated:', updatedData);
+        currentUserProfile.username = updatedData.username;
+        cacheUserProfile(currentUserProfile);
+
+        const userNicknameElement = document.getElementById('user-nickname');
+        if (userNicknameElement) {
+            userNicknameElement.textContent = truncateString(updatedData.username);
+        }
+
+        hideNicknameEditForm();
+        alert('Nickname updated successfully!');
+    } catch (error) {
+        console.error('Error updating nickname:', error);
+        alert(`Update failed: ${error.message}`);
+    }
 }
