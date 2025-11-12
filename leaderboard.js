@@ -365,8 +365,8 @@ function updateAuthUI(user) {
         // Update leaderboard to highlight user's score
         updateLeaderboard();
     } else {
-        // User is logged out
-        loginButton.style.display = 'inline-block';
+        // User is logged out - hide both menu elements
+        loginButton.style.display = 'none';
         userStatusElement.style.display = 'none';
     }
 }

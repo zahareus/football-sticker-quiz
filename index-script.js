@@ -268,8 +268,8 @@ function updateAuthUI(user) {
         loginButton.style.display = 'none';
         userStatusElement.style.display = 'flex';
     } else {
-        // User is logged out
-        loginButton.style.display = 'inline-block';
+        // User is logged out - hide both menu elements
+        loginButton.style.display = 'none';
         userStatusElement.style.display = 'none';
     }
 }
