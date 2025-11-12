@@ -572,11 +572,18 @@ async function checkAndCreateUserProfile(user, skipCache = false) {
             }
         }
 
-        currentUserProfile = fetchedProfile;
-
-        // Cache profile for instant loading next time
+        // Only update currentUserProfile if we successfully fetched one
+        // Don't overwrite existing cached profile with null
         if (fetchedProfile) {
+            currentUserProfile = fetchedProfile;
+
+            // Cache profile for instant loading next time
             cacheUserProfile(fetchedProfile);
+        } else if (!currentUserProfile) {
+            // Only set to null if there was no cached profile
+            currentUserProfile = null;
+        } else {
+            console.log('⚠️ Profile fetch returned null, keeping cached profile');
         }
 
         return finalUsernameToShow;
@@ -591,7 +598,14 @@ async function checkAndCreateUserProfile(user, skipCache = false) {
             console.warn('Profile fetch slow/failed, continuing with cached data or loading state');
         }
 
-        currentUserProfile = null;
+        // DON'T clear currentUserProfile if it already exists (from cache)
+        // This prevents "Loading..." from appearing when there's a network error
+        if (!currentUserProfile) {
+            console.log('⚠️ No cached profile, returning email as fallback');
+        } else {
+            console.log(`✓ Keeping cached profile: ${currentUserProfile.username}`);
+        }
+
         return user.email || 'User';
     }
 }
@@ -740,7 +754,31 @@ function setupAuthStateChangeListener() {
     console.log("Auth listener set up.");
 }
 async function checkInitialAuthState() { if (!supabaseClient) { return; }; console.log("Checking initial auth..."); try { const { data: { session }, error } = await supabaseClient.auth.getSession(); if (error) throw error; currentUser = session?.user ?? null; console.log("Initial session:", currentUser ? currentUser.id : "None"); } catch (error) { console.error("Error getting initial session:", error); currentUser = null; currentUserProfile = null; } }
-function showNicknameEditForm() { if (!currentUserProfile || !userNicknameElement || !editNicknameForm || !nicknameInputElement) { return; } hideError(); nicknameInputElement.value = currentUserProfile.username || ''; editNicknameForm.style.display = 'block'; nicknameInputElement.focus(); nicknameInputElement.select(); }
+function showNicknameEditForm() {
+    console.log('showNicknameEditForm called');
+    console.log('currentUserProfile:', currentUserProfile);
+    console.log('userNicknameElement:', userNicknameElement);
+    console.log('editNicknameForm:', editNicknameForm);
+    console.log('nicknameInputElement:', nicknameInputElement);
+
+    if (!currentUserProfile) {
+        console.error('❌ Cannot edit nickname: profile not loaded yet');
+        showError('Please wait for your profile to load...');
+        return;
+    }
+
+    if (!userNicknameElement || !editNicknameForm || !nicknameInputElement) {
+        console.error('❌ Cannot edit nickname: form elements not found');
+        return;
+    }
+
+    hideError();
+    nicknameInputElement.value = currentUserProfile.username || '';
+    editNicknameForm.style.display = 'block';
+    nicknameInputElement.focus();
+    nicknameInputElement.select();
+    console.log('✓ Nickname edit form displayed');
+}
 function hideNicknameEditForm() { if (!editNicknameForm || !nicknameInputElement) { return; } editNicknameForm.style.display = 'none'; nicknameInputElement.value = ''; }
 async function handleNicknameSave(event) { event.preventDefault(); if (!currentUser || !nicknameInputElement || !supabaseClient || !currentUserProfile) { showError("Cannot save."); return; } const newNickname = nicknameInputElement.value.trim(); if (!newNickname || newNickname.length < 3 || newNickname.length > 25) { showError("3-25 chars needed."); return; } if (newNickname === currentUserProfile.username) { hideNicknameEditForm(); return; } showLoading(); hideError(); try { const { data: updatedData, error } = await supabaseClient .from('profiles') .update({ username: newNickname, updated_at: new Date() }) .eq('id', currentUser.id) .select('username') .single(); if (error) throw error; console.log("Nickname updated:", updatedData); currentUserProfile.username = updatedData.username; if (userNicknameElement) { userNicknameElement.textContent = truncateString(updatedData.username); } hideNicknameEditForm(); showError("Nickname updated!"); setTimeout(hideError, 2500); if (leaderboardSectionElement?.style.display === 'block') { updateLeaderboard(); } } catch (error) { console.error("Error updating nickname:", error); showError(`Update failed: ${error.message}`); } finally { hideLoading(); } }
 
