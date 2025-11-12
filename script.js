@@ -107,7 +107,28 @@ function initializeDOMElements(isRetry = false) {
     // --- Add Event Listeners (only once) ---
     if (!eventListenersAdded) {
         console.log("Adding event listeners...");
-        playAgainButton.addEventListener('click', showDifficultySelection); loginButton.addEventListener('click', loginWithGoogle); landingLoginButton.addEventListener('click', loginWithGoogle); if (resultSignInButton) resultSignInButton.addEventListener('click', loginWithGoogle); logoutButton.addEventListener('click', logout); difficultyButtons.forEach(button => { button.addEventListener('click', handleDifficultySelection); }); if (landingLeaderboardButton) landingLeaderboardButton.addEventListener('click', openLeaderboard); if (landingPlayEasyButton) landingPlayEasyButton.addEventListener('click', startEasyGame); closeLeaderboardButton.addEventListener('click', closeLeaderboard); leaderboardTimeFilterButtons.forEach(button => { button.addEventListener('click', handleTimeFilterChange); }); leaderboardDifficultyFilterButtons.forEach(button => { button.addEventListener('click', handleDifficultyFilterChange); }); userNicknameElement.addEventListener('click', showNicknameEditForm); editNicknameForm.addEventListener('submit', handleNicknameSave); cancelEditNicknameButton.addEventListener('click', hideNicknameEditForm);
+        playAgainButton.addEventListener('click', showDifficultySelection);
+        loginButton.addEventListener('click', loginWithGoogle);
+        landingLoginButton.addEventListener('click', loginWithGoogle);
+        if (resultSignInButton) resultSignInButton.addEventListener('click', loginWithGoogle);
+        logoutButton.addEventListener('click', logout);
+        difficultyButtons.forEach(button => { button.addEventListener('click', handleDifficultySelection); });
+        if (landingLeaderboardButton) landingLeaderboardButton.addEventListener('click', openLeaderboard);
+        if (landingPlayEasyButton) landingPlayEasyButton.addEventListener('click', startEasyGame);
+        closeLeaderboardButton.addEventListener('click', closeLeaderboard);
+        leaderboardTimeFilterButtons.forEach(button => { button.addEventListener('click', handleTimeFilterChange); });
+        leaderboardDifficultyFilterButtons.forEach(button => { button.addEventListener('click', handleDifficultyFilterChange); });
+
+        // Add click listener for nickname editing
+        if (userNicknameElement) {
+            userNicknameElement.addEventListener('click', showNicknameEditForm);
+            console.log('✓ Nickname click listener added');
+        } else {
+            console.error('❌ userNicknameElement not found, cannot add click listener');
+        }
+
+        editNicknameForm.addEventListener('submit', handleNicknameSave);
+        cancelEditNicknameButton.addEventListener('click', hideNicknameEditForm);
 
         // --- Animation End Listeners ---
         if (scoreDisplayElement) { scoreDisplayElement.addEventListener('animationend', () => { scoreDisplayElement.classList.remove('score-updated'); }); }
@@ -283,10 +304,14 @@ function updateAuthStateUI(user) {
         if (currentUserProfile?.username) {
             displayName = currentUserProfile.username;
             console.log(`✓ Showing username: ${displayName}`);
-        } else {
-            // Temporarily show email until profile with username loads
+        } else if (!currentUserProfile) {
+            // Profile not loaded yet, show loading
             displayName = 'Loading...';
             console.log(`⚠️ Profile loading, showing temporary state`);
+        } else {
+            // Profile exists but no username (shouldn't happen, but fallback)
+            displayName = 'Loading...';
+            console.log(`⚠️ Profile exists but no username`);
         }
 
         userNicknameElement.textContent = truncateString(displayName);
