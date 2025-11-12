@@ -814,42 +814,36 @@ function truncateString(str, maxLength = 20) {
 }
 
 // Load user profile
-async function loadUserProfile(user) {
-    if (!supabaseClient || !user) return null;
+async function loadAndSetUserProfile(user) {
+    if (!supabaseClient || !user) return;
 
     try {
         const { data: profileData, error } = await supabaseClient
             .from('profiles')
-            .select('id, username, active_session_id')
+            .select('id, username')
             .eq('id', user.id)
             .maybeSingle();
 
         if (error && error.code !== 'PGRST116') {
-            // Try without active_session_id if column doesn't exist
-            if (error.message && error.message.includes('active_session_id')) {
-                const { data, error: err2 } = await supabaseClient
-                    .from('profiles')
-                    .select('id, username')
-                    .eq('id', user.id)
-                    .maybeSingle();
-
-                if (err2) throw err2;
-                return data;
-            }
-            throw error;
+            console.error('Error loading profile:', error);
+            return;
         }
 
-        return profileData;
+        if (profileData) {
+            currentUserProfile = profileData;
+            cacheUserProfile(profileData);
+            console.log(`✓ Profile loaded: ${profileData.username}`);
+        } else {
+            console.warn('No profile found for user');
+        }
     } catch (error) {
-        console.error('Error loading profile:', error);
-        return null;
+        console.error('Error in loadAndSetUserProfile:', error);
     }
 }
 
 // Update auth UI
 function updateAuthUI(user) {
     const loginButton = document.getElementById('login-button');
-    const logoutButton = document.getElementById('logout-button');
     const userStatusElement = document.getElementById('user-status');
     const userNicknameElement = document.getElementById('user-nickname');
 
@@ -857,19 +851,13 @@ function updateAuthUI(user) {
 
     if (user) {
         // User is logged in
-        let displayName = 'Loading...';
-        if (currentUserProfile?.username) {
-            displayName = currentUserProfile.username;
-        } else {
-            displayName = user.email || 'User';
-        }
-
+        const displayName = currentUserProfile?.username || 'Loading...';
         userNicknameElement.textContent = truncateString(displayName);
         loginButton.style.display = 'none';
         userStatusElement.style.display = 'flex';
     } else {
-        // User is logged out - hide both menu elements
-        loginButton.style.display = 'none';
+        // User is logged out
+        loginButton.style.display = 'block';
         userStatusElement.style.display = 'none';
     }
 }
@@ -937,24 +925,17 @@ function setupAuth() {
         if (user) {
             currentUser = user;
 
-            // Load cached profile immediately
+            // Load cached profile first
             const cachedProfile = loadCachedProfile(user.id);
             if (cachedProfile) {
                 currentUserProfile = cachedProfile;
                 console.log(`✓ Using cached profile: ${cachedProfile.username}`);
+                updateAuthUI(user);
             }
 
-            // Update UI immediately
+            // Load fresh profile and update UI
+            await loadAndSetUserProfile(user);
             updateAuthUI(user);
-
-            // Load fresh profile in background
-            loadUserProfile(user).then(profile => {
-                if (profile) {
-                    currentUserProfile = profile;
-                    cacheUserProfile(profile);
-                    updateAuthUI(user);
-                }
-            });
         } else {
             if (event === 'SIGNED_OUT' && currentUser) {
                 clearCachedProfile(currentUser.id);
@@ -966,29 +947,22 @@ function setupAuth() {
     });
 
     // Get initial session
-    supabaseClient.auth.getSession().then(({ data: { session } }) => {
+    supabaseClient.auth.getSession().then(async ({ data: { session } }) => {
         const user = session?.user ?? null;
 
         if (user) {
             currentUser = user;
 
-            // Load cached profile immediately
+            // Load cached profile first
             const cachedProfile = loadCachedProfile(user.id);
             if (cachedProfile) {
                 currentUserProfile = cachedProfile;
+                updateAuthUI(user);
             }
 
-            // Update UI immediately
+            // Load fresh profile and update UI
+            await loadAndSetUserProfile(user);
             updateAuthUI(user);
-
-            // Load fresh profile in background
-            loadUserProfile(user).then(profile => {
-                if (profile) {
-                    currentUserProfile = profile;
-                    cacheUserProfile(profile);
-                    updateAuthUI(user);
-                }
-            });
         } else {
             updateAuthUI(null);
         }
