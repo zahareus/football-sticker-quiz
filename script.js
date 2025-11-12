@@ -366,7 +366,58 @@ function getLocalSessionId() {
     return sessionId;
 }
 
-async function checkAndCreateUserProfile(user) {
+// Cache profile to localStorage for instant loading
+function cacheUserProfile(profile) {
+    if (!profile || !profile.id) return;
+    try {
+        const cacheData = {
+            profile: profile,
+            timestamp: Date.now()
+        };
+        localStorage.setItem(`user_profile_${profile.id}`, JSON.stringify(cacheData));
+        console.log(`✓ Profile cached for user ${profile.id}`);
+    } catch (error) {
+        console.warn('Failed to cache profile:', error);
+    }
+}
+
+// Load cached profile from localStorage
+function loadCachedProfile(userId) {
+    if (!userId) return null;
+    try {
+        const cached = localStorage.getItem(`user_profile_${userId}`);
+        if (!cached) return null;
+
+        const cacheData = JSON.parse(cached);
+        const age = Date.now() - cacheData.timestamp;
+
+        // Cache valid for 24 hours
+        if (age > 24 * 60 * 60 * 1000) {
+            console.log('Cached profile expired');
+            localStorage.removeItem(`user_profile_${userId}`);
+            return null;
+        }
+
+        console.log(`✓ Loaded cached profile (age: ${Math.round(age / 1000)}s)`);
+        return cacheData.profile;
+    } catch (error) {
+        console.warn('Failed to load cached profile:', error);
+        return null;
+    }
+}
+
+// Clear cached profile
+function clearCachedProfile(userId) {
+    if (!userId) return;
+    try {
+        localStorage.removeItem(`user_profile_${userId}`);
+        console.log(`✓ Cleared cached profile for user ${userId}`);
+    } catch (error) {
+        console.warn('Failed to clear cached profile:', error);
+    }
+}
+
+async function checkAndCreateUserProfile(user, skipCache = false) {
     if (!supabaseClient || !user) { return null; }
     console.log(`Checking profile for ${user.id}...`);
 
@@ -375,21 +426,13 @@ async function checkAndCreateUserProfile(user) {
 
     try {
         console.log("Fetching profile...");
-        
-        // Create a timeout promise for mobile browsers
-        const timeoutPromise = new Promise((_, reject) => 
-            setTimeout(() => reject(new Error('Profile fetch timeout - network too slow')), 8000)
-        );
 
         // Try to fetch with session_id column, but handle if it doesn't exist
-        const fetchPromise = supabaseClient
+        const { data: profileData, error: selectError } = await supabaseClient
             .from('profiles')
             .select('id, username, active_session_id')
             .eq('id', user.id)
             .maybeSingle();
-
-        // Race between fetch and timeout
-        let { data: profileData, error: selectError } = await Promise.race([fetchPromise, timeoutPromise]);
 
         // If column doesn't exist, fetch without it
         if (selectError && selectError.message && selectError.message.includes('active_session_id')) {
@@ -499,10 +542,24 @@ async function checkAndCreateUserProfile(user) {
         }
 
         currentUserProfile = fetchedProfile;
+
+        // Cache profile for instant loading next time
+        if (fetchedProfile) {
+            cacheUserProfile(fetchedProfile);
+        }
+
         return finalUsernameToShow;
     } catch (error) {
         console.error("checkAndCreateUserProfile error:", error);
-        showError(`Profile Error: ${error.message || 'Load failed'}`);
+
+        // Only show error for actual failures, not network slowness
+        // On slow networks, the UI will still work with cached data or "Loading..." state
+        if (error.code && error.code !== 'ETIMEDOUT' && error.code !== 'ECONNABORTED') {
+            showError(`Profile Error: ${error.message || 'Load failed'}`);
+        } else {
+            console.warn('Profile fetch slow/failed, continuing with cached data or loading state');
+        }
+
         currentUserProfile = null;
         return user.email || 'User';
     }
@@ -583,11 +640,22 @@ function setupAuthStateChangeListener() {
             if (user) {
                 currentUser = user;
 
-                // Load profile if needed
+                // Load cached profile immediately if needed
                 if (!currentUserProfile || currentUserProfile.id !== user.id) {
-                    console.log("Loading user profile...");
-                    await checkAndCreateUserProfile(user);
-                    console.log("User profile loaded successfully");
+                    const cachedProfile = loadCachedProfile(user.id);
+                    if (cachedProfile) {
+                        currentUserProfile = cachedProfile;
+                        console.log(`✓ Using cached profile: ${cachedProfile.username}`);
+                    }
+
+                    // Fetch fresh profile in background
+                    console.log("Loading fresh profile in background...");
+                    checkAndCreateUserProfile(user).then(() => {
+                        console.log("Profile loaded, updating UI");
+                        updateAuthStateUI(user);
+                    }).catch(err => {
+                        console.error("Profile load error (non-blocking):", err);
+                    });
                 }
 
                 // SPECIAL HANDLING for SIGNED_IN event (after OAuth)
@@ -612,6 +680,10 @@ function setupAuthStateChangeListener() {
                 }
 
                 if (_event === 'SIGNED_OUT') {
+                    // Clear cached profile on logout
+                    if (currentUser) {
+                        clearCachedProfile(currentUser.id);
+                    }
                     currentUserProfile = null;
                     console.log("User signed out");
                 }
@@ -911,16 +983,31 @@ function initializeApp() {
         if (user) {
             currentUser = user;
 
-            // Load profile
+            // Load cached profile immediately (synchronous, instant)
+            const cachedProfile = loadCachedProfile(user.id);
+            if (cachedProfile) {
+                currentUserProfile = cachedProfile;
+                console.log(`✓ Using cached profile: ${cachedProfile.username}`);
+            } else {
+                console.log("No cached profile, will load in background");
+            }
+
+            // Fetch fresh profile in background (don't await, don't block UI)
             if (!currentUserProfile || currentUserProfile.id !== user.id) {
-                console.log("Loading profile...");
-                await checkAndCreateUserProfile(user);
-                console.log("Profile loaded");
+                console.log("Loading fresh profile in background...");
+                checkAndCreateUserProfile(user).then(() => {
+                    console.log("Profile loaded, updating UI");
+                    // Update UI again with fresh profile data
+                    updateAuthStateUI(user);
+                }).catch(err => {
+                    console.error("Profile load error (non-blocking):", err);
+                    // UI still works with cached data or "Loading..." state
+                });
             }
         }
 
-        // Update UI - the onAuthStateChange handler will handle OAuth redirects
-        console.log("Updating UI from initializeApp");
+        // Update UI IMMEDIATELY - don't wait for profile fetch
+        console.log("Updating UI from initializeApp (immediate)");
 
         // Force immediate UI update
         updateAuthStateUI(user);
