@@ -279,7 +279,19 @@ function updateAuthStateUI(user) {
     if (user) {
         console.log("==== USER IS LOGGED IN ====");
         bodyElement.classList.remove('logged-out');
-        const displayName = currentUserProfile?.username || user.email || 'Loading...';
+
+        // Show appropriate display name based on profile state
+        let displayName = 'Loading...';
+        if (currentUserProfile?.username) {
+            displayName = currentUserProfile.username;
+            console.log(`✓ Showing username: ${displayName}`);
+        } else if (currentUserProfile && !currentUserProfile.username) {
+            displayName = user.email || 'User';
+            console.log(`⚠️ Profile exists but no username, showing: ${displayName}`);
+        } else {
+            displayName = user.email || 'Loading...';
+            console.log(`⚠️ No profile yet, showing: ${displayName}`);
+        }
 
         userNicknameElement.textContent = truncateString(displayName);
         userStatusElement.style.cssText = 'display: flex !important;';
