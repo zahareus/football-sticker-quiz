@@ -45,7 +45,6 @@ let nextQuestionPromise = null; // Promise for the next preloaded question
 let gameAreaElement, stickerImageElement, optionsContainerElement, timeLeftElement, currentScoreElement, resultAreaElement, finalScoreElement, playAgainButton, resultSignInButton, authSectionElement, loginButton, userStatusElement, logoutButton, difficultySelectionElement, loadingIndicator, errorMessageElement;
 let difficultyButtons;
 let leaderboardSectionElement, leaderboardListElement, closeLeaderboardButton;
-let showLeaderboardHeaderButton;
 let userNicknameElement, editNicknameForm, nicknameInputElement, cancelEditNicknameButton;
 let scoreDisplayElement;
 let landingPageElement, landingLoginButton, landingLeaderboardButton, landingPlayEasyButton;
@@ -67,9 +66,9 @@ let eventListenersAdded = false;
 function initializeDOMElements(isRetry = false) {
     console.log(`initializeDOMElements called (isRetry: ${isRetry})`);
 
-    gameAreaElement = document.getElementById('game-area'); stickerImageElement = document.getElementById('sticker-image'); optionsContainerElement = document.getElementById('options'); timeLeftElement = document.getElementById('time-left'); currentScoreElement = document.getElementById('current-score'); scoreDisplayElement = document.getElementById('score'); resultAreaElement = document.getElementById('result-area'); finalScoreElement = document.getElementById('final-score'); rankContainerElement = document.getElementById('rank-container'); playAgainButton = document.getElementById('play-again'); resultSignInButton = document.getElementById('result-sign-in-button'); authSectionElement = document.getElementById('auth-section'); loginButton = document.getElementById('login-button'); userStatusElement = document.getElementById('user-status'); userNicknameElement = document.getElementById('user-nickname'); logoutButton = document.getElementById('logout-button'); difficultySelectionElement = document.getElementById('difficulty-selection'); loadingIndicator = document.getElementById('loading-indicator'); errorMessageElement = document.getElementById('error-message'); difficultyButtons = document.querySelectorAll('.difficulty-option .difficulty-button'); leaderboardSectionElement = document.getElementById('leaderboard-section'); leaderboardListElement = document.getElementById('leaderboard-list'); closeLeaderboardButton = document.getElementById('close-leaderboard-button'); showLeaderboardHeaderButton = document.getElementById('show-leaderboard-header-button'); leaderboardTimeFilterButtons = document.querySelectorAll('.leaderboard-time-filter'); leaderboardDifficultyFilterButtons = document.querySelectorAll('.leaderboard-difficulty-filter'); editNicknameForm = document.getElementById('edit-nickname-form'); nicknameInputElement = document.getElementById('nickname-input'); cancelEditNicknameButton = document.getElementById('cancel-edit-nickname-button'); landingPageElement = document.getElementById('landing-page'); landingLoginButton = document.getElementById('landing-login-button'); landingLeaderboardButton = document.getElementById('landing-leaderboard-button'); landingPlayEasyButton = document.getElementById('landing-play-easy-button'); introTextElement = document.getElementById('intro-text-element'); playerStatsElement = document.getElementById('player-stats-element'); playersTotalElement = document.getElementById('players-total'); playersTodayElement = document.getElementById('players-today');
+    gameAreaElement = document.getElementById('game-area'); stickerImageElement = document.getElementById('sticker-image'); optionsContainerElement = document.getElementById('options'); timeLeftElement = document.getElementById('time-left'); currentScoreElement = document.getElementById('current-score'); scoreDisplayElement = document.getElementById('score'); resultAreaElement = document.getElementById('result-area'); finalScoreElement = document.getElementById('final-score'); rankContainerElement = document.getElementById('rank-container'); playAgainButton = document.getElementById('play-again'); resultSignInButton = document.getElementById('result-sign-in-button'); authSectionElement = document.getElementById('auth-section'); loginButton = document.getElementById('login-button'); userStatusElement = document.getElementById('user-status'); userNicknameElement = document.getElementById('user-nickname'); logoutButton = document.getElementById('logout-button'); difficultySelectionElement = document.getElementById('difficulty-selection'); loadingIndicator = document.getElementById('loading-indicator'); errorMessageElement = document.getElementById('error-message'); difficultyButtons = document.querySelectorAll('.difficulty-option .difficulty-button'); leaderboardSectionElement = document.getElementById('leaderboard-section'); leaderboardListElement = document.getElementById('leaderboard-list'); closeLeaderboardButton = document.getElementById('close-leaderboard-button'); leaderboardTimeFilterButtons = document.querySelectorAll('.leaderboard-time-filter'); leaderboardDifficultyFilterButtons = document.querySelectorAll('.leaderboard-difficulty-filter'); editNicknameForm = document.getElementById('edit-nickname-form'); nicknameInputElement = document.getElementById('nickname-input'); cancelEditNicknameButton = document.getElementById('cancel-edit-nickname-button'); landingPageElement = document.getElementById('landing-page'); landingLoginButton = document.getElementById('landing-login-button'); landingLeaderboardButton = document.getElementById('landing-leaderboard-button'); landingPlayEasyButton = document.getElementById('landing-play-easy-button'); introTextElement = document.getElementById('intro-text-element'); playerStatsElement = document.getElementById('player-stats-element'); playersTotalElement = document.getElementById('players-total'); playersTodayElement = document.getElementById('players-today');
 
-    const elements = { gameAreaElement, stickerImageElement, optionsContainerElement, timeLeftElement, currentScoreElement, scoreDisplayElement, resultAreaElement, finalScoreElement, playAgainButton, resultSignInButton, authSectionElement, loginButton, userStatusElement, userNicknameElement, logoutButton, difficultySelectionElement, leaderboardSectionElement, leaderboardListElement, closeLeaderboardButton, showLeaderboardHeaderButton, loadingIndicator, errorMessageElement, editNicknameForm, nicknameInputElement, cancelEditNicknameButton, landingPageElement, landingLoginButton, landingLeaderboardButton, landingPlayEasyButton, introTextElement };
+    const elements = { gameAreaElement, stickerImageElement, optionsContainerElement, timeLeftElement, currentScoreElement, scoreDisplayElement, resultAreaElement, finalScoreElement, playAgainButton, resultSignInButton, authSectionElement, loginButton, userStatusElement, userNicknameElement, logoutButton, difficultySelectionElement, leaderboardSectionElement, leaderboardListElement, closeLeaderboardButton, loadingIndicator, errorMessageElement, editNicknameForm, nicknameInputElement, cancelEditNicknameButton, landingPageElement, landingLoginButton, landingLeaderboardButton, landingPlayEasyButton, introTextElement };
 
     let allFound = true;
     for (const key in elements) {
@@ -108,7 +107,7 @@ function initializeDOMElements(isRetry = false) {
     // --- Add Event Listeners (only once) ---
     if (!eventListenersAdded) {
         console.log("Adding event listeners...");
-        playAgainButton.addEventListener('click', showDifficultySelection); loginButton.addEventListener('click', loginWithGoogle); landingLoginButton.addEventListener('click', loginWithGoogle); if (resultSignInButton) resultSignInButton.addEventListener('click', loginWithGoogle); logoutButton.addEventListener('click', logout); difficultyButtons.forEach(button => { button.addEventListener('click', handleDifficultySelection); }); if (showLeaderboardHeaderButton) showLeaderboardHeaderButton.addEventListener('click', openLeaderboard); if (landingLeaderboardButton) landingLeaderboardButton.addEventListener('click', openLeaderboard); if (landingPlayEasyButton) landingPlayEasyButton.addEventListener('click', startEasyGame); closeLeaderboardButton.addEventListener('click', closeLeaderboard); leaderboardTimeFilterButtons.forEach(button => { button.addEventListener('click', handleTimeFilterChange); }); leaderboardDifficultyFilterButtons.forEach(button => { button.addEventListener('click', handleDifficultyFilterChange); }); userNicknameElement.addEventListener('click', showNicknameEditForm); editNicknameForm.addEventListener('submit', handleNicknameSave); cancelEditNicknameButton.addEventListener('click', hideNicknameEditForm);
+        playAgainButton.addEventListener('click', showDifficultySelection); loginButton.addEventListener('click', loginWithGoogle); landingLoginButton.addEventListener('click', loginWithGoogle); if (resultSignInButton) resultSignInButton.addEventListener('click', loginWithGoogle); logoutButton.addEventListener('click', logout); difficultyButtons.forEach(button => { button.addEventListener('click', handleDifficultySelection); }); if (landingLeaderboardButton) landingLeaderboardButton.addEventListener('click', openLeaderboard); if (landingPlayEasyButton) landingPlayEasyButton.addEventListener('click', startEasyGame); closeLeaderboardButton.addEventListener('click', closeLeaderboard); leaderboardTimeFilterButtons.forEach(button => { button.addEventListener('click', handleTimeFilterChange); }); leaderboardDifficultyFilterButtons.forEach(button => { button.addEventListener('click', handleDifficultyFilterChange); }); userNicknameElement.addEventListener('click', showNicknameEditForm); editNicknameForm.addEventListener('submit', handleNicknameSave); cancelEditNicknameButton.addEventListener('click', hideNicknameEditForm);
 
         // --- Animation End Listeners ---
         if (scoreDisplayElement) { scoreDisplayElement.addEventListener('animationend', () => { scoreDisplayElement.classList.remove('score-updated'); }); }
@@ -240,20 +239,19 @@ function updateAuthStateUI(user) {
     console.log(`currentUserProfile: ${currentUserProfile ? currentUserProfile.username : 'null'}`);
 
     // Force re-initialize if elements missing
-    if (!loginButton || !userStatusElement || !difficultySelectionElement || !userNicknameElement || !showLeaderboardHeaderButton || !landingPageElement || !introTextElement) {
+    if (!loginButton || !userStatusElement || !difficultySelectionElement || !userNicknameElement || !landingPageElement || !introTextElement) {
         console.error("CRITICAL: UI elements not found! Re-initializing...");
         initializeDOMElements(true);
     }
 
     // Double check after re-init
-    if (!loginButton || !userStatusElement || !difficultySelectionElement || !userNicknameElement || !showLeaderboardHeaderButton || !landingPageElement || !introTextElement) {
+    if (!loginButton || !userStatusElement || !difficultySelectionElement || !userNicknameElement || !landingPageElement || !introTextElement) {
         console.error("CRITICAL ERROR: Elements still missing after re-init!");
         console.error({
             loginButton: !!loginButton,
             userStatusElement: !!userStatusElement,
             difficultySelectionElement: !!difficultySelectionElement,
             userNicknameElement: !!userNicknameElement,
-            showLeaderboardHeaderButton: !!showLeaderboardHeaderButton,
             landingPageElement: !!landingPageElement,
             introTextElement: !!introTextElement
         });
@@ -280,23 +278,20 @@ function updateAuthStateUI(user) {
         console.log("==== USER IS LOGGED IN ====");
         bodyElement.classList.remove('logged-out');
 
-        // Show appropriate display name based on profile state
+        // Show appropriate display name - prioritize username
         let displayName = 'Loading...';
         if (currentUserProfile?.username) {
             displayName = currentUserProfile.username;
             console.log(`✓ Showing username: ${displayName}`);
-        } else if (currentUserProfile && !currentUserProfile.username) {
-            displayName = user.email || 'User';
-            console.log(`⚠️ Profile exists but no username, showing: ${displayName}`);
         } else {
-            displayName = user.email || 'Loading...';
-            console.log(`⚠️ No profile yet, showing: ${displayName}`);
+            // Temporarily show email until profile with username loads
+            displayName = 'Loading...';
+            console.log(`⚠️ Profile loading, showing temporary state`);
         }
 
         userNicknameElement.textContent = truncateString(displayName);
         userStatusElement.style.cssText = 'display: flex !important;';
         loginButton.style.cssText = 'display: none !important;';
-        showLeaderboardHeaderButton.style.cssText = 'display: inline-block !important;';
 
         console.log(`Setting user status display to flex with !important`);
         console.log(`User nickname set to: ${displayName}`);
@@ -343,7 +338,6 @@ function updateAuthStateUI(user) {
 
         loginButton.style.cssText = 'display: none !important;';
         userStatusElement.style.cssText = 'display: none !important;';
-        showLeaderboardHeaderButton.style.cssText = 'display: none !important;';
         stopTimer();
 
         // Show landing page with !important

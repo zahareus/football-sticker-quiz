@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leaderboard - StickerHunt</title>
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="View top players on the StickerHunt leaderboard. Compete with players worldwide and see who's the best at identifying football stickers.">
+    <meta name="keywords" content="leaderboard, top players, football quiz rankings, sticker game scores, competition">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://stickerhunt.club/leaderboard.html">
+    <meta property="og:title" content="Leaderboard - StickerHunt">
+    <meta property="og:description" content="View top players on the StickerHunt leaderboard. Compete with players worldwide and see who's the best at identifying football stickers.">
+    <meta property="og:image" content="https://stickerhunt.club/metash.png">
+    <meta property="og:site_name" content="StickerHunt">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://stickerhunt.club/leaderboard.html">
+    <meta property="twitter:title" content="Leaderboard - StickerHunt">
+    <meta property="twitter:description" content="View top players on the StickerHunt leaderboard. Compete with players worldwide and see who's the best at identifying football stickers.">
+    <meta property="twitter:image" content="https://stickerhunt.club/metash.png">
+    <meta property="twitter:site" content="@StickerHunting">
+    <meta property="twitter:creator" content="@StickerHunting">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="style.css">
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-4Y0MJKGDZS"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-4Y0MJKGDZS');
+    </script>
+</head>
+<body>
+    <header class="app-header">
+        <div class="logo-container">
+           <a href="/index.html"><img src="/logo.png" alt="StickerHunt Logo" id="app-logo"></a>
+        </div>
+        <div id="auth-section">
+             <button id="login-button" class="btn btn-primary google-login" style="display: none;">
+                 <span>Sign in with Google</span>
+             </button>
+             <div id="user-status" style="display: none;">
+                 <strong id="user-nickname" title="Your username">Loading...</strong>
+                 <button id="logout-button" class="btn-link">Logout</button>
+             </div>
+         </div>
+    </header>
+
+    <main class="container leaderboard-container">
+        <h1>🏆 Leaderboard</h1>
+
+        <div id="leaderboard-filters" style="margin-bottom: 24px;">
+            <div class="filter-group" style="margin-bottom: 12px;">
+                <strong>Time:</strong>
+                <button class="btn btn-filter leaderboard-time-filter active" data-timeframe="today">Today</button>
+                <button class="btn btn-filter leaderboard-time-filter" data-timeframe="week">7 days</button>
+                <button class="btn btn-filter leaderboard-time-filter" data-timeframe="month">Month</button>
+                <button class="btn btn-filter leaderboard-time-filter" data-timeframe="all">All time</button>
+            </div>
+            <div class="filter-group">
+                <strong>Difficulty:</strong>
+                <button class="btn btn-filter leaderboard-difficulty-filter active" data-difficulty="1">Easy</button>
+                <button class="btn btn-filter leaderboard-difficulty-filter" data-difficulty="2">Medium</button>
+                <button class="btn btn-filter leaderboard-difficulty-filter" data-difficulty="3">Hard</button>
+            </div>
+        </div>
+
+        <div id="leaderboard-content" style="min-height: 300px;">
+            <ol id="leaderboard-list" style="list-style: decimal; padding-left: 20px; font-size: 1.1em; line-height: 1.8;">
+                <li>Loading...</li>
+            </ol>
+        </div>
+
+        <div class="home-actions" style="margin-top: 40px;">
+            <a href="/quiz.html" class="btn btn-primary btn-large">Play Quiz</a>
+            <a href="/catalogue.html" class="btn btn-secondary btn-large">View Catalogue</a>
+        </div>
+
+        <p id="loading-indicator" style="display: none;">Loading...</p>
+        <p id="error-message" style="display: none;"></p>
+    </main>
+
+    <footer class="app-footer">
+        <p>
+            <a href="/about.html">About</a> |
+            <a href="/terms.html">Terms of Service</a> |
+            <a href="/privacy.html">Privacy Policy</a>
+        </p>
+        <p>StickerHunt &copy; 2025</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="leaderboard.js"></script>
+</body>
+</html>
