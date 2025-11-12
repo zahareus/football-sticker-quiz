@@ -1,5 +1,3 @@
-// script.js
-
 const SUPABASE_URL = "https://rbmeslzlbsolkxnvesqb.supabase.co";
 const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJibWVzbHpsYnNvbGt4bnZlc3FiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDUwODcxMzYsImV4cCI6MjA2MDY2MzEzNn0.cu-Qw0WoEslfKXXCiMocWFg6Uf1sK_cQYcyP2mT0-Nw";
 
@@ -42,7 +40,6 @@ let clubNamesLoaded = false;
 let preloadingPromise = null;
 let stickerCountCache = {}; // Cache for sticker counts per difficulty
 let nextQuestionPromise = null; // Promise for the next preloaded question
-let initialSessionLoaded = false; // Flag to prevent race conditions during page load
 
 // ----- 4. DOM Element References -----
 let gameAreaElement, stickerImageElement, optionsContainerElement, timeLeftElement, currentScoreElement, resultAreaElement, finalScoreElement, playAgainButton, resultSignInButton, authSectionElement, loginButton, userStatusElement, logoutButton, difficultySelectionElement, loadingIndicator, errorMessageElement;
@@ -212,6 +209,7 @@ async function loginWithGoogle() {
 
     try {
         // Always redirect to quiz.html after OAuth
+        // This is the consistent redirect point for all auth flows
         const baseUrl = window.location.origin;
         const redirectUrl = `${baseUrl}/quiz.html`;
 
@@ -377,12 +375,21 @@ async function checkAndCreateUserProfile(user) {
 
     try {
         console.log("Fetching profile...");
+        
+        // Create a timeout promise for mobile browsers
+        const timeoutPromise = new Promise((_, reject) => 
+            setTimeout(() => reject(new Error('Profile fetch timeout - network too slow')), 8000)
+        );
+
         // Try to fetch with session_id column, but handle if it doesn't exist
-        let { data: profileData, error: selectError } = await supabaseClient
+        const fetchPromise = supabaseClient
             .from('profiles')
             .select('id, username, active_session_id')
             .eq('id', user.id)
             .maybeSingle();
+
+        // Race between fetch and timeout
+        let { data: profileData, error: selectError } = await Promise.race([fetchPromise, timeoutPromise]);
 
         // If column doesn't exist, fetch without it
         if (selectError && selectError.message && selectError.message.includes('active_session_id')) {
@@ -604,14 +611,6 @@ function setupAuthStateChangeListener() {
                     return; // Don't update UI yet, wait for OAuth to complete
                 }
 
-                // CRITICAL: Don't process null session until initial session is loaded
-                // This prevents race condition where auth listener fires before getSession() completes
-                if (!initialSessionLoaded) {
-                    console.log("⏳ Initial session not loaded yet - ignoring null session event");
-                    return;
-                }
-
-                // Only process explicit SIGNED_OUT event
                 if (_event === 'SIGNED_OUT') {
                     currentUserProfile = null;
                     console.log("User signed out");
@@ -903,8 +902,6 @@ function initializeApp() {
         if (error) {
             console.error("Error getting session:", error);
             updateAuthStateUI(null);
-            initialSessionLoaded = true; // Allow auth listener to work even if initial load failed
-            console.log("✅ Initial session marked as loaded (with error)");
             return;
         }
 
@@ -927,10 +924,6 @@ function initializeApp() {
 
         // Force immediate UI update
         updateAuthStateUI(user);
-
-        // Mark initial session as loaded - now auth listener can process events
-        initialSessionLoaded = true;
-        console.log("✅ Initial session loaded - auth listener now active");
 
         // Additional forced update after short delay to ensure rendering
         setTimeout(() => {
@@ -957,4 +950,3 @@ function initializeApp() {
 
     console.log("✓ Periodic session validation enabled (every 10s)");
 }
-
