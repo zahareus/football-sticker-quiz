@@ -252,7 +252,58 @@ async function loginWithGoogle() {
         hideLoading();
     }
 }
-async function logout() { if (!supabaseClient) { return showError("Client error."); } console.log("Signing out..."); hideError(); showLoading(); try { const { error } = await supabaseClient.auth.signOut(); if (error) { throw error; } console.log("SignOut ok."); } catch (error) { console.error("Logout error:", error); showError(`Logout failed: ${error.message || 'Unknown'}`); } finally { hideLoading(); } }
+async function logout() {
+    if (!supabaseClient) {
+        return showError("Client error.");
+    }
+
+    console.log("Signing out...");
+    hideError();
+    showLoading();
+
+    try {
+        // Clear cached profile first
+        if (currentUser) {
+            const userId = currentUser.id;
+            try {
+                localStorage.removeItem(`user_profile_${userId}`);
+                console.log(`✓ Cleared cached profile for user ${userId}`);
+            } catch (e) {
+                console.warn('Failed to clear cached profile:', e);
+            }
+        }
+
+        // Try to sign out, but don't fail if session is already missing
+        const { error } = await supabaseClient.auth.signOut();
+        if (error) {
+            // If session missing, that's OK - just log it and continue
+            if (error.message.includes('session') || error.message.includes('Session')) {
+                console.log('⚠️ Session already missing, clearing local state...');
+            } else {
+                throw error;
+            }
+        }
+
+        console.log("✓ SignOut successful, reloading page...");
+
+        // Reload page to reset all state
+        window.location.reload();
+    } catch (error) {
+        console.error("Logout error:", error);
+
+        // Even if signOut failed, try to clear local state and reload
+        console.log("Attempting to clear local state and reload anyway...");
+        try {
+            localStorage.clear();
+            window.location.reload();
+        } catch (reloadError) {
+            console.error("Failed to reload:", reloadError);
+            showError(`Logout failed: ${error.message || 'Unknown'}`);
+        }
+    } finally {
+        hideLoading();
+    }
+}
 
 function updateAuthStateUI(user) {
     console.log(`========== updateAuthStateUI START ==========`);
