@@ -306,16 +306,47 @@ async function logout() {
             clearCachedProfile(currentUser.id);
         }
 
+        // Try to sign out, but don't fail if session is already missing
         const { error } = await supabaseClient.auth.signOut();
-        if (error) throw error;
+        if (error) {
+            // If session missing, that's OK - just log it and continue
+            if (error.message && (error.message.includes('session') || error.message.includes('Session'))) {
+                console.log('⚠️ Session already missing, clearing local state...');
+            } else {
+                throw error;
+            }
+        }
 
         console.log('✓ Logout successful');
+
+        // Clear all auth-related localStorage
+        try {
+            const keysToRemove = [];
+            for (let i = 0; i < localStorage.length; i++) {
+                const key = localStorage.key(i);
+                if (key && (key.includes('supabase') || key.includes('user_profile'))) {
+                    keysToRemove.push(key);
+                }
+            }
+            keysToRemove.forEach(key => localStorage.removeItem(key));
+        } catch (e) {
+            console.warn('Failed to clear localStorage:', e);
+        }
 
         // Reload page to reset all state
         window.location.reload();
     } catch (error) {
         console.error('Logout error:', error);
-        alert('Logout failed. Please try again.');
+
+        // Even if signOut failed, try to clear local state and reload
+        console.log('Attempting to clear local state and reload anyway...');
+        try {
+            localStorage.clear();
+            window.location.reload();
+        } catch (reloadError) {
+            console.error('Failed to reload:', reloadError);
+            alert('Logout failed. Please try again.');
+        }
     }
 }
 
