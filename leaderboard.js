@@ -363,8 +363,8 @@ function updateAuthUI(user) {
         // Update leaderboard to highlight user's score
         updateLeaderboard();
     } else {
-        // User is logged out
-        loginButton.style.display = 'block';
+        // User is logged out - hide both (only show logo)
+        loginButton.style.display = 'none';
         userStatusElement.style.display = 'none';
     }
 }
@@ -400,9 +400,10 @@ async function logout() {
         const { error } = await supabaseClient.auth.signOut();
         if (error) throw error;
 
-        currentUser = null;
-        currentUserProfile = null;
-        updateAuthUI(null);
+        console.log('✓ Logout successful');
+
+        // Reload page to reset all state
+        window.location.reload();
     } catch (error) {
         console.error('Logout error:', error);
         alert('Logout failed. Please try again.');
