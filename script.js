@@ -37,6 +37,59 @@ let preloadingPromise = null;
 let stickerCountCache = {};
 let nextQuestionPromise = null;
 
+// Preload queue for faster transitions (holds 2-3 preloaded questions)
+let preloadQueue = [];
+const PRELOAD_QUEUE_SIZE = 3;
+
+// Preload an image and decode it for smooth display
+async function preloadImage(imageUrl) {
+    return new Promise((resolve, reject) => {
+        const img = new Image();
+        img.onload = async () => {
+            try {
+                // Use decode() for smoother rendering if available
+                if (img.decode) {
+                    await img.decode();
+                }
+                resolve(img);
+            } catch (e) {
+                // Decode failed but image loaded - still usable
+                resolve(img);
+            }
+        };
+        img.onerror = () => reject(new Error(`Failed to load image: ${imageUrl}`));
+        img.src = imageUrl;
+    });
+}
+
+// Fill preload queue with questions
+async function fillPreloadQueue() {
+    while (preloadQueue.length < PRELOAD_QUEUE_SIZE) {
+        try {
+            const questionData = await loadNewQuestionInternal();
+            if (questionData) {
+                preloadQueue.push(questionData);
+            } else {
+                break; // Stop if we can't load more questions
+            }
+        } catch (error) {
+            console.warn('Failed to preload question:', error);
+            break;
+        }
+    }
+}
+
+// Get next question from preload queue
+function getPreloadedQuestion() {
+    if (preloadQueue.length > 0) {
+        const question = preloadQueue.shift();
+        // Refill queue in background
+        fillPreloadQueue().catch(() => {});
+        return question;
+    }
+    return null;
+}
+
 // ----- 3. DOM Element References -----
 let gameAreaElement, stickerImageElement, optionsContainerElement, timeLeftElement, currentScoreElement, resultAreaElement, finalScoreElement, playAgainButton, resultSignInButton, authSectionElement, loginButton, userStatusElement, logoutButton, difficultySelectionElement, loadingIndicator, errorMessageElement;
 let difficultyButtons;
@@ -518,7 +571,7 @@ async function getStickerCount(difficulty) {
 }
 
 // ----- 7. Display Question Function -----
-function displayQuestion(questionData) {
+async function displayQuestion(questionData) {
     if (!questionData || !stickerImageElement || !optionsContainerElement || !timeLeftElement || !currentScoreElement || !gameAreaElement || !resultAreaElement) {
         showError("Error displaying question.");
         endGame();
@@ -528,17 +581,30 @@ function displayQuestion(questionData) {
     currentQuestionData = questionData;
     hideError();
 
-    if (stickerImageElement) {
-        stickerImageElement.classList.remove('fade-in');
-        void stickerImageElement.offsetWidth;
+    // Use requestAnimationFrame for smoother animation reset
+    stickerImageElement.classList.remove('fade-in');
+
+    // Set up the image with decode() for smooth display
+    const tempImg = new Image();
+    tempImg.src = questionData.imageUrl;
+
+    try {
+        // Wait for image to be decoded (if not already preloaded)
+        if (tempImg.decode) {
+            await tempImg.decode();
+        }
+    } catch (e) {
+        // Image may already be cached/decoded, continue
     }
 
+    // Now set the src - image should display instantly since it's decoded
     stickerImageElement.src = questionData.imageUrl;
     stickerImageElement.alt = "Club Sticker";
 
-    if (stickerImageElement) {
+    // Use requestAnimationFrame for smooth fade-in
+    requestAnimationFrame(() => {
         stickerImageElement.classList.add('fade-in');
-    }
+    });
 
     stickerImageElement.onerror = () => {
         console.error(`Error loading image: ${questionData.imageUrl}`);
@@ -574,8 +640,8 @@ function displayQuestion(questionData) {
 
     startTimer();
 
-    // Start preloading next question immediately
-    nextQuestionPromise = loadNewQuestion(true);
+    // Start filling preload queue in background (replaces single nextQuestionPromise)
+    fillPreloadQueue().catch(() => {});
 }
 
 // ----- 8. Handle User Answer Function -----
@@ -602,24 +668,22 @@ async function handleAnswer(selectedOption) {
         if (currentScoreElement) currentScoreElement.textContent = currentScore;
         if (scoreDisplayElement) {
             scoreDisplayElement.classList.remove('score-updated');
-            void scoreDisplayElement.offsetWidth;
-            scoreDisplayElement.classList.add('score-updated');
+            requestAnimationFrame(() => {
+                scoreDisplayElement.classList.add('score-updated');
+            });
         }
         if (selectedButton) selectedButton.classList.add('correct-answer');
 
-        // Use preloaded question if available
-        let questionPromise = nextQuestionPromise;
-        nextQuestionPromise = null;
-        if (!questionPromise) {
-            questionPromise = loadNewQuestion(true);
-        }
+        // Get preloaded question from queue (much faster than waiting)
+        const preloadedQuestion = getPreloadedQuestion();
 
         await new Promise(resolve => setTimeout(resolve, 1500));
         if (selectedButton) selectedButton.classList.remove('correct-answer');
         await new Promise(resolve => setTimeout(resolve, 500));
 
         try {
-            const questionData = await questionPromise;
+            // Use preloaded question or load new one
+            const questionData = preloadedQuestion || await loadNewQuestion(true);
             if (questionData) {
                 displayQuestion(questionData);
             } else {
@@ -731,7 +795,12 @@ function handleDifficultySelection(event) {
     if (![1, 2, 3].includes(difficulty)) return;
 
     selectedDifficulty = difficulty;
+
+    // Clear old queue and start preloading for new difficulty
+    preloadQueue = [];
     preloadingPromise = loadNewQuestion(true);
+    // Also start filling preload queue in background
+    fillPreloadQueue().catch(() => {});
 
     if (difficultySelectionElement) difficultySelectionElement.style.display = 'none';
     if (introTextElement) introTextElement.style.display = 'none';
@@ -742,7 +811,12 @@ function handleDifficultySelection(event) {
 
 function startEasyGame() {
     selectedDifficulty = 1;
+
+    // Clear old queue and start preloading
+    preloadQueue = [];
     preloadingPromise = loadNewQuestion(true);
+    // Also start filling preload queue in background
+    fillPreloadQueue().catch(() => {});
 
     if (landingPageElement) landingPageElement.style.display = 'none';
     if (introTextElement) introTextElement.style.display = 'none';
@@ -809,29 +883,18 @@ async function loadNextQuestion(isQuickTransition = false) {
     }
 }
 
-async function loadNewQuestion(isQuickTransition = false) {
-    if (!supabaseClient) {
-        showError("DB connection error.");
-        return null;
-    }
-
-    if (selectedDifficulty === null) {
-        showError("No difficulty selected.");
+// Internal function to load a new question (used by preload queue)
+async function loadNewQuestionInternal() {
+    if (!supabaseClient || selectedDifficulty === null) {
         return null;
     }
 
     if (!clubNamesLoaded) {
-        showLoading();
         const loaded = await loadAllClubNames();
-        hideLoading();
         if (!loaded) {
-            showError("Failed to load essential game data.");
             return null;
         }
     }
-
-    if (!isQuickTransition) showLoading();
-    hideError();
 
     try {
         const stickerCount = await getStickerCount(selectedDifficulty);
@@ -865,21 +928,62 @@ async function loadNewQuestion(isQuickTransition = false) {
 
         const allOptions = [correctClubName, ...incorrectOptions].sort(() => 0.5 - Math.random());
 
-        const questionDataForDisplay = {
+        // Preload and decode image for smooth display
+        try {
+            await preloadImage(imageUrl);
+        } catch (imgError) {
+            console.warn('Image preload failed, will try again on display:', imgError);
+            // Don't fail the question - image might still load on display
+        }
+
+        return {
             imageUrl: imageUrl,
             options: allOptions,
             correctAnswer: correctClubName
         };
+    } catch (error) {
+        console.error("Error in loadNewQuestionInternal:", error);
+        return null;
+    }
+}
 
-        // Preload image
-        await new Promise((resolve) => {
-            const img = new Image();
-            img.onload = () => resolve();
-            img.onerror = () => resolve();
-            img.src = imageUrl;
-        });
+async function loadNewQuestion(isQuickTransition = false) {
+    if (!supabaseClient) {
+        showError("DB connection error.");
+        return null;
+    }
 
-        return questionDataForDisplay;
+    if (selectedDifficulty === null) {
+        showError("No difficulty selected.");
+        return null;
+    }
+
+    if (!clubNamesLoaded) {
+        showLoading();
+        const loaded = await loadAllClubNames();
+        hideLoading();
+        if (!loaded) {
+            showError("Failed to load essential game data.");
+            return null;
+        }
+    }
+
+    // Try to get from preload queue first
+    const preloadedQuestion = getPreloadedQuestion();
+    if (preloadedQuestion) {
+        return preloadedQuestion;
+    }
+
+    // Fallback: load directly
+    if (!isQuickTransition) showLoading();
+    hideError();
+
+    try {
+        const questionData = await loadNewQuestionInternal();
+        if (!questionData) {
+            throw new Error("Failed to load question data");
+        }
+        return questionData;
     } catch (error) {
         console.error("Error loadNewQuestion:", error);
         showError(`Loading Error: ${error.message || 'Failed to load question'}`);
@@ -916,7 +1020,8 @@ async function getUserRankForToday(userId, score, difficulty) {
 function endGame() {
     stopTimer();
 
-    // Clear preloaded question to prevent memory leak
+    // Clear preload queue to prevent memory leak
+    preloadQueue = [];
     nextQuestionPromise = null;
 
     if (finalScoreElement) {

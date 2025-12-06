@@ -84,11 +84,33 @@ async function loadTotalStickersCount() {
     }
 }
 
+// Helper: Preload and decode image for smooth display
+async function preloadAndDecodeImage(imageUrl) {
+    return new Promise((resolve, reject) => {
+        const img = new Image();
+        img.onload = async () => {
+            try {
+                // Use decode() for smoother rendering
+                if (img.decode) {
+                    await img.decode();
+                }
+                resolve(img);
+            } catch (e) {
+                // Decode failed but image loaded - still usable
+                resolve(img);
+            }
+        };
+        img.onerror = () => reject(new Error(`Failed to load image: ${imageUrl}`));
+        img.src = imageUrl;
+    });
+}
+
 // Function: Load random sticker
 async function loadRandomSticker() {
     if (!supabaseClient || !homeStickerImageElement || !homeClubNameElement) return;
 
     showHomeLoading();
+    hideHomeError();
 
     try {
         const { count, error: countError } = await supabaseClient
@@ -110,17 +132,18 @@ async function loadRandomSticker() {
         if (stickerError) throw stickerError;
         if (!stickerData || !stickerData.clubs) throw new Error('Incomplete sticker data');
 
-        // Preload image
-        const img = new Image();
-        img.onload = () => {
-            homeStickerImageElement.src = stickerData.image_url;
-            homeClubNameElement.textContent = stickerData.clubs.name;
-            hideHomeLoading();
-        };
-        img.onerror = () => {
-            throw new Error('Failed to load image');
-        };
-        img.src = stickerData.image_url;
+        // Preload and decode image for smooth display
+        try {
+            await preloadAndDecodeImage(stickerData.image_url);
+        } catch (imgError) {
+            console.warn('Image preload failed:', imgError);
+            // Continue anyway - browser may still load it
+        }
+
+        // Image is now decoded in cache - this will display instantly
+        homeStickerImageElement.src = stickerData.image_url;
+        homeClubNameElement.textContent = stickerData.clubs.name;
+        hideHomeLoading();
 
     } catch (error) {
         console.error('Error loading random sticker:', error);
