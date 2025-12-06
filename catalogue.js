@@ -1,7 +1,5 @@
-// catalogue.js (Твоя версія з попереднього кроку, я вношу зміни)
-
-const SUPABASE_URL = 'https://rbmeslzlbsolkxnvesqb.supabase.co';
-const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJibWVzbHpsYnNvbGt4bnZlc3FiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDUwODcxMzYsImV4cCI6MjA2MDY2MzEzNn0.cu-Qw0WoEslfKXXCiMocWFg6Uf1sK_cQYcyP2mT0-Nw';
+// catalogue.js - Catalogue page functionality
+// Uses SharedUtils from shared.js for common functionality
 
 let supabaseClient;
 
@@ -14,19 +12,15 @@ let editNicknameForm;
 let nicknameInputElement;
 let cancelEditNicknameButton;
 
-try {
-    if (window.supabase && typeof window.supabase.createClient === 'function') {
-        supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-    } else {
-        const { createClient } = supabase;
-        supabaseClient = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-    }
-} catch (error) {
-    console.error("Error initializing Supabase client:", error);
+// Initialize Supabase Client
+if (typeof SharedUtils === 'undefined') {
+    console.error('Error: SharedUtils not loaded. Make sure shared.js is included before catalogue.js');
     const contentDiv = document.getElementById('catalogue-content');
     if (contentDiv) {
         contentDiv.innerHTML = "<p>Initialization error. Catalogue cannot be loaded.</p>";
     }
+} else {
+    supabaseClient = SharedUtils.initSupabaseClient();
 }
 
 // Function to update meta keywords from media field
@@ -35,8 +29,8 @@ function updateMetaKeywords(mediaString) {
 
     // Remove emojis and # symbols
     const cleanedText = mediaString
-        .replace(/[\u{1F600}-\u{1F64F}\u{1F300}-\u{1F5FF}\u{1F680}-\u{1F6FF}\u{1F1E0}-\u{1F1FF}\u{2600}-\u{26FF}\u{2700}-\u{27BF}]/gu, '') // Remove emojis
-        .replace(/#/g, '') // Remove # symbols
+        .replace(/[\u{1F600}-\u{1F64F}\u{1F300}-\u{1F5FF}\u{1F680}-\u{1F6FF}\u{1F1E0}-\u{1F1FF}\u{2600}-\u{26FF}\u{2700}-\u{27BF}]/gu, '')
+        .replace(/#/g, '')
         .trim();
 
     // Get or create meta keywords tag
@@ -241,7 +235,7 @@ const countryCodeToFlagEmoji = {
     "ENG": "🏴󠁧󠁢󠁥󠁮󠁧󠁿", "SCO": "🏴󠁧󠁢󠁳󠁣󠁴󠁿", "WLS": "🏴󠁧󠁢󠁷󠁬󠁳󠁿"
 };
 
-let totalCountriesInCatalogue = 0; 
+let totalCountriesInCatalogue = 0;
 
 async function updateTotalCountriesCount() {
     if (!supabaseClient) return;
@@ -255,13 +249,13 @@ async function updateTotalCountriesCount() {
             const distinctCountries = new Set(allClubs.map(c => c.country));
             totalCountriesInCatalogue = distinctCountries.size;
         }
-    } catch(e){ console.error("Error calculating total countries", e)}
+    } catch (e) {
+        console.error("Error calculating total countries", e);
+    }
 }
 
 document.addEventListener('DOMContentLoaded', async () => {
     if (supabaseClient) {
-        console.log('Supabase client initialized for catalogue.');
-
         // Setup auth
         setupAuth();
 
@@ -293,14 +287,12 @@ function updateBreadcrumbs(crumbs = []) {
     }
 
     let html = '<nav aria-label="breadcrumb"><ol class="breadcrumb-list">';
-    crumbs.forEach((crumb) => { // Removed index, as it's not needed for the new logic
+    crumbs.forEach((crumb) => {
         html += `<li class="breadcrumb-item">`;
-        if (crumb.link) { // If a link is provided, always make it a link
+        if (crumb.link) {
             html += `<a href="${crumb.link}">${crumb.text}</a>`;
-        } else { 
-            // This case should ideally not be hit if all breadcrumb path items are links.
-            // But as a fallback, or if a crumb is intentionally not a link.
-            html += `<span>${crumb.text}</span>`; 
+        } else {
+            html += `<span>${crumb.text}</span>`;
         }
         html += `</li>`;
     });
@@ -309,13 +301,12 @@ function updateBreadcrumbs(crumbs = []) {
     breadcrumbsDiv.style.display = 'block';
 }
 
-
 function routeContent() {
     const params = new URLSearchParams(window.location.search);
     const countryCode = params.get('country');
     const clubId = params.get('club_id');
     const stickerId = params.get('sticker_id');
-    const mainHeading = document.getElementById('main-catalogue-heading'); 
+    const mainHeading = document.getElementById('main-catalogue-heading');
 
     if (!mainHeading) {
         console.error("Main heading H1 for catalogue not found!");
@@ -323,10 +314,10 @@ function routeContent() {
     }
 
     if (stickerId) {
-        mainHeading.textContent = "Sticker Details"; 
-        loadStickerDetails(stickerId); 
+        mainHeading.textContent = "Sticker Details";
+        loadStickerDetails(stickerId);
     } else if (clubId) {
-        mainHeading.textContent = "Club Sticker Gallery"; 
+        mainHeading.textContent = "Club Sticker Gallery";
         loadClubDetails(clubId);
     } else if (countryCode) {
         const countryInfo = countryCodeToDetails_Generic[countryCode.toUpperCase()];
@@ -341,8 +332,8 @@ function routeContent() {
 
 async function loadContinentsAndCountries() {
     const contentDiv = document.getElementById('catalogue-content');
-    contentDiv.innerHTML = '<p>Loading data...</p>'; 
-    updateBreadcrumbs([]); 
+    contentDiv.innerHTML = '<p>Loading data...</p>';
+    updateBreadcrumbs([]);
 
     if (!supabaseClient) {
         contentDiv.innerHTML = '<p>Error: Supabase client not initialized. Cannot load data.</p>';
@@ -413,7 +404,7 @@ async function loadContinentsAndCountries() {
         `;
 
         let listHtml = '';
-        const sortedContinentNames = Object.keys(continents).sort((a,b) => a.localeCompare(b));
+        const sortedContinentNames = Object.keys(continents).sort((a, b) => a.localeCompare(b));
         sortedContinentNames.forEach(continentName => {
             listHtml += `<div class="continent-section">`;
             listHtml += `<h3>${continentName}</h3>`;
@@ -440,8 +431,8 @@ async function loadContinentsAndCountries() {
 
 async function loadCountryDetails(countryCode) {
     const contentDiv = document.getElementById('catalogue-content');
-    contentDiv.innerHTML = `<p>Loading clubs...</p>`; 
-    
+    contentDiv.innerHTML = `<p>Loading clubs...</p>`;
+
     updateBreadcrumbs([
         { text: `All Countries (${totalCountriesInCatalogue})`, link: 'catalogue.html' }
     ]);
@@ -457,7 +448,7 @@ async function loadCountryDetails(countryCode) {
             .select('id, name, country')
             .eq('country', countryCode);
 
-        let contentBodyHtml = ''; 
+        let contentBodyHtml = '';
 
         if (clubsError) {
             console.error(`Error fetching clubs for ${countryCode}:`, clubsError);
@@ -509,7 +500,7 @@ async function loadCountryDetails(countryCode) {
             clubListHtml += '</ul>';
             contentBodyHtml = clubListHtml;
         }
-        contentDiv.innerHTML = contentBodyHtml; 
+        contentDiv.innerHTML = contentBodyHtml;
     } catch (error) {
         console.error(`An error occurred while loading clubs for ${countryCode}:`, error);
         contentDiv.innerHTML = `<p>An unexpected error occurred: ${error.message}. Please check the console for more details.</p>`;
@@ -518,9 +509,9 @@ async function loadCountryDetails(countryCode) {
 
 async function loadClubDetails(clubId) {
     const contentDiv = document.getElementById('catalogue-content');
-    contentDiv.innerHTML = `<p>Loading club stickers...</p>`;  
+    contentDiv.innerHTML = `<p>Loading club stickers...</p>`;
     const mainHeading = document.getElementById('main-catalogue-heading');
-    updateBreadcrumbs([]); 
+    updateBreadcrumbs([]);
 
     if (!supabaseClient) {
         contentDiv.innerHTML = '<p>Error: Supabase client not initialized. Cannot load data.</p>';
@@ -535,17 +526,17 @@ async function loadClubDetails(clubId) {
             .single();
 
         let contentBodyHtml = '';
-        
+
         if (clubError || !clubData) {
             console.error(`Error fetching club details for ID ${clubId}:`, clubError);
-            if(mainHeading) mainHeading.textContent = "Club Not Found";
+            if (mainHeading) mainHeading.textContent = "Club Not Found";
             contentBodyHtml = `<p>Could not load club details. The club may not exist.</p>`;
             updateBreadcrumbs([{ text: `All Countries (${totalCountriesInCatalogue})`, link: 'catalogue.html' }]);
         } else {
             const countryInfo = countryCodeToDetails_Generic[clubData.country.toUpperCase()];
             const countryDisplayName = countryInfo ? countryInfo.name : clubData.country;
 
-            if(mainHeading) mainHeading.textContent = `${clubData.name} - Sticker Gallery`;
+            if (mainHeading) mainHeading.textContent = `${clubData.name} - Sticker Gallery`;
             document.title = `${clubData.name} Sticker Gallery - Sticker Catalogue`;
 
             // Update meta keywords from media field
@@ -557,14 +548,14 @@ async function loadClubDetails(clubId) {
                 .from('clubs')
                 .select('*', { count: 'exact', head: true })
                 .eq('country', clubData.country);
-            
+
             updateBreadcrumbs([
                 { text: `All Countries (${totalCountriesInCatalogue})`, link: 'catalogue.html' },
                 { text: `All clubs from ${countryDisplayName} (${totalClubsInCountry || 0})`, link: `catalogue.html?country=${clubData.country}` }
             ]);
 
             const { data: stickersResponse, error: stickersError } = await supabaseClient
-                .from('stickers') 
+                .from('stickers')
                 .select('id, image_url')
                 .eq('club_id', clubId)
                 .order('id', { ascending: true });
@@ -575,7 +566,9 @@ async function loadClubDetails(clubId) {
                 clubInfoHtml += `<p class="club-info-item">🌍 ${clubData.city}</p>`;
             }
             if (clubData.web) {
-                clubInfoHtml += `<p class="club-info-item">🌐 <a href="${clubData.web}" target="_blank" rel="noopener noreferrer">${clubData.web}</a></p>`;
+                // Sanitize URL to prevent XSS
+                const sanitizedUrl = encodeURI(clubData.web);
+                clubInfoHtml += `<p class="club-info-item">🌐 <a href="${sanitizedUrl}" target="_blank" rel="noopener noreferrer">${clubData.web}</a></p>`;
             }
             if (clubData.media) {
                 clubInfoHtml += `<p class="club-info-item">#️⃣ ${clubData.media}</p>`;
@@ -599,7 +592,7 @@ async function loadClubDetails(clubId) {
                 contentBodyHtml = clubInfoHtml + galleryHtml;
             }
         }
-        contentDiv.innerHTML = contentBodyHtml; 
+        contentDiv.innerHTML = contentBodyHtml;
     } catch (error) {
         console.error(`An error occurred while loading club details for ID ${clubId}:`, error);
         contentDiv.innerHTML = `<p>An unexpected error occurred: ${error.message}</p>`;
@@ -609,17 +602,15 @@ async function loadClubDetails(clubId) {
 async function loadStickerDetails(stickerId) {
     const contentDiv = document.getElementById('catalogue-content');
     const mainHeading = document.getElementById('main-catalogue-heading');
-    
-    contentDiv.innerHTML = `<p>Loading sticker details...</p>`; 
-    updateBreadcrumbs([]); 
+
+    contentDiv.innerHTML = `<p>Loading sticker details...</p>`;
+    updateBreadcrumbs([]);
 
     if (!supabaseClient) {
-        if(mainHeading) mainHeading.textContent = "Error";
+        if (mainHeading) mainHeading.textContent = "Error";
         contentDiv.innerHTML = '<p>Error: Supabase client not initialized. Cannot load data.</p>';
         return;
     }
-
-    console.log(`Workspaceing details for sticker ID: ${stickerId}`);
 
     try {
         const { data: sticker, error: stickerError } = await supabaseClient
@@ -639,9 +630,6 @@ async function loadStickerDetails(stickerId) {
             .eq('id', stickerId)
             .single();
 
-        console.log("Sticker data fetched:", sticker); 
-        console.log("Sticker fetch error:", stickerError); 
-
         let contentBodyHtml = '';
 
         // Initialize navigation variables outside of conditional blocks
@@ -650,9 +638,9 @@ async function loadStickerDetails(stickerId) {
 
         if (stickerError || !sticker) {
             console.error(`Error fetching sticker details for ID ${stickerId}:`, stickerError);
-            if(mainHeading) mainHeading.textContent = "Sticker Not Found";
+            if (mainHeading) mainHeading.textContent = "Sticker Not Found";
             contentBodyHtml = `<p>Could not load sticker details. The sticker may not exist or there was an error.</p>`;
-            if(stickerError && stickerError.message) contentBodyHtml += `<p><em>Error: ${stickerError.message}</em></p>`;
+            if (stickerError && stickerError.message) contentBodyHtml += `<p><em>Error: ${stickerError.message}</em></p>`;
             updateBreadcrumbs([{ text: `All Countries (${totalCountriesInCatalogue})`, link: 'catalogue.html' }]);
         } else {
             let clubName = "N/A";
@@ -666,7 +654,7 @@ async function loadStickerDetails(stickerId) {
                     const countryDetail = countryCodeToDetails_Generic[sticker.clubs.country.toUpperCase()];
                     countryDisplayNameForBreadcrumb = countryDetail ? countryDetail.name : sticker.clubs.country;
                 }
-                if(mainHeading) mainHeading.textContent = `Sticker #${sticker.id} - ${clubName}`;
+                if (mainHeading) mainHeading.textContent = `Sticker #${sticker.id} - ${clubName}`;
                 document.title = `Sticker #${sticker.id} ${clubName} - Sticker Catalogue`;
 
                 // Update meta keywords from club media field
@@ -678,7 +666,7 @@ async function loadStickerDetails(stickerId) {
                     .from('clubs')
                     .select('*', { count: 'exact', head: true })
                     .eq('country', countryCodeForBreadcrumb);
-                
+
                 const { count: totalStickersInClub } = await supabaseClient
                     .from('stickers')
                     .select('*', { count: 'exact', head: true })
@@ -707,8 +695,8 @@ async function loadStickerDetails(stickerId) {
                     }
                 }
             } else {
-                 if(mainHeading) mainHeading.textContent = `Sticker #${sticker.id}`;
-                 updateBreadcrumbs([{ text: `All Countries (${totalCountriesInCatalogue})`, link: 'catalogue.html' }]);
+                if (mainHeading) mainHeading.textContent = `Sticker #${sticker.id}`;
+                updateBreadcrumbs([{ text: `All Countries (${totalCountriesInCatalogue})`, link: 'catalogue.html' }]);
             }
 
             // Navigation links for prev/next stickers (positioned below image)
@@ -719,23 +707,25 @@ async function loadStickerDetails(stickerId) {
                 if (prevStickerId !== null) {
                     navigationHtml += `<a href="catalogue.html?sticker_id=${prevStickerId}" style="color: var(--color-info-text); text-decoration: none; font-size: 1.1em; font-weight: 500;">← #${prevStickerId}</a>`;
                 } else {
-                    navigationHtml += '<span style="visibility: hidden;">← #0</span>'; // Placeholder for alignment
+                    navigationHtml += '<span style="visibility: hidden;">← #0</span>';
                 }
 
                 if (nextStickerId !== null) {
                     navigationHtml += `<a href="catalogue.html?sticker_id=${nextStickerId}" style="color: var(--color-info-text); text-decoration: none; font-size: 1.1em; font-weight: 500;">#${nextStickerId} →</a>`;
                 } else {
-                    navigationHtml += '<span style="visibility: hidden;">#0 →</span>'; // Placeholder for alignment
+                    navigationHtml += '<span style="visibility: hidden;">#0 →</span>';
                 }
 
                 navigationHtml += '</div>';
             }
 
-            // User's preferred structure for sticker details:
+            // Sanitize image URL to prevent XSS
+            const sanitizedImageUrl = encodeURI(sticker.image_url);
+
             contentBodyHtml = `
                 <div class="sticker-detail-view">
-                    <div class="sticker-detail-image-container" onclick="window.open('${sticker.image_url}', '_blank')">
-                        <img src="${sticker.image_url}" alt="Sticker ${sticker.id} ${sticker.clubs ? `- ${sticker.clubs.name}`:''}" class="sticker-detail-image">
+                    <div class="sticker-detail-image-container" onclick="window.open('${sanitizedImageUrl}', '_blank')">
+                        <img src="${sanitizedImageUrl}" alt="Sticker ${sticker.id} ${sticker.clubs ? `- ${sticker.clubs.name}` : ''}" class="sticker-detail-image">
                     </div>
                     ${navigationHtml}
                     <div class="sticker-detail-info">
@@ -745,99 +735,24 @@ async function loadStickerDetails(stickerId) {
                 </div>
             `;
         }
-        contentDiv.innerHTML = contentBodyHtml; 
+        contentDiv.innerHTML = contentBodyHtml;
     } catch (error) {
         console.error(`An error occurred while loading sticker ID ${stickerId}:`, error);
-        if(mainHeading) mainHeading.textContent = "Error Loading Sticker";
+        if (mainHeading) mainHeading.textContent = "Error Loading Sticker";
         contentDiv.innerHTML = `<p>An unexpected error occurred: ${error.message}</p>`;
     }
 }
 
 // ========== AUTH FUNCTIONS ==========
 
-// Load cached profile from localStorage
-function loadCachedProfile(userId) {
-    if (!userId) return null;
-    try {
-        const cached = localStorage.getItem(`user_profile_${userId}`);
-        if (!cached) return null;
-
-        const cacheData = JSON.parse(cached);
-        const age = Date.now() - cacheData.timestamp;
-
-        // Cache valid for 24 hours
-        if (age > 24 * 60 * 60 * 1000) {
-            console.log('Cached profile expired');
-            localStorage.removeItem(`user_profile_${userId}`);
-            return null;
-        }
-
-        console.log(`✓ Loaded cached profile (age: ${Math.round(age / 1000)}s)`);
-        return cacheData.profile;
-    } catch (error) {
-        console.warn('Failed to load cached profile:', error);
-        return null;
-    }
-}
-
-// Cache profile to localStorage
-function cacheUserProfile(profile) {
-    if (!profile || !profile.id) return;
-    try {
-        const cacheData = {
-            profile: profile,
-            timestamp: Date.now()
-        };
-        localStorage.setItem(`user_profile_${profile.id}`, JSON.stringify(cacheData));
-        console.log(`✓ Profile cached for user ${profile.id}`);
-    } catch (error) {
-        console.warn('Failed to cache profile:', error);
-    }
-}
-
-// Clear cached profile
-function clearCachedProfile(userId) {
-    if (!userId) return;
-    try {
-        localStorage.removeItem(`user_profile_${userId}`);
-        console.log(`✓ Cleared cached profile for user ${userId}`);
-    } catch (error) {
-        console.warn('Failed to clear cached profile:', error);
-    }
-}
-
-// Truncate string helper
-function truncateString(str, maxLength = 20) {
-    if (!str) return '';
-    if (str.length <= maxLength) return str;
-    return str.substring(0, maxLength - 3) + '...';
-}
-
 // Load user profile
 async function loadAndSetUserProfile(user) {
     if (!supabaseClient || !user) return;
 
-    try {
-        const { data: profileData, error } = await supabaseClient
-            .from('profiles')
-            .select('id, username')
-            .eq('id', user.id)
-            .maybeSingle();
-
-        if (error && error.code !== 'PGRST116') {
-            console.error('Error loading profile:', error);
-            return;
-        }
-
-        if (profileData) {
-            currentUserProfile = profileData;
-            cacheUserProfile(profileData);
-            console.log(`✓ Profile loaded: ${profileData.username}`);
-        } else {
-            console.warn('No profile found for user');
-        }
-    } catch (error) {
-        console.error('Error in loadAndSetUserProfile:', error);
+    const profile = await SharedUtils.loadUserProfile(supabaseClient, user);
+    if (profile) {
+        currentUserProfile = profile;
+        SharedUtils.cacheUserProfile(profile);
     }
 }
 
@@ -850,87 +765,35 @@ function updateAuthUI(user) {
     if (!loginButton || !userStatusElement || !userNicknameElement) return;
 
     if (user) {
-        // User is logged in
         const displayName = currentUserProfile?.username || 'Loading...';
-        userNicknameElement.textContent = truncateString(displayName);
+        userNicknameElement.textContent = SharedUtils.truncateString(displayName);
         loginButton.style.display = 'none';
         userStatusElement.style.display = 'flex';
     } else {
-        // User is logged out - hide both (only show logo)
         loginButton.style.display = 'none';
         userStatusElement.style.display = 'none';
     }
 }
 
 // Login with Google
-async function loginWithGoogle() {
+function handleLoginClick() {
     if (!supabaseClient) return;
-
-    try {
-        const { error } = await supabaseClient.auth.signInWithOAuth({
-            provider: 'google',
-            options: {
-                redirectTo: window.location.origin + '/quiz.html'
-            }
-        });
-
-        if (error) throw error;
-    } catch (error) {
-        console.error('Login error:', error);
-        alert('Login failed. Please try again.');
-    }
+    SharedUtils.loginWithGoogle(supabaseClient, '/quiz.html').then(result => {
+        if (result.error) {
+            alert('Login failed. Please try again.');
+        }
+    });
 }
 
 // Logout
-async function logout() {
+async function handleLogoutClick() {
     if (!supabaseClient) return;
 
-    try {
-        if (currentUser) {
-            clearCachedProfile(currentUser.id);
-        }
-
-        // Try to sign out, but don't fail if session is already missing
-        const { error } = await supabaseClient.auth.signOut();
-        if (error) {
-            // If session missing, that's OK - just log it and continue
-            if (error.message && (error.message.includes('session') || error.message.includes('Session'))) {
-                console.log('⚠️ Session already missing, clearing local state...');
-            } else {
-                throw error;
-            }
-        }
-
-        console.log('✓ Logout successful');
-
-        // Clear all auth-related localStorage
-        try {
-            const keysToRemove = [];
-            for (let i = 0; i < localStorage.length; i++) {
-                const key = localStorage.key(i);
-                if (key && (key.includes('supabase') || key.includes('user_profile'))) {
-                    keysToRemove.push(key);
-                }
-            }
-            keysToRemove.forEach(key => localStorage.removeItem(key));
-        } catch (e) {
-            console.warn('Failed to clear localStorage:', e);
-        }
-
-        // Reload page to reset all state
+    const result = await SharedUtils.logout(supabaseClient, currentUser?.id);
+    if (result.error) {
+        alert('Logout failed. Please try again.');
+    } else {
         window.location.reload();
-    } catch (error) {
-        console.error('Logout error:', error);
-
-        // Even if signOut failed, try to clear local state and reload
-        console.log('Attempting to clear local state and reload anyway...');
-        try {
-            localStorage.clear();
-            window.location.reload();
-        } catch (reloadError) {
-            console.error('Failed to reload:', reloadError);
-            alert('Logout failed. Please try again.');
-        }
     }
 }
 
@@ -943,25 +806,23 @@ function setupAuth() {
 
     // Set up button handlers
     if (loginButton) {
-        loginButton.addEventListener('click', loginWithGoogle);
+        loginButton.addEventListener('click', handleLoginClick);
     }
     if (logoutButton) {
-        logoutButton.addEventListener('click', logout);
+        logoutButton.addEventListener('click', handleLogoutClick);
     }
 
     // Set up auth state listener
     supabaseClient.auth.onAuthStateChange(async (event, session) => {
-        console.log(`Auth event: ${event}`);
         const user = session?.user ?? null;
 
         if (user) {
             currentUser = user;
 
             // Load cached profile first
-            const cachedProfile = loadCachedProfile(user.id);
+            const cachedProfile = SharedUtils.loadCachedProfile(user.id);
             if (cachedProfile) {
                 currentUserProfile = cachedProfile;
-                console.log(`✓ Using cached profile: ${cachedProfile.username}`);
                 updateAuthUI(user);
             }
 
@@ -970,7 +831,7 @@ function setupAuth() {
             updateAuthUI(user);
         } else {
             if (event === 'SIGNED_OUT' && currentUser) {
-                clearCachedProfile(currentUser.id);
+                SharedUtils.clearCachedProfile(currentUser.id);
             }
             currentUser = null;
             currentUserProfile = null;
@@ -986,7 +847,7 @@ function setupAuth() {
             currentUser = user;
 
             // Load cached profile first
-            const cachedProfile = loadCachedProfile(user.id);
+            const cachedProfile = SharedUtils.loadCachedProfile(user.id);
             if (cachedProfile) {
                 currentUserProfile = cachedProfile;
                 updateAuthUI(user);
@@ -1005,16 +866,10 @@ function setupAuth() {
 
 function setupNicknameEditing() {
     const userNicknameElement = document.getElementById('user-nickname');
-    if (!userNicknameElement) {
-        console.error('userNicknameElement not found');
-        return;
-    }
+    if (!userNicknameElement) return;
 
-    // Add click listener for nickname
     userNicknameElement.addEventListener('click', showNicknameEditForm);
-    console.log('✓ Nickname click listener added');
 
-    // Add form handlers
     if (editNicknameForm) {
         editNicknameForm.addEventListener('submit', handleNicknameSave);
     }
@@ -1024,24 +879,17 @@ function setupNicknameEditing() {
 }
 
 function showNicknameEditForm() {
-    console.log('showNicknameEditForm called');
-
     if (!currentUserProfile) {
-        console.error('❌ Cannot edit nickname: profile not loaded yet');
         alert('Please wait for your profile to load...');
         return;
     }
 
-    if (!editNicknameForm || !nicknameInputElement) {
-        console.error('❌ Cannot edit nickname: form elements not found');
-        return;
-    }
+    if (!editNicknameForm || !nicknameInputElement) return;
 
     nicknameInputElement.value = currentUserProfile.username || '';
     editNicknameForm.style.display = 'block';
     nicknameInputElement.focus();
     nicknameInputElement.select();
-    console.log('✓ Nickname edit form displayed');
 }
 
 function hideNicknameEditForm() {
@@ -1059,39 +907,26 @@ async function handleNicknameSave(event) {
     }
 
     const newNickname = nicknameInputElement.value.trim();
-    if (!newNickname || newNickname.length < 3 || newNickname.length > 25) {
-        alert('Nickname must be 3-25 characters');
-        return;
-    }
 
     if (newNickname === currentUserProfile.username) {
         hideNicknameEditForm();
         return;
     }
 
-    try {
-        const { data: updatedData, error } = await supabaseClient
-            .from('profiles')
-            .update({ username: newNickname, updated_at: new Date() })
-            .eq('id', currentUser.id)
-            .select('username')
-            .single();
+    const result = await SharedUtils.updateNickname(supabaseClient, currentUser.id, newNickname);
 
-        if (error) throw error;
-
-        console.log('Nickname updated:', updatedData);
-        currentUserProfile.username = updatedData.username;
-        cacheUserProfile(currentUserProfile);
+    if (result.error) {
+        alert(`Update failed: ${result.error.message}`);
+    } else {
+        currentUserProfile.username = result.data.username;
+        SharedUtils.cacheUserProfile(currentUserProfile);
 
         const userNicknameElement = document.getElementById('user-nickname');
         if (userNicknameElement) {
-            userNicknameElement.textContent = truncateString(updatedData.username);
+            userNicknameElement.textContent = SharedUtils.truncateString(result.data.username);
         }
 
         hideNicknameEditForm();
         alert('Nickname updated successfully!');
-    } catch (error) {
-        console.error('Error updating nickname:', error);
-        alert(`Update failed: ${error.message}`);
     }
 }
