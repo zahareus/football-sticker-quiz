@@ -283,7 +283,11 @@ async function handleLogoutClick() {
     }
 }
 
-// Setup auth
+/**
+ * Setup auth - CRITICAL FIX for mobile
+ * Uses getSession() first, then sets up listener for future changes.
+ * Ignores INITIAL_SESSION to avoid race conditions on mobile.
+ */
 function setupAuth() {
     if (!supabaseClient) return;
 
@@ -295,14 +299,21 @@ function setupAuth() {
         logoutButton.addEventListener('click', handleLogoutClick);
     }
 
-    // Set up auth state listener
-    supabaseClient.auth.onAuthStateChange(async (event, session) => {
+    // Step 1: Get current session FIRST (this is the source of truth)
+    supabaseClient.auth.getSession().then(async ({ data: { session }, error }) => {
+        if (error) {
+            console.error('Error getting session:', error);
+            updateAuthUI(null);
+            setupAuthStateListener();
+            return;
+        }
+
         const user = session?.user ?? null;
 
         if (user) {
             currentUser = user;
 
-            // Load cached profile first
+            // Load cached profile first for fast UI
             const cachedProfile = SharedUtils.loadCachedProfile(user.id);
             if (cachedProfile) {
                 currentUserProfile = cachedProfile;
@@ -313,34 +324,59 @@ function setupAuth() {
             await loadAndSetUserProfile(user);
             updateAuthUI(user);
         } else {
-            if (event === 'SIGNED_OUT' && currentUser) {
+            updateAuthUI(null);
+        }
+
+        // Step 2: Set up listener for FUTURE auth changes only
+        setupAuthStateListener();
+    });
+}
+
+/**
+ * Auth state listener - only for FUTURE changes after initial load
+ * CRITICAL: Ignores INITIAL_SESSION to prevent race conditions on mobile
+ */
+function setupAuthStateListener() {
+    if (!supabaseClient) return;
+
+    supabaseClient.auth.onAuthStateChange(async (event, session) => {
+        // CRITICAL: Skip INITIAL_SESSION - we already handled it in setupAuth()
+        // This prevents race conditions on mobile where the same session gets processed twice
+        if (event === 'INITIAL_SESSION') {
+            return;
+        }
+
+        const user = session?.user ?? null;
+
+        // Handle logout
+        if (event === 'SIGNED_OUT') {
+            if (currentUser) {
                 SharedUtils.clearCachedProfile(currentUser.id);
             }
             currentUser = null;
             currentUserProfile = null;
             updateAuthUI(null);
+            return;
         }
-    });
 
-    // Get initial session
-    supabaseClient.auth.getSession().then(async ({ data: { session } }) => {
-        const user = session?.user ?? null;
-
-        if (user) {
-            currentUser = user;
-
-            // Load cached profile first
-            const cachedProfile = SharedUtils.loadCachedProfile(user.id);
-            if (cachedProfile) {
-                currentUserProfile = cachedProfile;
+        // Handle new sign in (e.g., from another tab)
+        if (event === 'SIGNED_IN' && user) {
+            // Only process if it's a different user or we don't have a user yet
+            if (!currentUser || currentUser.id !== user.id) {
+                currentUser = user;
+                const cachedProfile = SharedUtils.loadCachedProfile(user.id);
+                if (cachedProfile) {
+                    currentUserProfile = cachedProfile;
+                }
+                updateAuthUI(user);
+                await loadAndSetUserProfile(user);
                 updateAuthUI(user);
             }
+        }
 
-            // Load fresh profile and update UI
-            await loadAndSetUserProfile(user);
-            updateAuthUI(user);
-        } else {
-            updateAuthUI(null);
+        // Handle token refresh
+        if (event === 'TOKEN_REFRESHED' && user) {
+            currentUser = user;
         }
     });
 }
