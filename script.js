@@ -4,12 +4,21 @@
 // ----- 1. Initialize Supabase Client -----
 let supabaseClient;
 
+// Mobile auth fix: These must be declared before setupEarlyAuthListener is called
+// because onAuthStateChange may fire synchronously during setup
+let isAppInitialized = false;
+let pendingAuthState = null;
+let currentUser = null;
+let currentUserProfile = null;
+
 if (typeof SharedUtils === 'undefined') {
     console.error('Error: SharedUtils not loaded. Make sure shared.js is included before script.js');
 } else {
     supabaseClient = SharedUtils.initSupabaseClient();
     if (supabaseClient) {
-        checkInitialAuthState();
+        // Mobile auth fix: Set up auth listener EARLY to catch OAuth redirect events
+        // This must happen before DOM is ready to queue auth events
+        setupEarlyAuthListener();
 
         if (document.readyState === 'loading') {
             document.addEventListener('DOMContentLoaded', initializeApp);
@@ -21,16 +30,82 @@ if (typeof SharedUtils === 'undefined') {
     }
 }
 
+// Mobile auth fix: Early auth listener to catch OAuth events before DOM is ready
+function setupEarlyAuthListener() {
+    if (!supabaseClient) return;
+
+    supabaseClient.auth.onAuthStateChange(async (_event, session) => {
+        const user = session?.user ?? null;
+
+        // If app not initialized, store auth state for later processing
+        if (!isAppInitialized) {
+            console.log('Early auth state change received, queuing for later processing');
+            pendingAuthState = { event: _event, session: session };
+            // Update currentUser/profile for faster UI update later
+            currentUser = user;
+            if (user) {
+                const cachedProfile = SharedUtils.loadCachedProfile(user.id);
+                if (cachedProfile) {
+                    currentUserProfile = cachedProfile;
+                }
+            }
+            return;
+        }
+
+        // App is initialized, process normally
+        try {
+            if (user) {
+                currentUser = user;
+
+                if (!currentUserProfile || currentUserProfile.id !== user.id) {
+                    const cachedProfile = SharedUtils.loadCachedProfile(user.id);
+                    if (cachedProfile) {
+                        currentUserProfile = cachedProfile;
+                    }
+
+                    checkAndCreateUserProfile(user).then(() => {
+                        updateAuthStateUI(user);
+                    }).catch(err => {
+                        console.error("Profile load error:", err);
+                    });
+                }
+
+                updateAuthStateUI(user);
+            } else {
+                const urlHash = window.location.hash;
+                const hasOAuthParams = urlHash.includes('access_token') || urlHash.includes('refresh_token');
+
+                if (hasOAuthParams) {
+                    return;
+                }
+
+                if (_event === 'SIGNED_OUT' && currentUser) {
+                    SharedUtils.clearCachedProfile(currentUser.id);
+                    SharedUtils.stopSessionValidation();
+                    currentUserProfile = null;
+                }
+                currentUser = null;
+                updateAuthStateUI(null);
+            }
+        } catch (error) {
+            console.error("Error in auth state change handler:", error);
+            hideLoading();
+            showError("Authentication error. Please refresh the page.");
+        } finally {
+            hideLoading();
+        }
+    });
+}
+
 // ----- 2. Global Game State Variables -----
 let currentQuestionData = null;
 let currentScore = 0;
 let timeLeft = SharedUtils.CONFIG.TIMER_DURATION;
 let timerInterval = null;
-let currentUser = null;
+// Note: currentUser, currentUserProfile, isAppInitialized, pendingAuthState are declared at top of file
 let selectedDifficulty = 1;
 let currentLeaderboardTimeframe = 'all';
 let currentLeaderboardDifficulty = 1;
-let currentUserProfile = null;
 let allClubNames = [];
 let clubNamesLoaded = false;
 let preloadingPromise = null;
@@ -367,70 +442,46 @@ async function checkAndCreateUserProfile(user) {
     return fetchedProfile?.username || user.email || 'User';
 }
 
-function setupAuthStateChangeListener() {
-    if (!supabaseClient) return;
+// Mobile auth fix: Process any pending auth state after app initialization
+function processPendingAuthState() {
+    if (!pendingAuthState) return;
 
-    supabaseClient.auth.onAuthStateChange(async (_event, session) => {
-        const user = session?.user ?? null;
+    console.log('Processing pending auth state');
+    const { session } = pendingAuthState;
+    const user = session?.user ?? null;
 
-        try {
-            if (user) {
-                currentUser = user;
+    if (user) {
+        currentUser = user;
 
-                // Load cached profile immediately
-                if (!currentUserProfile || currentUserProfile.id !== user.id) {
-                    const cachedProfile = SharedUtils.loadCachedProfile(user.id);
-                    if (cachedProfile) {
-                        currentUserProfile = cachedProfile;
-                    }
-
-                    // Fetch fresh profile in background
-                    checkAndCreateUserProfile(user).then(() => {
-                        updateAuthStateUI(user);
-                    }).catch(err => {
-                        console.error("Profile load error:", err);
-                    });
-                }
-
-                updateAuthStateUI(user);
-            } else {
-                // Check if OAuth in progress
-                const urlHash = window.location.hash;
-                const hasOAuthParams = urlHash.includes('access_token') || urlHash.includes('refresh_token');
-
-                if (hasOAuthParams) {
-                    return; // Wait for OAuth to complete
-                }
-
-                if (_event === 'SIGNED_OUT' && currentUser) {
-                    SharedUtils.clearCachedProfile(currentUser.id);
-                    SharedUtils.stopSessionValidation();
-                    currentUserProfile = null;
-                }
-                currentUser = null;
-                updateAuthStateUI(null);
+        // Load cached profile first
+        if (!currentUserProfile || currentUserProfile.id !== user.id) {
+            const cachedProfile = SharedUtils.loadCachedProfile(user.id);
+            if (cachedProfile) {
+                currentUserProfile = cachedProfile;
             }
-        } catch (error) {
-            console.error("Error in auth state change handler:", error);
-            hideLoading();
-            showError("Authentication error. Please refresh the page.");
-        } finally {
-            hideLoading();
         }
-    });
-}
 
-async function checkInitialAuthState() {
-    if (!supabaseClient) return;
-    try {
-        const { data: { session }, error } = await supabaseClient.auth.getSession();
-        if (error) throw error;
-        currentUser = session?.user ?? null;
-    } catch (error) {
-        console.error("Error getting initial session:", error);
-        currentUser = null;
-        currentUserProfile = null;
+        // Fetch fresh profile in background
+        checkAndCreateUserProfile(user).then(() => {
+            updateAuthStateUI(user);
+        }).catch(err => {
+            console.error("Profile load error:", err);
+        });
+
+        // Start session validation
+        SharedUtils.startSessionValidation(
+            supabaseClient,
+            () => currentUser,
+            () => currentUserProfile,
+            async () => {
+                await supabaseClient.auth.signOut();
+                showError("You've been logged in on another device. Please log in again.");
+            }
+        );
     }
+
+    updateAuthStateUI(user);
+    pendingAuthState = null;
 }
 
 // ----- 5. Nickname Functions -----
@@ -1270,6 +1321,9 @@ function initializeApp() {
         return;
     }
 
+    // Mobile auth fix: Mark app as initialized now that DOM is ready
+    isAppInitialized = true;
+
     loadAllClubNames().then(success => {
         if (!success) {
             showError("Error loading game data.");
@@ -1283,7 +1337,11 @@ function initializeApp() {
         getStickerCount(3).catch(() => {})
     ]);
 
-    setupAuthStateChangeListener();
+    // Mobile auth fix: Process any auth state that arrived before initialization
+    if (pendingAuthState) {
+        processPendingAuthState();
+        return; // pendingAuthState already handled the UI update
+    }
 
     // Get initial session and update UI
     supabaseClient.auth.getSession().then(async ({ data: { session }, error }) => {
