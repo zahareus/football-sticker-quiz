@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sticker Count Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .result {
+            background: white;
+            padding: 20px;
+            margin: 10px 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .result h3 {
+            margin-top: 0;
+            color: #333;
+        }
+        .count {
+            font-size: 24px;
+            font-weight: bold;
+            color: #007bff;
+        }
+        .error {
+            color: #dc3545;
+        }
+        button {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 10px 0;
+        }
+        button:hover {
+            background: #0056b3;
+        }
+        .loading {
+            color: #666;
+            font-style: italic;
+        }
+        pre {
+            background: #f8f9fa;
+            padding: 10px;
+            border-radius: 4px;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body>
+    <h1>🔍 Sticker Count Diagnostic Tool</h1>
+
+    <button onclick="runTests()">Run Sticker Count Tests</button>
+
+    <div id="results"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script>
+        const SUPABASE_URL = "https://rbmeslzlbsolkxnvesqb.supabase.co";
+        const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJibWVzbHpsYnNvbGt4bnZlc3FiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDUwODcxMzYsImV4cCI6MjA2MDY2MzEzNn0.cu-Qw0WoEslfKXXCiMocWFg6Uf1sK_cQYcyP2mT0-Nw";
+
+        const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+        const resultsDiv = document.getElementById('results');
+
+        async function runTests() {
+            resultsDiv.innerHTML = '<p class="loading">Running tests...</p>';
+            const results = [];
+
+            // Test 1: Count with head: true (current method)
+            try {
+                const start1 = Date.now();
+                const { count, error } = await supabaseClient
+                    .from('stickers')
+                    .select('*', { count: 'exact', head: true });
+                const time1 = Date.now() - start1;
+
+                results.push({
+                    title: 'Test 1: Count with head:true (current homepage method)',
+                    success: !error,
+                    count: count,
+                    time: time1,
+                    error: error?.message
+                });
+            } catch (e) {
+                results.push({
+                    title: 'Test 1: Count with head:true',
+                    success: false,
+                    error: e.message
+                });
+            }
+
+            // Test 2: Count without head (fetch and count)
+            try {
+                const start2 = Date.now();
+                const { data, count, error } = await supabaseClient
+                    .from('stickers')
+                    .select('id', { count: 'exact' });
+                const time2 = Date.now() - start2;
+
+                results.push({
+                    title: 'Test 2: Count with data fetch',
+                    success: !error,
+                    count: count,
+                    dataLength: data?.length,
+                    time: time2,
+                    error: error?.message
+                });
+            } catch (e) {
+                results.push({
+                    title: 'Test 2: Count with data fetch',
+                    success: false,
+                    error: e.message
+                });
+            }
+
+            // Test 3: Get all IDs and count manually
+            try {
+                const start3 = Date.now();
+                const { data, error } = await supabaseClient
+                    .from('stickers')
+                    .select('id');
+                const time3 = Date.now() - start3;
+
+                results.push({
+                    title: 'Test 3: Fetch all IDs and count manually',
+                    success: !error,
+                    count: data?.length,
+                    time: time3,
+                    error: error?.message
+                });
+            } catch (e) {
+                results.push({
+                    title: 'Test 3: Fetch all IDs',
+                    success: false,
+                    error: e.message
+                });
+            }
+
+            // Test 4: Check for RLS policies by trying different queries
+            try {
+                const start4 = Date.now();
+                const { data, error } = await supabaseClient
+                    .from('stickers')
+                    .select('id, club_id, difficulty')
+                    .limit(10);
+                const time4 = Date.now() - start4;
+
+                results.push({
+                    title: 'Test 4: Sample 10 stickers to check RLS',
+                    success: !error,
+                    sampleCount: data?.length,
+                    sampleData: data,
+                    time: time4,
+                    error: error?.message
+                });
+            } catch (e) {
+                results.push({
+                    title: 'Test 4: Sample stickers',
+                    success: false,
+                    error: e.message
+                });
+            }
+
+            // Test 5: Count by difficulty levels
+            const difficulties = ['easy', 'medium', 'hard'];
+            let totalByDifficulty = 0;
+            for (const difficulty of difficulties) {
+                try {
+                    const { count, error } = await supabaseClient
+                        .from('stickers')
+                        .select('*', { count: 'exact', head: true })
+                        .eq('difficulty', difficulty);
+
+                    if (!error && count) {
+                        totalByDifficulty += count;
+                        results.push({
+                            title: `Test 5.${difficulties.indexOf(difficulty) + 1}: Count stickers with difficulty="${difficulty}"`,
+                            success: true,
+                            count: count
+                        });
+                    }
+                } catch (e) {
+                    // Skip
+                }
+            }
+
+            results.push({
+                title: 'Test 5: Total stickers counted by difficulty',
+                success: true,
+                count: totalByDifficulty,
+                note: 'Sum of easy + medium + hard'
+            });
+
+            // Display results
+            displayResults(results);
+        }
+
+        function displayResults(results) {
+            let html = '<h2>Test Results</h2>';
+
+            results.forEach((result, index) => {
+                html += `
+                    <div class="result">
+                        <h3>${result.title}</h3>
+                        ${result.success ?
+                            `<div>
+                                ${result.count !== undefined ? `<div>Count: <span class="count">${result.count}</span></div>` : ''}
+                                ${result.dataLength !== undefined ? `<div>Data Length: <span class="count">${result.dataLength}</span></div>` : ''}
+                                ${result.sampleCount !== undefined ? `<div>Sample Size: <span class="count">${result.sampleCount}</span></div>` : ''}
+                                ${result.time ? `<div>Time: ${result.time}ms</div>` : ''}
+                                ${result.note ? `<div style="color: #666; font-style: italic;">${result.note}</div>` : ''}
+                                ${result.sampleData ? `<details><summary>Sample Data</summary><pre>${JSON.stringify(result.sampleData, null, 2)}</pre></details>` : ''}
+                            </div>` :
+                            `<div class="error">Error: ${result.error || 'Unknown error'}</div>`
+                        }
+                    </div>
+                `;
+            });
+
+            // Add summary
+            const counts = results.filter(r => r.success && r.count !== undefined).map(r => r.count);
+            const uniqueCounts = [...new Set(counts)];
+
+            html += `
+                <div class="result" style="background: #fff3cd; border-left: 4px solid #ffc107;">
+                    <h3>📊 Summary</h3>
+                    <div>Unique count values found: ${uniqueCounts.join(', ')}</div>
+                    ${uniqueCounts.length > 1 ?
+                        '<div style="color: #856404; font-weight: bold;">⚠️ Different counts detected! This suggests RLS policies or filtering.</div>' :
+                        '<div style="color: #155724; font-weight: bold;">✓ All counts match.</div>'
+                    }
+                </div>
+            `;
+
+            resultsDiv.innerHTML = html;
+        }
+
+        // Auto-run on load
+        window.addEventListener('load', () => {
+            setTimeout(runTests, 500);
+        });
+    </script>
+</body>
+</html>
