@@ -207,6 +207,7 @@ const countryCodeToDetails_Generic = {
     "ENG": { name: "England", continent: "Europe" },
     "SCO": { name: "Scotland", continent: "Europe" },
     "WLS": { name: "Wales", continent: "Europe" },
+    "NIR": { name: "Northern Ireland", continent: "Europe" },
 };
 
 const countryCodeToFlagEmoji = {
@@ -232,7 +233,7 @@ const countryCodeToFlagEmoji = {
     "CHE": "🇨🇭", "SYR": "🇸🇾", "TWN": "🇹🇼", "TZA": "🇹🇿", "THA": "🇹🇭", "TGO": "🇹🇬", "TUN": "🇹🇳",
     "TUR": "🇹🇷", "UGA": "🇺🇬", "UKR": "🇺🇦", "ARE": "🇦🇪", "GBR": "🇬🇧", "USA": "🇺🇸", "URY": "🇺🇾",
     "UZB": "🇺🇿", "VEN": "🇻🇪", "VNM": "🇻🇳", "YEM": "🇾🇪", "ZMB": "🇿🇲", "ZWE": "🇿🇼",
-    "ENG": "🏴󠁧󠁢󠁥󠁮󠁧󠁿", "SCO": "🏴󠁧󠁢󠁳󠁣󠁴󠁿", "WLS": "🏴󠁧󠁢󠁷󠁬󠁳󠁿"
+    "ENG": "🏴󠁧󠁢󠁥󠁮󠁧󠁿", "SCO": "🏴󠁧󠁢󠁳󠁣󠁴󠁿", "WLS": "🏴󠁧󠁢󠁷󠁬󠁳󠁿", "NIR": "🇬🇧"
 };
 
 let totalCountriesInCatalogue = 0;
