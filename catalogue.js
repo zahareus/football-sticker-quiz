@@ -724,13 +724,10 @@ async function loadStickerDetails(stickerId) {
                 navigationHtml += '</div>';
             }
 
-            // Sanitize image URL to prevent XSS
-            const sanitizedImageUrl = encodeURI(sticker.image_url);
-
             contentBodyHtml = `
                 <div class="sticker-detail-view">
-                    <div class="sticker-detail-image-container" onclick="window.open('${sanitizedImageUrl}', '_blank')">
-                        <img src="${sanitizedImageUrl}"
+                    <div class="sticker-detail-image-container" onclick="window.open('${sticker.image_url}', '_blank')">
+                        <img src="${sticker.image_url}"
                              alt="Sticker ${sticker.id} ${sticker.clubs ? `- ${sticker.clubs.name}` : ''}"
                              class="sticker-detail-image"
                              decoding="async">
