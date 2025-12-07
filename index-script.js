@@ -37,6 +37,9 @@ let cancelEditNicknameButton;
 let currentUser = null;
 let currentUserProfile = null;
 
+// Flag to track if initial auth is complete
+let authInitialized = false;
+
 // Initialize home page
 async function initializeHomePage() {
     // Get DOM elements
@@ -55,13 +58,18 @@ async function initializeHomePage() {
     nicknameInputElement = document.getElementById('nickname-input');
     cancelEditNicknameButton = document.getElementById('cancel-edit-nickname-button');
 
-    // Set up auth
-    setupAuth();
+    // Set up button handlers
+    setupButtonHandlers();
 
     // Set up nickname editing
     setupNicknameEditing();
 
-    // Load data
+    // CRITICAL FIX: Initialize auth FIRST and WAIT for it before loading data
+    // This ensures the Supabase session is fully established (especially on mobile after OAuth)
+    await initializeAuth();
+
+    // Only load data AFTER auth is fully initialized
+    // This prevents race conditions on mobile where session might not be ready
     await loadTotalStickersCount();
     await loadRandomSticker();
 }
@@ -228,64 +236,119 @@ async function handleLogoutClick() {
     }
 }
 
-// Setup auth
-function setupAuth() {
+// Setup button handlers (separate from auth initialization)
+function setupButtonHandlers() {
     if (!supabaseClient) return;
 
-    // Set up button handlers
     if (loginButton) {
         loginButton.addEventListener('click', handleLoginClick);
     }
     if (logoutButton) {
         logoutButton.addEventListener('click', handleLogoutClick);
     }
+}
 
-    // Set up auth state listener
-    supabaseClient.auth.onAuthStateChange(async (event, session) => {
-        const user = session?.user ?? null;
+/**
+ * Initialize authentication - MUST be awaited before loading data
+ * This is the KEY FIX for mobile: we use getSession() first, then set up listener
+ * for future changes. We ignore INITIAL_SESSION to avoid double-processing.
+ *
+ * The problem on mobile was:
+ * 1. setupAuth() was not awaited
+ * 2. Data loading started before auth was ready
+ * 3. Supabase session might not be fully established after OAuth redirect
+ *
+ * This fix ensures auth is FULLY ready before any data is loaded.
+ */
+async function initializeAuth() {
+    if (!supabaseClient) return;
 
-        if (user) {
-            currentUser = user;
-
-            // Load cached profile first
-            const cachedProfile = SharedUtils.loadCachedProfile(user.id);
-            if (cachedProfile) {
-                currentUserProfile = cachedProfile;
-                updateAuthUI(user);
+    return new Promise((resolve) => {
+        // Step 1: Get current session FIRST (this is synchronous with stored session)
+        supabaseClient.auth.getSession().then(async ({ data: { session }, error }) => {
+            if (error) {
+                console.error('Error getting session:', error);
+                updateAuthUI(null);
+                authInitialized = true;
+                resolve();
+                return;
             }
 
-            // Load fresh profile and update UI
-            await loadAndSetUserProfile(user);
-            updateAuthUI(user);
-        } else {
-            if (event === 'SIGNED_OUT' && currentUser) {
+            const user = session?.user ?? null;
+
+            if (user) {
+                currentUser = user;
+
+                // Load cached profile first for fast UI
+                const cachedProfile = SharedUtils.loadCachedProfile(user.id);
+                if (cachedProfile) {
+                    currentUserProfile = cachedProfile;
+                }
+                updateAuthUI(user);
+
+                // Load fresh profile (don't await - let it update in background)
+                loadAndSetUserProfile(user).then(() => {
+                    updateAuthUI(user);
+                });
+            } else {
+                updateAuthUI(null);
+            }
+
+            // Step 2: Set up listener for FUTURE auth changes only (logout, etc.)
+            // We ignore INITIAL_SESSION because we already processed it above
+            setupAuthStateListener();
+
+            authInitialized = true;
+            resolve();
+        });
+    });
+}
+
+/**
+ * Auth state listener - only for FUTURE changes after initial load
+ * Ignores INITIAL_SESSION to prevent double-processing
+ */
+function setupAuthStateListener() {
+    if (!supabaseClient) return;
+
+    supabaseClient.auth.onAuthStateChange(async (event, session) => {
+        // CRITICAL: Skip INITIAL_SESSION - we already handled it in initializeAuth()
+        // This prevents race conditions on mobile where the same session gets processed twice
+        if (event === 'INITIAL_SESSION') {
+            return;
+        }
+
+        const user = session?.user ?? null;
+
+        // Handle logout
+        if (event === 'SIGNED_OUT') {
+            if (currentUser) {
                 SharedUtils.clearCachedProfile(currentUser.id);
             }
             currentUser = null;
             currentUserProfile = null;
             updateAuthUI(null);
+            return;
         }
-    });
 
-    // Get initial session
-    supabaseClient.auth.getSession().then(async ({ data: { session } }) => {
-        const user = session?.user ?? null;
-
-        if (user) {
-            currentUser = user;
-
-            // Load cached profile first
-            const cachedProfile = SharedUtils.loadCachedProfile(user.id);
-            if (cachedProfile) {
-                currentUserProfile = cachedProfile;
+        // Handle new sign in (e.g., from another tab, or token refresh)
+        if (event === 'SIGNED_IN' && user) {
+            // Only process if it's a different user or we don't have a user yet
+            if (!currentUser || currentUser.id !== user.id) {
+                currentUser = user;
+                const cachedProfile = SharedUtils.loadCachedProfile(user.id);
+                if (cachedProfile) {
+                    currentUserProfile = cachedProfile;
+                }
+                updateAuthUI(user);
+                await loadAndSetUserProfile(user);
                 updateAuthUI(user);
             }
+        }
 
-            // Load fresh profile and update UI
-            await loadAndSetUserProfile(user);
-            updateAuthUI(user);
-        } else {
-            updateAuthUI(null);
+        // Handle token refresh
+        if (event === 'TOKEN_REFRESHED' && user) {
+            currentUser = user;
         }
     });
 }

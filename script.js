@@ -367,11 +367,22 @@ async function checkAndCreateUserProfile(user) {
     return fetchedProfile?.username || user.email || 'User';
 }
 
-// Simple auth state change handler - only for logout/session changes AFTER initial load
+/**
+ * Auth state change handler - only for logout/session changes AFTER initial load
+ * CRITICAL FIX: Ignores INITIAL_SESSION to prevent double-processing with getSession()
+ * This is essential for mobile where race conditions can cause blank screens
+ */
 function setupAuthStateListener() {
     if (!supabaseClient) return;
 
     supabaseClient.auth.onAuthStateChange(async (event, session) => {
+        // CRITICAL: Skip INITIAL_SESSION - we handle this in initializeApp() with getSession()
+        // This prevents race conditions on mobile where the same session gets processed twice,
+        // which can result in UI being in an inconsistent state (blank screen)
+        if (event === 'INITIAL_SESSION') {
+            return;
+        }
+
         const user = session?.user ?? null;
 
         // Handle logout
@@ -388,14 +399,18 @@ function setupAuthStateListener() {
 
         // Handle new sign in (e.g., from another tab)
         if (event === 'SIGNED_IN' && user) {
-            currentUser = user;
-            const cachedProfile = SharedUtils.loadCachedProfile(user.id);
-            if (cachedProfile) {
-                currentUserProfile = cachedProfile;
+            // Only process if it's a different user or we don't have a user yet
+            // This prevents duplicate processing that can cause UI flicker on mobile
+            if (!currentUser || currentUser.id !== user.id) {
+                currentUser = user;
+                const cachedProfile = SharedUtils.loadCachedProfile(user.id);
+                if (cachedProfile) {
+                    currentUserProfile = cachedProfile;
+                }
+                checkAndCreateUserProfile(user).then(() => {
+                    updateAuthStateUI(user);
+                });
             }
-            checkAndCreateUserProfile(user).then(() => {
-                updateAuthStateUI(user);
-            });
         }
 
         // Handle token refresh
@@ -1235,7 +1250,17 @@ function hideLoading() {
 }
 
 // ----- 14. App Initialization -----
-// Simple and reliable: DOM first, then auth
+/**
+ * Main app initialization
+ * CRITICAL FIX for mobile auth:
+ * 1. Initialize DOM elements first
+ * 2. Get current session with getSession() - this is the source of truth
+ * 3. Set up auth listener AFTER processing initial session
+ * 4. Ignore INITIAL_SESSION in listener to avoid double-processing
+ *
+ * The order is important: getSession() -> setupAuthStateListener()
+ * This ensures we don't have race conditions where listener fires before we process the session
+ */
 function initializeApp() {
     hideLoading();
 
@@ -1244,7 +1269,7 @@ function initializeApp() {
         return;
     }
 
-    // Step 2: Load game data in background
+    // Step 2: Load game data in background (independent of auth)
     loadAllClubNames().then(success => {
         if (!success) {
             showError("Error loading game data.");
@@ -1258,15 +1283,15 @@ function initializeApp() {
         getStickerCount(3).catch(() => {})
     ]);
 
-    // Step 3: Set up auth listener for future changes (logout, etc.)
-    setupAuthStateListener();
-
-    // Step 4: Get current session and update UI
-    // This is the KEY fix for mobile: getSession() always works, even after OAuth redirect
+    // Step 3: Get current session FIRST, then set up listener
+    // This order is CRITICAL for mobile - getSession() must be processed before
+    // we set up the listener, otherwise INITIAL_SESSION could cause race conditions
     supabaseClient.auth.getSession().then(async ({ data: { session }, error }) => {
         if (error) {
             console.error("Error getting session:", error);
             updateAuthStateUI(null);
+            // Still set up listener for future auth changes
+            setupAuthStateListener();
             return;
         }
 
@@ -1304,6 +1329,10 @@ function initializeApp() {
         } else {
             updateAuthStateUI(null);
         }
+
+        // Step 4: NOW set up auth listener for FUTURE changes (logout, token refresh, etc.)
+        // This is set up AFTER processing initial session to avoid race conditions
+        setupAuthStateListener();
     });
 
     // Cleanup on page unload
