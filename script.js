@@ -312,10 +312,7 @@ function updateAuthStateUI(user) {
 
         difficultySelectionElement.style.cssText = 'display: block !important;';
         introTextElement.style.cssText = 'display: block !important;';
-        if (playerStatsElement) {
-            playerStatsElement.style.cssText = 'display: block !important;';
-            loadPlayerStatistics();
-        }
+        loadPlayerStatistics();
     } else {
         bodyElement.classList.add('logged-out');
         currentUser = null;
@@ -327,10 +324,7 @@ function updateAuthStateUI(user) {
 
         landingPageElement.style.cssText = 'display: flex !important;';
         introTextElement.style.cssText = 'display: block !important;';
-        if (playerStatsElement) {
-            playerStatsElement.style.cssText = 'display: block !important;';
-            loadPlayerStatistics();
-        }
+        loadPlayerStatistics();
     }
 }
 
@@ -763,10 +757,7 @@ function showDifficultySelection() {
     if (leaderboardSectionElement) leaderboardSectionElement.style.display = 'none';
 
     if (introTextElement) introTextElement.style.display = 'block';
-    if (playerStatsElement) {
-        playerStatsElement.style.display = 'block';
-        loadPlayerStatistics();
-    }
+    loadPlayerStatistics();
 
     if (currentUser) {
         if (landingPageElement) landingPageElement.style.display = 'none';
