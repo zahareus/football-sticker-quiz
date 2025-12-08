@@ -121,25 +121,28 @@ function extractStoragePath(imageUrl) {
 }
 
 /**
- * Check if optimized version already exists
+ * Check if optimized version already exists by making HTTP HEAD request
  */
 async function optimizedVersionExists(originalPath, suffix) {
     const ext = path.extname(originalPath);
     const baseName = path.basename(originalPath, ext);
     const dirName = path.dirname(originalPath);
 
+    const optimizedFileName = `${baseName}${suffix}.webp`;
     const optimizedPath = dirName === '.'
-        ? `${baseName}${suffix}.webp`
-        : `${dirName}/${baseName}${suffix}.webp`;
+        ? optimizedFileName
+        : `${dirName}/${optimizedFileName}`;
 
-    const { data, error } = await supabase.storage
-        .from(CONFIG.BUCKET_NAME)
-        .list(dirName === '.' ? '' : dirName, {
-            search: `${baseName}${suffix}.webp`
-        });
+    // Build public URL
+    const publicUrl = `${CONFIG.SUPABASE_URL}/storage/v1/object/public/${CONFIG.BUCKET_NAME}/${optimizedPath}`;
 
-    if (error) return false;
-    return data && data.some(f => f.name === `${baseName}${suffix}.webp`);
+    try {
+        // HEAD request to check if file exists
+        const response = await fetch(publicUrl, { method: 'HEAD' });
+        return response.ok; // true if status 200-299
+    } catch (error) {
+        return false;
+    }
 }
 
 /**
