@@ -506,7 +506,7 @@ async function loadAllClubNames() {
 }
 
 async function loadPlayerStatistics() {
-    if (!supabaseClient || !playerStatsElement || !playersTotalElement || !playersTodayElement) {
+    if (!supabaseClient || !playersTotalElement || !playersTodayElement) {
         return;
     }
 
