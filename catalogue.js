@@ -728,6 +728,16 @@ async function loadStickerDetails(stickerId) {
 
             // Use optimized detail image URL, but keep original for full-size view
             const detailImageUrl = SharedUtils.getDetailImageUrl(sticker.image_url);
+
+            // Build map section HTML if coordinates are available
+            const hasCoordinates = sticker.latitude != null && sticker.longitude != null;
+            const mapSectionHtml = hasCoordinates ? `
+                <div class="sticker-map-section">
+                    <p class="sticker-map-label"><strong>📍 Found Location</strong></p>
+                    <div id="sticker-map" class="sticker-map-container"></div>
+                </div>
+            ` : '';
+
             contentBodyHtml = `
                 <div class="sticker-detail-view">
                     <div class="sticker-detail-image-container" onclick="window.open('${sticker.image_url}', '_blank')">
@@ -741,10 +751,16 @@ async function loadStickerDetails(stickerId) {
                         <p><strong>🌍 Location Found:</strong> ${sticker.location || 'N/A'}</p>
                         <p><strong>📅 Date Found:</strong> ${sticker.found ? new Date(sticker.found).toLocaleDateString() : 'N/A'}</p>
                     </div>
+                    ${mapSectionHtml}
                 </div>
             `;
         }
         contentDiv.innerHTML = contentBodyHtml;
+
+        // Initialize map if coordinates are available
+        if (sticker && sticker.latitude != null && sticker.longitude != null) {
+            initializeStickerMap(sticker.latitude, sticker.longitude, sticker.location);
+        }
     } catch (error) {
         console.error(`An error occurred while loading sticker ID ${stickerId}:`, error);
         if (mainHeading) mainHeading.textContent = "Error Loading Sticker";
@@ -974,4 +990,56 @@ async function handleNicknameSave(event) {
         hideNicknameEditForm();
         alert('Nickname updated successfully!');
     }
+}
+
+// ========== MAP FUNCTIONS ==========
+
+/**
+ * Initialize Leaflet map for sticker location
+ * @param {number} latitude - Sticker latitude
+ * @param {number} longitude - Sticker longitude
+ * @param {string|null} locationName - Optional location name for popup
+ */
+function initializeStickerMap(latitude, longitude, locationName) {
+    const mapContainer = document.getElementById('sticker-map');
+    if (!mapContainer) {
+        console.error('Map container not found');
+        return;
+    }
+
+    // Check if Leaflet is loaded
+    if (typeof L === 'undefined') {
+        console.error('Leaflet library not loaded');
+        mapContainer.innerHTML = '<p style="text-align: center; color: var(--color-info-text);">Map could not be loaded</p>';
+        return;
+    }
+
+    // Initialize the map
+    const map = L.map('sticker-map', {
+        scrollWheelZoom: false // Disable scroll zoom for better UX
+    }).setView([latitude, longitude], 15);
+
+    // Add OpenStreetMap tiles
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 19,
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+    }).addTo(map);
+
+    // Add marker at sticker location
+    const marker = L.marker([latitude, longitude]).addTo(map);
+
+    // Add popup with location name if available
+    if (locationName) {
+        marker.bindPopup(`<strong>${locationName}</strong>`).openPopup();
+    }
+
+    // Enable scroll zoom only when map is focused (clicked)
+    map.on('click', function() {
+        map.scrollWheelZoom.enable();
+    });
+
+    // Disable scroll zoom when mouse leaves map
+    mapContainer.addEventListener('mouseleave', function() {
+        map.scrollWheelZoom.disable();
+    });
 }
