@@ -107,6 +107,10 @@ button:disabled, .btn:disabled { cursor: not-allowed !important; background-colo
 .difficulty-option { width: 100%; text-align: center; }
 .difficulty-option button.difficulty-button { width: 100%; display: block; margin-bottom: calc(var(--spacing-unit) * 0.75); }
 .difficulty-description { font-size: 0.85em; color: var(--color-info-text); padding: 0 var(--spacing-unit); margin: 0; line-height: 1.4; }
+.leaderboard-action { margin-top: calc(var(--spacing-unit) * 3); text-align: center; }
+.leaderboard-action button { width: 100%; display: block; margin-bottom: calc(var(--spacing-unit) * 1); }
+.leaderboard-stats { font-size: 0.9em; color: var(--color-info-text); margin: 0; }
+.leaderboard-stats span { font-weight: 600; color: var(--color-text); }
 
 /* ------------------------------ */
 /* Game Area                      */

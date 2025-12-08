@@ -66,10 +66,6 @@
         <div class="intro-text" id="intro-text-element" style="display: none;">
             <p>Guess a football club from a sticker. 10 seconds to choose 1 correct option.</p>
         </div>
-        <div class="player-stats" id="player-stats-element" style="display: none;">
-            <p>Players total: <span id="players-total">-</span>, Players today: <span id="players-today">-</span></p>
-            <p style="margin-top: 8px;"><a href="/leaderboard.html" class="leaderboard-link">🏆 See full leaderboard</a></p>
-        </div>
         <div id="landing-page" style="display: none;">
             <button id="landing-play-easy-button" class="btn btn-primary btn-large">Play (easy level)</button>
             <button id="landing-login-button" class="btn btn-secondary btn-large google-login">
@@ -82,14 +78,18 @@
             <h2>Choose difficulty:</h2>
             <div class="difficulty-options-container">
                 <div class="difficulty-option">
-                    <button class="btn btn-large difficulty-button" data-difficulty="1">Easy</button> <p class="difficulty-description">Very easy. Just pay attention</p>
+                    <button class="btn btn-primary btn-large difficulty-button" data-difficulty="1">Easy</button> <p class="difficulty-description">Very easy. Just pay attention</p>
                 </div>
                 <div class="difficulty-option">
-                    <button class="btn btn-large difficulty-button" data-difficulty="2">Medium</button> <p class="difficulty-description">You need to know a little bit about football</p>
+                    <button class="btn btn-primary btn-large difficulty-button" data-difficulty="2">Medium</button> <p class="difficulty-description">You need to know a little bit about football</p>
                 </div>
                 <div class="difficulty-option">
-                    <button class="btn btn-large difficulty-button" data-difficulty="3">Hard</button> <p class="difficulty-description">For real experts. My respect!</p>
+                    <button class="btn btn-primary btn-large difficulty-button" data-difficulty="3">Hard</button> <p class="difficulty-description">For real experts. My respect!</p>
                 </div>
+            </div>
+            <div class="leaderboard-action">
+                <button id="difficulty-leaderboard-button" class="btn btn-secondary btn-large" onclick="window.location.href='/leaderboard.html'">View leaderboard</button>
+                <p class="leaderboard-stats">Players total: <span id="players-total">-</span>, Players today: <span id="players-today">-</span></p>
             </div>
         </div>
 
