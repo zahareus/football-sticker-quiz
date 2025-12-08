@@ -1,0 +1,9 @@
+# Environment variables (contains secrets!)
+.env
+
+# Node modules
+node_modules/
+
+# Temporary files
+*.tmp
+*.log

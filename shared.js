@@ -122,23 +122,18 @@ function generateRandomNickname() {
 }
 
 // ============================================================
-// IMAGE OPTIMIZATION (Supabase Storage Transformations)
+// IMAGE OPTIMIZATION (Pre-generated WebP versions)
 // ============================================================
 
 /**
- * Transform a Supabase Storage URL to use image optimization
- * Converts /storage/v1/object/ to /storage/v1/render/image/ and adds transform params
- * Automatically converts to WebP format for better compression
+ * Convert original image URL to optimized WebP version URL
+ * Replaces filename.ext with filename_suffix.webp
  *
- * @param {string} imageUrl - Original Supabase Storage URL
- * @param {Object} options - Transform options
- * @param {number} options.width - Target width in pixels
- * @param {number} options.height - Target height in pixels
- * @param {number} options.quality - Image quality 20-100 (default: CONFIG.IMAGE_QUALITY)
- * @param {string} options.resize - Resize mode: 'cover', 'contain', 'fill' (default: 'contain')
- * @returns {string} Transformed URL with optimization parameters
+ * @param {string} imageUrl - Original image URL
+ * @param {string} suffix - Suffix to add (_web or _thumb)
+ * @returns {string} URL to optimized WebP version
  */
-function getOptimizedImageUrl(imageUrl, options = {}) {
+function getOptimizedImageUrl(imageUrl, suffix = '_web') {
     if (!imageUrl) return imageUrl;
 
     // Check if URL is from Supabase Storage
@@ -147,79 +142,59 @@ function getOptimizedImageUrl(imageUrl, options = {}) {
         return imageUrl;
     }
 
-    // IMPORTANT: Image Transformations require Supabase Pro Plan or above
-    // Set this to true when Pro Plan is active to enable optimizations
-    const ENABLE_IMAGE_TRANSFORMATIONS = false;
+    // Replace extension with suffix + .webp
+    // Example: image.jpg -> image_web.webp
+    // Example: path/to/image.png -> path/to/image_web.webp
+    const url = new URL(imageUrl);
+    const pathname = url.pathname;
 
-    if (!ENABLE_IMAGE_TRANSFORMATIONS) {
-        // Return original URL when transformations are not available
-        return imageUrl;
+    // Find the last dot for extension
+    const lastDotIndex = pathname.lastIndexOf('.');
+    if (lastDotIndex === -1) {
+        // No extension found, just append
+        url.pathname = pathname + suffix + '.webp';
+    } else {
+        // Replace extension
+        url.pathname = pathname.substring(0, lastDotIndex) + suffix + '.webp';
     }
 
-    const {
-        width,
-        height,
-        quality = CONFIG.IMAGE_QUALITY,
-        resize = 'contain'
-    } = options;
-
-    // Convert object URL to render URL for transformations
-    // /storage/v1/object/public/bucket/path -> /storage/v1/render/image/public/bucket/path
-    let transformedUrl = imageUrl.replace(
-        '/storage/v1/object/',
-        '/storage/v1/render/image/'
-    );
-
-    // Build query parameters
-    const params = new URLSearchParams();
-
-    if (width) params.append('width', width.toString());
-    if (height) params.append('height', height.toString());
-    if (quality && quality !== 80) params.append('quality', quality.toString());
-    if (resize && resize !== 'cover') params.append('resize', resize);
-
-    const queryString = params.toString();
-    if (queryString) {
-        transformedUrl += (transformedUrl.includes('?') ? '&' : '?') + queryString;
-    }
-
-    return transformedUrl;
+    return url.toString();
 }
 
 /**
- * Get optimized image URL for thumbnail/gallery preview
+ * Get optimized image URL for thumbnail/gallery preview (150x150)
  * @param {string} imageUrl - Original image URL
  * @returns {string} Optimized URL for thumbnails
  */
 function getThumbnailUrl(imageUrl) {
-    return getOptimizedImageUrl(imageUrl, CONFIG.IMAGE_SIZES.THUMBNAIL);
+    return getOptimizedImageUrl(imageUrl, '_thumb');
 }
 
 /**
- * Get optimized image URL for quiz display
+ * Get optimized image URL for quiz display (600x600)
  * @param {string} imageUrl - Original image URL
  * @returns {string} Optimized URL for quiz
  */
 function getQuizImageUrl(imageUrl) {
-    return getOptimizedImageUrl(imageUrl, CONFIG.IMAGE_SIZES.QUIZ);
+    return getOptimizedImageUrl(imageUrl, '_web');
 }
 
 /**
- * Get optimized image URL for detail view
+ * Get optimized image URL for detail view (600x600)
  * @param {string} imageUrl - Original image URL
  * @returns {string} Optimized URL for detail view
  */
 function getDetailImageUrl(imageUrl) {
-    return getOptimizedImageUrl(imageUrl, CONFIG.IMAGE_SIZES.DETAIL);
+    return getOptimizedImageUrl(imageUrl, '_web');
 }
 
 /**
- * Get optimized image URL for home page
+ * Get optimized image URL for home page (600x600)
  * @param {string} imageUrl - Original image URL
  * @returns {string} Optimized URL for home page
  */
 function getHomeImageUrl(imageUrl) {
-    return getOptimizedImageUrl(imageUrl, CONFIG.IMAGE_SIZES.HOME);
+    return getOptimizedImageUrl(imageUrl, '_web');
 }
 
 // ============================================================
