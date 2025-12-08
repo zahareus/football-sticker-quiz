@@ -899,7 +899,8 @@ async function loadNewQuestionInternal() {
         if (!randomStickerData || !randomStickerData.clubs) throw new Error("Incomplete sticker/club data.");
 
         const correctClubName = randomStickerData.clubs.name;
-        const imageUrl = randomStickerData.image_url;
+        // Use optimized image URL for faster loading
+        const imageUrl = SharedUtils.getQuizImageUrl(randomStickerData.image_url);
 
         if (allClubNames.length < 4) {
             throw new Error("Not enough club names loaded.");

@@ -27,7 +27,16 @@ const CONFIG = {
 
     // Nickname generation words
     NICKNAME_ADJECTIVES: ["Fast", "Quick", "Happy", "Silent", "Blue", "Red", "Green", "Golden", "Iron", "Clever", "Brave", "Wise", "Lucky", "Shiny", "Dark", "Light", "Great", "Tiny", "Magic"],
-    NICKNAME_NOUNS: ["Fox", "Wolf", "Mouse", "Tiger", "Car", "Tree", "Eagle", "Lion", "Shark", "Puma", "Star", "Moon", "Sun", "River", "Stone", "Blade", "Bear", "Horse", "Ship"]
+    NICKNAME_NOUNS: ["Fox", "Wolf", "Mouse", "Tiger", "Car", "Tree", "Eagle", "Lion", "Shark", "Puma", "Star", "Moon", "Sun", "River", "Stone", "Blade", "Bear", "Horse", "Ship"],
+
+    // Image optimization settings (Supabase Storage transformations)
+    IMAGE_SIZES: {
+        THUMBNAIL: { width: 150, height: 150 },   // Catalogue gallery preview
+        QUIZ: { width: 400, height: 400 },         // Quiz game display
+        DETAIL: { width: 600, height: 600 },       // Sticker detail view
+        HOME: { width: 400, height: 400 }          // Home page featured sticker
+    },
+    IMAGE_QUALITY: 80  // WebP quality (20-100)
 };
 
 // ============================================================
@@ -110,6 +119,98 @@ function generateRandomNickname() {
     const adj = CONFIG.NICKNAME_ADJECTIVES[Math.floor(Math.random() * CONFIG.NICKNAME_ADJECTIVES.length)];
     const noun = CONFIG.NICKNAME_NOUNS[Math.floor(Math.random() * CONFIG.NICKNAME_NOUNS.length)];
     return `${adj} ${noun}`;
+}
+
+// ============================================================
+// IMAGE OPTIMIZATION (Supabase Storage Transformations)
+// ============================================================
+
+/**
+ * Transform a Supabase Storage URL to use image optimization
+ * Converts /storage/v1/object/ to /storage/v1/render/image/ and adds transform params
+ * Automatically converts to WebP format for better compression
+ *
+ * @param {string} imageUrl - Original Supabase Storage URL
+ * @param {Object} options - Transform options
+ * @param {number} options.width - Target width in pixels
+ * @param {number} options.height - Target height in pixels
+ * @param {number} options.quality - Image quality 20-100 (default: CONFIG.IMAGE_QUALITY)
+ * @param {string} options.resize - Resize mode: 'cover', 'contain', 'fill' (default: 'contain')
+ * @returns {string} Transformed URL with optimization parameters
+ */
+function getOptimizedImageUrl(imageUrl, options = {}) {
+    if (!imageUrl) return imageUrl;
+
+    // Check if URL is from Supabase Storage
+    if (!imageUrl.includes('/storage/v1/object/')) {
+        // Not a Supabase Storage URL, return as-is
+        return imageUrl;
+    }
+
+    const {
+        width,
+        height,
+        quality = CONFIG.IMAGE_QUALITY,
+        resize = 'contain'
+    } = options;
+
+    // Convert object URL to render URL for transformations
+    // /storage/v1/object/public/bucket/path -> /storage/v1/render/image/public/bucket/path
+    let transformedUrl = imageUrl.replace(
+        '/storage/v1/object/',
+        '/storage/v1/render/image/'
+    );
+
+    // Build query parameters
+    const params = new URLSearchParams();
+
+    if (width) params.append('width', width.toString());
+    if (height) params.append('height', height.toString());
+    if (quality && quality !== 80) params.append('quality', quality.toString());
+    if (resize && resize !== 'cover') params.append('resize', resize);
+
+    const queryString = params.toString();
+    if (queryString) {
+        transformedUrl += (transformedUrl.includes('?') ? '&' : '?') + queryString;
+    }
+
+    return transformedUrl;
+}
+
+/**
+ * Get optimized image URL for thumbnail/gallery preview
+ * @param {string} imageUrl - Original image URL
+ * @returns {string} Optimized URL for thumbnails
+ */
+function getThumbnailUrl(imageUrl) {
+    return getOptimizedImageUrl(imageUrl, CONFIG.IMAGE_SIZES.THUMBNAIL);
+}
+
+/**
+ * Get optimized image URL for quiz display
+ * @param {string} imageUrl - Original image URL
+ * @returns {string} Optimized URL for quiz
+ */
+function getQuizImageUrl(imageUrl) {
+    return getOptimizedImageUrl(imageUrl, CONFIG.IMAGE_SIZES.QUIZ);
+}
+
+/**
+ * Get optimized image URL for detail view
+ * @param {string} imageUrl - Original image URL
+ * @returns {string} Optimized URL for detail view
+ */
+function getDetailImageUrl(imageUrl) {
+    return getOptimizedImageUrl(imageUrl, CONFIG.IMAGE_SIZES.DETAIL);
+}
+
+/**
+ * Get optimized image URL for home page
+ * @param {string} imageUrl - Original image URL
+ * @returns {string} Optimized URL for home page
+ */
+function getHomeImageUrl(imageUrl) {
+    return getOptimizedImageUrl(imageUrl, CONFIG.IMAGE_SIZES.HOME);
 }
 
 // ============================================================
@@ -632,5 +733,12 @@ window.SharedUtils = {
     stopSessionValidation,
 
     // UI helpers
-    updateAuthUI
+    updateAuthUI,
+
+    // Image optimization
+    getOptimizedImageUrl,
+    getThumbnailUrl,
+    getQuizImageUrl,
+    getDetailImageUrl,
+    getHomeImageUrl
 };
