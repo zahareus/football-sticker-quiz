@@ -593,6 +593,51 @@ button:disabled, .btn:disabled { cursor: not-allowed !important; background-colo
         font-size: 1em;
     }
 }
+
+/* Sticker Map Section */
+.sticker-map-section {
+    width: 100%;
+    max-width: 600px;
+    margin-top: calc(var(--spacing-unit) * 3);
+    text-align: left;
+}
+
+.sticker-map-label {
+    font-size: 1.2em;
+    margin-bottom: calc(var(--spacing-unit) * 1.5);
+    color: var(--color-text);
+}
+
+.sticker-map-container {
+    width: 100%;
+    height: 300px;
+    border-radius: var(--border-radius);
+    border: 1px solid var(--color-border);
+    overflow: hidden;
+    z-index: 1;
+}
+
+/* Leaflet popup styling to match site design */
+.leaflet-popup-content-wrapper {
+    border-radius: var(--border-radius);
+    font-family: var(--font-family);
+}
+
+.leaflet-popup-content {
+    margin: 10px 14px;
+    font-size: 0.95em;
+    color: var(--color-text);
+}
+
+@media (max-width: 600px) {
+    .sticker-map-container {
+        height: 250px;
+    }
+
+    .sticker-map-label {
+        font-size: 1em;
+    }
+}
 /* ------------------------------ */
 /* Responsiveness                 */
 /* ------------------------------ */
