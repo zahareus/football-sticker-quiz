@@ -20,7 +20,6 @@ if (typeof SharedUtils === 'undefined') {
 // DOM Elements
 let totalStickersElement;
 let homeStickerImageElement;
-let homeClubNameElement;
 let homeLoadingIndicator;
 let homeErrorMessage;
 
@@ -45,7 +44,6 @@ async function initializeHomePage() {
     // Get DOM elements
     totalStickersElement = document.getElementById('total-stickers');
     homeStickerImageElement = document.getElementById('home-sticker-image');
-    homeClubNameElement = document.getElementById('home-club-name');
     homeLoadingIndicator = document.getElementById('home-loading-indicator');
     homeErrorMessage = document.getElementById('home-error-message');
 
@@ -64,14 +62,13 @@ async function initializeHomePage() {
     // Set up nickname editing
     setupNicknameEditing();
 
-    // CRITICAL FIX: Initialize auth FIRST and WAIT for it before loading data
-    // This ensures the Supabase session is fully established (especially on mobile after OAuth)
-    await initializeAuth();
-
-    // Only load data AFTER auth is fully initialized
-    // This prevents race conditions on mobile where session might not be ready
-    await loadTotalStickersCount();
-    await loadRandomSticker();
+    // Load sticker and auth in PARALLEL for fastest image display
+    // Sticker loading doesn't require auth, so we can start it immediately
+    await Promise.all([
+        loadRandomSticker(),
+        initializeAuth(),
+        loadTotalStickersCount()
+    ]);
 }
 
 // Function: Load total stickers count
@@ -115,7 +112,7 @@ async function preloadAndDecodeImage(imageUrl) {
 
 // Function: Load random sticker
 async function loadRandomSticker() {
-    if (!supabaseClient || !homeStickerImageElement || !homeClubNameElement) return;
+    if (!supabaseClient || !homeStickerImageElement) return;
 
     showHomeLoading();
     hideHomeError();
@@ -132,13 +129,13 @@ async function loadRandomSticker() {
 
         const { data: stickerData, error: stickerError } = await supabaseClient
             .from('stickers')
-            .select(`image_url, clubs ( name )`)
+            .select(`image_url`)
             .order('id', { ascending: true })
             .range(randomIndex, randomIndex)
             .single();
 
         if (stickerError) throw stickerError;
-        if (!stickerData || !stickerData.clubs) throw new Error('Incomplete sticker data');
+        if (!stickerData) throw new Error('No sticker data');
 
         // Use optimized image URL for faster loading
         const optimizedImageUrl = SharedUtils.getHomeImageUrl(stickerData.image_url);
@@ -153,7 +150,6 @@ async function loadRandomSticker() {
 
         // Image is now decoded in cache - this will display instantly
         homeStickerImageElement.src = optimizedImageUrl;
-        homeClubNameElement.textContent = stickerData.clubs.name;
         hideHomeLoading();
 
     } catch (error) {
