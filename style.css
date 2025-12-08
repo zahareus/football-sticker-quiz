@@ -629,6 +629,46 @@ button:disabled, .btn:disabled { cursor: not-allowed !important; background-colo
     color: var(--color-text);
 }
 
+/* Inactive marker styling (nearby stickers) */
+.inactive-marker {
+    filter: grayscale(100%) opacity(0.6);
+    transition: filter 0.2s ease;
+}
+
+.inactive-marker:hover {
+    filter: grayscale(0%) opacity(1);
+}
+
+/* Nearby sticker popup styling */
+.nearby-sticker-popup {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    text-align: center;
+}
+
+.nearby-sticker-popup strong {
+    font-size: 0.95em;
+    color: var(--color-text);
+}
+
+.map-popup-link {
+    display: inline-block;
+    color: var(--color-link);
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 0.9em;
+    padding: 2px 8px;
+    border-radius: 4px;
+    transition: background-color 0.2s ease;
+}
+
+.map-popup-link:hover {
+    background-color: var(--color-secondary-bg);
+    text-decoration: underline;
+}
+
 @media (max-width: 600px) {
     .sticker-map-container {
         height: 250px;

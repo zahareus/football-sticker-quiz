@@ -759,7 +759,16 @@ async function loadStickerDetails(stickerId) {
 
         // Initialize map if coordinates are available
         if (sticker && sticker.latitude != null && sticker.longitude != null) {
-            initializeStickerMap(sticker.latitude, sticker.longitude, sticker.location);
+            const clubName = sticker.clubs ? sticker.clubs.name : null;
+
+            // Fetch nearby stickers for the map
+            const nearbyStickers = await fetchNearbyStickers(
+                sticker.latitude,
+                sticker.longitude,
+                sticker.id
+            );
+
+            initializeStickerMap(sticker.latitude, sticker.longitude, clubName, sticker.id, nearbyStickers);
         }
     } catch (error) {
         console.error(`An error occurred while loading sticker ID ${stickerId}:`, error);
@@ -995,12 +1004,63 @@ async function handleNicknameSave(event) {
 // ========== MAP FUNCTIONS ==========
 
 /**
+ * Fetch nearby stickers within a bounding box
+ * @param {number} latitude - Center latitude
+ * @param {number} longitude - Center longitude
+ * @param {number} excludeStickerId - Current sticker ID to exclude
+ * @returns {Promise<Array>} - Array of nearby stickers
+ */
+async function fetchNearbyStickers(latitude, longitude, excludeStickerId) {
+    if (!supabaseClient) return [];
+
+    // Define bounding box (~5km radius approximately)
+    const latDelta = 0.045; // ~5km
+    const lngDelta = 0.06;  // ~5km (varies by latitude)
+
+    const minLat = latitude - latDelta;
+    const maxLat = latitude + latDelta;
+    const minLng = longitude - lngDelta;
+    const maxLng = longitude + lngDelta;
+
+    try {
+        const { data, error } = await supabaseClient
+            .from('stickers')
+            .select(`
+                id,
+                latitude,
+                longitude,
+                clubs (name)
+            `)
+            .not('latitude', 'is', null)
+            .not('longitude', 'is', null)
+            .neq('id', excludeStickerId)
+            .gte('latitude', minLat)
+            .lte('latitude', maxLat)
+            .gte('longitude', minLng)
+            .lte('longitude', maxLng)
+            .limit(50);
+
+        if (error) {
+            console.error('Error fetching nearby stickers:', error);
+            return [];
+        }
+
+        return data || [];
+    } catch (e) {
+        console.error('Error in fetchNearbyStickers:', e);
+        return [];
+    }
+}
+
+/**
  * Initialize Leaflet map for sticker location
  * @param {number} latitude - Sticker latitude
  * @param {number} longitude - Sticker longitude
- * @param {string|null} locationName - Optional location name for popup
+ * @param {string|null} clubName - Club name for popup
+ * @param {number} currentStickerId - Current sticker ID
+ * @param {Array} nearbyStickers - Array of nearby stickers to show
  */
-function initializeStickerMap(latitude, longitude, locationName) {
+function initializeStickerMap(latitude, longitude, clubName, currentStickerId, nearbyStickers) {
     const mapContainer = document.getElementById('sticker-map');
     if (!mapContainer) {
         console.error('Map container not found');
@@ -1025,12 +1085,64 @@ function initializeStickerMap(latitude, longitude, locationName) {
         attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
     }).addTo(map);
 
-    // Add marker at sticker location
-    const marker = L.marker([latitude, longitude]).addTo(map);
+    // Create custom icons
+    const activeIcon = L.icon({
+        iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
+        iconRetinaUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png',
+        shadowUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png',
+        iconSize: [25, 41],
+        iconAnchor: [12, 41],
+        popupAnchor: [1, -34],
+        shadowSize: [41, 41]
+    });
 
-    // Add popup with location name if available
-    if (locationName) {
-        marker.bindPopup(`<strong>${locationName}</strong>`).openPopup();
+    const inactiveIcon = L.icon({
+        iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
+        iconRetinaUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png',
+        shadowUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png',
+        iconSize: [20, 33],
+        iconAnchor: [10, 33],
+        popupAnchor: [1, -28],
+        shadowSize: [33, 33],
+        className: 'inactive-marker'
+    });
+
+    // Add nearby stickers as inactive markers (add these first so they're behind)
+    if (nearbyStickers && nearbyStickers.length > 0) {
+        nearbyStickers.forEach(sticker => {
+            if (sticker.latitude && sticker.longitude) {
+                const nearbyClubName = sticker.clubs ? sticker.clubs.name : 'Unknown Club';
+                const popupContent = `
+                    <div class="nearby-sticker-popup">
+                        <strong>${nearbyClubName}</strong>
+                        <a href="catalogue.html?sticker_id=${sticker.id}" class="map-popup-link">View</a>
+                    </div>
+                `;
+
+                const nearbyMarker = L.marker([sticker.latitude, sticker.longitude], {
+                    icon: inactiveIcon,
+                    zIndexOffset: -100
+                }).addTo(map);
+
+                nearbyMarker.bindPopup(popupContent);
+
+                // Show popup on hover
+                nearbyMarker.on('mouseover', function() {
+                    this.openPopup();
+                });
+            }
+        });
+    }
+
+    // Add main marker for current sticker (on top)
+    const mainMarker = L.marker([latitude, longitude], {
+        icon: activeIcon,
+        zIndexOffset: 100
+    }).addTo(map);
+
+    // Add popup with club name
+    if (clubName) {
+        mainMarker.bindPopup(`<strong>${clubName}</strong>`).openPopup();
     }
 
     // Enable scroll zoom only when map is focused (clicked)
