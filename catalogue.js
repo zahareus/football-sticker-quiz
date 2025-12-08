@@ -735,6 +735,7 @@ async function loadStickerDetails(stickerId) {
                 <div class="sticker-map-section">
                     <p class="sticker-map-label"><strong>📍 Found Location</strong></p>
                     <div id="sticker-map" class="sticker-map-container"></div>
+                    <a href="/map.html" class="view-map-link">View full map</a>
                 </div>
             ` : '';
 
