@@ -98,7 +98,7 @@ let userNicknameElement, editNicknameForm, nicknameInputElement, cancelEditNickn
 let scoreDisplayElement;
 let landingPageElement, landingLoginButton, landingLeaderboardButton, landingPlayEasyButton;
 let introTextElement;
-let rankContainerElement;
+let personalRankContainerElement, timeframeRanksContainerElement;
 let playerStatsElement, playersTotalElement, playersTodayElement;
 let leaderboardTimeFilterButtons, leaderboardDifficultyFilterButtons;
 
@@ -115,7 +115,8 @@ function initializeDOMElements(isRetry = false) {
     scoreDisplayElement = document.getElementById('score');
     resultAreaElement = document.getElementById('result-area');
     finalScoreElement = document.getElementById('final-score');
-    rankContainerElement = document.getElementById('rank-container');
+    personalRankContainerElement = document.getElementById('personal-rank-container');
+    timeframeRanksContainerElement = document.getElementById('timeframe-ranks-container');
     playAgainButton = document.getElementById('play-again');
     resultSignInButton = document.getElementById('result-sign-in-button');
     authSectionElement = document.getElementById('auth-section');
@@ -996,6 +997,66 @@ async function getUserRankForToday(userId, score, difficulty) {
     }
 }
 
+// Get user's personal rank (among their own scores for this difficulty, all time)
+async function getUserPersonalRank(userId, score, difficulty) {
+    if (!supabaseClient || !userId || score === 0) return null;
+
+    try {
+        const { count, error } = await supabaseClient
+            .from('scores')
+            .select('*', { count: 'exact', head: true })
+            .eq('user_id', userId)
+            .eq('difficulty', difficulty)
+            .gt('score', score);
+
+        if (error) throw error;
+
+        return (count || 0) + 1;
+    } catch (error) {
+        console.error('Error getting personal rank:', error);
+        return null;
+    }
+}
+
+// Get rank for a specific timeframe (today, week, month, all)
+async function getRankForTimeframe(score, difficulty, timeframe) {
+    if (!supabaseClient || score === 0) return null;
+
+    try {
+        const { fromDate, toDate } = SharedUtils.calculateTimeRange(timeframe);
+
+        let query = supabaseClient
+            .from('scores')
+            .select('*', { count: 'exact', head: true })
+            .eq('difficulty', difficulty)
+            .gt('score', score);
+
+        if (fromDate) query = query.gte('created_at', fromDate);
+        if (toDate) query = query.lt('created_at', toDate);
+
+        const { count, error } = await query;
+
+        if (error) throw error;
+
+        return (count || 0) + 1;
+    } catch (error) {
+        console.error(`Error getting rank for ${timeframe}:`, error);
+        return null;
+    }
+}
+
+// Get all timeframe ranks in parallel
+async function getAllTimeframeRanks(score, difficulty) {
+    const [todayRank, weekRank, monthRank, allTimeRank] = await Promise.all([
+        getRankForTimeframe(score, difficulty, 'today'),
+        getRankForTimeframe(score, difficulty, 'week'),
+        getRankForTimeframe(score, difficulty, 'month'),
+        getRankForTimeframe(score, difficulty, 'all')
+    ]);
+
+    return { todayRank, weekRank, monthRank, allTimeRank };
+}
+
 function endGame() {
     stopTimer();
 
@@ -1025,16 +1086,38 @@ function endGame() {
     if (difficultySelectionElement) difficultySelectionElement.style.display = 'none';
     if (introTextElement) introTextElement.style.display = 'block';
 
-    // Display rank if user is authenticated
-    if (currentUser && currentScore > 0 && rankContainerElement) {
-        getUserRankForToday(currentUser.id, currentScore, selectedDifficulty).then(rank => {
-            if (rank !== null && rankContainerElement) {
-                rankContainerElement.textContent = `#${rank} for today`;
-                rankContainerElement.style.display = 'block';
-            }
-        });
-    } else if (rankContainerElement) {
-        rankContainerElement.style.display = 'none';
+    // Display ranks if user is authenticated and score > 0
+    if (currentUser && currentScore > 0) {
+        // Display personal rank (among user's own scores for this difficulty)
+        if (personalRankContainerElement) {
+            getUserPersonalRank(currentUser.id, currentScore, selectedDifficulty).then(rank => {
+                if (rank !== null && personalRankContainerElement) {
+                    personalRankContainerElement.textContent = `#${rank} among your results`;
+                    personalRankContainerElement.style.display = 'block';
+                }
+            });
+        }
+
+        // Display timeframe ranks (compared to all users)
+        if (timeframeRanksContainerElement) {
+            getAllTimeframeRanks(currentScore, selectedDifficulty).then(ranks => {
+                if (timeframeRanksContainerElement) {
+                    const parts = [];
+                    if (ranks.todayRank !== null) parts.push(`#${ranks.todayRank} today`);
+                    if (ranks.weekRank !== null) parts.push(`#${ranks.weekRank} week`);
+                    if (ranks.monthRank !== null) parts.push(`#${ranks.monthRank} month`);
+                    if (ranks.allTimeRank !== null) parts.push(`#${ranks.allTimeRank} all time`);
+
+                    if (parts.length > 0) {
+                        timeframeRanksContainerElement.textContent = parts.join('  ');
+                        timeframeRanksContainerElement.style.display = 'block';
+                    }
+                }
+            });
+        }
+    } else {
+        if (personalRankContainerElement) personalRankContainerElement.style.display = 'none';
+        if (timeframeRanksContainerElement) timeframeRanksContainerElement.style.display = 'none';
     }
 
     saveScore();
