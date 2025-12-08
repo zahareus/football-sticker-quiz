@@ -140,16 +140,19 @@ async function loadRandomSticker() {
         if (stickerError) throw stickerError;
         if (!stickerData || !stickerData.clubs) throw new Error('Incomplete sticker data');
 
+        // Use optimized image URL for faster loading
+        const optimizedImageUrl = SharedUtils.getHomeImageUrl(stickerData.image_url);
+
         // Preload and decode image for smooth display
         try {
-            await preloadAndDecodeImage(stickerData.image_url);
+            await preloadAndDecodeImage(optimizedImageUrl);
         } catch (imgError) {
             console.warn('Image preload failed:', imgError);
             // Continue anyway - browser may still load it
         }
 
         // Image is now decoded in cache - this will display instantly
-        homeStickerImageElement.src = stickerData.image_url;
+        homeStickerImageElement.src = optimizedImageUrl;
         homeClubNameElement.textContent = stickerData.clubs.name;
         hideHomeLoading();
 

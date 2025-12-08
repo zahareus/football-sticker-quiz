@@ -584,10 +584,11 @@ async function loadClubDetails(clubId) {
             } else {
                 let galleryHtml = '<div class="sticker-gallery">';
                 stickersResponse.forEach(sticker => {
-                    // Use lazy loading and decoding="async" for faster page load
+                    // Use optimized thumbnail URL with lazy loading for faster page load
+                    const thumbnailUrl = SharedUtils.getThumbnailUrl(sticker.image_url);
                     galleryHtml += `
                         <a href="catalogue.html?sticker_id=${sticker.id}" class="sticker-preview-link">
-                            <img src="${sticker.image_url}"
+                            <img src="${thumbnailUrl}"
                                  alt="Sticker ID ${sticker.id} for ${clubData.name}"
                                  class="sticker-preview-image"
                                  loading="lazy"
@@ -725,10 +726,12 @@ async function loadStickerDetails(stickerId) {
                 navigationHtml += '</div>';
             }
 
+            // Use optimized detail image URL, but keep original for full-size view
+            const detailImageUrl = SharedUtils.getDetailImageUrl(sticker.image_url);
             contentBodyHtml = `
                 <div class="sticker-detail-view">
                     <div class="sticker-detail-image-container" onclick="window.open('${sticker.image_url}', '_blank')">
-                        <img src="${sticker.image_url}"
+                        <img src="${detailImageUrl}"
                              alt="Sticker ${sticker.id} ${sticker.clubs ? `- ${sticker.clubs.name}` : ''}"
                              class="sticker-detail-image"
                              decoding="async">
