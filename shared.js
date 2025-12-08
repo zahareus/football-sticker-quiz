@@ -147,6 +147,15 @@ function getOptimizedImageUrl(imageUrl, options = {}) {
         return imageUrl;
     }
 
+    // IMPORTANT: Image Transformations require Supabase Pro Plan or above
+    // Set this to true when Pro Plan is active to enable optimizations
+    const ENABLE_IMAGE_TRANSFORMATIONS = false;
+
+    if (!ENABLE_IMAGE_TRANSFORMATIONS) {
+        // Return original URL when transformations are not available
+        return imageUrl;
+    }
+
     const {
         width,
         height,
