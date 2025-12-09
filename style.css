@@ -102,7 +102,7 @@ button:disabled, .btn:disabled { cursor: not-allowed !important; background-colo
 #landing-page button.google-login { display: inline-flex; justify-content: center; align-items: center; width: 90%; max-width: 320px; }
 
 /* --- Difficulty Selection --- */
-#difficulty-selection { max-width: 450px; margin-left: auto; margin-right: auto; }
+#difficulty-selection { max-width: 320px; margin-left: auto; margin-right: auto; }
 .difficulty-options-container { display: flex; flex-direction: column; align-items: center; gap: calc(var(--spacing-unit) * 2.5); margin-top: calc(var(--spacing-unit) * 2); }
 .difficulty-option { width: 100%; text-align: center; }
 .difficulty-option button.difficulty-button { width: 100%; display: block; margin-bottom: calc(var(--spacing-unit) * 0.75); }
@@ -680,7 +680,7 @@ button:disabled, .btn:disabled { cursor: not-allowed !important; background-colo
 }
 
 /* Global Map Page Styles */
-.map-page-container {
+.container.map-page-container {
     text-align: center;
     max-width: 1200px;
 }
@@ -716,14 +716,38 @@ button:disabled, .btn:disabled { cursor: not-allowed !important; background-colo
 }
 
 /* View map button on sticker detail page and catalogue */
-.view-map-btn {
-    display: inline-block;
-    margin-top: calc(var(--spacing-unit) * 2);
+.view-map-btn-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 320px;
+    margin: calc(var(--spacing-unit) * 2) auto 0 auto;
+}
+
+.view-map-btn-container .btn {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
 }
 
 .catalogue-map-btn-container {
-    text-align: center;
-    margin-bottom: calc(var(--spacing-unit) * 3);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 320px;
+    margin: 0 auto calc(var(--spacing-unit) * 3) auto;
+}
+
+.catalogue-map-btn-container .btn {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
 }
 
 @media (max-width: 600px) {
@@ -731,7 +755,7 @@ button:disabled, .btn:disabled { cursor: not-allowed !important; background-colo
         height: 400px;
     }
 
-    .map-page-container {
+    .container.map-page-container {
         max-width: 100%;
     }
 
