@@ -197,19 +197,38 @@ function displayLeaderboard(data) {
 
     // If user is not in top 5 but has a score, show their position
     if (userPosition > DISPLAY_LIMIT && userEntry) {
-        // Add separator
+        // Add separator (styled to match list items)
         const separatorDiv = document.createElement('div');
-        separatorDiv.style.textAlign = 'left';
-        separatorDiv.style.paddingLeft = '0';
-        separatorDiv.style.margin = '8px 0';
-        separatorDiv.textContent = '...';
+        separatorDiv.style.display = 'flex';
+        separatorDiv.style.gap = '8px';
+        separatorDiv.style.padding = '12px 8px';
+        const separatorNumber = document.createElement('span');
+        separatorNumber.style.minWidth = '2.5em';
+        separatorNumber.style.textAlign = 'right';
+        separatorNumber.textContent = '';
+        const separatorDots = document.createElement('span');
+        separatorDots.textContent = '...';
+        separatorDiv.appendChild(separatorNumber);
+        separatorDiv.appendChild(separatorDots);
         leaderboardListElement.appendChild(separatorDiv);
 
-        // Add user's entry with their actual position (as div to show correct position number)
+        // Add user's entry with their actual position (styled to match list items)
         const userDiv = document.createElement('div');
         userDiv.classList.add('user-score');
+        userDiv.style.display = 'flex';
+        userDiv.style.gap = '8px';
+        userDiv.style.padding = '12px 8px';
+        const positionSpan = document.createElement('span');
+        positionSpan.style.fontWeight = '600';
+        positionSpan.style.color = '#FFA000';
+        positionSpan.style.minWidth = '2.5em';
+        positionSpan.style.textAlign = 'right';
+        positionSpan.textContent = `${userPosition}.`;
+        const nameSpan = document.createElement('span');
         const username = userEntry.profiles?.username || 'Anonymous';
-        userDiv.textContent = `${userPosition}. ${username} - ${userEntry.score}`;
+        nameSpan.textContent = `${username} - ${userEntry.score}`;
+        userDiv.appendChild(positionSpan);
+        userDiv.appendChild(nameSpan);
         leaderboardListElement.appendChild(userDiv);
     }
 }
