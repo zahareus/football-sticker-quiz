@@ -145,8 +145,11 @@ async function initializeGlobalMap() {
 
                 marker.bindPopup(popupContent);
 
-                // Show popup on hover
+                // Show popup on hover (desktop) and click (mobile)
                 marker.on('mouseover', function() {
+                    this.openPopup();
+                });
+                marker.on('click', function() {
                     this.openPopup();
                 });
             }

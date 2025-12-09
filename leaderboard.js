@@ -197,12 +197,13 @@ function displayLeaderboard(data) {
 
     // If user is not in top 5 but has a score, show their position
     if (userPosition > DISPLAY_LIMIT && userEntry) {
-        // Add separator
-        const separatorLi = document.createElement('li');
-        separatorLi.style.listStyle = 'none';
-        separatorLi.style.marginLeft = '-20px';
-        separatorLi.textContent = '...';
-        leaderboardListElement.appendChild(separatorLi);
+        // Add separator (not as list item to avoid numbering)
+        const separatorDiv = document.createElement('div');
+        separatorDiv.style.textAlign = 'left';
+        separatorDiv.style.paddingLeft = '0';
+        separatorDiv.style.margin = '8px 0';
+        separatorDiv.textContent = '...';
+        leaderboardListElement.appendChild(separatorDiv);
 
         // Add user's entry with their actual position
         const userLi = document.createElement('li');

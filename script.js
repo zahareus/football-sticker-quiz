@@ -842,6 +842,12 @@ async function startGame() {
     if (optionsContainerElement) optionsContainerElement.innerHTML = '';
     if (landingPageElement) landingPageElement.style.display = 'none';
 
+    // Clear previous sticker image to start with clean state
+    if (stickerImageElement) {
+        stickerImageElement.src = '';
+        stickerImageElement.alt = '';
+    }
+
     if (preloadingPromise) {
         const questionData = await preloadingPromise;
         preloadingPromise = null;
