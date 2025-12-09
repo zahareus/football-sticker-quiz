@@ -402,6 +402,9 @@ async function loadContinentsAndCountries() {
                 <p><strong>Clubs:</strong> ${clubs.length}</p>
                 <p><strong>Stickers:</strong> ${totalStickers}</p>
             </div>
+            <div class="catalogue-map-btn-container">
+                <a href="/map.html" class="btn btn-secondary">View Full Map</a>
+            </div>
         `;
 
         let listHtml = '';
@@ -735,7 +738,7 @@ async function loadStickerDetails(stickerId) {
                 <div class="sticker-map-section">
                     <p class="sticker-map-label"><strong>📍 Found Location</strong></p>
                     <div id="sticker-map" class="sticker-map-container"></div>
-                    <a href="/map.html" class="view-map-link">View full map</a>
+                    <a href="/map.html" class="btn btn-secondary view-map-btn">View Full Map</a>
                 </div>
             ` : '';
 
