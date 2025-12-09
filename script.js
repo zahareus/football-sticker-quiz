@@ -1233,8 +1233,15 @@ function displayLeaderboard(data) {
     data.forEach((entry) => {
         const li = document.createElement('li');
         const username = entry.profiles?.username || 'Anonymous';
-        const textNode = document.createTextNode(`${username} - ${entry.score}`);
-        li.appendChild(textNode);
+
+        // Create link to player profile
+        const usernameLink = document.createElement('a');
+        usernameLink.href = `/profile.html?id=${entry.user_id}`;
+        usernameLink.className = 'player-link';
+        usernameLink.textContent = username;
+
+        li.appendChild(usernameLink);
+        li.appendChild(document.createTextNode(` - ${entry.score}`));
 
         if (currentUserId && entry.user_id === currentUserId) {
             li.classList.add('user-score');
