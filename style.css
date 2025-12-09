@@ -1044,7 +1044,7 @@ body.home-page #app-logo {
 /* Stats page container */
 #stats-container {
     text-align: left;
-    max-width: 800px;
+    max-width: 1000px;
 }
 
 #stats-container > h1 {
@@ -1055,7 +1055,7 @@ body.home-page #app-logo {
 
 /* Stats sections */
 .stats-section {
-    margin-bottom: calc(var(--spacing-unit) * 5);
+    margin-bottom: calc(var(--spacing-unit) * 4);
 }
 
 .stats-section h2 {
@@ -1074,14 +1074,25 @@ body.home-page #app-logo {
     margin-top: calc(var(--spacing-unit) * -1);
 }
 
-/* Chart container */
+/* Chart container - rectangular on desktop */
 .chart-container {
     width: 100%;
-    height: 300px;
+    height: 280px;
     background-color: var(--color-secondary-bg);
     border-radius: var(--border-radius);
     padding: calc(var(--spacing-unit) * 2);
     border: 1px solid var(--color-border);
+}
+
+/* Stats grid - clubs and countries side by side on desktop */
+.stats-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: calc(var(--spacing-unit) * 4);
+}
+
+.stats-grid .stats-section {
+    margin-bottom: 0;
 }
 
 /* Stats table (borderless) */
@@ -1147,6 +1158,17 @@ body.home-page #app-logo {
 }
 
 /* Responsive adjustments for stats page */
+@media (max-width: 768px) {
+    .stats-grid {
+        grid-template-columns: 1fr;
+        gap: calc(var(--spacing-unit) * 3);
+    }
+
+    .stats-grid .stats-section {
+        margin-bottom: calc(var(--spacing-unit) * 2);
+    }
+}
+
 @media (max-width: 600px) {
     #stats-container > h1 {
         font-size: 1.6em;
