@@ -682,7 +682,8 @@ button:disabled, .btn:disabled { cursor: not-allowed !important; background-colo
 /* Global Map Page Styles */
 .container.map-page-container {
     text-align: center;
-    max-width: 1200px;
+    max-width: 1200px !important;
+    width: 100%;
 }
 
 .map-page-container h1 {
