@@ -319,11 +319,10 @@ async function loadTopClubs() {
             totalClubsEl.textContent = clubCount || 0;
         }
 
-        // Fetch clubs with their stickers count using a different approach
-        // Get all clubs with country for flag display
+        // Fetch all clubs
         const { data: clubs, error: clubsError } = await supabaseClient
             .from('clubs')
-            .select('id, name, country')
+            .select('id, name')
             .range(0, 9999);
 
         if (clubsError) throw clubsError;
@@ -359,12 +358,10 @@ async function loadTopClubs() {
             }
         });
 
-        // Create club data with sticker counts and flags
+        // Create club data with sticker counts
         const clubsWithCounts = clubs.map(club => ({
             id: club.id,
             name: club.name,
-            country: club.country,
-            flag: countryCodeToFlagEmoji[club.country?.toUpperCase()] || '',
             stickerCount: stickerCountByClub[club.id] || 0
         }));
 
@@ -376,11 +373,10 @@ async function loadTopClubs() {
         // Generate table HTML
         let tableHtml = '<table class="stats-table">';
         topClubs.forEach((club, index) => {
-            const flagHtml = club.flag ? `<span class="flag-emoji">${club.flag}</span> ` : '';
             tableHtml += `
                 <tr>
                     <td class="stats-rank">${index + 1}</td>
-                    <td class="stats-name">${flagHtml}<a href="/catalogue.html?club_id=${club.id}">${club.name}</a></td>
+                    <td class="stats-name"><a href="/catalogue.html?club_id=${club.id}">${club.name}</a></td>
                     <td class="stats-count">${club.stickerCount}</td>
                 </tr>
             `;
