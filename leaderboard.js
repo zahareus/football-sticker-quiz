@@ -21,6 +21,7 @@ if (typeof SharedUtils === 'undefined') {
 let leaderboardListElement;
 let leaderboardTimeFilterButtons;
 let leaderboardDifficultyFilterButtons;
+let leaderboardModeFilterButtons;
 let loadingIndicator;
 let errorMessageElement;
 let loginButton;
@@ -40,6 +41,11 @@ let currentUserProfile = null;
 // Leaderboard State
 let currentLeaderboardTimeframe = 'today';
 let currentLeaderboardDifficulty = 1;
+let currentLeaderboardMode = 'results'; // 'results' or 'players'
+
+// Display settings
+const DISPLAY_LIMIT = 5; // Show top 5 results
+const FETCH_LIMIT = 100; // Fetch more to find user's position
 
 // Initialize page
 function initializeLeaderboardPage() {
@@ -47,6 +53,7 @@ function initializeLeaderboardPage() {
     leaderboardListElement = document.getElementById('leaderboard-list');
     leaderboardTimeFilterButtons = document.querySelectorAll('.leaderboard-time-filter');
     leaderboardDifficultyFilterButtons = document.querySelectorAll('.leaderboard-difficulty-filter');
+    leaderboardModeFilterButtons = document.querySelectorAll('.leaderboard-mode-filter');
     loadingIndicator = document.getElementById('loading-indicator');
     errorMessageElement = document.getElementById('error-message');
 
@@ -65,6 +72,9 @@ function initializeLeaderboardPage() {
     });
     leaderboardDifficultyFilterButtons.forEach(button => {
         button.addEventListener('click', handleDifficultyFilterChange);
+    });
+    leaderboardModeFilterButtons.forEach(button => {
+        button.addEventListener('click', handleModeFilterChange);
     });
 
     // Set up auth and nickname editing
@@ -105,7 +115,7 @@ async function fetchLeaderboardData(timeframe, difficulty) {
         query = query
             .order('score', { ascending: false })
             .order('created_at', { ascending: true })
-            .limit(SharedUtils.CONFIG.LEADERBOARD_LIMIT);
+            .limit(FETCH_LIMIT);
 
         const { data, error } = await query;
 
@@ -140,8 +150,40 @@ function displayLeaderboard(data) {
 
     const currentUserId = currentUser?.id;
 
-    data.forEach((entry) => {
+    // Process data based on mode
+    let processedData = data;
+    if (currentLeaderboardMode === 'players') {
+        // Keep only the best result per player
+        const seenUsers = new Set();
+        processedData = data.filter(entry => {
+            if (seenUsers.has(entry.user_id)) {
+                return false;
+            }
+            seenUsers.add(entry.user_id);
+            return true;
+        });
+    }
+
+    // Find current user's position and entry in the processed data
+    let userPosition = -1;
+    let userEntry = null;
+    if (currentUserId) {
+        for (let i = 0; i < processedData.length; i++) {
+            if (processedData[i].user_id === currentUserId) {
+                userPosition = i + 1; // 1-based position
+                userEntry = processedData[i];
+                break;
+            }
+        }
+    }
+
+    // Get top 5 entries
+    const topEntries = processedData.slice(0, DISPLAY_LIMIT);
+
+    // Display top 5
+    topEntries.forEach((entry, index) => {
         const li = document.createElement('li');
+        li.setAttribute('value', index + 1);
         const username = entry.profiles?.username || 'Anonymous';
         const textNode = document.createTextNode(`${username} - ${entry.score}`);
         li.appendChild(textNode);
@@ -152,6 +194,25 @@ function displayLeaderboard(data) {
 
         leaderboardListElement.appendChild(li);
     });
+
+    // If user is not in top 5 but has a score, show their position
+    if (userPosition > DISPLAY_LIMIT && userEntry) {
+        // Add separator
+        const separatorLi = document.createElement('li');
+        separatorLi.style.listStyle = 'none';
+        separatorLi.style.marginLeft = '-20px';
+        separatorLi.textContent = '...';
+        leaderboardListElement.appendChild(separatorLi);
+
+        // Add user's entry with their actual position
+        const userLi = document.createElement('li');
+        userLi.setAttribute('value', userPosition);
+        const username = userEntry.profiles?.username || 'Anonymous';
+        const textNode = document.createTextNode(`${username} - ${userEntry.score}`);
+        userLi.appendChild(textNode);
+        userLi.classList.add('user-score');
+        leaderboardListElement.appendChild(userLi);
+    }
 }
 
 function updateFilterButtonsUI() {
@@ -164,6 +225,12 @@ function updateFilterButtonsUI() {
     leaderboardDifficultyFilterButtons?.forEach(btn => {
         const btnDifficulty = parseInt(btn.dataset.difficulty, 10);
         const isActive = btnDifficulty === currentLeaderboardDifficulty;
+        btn.classList.toggle('active', isActive);
+        btn.disabled = isActive;
+    });
+
+    leaderboardModeFilterButtons?.forEach(btn => {
+        const isActive = btn.dataset.mode === currentLeaderboardMode;
         btn.classList.toggle('active', isActive);
         btn.disabled = isActive;
     });
@@ -195,6 +262,16 @@ function handleDifficultyFilterChange(event) {
 
     if (newDifficulty && !isNaN(newDifficulty) && newDifficulty !== currentLeaderboardDifficulty) {
         currentLeaderboardDifficulty = newDifficulty;
+        updateLeaderboard();
+    }
+}
+
+function handleModeFilterChange(event) {
+    const button = event.currentTarget;
+    const newMode = button.dataset.mode;
+
+    if (newMode && newMode !== currentLeaderboardMode) {
+        currentLeaderboardMode = newMode;
         updateLeaderboard();
     }
 }
