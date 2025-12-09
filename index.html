@@ -27,14 +27,20 @@
     <meta property="twitter:site" content="@StickerHunting">
     <meta property="twitter:creator" content="@StickerHunting">
 
+    <!-- Critical: Preconnect to all external domains -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preconnect" href="https://rbmeslzlbsolkxnvesqb.supabase.co">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://cdn.jsdelivr.net">
+
+    <!-- Preload critical font weights only -->
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600&display=swap" as="style">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600&display=swap" rel="stylesheet">
 
     <link rel="stylesheet" href="style.css">
 
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-4Y0MJKGDZS"></script>
+    <!-- Analytics - load after page content -->
+    <script defer src="https://www.googletagmanager.com/gtag/js?id=G-4Y0MJKGDZS"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
@@ -79,9 +85,6 @@
             <a href="/quiz.html" class="btn btn-primary btn-large">Play Quiz</a>
             <a href="/catalogue.html" class="btn btn-secondary btn-large">View Catalogue</a>
         </div>
-
-        <p id="home-loading-indicator" style="display: none;">Loading...</p>
-        <p id="home-error-message" style="display: none;"></p>
     </main>
 
     <footer class="app-footer">
@@ -93,6 +96,7 @@
         <p>StickerHunt &copy; 2025</p>
     </footer>
 
+    <!-- Supabase must load first, then shared.js, then page script -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="shared.js"></script>
     <script src="index-script.js"></script>
