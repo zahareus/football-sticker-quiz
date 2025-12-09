@@ -141,35 +141,57 @@ async function loadStickersGrowth() {
     if (!supabaseClient || !chartCanvas) return;
 
     try {
-        // First, get the exact total count
+        // First, get the exact total count of ALL stickers
         const { count: totalCount, error: countError } = await supabaseClient
             .from('stickers')
             .select('*', { count: 'exact', head: true });
 
         if (countError) throw countError;
 
-        // Update total count - ALL stickers
         const totalStickers = totalCount || 0;
         if (totalStickersEl) {
             totalStickersEl.textContent = totalStickers;
         }
 
-        // Fetch all stickers with their found date (use range to get more than 1000)
-        const { data: stickers, error } = await supabaseClient
+        // Get count of stickers WITHOUT dates
+        const { count: nullDateCount, error: nullCountError } = await supabaseClient
             .from('stickers')
-            .select('id, found')
-            .order('found', { ascending: true, nullsFirst: true })
-            .range(0, 9999);
+            .select('*', { count: 'exact', head: true })
+            .is('found', null);
 
-        if (error) throw error;
+        if (nullCountError) throw nullCountError;
 
-        // Separate stickers with and without dates
-        const stickersWithDate = stickers.filter(s => s.found);
-        const stickersWithoutDate = stickers.filter(s => !s.found);
+        const stickersWithoutDateCount = nullDateCount || 0;
 
-        // Find the earliest date in the database
+        // Fetch all stickers WITH dates using pagination
+        let stickersWithDate = [];
+        let offset = 0;
+        const batchSize = 1000;
+
+        while (true) {
+            const { data: batch, error: batchError } = await supabaseClient
+                .from('stickers')
+                .select('id, found')
+                .not('found', 'is', null)
+                .order('found', { ascending: true })
+                .range(offset, offset + batchSize - 1);
+
+            if (batchError) throw batchError;
+
+            if (!batch || batch.length === 0) break;
+
+            stickersWithDate = stickersWithDate.concat(batch);
+            offset += batchSize;
+
+            if (batch.length < batchSize) break;
+        }
+
+        // Sort by date to ensure correct order after pagination
+        stickersWithDate.sort((a, b) => new Date(a.found) - new Date(b.found));
+
+        // Find the earliest date
         let firstDate = null;
-        if (stickersWithDate.length > 0) {
+        if (stickersWithDate && stickersWithDate.length > 0) {
             firstDate = stickersWithDate[0].found.split('T')[0];
         } else {
             // If no stickers have dates, use today
@@ -177,21 +199,20 @@ async function loadStickersGrowth() {
         }
 
         // Group stickers by date and calculate cumulative count
-        // Start with stickers without date as the initial count at firstDate
         const dateCountMap = new Map();
-        let cumulative = stickersWithoutDate.length;
 
-        // Set initial point - all stickers without date
-        if (cumulative > 0) {
-            dateCountMap.set(firstDate, cumulative);
-        }
+        // Start with stickers without date at the first date
+        let cumulative = stickersWithoutDateCount;
+        dateCountMap.set(firstDate, cumulative);
 
         // Add stickers with dates cumulatively
-        stickersWithDate.forEach(sticker => {
-            const dateStr = sticker.found.split('T')[0];
-            cumulative++;
-            dateCountMap.set(dateStr, cumulative);
-        });
+        if (stickersWithDate) {
+            stickersWithDate.forEach(sticker => {
+                const dateStr = sticker.found.split('T')[0];
+                cumulative++;
+                dateCountMap.set(dateStr, cumulative);
+            });
+        }
 
         // Convert to arrays for Chart.js
         const labels = Array.from(dateCountMap.keys());
@@ -287,39 +308,63 @@ async function loadTopClubs() {
     if (!supabaseClient || !container) return;
 
     try {
-        // Fetch all clubs (use range to get more than 1000)
+        // Get exact total count of clubs
+        const { count: clubCount, error: clubCountError } = await supabaseClient
+            .from('clubs')
+            .select('*', { count: 'exact', head: true });
+
+        if (clubCountError) throw clubCountError;
+
+        if (totalClubsEl) {
+            totalClubsEl.textContent = clubCount || 0;
+        }
+
+        // Fetch clubs with their stickers count using a different approach
+        // Get all clubs with country for flag display
         const { data: clubs, error: clubsError } = await supabaseClient
             .from('clubs')
-            .select('id, name')
+            .select('id, name, country')
             .range(0, 9999);
 
         if (clubsError) throw clubsError;
 
-        // Update total count
-        if (totalClubsEl) {
-            totalClubsEl.textContent = clubs.length;
+        // Get all stickers and count by club_id
+        // Use multiple ranges if needed to get all stickers
+        let allStickers = [];
+        let offset = 0;
+        const batchSize = 1000;
+
+        while (true) {
+            const { data: batch, error: batchError } = await supabaseClient
+                .from('stickers')
+                .select('club_id')
+                .range(offset, offset + batchSize - 1);
+
+            if (batchError) throw batchError;
+
+            if (!batch || batch.length === 0) break;
+
+            allStickers = allStickers.concat(batch);
+            offset += batchSize;
+
+            // Safety check - if we got less than batchSize, we're done
+            if (batch.length < batchSize) break;
         }
-
-        // Fetch all stickers to count per club (use range to get more than 1000)
-        const { data: stickers, error: stickersError } = await supabaseClient
-            .from('stickers')
-            .select('club_id')
-            .range(0, 9999);
-
-        if (stickersError) throw stickersError;
 
         // Count stickers per club
         const stickerCountByClub = {};
-        stickers.forEach(sticker => {
+        allStickers.forEach(sticker => {
             if (sticker.club_id) {
                 stickerCountByClub[sticker.club_id] = (stickerCountByClub[sticker.club_id] || 0) + 1;
             }
         });
 
-        // Create club data with sticker counts
+        // Create club data with sticker counts and flags
         const clubsWithCounts = clubs.map(club => ({
             id: club.id,
             name: club.name,
+            country: club.country,
+            flag: countryCodeToFlagEmoji[club.country?.toUpperCase()] || '',
             stickerCount: stickerCountByClub[club.id] || 0
         }));
 
@@ -331,10 +376,11 @@ async function loadTopClubs() {
         // Generate table HTML
         let tableHtml = '<table class="stats-table">';
         topClubs.forEach((club, index) => {
+            const flagHtml = club.flag ? `<span class="flag-emoji">${club.flag}</span> ` : '';
             tableHtml += `
                 <tr>
                     <td class="stats-rank">${index + 1}</td>
-                    <td class="stats-name"><a href="/catalogue.html?club_id=${club.id}">${club.name}</a></td>
+                    <td class="stats-name">${flagHtml}<a href="/catalogue.html?club_id=${club.id}">${club.name}</a></td>
                     <td class="stats-count">${club.stickerCount}</td>
                 </tr>
             `;
