@@ -398,9 +398,10 @@ async function loadContinentsAndCountries() {
         // Add statistics block
         let statsHtml = `
             <div class="catalogue-stats">
-                <p><strong>Countries:</strong> ${totalCountriesInCatalogue}</p>
-                <p><strong>Clubs:</strong> ${clubs.length}</p>
                 <p><strong>Stickers:</strong> ${totalStickers}</p>
+                <p><strong>Clubs:</strong> ${clubs.length}</p>
+                <p><strong>Countries:</strong> ${totalCountriesInCatalogue}</p>
+                <a href="/stickerstat.html" class="stats-more-link">View more stats</a>
             </div>
             <div class="catalogue-map-btn-container">
                 <a href="/map.html" class="btn btn-secondary">View Full Map</a>
