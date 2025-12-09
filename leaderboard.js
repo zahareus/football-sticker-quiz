@@ -197,7 +197,7 @@ function displayLeaderboard(data) {
 
     // If user is not in top 5 but has a score, show their position
     if (userPosition > DISPLAY_LIMIT && userEntry) {
-        // Add separator (not as list item to avoid numbering)
+        // Add separator
         const separatorDiv = document.createElement('div');
         separatorDiv.style.textAlign = 'left';
         separatorDiv.style.paddingLeft = '0';
@@ -205,14 +205,12 @@ function displayLeaderboard(data) {
         separatorDiv.textContent = '...';
         leaderboardListElement.appendChild(separatorDiv);
 
-        // Add user's entry with their actual position
-        const userLi = document.createElement('li');
-        userLi.setAttribute('value', userPosition);
+        // Add user's entry with their actual position (as div to show correct position number)
+        const userDiv = document.createElement('div');
+        userDiv.classList.add('user-score');
         const username = userEntry.profiles?.username || 'Anonymous';
-        const textNode = document.createTextNode(`${username} - ${userEntry.score}`);
-        userLi.appendChild(textNode);
-        userLi.classList.add('user-score');
-        leaderboardListElement.appendChild(userLi);
+        userDiv.textContent = `${userPosition}. ${username} - ${userEntry.score}`;
+        leaderboardListElement.appendChild(userDiv);
     }
 }
 
