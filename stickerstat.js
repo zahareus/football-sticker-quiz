@@ -141,19 +141,27 @@ async function loadStickersGrowth() {
     if (!supabaseClient || !chartCanvas) return;
 
     try {
-        // Fetch all stickers with their found date
-        const { data: stickers, error } = await supabaseClient
+        // First, get the exact total count
+        const { count: totalCount, error: countError } = await supabaseClient
             .from('stickers')
-            .select('id, found')
-            .order('found', { ascending: true });
+            .select('*', { count: 'exact', head: true });
 
-        if (error) throw error;
+        if (countError) throw countError;
 
         // Update total count - ALL stickers
-        const totalStickers = stickers.length;
+        const totalStickers = totalCount || 0;
         if (totalStickersEl) {
             totalStickersEl.textContent = totalStickers;
         }
+
+        // Fetch all stickers with their found date (use range to get more than 1000)
+        const { data: stickers, error } = await supabaseClient
+            .from('stickers')
+            .select('id, found')
+            .order('found', { ascending: true, nullsFirst: true })
+            .range(0, 9999);
+
+        if (error) throw error;
 
         // Separate stickers with and without dates
         const stickersWithDate = stickers.filter(s => s.found);
@@ -279,10 +287,11 @@ async function loadTopClubs() {
     if (!supabaseClient || !container) return;
 
     try {
-        // Fetch all clubs
+        // Fetch all clubs (use range to get more than 1000)
         const { data: clubs, error: clubsError } = await supabaseClient
             .from('clubs')
-            .select('id, name');
+            .select('id, name')
+            .range(0, 9999);
 
         if (clubsError) throw clubsError;
 
@@ -291,10 +300,11 @@ async function loadTopClubs() {
             totalClubsEl.textContent = clubs.length;
         }
 
-        // Fetch all stickers to count per club
+        // Fetch all stickers to count per club (use range to get more than 1000)
         const { data: stickers, error: stickersError } = await supabaseClient
             .from('stickers')
-            .select('club_id');
+            .select('club_id')
+            .range(0, 9999);
 
         if (stickersError) throw stickersError;
 
@@ -348,10 +358,11 @@ async function loadTopCountries() {
     if (!supabaseClient || !container) return;
 
     try {
-        // Fetch all clubs with their countries
+        // Fetch all clubs with their countries (use range to get more than 1000)
         const { data: clubs, error } = await supabaseClient
             .from('clubs')
-            .select('country');
+            .select('country')
+            .range(0, 9999);
 
         if (error) throw error;
 
