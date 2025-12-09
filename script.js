@@ -100,6 +100,7 @@ let landingPageElement, landingLoginButton, landingLeaderboardButton, landingPla
 let introTextElement;
 let personalRankContainerElement, timeframeRanksContainerElement;
 let playerStatsElement, playersTotalElement, playersTodayElement;
+let failedStickerSectionElement, failedStickerImageElement, failedStickerNameElement;
 let leaderboardTimeFilterButtons, leaderboardDifficultyFilterButtons;
 
 // Flag to track if event listeners have been added
@@ -144,6 +145,9 @@ function initializeDOMElements(isRetry = false) {
     playerStatsElement = document.getElementById('player-stats-element');
     playersTotalElement = document.getElementById('players-total');
     playersTodayElement = document.getElementById('players-today');
+    failedStickerSectionElement = document.getElementById('failed-sticker-section');
+    failedStickerImageElement = document.getElementById('failed-sticker-image');
+    failedStickerNameElement = document.getElementById('failed-sticker-name');
 
     const elements = {
         gameAreaElement, stickerImageElement, optionsContainerElement, timeLeftElement,
@@ -703,7 +707,8 @@ function startTimer() {
 
         if (timeLeftElement) {
             try {
-                timeLeftElement.textContent = timeLeft.toString();
+                // Don't show negative values - show 0 as minimum
+                timeLeftElement.textContent = Math.max(0, timeLeft).toString();
 
                 if (timeLeft <= 3 && timeLeft >= 0) {
                     timeLeftElement.classList.add('low-time');
@@ -827,6 +832,9 @@ async function startGame() {
         if (msg) msg.remove();
         resultAreaElement.style.display = 'none';
     }
+
+    // Hide failed sticker section from previous game
+    if (failedStickerSectionElement) failedStickerSectionElement.style.display = 'none';
 
     if (difficultySelectionElement) difficultySelectionElement.style.display = 'none';
     if (introTextElement) introTextElement.style.display = 'none';
@@ -1118,6 +1126,15 @@ function endGame() {
     } else {
         if (personalRankContainerElement) personalRankContainerElement.style.display = 'none';
         if (timeframeRanksContainerElement) timeframeRanksContainerElement.style.display = 'none';
+    }
+
+    // Display the failed sticker (the one the player didn't guess correctly)
+    if (currentQuestionData && failedStickerSectionElement && failedStickerImageElement && failedStickerNameElement) {
+        failedStickerImageElement.src = currentQuestionData.imageUrl;
+        failedStickerNameElement.textContent = currentQuestionData.correctAnswer;
+        failedStickerSectionElement.style.display = 'flex';
+    } else if (failedStickerSectionElement) {
+        failedStickerSectionElement.style.display = 'none';
     }
 
     saveScore();
