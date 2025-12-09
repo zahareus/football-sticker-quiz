@@ -1132,8 +1132,11 @@ function initializeStickerMap(latitude, longitude, clubName, currentStickerId, n
 
                 nearbyMarker.bindPopup(popupContent);
 
-                // Show popup on hover
+                // Show popup on hover (desktop) and click (mobile)
                 nearbyMarker.on('mouseover', function() {
+                    this.openPopup();
+                });
+                nearbyMarker.on('click', function() {
                     this.openPopup();
                 });
             }
