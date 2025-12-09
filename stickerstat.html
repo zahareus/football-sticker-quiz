@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Statistics - StickerHunt</title>
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Explore detailed statistics about our football sticker database. View sticker growth trends, top clubs by sticker count, and countries with most clubs.">
+    <meta name="keywords" content="football stickers, statistics, panini, sticker database, clubs, countries">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://stickerhunt.club/stickerstat.html">
+    <meta property="og:title" content="Statistics - StickerHunt">
+    <meta property="og:description" content="Explore detailed statistics about our football sticker database. View sticker growth trends, top clubs by sticker count, and countries with most clubs.">
+    <meta property="og:image" content="https://stickerhunt.club/metash.png">
+    <meta property="og:site_name" content="StickerHunt">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://stickerhunt.club/stickerstat.html">
+    <meta property="twitter:title" content="Statistics - StickerHunt">
+    <meta property="twitter:description" content="Explore detailed statistics about our football sticker database. View sticker growth trends, top clubs by sticker count, and countries with most clubs.">
+    <meta property="twitter:image" content="https://stickerhunt.club/metash.png">
+    <meta property="twitter:site" content="@StickerHunting">
+    <meta property="twitter:creator" content="@StickerHunting">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="style.css">
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-4Y0MJKGDZS"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-4Y0MJKGDZS');
+    </script>
+</head>
+<body>
+    <header class="app-header">
+        <div class="logo-container">
+           <a href="/index.html"><img src="/logo.png" alt="StickerHunt Logo" id="app-logo"></a>
+        </div>
+        <div id="auth-section">
+             <button id="login-button" class="btn btn-primary google-login" style="display: none;">
+                 <span>Sign in with Google</span>
+             </button>
+             <div id="user-status" style="display: none;">
+                 <strong id="user-nickname" title="Click to edit nickname">Loading...</strong>
+                 <button id="logout-button" class="btn-link">Logout</button>
+                 <form id="edit-nickname-form" style="display: none;">
+                     <input type="text" id="nickname-input" placeholder="Enter new nickname" required minlength="3" maxlength="25" size="15">
+                     <button type="submit" class="btn btn-primary">Save</button>
+                     <button type="button" id="cancel-edit-nickname-button" class="btn btn-secondary">Cancel</button>
+                 </form>
+             </div>
+         </div>
+    </header>
+
+    <main class="container" id="stats-container">
+        <h1>Statistics</h1>
+
+        <section class="stats-section" id="stickers-section">
+            <h2>Stickers (<span id="total-stickers-count">0</span>)</h2>
+            <div class="chart-container">
+                <canvas id="stickers-chart"></canvas>
+            </div>
+        </section>
+
+        <section class="stats-section" id="clubs-section">
+            <h2>Clubs (<span id="total-clubs-count">0</span>)</h2>
+            <p class="stats-section-subtitle">Top 20 clubs by number of stickers</p>
+            <div id="clubs-table-container">
+                <p>Loading...</p>
+            </div>
+        </section>
+
+        <section class="stats-section" id="countries-section">
+            <h2>Countries (<span id="total-countries-count">0</span>)</h2>
+            <p class="stats-section-subtitle">Top 20 countries by number of clubs</p>
+            <div id="countries-table-container">
+                <p>Loading...</p>
+            </div>
+        </section>
+
+        <div class="home-actions stats-actions">
+            <a href="/quiz.html" class="btn btn-primary btn-large">Play Quiz</a>
+            <a href="/catalogue.html" class="btn btn-secondary btn-large">View Catalogue</a>
+        </div>
+    </main>
+
+    <footer class="app-footer">
+        <p>
+            <a href="/about.html">About</a> |
+            <a href="/terms.html">Terms of Service</a> |
+            <a href="/privacy.html">Privacy Policy</a>
+        </p>
+        <p>StickerHunt &copy; 2025</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+    <script src="shared.js"></script>
+    <script src="stickerstat.js"></script>
+</body>
+</html>
