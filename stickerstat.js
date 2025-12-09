@@ -149,21 +149,40 @@ async function loadStickersGrowth() {
 
         if (error) throw error;
 
-        // Update total count
+        // Update total count - ALL stickers
+        const totalStickers = stickers.length;
         if (totalStickersEl) {
-            totalStickersEl.textContent = stickers.length;
+            totalStickersEl.textContent = totalStickers;
+        }
+
+        // Separate stickers with and without dates
+        const stickersWithDate = stickers.filter(s => s.found);
+        const stickersWithoutDate = stickers.filter(s => !s.found);
+
+        // Find the earliest date in the database
+        let firstDate = null;
+        if (stickersWithDate.length > 0) {
+            firstDate = stickersWithDate[0].found.split('T')[0];
+        } else {
+            // If no stickers have dates, use today
+            firstDate = new Date().toISOString().split('T')[0];
         }
 
         // Group stickers by date and calculate cumulative count
+        // Start with stickers without date as the initial count at firstDate
         const dateCountMap = new Map();
-        let cumulative = 0;
+        let cumulative = stickersWithoutDate.length;
 
-        stickers.forEach(sticker => {
-            if (sticker.found) {
-                const dateStr = sticker.found.split('T')[0]; // Get just the date part
-                cumulative++;
-                dateCountMap.set(dateStr, cumulative);
-            }
+        // Set initial point - all stickers without date
+        if (cumulative > 0) {
+            dateCountMap.set(firstDate, cumulative);
+        }
+
+        // Add stickers with dates cumulatively
+        stickersWithDate.forEach(sticker => {
+            const dateStr = sticker.found.split('T')[0];
+            cumulative++;
+            dateCountMap.set(dateStr, cumulative);
         });
 
         // Convert to arrays for Chart.js
