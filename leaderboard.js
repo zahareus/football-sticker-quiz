@@ -185,8 +185,15 @@ function displayLeaderboard(data) {
         const li = document.createElement('li');
         li.setAttribute('value', index + 1);
         const username = entry.profiles?.username || 'Anonymous';
-        const textNode = document.createTextNode(`${username} - ${entry.score}`);
-        li.appendChild(textNode);
+
+        // Create link to player profile
+        const usernameLink = document.createElement('a');
+        usernameLink.href = `/profile.html?id=${entry.user_id}`;
+        usernameLink.className = 'player-link';
+        usernameLink.textContent = username;
+
+        li.appendChild(usernameLink);
+        li.appendChild(document.createTextNode(` - ${entry.score}`));
 
         if (currentUserId && entry.user_id === currentUserId) {
             li.classList.add('user-score');
@@ -226,7 +233,15 @@ function displayLeaderboard(data) {
         positionSpan.textContent = `${userPosition}.`;
         const nameSpan = document.createElement('span');
         const username = userEntry.profiles?.username || 'Anonymous';
-        nameSpan.textContent = `${username} - ${userEntry.score}`;
+
+        // Create link to player profile
+        const userLink = document.createElement('a');
+        userLink.href = `/profile.html?id=${userEntry.user_id}`;
+        userLink.className = 'player-link';
+        userLink.textContent = username;
+
+        nameSpan.appendChild(userLink);
+        nameSpan.appendChild(document.createTextNode(` - ${userEntry.score}`));
         userDiv.appendChild(positionSpan);
         userDiv.appendChild(nameSpan);
         leaderboardListElement.appendChild(userDiv);
