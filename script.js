@@ -204,9 +204,7 @@ function initializeDOMElements(isRetry = false) {
         leaderboardTimeFilterButtons.forEach(button => button.addEventListener('click', handleTimeFilterChange));
         leaderboardDifficultyFilterButtons.forEach(button => button.addEventListener('click', handleDifficultyFilterChange));
 
-        if (userNicknameElement) {
-            userNicknameElement.addEventListener('click', showNicknameEditForm);
-        }
+        // userNicknameElement href is updated in updateAuthStateUI
 
         editNicknameForm.addEventListener('submit', handleNicknameSave);
         cancelEditNicknameButton.addEventListener('click', hideNicknameEditForm);
@@ -312,6 +310,7 @@ function updateAuthStateUI(user) {
         }
 
         userNicknameElement.textContent = SharedUtils.truncateString(displayName);
+        userNicknameElement.href = `/profile.html?id=${user.id}`;
         userStatusElement.style.cssText = 'display: flex !important;';
         loginButton.style.cssText = 'display: none !important;';
 

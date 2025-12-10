@@ -175,12 +175,21 @@ function displayProfile(profileData, totalSessions, bestScores) {
 
     const username = profileData.username || 'Anonymous';
     const registrationDate = formatDate(profileData.created_at || profileData.updated_at);
+    const isOwnProfile = currentUser && viewedUserId === currentUser.id;
 
     // Update page title
     document.title = `${username} - StickerHunt`;
 
+    // Build username display with ball emoji for own profile
+    let usernameHtml;
+    if (isOwnProfile) {
+        usernameHtml = `<h1 class="profile-username">⚽ ${escapeHtml(username)} <a href="#" class="profile-edit-link" id="profile-edit-nickname">edit</a></h1>`;
+    } else {
+        usernameHtml = `<h1 class="profile-username">${escapeHtml(username)}</h1>`;
+    }
+
     let html = `
-        <h1 class="profile-username">${escapeHtml(username)}</h1>
+        ${usernameHtml}
 
         <div class="profile-info">
             <p class="profile-stat">
@@ -223,6 +232,17 @@ function displayProfile(profileData, totalSessions, bestScores) {
     `;
 
     profileContentElement.innerHTML = html;
+
+    // Add click handler for edit link if viewing own profile
+    if (isOwnProfile) {
+        const editLink = document.getElementById('profile-edit-nickname');
+        if (editLink) {
+            editLink.addEventListener('click', (e) => {
+                e.preventDefault();
+                showNicknameEditForm();
+            });
+        }
+    }
 }
 
 function formatDate(dateString) {
@@ -292,6 +312,7 @@ function updateAuthUI(user) {
         // User is logged in
         const displayName = currentUserProfile?.username || 'Loading...';
         userNicknameElement.textContent = SharedUtils.truncateString(displayName);
+        userNicknameElement.href = `/profile.html?id=${user.id}`;
         loginButton.style.display = 'none';
         userStatusElement.style.display = 'flex';
     } else {
@@ -424,14 +445,8 @@ function setupAuthStateListener() {
 // ========== NICKNAME EDITING FUNCTIONS ==========
 
 function setupNicknameEditing() {
-    if (!userNicknameElement) {
-        return;
-    }
-
-    // Add click listener for nickname
-    userNicknameElement.addEventListener('click', showNicknameEditForm);
-
-    // Add form handlers
+    // userNicknameElement href is updated in updateAuthUI
+    // Form handlers for in-profile editing
     if (editNicknameForm) {
         editNicknameForm.addEventListener('submit', handleNicknameSave);
     }

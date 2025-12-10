@@ -88,7 +88,7 @@ button:disabled, .btn:disabled { cursor: not-allowed !important; background-colo
 /* --- Authentication Section --- */
 #auth-section { font-size: 0.9em; text-align: right; display: flex; align-items: center; gap: var(--spacing-unit); flex-wrap: wrap; }
 #user-status { display: flex; align-items: center; gap: calc(var(--spacing-unit) * 1.5); flex-wrap: nowrap; }
-#user-status strong { font-weight: 400; cursor: pointer; color: var(--color-info-text); text-decoration: none; display: inline-block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 120px; vertical-align: middle; }
+#user-nickname { font-weight: 400; cursor: pointer; color: var(--color-info-text); text-decoration: none; display: inline-block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 120px; vertical-align: middle; }
 #user-status > *:not(:last-child)::after { content: '|'; margin-left: calc(var(--spacing-unit) * 1.5); color: var(--color-border); font-weight: 300; }
 #edit-nickname-form { display: none; position: absolute; right: calc(var(--spacing-unit) * 2); top: calc(var(--header-height) + var(--spacing-unit)); background-color: var(--color-background); padding: calc(var(--spacing-unit) * 2); border: 1px solid var(--color-border); border-radius: var(--border-radius); box-shadow: 0 4px 10px rgba(0,0,0,0.1); z-index: 10; min-width: 300px; text-align: left; }
 #edit-nickname-form input { margin-bottom: var(--spacing-unit); display: block; width: 100%; }
@@ -248,7 +248,7 @@ button:disabled, .btn:disabled { cursor: not-allowed !important; background-colo
     .btn-primary:hover:not(:disabled) { background-color: var(--color-accent-darker); border-color: var(--color-accent-darker); box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15); }
     .btn-secondary:hover:not(:disabled) { background-color: var(--color-secondary-bg-hover); }
     .btn-link:hover { color: var(--color-link); text-decoration: underline; }
-    #user-status strong:hover { color: var(--color-link); text-decoration: underline; }
+    #user-nickname:hover { color: var(--color-link); text-decoration: underline; }
     .btn-icon:hover:not(:disabled) { opacity: 1; }
     .btn-filter:hover:not(:disabled) { background-color: var(--color-secondary-bg-hover); opacity: 1; }
     #difficulty-selection .difficulty-option button.difficulty-button:hover:not(:disabled) { background-color: var(--color-accent); border-color: var(--color-accent); color: var(--color-accent-text); }
@@ -784,7 +784,7 @@ button:disabled, .btn:disabled { cursor: not-allowed !important; background-colo
     #auth-section { order: 2; width: 100%; justify-content: center; }
     #user-status { width: auto; justify-content: center; flex-wrap: wrap; }
     #user-status > * { font-size: 0.9em; margin: 0 4px; }
-    #user-status strong { max-width: 150px; }
+    #user-nickname { max-width: 150px; }
     .logo-container { order: 1; }
     body:not(.logged-out) #app-logo { margin-left: auto; margin-right: auto; margin-bottom: var(--spacing-unit); height: calc(var(--header-height) * 0.65); width: auto; max-height: 40px; }
     #edit-nickname-form { position: static; width: 100%; margin-top: var(--spacing-unit); box-shadow: none; border: 1px solid var(--color-border); background-color: var(--color-secondary-bg); }
@@ -1218,8 +1218,19 @@ body.home-page #app-logo {
     font-size: 2em;
     font-weight: 700;
     color: var(--color-text);
-    margin-bottom: calc(var(--spacing-unit) * 3);
-    text-align: center;
+}
+
+.profile-edit-link {
+    font-size: 0.4em;
+    font-weight: 400;
+    color: var(--color-link);
+    text-decoration: none;
+    margin-left: 0.5em;
+    vertical-align: middle;
+}
+
+.profile-edit-link:hover {
+    text-decoration: underline;
 }
 
 .profile-info {
