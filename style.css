@@ -1311,6 +1311,59 @@ body.home-page #app-logo {
     color: var(--color-info-text);
 }
 
+/* Profile Last Games */
+.profile-last-games {
+    margin-top: calc(var(--spacing-unit) * 3);
+    margin-bottom: calc(var(--spacing-unit) * 3);
+}
+
+.profile-last-games h2 {
+    font-size: 1.5em;
+    font-weight: 600;
+    color: var(--color-text);
+    margin-bottom: calc(var(--spacing-unit) * 2);
+    text-align: center;
+}
+
+.last-games-list {
+    background-color: var(--color-secondary-bg);
+    border-radius: var(--border-radius);
+    border: 1px solid var(--color-border);
+    overflow: hidden;
+}
+
+.last-game-item {
+    display: grid;
+    grid-template-columns: 1fr 80px 60px;
+    gap: calc(var(--spacing-unit) * 2);
+    padding: calc(var(--spacing-unit) * 1.5) calc(var(--spacing-unit) * 2);
+    border-bottom: 1px solid var(--color-border);
+    align-items: center;
+}
+
+.last-game-item:last-child {
+    border-bottom: none;
+}
+
+.last-game-date {
+    font-size: 0.9em;
+    color: var(--color-info-text);
+}
+
+.last-game-difficulty {
+    font-size: 0.85em;
+    font-weight: 500;
+    color: var(--color-text);
+    text-align: center;
+}
+
+.last-game-score {
+    font-size: 1em;
+    font-weight: 600;
+    color: var(--color-accent-darker);
+    text-align: right;
+}
+
 /* Leaderboard player links */
 #leaderboard-list .player-link {
     color: inherit;
