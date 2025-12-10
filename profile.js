@@ -161,8 +161,18 @@ async function loadAndDisplayProfile(profileData) {
             }
         }
 
+        // Get last 20 games for own profile (sorted by date descending)
+        let lastGames = [];
+        const isOwnProfile = currentUser && viewedUserId === currentUser.id;
+        if (isOwnProfile && scoresData) {
+            // Sort by date descending and take first 20
+            lastGames = [...scoresData]
+                .sort((a, b) => new Date(b.created_at) - new Date(a.created_at))
+                .slice(0, 20);
+        }
+
         // Display profile
-        displayProfile(profileData, totalSessions, bestScores);
+        displayProfile(profileData, totalSessions, bestScores, lastGames);
 
     } catch (error) {
         console.error('Error loading scores:', error);
@@ -170,7 +180,7 @@ async function loadAndDisplayProfile(profileData) {
     }
 }
 
-function displayProfile(profileData, totalSessions, bestScores) {
+function displayProfile(profileData, totalSessions, bestScores, lastGames = []) {
     if (!profileContentElement) return;
 
     const username = profileData.username || 'Anonymous';
@@ -224,7 +234,35 @@ function displayProfile(profileData, totalSessions, bestScores) {
     html += `
             </div>
         </div>
+    `;
 
+    // Add last games section for own profile
+    if (isOwnProfile && lastGames.length > 0) {
+        html += `
+        <div class="profile-last-games">
+            <h2>Your Last Games</h2>
+            <div class="last-games-list">
+        `;
+
+        for (const game of lastGames) {
+            const gameDate = formatDate(game.created_at);
+            const diffLabel = DIFFICULTY_LABELS[game.difficulty] || 'Unknown';
+            html += `
+                <div class="last-game-item">
+                    <span class="last-game-date">${gameDate}</span>
+                    <span class="last-game-difficulty">${diffLabel}</span>
+                    <span class="last-game-score">${game.score}</span>
+                </div>
+            `;
+        }
+
+        html += `
+            </div>
+        </div>
+        `;
+    }
+
+    html += `
         <div class="home-actions" style="margin-top: 40px;">
             <a href="/quiz.html" class="btn btn-primary btn-large">Play Quiz</a>
             <a href="/leaderboard.html" class="btn btn-secondary btn-large">View Leaderboard</a>
