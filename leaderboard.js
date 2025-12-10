@@ -359,6 +359,7 @@ function updateAuthUI(user) {
         // User is logged in
         const displayName = currentUserProfile?.username || 'Loading...';
         userNicknameElement.textContent = SharedUtils.truncateString(displayName);
+        userNicknameElement.href = `/profile.html?id=${user.id}`;
         loginButton.style.display = 'none';
         userStatusElement.style.display = 'flex';
 
@@ -494,14 +495,8 @@ function setupAuthStateListener() {
 // ========== NICKNAME EDITING FUNCTIONS ==========
 
 function setupNicknameEditing() {
-    if (!userNicknameElement) {
-        return;
-    }
-
-    // Add click listener for nickname
-    userNicknameElement.addEventListener('click', showNicknameEditForm);
-
-    // Add form handlers
+    // userNicknameElement href is updated in updateAuthUI
+    // Form handlers are only needed for profile page edit functionality
     if (editNicknameForm) {
         editNicknameForm.addEventListener('submit', handleNicknameSave);
     }
