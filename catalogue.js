@@ -468,7 +468,7 @@ async function loadCountryDetails(countryCode) {
             // Update page title with country name
             const countryInfo = countryCodeToDetails_Generic[countryCode];
             const countryDisplayName = countryInfo ? countryInfo.name : countryCode;
-            document.title = `${countryDisplayName} Clubs - Sticker Catalogue`;
+            document.title = `${countryDisplayName} - Sticker Catalogue`;
 
             // Get all club IDs to fetch sticker counts in one query
             const clubIds = clubsInCountry.map(club => club.id);
@@ -542,7 +542,7 @@ async function loadClubDetails(clubId) {
             const countryDisplayName = countryInfo ? countryInfo.name : clubData.country;
 
             if (mainHeading) mainHeading.textContent = `${clubData.name} - Sticker Gallery`;
-            document.title = `${clubData.name} Sticker Gallery - Sticker Catalogue`;
+            document.title = `${clubData.name} - ${countryDisplayName} - Sticker Catalogue`;
 
             // Update meta keywords from media field
             if (clubData.media) {
@@ -666,7 +666,7 @@ async function loadStickerDetails(stickerId) {
                     countryDisplayNameForBreadcrumb = countryDetail ? countryDetail.name : sticker.clubs.country;
                 }
                 if (mainHeading) mainHeading.textContent = `Sticker #${sticker.id} - ${clubName}`;
-                document.title = `Sticker #${sticker.id} ${clubName} - Sticker Catalogue`;
+                document.title = `Sticker #${sticker.id} - ${clubName} - ${countryDisplayNameForBreadcrumb} - Sticker Catalogue`;
 
                 // Update meta keywords from club media field
                 if (sticker.clubs && sticker.clubs.media) {
