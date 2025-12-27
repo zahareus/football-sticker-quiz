@@ -184,7 +184,8 @@ button:disabled, .btn:disabled { cursor: not-allowed !important; background-colo
     margin: 0 auto;
     justify-content: center;
 }
-.options-group button {
+.options-group button,
+.options-group a.btn {
     /* Fixed dimensions matching sticker container width */
     width: 300px; /* Same as #sticker-container */
     height: 68px;
@@ -195,6 +196,7 @@ button:disabled, .btn:disabled { cursor: not-allowed !important; background-colo
     color: var(--color-text);
     font-weight: 400;
     font-size: 1em;
+    text-decoration: none;
     padding: calc(var(--spacing-unit) * 1) calc(var(--spacing-unit) * 1.5);
 
     /* Text layout */
@@ -299,11 +301,11 @@ body.quiz-result .result-right-panel {
     text-align: center;
 }
 
-/* Game Over text with red color and animation */
+/* Game Over text - black and bold */
 #game-over-text {
     font-size: 1.3em;
     font-weight: 700;
-    color: var(--color-error);
+    color: var(--color-text);
     margin: 0;
 }
 
@@ -393,7 +395,8 @@ body.quiz-result .result-right-panel {
     .btn-icon:hover:not(:disabled) { opacity: 1; }
     .btn-filter:hover:not(:disabled) { background-color: var(--color-secondary-bg-hover); opacity: 1; }
     #difficulty-selection .difficulty-option button.difficulty-button:hover:not(:disabled) { background-color: var(--color-accent); border-color: var(--color-accent); color: var(--color-accent-text); }
-    .options-group button:hover:not(:disabled) { background-color: var(--color-accent); border-color: var(--color-accent); color: var(--color-accent-text); }
+    .options-group button:hover:not(:disabled),
+    .options-group a.btn:hover { background-color: var(--color-accent); border-color: var(--color-accent); color: var(--color-accent-text); }
     #leaderboard-list li:hover { background-color: var(--color-secondary-bg-hover); }
     .country-list li a:hover { color: var(--color-link); text-decoration: underline; } /* Catalog links match footer style */
     .club-list li a:hover,
@@ -997,7 +1000,8 @@ body.quiz-result .result-right-panel {
         gap: var(--spacing-unit);
         margin-bottom: var(--spacing-unit);
     }
-    .options-group button {
+    .options-group button,
+    .options-group a.btn {
         width: 220px; /* Same as mobile #sticker-container */
         height: 60px;
         font-size: 0.9em;
