@@ -268,30 +268,43 @@ button:disabled, .btn:disabled { cursor: not-allowed !important; background-colo
 
 /* --- Result Panel (inside game-area, sticker stays in place) --- */
 
-/* Result right panel - same positioning as game-right-panel */
-.result-right-panel {
-    display: none; /* Hidden by default, shown when game ends */
+/* Hide game panel and show result panel when quiz is over */
+body.quiz-result .game-right-panel {
+    display: none !important;
+}
+
+body.quiz-result .result-right-panel {
+    display: flex !important;
     flex-direction: column;
     align-items: center;
     gap: calc(var(--spacing-unit) * 2);
 }
 
-/* When visible, result panel uses flex */
-.result-right-panel[style*="flex"] {
-    display: flex !important;
+/* Result right panel - same positioning as game-right-panel */
+.result-right-panel {
+    display: none;
 }
 
-/* Result info section */
+/* Result info replaces timer/score section */
 .result-info {
+    display: flex;
+    justify-content: space-around;
+    align-items: baseline;
+    margin-top: calc(var(--spacing-unit) * 3);
+    max-width: 300px;
+    margin-left: auto;
+    margin-right: auto;
+    gap: calc(var(--spacing-unit) * 4);
+    flex-direction: column;
     text-align: center;
 }
 
 /* Game Over text with red color and animation */
 #game-over-text {
-    font-size: 2em;
+    font-size: 1.3em;
     font-weight: 700;
     color: var(--color-error);
-    margin-bottom: calc(var(--spacing-unit) * 0.5);
+    margin: 0;
 }
 
 #game-over-text.game-over-animated {
@@ -317,28 +330,14 @@ button:disabled, .btn:disabled { cursor: not-allowed !important; background-colo
     color: var(--color-accent-darker);
 }
 
-/* Result buttons */
-.result-buttons {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: calc(var(--spacing-unit) * 1.5);
-    width: 100%;
-    max-width: 300px;
-}
-
-.result-buttons .btn {
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-decoration: none;
-    box-sizing: border-box;
+/* Result options use same styling as game options */
+.result-options {
+    /* Inherits from .options-group */
 }
 
 /* Desktop: result panel matches game panel positioning */
 @media (min-width: 1000px) {
-    .result-right-panel[style*="flex"] {
+    body.quiz-result .result-right-panel {
         display: flex !important;
         flex-direction: column;
         align-items: center;
@@ -346,28 +345,27 @@ button:disabled, .btn:disabled { cursor: not-allowed !important; background-colo
         flex-shrink: 0;
     }
 
-    .result-buttons {
-        max-width: 300px;
+    .result-info {
+        margin-top: 0;
+        margin-bottom: calc(var(--spacing-unit) * 1);
+        max-width: none;
+        gap: calc(var(--spacing-unit) * 1);
     }
 }
 
 /* Mobile result panel adjustments */
 @media (max-width: 700px) {
-    #game-over-text {
-        font-size: 1.8em;
+    .result-info {
+        margin-top: var(--spacing-unit);
+        gap: calc(var(--spacing-unit) * 0.5);
     }
 
-    .result-right-panel .final-score-container {
+    #game-over-text {
         font-size: 1.1em;
     }
 
-    .result-buttons {
-        max-width: 220px;
-    }
-
-    .result-buttons .btn {
-        font-size: 0.95em;
-        padding: calc(var(--spacing-unit) * 1.25) calc(var(--spacing-unit) * 2);
+    .result-right-panel .final-score-container {
+        font-size: 1em;
     }
 }
 
