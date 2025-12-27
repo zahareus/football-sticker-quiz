@@ -690,7 +690,7 @@ body.quiz-result .result-right-panel {
     }
 }
 
-/* Sticker detail page styles */
+/* Sticker Detail - Two Column Layout (like quiz end screen) */
 .sticker-detail-view {
     display: flex;
     flex-direction: column;
@@ -698,10 +698,24 @@ body.quiz-result .result-right-panel {
     text-align: left;
 }
 
+.sticker-detail-two-column {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: center;
+    gap: calc(var(--spacing-unit) * 4);
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.sticker-detail-left-column {
+    flex-shrink: 0;
+}
+
 .sticker-detail-image-container {
     width: 300px;
     height: 300px;
-    margin: 0 auto calc(var(--spacing-unit) * 3) auto;
     background-color: var(--color-secondary-bg);
     border: 1px solid var(--color-border);
     border-radius: var(--border-radius);
@@ -746,33 +760,108 @@ body.quiz-result .result-right-panel {
     pointer-events: none;
 }
 
-.sticker-detail-info {
+/* Navigation buttons below sticker */
+.sticker-nav-buttons {
+    display: flex;
+    justify-content: space-between;
+    gap: calc(var(--spacing-unit) * 2);
+    margin-top: calc(var(--spacing-unit) * 2);
     width: 100%;
-    max-width: 600px;
+}
+
+.sticker-nav-btn {
+    flex: 1;
+    text-align: center;
+}
+
+.sticker-nav-placeholder {
+    flex: 1;
+}
+
+/* Right panel - info block */
+.sticker-detail-right-panel {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: calc(var(--spacing-unit) * 2);
+    padding-top: calc(var(--spacing-unit) * 2);
+}
+
+.sticker-detail-info-block {
     text-align: left;
 }
 
-.sticker-detail-info p {
-    font-size: 1.2em;
-    margin-bottom: calc(var(--spacing-unit) * 2);
-    line-height: 1.6;
+.sticker-detail-club-name {
+    font-size: 1.3em;
+    font-weight: 700;
     color: var(--color-text);
+    margin: 0 0 calc(var(--spacing-unit) * 0.5) 0;
 }
 
-.sticker-detail-info strong {
-    font-weight: 600;
-    color: var(--color-text);
+.sticker-detail-id {
+    font-size: 1.3em;
+    font-weight: 500;
+    color: var(--color-info-text);
+    margin: 0 0 calc(var(--spacing-unit) * 2) 0;
 }
 
-@media (max-width: 600px) {
-    .sticker-detail-image-container {
-        width: 90%;
-        height: auto;
-        aspect-ratio: 1 / 1;
+.sticker-detail-id span {
+    font-weight: 700;
+    color: var(--color-accent-darker);
+}
+
+.sticker-detail-date,
+.sticker-detail-location {
+    font-size: 1em;
+    font-weight: 400;
+    color: var(--color-info-text);
+    margin: 0 0 calc(var(--spacing-unit) * 1) 0;
+}
+
+/* Action buttons below map or content */
+.sticker-detail-actions {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: calc(var(--spacing-unit) * 1.5);
+    margin-top: calc(var(--spacing-unit) * 3);
+    width: 100%;
+}
+
+.sticker-detail-actions .btn {
+    width: 100%;
+    max-width: 300px;
+}
+
+.sticker-actions-no-map {
+    margin-top: calc(var(--spacing-unit) * 4);
+}
+
+/* Mobile: stack columns vertically */
+@media (max-width: 700px) {
+    .sticker-detail-two-column {
+        flex-direction: column;
+        align-items: center;
+        gap: calc(var(--spacing-unit) * 2);
     }
 
-    .sticker-detail-info p {
-        font-size: 1em;
+    .sticker-detail-image-container {
+        width: 280px;
+        height: 280px;
+    }
+
+    .sticker-detail-right-panel {
+        align-items: center;
+        text-align: center;
+        padding-top: 0;
+    }
+
+    .sticker-detail-info-block {
+        text-align: center;
+    }
+
+    .sticker-nav-buttons {
+        max-width: 280px;
     }
 }
 
@@ -782,6 +871,12 @@ body.quiz-result .result-right-panel {
     max-width: 600px;
     margin-top: calc(var(--spacing-unit) * 3);
     text-align: left;
+}
+
+/* Full width map below two-column layout */
+.sticker-map-full-width {
+    max-width: 100%;
+    margin-top: calc(var(--spacing-unit) * 4);
 }
 
 .sticker-map-label {
