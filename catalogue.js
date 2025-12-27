@@ -574,6 +574,7 @@ async function loadClubDetails(clubId) {
             if (mainHeading) mainHeading.textContent = "Club Not Found";
             contentBodyHtml = `<p>Could not load club details. The club may not exist.</p>`;
             updateBreadcrumbs([{ text: `All Countries (${totalCountriesInCatalogue})`, link: 'catalogue.html' }]);
+            contentDiv.innerHTML = contentBodyHtml;
         } else {
             const countryInfo = countryCodeToDetails_Generic[clubData.country.toUpperCase()];
             const countryDisplayName = countryInfo ? countryInfo.name : clubData.country;
@@ -671,8 +672,6 @@ async function loadClubDetails(clubId) {
             if (stickersWithCoordinates && stickersWithCoordinates.length > 0) {
                 initializeClubMap(stickersWithCoordinates, clubData.name);
             }
-        } else {
-            contentDiv.innerHTML = contentBodyHtml;
         }
     } catch (error) {
         console.error(`An error occurred while loading club details for ID ${clubId}:`, error);
