@@ -171,8 +171,8 @@ button:disabled, .btn:disabled { cursor: not-allowed !important; background-colo
         /* Adaptive size based on viewport height to fit without scrolling */
         width: min(600px, calc(100vh - 300px));
         height: min(600px, calc(100vh - 300px));
-        min-width: 400px;
-        min-height: 400px;
+        min-width: 450px;
+        min-height: 450px;
         margin: 0;
         flex-shrink: 0;
     }
@@ -719,8 +719,8 @@ body.quiz-result .result-right-panel {
         /* Match quiz sticker size exactly */
         width: min(600px, calc(100vh - 300px));
         height: min(600px, calc(100vh - 300px));
-        min-width: 400px;
-        min-height: 400px;
+        min-width: 450px;
+        min-height: 450px;
     }
 }
 
