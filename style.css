@@ -1500,15 +1500,18 @@ body.home-page #app-logo {
 
 /* Sticker entries */
 .stickerlog-entry {
-    padding: calc(var(--spacing-unit) * 1) 0;
-    border-bottom: 1px solid var(--color-border);
+    padding: calc(var(--spacing-unit) * 1.5);
+    margin-bottom: calc(var(--spacing-unit) * 1.5);
+    background-color: var(--color-secondary-bg);
+    border-radius: var(--border-radius);
     color: var(--color-text);
-    font-size: 1em;
-    line-height: 1.6;
+    font-size: 0.95em;
+    line-height: 1.7;
+    text-align: left;
 }
 
 .stickerlog-entry:last-child {
-    border-bottom: none;
+    margin-bottom: 0;
 }
 
 /* Sticker and club links */
@@ -1604,11 +1607,14 @@ body.home-page #app-logo {
 @media (max-width: 600px) {
     .stickerlog-date-header h2 {
         font-size: 1.1em;
+        text-align: left;
     }
 
     .stickerlog-entry {
-        font-size: 0.9em;
-        padding: calc(var(--spacing-unit) * 0.75) 0;
+        font-size: 0.85em;
+        padding: calc(var(--spacing-unit) * 1.2);
+        margin-bottom: calc(var(--spacing-unit) * 1.2);
+        line-height: 1.6;
     }
 
     .pagination-btn {
