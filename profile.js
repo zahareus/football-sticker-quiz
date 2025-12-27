@@ -264,8 +264,8 @@ function displayProfile(profileData, totalSessions, bestScores, lastGames = []) 
 
     html += `
         <div class="home-actions" style="margin-top: 40px;">
-            <a href="/quiz.html" class="btn btn-primary btn-large">Play Quiz</a>
-            <a href="/leaderboard.html" class="btn btn-secondary btn-large">View Leaderboard</a>
+            <a href="/quiz.html" class="btn btn-large">Play Quiz</a>
+            <a href="/leaderboard.html" class="btn btn-large">View Leaderboard</a>
         </div>
     `;
 

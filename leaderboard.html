@@ -63,34 +63,46 @@
     </header>
 
     <main class="container leaderboard-container">
-        <h1>🏆 Leaderboard</h1>
+        <h1>Leaderboard</h1>
 
-        <div id="leaderboard-filters" style="margin-bottom: 24px;">
-            <div class="filter-group" style="margin-bottom: 12px;">
-                <button class="btn btn-filter leaderboard-time-filter active" data-timeframe="today">Today</button>
-                <button class="btn btn-filter leaderboard-time-filter" data-timeframe="week">7 days</button>
-                <button class="btn btn-filter leaderboard-time-filter" data-timeframe="all">All time</button>
-            </div>
-            <div class="filter-group" style="margin-bottom: 12px;">
-                <button class="btn btn-filter leaderboard-difficulty-filter active" data-difficulty="1">Easy</button>
-                <button class="btn btn-filter leaderboard-difficulty-filter" data-difficulty="2">Medium</button>
-                <button class="btn btn-filter leaderboard-difficulty-filter" data-difficulty="3">Hard</button>
-            </div>
-            <div class="filter-group">
-                <button class="btn btn-filter leaderboard-mode-filter active" data-mode="results">Results</button>
-                <button class="btn btn-filter leaderboard-mode-filter" data-mode="players">Players</button>
+        <div id="leaderboard-filters">
+            <div class="filter-row">
+                <div class="filter-group">
+                    <button class="btn btn-nav leaderboard-time-filter active" data-timeframe="today">Today</button>
+                    <button class="btn btn-nav leaderboard-time-filter" data-timeframe="week">7 Days</button>
+                    <button class="btn btn-nav leaderboard-time-filter" data-timeframe="all">All Time</button>
+                </div>
+                <div class="filter-group">
+                    <button class="btn btn-nav leaderboard-mode-filter active" data-mode="results">Results</button>
+                    <button class="btn btn-nav leaderboard-mode-filter" data-mode="players">Players</button>
+                </div>
             </div>
         </div>
 
-        <div id="leaderboard-content" style="min-height: 300px;">
-            <ol id="leaderboard-list" style="list-style: decimal; padding-left: 20px; font-size: 1.1em; line-height: 1.8;">
-                <li>Loading...</li>
-            </ol>
+        <div id="leaderboard-content" class="leaderboard-grid">
+            <section class="leaderboard-column" id="leaderboard-easy">
+                <h2>Easy</h2>
+                <ol id="leaderboard-list-easy">
+                    <li>Loading...</li>
+                </ol>
+            </section>
+            <section class="leaderboard-column" id="leaderboard-medium">
+                <h2>Medium</h2>
+                <ol id="leaderboard-list-medium">
+                    <li>Loading...</li>
+                </ol>
+            </section>
+            <section class="leaderboard-column" id="leaderboard-hard">
+                <h2>Hard</h2>
+                <ol id="leaderboard-list-hard">
+                    <li>Loading...</li>
+                </ol>
+            </section>
         </div>
 
-        <div class="home-actions" style="margin-top: 40px;">
-            <a href="/quiz.html" class="btn btn-primary btn-large">Play Quiz</a>
-            <a href="/catalogue.html" class="btn btn-secondary btn-large">View Catalogue</a>
+        <div class="leaderboard-actions">
+            <a href="/quiz.html" class="btn btn-large">Play Quiz</a>
+            <a href="/catalogue.html" class="btn btn-large">View Catalogue</a>
         </div>
 
         <p id="loading-indicator" style="display: none;">Loading...</p>
