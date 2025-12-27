@@ -522,7 +522,7 @@ async function loadContinentsAndCountries() {
                 <a href="/stickerstat.html" class="stats-more-link">View more stats</a>
             </div>
             <div class="catalogue-map-btn-container">
-                <a href="/map.html" class="btn btn-secondary">View Full Map</a>
+                <a href="/map.html" class="btn btn-nav">View Full Map</a>
             </div>
         `;
 
@@ -743,7 +743,7 @@ async function loadClubDetails(clubId) {
                             <h3 class="club-map-heading">Sticker Locations</h3>
                             <div id="club-map" class="club-map-container"></div>
                             <div class="view-map-btn-container">
-                                <a href="/map.html" class="btn btn-secondary">View Full Map</a>
+                                <a href="/map.html" class="btn btn-nav">View Full Map</a>
                             </div>
                         </div>
                     `;
@@ -922,7 +922,7 @@ async function loadStickerDetails(stickerId) {
                 <div class="sticker-map-section">
                     <div id="sticker-map" class="sticker-map-container"></div>
                     <div class="view-map-btn-container">
-                        <a href="/map.html" class="btn btn-secondary">View Full Map</a>
+                        <a href="/map.html" class="btn btn-nav">View Full Map</a>
                     </div>
                 </div>
             ` : '';

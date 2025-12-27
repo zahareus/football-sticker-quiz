@@ -77,6 +77,27 @@ body.logged-out #app-logo { height: auto; width: 45%; max-width: 280px; max-heig
 .btn-secondary { background-color: var(--color-background); color: var(--color-text); border: 1px solid var(--color-border); }
 .btn-small { padding: calc(var(--spacing-unit) * 0.75) calc(var(--spacing-unit) * 1.5); font-size: 0.9em; }
 .btn-large { padding: calc(var(--spacing-unit) * 1.5) calc(var(--spacing-unit) * 3); font-size: 1.1em; }
+
+/* Navigation buttons - unified style (white background with border) */
+.btn-nav,
+.home-actions .btn,
+.stats-actions .btn,
+.leaderboard-actions .btn {
+    background-color: var(--color-background);
+    color: var(--color-text);
+    border: 1px solid var(--color-border);
+    box-shadow: none;
+}
+@media (hover: hover) {
+    .btn-nav:hover:not(:disabled),
+    .home-actions .btn:hover:not(:disabled),
+    .stats-actions .btn:hover:not(:disabled),
+    .leaderboard-actions .btn:hover:not(:disabled) {
+        background-color: var(--color-accent);
+        border-color: var(--color-accent);
+        color: var(--color-accent-text);
+    }
+}
 .btn-icon { background: none; border: none; padding: 0 calc(var(--spacing-unit) * 0.5); font-size: 1.1em; vertical-align: middle; margin-left: var(--spacing-unit); color: var(--color-text); opacity: 0.7; cursor: pointer; }
 .btn-filter { padding: calc(var(--spacing-unit) * 0.5) calc(var(--spacing-unit) * 1.5); font-size: 0.9em; background-color: transparent; color: var(--color-text); border: 1px solid transparent; margin: 0 calc(var(--spacing-unit) * 0.5); opacity: 0.8; cursor: pointer; border-radius: var(--border-radius); }
 .btn-filter.active { font-weight: 600; background-color: var(--color-accent); color: var(--color-accent-text); opacity: 1; }
@@ -1472,6 +1493,183 @@ body.home-page #app-logo {
 
     .stats-table .stats-count {
         width: 50px;
+    }
+}
+
+/* ------------------------------ */
+/* Leaderboard Page Styles        */
+/* ------------------------------ */
+
+.leaderboard-container {
+    max-width: 1000px;
+}
+
+.leaderboard-container > h1 {
+    margin-bottom: calc(var(--spacing-unit) * 2);
+}
+
+/* Filter buttons row */
+#leaderboard-filters {
+    margin-bottom: calc(var(--spacing-unit) * 3);
+}
+
+#leaderboard-filters .filter-row {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: calc(var(--spacing-unit) * 3);
+    flex-wrap: wrap;
+}
+
+#leaderboard-filters .filter-group {
+    display: flex;
+    gap: calc(var(--spacing-unit) * 1);
+}
+
+#leaderboard-filters .btn-nav {
+    padding: calc(var(--spacing-unit) * 1) calc(var(--spacing-unit) * 2);
+    font-size: 0.95em;
+}
+
+#leaderboard-filters .btn-nav.active {
+    background-color: var(--color-accent);
+    border-color: var(--color-accent);
+    color: var(--color-accent-text);
+    font-weight: 600;
+}
+
+/* Three-column grid for leaderboards */
+.leaderboard-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: calc(var(--spacing-unit) * 3);
+    margin-bottom: calc(var(--spacing-unit) * 4);
+}
+
+.leaderboard-column {
+    background-color: var(--color-secondary-bg);
+    border-radius: var(--border-radius);
+    padding: calc(var(--spacing-unit) * 2);
+    border: 1px solid var(--color-border);
+}
+
+.leaderboard-column h2 {
+    font-size: 1.2em;
+    font-weight: 600;
+    color: var(--color-text);
+    margin-bottom: calc(var(--spacing-unit) * 1.5);
+    padding-bottom: calc(var(--spacing-unit) * 0.5);
+    border-bottom: 1px solid var(--color-border);
+    text-align: center;
+}
+
+.leaderboard-column ol {
+    list-style: decimal;
+    padding-left: calc(var(--spacing-unit) * 3);
+    font-size: 0.95em;
+    line-height: 1.6;
+}
+
+.leaderboard-column li {
+    padding: calc(var(--spacing-unit) * 0.5) 0;
+    border-bottom: 1px solid var(--color-border);
+}
+
+.leaderboard-column li:last-child {
+    border-bottom: none;
+}
+
+.leaderboard-column .player-link {
+    color: var(--color-info-text);
+    text-decoration: none;
+    font-weight: 500;
+}
+
+@media (hover: hover) {
+    .leaderboard-column .player-link:hover {
+        color: var(--color-link);
+        text-decoration: underline;
+    }
+}
+
+.leaderboard-column .user-score {
+    background-color: rgba(255, 193, 7, 0.15);
+    margin: 0 calc(var(--spacing-unit) * -1);
+    padding-left: calc(var(--spacing-unit) * 1);
+    padding-right: calc(var(--spacing-unit) * 1);
+    border-radius: calc(var(--border-radius) / 2);
+}
+
+.leaderboard-separator {
+    text-align: center;
+    color: var(--color-info-text);
+    padding: calc(var(--spacing-unit) * 0.5) 0;
+}
+
+.leaderboard-user-entry {
+    display: flex;
+    gap: calc(var(--spacing-unit) * 1);
+    padding: calc(var(--spacing-unit) * 0.5) calc(var(--spacing-unit) * 1);
+}
+
+.leaderboard-user-entry .user-position {
+    font-weight: 600;
+    color: var(--color-accent-darker);
+    min-width: 2em;
+}
+
+/* Leaderboard action buttons */
+.leaderboard-actions {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: calc(var(--spacing-unit) * 1.5);
+    margin-top: calc(var(--spacing-unit) * 4);
+}
+
+.leaderboard-actions .btn {
+    width: 100%;
+    max-width: 300px;
+}
+
+/* Responsive: tablet */
+@media (max-width: 900px) {
+    .leaderboard-grid {
+        gap: calc(var(--spacing-unit) * 2);
+    }
+
+    .leaderboard-column {
+        padding: calc(var(--spacing-unit) * 1.5);
+    }
+
+    .leaderboard-column ol {
+        font-size: 0.9em;
+        padding-left: calc(var(--spacing-unit) * 2.5);
+    }
+}
+
+/* Responsive: mobile - stack columns */
+@media (max-width: 700px) {
+    #leaderboard-filters .filter-row {
+        flex-direction: column;
+        gap: calc(var(--spacing-unit) * 1.5);
+    }
+
+    .leaderboard-grid {
+        grid-template-columns: 1fr;
+        gap: calc(var(--spacing-unit) * 2);
+    }
+
+    .leaderboard-column {
+        padding: calc(var(--spacing-unit) * 1.5);
+    }
+
+    .leaderboard-column h2 {
+        font-size: 1.1em;
+    }
+
+    .leaderboard-column ol {
+        font-size: 0.9em;
     }
 }
 

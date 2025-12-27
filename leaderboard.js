@@ -1,4 +1,4 @@
-// leaderboard.js - Dedicated leaderboard page
+// leaderboard.js - Dedicated leaderboard page with 3-column layout
 // Uses SharedUtils from shared.js for common functionality
 
 let supabaseClient;
@@ -18,9 +18,10 @@ if (typeof SharedUtils === 'undefined') {
 }
 
 // DOM Elements
-let leaderboardListElement;
+let leaderboardListEasy;
+let leaderboardListMedium;
+let leaderboardListHard;
 let leaderboardTimeFilterButtons;
-let leaderboardDifficultyFilterButtons;
 let leaderboardModeFilterButtons;
 let loadingIndicator;
 let errorMessageElement;
@@ -40,19 +41,25 @@ let currentUserProfile = null;
 
 // Leaderboard State
 let currentLeaderboardTimeframe = 'today';
-let currentLeaderboardDifficulty = 1;
 let currentLeaderboardMode = 'results'; // 'results' or 'players'
 
-// Display settings
-const DISPLAY_LIMIT = 5; // Show top 5 results
+// Display settings - responsive
+const DESKTOP_LIMIT = 20;
+const MOBILE_LIMIT = 10;
 const FETCH_LIMIT = 100; // Fetch more to find user's position
+
+// Get current display limit based on screen size
+function getDisplayLimit() {
+    return window.innerWidth <= 700 ? MOBILE_LIMIT : DESKTOP_LIMIT;
+}
 
 // Initialize page
 function initializeLeaderboardPage() {
     // Get DOM elements
-    leaderboardListElement = document.getElementById('leaderboard-list');
+    leaderboardListEasy = document.getElementById('leaderboard-list-easy');
+    leaderboardListMedium = document.getElementById('leaderboard-list-medium');
+    leaderboardListHard = document.getElementById('leaderboard-list-hard');
     leaderboardTimeFilterButtons = document.querySelectorAll('.leaderboard-time-filter');
-    leaderboardDifficultyFilterButtons = document.querySelectorAll('.leaderboard-difficulty-filter');
     leaderboardModeFilterButtons = document.querySelectorAll('.leaderboard-mode-filter');
     loadingIndicator = document.getElementById('loading-indicator');
     errorMessageElement = document.getElementById('error-message');
@@ -70,31 +77,40 @@ function initializeLeaderboardPage() {
     leaderboardTimeFilterButtons.forEach(button => {
         button.addEventListener('click', handleTimeFilterChange);
     });
-    leaderboardDifficultyFilterButtons.forEach(button => {
-        button.addEventListener('click', handleDifficultyFilterChange);
-    });
     leaderboardModeFilterButtons.forEach(button => {
         button.addEventListener('click', handleModeFilterChange);
     });
+
+    // Handle window resize to update display limits
+    window.addEventListener('resize', debounce(updateAllLeaderboards, 250));
 
     // Set up auth and nickname editing
     setupAuth();
     setupNicknameEditing();
 
     // Load initial leaderboard data
-    updateLeaderboard();
+    updateAllLeaderboards();
+}
+
+// Debounce function
+function debounce(func, wait) {
+    let timeout;
+    return function executedFunction(...args) {
+        const later = () => {
+            clearTimeout(timeout);
+            func(...args);
+        };
+        clearTimeout(timeout);
+        timeout = setTimeout(later, wait);
+    };
 }
 
 // ========== LEADERBOARD FUNCTIONS ==========
 
 async function fetchLeaderboardData(timeframe, difficulty) {
     if (!supabaseClient) {
-        showError("DB connection error.");
         return null;
     }
-
-    showLoading();
-    hideError();
 
     try {
         // Use shared calculateTimeRange for consistent timezone handling
@@ -126,29 +142,27 @@ async function fetchLeaderboardData(timeframe, difficulty) {
         return data;
     } catch (error) {
         console.error("Leaderboard fetch error:", error);
-        showError(`Could not load: ${error.message}`);
         return null;
-    } finally {
-        hideLoading();
     }
 }
 
-function displayLeaderboard(data) {
-    if (!leaderboardListElement) return;
+function displayLeaderboard(listElement, data, difficulty) {
+    if (!listElement) return;
 
-    leaderboardListElement.innerHTML = '';
+    listElement.innerHTML = '';
 
     if (!data) {
-        leaderboardListElement.innerHTML = '<li>Error loading.</li>';
+        listElement.innerHTML = '<li>Error loading.</li>';
         return;
     }
 
     if (data.length === 0) {
-        leaderboardListElement.innerHTML = '<li>No scores found.</li>';
+        listElement.innerHTML = '<li>No scores yet</li>';
         return;
     }
 
     const currentUserId = currentUser?.id;
+    const displayLimit = getDisplayLimit();
 
     // Process data based on mode
     let processedData = data;
@@ -177,10 +191,10 @@ function displayLeaderboard(data) {
         }
     }
 
-    // Get top 5 entries
-    const topEntries = processedData.slice(0, DISPLAY_LIMIT);
+    // Get top entries based on display limit
+    const topEntries = processedData.slice(0, displayLimit);
 
-    // Display top 5
+    // Display top entries
     topEntries.forEach((entry, index) => {
         const li = document.createElement('li');
         li.setAttribute('value', index + 1);
@@ -199,42 +213,28 @@ function displayLeaderboard(data) {
             li.classList.add('user-score');
         }
 
-        leaderboardListElement.appendChild(li);
+        listElement.appendChild(li);
     });
 
-    // If user is not in top 5 but has a score, show their position
-    if (userPosition > DISPLAY_LIMIT && userEntry) {
-        // Add separator (styled to match list items)
+    // If user is not in top entries but has a score, show their position
+    if (userPosition > displayLimit && userEntry) {
+        // Add separator
         const separatorDiv = document.createElement('div');
-        separatorDiv.style.display = 'flex';
-        separatorDiv.style.gap = '8px';
-        separatorDiv.style.padding = '12px 8px';
-        const separatorNumber = document.createElement('span');
-        separatorNumber.style.minWidth = '2.5em';
-        separatorNumber.style.textAlign = 'right';
-        separatorNumber.textContent = '';
-        const separatorDots = document.createElement('span');
-        separatorDots.textContent = '...';
-        separatorDiv.appendChild(separatorNumber);
-        separatorDiv.appendChild(separatorDots);
-        leaderboardListElement.appendChild(separatorDiv);
+        separatorDiv.className = 'leaderboard-separator';
+        separatorDiv.textContent = '...';
+        listElement.appendChild(separatorDiv);
 
-        // Add user's entry with their actual position (styled to match list items)
+        // Add user's entry with their actual position
         const userDiv = document.createElement('div');
-        userDiv.classList.add('user-score');
-        userDiv.style.display = 'flex';
-        userDiv.style.gap = '8px';
-        userDiv.style.padding = '12px 8px';
+        userDiv.className = 'user-score leaderboard-user-entry';
+
         const positionSpan = document.createElement('span');
-        positionSpan.style.fontWeight = '600';
-        positionSpan.style.color = '#FFA000';
-        positionSpan.style.minWidth = '2.5em';
-        positionSpan.style.textAlign = 'right';
+        positionSpan.className = 'user-position';
         positionSpan.textContent = `${userPosition}.`;
+
         const nameSpan = document.createElement('span');
         const username = userEntry.profiles?.username || 'Anonymous';
 
-        // Create link to player profile
         const userLink = document.createElement('a');
         userLink.href = `/profile.html?id=${userEntry.user_id}`;
         userLink.className = 'player-link';
@@ -242,9 +242,10 @@ function displayLeaderboard(data) {
 
         nameSpan.appendChild(userLink);
         nameSpan.appendChild(document.createTextNode(` - ${userEntry.score}`));
+
         userDiv.appendChild(positionSpan);
         userDiv.appendChild(nameSpan);
-        leaderboardListElement.appendChild(userDiv);
+        listElement.appendChild(userDiv);
     }
 }
 
@@ -252,31 +253,33 @@ function updateFilterButtonsUI() {
     leaderboardTimeFilterButtons?.forEach(btn => {
         const isActive = btn.dataset.timeframe === currentLeaderboardTimeframe;
         btn.classList.toggle('active', isActive);
-        btn.disabled = isActive;
-    });
-
-    leaderboardDifficultyFilterButtons?.forEach(btn => {
-        const btnDifficulty = parseInt(btn.dataset.difficulty, 10);
-        const isActive = btnDifficulty === currentLeaderboardDifficulty;
-        btn.classList.toggle('active', isActive);
-        btn.disabled = isActive;
     });
 
     leaderboardModeFilterButtons?.forEach(btn => {
         const isActive = btn.dataset.mode === currentLeaderboardMode;
         btn.classList.toggle('active', isActive);
-        btn.disabled = isActive;
     });
 }
 
-async function updateLeaderboard() {
-    if (!leaderboardListElement) return;
-
-    leaderboardListElement.innerHTML = '<li>Loading...</li>';
+async function updateAllLeaderboards() {
     updateFilterButtonsUI();
 
-    const data = await fetchLeaderboardData(currentLeaderboardTimeframe, currentLeaderboardDifficulty);
-    displayLeaderboard(data);
+    // Show loading state
+    if (leaderboardListEasy) leaderboardListEasy.innerHTML = '<li>Loading...</li>';
+    if (leaderboardListMedium) leaderboardListMedium.innerHTML = '<li>Loading...</li>';
+    if (leaderboardListHard) leaderboardListHard.innerHTML = '<li>Loading...</li>';
+
+    // Fetch all three difficulties in parallel
+    const [easyData, mediumData, hardData] = await Promise.all([
+        fetchLeaderboardData(currentLeaderboardTimeframe, 1),
+        fetchLeaderboardData(currentLeaderboardTimeframe, 2),
+        fetchLeaderboardData(currentLeaderboardTimeframe, 3)
+    ]);
+
+    // Display all three leaderboards
+    displayLeaderboard(leaderboardListEasy, easyData, 1);
+    displayLeaderboard(leaderboardListMedium, mediumData, 2);
+    displayLeaderboard(leaderboardListHard, hardData, 3);
 }
 
 function handleTimeFilterChange(event) {
@@ -285,17 +288,7 @@ function handleTimeFilterChange(event) {
 
     if (newTimeframe && newTimeframe !== currentLeaderboardTimeframe) {
         currentLeaderboardTimeframe = newTimeframe;
-        updateLeaderboard();
-    }
-}
-
-function handleDifficultyFilterChange(event) {
-    const button = event.currentTarget;
-    const newDifficulty = parseInt(button.dataset.difficulty, 10);
-
-    if (newDifficulty && !isNaN(newDifficulty) && newDifficulty !== currentLeaderboardDifficulty) {
-        currentLeaderboardDifficulty = newDifficulty;
-        updateLeaderboard();
+        updateAllLeaderboards();
     }
 }
 
@@ -305,7 +298,7 @@ function handleModeFilterChange(event) {
 
     if (newMode && newMode !== currentLeaderboardMode) {
         currentLeaderboardMode = newMode;
-        updateLeaderboard();
+        updateAllLeaderboards();
     }
 }
 
@@ -364,7 +357,7 @@ function updateAuthUI(user) {
         userStatusElement.style.display = 'flex';
 
         // Update leaderboard to highlight user's score
-        updateLeaderboard();
+        updateAllLeaderboards();
     } else {
         // User is logged out - hide both (only show logo)
         loginButton.style.display = 'none';
@@ -452,7 +445,6 @@ function setupAuthStateListener() {
 
     supabaseClient.auth.onAuthStateChange(async (event, session) => {
         // CRITICAL: Skip INITIAL_SESSION - we already handled it in setupAuth()
-        // This prevents race conditions on mobile where the same session gets processed twice
         if (event === 'INITIAL_SESSION') {
             return;
         }
@@ -472,7 +464,6 @@ function setupAuthStateListener() {
 
         // Handle new sign in (e.g., from another tab)
         if (event === 'SIGNED_IN' && user) {
-            // Only process if it's a different user or we don't have a user yet
             if (!currentUser || currentUser.id !== user.id) {
                 currentUser = user;
                 const cachedProfile = SharedUtils.loadCachedProfile(user.id);
@@ -495,8 +486,6 @@ function setupAuthStateListener() {
 // ========== NICKNAME EDITING FUNCTIONS ==========
 
 function setupNicknameEditing() {
-    // userNicknameElement href is updated in updateAuthUI
-    // Form handlers are only needed for profile page edit functionality
     if (editNicknameForm) {
         editNicknameForm.addEventListener('submit', handleNicknameSave);
     }
@@ -557,7 +546,7 @@ async function handleNicknameSave(event) {
         hideNicknameEditForm();
 
         // Update leaderboard to show new nickname
-        updateLeaderboard();
+        updateAllLeaderboards();
 
         alert('Nickname updated successfully!');
     }
