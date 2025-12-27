@@ -1500,11 +1500,11 @@ body.home-page #app-logo {
 /* Leaderboard Page Styles        */
 /* ------------------------------ */
 
-.leaderboard-container {
+#leaderboard-page-container {
     max-width: 1000px;
 }
 
-.leaderboard-container > h1 {
+#leaderboard-page-container > h1 {
     margin-bottom: calc(var(--spacing-unit) * 2);
 }
 
@@ -1538,84 +1538,36 @@ body.home-page #app-logo {
     font-weight: 600;
 }
 
-/* Three-column grid for leaderboards */
+/* Three-column grid for leaderboards - same as stats-grid */
 .leaderboard-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: calc(var(--spacing-unit) * 3);
+    gap: calc(var(--spacing-unit) * 4);
+}
+
+.leaderboard-section {
     margin-bottom: calc(var(--spacing-unit) * 4);
 }
 
-.leaderboard-column {
-    background-color: var(--color-secondary-bg);
-    border-radius: var(--border-radius);
-    padding: calc(var(--spacing-unit) * 2);
-    border: 1px solid var(--color-border);
-}
-
-.leaderboard-column h2 {
-    font-size: 1.2em;
+.leaderboard-section h2 {
+    font-size: 1.5em;
     font-weight: 600;
     color: var(--color-text);
     margin-bottom: calc(var(--spacing-unit) * 1.5);
     padding-bottom: calc(var(--spacing-unit) * 0.5);
     border-bottom: 1px solid var(--color-border);
-    text-align: center;
 }
 
-.leaderboard-column ol {
-    list-style: decimal;
-    padding-left: calc(var(--spacing-unit) * 3);
-    font-size: 0.95em;
-    line-height: 1.6;
-}
-
-.leaderboard-column li {
-    padding: calc(var(--spacing-unit) * 0.5) 0;
-    border-bottom: 1px solid var(--color-border);
-}
-
-.leaderboard-column li:last-child {
-    border-bottom: none;
-}
-
-.leaderboard-column .player-link {
-    color: var(--color-info-text);
-    text-decoration: none;
-    font-weight: 500;
-}
-
-@media (hover: hover) {
-    .leaderboard-column .player-link:hover {
-        color: var(--color-link);
-        text-decoration: underline;
-    }
-}
-
-.leaderboard-column .user-score {
+/* User score highlighting */
+.leaderboard-section .user-score-row {
     background-color: rgba(255, 193, 7, 0.15);
-    margin: 0 calc(var(--spacing-unit) * -1);
-    padding-left: calc(var(--spacing-unit) * 1);
-    padding-right: calc(var(--spacing-unit) * 1);
-    border-radius: calc(var(--border-radius) / 2);
 }
 
-.leaderboard-separator {
+.leaderboard-section .separator-row td {
     text-align: center;
     color: var(--color-info-text);
     padding: calc(var(--spacing-unit) * 0.5) 0;
-}
-
-.leaderboard-user-entry {
-    display: flex;
-    gap: calc(var(--spacing-unit) * 1);
-    padding: calc(var(--spacing-unit) * 0.5) calc(var(--spacing-unit) * 1);
-}
-
-.leaderboard-user-entry .user-position {
-    font-weight: 600;
-    color: var(--color-accent-darker);
-    min-width: 2em;
+    border-bottom: none;
 }
 
 /* Leaderboard action buttons */
@@ -1635,16 +1587,7 @@ body.home-page #app-logo {
 /* Responsive: tablet */
 @media (max-width: 900px) {
     .leaderboard-grid {
-        gap: calc(var(--spacing-unit) * 2);
-    }
-
-    .leaderboard-column {
-        padding: calc(var(--spacing-unit) * 1.5);
-    }
-
-    .leaderboard-column ol {
-        font-size: 0.9em;
-        padding-left: calc(var(--spacing-unit) * 2.5);
+        gap: calc(var(--spacing-unit) * 3);
     }
 }
 
@@ -1657,19 +1600,15 @@ body.home-page #app-logo {
 
     .leaderboard-grid {
         grid-template-columns: 1fr;
-        gap: calc(var(--spacing-unit) * 2);
+        gap: calc(var(--spacing-unit) * 3);
     }
 
-    .leaderboard-column {
-        padding: calc(var(--spacing-unit) * 1.5);
+    .leaderboard-section {
+        margin-bottom: calc(var(--spacing-unit) * 2);
     }
 
-    .leaderboard-column h2 {
-        font-size: 1.1em;
-    }
-
-    .leaderboard-column ol {
-        font-size: 0.9em;
+    .leaderboard-section h2 {
+        font-size: 1.3em;
     }
 }
 
