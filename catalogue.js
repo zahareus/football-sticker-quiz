@@ -867,21 +867,21 @@ async function loadStickerDetails(stickerId) {
                 updateBreadcrumbs([{ text: `All Countries (${totalCountriesInCatalogue})`, link: 'catalogue.html' }]);
             }
 
-            // Navigation links for prev/next stickers (positioned below image)
+            // Navigation links for prev/next stickers (positioned below image in left column)
             let navigationHtml = '';
             if (prevStickerId !== null || nextStickerId !== null) {
-                navigationHtml = '<div style="display: flex; justify-content: space-between; align-items: center; margin-top: 16px; margin-bottom: 24px; gap: 16px;">';
+                navigationHtml = '<div class="sticker-nav-buttons">';
 
                 if (prevStickerId !== null) {
-                    navigationHtml += `<a href="catalogue.html?sticker_id=${prevStickerId}" style="color: var(--color-info-text); text-decoration: none; font-size: 1.1em; font-weight: 500;">← #${prevStickerId}</a>`;
+                    navigationHtml += `<a href="catalogue.html?sticker_id=${prevStickerId}" class="btn btn-nav sticker-nav-btn">← #${prevStickerId}</a>`;
                 } else {
-                    navigationHtml += '<span style="visibility: hidden;">← #0</span>';
+                    navigationHtml += '<span class="sticker-nav-placeholder"></span>';
                 }
 
                 if (nextStickerId !== null) {
-                    navigationHtml += `<a href="catalogue.html?sticker_id=${nextStickerId}" style="color: var(--color-info-text); text-decoration: none; font-size: 1.1em; font-weight: 500;">#${nextStickerId} →</a>`;
+                    navigationHtml += `<a href="catalogue.html?sticker_id=${nextStickerId}" class="btn btn-nav sticker-nav-btn">#${nextStickerId} →</a>`;
                 } else {
-                    navigationHtml += '<span style="visibility: hidden;">#0 →</span>';
+                    navigationHtml += '<span class="sticker-nav-placeholder"></span>';
                 }
 
                 navigationHtml += '</div>';
@@ -890,55 +890,65 @@ async function loadStickerDetails(stickerId) {
             // Use optimized detail image URL, but keep original for full-size view
             const detailImageUrl = SharedUtils.getDetailImageUrl(sticker.image_url);
 
-            // Build hunted info section
-            let huntedInfoHtml = '';
+            // Build right column info
             const hasLocation = sticker.location && sticker.location.trim() !== '';
             const hasDate = sticker.found != null;
             const hasCoordinates = sticker.latitude != null && sticker.longitude != null;
 
-            if (hasDate && hasLocation) {
-                // Format date as "24 August 2025"
+            // Format date if available
+            let formattedDate = '';
+            if (hasDate) {
                 const dateObj = new Date(sticker.found);
-                const formattedDate = dateObj.toLocaleDateString('en-GB', {
+                formattedDate = dateObj.toLocaleDateString('en-GB', {
                     day: 'numeric',
                     month: 'long',
                     year: 'numeric'
                 });
-                huntedInfoHtml = `
-                    <div class="sticker-detail-info">
-                        <p>📍 The sticker was hunted on <strong>${formattedDate}</strong> in <strong>${sticker.location}</strong>.</p>
-                    </div>
-                `;
-            } else if (hasLocation) {
-                huntedInfoHtml = `
-                    <div class="sticker-detail-info">
-                        <p>📍 The sticker was hunted in <strong>${sticker.location}</strong>.</p>
-                    </div>
-                `;
             }
 
-            // Build map section HTML if coordinates are available
-            const mapSectionHtml = hasCoordinates ? `
-                <div class="sticker-map-section">
-                    <div id="sticker-map" class="sticker-map-container"></div>
-                    <div class="view-map-btn-container">
-                        <a href="/map.html" class="btn btn-nav">View Full Map</a>
+            // Build right panel content (similar to quiz result panel)
+            const clubDisplayName = sticker.clubs ? sticker.clubs.name : 'Unknown Club';
+
+            let rightPanelHtml = `
+                <div class="sticker-detail-right-panel">
+                    <div class="sticker-detail-info-block">
+                        <h2 class="sticker-detail-club-name">${clubDisplayName}</h2>
+                        <p class="sticker-detail-id">#${sticker.id}</p>
+                        ${hasDate ? `<p class="sticker-detail-date">Hunted on ${formattedDate}</p>` : ''}
+                        ${hasLocation ? `<p class="sticker-detail-location">${sticker.location}</p>` : ''}
                     </div>
                 </div>
-            ` : '';
+            `;
+
+            // Build map section HTML if coordinates are available (full width below two columns)
+            const mapSectionHtml = hasCoordinates ? `
+                <div class="sticker-map-section sticker-map-full-width">
+                    <div id="sticker-map" class="sticker-map-container"></div>
+                    <div class="sticker-detail-actions">
+                        <a href="/map.html" class="btn btn-nav">View Full Map</a>
+                        <a href="/quiz.html" class="btn btn-nav">Play Quiz</a>
+                    </div>
+                </div>
+            ` : `
+                <div class="sticker-detail-actions sticker-actions-no-map">
+                    <a href="/quiz.html" class="btn btn-nav">Play Quiz</a>
+                </div>
+            `;
 
             contentBodyHtml = `
-                <div class="sticker-detail-view">
-                    <div class="sticker-detail-image-container" onclick="window.open('${sticker.image_url}', '_blank')">
-                        <img src="${detailImageUrl}"
-                             alt="Sticker ${sticker.id} ${sticker.clubs ? `- ${sticker.clubs.name}` : ''}"
-                             class="sticker-detail-image"
-                             decoding="async">
+                <div class="sticker-detail-view sticker-detail-two-column">
+                    <div class="sticker-detail-left-column">
+                        <div class="sticker-detail-image-container" onclick="window.open('${sticker.image_url}', '_blank')">
+                            <img src="${detailImageUrl}"
+                                 alt="Sticker ${sticker.id} ${sticker.clubs ? `- ${sticker.clubs.name}` : ''}"
+                                 class="sticker-detail-image"
+                                 decoding="async">
+                        </div>
+                        ${navigationHtml}
                     </div>
-                    ${navigationHtml}
-                    ${huntedInfoHtml}
-                    ${mapSectionHtml}
+                    ${rightPanelHtml}
                 </div>
+                ${mapSectionHtml}
             `;
         }
         contentDiv.innerHTML = contentBodyHtml;
