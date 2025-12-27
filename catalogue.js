@@ -50,6 +50,34 @@ function updateMetaKeywords(mediaString) {
     }
 }
 
+// Function to update canonical URL
+function updateCanonicalUrl(url) {
+    let canonical = document.querySelector('link[rel="canonical"]');
+    if (!canonical) {
+        canonical = document.createElement('link');
+        canonical.rel = 'canonical';
+        document.head.appendChild(canonical);
+    }
+    canonical.href = url;
+}
+
+// Function to update meta description
+function updateMetaDescription(description) {
+    let metaDesc = document.querySelector('meta[name="description"]');
+    if (!metaDesc) {
+        metaDesc = document.createElement('meta');
+        metaDesc.name = 'description';
+        document.head.appendChild(metaDesc);
+    }
+    metaDesc.content = description;
+
+    // Also update Open Graph description
+    let ogDesc = document.querySelector('meta[property="og:description"]');
+    if (ogDesc) {
+        ogDesc.content = description;
+    }
+}
+
 const countryCodeToDetails_Generic = {
     "AFG": { name: "Afghanistan", continent: "Asia" },
     "ALB": { name: "Albania", continent: "Europe" },
@@ -336,6 +364,10 @@ async function loadContinentsAndCountries() {
     contentDiv.innerHTML = '<p>Loading data...</p>';
     updateBreadcrumbs([]);
 
+    // Set canonical and meta for main catalogue page
+    updateCanonicalUrl('https://stickerhunt.club/catalogue.html');
+    document.title = 'Sticker Catalogue';
+
     if (!supabaseClient) {
         contentDiv.innerHTML = '<p>Error: Supabase client not initialized. Cannot load data.</p>';
         return;
@@ -361,6 +393,9 @@ async function loadContinentsAndCountries() {
             .select('*', { count: 'exact', head: true });
 
         const totalStickers = stickerCountError ? 0 : (stickerCount || 0);
+
+        // Update meta description with actual counts
+        updateMetaDescription(`Browse ${totalStickers} football stickers from ${clubs.length} clubs across ${totalCountriesInCatalogue} countries. Explore by country and discover the complete collection.`);
 
         const clubsByCountryCode = {};
         clubs.forEach(club => {
@@ -469,6 +504,8 @@ async function loadCountryDetails(countryCode) {
             const countryInfo = countryCodeToDetails_Generic[countryCode];
             const countryDisplayName = countryInfo ? countryInfo.name : countryCode;
             document.title = `${countryDisplayName} - Sticker Catalogue`;
+            updateCanonicalUrl(`https://stickerhunt.club/catalogue.html?country=${countryCode}`);
+            updateMetaDescription(`Browse ${clubsInCountry.length} football clubs from ${countryDisplayName} in our sticker database. Explore club stickers and discover the complete collection.`);
 
             // Get all club IDs to fetch sticker counts in one query
             const clubIds = clubsInCountry.map(club => club.id);
@@ -543,6 +580,7 @@ async function loadClubDetails(clubId) {
 
             if (mainHeading) mainHeading.textContent = `${clubData.name} - Sticker Gallery`;
             document.title = `${clubData.name} - ${countryDisplayName} - Sticker Catalogue`;
+            updateCanonicalUrl(`https://stickerhunt.club/catalogue.html?club_id=${clubId}`);
 
             // Update meta keywords from media field
             if (clubData.media) {
@@ -564,6 +602,10 @@ async function loadClubDetails(clubId) {
                 .select('id, image_url')
                 .eq('club_id', clubId)
                 .order('id', { ascending: true });
+
+            // Update meta description with sticker count
+            const stickerCount = stickersResponse ? stickersResponse.length : 0;
+            updateMetaDescription(`View ${stickerCount} stickers from ${clubData.name} (${countryDisplayName}) in our football sticker collection.`);
 
             // Display club info blocks
             let clubInfoHtml = '<div class="club-info-section">';
@@ -667,6 +709,8 @@ async function loadStickerDetails(stickerId) {
                 }
                 if (mainHeading) mainHeading.textContent = `Sticker #${sticker.id} - ${clubName}`;
                 document.title = `Sticker #${sticker.id} - ${clubName} - ${countryDisplayNameForBreadcrumb} - Sticker Catalogue`;
+                updateCanonicalUrl(`https://stickerhunt.club/catalogue.html?sticker_id=${sticker.id}`);
+                updateMetaDescription(`Football sticker #${sticker.id} from ${clubName}, ${countryDisplayNameForBreadcrumb}. View this sticker in our collection.`);
 
                 // Update meta keywords from club media field
                 if (sticker.clubs && sticker.clubs.media) {
