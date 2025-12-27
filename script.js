@@ -100,8 +100,9 @@ let landingPageElement, landingLoginButton, landingLeaderboardButton, landingPla
 let introTextElement;
 let personalRankContainerElement, timeframeRanksContainerElement;
 let playerStatsElement, playersTotalElement, playersTodayElement;
-let failedStickerSectionElement, failedStickerImageElement, failedStickerNameElement;
+let failedStickerContainerElement, failedStickerImageElement;
 let leaderboardTimeFilterButtons, leaderboardDifficultyFilterButtons;
+let gameOverTextElement, percentileValueElement, resultStickerInfoButton;
 
 // Flag to track if event listeners have been added
 let eventListenersAdded = false;
@@ -145,9 +146,11 @@ function initializeDOMElements(isRetry = false) {
     playerStatsElement = document.getElementById('player-stats-element');
     playersTotalElement = document.getElementById('players-total');
     playersTodayElement = document.getElementById('players-today');
-    failedStickerSectionElement = document.getElementById('failed-sticker-section');
+    failedStickerContainerElement = document.getElementById('failed-sticker-container');
     failedStickerImageElement = document.getElementById('failed-sticker-image');
-    failedStickerNameElement = document.getElementById('failed-sticker-name');
+    gameOverTextElement = document.getElementById('game-over-text');
+    percentileValueElement = document.getElementById('percentile-value');
+    resultStickerInfoButton = document.getElementById('result-sticker-info-button');
 
     const elements = {
         gameAreaElement, stickerImageElement, optionsContainerElement, timeLeftElement,
@@ -192,7 +195,7 @@ function initializeDOMElements(isRetry = false) {
 
     // Add Event Listeners (only once)
     if (!eventListenersAdded) {
-        playAgainButton.addEventListener('click', showDifficultySelection);
+        playAgainButton.addEventListener('click', () => window.location.reload());
         loginButton.addEventListener('click', handleLoginClick);
         landingLoginButton.addEventListener('click', handleLoginClick);
         if (resultSignInButton) resultSignInButton.addEventListener('click', handleLoginClick);
@@ -823,6 +826,10 @@ async function startGame() {
         }
     }
 
+    // Add body class to indicate quiz is active (for hiding header/footer on mobile)
+    document.body.classList.add('quiz-active');
+    document.body.classList.remove('quiz-result');
+
     currentScore = 0;
     if (currentScoreElement) currentScoreElement.textContent = 0;
 
@@ -831,9 +838,6 @@ async function startGame() {
         if (msg) msg.remove();
         resultAreaElement.style.display = 'none';
     }
-
-    // Hide failed sticker section from previous game
-    if (failedStickerSectionElement) failedStickerSectionElement.style.display = 'none';
 
     if (difficultySelectionElement) difficultySelectionElement.style.display = 'none';
     if (introTextElement) introTextElement.style.display = 'none';
@@ -1071,6 +1075,48 @@ async function getAllTimeframeRanks(score, difficulty) {
     return { todayRank, weekRank, monthRank, allTimeRank };
 }
 
+// Calculate percentile rank among all unique players' best scores (all time)
+async function getPercentileRank(score, difficulty) {
+    if (!supabaseClient || score === 0) return 0;
+
+    try {
+        // Fetch all scores for this difficulty
+        const { data, error } = await supabaseClient
+            .from('scores')
+            .select('user_id, score')
+            .eq('difficulty', difficulty);
+
+        if (error) throw error;
+        if (!data || data.length === 0) return 0;
+
+        // Group by user_id and get best score for each player
+        const bestScoresByPlayer = {};
+        data.forEach(entry => {
+            const userId = entry.user_id;
+            if (!bestScoresByPlayer[userId] || entry.score > bestScoresByPlayer[userId]) {
+                bestScoresByPlayer[userId] = entry.score;
+            }
+        });
+
+        // Get array of best scores
+        const bestScores = Object.values(bestScoresByPlayer);
+        const totalPlayers = bestScores.length;
+
+        if (totalPlayers === 0) return 0;
+
+        // Count how many players have a lower best score than current score
+        const playersWithLowerScore = bestScores.filter(s => s < score).length;
+
+        // Calculate percentile (percentage of players beaten)
+        const percentile = Math.round((playersWithLowerScore / totalPlayers) * 100);
+
+        return percentile;
+    } catch (error) {
+        console.error('Error calculating percentile rank:', error);
+        return 0;
+    }
+}
+
 function endGame() {
     stopTimer();
 
@@ -1078,11 +1124,19 @@ function endGame() {
     preloadQueue = [];
     nextQuestionPromise = null;
 
+    // Show body class to indicate quiz is over (for hiding header/footer on mobile)
+    document.body.classList.remove('quiz-active');
+    document.body.classList.add('quiz-result');
+
     if (finalScoreElement) {
         finalScoreElement.textContent = currentScore;
-        finalScoreElement.classList.remove('final-score-animated');
-        void finalScoreElement.offsetWidth;
-        finalScoreElement.classList.add('final-score-animated');
+    }
+
+    // Animate Game Over text
+    if (gameOverTextElement) {
+        gameOverTextElement.classList.remove('game-over-animated');
+        void gameOverTextElement.offsetWidth;
+        gameOverTextElement.classList.add('game-over-animated');
     }
 
     if (gameAreaElement) gameAreaElement.style.display = 'none';
@@ -1098,58 +1152,39 @@ function endGame() {
     }
 
     if (difficultySelectionElement) difficultySelectionElement.style.display = 'none';
-    if (introTextElement) introTextElement.style.display = 'block';
-
-    // Display ranks if user is authenticated and score > 0
-    if (currentUser && currentScore > 0) {
-        // Display personal rank (among user's own scores for this difficulty)
-        if (personalRankContainerElement) {
-            getUserPersonalRank(currentUser.id, currentScore, selectedDifficulty).then(rank => {
-                if (rank !== null && personalRankContainerElement) {
-                    personalRankContainerElement.textContent = `#${rank} among your results`;
-                    personalRankContainerElement.style.display = 'block';
-                }
-            });
-        }
-
-        // Display timeframe ranks (compared to all users)
-        if (timeframeRanksContainerElement) {
-            getAllTimeframeRanks(currentScore, selectedDifficulty).then(ranks => {
-                if (timeframeRanksContainerElement) {
-                    const parts = [];
-                    if (ranks.todayRank !== null) parts.push(`#${ranks.todayRank} today`);
-                    if (ranks.weekRank !== null) parts.push(`#${ranks.weekRank} week`);
-                    if (ranks.monthRank !== null) parts.push(`#${ranks.monthRank} month`);
-                    if (ranks.allTimeRank !== null) parts.push(`#${ranks.allTimeRank} all time`);
-
-                    if (parts.length > 0) {
-                        timeframeRanksContainerElement.textContent = parts.join('  ');
-                        timeframeRanksContainerElement.style.display = 'block';
-                    }
-                }
-            });
-        }
-    } else {
-        if (personalRankContainerElement) personalRankContainerElement.style.display = 'none';
-        if (timeframeRanksContainerElement) timeframeRanksContainerElement.style.display = 'none';
-    }
+    if (introTextElement) introTextElement.style.display = 'none';
 
     // Display the failed sticker (the one the player didn't guess correctly)
-    if (currentQuestionData && failedStickerSectionElement && failedStickerImageElement && failedStickerNameElement) {
+    if (currentQuestionData && failedStickerContainerElement && failedStickerImageElement) {
         failedStickerImageElement.src = currentQuestionData.imageUrl;
-        failedStickerNameElement.textContent = currentQuestionData.correctAnswer;
-        failedStickerSectionElement.style.display = 'flex';
-    } else if (failedStickerSectionElement) {
-        failedStickerSectionElement.style.display = 'none';
+        failedStickerImageElement.alt = currentQuestionData.correctAnswer;
     }
 
-    // Update catalogue button to link to the failed club's page
-    const catalogueButton = document.getElementById('result-catalogue-button');
-    if (catalogueButton && currentQuestionData && currentQuestionData.clubId) {
-        catalogueButton.href = `/catalogue.html?club_id=${currentQuestionData.clubId}`;
-    } else if (catalogueButton) {
-        catalogueButton.href = '/catalogue.html';
+    // Update sticker info button to link to the failed club's page
+    if (resultStickerInfoButton && currentQuestionData && currentQuestionData.clubId) {
+        resultStickerInfoButton.href = `/catalogue.html?club_id=${currentQuestionData.clubId}`;
+    } else if (resultStickerInfoButton) {
+        resultStickerInfoButton.href = '/catalogue.html';
     }
+
+    // Calculate and display percentile rank
+    if (percentileValueElement) {
+        getPercentileRank(currentScore, selectedDifficulty).then(percentile => {
+            if (percentileValueElement) {
+                percentileValueElement.textContent = percentile;
+            }
+        });
+    }
+
+    // Set up leaderboard button to navigate to leaderboard
+    const leaderboardButton = document.getElementById('result-leaderboard-button');
+    if (leaderboardButton) {
+        leaderboardButton.onclick = () => window.location.href = '/leaderboard.html';
+    }
+
+    // Hide old rank containers (not shown in new design)
+    if (personalRankContainerElement) personalRankContainerElement.style.display = 'none';
+    if (timeframeRanksContainerElement) timeframeRanksContainerElement.style.display = 'none';
 
     saveScore();
 }
