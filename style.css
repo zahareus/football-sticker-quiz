@@ -121,10 +121,16 @@ button:disabled, .btn:disabled { cursor: not-allowed !important; background-colo
 #sticker-image[alt*="Loading"], #sticker-image[alt*="Error"] { width: 50px; height: 50px; }
 #sticker-image.fade-in { animation: fadeIn 0.4s ease-out; }
 
+/* Default styles for game-right-panel (mobile/tablet) */
+.game-right-panel {
+    display: contents; /* On mobile, behave as if wrapper doesn't exist */
+}
+
 /* Desktop horizontal layout for quiz */
 @media (min-width: 1000px) {
     #game-area {
         display: flex;
+        flex-direction: row;
         align-items: flex-start;
         justify-content: center;
         gap: calc(var(--spacing-unit) * 4);
@@ -140,8 +146,11 @@ button:disabled, .btn:disabled { cursor: not-allowed !important; background-colo
     }
 
     #sticker-container {
-        width: 600px;
-        height: 600px;
+        /* Adaptive size based on viewport height to fit without scrolling */
+        width: min(600px, calc(100vh - 300px));
+        height: min(600px, calc(100vh - 300px));
+        min-width: 400px;
+        min-height: 400px;
         margin: 0;
         flex-shrink: 0;
     }
@@ -151,10 +160,10 @@ button:disabled, .btn:disabled { cursor: not-allowed !important; background-colo
         flex-direction: column;
         align-items: center;
         gap: calc(var(--spacing-unit) * 2);
+        flex-shrink: 0;
     }
 
     #game-area .game-info {
-        order: -1;
         margin-top: 0;
         margin-bottom: calc(var(--spacing-unit) * 1);
         max-width: none;
@@ -165,11 +174,6 @@ button:disabled, .btn:disabled { cursor: not-allowed !important; background-colo
         grid-template-columns: 1fr;
         gap: calc(var(--spacing-unit) * 1.5);
     }
-}
-
-/* Default styles for game-right-panel (mobile/tablet) */
-.game-right-panel {
-    display: contents; /* On mobile, behave as if wrapper doesn't exist */
 }
 
 .options-group {
