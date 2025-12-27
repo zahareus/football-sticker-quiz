@@ -128,8 +128,9 @@ button:disabled, .btn:disabled { cursor: not-allowed !important; background-colo
 
 /* Desktop horizontal layout for quiz */
 @media (min-width: 1000px) {
-    #game-area {
-        display: flex;
+    /* Use !important to override inline style="display: block" set by JavaScript */
+    #game-area[style*="block"] {
+        display: flex !important;
         flex-direction: row;
         align-items: flex-start;
         justify-content: center;
@@ -156,7 +157,7 @@ button:disabled, .btn:disabled { cursor: not-allowed !important; background-colo
     }
 
     .game-right-panel {
-        display: flex;
+        display: flex !important;
         flex-direction: column;
         align-items: center;
         gap: calc(var(--spacing-unit) * 2);
