@@ -5,6 +5,17 @@ const SUPABASE_URL = "https://rbmeslzlbsolkxnvesqb.supabase.co";
 const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJibWVzbHpsYnNvbGt4bnZlc3FiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDUwODcxMzYsImV4cCI6MjA2MDY2MzEzNn0.cu-Qw0WoEslfKXXCiMocWFg6Uf1sK_cQYcyP2mT0-Nw";
 const BASE_URL = "https://stickerhunt.club";
 
+// Escape special XML characters
+function escapeXml(str) {
+    if (!str) return '';
+    return str
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&apos;');
+}
+
 module.exports = async function handler(req, res) {
     try {
         const headers = {
@@ -40,80 +51,38 @@ module.exports = async function handler(req, res) {
         // Get unique countries
         const countries = [...new Set(clubs.map(c => c.country).filter(Boolean))];
 
-        // Build sitemap XML
-        let xml = `<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-    <url>
-        <loc>${BASE_URL}/</loc>
-        <changefreq>daily</changefreq>
-        <priority>1.0</priority>
-    </url>
-    <url>
-        <loc>${BASE_URL}/quiz.html</loc>
-        <changefreq>weekly</changefreq>
-        <priority>0.9</priority>
-    </url>
-    <url>
-        <loc>${BASE_URL}/catalogue.html</loc>
-        <changefreq>daily</changefreq>
-        <priority>0.9</priority>
-    </url>
-    <url>
-        <loc>${BASE_URL}/leaderboard.html</loc>
-        <changefreq>hourly</changefreq>
-        <priority>0.7</priority>
-    </url>
-    <url>
-        <loc>${BASE_URL}/map.html</loc>
-        <changefreq>weekly</changefreq>
-        <priority>0.6</priority>
-    </url>
-    <url>
-        <loc>${BASE_URL}/stickerstat.html</loc>
-        <changefreq>daily</changefreq>
-        <priority>0.6</priority>
-    </url>
-    <url>
-        <loc>${BASE_URL}/about.html</loc>
-        <changefreq>monthly</changefreq>
-        <priority>0.3</priority>
-    </url>
-`;
+        // Build sitemap XML - no indentation for cleaner output
+        const urls = [];
 
-        // Add country pages
+        // Static pages
+        urls.push(`<url><loc>${BASE_URL}/</loc><changefreq>daily</changefreq><priority>1.0</priority></url>`);
+        urls.push(`<url><loc>${BASE_URL}/quiz.html</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>`);
+        urls.push(`<url><loc>${BASE_URL}/catalogue.html</loc><changefreq>daily</changefreq><priority>0.9</priority></url>`);
+        urls.push(`<url><loc>${BASE_URL}/leaderboard.html</loc><changefreq>hourly</changefreq><priority>0.7</priority></url>`);
+        urls.push(`<url><loc>${BASE_URL}/map.html</loc><changefreq>weekly</changefreq><priority>0.6</priority></url>`);
+        urls.push(`<url><loc>${BASE_URL}/stickerstat.html</loc><changefreq>daily</changefreq><priority>0.6</priority></url>`);
+        urls.push(`<url><loc>${BASE_URL}/about.html</loc><changefreq>monthly</changefreq><priority>0.3</priority></url>`);
+
+        // Country pages
         for (const country of countries) {
-            xml += `    <url>
-        <loc>${BASE_URL}/catalogue.html?country=${encodeURIComponent(country)}</loc>
-        <changefreq>weekly</changefreq>
-        <priority>0.8</priority>
-    </url>
-`;
+            const encodedCountry = escapeXml(encodeURIComponent(country));
+            urls.push(`<url><loc>${BASE_URL}/catalogue.html?country=${encodedCountry}</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>`);
         }
 
-        // Add club pages
+        // Club pages
         for (const club of clubs) {
-            xml += `    <url>
-        <loc>${BASE_URL}/catalogue.html?club_id=${club.id}</loc>
-        <changefreq>weekly</changefreq>
-        <priority>0.7</priority>
-    </url>
-`;
+            urls.push(`<url><loc>${BASE_URL}/catalogue.html?club_id=${club.id}</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>`);
         }
 
-        // Add sticker pages
+        // Sticker pages
         for (const sticker of stickers) {
-            xml += `    <url>
-        <loc>${BASE_URL}/catalogue.html?sticker_id=${sticker.id}</loc>
-        <changefreq>monthly</changefreq>
-        <priority>0.6</priority>
-    </url>
-`;
+            urls.push(`<url><loc>${BASE_URL}/catalogue.html?sticker_id=${sticker.id}</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>`);
         }
 
-        xml += `</urlset>`;
+        const xml = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls.join('\n')}\n</urlset>`;
 
         // Set response headers
-        res.setHeader('Content-Type', 'application/xml');
+        res.setHeader('Content-Type', 'application/xml; charset=utf-8');
         res.setHeader('Cache-Control', 's-maxage=3600, stale-while-revalidate');
 
         return res.status(200).send(xml);
