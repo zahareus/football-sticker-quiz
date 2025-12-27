@@ -91,7 +91,7 @@ function getPreloadedQuestion() {
 }
 
 // ----- 3. DOM Element References -----
-let gameAreaElement, stickerImageElement, optionsContainerElement, timeLeftElement, currentScoreElement, resultAreaElement, finalScoreElement, playAgainButton, resultSignInButton, authSectionElement, loginButton, userStatusElement, logoutButton, difficultySelectionElement, loadingIndicator, errorMessageElement;
+let gameAreaElement, stickerImageElement, optionsContainerElement, timeLeftElement, currentScoreElement, finalScoreElement, playAgainButton, resultSignInButton, authSectionElement, loginButton, userStatusElement, logoutButton, difficultySelectionElement, loadingIndicator, errorMessageElement;
 let difficultyButtons;
 let leaderboardSectionElement, leaderboardListElement, closeLeaderboardButton;
 let userNicknameElement, editNicknameForm, nicknameInputElement, cancelEditNicknameButton;
@@ -100,9 +100,9 @@ let landingPageElement, landingLoginButton, landingLeaderboardButton, landingPla
 let introTextElement;
 let personalRankContainerElement, timeframeRanksContainerElement;
 let playerStatsElement, playersTotalElement, playersTodayElement;
-let failedStickerContainerElement, failedStickerImageElement;
 let leaderboardTimeFilterButtons, leaderboardDifficultyFilterButtons;
 let gameOverTextElement, percentileValueElement, resultStickerInfoButton;
+let gameRightPanelElement, resultRightPanelElement;
 
 // Flag to track if event listeners have been added
 let eventListenersAdded = false;
@@ -115,7 +115,6 @@ function initializeDOMElements(isRetry = false) {
     timeLeftElement = document.getElementById('time-left');
     currentScoreElement = document.getElementById('current-score');
     scoreDisplayElement = document.getElementById('score');
-    resultAreaElement = document.getElementById('result-area');
     finalScoreElement = document.getElementById('final-score');
     personalRankContainerElement = document.getElementById('personal-rank-container');
     timeframeRanksContainerElement = document.getElementById('timeframe-ranks-container');
@@ -146,21 +145,22 @@ function initializeDOMElements(isRetry = false) {
     playerStatsElement = document.getElementById('player-stats-element');
     playersTotalElement = document.getElementById('players-total');
     playersTodayElement = document.getElementById('players-today');
-    failedStickerContainerElement = document.getElementById('failed-sticker-container');
-    failedStickerImageElement = document.getElementById('failed-sticker-image');
     gameOverTextElement = document.getElementById('game-over-text');
     percentileValueElement = document.getElementById('percentile-value');
     resultStickerInfoButton = document.getElementById('result-sticker-info-button');
+    gameRightPanelElement = document.querySelector('.game-right-panel');
+    resultRightPanelElement = document.querySelector('.result-right-panel');
 
     const elements = {
         gameAreaElement, stickerImageElement, optionsContainerElement, timeLeftElement,
-        currentScoreElement, scoreDisplayElement, resultAreaElement, finalScoreElement,
+        currentScoreElement, scoreDisplayElement, finalScoreElement,
         playAgainButton, resultSignInButton, authSectionElement, loginButton,
         userStatusElement, userNicknameElement, logoutButton, difficultySelectionElement,
         leaderboardSectionElement, leaderboardListElement, closeLeaderboardButton,
         loadingIndicator, errorMessageElement, editNicknameForm, nicknameInputElement,
         cancelEditNicknameButton, landingPageElement, landingLoginButton,
-        landingLeaderboardButton, landingPlayEasyButton, introTextElement
+        landingLeaderboardButton, landingPlayEasyButton, introTextElement,
+        gameRightPanelElement, resultRightPanelElement
     };
 
     let allFound = true;
@@ -298,7 +298,6 @@ function updateAuthStateUI(user) {
     // Hide ALL sections first
     difficultySelectionElement.style.cssText = 'display: none !important;';
     gameAreaElement.style.cssText = 'display: none !important;';
-    resultAreaElement.style.cssText = 'display: none !important;';
     leaderboardSectionElement.style.cssText = 'display: none !important;';
     landingPageElement.style.cssText = 'display: none !important;';
     introTextElement.style.cssText = 'display: none !important;';
@@ -560,7 +559,7 @@ async function getStickerCount(difficulty) {
 
 // ----- 7. Display Question Function -----
 async function displayQuestion(questionData) {
-    if (!questionData || !stickerImageElement || !optionsContainerElement || !timeLeftElement || !currentScoreElement || !gameAreaElement || !resultAreaElement) {
+    if (!questionData || !stickerImageElement || !optionsContainerElement || !timeLeftElement || !currentScoreElement || !gameAreaElement) {
         showError("Error displaying question.");
         endGame();
         return;
@@ -624,7 +623,9 @@ async function displayQuestion(questionData) {
     }
     if (currentScoreElement) currentScoreElement.textContent = currentScore;
     if (gameAreaElement) gameAreaElement.style.display = 'block';
-    if (resultAreaElement) resultAreaElement.style.display = 'none';
+    // Show game panel, hide result panel
+    if (gameRightPanelElement) gameRightPanelElement.style.display = '';
+    if (resultRightPanelElement) resultRightPanelElement.style.display = 'none';
 
     startTimer();
 
@@ -756,12 +757,11 @@ function stopTimer() {
 function showDifficultySelection() {
     hideError();
 
-    if (!difficultySelectionElement || !gameAreaElement || !resultAreaElement || !leaderboardSectionElement || !landingPageElement || !introTextElement) {
+    if (!difficultySelectionElement || !gameAreaElement || !leaderboardSectionElement || !landingPageElement || !introTextElement) {
         if (!initializeDOMElements(true)) return;
     }
 
     if (gameAreaElement) gameAreaElement.style.display = 'none';
-    if (resultAreaElement) resultAreaElement.style.display = 'none';
     if (leaderboardSectionElement) leaderboardSectionElement.style.display = 'none';
 
     if (introTextElement) introTextElement.style.display = 'block';
@@ -819,7 +819,7 @@ async function startGame() {
         return;
     }
 
-    if (!gameAreaElement || !currentScoreElement || !resultAreaElement || !optionsContainerElement) {
+    if (!gameAreaElement || !currentScoreElement || !optionsContainerElement) {
         if (!initializeDOMElements()) {
             handleCriticalError("Failed init.");
             return;
@@ -833,11 +833,9 @@ async function startGame() {
     currentScore = 0;
     if (currentScoreElement) currentScoreElement.textContent = 0;
 
-    if (resultAreaElement) {
-        const msg = resultAreaElement.querySelector('.save-message');
-        if (msg) msg.remove();
-        resultAreaElement.style.display = 'none';
-    }
+    // Reset panels for new game
+    if (gameRightPanelElement) gameRightPanelElement.style.display = '';
+    if (resultRightPanelElement) resultRightPanelElement.style.display = 'none';
 
     if (difficultySelectionElement) difficultySelectionElement.style.display = 'none';
     if (introTextElement) introTextElement.style.display = 'none';
@@ -870,12 +868,7 @@ async function loadNextQuestion(isQuickTransition = false) {
         displayQuestion(questionData);
     } else {
         console.error("loadNextQuestion: Failed. Ending game.");
-        if (gameAreaElement) gameAreaElement.style.display = 'none';
-        if (resultAreaElement) {
-            resultAreaElement.style.display = 'block';
-            if (finalScoreElement) finalScoreElement.textContent = currentScore;
-        }
-        if (introTextElement) introTextElement.style.display = 'block';
+        endGame();
     }
 }
 
@@ -1139,13 +1132,9 @@ function endGame() {
         gameOverTextElement.classList.add('game-over-animated');
     }
 
-    if (gameAreaElement) gameAreaElement.style.display = 'none';
-
-    if (resultAreaElement) {
-        const msg = resultAreaElement.querySelector('.save-message');
-        if (msg) msg.remove();
-        resultAreaElement.style.display = 'block';
-    }
+    // Switch from game panel to result panel (sticker stays in place)
+    if (gameRightPanelElement) gameRightPanelElement.style.display = 'none';
+    if (resultRightPanelElement) resultRightPanelElement.style.display = 'flex';
 
     if (resultSignInButton) {
         resultSignInButton.style.display = currentUser ? 'none' : 'inline-block';
@@ -1153,12 +1142,6 @@ function endGame() {
 
     if (difficultySelectionElement) difficultySelectionElement.style.display = 'none';
     if (introTextElement) introTextElement.style.display = 'none';
-
-    // Display the failed sticker (the one the player didn't guess correctly)
-    if (currentQuestionData && failedStickerContainerElement && failedStickerImageElement) {
-        failedStickerImageElement.src = currentQuestionData.imageUrl;
-        failedStickerImageElement.alt = currentQuestionData.correctAnswer;
-    }
 
     // Update sticker info button to link to the failed club's page
     if (resultStickerInfoButton && currentQuestionData && currentQuestionData.clubId) {
@@ -1181,10 +1164,6 @@ function endGame() {
     if (leaderboardButton) {
         leaderboardButton.onclick = () => window.location.href = '/leaderboard.html';
     }
-
-    // Hide old rank containers (not shown in new design)
-    if (personalRankContainerElement) personalRankContainerElement.style.display = 'none';
-    if (timeframeRanksContainerElement) timeframeRanksContainerElement.style.display = 'none';
 
     saveScore();
 }
@@ -1340,13 +1319,12 @@ function handleDifficultyFilterChange(event) {
 function openLeaderboard() {
     hideError();
 
-    if (!leaderboardSectionElement || !landingPageElement || !gameAreaElement || !resultAreaElement || !difficultySelectionElement || !introTextElement) {
+    if (!leaderboardSectionElement || !landingPageElement || !gameAreaElement || !difficultySelectionElement || !introTextElement) {
         handleCriticalError("UI Error opening leaderboard.");
         return;
     }
 
     if (gameAreaElement) gameAreaElement.style.display = 'none';
-    if (resultAreaElement) resultAreaElement.style.display = 'none';
     if (difficultySelectionElement) difficultySelectionElement.style.display = 'none';
     if (landingPageElement) landingPageElement.style.display = 'none';
     if (introTextElement) introTextElement.style.display = 'none';

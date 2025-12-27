@@ -105,26 +105,18 @@
                  <div id="options" class="button-group options-group">
                  </div>
              </div>
-         </div>
-
-        <div id="result-area" style="display: none;">
-             <div id="failed-sticker-container">
-                 <img id="failed-sticker-image" src="" alt="Failed Sticker">
-             </div>
-             <div class="result-right-panel">
+             <div class="result-right-panel" style="display: none;">
                  <div class="result-info">
                      <h2 id="game-over-text">Game Over!</h2>
                      <p class="final-score-container">Your final score: <span id="final-score">0</span></p>
                  </div>
                  <div class="result-buttons">
-                     <button id="result-leaderboard-button" class="btn btn-secondary btn-large">Better than <span id="percentile-value">0</span>% players</button>
+                     <button id="result-leaderboard-button" class="btn btn-secondary btn-large" title="View leaderboard">Better than <strong><span id="percentile-value">0</span>%</strong> of players</button>
                      <button id="play-again" class="btn btn-primary btn-large">Play Again</button>
-                     <a href="/catalogue.html" id="result-sticker-info-button" class="btn btn-secondary btn-large">View sticker info</a>
+                     <a href="/catalogue.html" id="result-sticker-info-button" class="btn btn-secondary btn-large" title="Large image, geo and date">View sticker info</a>
                      <button id="result-sign-in-button" class="btn btn-secondary btn-large" style="display: none;">Sign In (hard levels, leaderboard)</button>
                  </div>
              </div>
-             <p class="rank-container personal-rank" id="personal-rank-container" style="display: none;"></p>
-             <p class="rank-container timeframe-ranks" id="timeframe-ranks-container" style="display: none;"></p>
          </div>
 
         <section id="leaderboard-section" style="display: none;">
