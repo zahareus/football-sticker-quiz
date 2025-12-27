@@ -820,7 +820,7 @@ async function loadStickerDetails(stickerId) {
                     const countryDetail = countryCodeToDetails_Generic[sticker.clubs.country.toUpperCase()];
                     countryDisplayNameForBreadcrumb = countryDetail ? countryDetail.name : sticker.clubs.country;
                 }
-                if (mainHeading) mainHeading.textContent = `Sticker #${sticker.id} - ${clubName}`;
+                if (mainHeading) mainHeading.style.display = 'none'; // Hide heading - info shown in right column
                 document.title = `Sticker #${sticker.id} - ${clubName} - ${countryDisplayNameForBreadcrumb} - Sticker Catalogue`;
                 updateCanonicalUrl(`https://stickerhunt.club/catalogue.html?sticker_id=${sticker.id}`);
                 updateMetaDescription(`Football sticker #${sticker.id} from ${clubName}, ${countryDisplayNameForBreadcrumb}. View this sticker in our collection.`);
@@ -863,7 +863,7 @@ async function loadStickerDetails(stickerId) {
                     }
                 }
             } else {
-                if (mainHeading) mainHeading.textContent = `Sticker #${sticker.id}`;
+                if (mainHeading) mainHeading.style.display = 'none'; // Hide heading - info shown in right column
                 updateBreadcrumbs([{ text: `All Countries (${totalCountriesInCatalogue})`, link: 'catalogue.html' }]);
             }
 
