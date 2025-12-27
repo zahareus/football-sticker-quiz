@@ -339,14 +339,8 @@ async function loadLastStickers() {
             groupedByDate[date].forEach(sticker => {
                 const clubName = sticker.clubs?.name || 'Unknown Club';
                 const clubId = sticker.clubs?.id || null;
-                const countryCode = sticker.clubs?.country || '';
-                const flagEmoji = countryCodeToFlagEmoji[countryCode.toUpperCase()] || '';
 
                 let entry = '<a href="catalogue.html?sticker_id=' + sticker.id + '" class="sticker-link">#' + sticker.id + '</a>, ';
-
-                if (flagEmoji) {
-                    entry += flagEmoji + ' ';
-                }
 
                 if (clubId) {
                     entry += '<a href="catalogue.html?club_id=' + clubId + '" class="club-link">' + clubName + '</a>';
