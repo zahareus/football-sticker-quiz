@@ -932,7 +932,8 @@ async function loadNewQuestionInternal() {
         return {
             imageUrl: imageUrl,
             options: allOptions,
-            correctAnswer: correctClubName
+            correctAnswer: correctClubName,
+            clubId: randomStickerData.clubs.id
         };
     } catch (error) {
         console.error("Error in loadNewQuestionInternal:", error);
@@ -1140,6 +1141,14 @@ function endGame() {
         failedStickerSectionElement.style.display = 'flex';
     } else if (failedStickerSectionElement) {
         failedStickerSectionElement.style.display = 'none';
+    }
+
+    // Update catalogue button to link to the failed club's page
+    const catalogueButton = document.getElementById('result-catalogue-button');
+    if (catalogueButton && currentQuestionData && currentQuestionData.clubId) {
+        catalogueButton.href = `/catalogue.html?club_id=${currentQuestionData.clubId}`;
+    } else if (catalogueButton) {
+        catalogueButton.href = '/catalogue.html';
     }
 
     saveScore();

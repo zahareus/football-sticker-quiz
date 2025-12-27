@@ -599,7 +599,7 @@ async function loadClubDetails(clubId) {
 
             const { data: stickersResponse, error: stickersError } = await supabaseClient
                 .from('stickers')
-                .select('id, image_url')
+                .select('id, image_url, latitude, longitude')
                 .eq('club_id', clubId)
                 .order('id', { ascending: true });
 
@@ -622,6 +622,11 @@ async function loadClubDetails(clubId) {
             }
             clubInfoHtml += '</div>';
 
+            // Check if any stickers have coordinates for the map
+            const stickersWithCoordinates = stickersResponse ? stickersResponse.filter(
+                s => s.latitude != null && s.longitude != null
+            ) : [];
+
             if (stickersError) {
                 console.error(`Error fetching stickers for club ID ${clubId}:`, stickersError);
                 contentBodyHtml = clubInfoHtml + `<p>Could not load stickers for this club: ${stickersError.message}</p>`;
@@ -642,10 +647,33 @@ async function loadClubDetails(clubId) {
                         </a>`;
                 });
                 galleryHtml += '</div>';
-                contentBodyHtml = clubInfoHtml + galleryHtml;
+
+                // Add map section if there are stickers with coordinates
+                let clubMapHtml = '';
+                if (stickersWithCoordinates.length > 0) {
+                    clubMapHtml = `
+                        <div class="club-map-section">
+                            <h3 class="club-map-heading">Sticker Locations</h3>
+                            <div id="club-map" class="club-map-container"></div>
+                            <div class="view-map-btn-container">
+                                <a href="/map.html" class="btn btn-secondary">View Full Map</a>
+                            </div>
+                        </div>
+                    `;
+                }
+
+                contentBodyHtml = clubInfoHtml + galleryHtml + clubMapHtml;
             }
+
+            contentDiv.innerHTML = contentBodyHtml;
+
+            // Initialize club map if there are stickers with coordinates
+            if (stickersWithCoordinates && stickersWithCoordinates.length > 0) {
+                initializeClubMap(stickersWithCoordinates, clubData.name);
+            }
+        } else {
+            contentDiv.innerHTML = contentBodyHtml;
         }
-        contentDiv.innerHTML = contentBodyHtml;
     } catch (error) {
         console.error(`An error occurred while loading club details for ID ${clubId}:`, error);
         contentDiv.innerHTML = `<p>An unexpected error occurred: ${error.message}</p>`;
@@ -777,11 +805,36 @@ async function loadStickerDetails(stickerId) {
             // Use optimized detail image URL, but keep original for full-size view
             const detailImageUrl = SharedUtils.getDetailImageUrl(sticker.image_url);
 
-            // Build map section HTML if coordinates are available
+            // Build hunted info section
+            let huntedInfoHtml = '';
+            const hasLocation = sticker.location && sticker.location.trim() !== '';
+            const hasDate = sticker.found != null;
             const hasCoordinates = sticker.latitude != null && sticker.longitude != null;
+
+            if (hasDate && hasLocation) {
+                // Format date as "24 August 2025"
+                const dateObj = new Date(sticker.found);
+                const formattedDate = dateObj.toLocaleDateString('en-GB', {
+                    day: 'numeric',
+                    month: 'long',
+                    year: 'numeric'
+                });
+                huntedInfoHtml = `
+                    <div class="sticker-detail-info">
+                        <p>📍 The sticker was hunted on <strong>${formattedDate}</strong> in <strong>${sticker.location}</strong>.</p>
+                    </div>
+                `;
+            } else if (hasLocation) {
+                huntedInfoHtml = `
+                    <div class="sticker-detail-info">
+                        <p>📍 The sticker was hunted in <strong>${sticker.location}</strong>.</p>
+                    </div>
+                `;
+            }
+
+            // Build map section HTML if coordinates are available
             const mapSectionHtml = hasCoordinates ? `
                 <div class="sticker-map-section">
-                    <p class="sticker-map-label"><strong>📍 Found Location</strong></p>
                     <div id="sticker-map" class="sticker-map-container"></div>
                     <div class="view-map-btn-container">
                         <a href="/map.html" class="btn btn-secondary">View Full Map</a>
@@ -798,10 +851,7 @@ async function loadStickerDetails(stickerId) {
                              decoding="async">
                     </div>
                     ${navigationHtml}
-                    <div class="sticker-detail-info">
-                        <p><strong>🌍 Location Found:</strong> ${sticker.location || 'N/A'}</p>
-                        <p><strong>📅 Date Found:</strong> ${sticker.found ? new Date(sticker.found).toLocaleDateString() : 'N/A'}</p>
-                    </div>
+                    ${huntedInfoHtml}
                     ${mapSectionHtml}
                 </div>
             `;
@@ -1198,6 +1248,94 @@ function initializeStickerMap(latitude, longitude, clubName, currentStickerId, n
     if (clubName) {
         mainMarker.bindPopup(`<strong>${clubName}</strong>`).openPopup();
     }
+
+    // Enable scroll zoom only when map is focused (clicked)
+    map.on('click', function() {
+        map.scrollWheelZoom.enable();
+    });
+
+    // Disable scroll zoom when mouse leaves map
+    mapContainer.addEventListener('mouseleave', function() {
+        map.scrollWheelZoom.disable();
+    });
+}
+
+/**
+ * Initialize Leaflet map for club sticker locations
+ * @param {Array} stickers - Array of stickers with latitude and longitude
+ * @param {string} clubName - Club name for popups
+ */
+function initializeClubMap(stickers, clubName) {
+    const mapContainer = document.getElementById('club-map');
+    if (!mapContainer) {
+        console.error('Club map container not found');
+        return;
+    }
+
+    // Check if Leaflet is loaded
+    if (typeof L === 'undefined') {
+        console.error('Leaflet library not loaded');
+        mapContainer.innerHTML = '<p style="text-align: center; color: var(--color-info-text);">Map could not be loaded</p>';
+        return;
+    }
+
+    // Calculate bounds to fit all markers
+    const bounds = L.latLngBounds();
+    stickers.forEach(sticker => {
+        if (sticker.latitude && sticker.longitude) {
+            bounds.extend([sticker.latitude, sticker.longitude]);
+        }
+    });
+
+    // Initialize the map
+    const map = L.map('club-map', {
+        scrollWheelZoom: false
+    });
+
+    // Fit map to bounds with padding
+    map.fitBounds(bounds, { padding: [30, 30] });
+
+    // Add OpenStreetMap tiles
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 19,
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+    }).addTo(map);
+
+    // Create marker icon
+    const markerIcon = L.icon({
+        iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
+        iconRetinaUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png',
+        shadowUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png',
+        iconSize: [25, 41],
+        iconAnchor: [12, 41],
+        popupAnchor: [1, -34],
+        shadowSize: [41, 41]
+    });
+
+    // Add markers for each sticker
+    stickers.forEach(sticker => {
+        if (sticker.latitude && sticker.longitude) {
+            const popupContent = `
+                <div class="club-sticker-popup">
+                    <strong>${clubName}</strong>
+                    <a href="catalogue.html?sticker_id=${sticker.id}" class="map-popup-link">View sticker</a>
+                </div>
+            `;
+
+            const marker = L.marker([sticker.latitude, sticker.longitude], {
+                icon: markerIcon
+            }).addTo(map);
+
+            marker.bindPopup(popupContent);
+
+            marker.on('mouseover', function() {
+                this.openPopup();
+            });
+            marker.on('click', function() {
+                this.openPopup();
+            });
+        }
+    });
 
     // Enable scroll zoom only when map is focused (clicked)
     map.on('click', function() {
