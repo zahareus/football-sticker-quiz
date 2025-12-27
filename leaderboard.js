@@ -18,9 +18,9 @@ if (typeof SharedUtils === 'undefined') {
 }
 
 // DOM Elements
-let leaderboardListEasy;
-let leaderboardListMedium;
-let leaderboardListHard;
+let leaderboardTableEasy;
+let leaderboardTableMedium;
+let leaderboardTableHard;
 let leaderboardTimeFilterButtons;
 let leaderboardModeFilterButtons;
 let loadingIndicator;
@@ -56,9 +56,9 @@ function getDisplayLimit() {
 // Initialize page
 function initializeLeaderboardPage() {
     // Get DOM elements
-    leaderboardListEasy = document.getElementById('leaderboard-list-easy');
-    leaderboardListMedium = document.getElementById('leaderboard-list-medium');
-    leaderboardListHard = document.getElementById('leaderboard-list-hard');
+    leaderboardTableEasy = document.getElementById('leaderboard-table-easy');
+    leaderboardTableMedium = document.getElementById('leaderboard-table-medium');
+    leaderboardTableHard = document.getElementById('leaderboard-table-hard');
     leaderboardTimeFilterButtons = document.querySelectorAll('.leaderboard-time-filter');
     leaderboardModeFilterButtons = document.querySelectorAll('.leaderboard-mode-filter');
     loadingIndicator = document.getElementById('loading-indicator');
@@ -146,18 +146,16 @@ async function fetchLeaderboardData(timeframe, difficulty) {
     }
 }
 
-function displayLeaderboard(listElement, data, difficulty) {
-    if (!listElement) return;
-
-    listElement.innerHTML = '';
+function displayLeaderboard(containerElement, data, difficulty) {
+    if (!containerElement) return;
 
     if (!data) {
-        listElement.innerHTML = '<li>Error loading.</li>';
+        containerElement.innerHTML = '<p>Error loading.</p>';
         return;
     }
 
     if (data.length === 0) {
-        listElement.innerHTML = '<li>No scores yet</li>';
+        containerElement.innerHTML = '<p>No scores yet</p>';
         return;
     }
 
@@ -194,59 +192,40 @@ function displayLeaderboard(listElement, data, difficulty) {
     // Get top entries based on display limit
     const topEntries = processedData.slice(0, displayLimit);
 
-    // Display top entries
+    // Build table HTML (same structure as stats-table in stickerstat)
+    let tableHtml = '<table class="stats-table">';
+
     topEntries.forEach((entry, index) => {
-        const li = document.createElement('li');
-        li.setAttribute('value', index + 1);
         const username = entry.profiles?.username || 'Anonymous';
+        const isCurrentUser = currentUserId && entry.user_id === currentUserId;
+        const rowClass = isCurrentUser ? ' class="user-score-row"' : '';
 
-        // Create link to player profile
-        const usernameLink = document.createElement('a');
-        usernameLink.href = `/profile.html?id=${entry.user_id}`;
-        usernameLink.className = 'player-link';
-        usernameLink.textContent = username;
-
-        li.appendChild(usernameLink);
-        li.appendChild(document.createTextNode(` - ${entry.score}`));
-
-        if (currentUserId && entry.user_id === currentUserId) {
-            li.classList.add('user-score');
-        }
-
-        listElement.appendChild(li);
+        tableHtml += `
+            <tr${rowClass}>
+                <td class="stats-rank">${index + 1}</td>
+                <td class="stats-name"><a href="/profile.html?id=${entry.user_id}">${username}</a></td>
+                <td class="stats-count">${entry.score}</td>
+            </tr>
+        `;
     });
 
-    // If user is not in top entries but has a score, show their position
+    // If user is not in top entries but has a score, show separator and their position
     if (userPosition > displayLimit && userEntry) {
-        // Add separator
-        const separatorDiv = document.createElement('div');
-        separatorDiv.className = 'leaderboard-separator';
-        separatorDiv.textContent = '...';
-        listElement.appendChild(separatorDiv);
-
-        // Add user's entry with their actual position
-        const userDiv = document.createElement('div');
-        userDiv.className = 'user-score leaderboard-user-entry';
-
-        const positionSpan = document.createElement('span');
-        positionSpan.className = 'user-position';
-        positionSpan.textContent = `${userPosition}.`;
-
-        const nameSpan = document.createElement('span');
         const username = userEntry.profiles?.username || 'Anonymous';
-
-        const userLink = document.createElement('a');
-        userLink.href = `/profile.html?id=${userEntry.user_id}`;
-        userLink.className = 'player-link';
-        userLink.textContent = username;
-
-        nameSpan.appendChild(userLink);
-        nameSpan.appendChild(document.createTextNode(` - ${userEntry.score}`));
-
-        userDiv.appendChild(positionSpan);
-        userDiv.appendChild(nameSpan);
-        listElement.appendChild(userDiv);
+        tableHtml += `
+            <tr class="separator-row">
+                <td colspan="3">...</td>
+            </tr>
+            <tr class="user-score-row">
+                <td class="stats-rank">${userPosition}</td>
+                <td class="stats-name"><a href="/profile.html?id=${userEntry.user_id}">${username}</a></td>
+                <td class="stats-count">${userEntry.score}</td>
+            </tr>
+        `;
     }
+
+    tableHtml += '</table>';
+    containerElement.innerHTML = tableHtml;
 }
 
 function updateFilterButtonsUI() {
@@ -265,9 +244,9 @@ async function updateAllLeaderboards() {
     updateFilterButtonsUI();
 
     // Show loading state
-    if (leaderboardListEasy) leaderboardListEasy.innerHTML = '<li>Loading...</li>';
-    if (leaderboardListMedium) leaderboardListMedium.innerHTML = '<li>Loading...</li>';
-    if (leaderboardListHard) leaderboardListHard.innerHTML = '<li>Loading...</li>';
+    if (leaderboardTableEasy) leaderboardTableEasy.innerHTML = '<p>Loading...</p>';
+    if (leaderboardTableMedium) leaderboardTableMedium.innerHTML = '<p>Loading...</p>';
+    if (leaderboardTableHard) leaderboardTableHard.innerHTML = '<p>Loading...</p>';
 
     // Fetch all three difficulties in parallel
     const [easyData, mediumData, hardData] = await Promise.all([
@@ -277,9 +256,9 @@ async function updateAllLeaderboards() {
     ]);
 
     // Display all three leaderboards
-    displayLeaderboard(leaderboardListEasy, easyData, 1);
-    displayLeaderboard(leaderboardListMedium, mediumData, 2);
-    displayLeaderboard(leaderboardListHard, hardData, 3);
+    displayLeaderboard(leaderboardTableEasy, easyData, 1);
+    displayLeaderboard(leaderboardTableMedium, mediumData, 2);
+    displayLeaderboard(leaderboardTableHard, hardData, 3);
 }
 
 function handleTimeFilterChange(event) {
