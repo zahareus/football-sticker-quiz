@@ -698,6 +698,33 @@ body.quiz-result .result-right-panel {
     text-align: left;
 }
 
+/* Desktop: expand to match quiz layout width */
+@media (min-width: 1000px) {
+    .sticker-detail-two-column {
+        display: flex;
+        flex-direction: row;
+        align-items: flex-start;
+        justify-content: center;
+        gap: calc(var(--spacing-unit) * 4);
+        width: calc(100vw - var(--spacing-unit) * 4);
+        max-width: 1000px;
+        margin-left: auto;
+        margin-right: auto;
+        position: relative;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+
+    .sticker-detail-image-container {
+        /* Match quiz sticker size exactly */
+        width: min(600px, calc(100vh - 300px));
+        height: min(600px, calc(100vh - 300px));
+        min-width: 400px;
+        min-height: 400px;
+    }
+}
+
+/* Tablet and smaller: default layout */
 .sticker-detail-two-column {
     display: flex;
     flex-direction: row;
