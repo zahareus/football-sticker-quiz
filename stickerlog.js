@@ -86,7 +86,8 @@ async function loadAllStickers() {
                 location,
                 clubs (
                     id,
-                    name
+                    name,
+                    country
                 )
             `)
             .order('created_at', { ascending: false });
@@ -179,6 +180,11 @@ function displayStickers() {
     stickersToDisplay.forEach(({ date, sticker }) => {
         // Add date header if this is a new date group
         if (currentDisplayDate !== date) {
+            // Close previous list if exists
+            if (currentDisplayDate !== null) {
+                html += `</ul>`;
+            }
+
             currentDisplayDate = date;
             const dateObj = new Date(date);
             const formattedDate = dateObj.toLocaleDateString('en-GB', {
@@ -190,12 +196,18 @@ function displayStickers() {
             html += `<div class="stickerlog-date-header">
                 <h2>${formattedDate}</h2>
             </div>`;
+            html += `<ul class="stickerlog-entries-list">`;
         }
 
         // Format sticker entry
         const stickerEntry = formatStickerEntry(sticker);
-        html += `<div class="stickerlog-entry">${stickerEntry}</div>`;
+        html += `<li class="stickerlog-entry">${stickerEntry}</li>`;
     });
+
+    // Close the last list
+    if (currentDisplayDate !== null) {
+        html += `</ul>`;
+    }
 
     contentDiv.innerHTML = html;
 
@@ -205,7 +217,7 @@ function displayStickers() {
 
 /**
  * Format a single sticker entry
- * Format: Sticker #1436 from FC Bayern Munich. Hunted 02.08.2024 in Amsterdam, Netherlands
+ * Format: #2866, 🇦🇹 FK Austria Viena.
  * @param {Object} sticker - Sticker object
  * @returns {string} - Formatted HTML string
  */
@@ -213,30 +225,52 @@ function formatStickerEntry(sticker) {
     const stickerId = sticker.id;
     const clubName = sticker.clubs ? sticker.clubs.name : 'Unknown Club';
     const clubId = sticker.clubs ? sticker.clubs.id : null;
+    const countryCode = sticker.clubs?.country || '';
 
-    let huntedInfo = '';
-    if (sticker.found && sticker.location) {
-        const foundDate = new Date(sticker.found);
-        const formattedFoundDate = foundDate.toLocaleDateString('en-GB', {
-            day: '2-digit',
-            month: '2-digit',
-            year: 'numeric'
-        });
-        huntedInfo = ` Hunted ${formattedFoundDate} in ${sticker.location}`;
-    } else if (sticker.location) {
-        huntedInfo = ` Hunted in ${sticker.location}`;
-    }
+    // Get country flag emoji
+    const countryCodeToFlagEmoji = {
+        "AFG": "🇦🇫", "ALB": "🇦🇱", "DZA": "🇩🇿", "AND": "🇦🇩", "AGO": "🇦🇴", "ARG": "🇦🇷", "ARM": "🇦🇲",
+        "AUS": "🇦🇺", "AUT": "🇦🇹", "AZE": "🇦🇿", "BHS": "🇧🇸", "BHR": "🇧🇭", "BGD": "🇧🇩", "BLR": "🇧🇾",
+        "BEL": "🇧🇪", "BLZ": "🇧🇿", "BEN": "🇧🇯", "BOL": "🇧🇴", "BIH": "🇧🇦", "BWA": "🇧🇼", "BRA": "🇧🇷",
+        "BGR": "🇧🇬", "BFA": "🇧🇫", "KHM": "🇰🇭", "CMR": "🇨🇲", "CAN": "🇨🇦", "CPV": "🇨🇻", "CAF": "🇨🇫",
+        "TCD": "🇹🇩", "CHL": "🇨🇱", "CHN": "🇨🇳", "COL": "🇨🇴", "COG": "🇨🇬", "CRI": "🇨🇷", "HRV": "🇭🇷",
+        "CUB": "🇨🇺", "CYP": "🇨🇾", "CZE": "🇨🇿", "DNK": "🇩🇰", "DJI": "🇩🇯", "DOM": "🇩🇴", "ECU": "🇪🇨",
+        "EGY": "🇪🇬", "SLV": "🇸🇻", "GNQ": "🇬🇶", "EST": "🇪🇪", "ETH": "🇪🇹", "FJI": "🇫🇯", "FIN": "🇫🇮",
+        "FRA": "🇫🇷", "GAB": "🇬🇦", "GMB": "🇬🇲", "GEO": "🇬🇪", "DEU": "🇩🇪", "GHA": "🇬🇭", "GRC": "🇬🇷",
+        "GTM": "🇬🇹", "GIN": "🇬🇳", "HTI": "🇭🇹", "HND": "🇭🇳", "HUN": "🇭🇺", "ISL": "🇮🇸", "IND": "🇮🇳",
+        "IDN": "🇮🇩", "IRN": "🇮🇷", "IRQ": "🇮🇶", "IRL": "🇮🇪", "ISR": "🇮🇱", "ITA": "🇮🇹", "CIV": "🇨🇮",
+        "JAM": "🇯🇲", "JPN": "🇯🇵", "JOR": "🇯🇴", "KAZ": "🇰🇿", "KEN": "🇰🇪", "KWT": "🇰🇼", "KGZ": "🇰🇬",
+        "LVA": "🇱🇻", "LBN": "🇱🇧", "LBR": "🇱🇷", "LBY": "🇱🇾", "LIE": "🇱🇮", "LTU": "🇱🇹", "LUX": "🇱🇺",
+        "MKD": "🇲🇰", "MDG": "🇲🇬", "MWI": "🇲🇼", "MYS": "🇲🇾", "MLI": "🇲🇱", "MLT": "🇲🇹", "MRT": "🇲🇷",
+        "MEX": "🇲🇽", "MDA": "🇲🇩", "MCO": "🇲🇨", "MNG": "🇲🇳", "MNE": "🇲🇪", "MAR": "🇲🇦", "MOZ": "🇲🇿",
+        "NPL": "🇳🇵", "NLD": "🇳🇱", "NZL": "🇳🇿", "NIC": "🇳🇮", "NER": "🇳🇪", "NGA": "🇳🇬", "PRK": "🇰🇵",
+        "NOR": "🇳🇴", "OMN": "🇴🇲", "PAK": "🇵🇰", "PAN": "🇵🇦", "PNG": "🇵🇬", "PRY": "🇵🇾", "PER": "🇵🇪",
+        "PHL": "🇵🇭", "POL": "🇵🇱", "PRT": "🇵🇹", "QAT": "🇶🇦", "ROU": "🇷🇴", "RUS": "🇷🇺", "RWA": "🇷🇼",
+        "SAU": "🇸🇦", "SEN": "🇸🇳", "SRB": "🇷🇸", "SLE": "🇸🇱", "SGP": "🇸🇬", "SVK": "🇸🇰", "SVN": "🇸🇮",
+        "SOM": "🇸🇴", "ZAF": "🇿🇦", "KOR": "🇰🇷", "ESP": "🇪🇸", "LKA": "🇱🇰", "SDN": "🇸🇩", "SWE": "🇸🇪",
+        "CHE": "🇨🇭", "SYR": "🇸🇾", "TWN": "🇹🇼", "TZA": "🇹🇿", "THA": "🇹🇭", "TGO": "🇹🇬", "TUN": "🇹🇳",
+        "TUR": "🇹🇷", "UGA": "🇺🇬", "UKR": "🇺🇦", "ARE": "🇦🇪", "GBR": "🇬🇧", "USA": "🇺🇸", "URY": "🇺🇾",
+        "UZB": "🇺🇿", "VEN": "🇻🇪", "VNM": "🇻🇳", "YEM": "🇾🇪", "ZMB": "🇿🇲", "ZWE": "🇿🇼",
+        "ENG": "🏴󠁧󠁢󠁥󠁮󠁧󠁿", "SCO": "🏴󠁧󠁢󠁳󠁣󠁴󠁿", "WLS": "🏴󠁧󠁢󠁷󠁬󠁳󠁿", "NIR": "🇬🇧"
+    };
+
+    const flagEmoji = countryCodeToFlagEmoji[countryCode.toUpperCase()] || '';
 
     // Build the entry with links
-    let entry = 'Sticker ';
-    entry += `<a href="catalogue.html?sticker_id=${stickerId}" class="sticker-link">#${stickerId}</a>`;
-    entry += ' from ';
+    // Format: #2866, 🇦🇹 FK Austria Viena.
+    let entry = '<a href="catalogue.html?sticker_id=' + stickerId + '" class="sticker-link">#' + stickerId + '</a>, ';
+
+    if (flagEmoji) {
+        entry += flagEmoji + ' ';
+    }
+
     if (clubId) {
-        entry += `<a href="catalogue.html?club_id=${clubId}" class="club-link">${clubName}</a>`;
+        entry += '<a href="catalogue.html?club_id=' + clubId + '" class="club-link">' + clubName + '</a>';
     } else {
         entry += clubName;
     }
-    entry += `.${huntedInfo}`;
+
+    entry += '.';
 
     return entry;
 }

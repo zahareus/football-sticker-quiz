@@ -283,6 +283,95 @@ async function updateTotalCountriesCount() {
     }
 }
 
+/**
+ * Load last 10 stickers added to catalogue
+ * @returns {string} - HTML string for last stickers section
+ */
+async function loadLastStickers() {
+    if (!supabaseClient) return '';
+
+    try {
+        const { data: stickers, error } = await supabaseClient
+            .from('stickers')
+            .select(`
+                id,
+                created_at,
+                clubs (
+                    id,
+                    name,
+                    country
+                )
+            `)
+            .order('created_at', { ascending: false })
+            .limit(10);
+
+        if (error || !stickers || stickers.length === 0) {
+            return '';
+        }
+
+        // Group stickers by date
+        const groupedByDate = {};
+        stickers.forEach(sticker => {
+            if (!sticker.created_at) return;
+            const dateKey = new Date(sticker.created_at).toISOString().split('T')[0];
+            if (!groupedByDate[dateKey]) {
+                groupedByDate[dateKey] = [];
+            }
+            groupedByDate[dateKey].push(sticker);
+        });
+
+        // Build HTML
+        let html = '<div class="last-stickers-section"><h3>Last stickers</h3>';
+
+        const sortedDates = Object.keys(groupedByDate).sort((a, b) => b.localeCompare(a));
+
+        sortedDates.forEach(date => {
+            const dateObj = new Date(date);
+            const formattedDate = dateObj.toLocaleDateString('en-GB', {
+                day: 'numeric',
+                month: 'long',
+                year: 'numeric'
+            });
+
+            html += `<div class="last-stickers-date-header"><strong>${formattedDate}</strong></div>`;
+            html += '<ul class="last-stickers-list">';
+
+            groupedByDate[date].forEach(sticker => {
+                const clubName = sticker.clubs?.name || 'Unknown Club';
+                const clubId = sticker.clubs?.id || null;
+                const countryCode = sticker.clubs?.country || '';
+                const flagEmoji = countryCodeToFlagEmoji[countryCode.toUpperCase()] || '';
+
+                let entry = '<a href="catalogue.html?sticker_id=' + sticker.id + '" class="sticker-link">#' + sticker.id + '</a>, ';
+
+                if (flagEmoji) {
+                    entry += flagEmoji + ' ';
+                }
+
+                if (clubId) {
+                    entry += '<a href="catalogue.html?club_id=' + clubId + '" class="club-link">' + clubName + '</a>';
+                } else {
+                    entry += clubName;
+                }
+
+                entry += '.';
+
+                html += '<li>' + entry + '</li>';
+            });
+
+            html += '</ul>';
+        });
+
+        html += '<a href="/stickerlog.html" class="view-full-log-link">View full stickerLog</a>';
+        html += '</div>';
+
+        return html;
+    } catch (e) {
+        console.error('Error loading last stickers:', e);
+        return '';
+    }
+}
+
 document.addEventListener('DOMContentLoaded', async () => {
     if (supabaseClient) {
         // Setup auth
@@ -443,6 +532,9 @@ async function loadContinentsAndCountries() {
             </div>
         `;
 
+        // Fetch last 10 stickers
+        const lastStickersHtml = await loadLastStickers();
+
         let listHtml = '';
         const sortedContinentNames = Object.keys(continents).sort((a, b) => a.localeCompare(b));
         sortedContinentNames.forEach(continentName => {
@@ -461,7 +553,7 @@ async function loadContinentsAndCountries() {
         if (listHtml === '') {
             contentDiv.innerHTML = '<p>No data to display. Check the maps and database entries.</p>';
         } else {
-            contentDiv.innerHTML = statsHtml + listHtml;
+            contentDiv.innerHTML = statsHtml + lastStickersHtml + listHtml;
         }
     } catch (error) {
         console.error('An error occurred while loading countries:', error);

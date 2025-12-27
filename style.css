@@ -1087,6 +1087,74 @@ body.home-page #app-logo {
     }
 }
 
+/* Last Stickers Section */
+.last-stickers-section {
+    margin-top: calc(var(--spacing-unit) * 4);
+    margin-bottom: calc(var(--spacing-unit) * 4);
+    text-align: left;
+}
+
+.last-stickers-section h3 {
+    font-size: 1.3em;
+    font-weight: 600;
+    margin-bottom: calc(var(--spacing-unit) * 2);
+}
+
+.last-stickers-date-header {
+    margin-top: calc(var(--spacing-unit) * 2);
+    margin-bottom: calc(var(--spacing-unit) * 0.5);
+    color: var(--color-text);
+    font-size: 0.95em;
+}
+
+.last-stickers-date-header:first-of-type {
+    margin-top: 0;
+}
+
+.last-stickers-list {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 calc(var(--spacing-unit) * 1) 0;
+}
+
+.last-stickers-list li {
+    padding: calc(var(--spacing-unit) * 0.5) 0;
+    color: var(--color-text);
+    font-size: 0.95em;
+    line-height: 1.6;
+}
+
+.last-stickers-list .sticker-link,
+.last-stickers-list .club-link {
+    color: var(--color-link);
+    text-decoration: none;
+    font-weight: 500;
+}
+
+@media (hover: hover) {
+    .last-stickers-list .sticker-link:hover,
+    .last-stickers-list .club-link:hover {
+        color: var(--color-link-hover);
+        text-decoration: underline;
+    }
+}
+
+.view-full-log-link {
+    display: inline-block;
+    margin-top: calc(var(--spacing-unit) * 1.5);
+    color: var(--color-link);
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 0.95em;
+}
+
+@media (hover: hover) {
+    .view-full-log-link:hover {
+        color: var(--color-link-hover);
+        text-decoration: underline;
+    }
+}
+
 /* Stats page container */
 #stats-container {
     text-align: left;
@@ -1498,20 +1566,19 @@ body.home-page #app-logo {
     margin-top: 0;
 }
 
-/* Sticker entries */
-.stickerlog-entry {
-    padding: calc(var(--spacing-unit) * 1.5);
-    margin-bottom: calc(var(--spacing-unit) * 1.5);
-    background-color: var(--color-secondary-bg);
-    border-radius: var(--border-radius);
-    color: var(--color-text);
-    font-size: 0.95em;
-    line-height: 1.7;
-    text-align: left;
+/* Sticker entries list */
+.stickerlog-entries-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
 }
 
-.stickerlog-entry:last-child {
-    margin-bottom: 0;
+.stickerlog-entry {
+    padding: calc(var(--spacing-unit) * 0.5) 0;
+    color: var(--color-text);
+    font-size: 0.95em;
+    line-height: 1.6;
+    text-align: left;
 }
 
 /* Sticker and club links */
