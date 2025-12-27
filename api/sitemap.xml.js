@@ -1,27 +1,14 @@
 // Vercel Serverless Function for dynamic sitemap generation
-// Uses native fetch to query Supabase REST API directly
 
 const SUPABASE_URL = "https://rbmeslzlbsolkxnvesqb.supabase.co";
 const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJibWVzbHpsYnNvbGt4bnZlc3FiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDUwODcxMzYsImV4cCI6MjA2MDY2MzEzNn0.cu-Qw0WoEslfKXXCiMocWFg6Uf1sK_cQYcyP2mT0-Nw";
 const BASE_URL = "https://stickerhunt.club";
 
-// Escape special XML characters
-function escapeXml(str) {
-    if (!str) return '';
-    return str
-        .replace(/&/g, '&amp;')
-        .replace(/</g, '&lt;')
-        .replace(/>/g, '&gt;')
-        .replace(/"/g, '&quot;')
-        .replace(/'/g, '&apos;');
-}
-
 module.exports = async function handler(req, res) {
     try {
         const headers = {
             'apikey': SUPABASE_ANON_KEY,
-            'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
-            'Content-Type': 'application/json'
+            'Authorization': `Bearer ${SUPABASE_ANON_KEY}`
         };
 
         // Fetch all clubs
@@ -29,65 +16,67 @@ module.exports = async function handler(req, res) {
             `${SUPABASE_URL}/rest/v1/clubs?select=id,country`,
             { headers }
         );
-        const clubs = await clubsResponse.json();
 
         if (!clubsResponse.ok) {
-            console.error('Error fetching clubs:', clubs);
-            return res.status(500).send('Error generating sitemap');
+            console.error('Error fetching clubs');
+            return res.status(500).end('Error generating sitemap');
         }
+
+        const clubs = await clubsResponse.json();
 
         // Fetch all stickers (only IDs for sitemap)
         const stickersResponse = await fetch(
             `${SUPABASE_URL}/rest/v1/stickers?select=id`,
             { headers }
         );
-        const stickers = await stickersResponse.json();
 
         if (!stickersResponse.ok) {
-            console.error('Error fetching stickers:', stickers);
-            return res.status(500).send('Error generating sitemap');
+            console.error('Error fetching stickers');
+            return res.status(500).end('Error generating sitemap');
         }
+
+        const stickers = await stickersResponse.json();
 
         // Get unique countries
         const countries = [...new Set(clubs.map(c => c.country).filter(Boolean))];
 
-        // Build sitemap XML - no indentation for cleaner output
-        const urls = [];
+        // Build sitemap XML
+        let xml = '<?xml version="1.0" encoding="UTF-8"?>';
+        xml += '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">';
 
         // Static pages
-        urls.push(`<url><loc>${BASE_URL}/</loc><changefreq>daily</changefreq><priority>1.0</priority></url>`);
-        urls.push(`<url><loc>${BASE_URL}/quiz.html</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>`);
-        urls.push(`<url><loc>${BASE_URL}/catalogue.html</loc><changefreq>daily</changefreq><priority>0.9</priority></url>`);
-        urls.push(`<url><loc>${BASE_URL}/leaderboard.html</loc><changefreq>hourly</changefreq><priority>0.7</priority></url>`);
-        urls.push(`<url><loc>${BASE_URL}/map.html</loc><changefreq>weekly</changefreq><priority>0.6</priority></url>`);
-        urls.push(`<url><loc>${BASE_URL}/stickerstat.html</loc><changefreq>daily</changefreq><priority>0.6</priority></url>`);
-        urls.push(`<url><loc>${BASE_URL}/about.html</loc><changefreq>monthly</changefreq><priority>0.3</priority></url>`);
+        xml += `<url><loc>${BASE_URL}/</loc><changefreq>daily</changefreq><priority>1.0</priority></url>`;
+        xml += `<url><loc>${BASE_URL}/quiz.html</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>`;
+        xml += `<url><loc>${BASE_URL}/catalogue.html</loc><changefreq>daily</changefreq><priority>0.9</priority></url>`;
+        xml += `<url><loc>${BASE_URL}/leaderboard.html</loc><changefreq>hourly</changefreq><priority>0.7</priority></url>`;
+        xml += `<url><loc>${BASE_URL}/map.html</loc><changefreq>weekly</changefreq><priority>0.6</priority></url>`;
+        xml += `<url><loc>${BASE_URL}/stickerstat.html</loc><changefreq>daily</changefreq><priority>0.6</priority></url>`;
+        xml += `<url><loc>${BASE_URL}/about.html</loc><changefreq>monthly</changefreq><priority>0.3</priority></url>`;
 
         // Country pages
         for (const country of countries) {
-            const encodedCountry = escapeXml(encodeURIComponent(country));
-            urls.push(`<url><loc>${BASE_URL}/catalogue.html?country=${encodedCountry}</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>`);
+            xml += `<url><loc>${BASE_URL}/catalogue.html?country=${country}</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>`;
         }
 
         // Club pages
         for (const club of clubs) {
-            urls.push(`<url><loc>${BASE_URL}/catalogue.html?club_id=${club.id}</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>`);
+            xml += `<url><loc>${BASE_URL}/catalogue.html?club_id=${club.id}</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>`;
         }
 
         // Sticker pages
         for (const sticker of stickers) {
-            urls.push(`<url><loc>${BASE_URL}/catalogue.html?sticker_id=${sticker.id}</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>`);
+            xml += `<url><loc>${BASE_URL}/catalogue.html?sticker_id=${sticker.id}</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>`;
         }
 
-        const xml = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls.join('\n')}\n</urlset>`;
+        xml += '</urlset>';
 
-        // Set response headers
-        res.setHeader('Content-Type', 'application/xml; charset=utf-8');
-        res.setHeader('Cache-Control', 's-maxage=3600, stale-while-revalidate');
+        // Set headers and send
+        res.setHeader('Content-Type', 'text/xml');
+        res.setHeader('Cache-Control', 'public, s-maxage=3600, stale-while-revalidate=600');
 
-        return res.status(200).send(xml);
+        return res.status(200).end(xml);
     } catch (error) {
-        console.error('Sitemap generation error:', error);
-        return res.status(500).send('Error generating sitemap: ' + error.message);
+        console.error('Sitemap error:', error);
+        return res.status(500).end('Error generating sitemap');
     }
 };
