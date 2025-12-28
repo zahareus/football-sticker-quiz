@@ -18,7 +18,7 @@ const CONFIG = {
 
     // Game settings
     TIMER_DURATION: 10,
-    TTR_TIMER_DURATION: 99,  // Time To Run mode: 99 seconds total
+    TTR_TIMER_DURATION: 60,  // Time To Run mode: 60 seconds total
     LEADERBOARD_LIMIT: 10,
 
     // Game modes
