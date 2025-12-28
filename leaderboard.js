@@ -123,9 +123,6 @@ async function fetchLeaderboardData(timeframe, difficulty) {
             .select(`score, created_at, user_id, profiles ( username )`)
             .eq('difficulty', difficulty);
 
-        // Filter out TTR mode scores (only show classic mode in difficulty columns)
-        query = query.or('game_mode.is.null,game_mode.eq.classic');
-
         if (fromDate) {
             query = query.gte('created_at', fromDate);
         }
@@ -160,10 +157,11 @@ async function fetchLeaderboardDataTTR(timeframe) {
         // Use shared calculateTimeRange for consistent timezone handling
         const { fromDate, toDate } = SharedUtils.calculateTimeRange(timeframe);
 
+        // TTR mode uses difficulty=null to identify TTR scores
         let query = supabaseClient
             .from('scores')
             .select(`score, created_at, user_id, profiles ( username )`)
-            .eq('game_mode', 'ttr');
+            .is('difficulty', null);
 
         if (fromDate) {
             query = query.gte('created_at', fromDate);

@@ -1446,7 +1446,7 @@ async function saveScore() {
     if (typeof currentScore !== 'number' || currentScore < 0) return;
     if (currentScore === 0) return;
 
-    // For TTR mode, difficulty is null (mixed)
+    // For TTR mode, difficulty is null (used to identify TTR scores in leaderboard)
     const difficultyToSave = currentGameMode === SharedUtils.CONFIG.GAME_MODE_TTR ? null : selectedDifficulty;
     if (currentGameMode === SharedUtils.CONFIG.GAME_MODE_CLASSIC && selectedDifficulty === null) return;
 
@@ -1459,7 +1459,6 @@ async function saveScore() {
                 user_id: currentUser.id,
                 score: currentScore,
                 difficulty: difficultyToSave,
-                game_mode: currentGameMode,
                 country_code: null
             });
 
