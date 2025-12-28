@@ -2099,3 +2099,74 @@ body.home-page #app-logo {
         font-size: 1em;
     }
 }
+
+/* ------------------------------ */
+/* Time To Run Mode Styles        */
+/* ------------------------------ */
+
+/* TTR difficulty border colors on options container */
+.options-group.ttr-difficulty-1 button {
+    border: 2px solid #28a745; /* Green for Easy */
+}
+
+.options-group.ttr-difficulty-2 button {
+    border: 2px solid #ffc107; /* Yellow for Medium */
+}
+
+.options-group.ttr-difficulty-3 button {
+    border: 2px solid #dc3545; /* Red for Hard */
+}
+
+/* TTR timer flashing animation on last 10 seconds */
+#time-left.ttr-flash {
+    animation: ttr-timer-flash 0.5s ease-in-out infinite;
+}
+
+@keyframes ttr-timer-flash {
+    0%, 100% { color: var(--color-error); opacity: 1; }
+    50% { color: var(--color-error); opacity: 0.4; }
+}
+
+/* TTR mode body indicator for potential styling */
+body.ttr-mode .game-info #timer {
+    color: var(--color-text);
+}
+
+/* Leaderboard 4-column grid for TTR */
+.leaderboard-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: calc(var(--spacing-unit) * 4);
+}
+
+/* TTR section in leaderboard */
+.leaderboard-section-ttr h2 {
+    color: var(--color-accent-darker);
+}
+
+/* Tablet: 4 columns with smaller gaps */
+@media (max-width: 900px) {
+    .leaderboard-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: calc(var(--spacing-unit) * 3);
+    }
+}
+
+/* Mobile: stack all columns */
+@media (max-width: 600px) {
+    .leaderboard-grid {
+        grid-template-columns: 1fr;
+        gap: calc(var(--spacing-unit) * 3);
+    }
+
+    .leaderboard-section-ttr {
+        margin-top: calc(var(--spacing-unit) * 2);
+    }
+}
+
+/* TTR option in difficulty selection - same style as others */
+.difficulty-option.ttr-option {
+    margin-top: calc(var(--spacing-unit) * 1);
+    padding-top: calc(var(--spacing-unit) * 2);
+    border-top: 1px dashed var(--color-border);
+}

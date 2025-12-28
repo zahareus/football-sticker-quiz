@@ -21,6 +21,7 @@ if (typeof SharedUtils === 'undefined') {
 let leaderboardTableEasy;
 let leaderboardTableMedium;
 let leaderboardTableHard;
+let leaderboardTableTTR;
 let leaderboardTimeFilterButtons;
 let leaderboardModeFilterButtons;
 let loadingIndicator;
@@ -59,6 +60,7 @@ function initializeLeaderboardPage() {
     leaderboardTableEasy = document.getElementById('leaderboard-table-easy');
     leaderboardTableMedium = document.getElementById('leaderboard-table-medium');
     leaderboardTableHard = document.getElementById('leaderboard-table-hard');
+    leaderboardTableTTR = document.getElementById('leaderboard-table-ttr');
     leaderboardTimeFilterButtons = document.querySelectorAll('.leaderboard-time-filter');
     leaderboardModeFilterButtons = document.querySelectorAll('.leaderboard-mode-filter');
     loadingIndicator = document.getElementById('loading-indicator');
@@ -121,6 +123,9 @@ async function fetchLeaderboardData(timeframe, difficulty) {
             .select(`score, created_at, user_id, profiles ( username )`)
             .eq('difficulty', difficulty);
 
+        // Filter out TTR mode scores (only show classic mode in difficulty columns)
+        query = query.or('game_mode.is.null,game_mode.eq.classic');
+
         if (fromDate) {
             query = query.gte('created_at', fromDate);
         }
@@ -142,6 +147,45 @@ async function fetchLeaderboardData(timeframe, difficulty) {
         return data;
     } catch (error) {
         console.error("Leaderboard fetch error:", error);
+        return null;
+    }
+}
+
+async function fetchLeaderboardDataTTR(timeframe) {
+    if (!supabaseClient) {
+        return null;
+    }
+
+    try {
+        // Use shared calculateTimeRange for consistent timezone handling
+        const { fromDate, toDate } = SharedUtils.calculateTimeRange(timeframe);
+
+        let query = supabaseClient
+            .from('scores')
+            .select(`score, created_at, user_id, profiles ( username )`)
+            .eq('game_mode', 'ttr');
+
+        if (fromDate) {
+            query = query.gte('created_at', fromDate);
+        }
+        if (toDate) {
+            query = query.lt('created_at', toDate);
+        }
+
+        query = query
+            .order('score', { ascending: false })
+            .order('created_at', { ascending: true })
+            .limit(FETCH_LIMIT);
+
+        const { data, error } = await query;
+
+        if (error) {
+            throw error;
+        }
+
+        return data;
+    } catch (error) {
+        console.error("TTR Leaderboard fetch error:", error);
         return null;
     }
 }
@@ -247,18 +291,21 @@ async function updateAllLeaderboards() {
     if (leaderboardTableEasy) leaderboardTableEasy.innerHTML = '<p>Loading...</p>';
     if (leaderboardTableMedium) leaderboardTableMedium.innerHTML = '<p>Loading...</p>';
     if (leaderboardTableHard) leaderboardTableHard.innerHTML = '<p>Loading...</p>';
+    if (leaderboardTableTTR) leaderboardTableTTR.innerHTML = '<p>Loading...</p>';
 
-    // Fetch all three difficulties in parallel
-    const [easyData, mediumData, hardData] = await Promise.all([
+    // Fetch all four leaderboards in parallel (3 difficulties + TTR mode)
+    const [easyData, mediumData, hardData, ttrData] = await Promise.all([
         fetchLeaderboardData(currentLeaderboardTimeframe, 1),
         fetchLeaderboardData(currentLeaderboardTimeframe, 2),
-        fetchLeaderboardData(currentLeaderboardTimeframe, 3)
+        fetchLeaderboardData(currentLeaderboardTimeframe, 3),
+        fetchLeaderboardDataTTR(currentLeaderboardTimeframe)
     ]);
 
-    // Display all three leaderboards
+    // Display all four leaderboards
     displayLeaderboard(leaderboardTableEasy, easyData, 1);
     displayLeaderboard(leaderboardTableMedium, mediumData, 2);
     displayLeaderboard(leaderboardTableHard, hardData, 3);
+    displayLeaderboard(leaderboardTableTTR, ttrData, 'ttr');
 }
 
 function handleTimeFilterChange(event) {
