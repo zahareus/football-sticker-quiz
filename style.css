@@ -2170,3 +2170,9 @@ body.ttr-mode .game-info #timer {
     padding-top: calc(var(--spacing-unit) * 2);
     border-top: 1px dashed var(--color-border);
 }
+
+.difficulty-option.ttr-option button {
+    width: 100%;
+    display: block;
+    margin-bottom: calc(var(--spacing-unit) * 0.75);
+}
