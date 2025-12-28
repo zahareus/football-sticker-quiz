@@ -1136,18 +1136,20 @@ body.quiz-result .result-right-panel {
     .intro-text { margin-bottom: calc(var(--spacing-unit) * 2);}
 }
 @media (max-width: 700px) {
-    #sticker-container { width: 220px; height: 220px; margin-bottom: calc(var(--spacing-unit) * 2); }
+    #sticker-container { width: 100%; max-width: 400px; height: auto; aspect-ratio: 1; margin-bottom: calc(var(--spacing-unit) * 2); }
     #game-area { margin-top: 0; }
     .options-group {
-        grid-template-columns: repeat(2, 220px); /* Match mobile sticker width */
+        grid-template-columns: 1fr; /* Full width single column */
         gap: var(--spacing-unit);
         margin-bottom: var(--spacing-unit);
+        width: 100%;
+        max-width: 400px;
     }
     .options-group button,
     .options-group a.btn {
-        width: 220px; /* Same as mobile #sticker-container */
-        height: 60px;
-        font-size: 0.9em;
+        width: 100%;
+        height: 56px;
+        font-size: 0.95em;
         padding: calc(var(--spacing-unit) * 0.875) var(--spacing-unit);
     }
     .game-info { margin-top: var(--spacing-unit); flex-direction: row; gap: calc(var(--spacing-unit) * 3); }
@@ -1159,7 +1161,7 @@ body.quiz-result .result-right-panel {
     body { padding: 0; }
     .container { padding: 0 var(--spacing-unit); margin-top: var(--spacing-unit); margin-bottom: calc(var(--spacing-unit) * 2); }
     .options-group {
-        grid-template-columns: 220px; /* Single column, still matching sticker width */
+        grid-template-columns: 1fr; /* Full width single column */
     }
     .game-info { flex-direction: row; gap: calc(var(--spacing-unit) * 3); }
     #result-area h2 { font-size: 2em; }
