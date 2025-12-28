@@ -625,12 +625,17 @@ async function displayQuestion(questionData) {
         ? `ttr-difficulty-${questionData.difficulty || currentStickerDifficulty}`
         : '';
 
-    optionsContainerElement.innerHTML = '';
-    // Add TTR difficulty class to options container
-    optionsContainerElement.className = 'button-group options-group';
-    if (difficultyClass) {
-        optionsContainerElement.classList.add(difficultyClass);
+    // Add TTR difficulty class to sticker container for border styling
+    const stickerContainer = document.getElementById('sticker-container');
+    if (stickerContainer) {
+        stickerContainer.classList.remove('ttr-difficulty-1', 'ttr-difficulty-2', 'ttr-difficulty-3');
+        if (difficultyClass) {
+            stickerContainer.classList.add(difficultyClass);
+        }
     }
+
+    optionsContainerElement.innerHTML = '';
+    optionsContainerElement.className = 'button-group options-group';
 
     if (questionData.options && Array.isArray(questionData.options)) {
         questionData.options.forEach((optionText) => {
@@ -1389,6 +1394,12 @@ function endGame() {
 
     // Reset TTR-specific state
     ttrTimerPaused = false;
+
+    // Clear TTR difficulty border from sticker container
+    const stickerContainer = document.getElementById('sticker-container');
+    if (stickerContainer) {
+        stickerContainer.classList.remove('ttr-difficulty-1', 'ttr-difficulty-2', 'ttr-difficulty-3');
+    }
 
     // Show body class to indicate quiz is over (for hiding header/footer on mobile)
     document.body.classList.remove('quiz-active', 'ttr-mode');
