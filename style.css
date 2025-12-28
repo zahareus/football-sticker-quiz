@@ -2108,15 +2108,15 @@ body.home-page #app-logo {
 
 /* TTR difficulty border colors on sticker container */
 #sticker-container.ttr-difficulty-1 {
-    border: 3px solid #28a745; /* Green for Easy */
+    border: 3px solid #28a745 !important; /* Green for Easy */
 }
 
 #sticker-container.ttr-difficulty-2 {
-    border: 3px solid #ffc107; /* Yellow for Medium */
+    border: 3px solid #ffc107 !important; /* Yellow for Medium */
 }
 
 #sticker-container.ttr-difficulty-3 {
-    border: 3px solid #dc3545; /* Red for Hard */
+    border: 3px solid #dc3545 !important; /* Red for Hard */
 }
 
 /* TTR timer flashing animation on last 10 seconds */
