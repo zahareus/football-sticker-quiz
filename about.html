@@ -43,6 +43,44 @@
         .twitter-link { /* Стиль для посилання на твіттер */
              font-weight: 500;
         }
+        /* Стилі для кнопок внизу */
+        .about-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-top: 2em;
+            align-items: center;
+        }
+        .about-actions .btn {
+            width: 100%;
+            max-width: 280px;
+            padding: 12px 24px;
+            font-size: 1em;
+            font-weight: 500;
+            border-radius: 8px;
+            text-decoration: none;
+            text-align: center;
+            display: inline-block;
+        }
+        .about-actions .btn-primary {
+            background-color: var(--color-accent);
+            color: var(--color-accent-text);
+            border: 1px solid var(--color-accent);
+        }
+        .about-actions .btn-secondary {
+            background-color: #fff;
+            color: var(--color-text);
+            border: 1px solid var(--color-border);
+        }
+        /* Мобільна оптимізація */
+        @media (max-width: 600px) {
+            body { padding: 10px 8px 40px 8px; }
+            .legal-container { padding: 12px 16px; margin: 8px auto; }
+            .legal-container h1 { font-size: 1.4em; margin-bottom: 1em; }
+            .legal-container p { font-size: 0.95em; line-height: 1.6; }
+            .about-photo-figure { margin: 1.5em auto; }
+            .about-photo-figure figcaption { font-size: 0.85em; }
+        }
     </style>
 </head>
 <body>
@@ -62,7 +100,10 @@
 
         <p>I also post new stickers every day on Twitter: <a href="https://x.com/StickerHunting" target="_blank" rel="noopener noreferrer" class="twitter-link">@StickerHunting</a>. Check it out, maybe you'll recognize your club.</p>
 
-        <a href="/" class="back-link">Back to StickerHunt Game</a>
+        <div class="about-actions">
+            <a href="/quiz.html" class="btn btn-primary">Play Quiz</a>
+            <a href="/catalogue.html" class="btn btn-secondary">View Catalogue</a>
+        </div>
     </div>
 </body>
 </html>
