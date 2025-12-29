@@ -5,8 +5,10 @@
  * and uploads optimized versions with _web suffix.
  *
  * Usage:
- *   npm run optimize          # Run optimization
- *   npm run optimize:dry      # Dry run (no uploads)
+ *   npm run optimize              # Run optimization for all stickers
+ *   npm run optimize:dry          # Dry run (no uploads)
+ *   node optimize-images.js --from=2500    # Start from sticker ID 2500
+ *   node optimize-images.js --only=452,671 # Only process specific IDs
  *
  * Environment variables (create .env file):
  *   SUPABASE_URL=https://your-project.supabase.co
@@ -20,6 +22,28 @@ import path from 'path';
 import fs from 'fs/promises';
 
 dotenv.config();
+
+// Parse command line arguments
+function parseArgs() {
+    const args = {
+        dryRun: process.argv.includes('--dry-run'),
+        fromId: null,
+        onlyIds: null
+    };
+
+    for (const arg of process.argv) {
+        if (arg.startsWith('--from=')) {
+            args.fromId = parseInt(arg.split('=')[1], 10);
+        }
+        if (arg.startsWith('--only=')) {
+            args.onlyIds = arg.split('=')[1].split(',').map(id => parseInt(id.trim(), 10));
+        }
+    }
+
+    return args;
+}
+
+const ARGS = parseArgs();
 
 // Configuration
 const CONFIG = {
@@ -52,8 +76,10 @@ const CONFIG = {
     WEB_SUFFIX: '_web',
     THUMB_SUFFIX: '_thumb',
 
-    // Dry run mode (no uploads)
-    DRY_RUN: process.argv.includes('--dry-run')
+    // Command line options
+    DRY_RUN: ARGS.dryRun,
+    FROM_ID: ARGS.fromId,
+    ONLY_IDS: ARGS.onlyIds
 };
 
 // Validate configuration
@@ -69,21 +95,47 @@ if (!CONFIG.SUPABASE_SERVICE_KEY) {
 const supabase = createClient(CONFIG.SUPABASE_URL, CONFIG.SUPABASE_SERVICE_KEY);
 
 /**
- * Get all stickers from database
+ * Get stickers from database based on filters
  */
 async function getAllStickers() {
     console.log('Fetching stickers from database...');
 
+    // If --only parameter is provided, fetch only specific IDs
+    if (CONFIG.ONLY_IDS && CONFIG.ONLY_IDS.length > 0) {
+        console.log(`Fetching only specific IDs: ${CONFIG.ONLY_IDS.join(', ')}`);
+        const { data, error } = await supabase
+            .from('stickers')
+            .select('id, image_url')
+            .in('id', CONFIG.ONLY_IDS)
+            .order('id', { ascending: true });
+
+        if (error) {
+            throw new Error(`Failed to fetch stickers: ${error.message}`);
+        }
+
+        console.log(`Found ${data.length} stickers`);
+        return data || [];
+    }
+
+    // Otherwise fetch all (with optional --from filter)
     const allStickers = [];
     let offset = 0;
     const limit = 1000;
 
     while (true) {
-        const { data, error } = await supabase
+        let query = supabase
             .from('stickers')
             .select('id, image_url')
-            .order('id', { ascending: true })
-            .range(offset, offset + limit - 1);
+            .order('id', { ascending: true });
+
+        // Apply --from filter
+        if (CONFIG.FROM_ID) {
+            query = query.gte('id', CONFIG.FROM_ID);
+        }
+
+        query = query.range(offset, offset + limit - 1);
+
+        const { data, error } = await query;
 
         if (error) {
             throw new Error(`Failed to fetch stickers: ${error.message}`);
@@ -98,6 +150,9 @@ async function getAllStickers() {
     }
 
     console.log(`Found ${allStickers.length} stickers in database`);
+    if (CONFIG.FROM_ID) {
+        console.log(`(starting from ID ${CONFIG.FROM_ID})`);
+    }
     return allStickers;
 }
 
