@@ -450,10 +450,19 @@ async function handleSubmit(event) {
         }
 
         // 4. Trigger n8n webhook for social media posting
-        triggerWebhook(sticker);
+        showStatus('Sticker saved! Scheduling social media post...', 'info');
+        const socialResult = await triggerWebhook(sticker);
 
         // 5. Show success message with link
         const stickerUrl = `https://stickerhunt.club/catalogue.html?sticker_id=${sticker.id}`;
+
+        let socialInfo = '';
+        if (socialResult.success) {
+            socialInfo = `<p class="social-success">Social post scheduled: ${escapeHtml(socialResult.scheduled_for || 'soon')}</p>`;
+        } else {
+            socialInfo = `<p class="social-warning">Social post: ${escapeHtml(socialResult.message || 'pending')}</p>`;
+        }
+
         showStatus(`
             <strong>Sticker uploaded successfully!</strong>
             <div class="result-details">
@@ -462,6 +471,7 @@ async function handleSubmit(event) {
                 <p>Difficulty: ${sticker.difficulty}</p>
                 ${sticker.location ? `<p>Location: ${escapeHtml(sticker.location)}</p>` : ''}
                 ${sticker.found ? `<p>Date: ${formatDate(sticker.found)}</p>` : ''}
+                ${socialInfo}
                 <p><a href="${stickerUrl}" target="_blank">View in catalogue</a></p>
             </div>
         `, 'success');
@@ -478,8 +488,7 @@ async function handleSubmit(event) {
 
 async function triggerWebhook(sticker) {
     try {
-        // Fire and forget - don't wait for response
-        fetch(UPLOAD_CONFIG.N8N_WEBHOOK_URL, {
+        const response = await fetch(UPLOAD_CONFIG.N8N_WEBHOOK_URL, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
@@ -493,9 +502,22 @@ async function triggerWebhook(sticker) {
                 longitude: sticker.longitude,
                 found: sticker.found
             })
-        }).catch(err => console.warn('Webhook error (non-critical):', err));
+        });
+
+        if (response.ok) {
+            const data = await response.json();
+            return {
+                success: true,
+                scheduled_for: data.scheduled_for || data.scheduledFor || null,
+                post_url: data.post_url || null
+            };
+        } else {
+            console.warn('Webhook response not OK:', response.status);
+            return { success: false, message: 'Could not schedule post' };
+        }
     } catch (error) {
-        console.warn('Webhook trigger error (non-critical):', error);
+        console.warn('Webhook error (non-critical):', error);
+        return { success: false, message: 'Social posting unavailable' };
     }
 }
 
