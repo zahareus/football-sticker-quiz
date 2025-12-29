@@ -296,7 +296,7 @@ button:disabled, .btn:disabled { cursor: not-allowed !important; background-colo
 #lives .heart {
     font-size: 1.05em;
     margin: 0 1px;
-    color: #6b7280; /* Default gray - after losing */
+    color: #6b7280; /* Default gray - after losing (desktop) */
 }
 #lives .heart.active {
     color: #ef4444 !important; /* Red when active */
@@ -307,6 +307,12 @@ button:disabled, .btn:disabled { cursor: not-allowed !important; background-colo
 @keyframes heart-blink {
     0%, 100% { opacity: 1; }
     50% { opacity: 0.3; }
+}
+/* Mobile: hide lost hearts instead of showing gray */
+@media (max-width: 1000px) {
+    #lives .heart:not(.active):not(.losing) {
+        display: none;
+    }
 }
 #time-left.timer-tick-animation {
   color: var(--color-error) !important;
