@@ -244,9 +244,9 @@ button:disabled, .btn:disabled { cursor: not-allowed !important; background-colo
 .options-group button.incorrect-answer { background-color: var(--color-error) !important; border-color: var(--color-error) !important; color: white !important; opacity: 0.7; }
 
 /* --- Game Info Timer & Score --- */
-.game-info { display: flex; justify-content: space-around; align-items: baseline; margin-top: calc(var(--spacing-unit) * 3); max-width: 400px; margin-left: auto; margin-right: auto; gap: calc(var(--spacing-unit) * 2); }
+.game-info { display: flex; justify-content: space-between; align-items: baseline; margin-top: calc(var(--spacing-unit) * 3); max-width: 615px; margin-left: auto; margin-right: auto; gap: calc(var(--spacing-unit) * 2); }
 #timer, #score {
-    font-size: 1.3em;
+    font-size: 1em;
     color: var(--color-info-text);
     font-weight: 500;
 }
@@ -255,18 +255,18 @@ button:disabled, .btn:disabled { cursor: not-allowed !important; background-colo
     min-width: 2ch;
     text-align: right;
     font-weight: 700;
-    font-size: 1.5em;
+    font-size: 1.2em;
     color: var(--color-text);
-    margin-left: calc(var(--spacing-unit) * 0.75);
+    margin-left: calc(var(--spacing-unit) * 0.5);
     vertical-align: baseline;
     transition: color 0.3s ease;
 }
 #current-score {
     display: inline-block;
     font-weight: 700;
-    font-size: 1.5em;
+    font-size: 1.2em;
     color: var(--color-text);
-    margin-left: calc(var(--spacing-unit) * 0.75);
+    margin-left: calc(var(--spacing-unit) * 0.5);
     vertical-align: baseline;
 }
 #time-left.low-time {
@@ -275,15 +275,15 @@ button:disabled, .btn:disabled { cursor: not-allowed !important; background-colo
 
 /* --- Lives Display (Classic Mode) --- */
 #lives {
-    font-size: 1.1em;
+    font-size: 1em;
     color: var(--color-info-text);
     font-weight: 500;
 }
 #lives-hearts {
-    margin-left: calc(var(--spacing-unit) * 0.5);
+    margin-left: calc(var(--spacing-unit) * 0.3);
 }
 #lives .heart {
-    font-size: 1.3em;
+    font-size: 1.1em;
     margin: 0 1px;
     transition: color 0.3s ease;
 }

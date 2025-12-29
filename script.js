@@ -934,9 +934,50 @@ function startTimer() {
                     }
                 });
             }
-            setTimeout(endGame, 1500);
+
+            // Classic mode: Use lives system for timeout
+            if (currentGameMode === SharedUtils.CONFIG.GAME_MODE_CLASSIC) {
+                handleTimeoutClassic();
+            } else {
+                // TTR mode: End game on timeout
+                setTimeout(endGame, 1500);
+            }
         }
     }, 1000);
+}
+
+// Handle timeout in classic mode - lose a life and continue or end game
+async function handleTimeoutClassic() {
+    // Lose a life with animation
+    await loseLife();
+
+    // Clear correct answer highlight after animation
+    if (optionsContainerElement) {
+        const buttons = optionsContainerElement.querySelectorAll('button');
+        buttons.forEach(button => button.classList.remove('correct-answer'));
+    }
+
+    await new Promise(resolve => setTimeout(resolve, 500));
+
+    // Check if player has lives remaining
+    if (currentLives > 0) {
+        // Continue with next question
+        try {
+            const preloadedQuestion = getPreloadedQuestion();
+            const questionData = preloadedQuestion || await loadNewQuestion(true);
+            if (questionData) {
+                displayQuestion(questionData);
+            } else {
+                endGame();
+            }
+        } catch (error) {
+            console.error("Error loading next question after timeout:", error);
+            endGame();
+        }
+    } else {
+        // No lives left - game over
+        endGame();
+    }
 }
 
 function stopTimer() {
