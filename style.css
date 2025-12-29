@@ -296,22 +296,17 @@ button:disabled, .btn:disabled { cursor: not-allowed !important; background-colo
 #lives .heart {
     font-size: 1.05em;
     margin: 0 1px;
-    transition: color 0.3s ease;
+    color: #6b7280; /* Default gray - after losing */
 }
 #lives .heart.active {
-    color: #ef4444;
-}
-#lives .heart.lost {
-    color: #6b7280 !important;
+    color: #ef4444 !important; /* Red when active */
 }
 #lives .heart.losing {
     animation: heart-blink 0.5s ease-in-out 3;
-    animation-fill-mode: forwards;
 }
 @keyframes heart-blink {
-    0% { opacity: 1; color: #ef4444; }
-    50% { opacity: 0.3; color: #6b7280; }
-    100% { opacity: 1; color: #6b7280; }
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
 }
 #time-left.timer-tick-animation {
   color: var(--color-error) !important;
