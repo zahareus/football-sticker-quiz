@@ -302,14 +302,16 @@ button:disabled, .btn:disabled { cursor: not-allowed !important; background-colo
     color: #ef4444;
 }
 #lives .heart.lost {
-    color: #6b7280;
+    color: #6b7280 !important;
 }
 #lives .heart.losing {
     animation: heart-blink 0.5s ease-in-out 3;
+    animation-fill-mode: forwards;
 }
 @keyframes heart-blink {
-    0%, 100% { opacity: 1; color: #ef4444; }
+    0% { opacity: 1; color: #ef4444; }
     50% { opacity: 0.3; color: #6b7280; }
+    100% { opacity: 1; color: #6b7280; }
 }
 #time-left.timer-tick-animation {
   color: var(--color-error) !important;
