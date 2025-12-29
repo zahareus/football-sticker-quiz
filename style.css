@@ -186,15 +186,21 @@ button:disabled, .btn:disabled { cursor: not-allowed !important; background-colo
     }
 
     #game-area .game-info {
+        display: flex;
+        justify-content: space-between;
+        width: 300px;
         margin-top: 0;
         margin-bottom: calc(var(--spacing-unit) * 1);
-        max-width: none;
-        gap: calc(var(--spacing-unit) * 4);
     }
 
     #game-area .options-group {
         grid-template-columns: 1fr;
         gap: calc(var(--spacing-unit) * 1.5);
+    }
+
+    #game-area #lives {
+        position: static;
+        transform: none;
     }
 }
 
@@ -240,7 +246,7 @@ button:disabled, .btn:disabled { cursor: not-allowed !important; background-colo
         grid-template-columns: 1fr;
     }
     .game-info {
-        grid-template-columns: 1fr 1fr;
+        width: 100%;
         max-width: 300px;
     }
     #timer, #lives, #score {
@@ -251,32 +257,14 @@ button:disabled, .btn:disabled { cursor: not-allowed !important; background-colo
 .options-group button.incorrect-answer { background-color: var(--color-error) !important; border-color: var(--color-error) !important; color: white !important; opacity: 0.7; }
 
 /* --- Game Info Timer & Score --- */
-/* Uses same grid as options-group to match width exactly */
+/* Width matches options-group exactly */
 .game-info {
-    display: grid;
-    grid-template-columns: repeat(2, 300px);
-    gap: calc(var(--spacing-unit) * 1.5);
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    /* Match options-group: 2 × 300px + gap = 612px */
+    width: calc(600px + var(--spacing-unit) * 1.5);
     margin: calc(var(--spacing-unit) * 3) auto 0;
-    justify-content: center;
-}
-/* Timer on left edge, Score on right edge, Lives hidden in TTR */
-#timer {
-    grid-column: 1;
-    justify-self: start;
-}
-#score {
-    grid-column: 2;
-    justify-self: end;
-}
-#lives {
-    grid-column: 1 / -1;
-    justify-self: center;
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-}
-.game-info {
-    position: relative;
 }
 #timer, #score, #lives {
     font-size: 0.95em;
