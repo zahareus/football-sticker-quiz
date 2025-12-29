@@ -26,6 +26,10 @@ let ttrStickerIndex = 0;  // Tracks current position in the 3-2-1 pattern
 let ttrTimerPaused = false;  // Pause timer while loading
 let currentStickerDifficulty = 1;  // Current sticker's difficulty for scoring
 
+// ----- Lives System Variables (Classic Mode Only) -----
+const MAX_LIVES = 3;
+let currentLives = MAX_LIVES;
+
 // TTR pattern: 3 easy (diff 1), 2 medium (diff 2), 1 hard (diff 3), repeat
 // Pattern indices: 0,1,2 = easy, 3,4 = medium, 5 = hard
 const TTR_PATTERN_LENGTH = 6;
@@ -740,15 +744,37 @@ async function handleAnswer(selectedOption) {
                 endGame();
             }
         } else {
+            // Wrong answer in classic mode - use lives system
             if (selectedButton) selectedButton.classList.add('incorrect-answer');
             if (correctButton) correctButton.classList.add('correct-answer');
+
+            // Lose a life with animation
+            await loseLife();
 
             await new Promise(resolve => setTimeout(resolve, 1500));
             if (selectedButton) selectedButton.classList.remove('incorrect-answer');
             if (correctButton) correctButton.classList.remove('correct-answer');
             await new Promise(resolve => setTimeout(resolve, 500));
 
-            endGame();
+            // Check if player has lives remaining
+            if (currentLives > 0) {
+                // Continue with next question
+                try {
+                    const preloadedQuestion = getPreloadedQuestion();
+                    const questionData = preloadedQuestion || await loadNewQuestion(true);
+                    if (questionData) {
+                        displayQuestion(questionData);
+                    } else {
+                        endGame();
+                    }
+                } catch (error) {
+                    console.error("Error loading next question:", error);
+                    endGame();
+                }
+            } else {
+                // No lives left - game over
+                endGame();
+            }
         }
     }
 }
@@ -801,6 +827,43 @@ async function handleAnswerTTR(isCorrect, selectedButton, correctButton) {
     } catch (error) {
         console.error("Error loading next TTR question:", error);
         endGame();
+    }
+}
+
+// ----- Lives System Functions (Classic Mode Only) -----
+function resetLives() {
+    currentLives = MAX_LIVES;
+    const hearts = document.querySelectorAll('#lives-hearts .heart');
+    hearts.forEach(heart => {
+        heart.classList.remove('lost', 'losing');
+        heart.classList.add('active');
+    });
+}
+
+function showLivesDisplay(show) {
+    const livesElement = document.getElementById('lives');
+    if (livesElement) {
+        livesElement.style.display = show ? '' : 'none';
+    }
+}
+
+async function loseLife() {
+    currentLives--;
+    const hearts = document.querySelectorAll('#lives-hearts .heart');
+    // Hearts are displayed left to right, lose from right to left (index = currentLives)
+    const heartToLose = hearts[currentLives];
+
+    if (heartToLose) {
+        // Add blinking animation
+        heartToLose.classList.add('losing');
+        heartToLose.classList.remove('active');
+
+        // Wait for animation to complete (3 blinks * 0.5s = 1.5s)
+        await new Promise(resolve => setTimeout(resolve, 1500));
+
+        // Finalize the lost state
+        heartToLose.classList.remove('losing');
+        heartToLose.classList.add('lost');
     }
 }
 
@@ -1001,6 +1064,12 @@ async function startGame() {
         ttrStickerIndex = 0;
         ttrTimerPaused = false;
         timeLeft = SharedUtils.CONFIG.TTR_TIMER_DURATION;
+        // Hide lives display for TTR mode
+        showLivesDisplay(false);
+    } else {
+        // Classic mode: Reset and show lives
+        resetLives();
+        showLivesDisplay(true);
     }
 
     // Reset panels for new game
