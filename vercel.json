@@ -4,5 +4,43 @@
       "source": "/sitemap.xml",
       "destination": "/api/sitemap.xml"
     }
+  ],
+  "redirects": [
+    {
+      "source": "/catalogue.html",
+      "has": [
+        {
+          "type": "query",
+          "key": "sticker_id",
+          "value": "(?<id>.*)"
+        }
+      ],
+      "destination": "/stickers/:id.html",
+      "permanent": false
+    },
+    {
+      "source": "/catalogue.html",
+      "has": [
+        {
+          "type": "query",
+          "key": "club_id",
+          "value": "(?<id>.*)"
+        }
+      ],
+      "destination": "/clubs/:id.html",
+      "permanent": false
+    },
+    {
+      "source": "/catalogue.html",
+      "has": [
+        {
+          "type": "query",
+          "key": "country",
+          "value": "(?<code>.*)"
+        }
+      ],
+      "destination": "/countries/:code.html",
+      "permanent": false
+    }
   ]
 }
