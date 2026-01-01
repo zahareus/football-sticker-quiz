@@ -1,0 +1,10 @@
+node_modules/
+.env
+.DS_Store
+
+# Build artifacts - uncomment these when we go to production
+# stickers/*.html
+# clubs/*.html
+# countries/*.html
+
+# Keep test pages for now (we'll commit first 10 for demo)
