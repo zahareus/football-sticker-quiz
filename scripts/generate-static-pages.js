@@ -11,8 +11,9 @@ import { join, dirname } from 'path';
 import { fileURLToPath } from 'url';
 import dotenv from 'dotenv';
 
-// Load environment variables
-dotenv.config({ path: join(dirname(fileURLToPath(import.meta.url)), '.env') });
+// Load environment variables from project root
+const PROJECT_ROOT_FOR_ENV = join(dirname(fileURLToPath(import.meta.url)), '..');
+dotenv.config({ path: join(PROJECT_ROOT_FOR_ENV, '.env') });
 
 // Configuration
 const SUPABASE_URL = process.env.SUPABASE_URL || "https://rbmeslzlbsolkxnvesqb.supabase.co";
@@ -24,11 +25,11 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 const PROJECT_ROOT = join(__dirname, '..');
 
-// Check for test mode (only generate first 10 stickers)
+// Check for test mode or LIMIT environment variable
 const isTestMode = process.argv.includes('--test');
-const LIMIT = isTestMode ? 10 : null;
+const LIMIT = process.env.LIMIT ? parseInt(process.env.LIMIT) : (isTestMode ? 10 : null);
 
-console.log(`🚀 Starting static page generation${isTestMode ? ' (TEST MODE - first 10 stickers only)' : ''}...\n`);
+console.log(`🚀 Starting static page generation${LIMIT ? ` (LIMIT: ${LIMIT} stickers)` : ''}...\n`);
 
 // Initialize Supabase client
 const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
@@ -43,6 +44,49 @@ const COUNTRY_NAMES = {
     'DNK': 'Denmark', 'GRC': 'Greece', 'ROU': 'Romania', 'HRV': 'Croatia',
     'SRB': 'Serbia', 'SVK': 'Slovakia', 'HUN': 'Hungary', 'BGR': 'Bulgaria'
 };
+
+/**
+ * Convert original image URL to optimized WebP version URL
+ * Same logic as shared.js getOptimizedImageUrl()
+ */
+function getOptimizedImageUrl(imageUrl, suffix = '_web') {
+    if (!imageUrl) return imageUrl;
+
+    // Check if URL is from Supabase Storage
+    if (!imageUrl.includes('/storage/v1/object/')) {
+        return imageUrl;
+    }
+
+    try {
+        const url = new URL(imageUrl);
+        const pathname = url.pathname;
+        const lastDotIndex = pathname.lastIndexOf('.');
+
+        if (lastDotIndex === -1) {
+            url.pathname = pathname + suffix + '.webp';
+        } else {
+            url.pathname = pathname.substring(0, lastDotIndex) + suffix + '.webp';
+        }
+
+        return url.toString();
+    } catch (e) {
+        return imageUrl;
+    }
+}
+
+/**
+ * Get detail image URL (600x600 WebP)
+ */
+function getDetailImageUrl(imageUrl) {
+    return getOptimizedImageUrl(imageUrl, '_web');
+}
+
+/**
+ * Get thumbnail URL (150x150 WebP)
+ */
+function getThumbnailUrl(imageUrl) {
+    return getOptimizedImageUrl(imageUrl, '_thumb');
+}
 
 /**
  * Get country name from code
@@ -204,7 +248,7 @@ function generateStickerGallery(stickers, clubName) {
     let html = '';
     stickers.forEach(sticker => {
         // Use thumbnail URL (same logic as SharedUtils.getThumbnailUrl)
-        const thumbnailUrl = sticker.image_url;
+        const thumbnailUrl = getThumbnailUrl(sticker.image_url);
         html += `
                 <a href="/stickers/${sticker.id}.html" class="sticker-preview-link">
                     <img src="${thumbnailUrl}"
@@ -301,7 +345,7 @@ async function generateStickerPage(sticker, club, prevStickerId, nextStickerId) 
         CANONICAL_URL: canonicalUrl,
         OG_IMAGE: sticker.image_url,
         STICKER_NAME: `${club.name} Sticker #${sticker.id}`,
-        IMAGE_URL: sticker.image_url,
+        IMAGE_URL: getDetailImageUrl(sticker.image_url),
         IMAGE_FULL_URL: sticker.image_url,
         IMAGE_ALT: `Sticker ${sticker.id} - ${club.name}`,
         BREADCRUMBS: breadcrumbs,
@@ -473,10 +517,10 @@ async function generateAllPages() {
             stickerQuery = stickerQuery.limit(LIMIT);
         }
 
-        const { data: stickers, error: stickerError } = await stickerQuery;
+        const { data: stickers, error: fetchStickersError } = await stickerQuery;
 
-        if (stickerError) {
-            throw new Error(`Supabase error fetching stickers: ${stickerError.message}`);
+        if (fetchStickersError) {
+            throw new Error(`Supabase error fetching stickers: ${fetchStickersError.message}`);
         }
 
         if (!stickers || stickers.length === 0) {
@@ -486,15 +530,31 @@ async function generateAllPages() {
 
         console.log(`  ✓ Fetched ${stickers.length} stickers`);
 
+        // Check for ID gaps and warn
+        if (stickers.length > 0) {
+            const minId = stickers[0].id;
+            const maxId = stickers[stickers.length - 1].id;
+            const expectedCount = maxId - minId + 1;
+            const actualCount = stickers.length;
+
+            if (actualCount < expectedCount) {
+                const gapCount = expectedCount - actualCount;
+                console.log(`  ⚠️  Note: ${gapCount} sticker ID(s) missing (gaps in sequence ${minId}-${maxId})`);
+                console.log(`  ✓ Will generate pages only for existing ${actualCount} stickers\n`);
+            } else {
+                console.log(`  ✓ Sticker IDs are continuous (${minId}-${maxId})\n`);
+            }
+        }
+
         // Fetch all clubs
         console.log('  → Fetching clubs...');
-        const { data: clubs, error: clubError } = await supabase
+        const { data: clubs, error: fetchClubsError } = await supabase
             .from('clubs')
             .select('*')
             .order('name', { ascending: true });
 
-        if (clubError) {
-            throw new Error(`Supabase error fetching clubs: ${clubError.message}`);
+        if (fetchClubsError) {
+            throw new Error(`Supabase error fetching clubs: ${fetchClubsError.message}`);
         }
 
         console.log(`  ✓ Fetched ${clubs.length} clubs`);
@@ -518,9 +578,10 @@ async function generateAllPages() {
             clubsByCountry[country].push(club);
         });
 
-        console.log(`  ✓ Found ${Object.keys(clubsByCountry).length} countries\n`);
+        console.log(`  ✓ Found ${Object.keys(clubsByCountry).length} countries`);
 
         // Generate sticker pages
+        console.log();
         console.log('🔨 Generating sticker pages...');
         let stickerSuccess = 0;
         let stickerError = 0;
