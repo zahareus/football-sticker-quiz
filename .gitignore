@@ -2,9 +2,13 @@ node_modules/
 .env
 .DS_Store
 
-# Build artifacts - uncomment these when we go to production
-# stickers/*.html
-# clubs/*.html
-# countries/*.html
+# Generated static pages (exclude from git)
+stickers/*.html
+clubs/*.html
+countries/*.html
 
-# Keep test pages for now (we'll commit first 10 for demo)
+# Keep a few examples for demonstration
+!stickers/4.html
+!stickers/5.html
+!clubs/27.html
+!countries/ukr.html
