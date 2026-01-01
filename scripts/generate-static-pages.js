@@ -84,47 +84,47 @@ function generateBreadcrumbs(links) {
 }
 
 /**
- * Generate sticker info HTML
+ * Generate sticker date HTML (formatted like current site)
  */
-function generateStickerInfo(sticker, club) {
-    let html = '<div class="sticker-info-section">';
+function generateStickerDate(sticker) {
+    if (!sticker.found) return '';
 
-    if (sticker.date_found) {
-        const date = new Date(sticker.date_found);
-        html += `<p class="sticker-info-item">📅 Found: ${date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</p>`;
-    }
+    const dateObj = new Date(sticker.found);
+    const formattedDate = dateObj.toLocaleDateString('en-GB', {
+        day: 'numeric',
+        month: 'long',
+        year: 'numeric'
+    });
 
-    if (sticker.latitude && sticker.longitude) {
-        html += `<p class="sticker-info-item">📍 Location: ${sticker.latitude.toFixed(4)}, ${sticker.longitude.toFixed(4)}</p>`;
-    }
-
-    if (club.city) {
-        html += `<p class="sticker-info-item">🌍 City: ${club.city}</p>`;
-    }
-
-    if (club.country) {
-        const countryName = getCountryName(club.country);
-        html += `<p class="sticker-info-item">🏴 Country: ${countryName}</p>`;
-    }
-
-    html += '</div>';
-    return html;
+    return `<p class="sticker-detail-date">Hunted on ${formattedDate}</p>`;
 }
 
 /**
- * Generate navigation buttons HTML
+ * Generate sticker location HTML (formatted like current site)
  */
-function generateNavigationButtons(currentId, prevId, nextId) {
-    let html = '<div class="sticker-navigation">';
+function generateStickerLocation(sticker) {
+    if (!sticker.location || sticker.location.trim() === '') return '';
+    return `<p class="sticker-detail-location">${sticker.location}</p>`;
+}
+
+/**
+ * Generate navigation buttons HTML (formatted like current site)
+ */
+function generateNavigationButtons(prevId, nextId) {
+    if (!prevId && !nextId) return '';
+
+    let html = '<div class="sticker-nav-buttons">';
 
     if (prevId) {
         html += `<a href="/stickers/${prevId}.html" class="btn btn-nav sticker-nav-btn">← #${prevId}</a>`;
+    } else {
+        html += '<span class="sticker-nav-placeholder"></span>';
     }
-
-    html += `<span class="sticker-id-display">#${currentId}</span>`;
 
     if (nextId) {
         html += `<a href="/stickers/${nextId}.html" class="btn btn-nav sticker-nav-btn">#${nextId} →</a>`;
+    } else {
+        html += '<span class="sticker-nav-placeholder"></span>';
     }
 
     html += '</div>';
@@ -132,21 +132,137 @@ function generateNavigationButtons(currentId, prevId, nextId) {
 }
 
 /**
- * Generate map section HTML if coordinates exist
+ * Generate map section HTML (formatted like current site)
  */
-function generateMapSection(sticker, clubName) {
-    if (!sticker.latitude || !sticker.longitude) {
+function generateMapSection(sticker) {
+    const hasCoordinates = sticker.latitude != null && sticker.longitude != null;
+
+    if (hasCoordinates) {
+        return `
+            <div class="sticker-map-section sticker-map-full-width">
+                <div id="sticker-map" class="sticker-map-container"></div>
+                <div class="sticker-detail-actions">
+                    <a href="/map.html" class="btn btn-nav">View Full Map</a>
+                    <a href="/quiz.html" class="btn btn-nav">Play Quiz</a>
+                </div>
+            </div>
+        `;
+    } else {
+        return `
+            <div class="sticker-detail-actions sticker-actions-no-map">
+                <a href="/quiz.html" class="btn btn-nav">Play Quiz</a>
+            </div>
+        `;
+    }
+}
+
+/**
+ * Generate map initialization script
+ */
+function generateMapInitScript(sticker, clubName) {
+    if (!sticker.latitude || !sticker.longitude) return '';
+
+    return `
+        if (typeof L !== 'undefined') {
+            const map = L.map('sticker-map').setView([${sticker.latitude}, ${sticker.longitude}], 13);
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '© OpenStreetMap contributors'
+            }).addTo(map);
+            L.marker([${sticker.latitude}, ${sticker.longitude}])
+                .addTo(map)
+                .bindPopup('${clubName ? clubName.replace(/'/g, "\\'") : 'Sticker location'}');
+        }
+    `;
+}
+
+/**
+ * Generate club info HTML section (city, web, media)
+ */
+function generateClubInfo(club) {
+    let html = '';
+    if (club.city) {
+        html += `<p class="club-info-item">🌍 ${club.city}</p>`;
+    }
+    if (club.web) {
+        const sanitizedUrl = encodeURI(club.web);
+        html += `<p class="club-info-item">🌐 <a href="${sanitizedUrl}" target="_blank" rel="noopener noreferrer">${club.web}</a></p>`;
+    }
+    if (club.media) {
+        html += `<p class="club-info-item">#️⃣ ${club.media}</p>`;
+    }
+    return html;
+}
+
+/**
+ * Generate sticker gallery HTML for club page
+ */
+function generateStickerGallery(stickers, clubName) {
+    if (!stickers || stickers.length === 0) {
+        return '<p>No stickers found for this club.</p>';
+    }
+
+    let html = '';
+    stickers.forEach(sticker => {
+        // Use thumbnail URL (same logic as SharedUtils.getThumbnailUrl)
+        const thumbnailUrl = sticker.image_url;
+        html += `
+                <a href="/stickers/${sticker.id}.html" class="sticker-preview-link">
+                    <img src="${thumbnailUrl}"
+                         alt="Sticker ID ${sticker.id} for ${clubName}"
+                         class="sticker-preview-image"
+                         loading="lazy"
+                         decoding="async">
+                </a>`;
+    });
+    return html;
+}
+
+/**
+ * Generate club map section HTML
+ */
+function generateClubMapSection(stickersWithCoordinates) {
+    if (!stickersWithCoordinates || stickersWithCoordinates.length === 0) {
         return '';
     }
 
     return `
-        <div class="sticker-map-section">
-            <h3 class="sticker-map-heading">Location</h3>
-            <div class="sticker-map-info">
-                <p>📍 This sticker was found at coordinates: ${sticker.latitude.toFixed(4)}, ${sticker.longitude.toFixed(4)}</p>
-                <p><a href="/map.html" class="btn btn-nav">View on Full Map</a></p>
+            <div class="club-map-section">
+                <h3 class="club-map-heading">Sticker Locations</h3>
+                <div id="club-map" class="club-map-container"></div>
+                <div class="view-map-btn-container">
+                    <a href="/map.html" class="btn btn-nav">View Full Map</a>
+                </div>
             </div>
-        </div>
+        `;
+}
+
+/**
+ * Generate club map initialization script
+ */
+function generateClubMapInitScript(stickersWithCoordinates, clubName) {
+    if (!stickersWithCoordinates || stickersWithCoordinates.length === 0) {
+        return '';
+    }
+
+    // Calculate center point (average of all coordinates)
+    const avgLat = stickersWithCoordinates.reduce((sum, s) => sum + s.latitude, 0) / stickersWithCoordinates.length;
+    const avgLng = stickersWithCoordinates.reduce((sum, s) => sum + s.longitude, 0) / stickersWithCoordinates.length;
+
+    // Generate markers
+    const markers = stickersWithCoordinates.map(sticker => {
+        return `L.marker([${sticker.latitude}, ${sticker.longitude}])
+            .addTo(clubMap)
+            .bindPopup('Sticker #${sticker.id}');`;
+    }).join('\n            ');
+
+    return `
+        if (typeof L !== 'undefined') {
+            const clubMap = L.map('club-map').setView([${avgLat}, ${avgLng}], 10);
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '© OpenStreetMap contributors'
+            }).addTo(clubMap);
+            ${markers}
+        }
     `;
 }
 
@@ -186,14 +302,17 @@ async function generateStickerPage(sticker, club, prevStickerId, nextStickerId) 
         OG_IMAGE: sticker.image_url,
         STICKER_NAME: `${club.name} Sticker #${sticker.id}`,
         IMAGE_URL: sticker.image_url,
-        THUMBNAIL_URL: sticker.image_url,
-        IMAGE_ALT: `Football sticker #${sticker.id} from ${club.name}`,
+        IMAGE_FULL_URL: sticker.image_url,
+        IMAGE_ALT: `Sticker ${sticker.id} - ${club.name}`,
         BREADCRUMBS: breadcrumbs,
         MAIN_HEADING: `Sticker #${sticker.id}`,
+        STICKER_ID: sticker.id,
         CLUB_NAME: club.name,
-        STICKER_INFO: generateStickerInfo(sticker, club),
-        NAVIGATION_BUTTONS: generateNavigationButtons(sticker.id, prevStickerId, nextStickerId),
-        MAP_SECTION: generateMapSection(sticker, club.name)
+        STICKER_DATE: generateStickerDate(sticker),
+        STICKER_LOCATION: generateStickerLocation(sticker),
+        NAVIGATION_BUTTONS: generateNavigationButtons(prevStickerId, nextStickerId),
+        MAP_SECTION: generateMapSection(sticker),
+        MAP_INIT_SCRIPT: generateMapInitScript(sticker, club.name)
     };
 
     const html = replacePlaceholders(template, data);
@@ -211,26 +330,153 @@ async function generateStickerPage(sticker, club, prevStickerId, nextStickerId) 
 }
 
 /**
+ * Generate a single club page
+ */
+async function generateClubPage(club, stickers) {
+    const template = loadTemplate('club-page.html');
+
+    const countryName = getCountryName(club.country);
+    const pageTitle = `${club.name} - ${countryName} - Sticker Catalogue`;
+    const stickerCount = stickers ? stickers.length : 0;
+    const metaDescription = `View ${stickerCount} stickers from ${club.name} (${countryName}) in our football sticker collection.`;
+    const canonicalUrl = `${BASE_URL}/clubs/${club.id}.html`;
+
+    // Build keywords
+    let keywords = `football stickers, ${club.name}, ${countryName}, panini, sticker collection`;
+    if (club.media) {
+        const cleanMedia = club.media.replace(/[#\uD800-\uDFFF]/g, '').trim();
+        if (cleanMedia) {
+            keywords += ', ' + cleanMedia;
+        }
+    }
+
+    // Generate breadcrumbs
+    const breadcrumbs = generateBreadcrumbs([
+        { text: 'Catalogue', url: '/catalogue.html' },
+        { text: countryName, url: `/countries/${club.country.toLowerCase()}.html` },
+        { text: club.name, url: `/clubs/${club.id}.html` }
+    ]);
+
+    // Filter stickers with coordinates for map
+    const stickersWithCoordinates = stickers ? stickers.filter(
+        s => s.latitude != null && s.longitude != null
+    ) : [];
+
+    // Get first sticker image for OG image (or use default)
+    const ogImage = stickers && stickers.length > 0
+        ? stickers[0].image_url
+        : 'https://stickerhunt.club/metash.png';
+
+    const data = {
+        PAGE_TITLE: pageTitle,
+        META_DESCRIPTION: metaDescription,
+        META_KEYWORDS: keywords,
+        CANONICAL_URL: canonicalUrl,
+        OG_IMAGE: ogImage,
+        CLUB_NAME: club.name,
+        BREADCRUMBS: breadcrumbs,
+        MAIN_HEADING: `${club.name} - Sticker Gallery`,
+        CLUB_INFO: generateClubInfo(club),
+        STICKER_GALLERY: generateStickerGallery(stickers, club.name),
+        CLUB_MAP_SECTION: generateClubMapSection(stickersWithCoordinates),
+        CLUB_MAP_INIT_SCRIPT: generateClubMapInitScript(stickersWithCoordinates, club.name)
+    };
+
+    const html = replacePlaceholders(template, data);
+
+    // Save to file
+    const outputDir = join(PROJECT_ROOT, 'clubs');
+    if (!existsSync(outputDir)) {
+        mkdirSync(outputDir, { recursive: true });
+    }
+
+    const outputPath = join(outputDir, `${club.id}.html`);
+    writeFileSync(outputPath, html, 'utf-8');
+
+    return outputPath;
+}
+
+/**
+ * Generate a single country page
+ */
+async function generateCountryPage(countryCode, clubs, stickerCountsByClub) {
+    const template = loadTemplate('country-page.html');
+
+    const countryName = getCountryName(countryCode);
+    const pageTitle = `${countryName} - Sticker Catalogue`;
+    const metaDescription = `Browse ${clubs.length} football clubs from ${countryName} in our sticker database. Explore club stickers and discover the complete collection.`;
+    const canonicalUrl = `${BASE_URL}/countries/${countryCode.toLowerCase()}.html`;
+    const keywords = `football stickers, ${countryName}, panini catalogue, football clubs, sticker collection`;
+
+    // Generate breadcrumbs
+    const breadcrumbs = generateBreadcrumbs([
+        { text: 'Catalogue', url: '/catalogue.html' },
+        { text: countryName, url: `/countries/${countryCode.toLowerCase()}.html` }
+    ]);
+
+    // Add sticker counts to clubs and sort
+    const clubsWithStickerCounts = clubs.map(club => ({
+        ...club,
+        stickerCount: stickerCountsByClub[club.id] || 0
+    }));
+    clubsWithStickerCounts.sort((a, b) => a.name.localeCompare(b.name));
+
+    // Generate club list HTML
+    let clubListHtml = '';
+    clubsWithStickerCounts.forEach(club => {
+        const countText = `(${club.stickerCount} sticker${club.stickerCount !== 1 ? 's' : ''})`;
+        clubListHtml += `<li><a href="/clubs/${club.id}.html">${club.name} ${countText}</a></li>`;
+    });
+
+    const data = {
+        PAGE_TITLE: pageTitle,
+        META_DESCRIPTION: metaDescription,
+        META_KEYWORDS: keywords,
+        CANONICAL_URL: canonicalUrl,
+        OG_IMAGE: 'https://stickerhunt.club/metash.png',
+        COUNTRY_NAME: countryName,
+        CLUB_COUNT: clubs.length,
+        BREADCRUMBS: breadcrumbs,
+        MAIN_HEADING: countryName,
+        CLUB_LIST: clubListHtml
+    };
+
+    const html = replacePlaceholders(template, data);
+
+    // Save to file
+    const outputDir = join(PROJECT_ROOT, 'countries');
+    if (!existsSync(outputDir)) {
+        mkdirSync(outputDir, { recursive: true });
+    }
+
+    const outputPath = join(outputDir, `${countryCode.toLowerCase()}.html`);
+    writeFileSync(outputPath, html, 'utf-8');
+
+    return outputPath;
+}
+
+/**
  * Main generation function
  */
 async function generateAllPages() {
     try {
-        console.log('📦 Fetching stickers from Supabase...');
+        console.log('📦 Fetching data from Supabase...\n');
 
-        // Build query
-        let query = supabase
+        // Fetch all stickers with clubs
+        console.log('  → Fetching stickers...');
+        let stickerQuery = supabase
             .from('stickers')
             .select('*, clubs(*)')
             .order('id', { ascending: true });
 
         if (LIMIT) {
-            query = query.limit(LIMIT);
+            stickerQuery = stickerQuery.limit(LIMIT);
         }
 
-        const { data: stickers, error } = await query;
+        const { data: stickers, error: stickerError } = await stickerQuery;
 
-        if (error) {
-            throw new Error(`Supabase error: ${error.message}`);
+        if (stickerError) {
+            throw new Error(`Supabase error fetching stickers: ${stickerError.message}`);
         }
 
         if (!stickers || stickers.length === 0) {
@@ -238,11 +484,46 @@ async function generateAllPages() {
             return;
         }
 
-        console.log(`✓ Fetched ${stickers.length} stickers\n`);
-        console.log('🔨 Generating sticker pages...');
+        console.log(`  ✓ Fetched ${stickers.length} stickers`);
 
-        let successCount = 0;
-        let errorCount = 0;
+        // Fetch all clubs
+        console.log('  → Fetching clubs...');
+        const { data: clubs, error: clubError } = await supabase
+            .from('clubs')
+            .select('*')
+            .order('name', { ascending: true });
+
+        if (clubError) {
+            throw new Error(`Supabase error fetching clubs: ${clubError.message}`);
+        }
+
+        console.log(`  ✓ Fetched ${clubs.length} clubs`);
+
+        // Group stickers by club
+        const stickersByClub = {};
+        stickers.forEach(sticker => {
+            if (!stickersByClub[sticker.club_id]) {
+                stickersByClub[sticker.club_id] = [];
+            }
+            stickersByClub[sticker.club_id].push(sticker);
+        });
+
+        // Group clubs by country
+        const clubsByCountry = {};
+        clubs.forEach(club => {
+            const country = club.country.toUpperCase();
+            if (!clubsByCountry[country]) {
+                clubsByCountry[country] = [];
+            }
+            clubsByCountry[country].push(club);
+        });
+
+        console.log(`  ✓ Found ${Object.keys(clubsByCountry).length} countries\n`);
+
+        // Generate sticker pages
+        console.log('🔨 Generating sticker pages...');
+        let stickerSuccess = 0;
+        let stickerError = 0;
 
         for (let i = 0; i < stickers.length; i++) {
             const sticker = stickers[i];
@@ -251,23 +532,71 @@ async function generateAllPages() {
 
             try {
                 await generateStickerPage(sticker, sticker.clubs, prevStickerId, nextStickerId);
-                successCount++;
+                stickerSuccess++;
 
-                if (successCount % 10 === 0 || successCount === stickers.length) {
-                    console.log(`  ✓ Generated ${successCount}/${stickers.length} pages...`);
+                if (stickerSuccess % 10 === 0 || stickerSuccess === stickers.length) {
+                    console.log(`  ✓ Generated ${stickerSuccess}/${stickers.length} sticker pages...`);
                 }
             } catch (error) {
                 console.error(`  ✗ Error generating page for sticker #${sticker.id}:`, error.message);
-                errorCount++;
+                stickerError++;
             }
         }
 
-        console.log(`\n✅ Generation complete!`);
-        console.log(`   Success: ${successCount} pages`);
-        if (errorCount > 0) {
-            console.log(`   Errors: ${errorCount} pages`);
+        // Generate club pages
+        console.log('\n🔨 Generating club pages...');
+        let clubSuccess = 0;
+        let clubError = 0;
+
+        for (const club of clubs) {
+            try {
+                const clubStickers = stickersByClub[club.id] || [];
+                await generateClubPage(club, clubStickers);
+                clubSuccess++;
+
+                if (clubSuccess % 10 === 0 || clubSuccess === clubs.length) {
+                    console.log(`  ✓ Generated ${clubSuccess}/${clubs.length} club pages...`);
+                }
+            } catch (error) {
+                console.error(`  ✗ Error generating page for club #${club.id}:`, error.message);
+                clubError++;
+            }
         }
-        console.log(`\n📁 Output directory: ${join(PROJECT_ROOT, 'stickers')}`);
+
+        // Generate country pages
+        console.log('\n🔨 Generating country pages...');
+        let countrySuccess = 0;
+        let countryError = 0;
+
+        // Calculate sticker counts per club
+        const stickerCountsByClub = {};
+        stickers.forEach(sticker => {
+            if (!stickerCountsByClub[sticker.club_id]) {
+                stickerCountsByClub[sticker.club_id] = 0;
+            }
+            stickerCountsByClub[sticker.club_id]++;
+        });
+
+        for (const [countryCode, countryClubs] of Object.entries(clubsByCountry)) {
+            try {
+                await generateCountryPage(countryCode, countryClubs, stickerCountsByClub);
+                countrySuccess++;
+                console.log(`  ✓ Generated page for ${getCountryName(countryCode)}`);
+            } catch (error) {
+                console.error(`  ✗ Error generating page for country ${countryCode}:`, error.message);
+                countryError++;
+            }
+        }
+
+        // Summary
+        console.log(`\n✅ Generation complete!`);
+        console.log(`\n   Sticker pages: ${stickerSuccess} success, ${stickerError} errors`);
+        console.log(`   Club pages: ${clubSuccess} success, ${clubError} errors`);
+        console.log(`   Country pages: ${countrySuccess} success, ${countryError} errors`);
+        console.log(`\n📁 Output directories:`);
+        console.log(`   ${join(PROJECT_ROOT, 'stickers')}`);
+        console.log(`   ${join(PROJECT_ROOT, 'clubs')}`);
+        console.log(`   ${join(PROJECT_ROOT, 'countries')}`);
 
     } catch (error) {
         console.error('❌ Fatal error:', error);

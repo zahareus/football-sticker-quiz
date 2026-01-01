@@ -34,6 +34,9 @@
 
     <link rel="stylesheet" href="/style.css">
 
+    <!-- Leaflet.js for OpenStreetMap -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
+
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-4Y0MJKGDZS"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
@@ -77,34 +80,41 @@
     </header>
 
     <main class="container" id="catalogue-container">
-        <nav class="breadcrumbs">
-            <a href="/catalogue.html">Catalogue</a> → <a href="/countries/esp.html">Spain</a> → <a href="/clubs/1.html">FC Barcelona</a> → <a href="/stickers/1.html">Sticker #1</a>
-        </nav>
+        <div id="catalogue-breadcrumbs"><a href="/catalogue.html">Catalogue</a> → <a href="/countries/esp.html">Spain</a> → <a href="/clubs/1.html">FC Barcelona</a> → <a href="/stickers/1.html">Sticker #1</a></div>
 
-        <h1>Sticker #1</h1>
+        <h1 id="main-catalogue-heading" style="display: none;">Sticker #1</h1>
 
         <div id="catalogue-content">
-            <div class="sticker-detail-view">
-                <div class="sticker-detail-image">
-                    <img src="https://example.com/sticker1.jpg" alt="Football sticker #1 from FC Barcelona" loading="eager" fetchpriority="high">
+            <div class="sticker-detail-view sticker-detail-two-column">
+                <div class="sticker-detail-left-column">
+                    <div class="sticker-detail-image-container" onclick="window.open('https://example.com/sticker1.jpg', '_blank')">
+                        <img src="https://example.com/sticker1.jpg"
+                             alt="Sticker 1 - FC Barcelona"
+                             class="sticker-detail-image"
+                             decoding="async"
+                             loading="eager"
+                             fetchpriority="high">
+                    </div>
+                    <div class="sticker-nav-buttons"><span class="sticker-nav-placeholder"></span><a href="/stickers/2.html" class="btn btn-nav sticker-nav-btn">#2 →</a></div>
                 </div>
-                <div class="sticker-detail-info">
-                    <h2>FC Barcelona</h2>
-                    <div class="sticker-info-section"><p class="sticker-info-item">📅 Found: January 15, 2024</p><p class="sticker-info-item">📍 Location: 41.3809, 2.1228</p><p class="sticker-info-item">🌍 City: Barcelona</p><p class="sticker-info-item">🏴 Country: Spain</p></div>
-                    <div class="sticker-navigation"><span class="sticker-id-display">#1</span><a href="/stickers/2.html" class="btn btn-nav sticker-nav-btn">#2 →</a></div>
-                    <div class="sticker-actions">
-                        <a href="/quiz.html" class="btn btn-nav">Play Quiz</a>
+
+                <div class="sticker-detail-right-panel">
+                    <div class="sticker-detail-info-block">
+                        <h2 class="sticker-detail-club-name">FC Barcelona</h2>
+                        <p class="sticker-detail-id">#1</p>
+                        <p class="sticker-detail-date">Hunted on 15 January 2024</p>
+                        <p class="sticker-detail-location">Barcelona, Spain</p>
                     </div>
                 </div>
             </div>
 
-        <div class="sticker-map-section">
-            <h3 class="sticker-map-heading">Location</h3>
-            <div class="sticker-map-info">
-                <p>📍 This sticker was found at coordinates: 41.3809, 2.1228</p>
-                <p><a href="/map.html" class="btn btn-nav">View on Full Map</a></p>
+            <div class="sticker-map-section sticker-map-full-width">
+                <div id="sticker-map" class="sticker-map-container"></div>
+                <div class="sticker-detail-actions">
+                    <a href="/map.html" class="btn btn-nav">View Full Map</a>
+                    <a href="/quiz.html" class="btn btn-nav">Play Quiz</a>
+                </div>
             </div>
-        </div>
 
         </div>
     </main>
@@ -118,17 +128,31 @@
         <p>StickerHunt &copy; 2025</p>
     </footer>
 
-    <!-- Auth functionality still uses JS for dynamic features -->
+    <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
     <script src="/shared.js"></script>
     <script>
-        // Minimal JS only for auth - content is already rendered
+        // Auth functionality
         if (typeof SharedUtils !== 'undefined') {
             const supabaseClient = SharedUtils.initSupabaseClient();
             if (supabaseClient) {
                 SharedUtils.initAuth(supabaseClient);
             }
         }
+
+        // Initialize map if map container exists
+
+        if (typeof L !== 'undefined') {
+            const map = L.map('sticker-map').setView([41.3809, 2.1228], 13);
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '© OpenStreetMap contributors'
+            }).addTo(map);
+            L.marker([41.3809, 2.1228])
+                .addTo(map)
+                .bindPopup('FC Barcelona');
+        }
+
     </script>
 </body>
 </html>

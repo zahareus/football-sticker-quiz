@@ -49,12 +49,11 @@
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
-      "@type": "ImageObject",
-      "name": "{{STICKER_NAME}}",
+      "@type": "SportsTeam",
+      "name": "{{CLUB_NAME}}",
       "description": "{{META_DESCRIPTION}}",
-      "contentUrl": "{{IMAGE_URL}}",
-      "thumbnailUrl": "{{THUMBNAIL_URL}}",
-      "url": "{{CANONICAL_URL}}"
+      "url": "{{CANONICAL_URL}}",
+      "sport": "Football"
     }
     </script>
 </head>
@@ -82,32 +81,16 @@
     <main class="container" id="catalogue-container">
         <div id="catalogue-breadcrumbs">{{BREADCRUMBS}}</div>
 
-        <h1 id="main-catalogue-heading" style="display: none;">{{MAIN_HEADING}}</h1>
+        <h1 id="main-catalogue-heading">{{MAIN_HEADING}}</h1>
 
         <div id="catalogue-content">
-            <div class="sticker-detail-view sticker-detail-two-column">
-                <div class="sticker-detail-left-column">
-                    <div class="sticker-detail-image-container" onclick="window.open('{{IMAGE_FULL_URL}}', '_blank')">
-                        <img src="{{IMAGE_URL}}"
-                             alt="{{IMAGE_ALT}}"
-                             class="sticker-detail-image"
-                             decoding="async"
-                             loading="eager"
-                             fetchpriority="high">
-                    </div>
-                    {{NAVIGATION_BUTTONS}}
-                </div>
-
-                <div class="sticker-detail-right-panel">
-                    <div class="sticker-detail-info-block">
-                        <h2 class="sticker-detail-club-name">{{CLUB_NAME}}</h2>
-                        <p class="sticker-detail-id">#{{STICKER_ID}}</p>
-                        {{STICKER_DATE}}
-                        {{STICKER_LOCATION}}
-                    </div>
-                </div>
+            <div class="club-info-section">
+                {{CLUB_INFO}}
             </div>
-            {{MAP_SECTION}}
+            <div class="sticker-gallery">
+                {{STICKER_GALLERY}}
+            </div>
+            {{CLUB_MAP_SECTION}}
         </div>
     </main>
 
@@ -133,8 +116,8 @@
             }
         }
 
-        // Initialize map if map container exists
-        {{MAP_INIT_SCRIPT}}
+        // Initialize club map if map container exists
+        {{CLUB_MAP_INIT_SCRIPT}}
     </script>
 </body>
 </html>
