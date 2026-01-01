@@ -84,47 +84,47 @@ function generateBreadcrumbs(links) {
 }
 
 /**
- * Generate sticker info HTML
+ * Generate sticker date HTML (formatted like current site)
  */
-function generateStickerInfo(sticker, club) {
-    let html = '<div class="sticker-info-section">';
+function generateStickerDate(sticker) {
+    if (!sticker.found) return '';
 
-    if (sticker.date_found) {
-        const date = new Date(sticker.date_found);
-        html += `<p class="sticker-info-item">📅 Found: ${date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</p>`;
-    }
+    const dateObj = new Date(sticker.found);
+    const formattedDate = dateObj.toLocaleDateString('en-GB', {
+        day: 'numeric',
+        month: 'long',
+        year: 'numeric'
+    });
 
-    if (sticker.latitude && sticker.longitude) {
-        html += `<p class="sticker-info-item">📍 Location: ${sticker.latitude.toFixed(4)}, ${sticker.longitude.toFixed(4)}</p>`;
-    }
-
-    if (club.city) {
-        html += `<p class="sticker-info-item">🌍 City: ${club.city}</p>`;
-    }
-
-    if (club.country) {
-        const countryName = getCountryName(club.country);
-        html += `<p class="sticker-info-item">🏴 Country: ${countryName}</p>`;
-    }
-
-    html += '</div>';
-    return html;
+    return `<p class="sticker-detail-date">Hunted on ${formattedDate}</p>`;
 }
 
 /**
- * Generate navigation buttons HTML
+ * Generate sticker location HTML (formatted like current site)
  */
-function generateNavigationButtons(currentId, prevId, nextId) {
-    let html = '<div class="sticker-navigation">';
+function generateStickerLocation(sticker) {
+    if (!sticker.location || sticker.location.trim() === '') return '';
+    return `<p class="sticker-detail-location">${sticker.location}</p>`;
+}
+
+/**
+ * Generate navigation buttons HTML (formatted like current site)
+ */
+function generateNavigationButtons(prevId, nextId) {
+    if (!prevId && !nextId) return '';
+
+    let html = '<div class="sticker-nav-buttons">';
 
     if (prevId) {
         html += `<a href="/stickers/${prevId}.html" class="btn btn-nav sticker-nav-btn">← #${prevId}</a>`;
+    } else {
+        html += '<span class="sticker-nav-placeholder"></span>';
     }
-
-    html += `<span class="sticker-id-display">#${currentId}</span>`;
 
     if (nextId) {
         html += `<a href="/stickers/${nextId}.html" class="btn btn-nav sticker-nav-btn">#${nextId} →</a>`;
+    } else {
+        html += '<span class="sticker-nav-placeholder"></span>';
     }
 
     html += '</div>';
@@ -132,21 +132,46 @@ function generateNavigationButtons(currentId, prevId, nextId) {
 }
 
 /**
- * Generate map section HTML if coordinates exist
+ * Generate map section HTML (formatted like current site)
  */
-function generateMapSection(sticker, clubName) {
-    if (!sticker.latitude || !sticker.longitude) {
-        return '';
+function generateMapSection(sticker) {
+    const hasCoordinates = sticker.latitude != null && sticker.longitude != null;
+
+    if (hasCoordinates) {
+        return `
+            <div class="sticker-map-section sticker-map-full-width">
+                <div id="sticker-map" class="sticker-map-container"></div>
+                <div class="sticker-detail-actions">
+                    <a href="/map.html" class="btn btn-nav">View Full Map</a>
+                    <a href="/quiz.html" class="btn btn-nav">Play Quiz</a>
+                </div>
+            </div>
+        `;
+    } else {
+        return `
+            <div class="sticker-detail-actions sticker-actions-no-map">
+                <a href="/quiz.html" class="btn btn-nav">Play Quiz</a>
+            </div>
+        `;
     }
+}
+
+/**
+ * Generate map initialization script
+ */
+function generateMapInitScript(sticker, clubName) {
+    if (!sticker.latitude || !sticker.longitude) return '';
 
     return `
-        <div class="sticker-map-section">
-            <h3 class="sticker-map-heading">Location</h3>
-            <div class="sticker-map-info">
-                <p>📍 This sticker was found at coordinates: ${sticker.latitude.toFixed(4)}, ${sticker.longitude.toFixed(4)}</p>
-                <p><a href="/map.html" class="btn btn-nav">View on Full Map</a></p>
-            </div>
-        </div>
+        if (typeof L !== 'undefined') {
+            const map = L.map('sticker-map').setView([${sticker.latitude}, ${sticker.longitude}], 13);
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '© OpenStreetMap contributors'
+            }).addTo(map);
+            L.marker([${sticker.latitude}, ${sticker.longitude}])
+                .addTo(map)
+                .bindPopup('${clubName ? clubName.replace(/'/g, "\\'") : 'Sticker location'}');
+        }
     `;
 }
 
@@ -186,14 +211,17 @@ async function generateStickerPage(sticker, club, prevStickerId, nextStickerId) 
         OG_IMAGE: sticker.image_url,
         STICKER_NAME: `${club.name} Sticker #${sticker.id}`,
         IMAGE_URL: sticker.image_url,
-        THUMBNAIL_URL: sticker.image_url,
-        IMAGE_ALT: `Football sticker #${sticker.id} from ${club.name}`,
+        IMAGE_FULL_URL: sticker.image_url,
+        IMAGE_ALT: `Sticker ${sticker.id} - ${club.name}`,
         BREADCRUMBS: breadcrumbs,
         MAIN_HEADING: `Sticker #${sticker.id}`,
+        STICKER_ID: sticker.id,
         CLUB_NAME: club.name,
-        STICKER_INFO: generateStickerInfo(sticker, club),
-        NAVIGATION_BUTTONS: generateNavigationButtons(sticker.id, prevStickerId, nextStickerId),
-        MAP_SECTION: generateMapSection(sticker, club.name)
+        STICKER_DATE: generateStickerDate(sticker),
+        STICKER_LOCATION: generateStickerLocation(sticker),
+        NAVIGATION_BUTTONS: generateNavigationButtons(prevStickerId, nextStickerId),
+        MAP_SECTION: generateMapSection(sticker),
+        MAP_INIT_SCRIPT: generateMapInitScript(sticker, club.name)
     };
 
     const html = replacePlaceholders(template, data);
