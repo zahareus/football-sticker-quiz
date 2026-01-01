@@ -506,29 +506,53 @@ async function generateAllPages() {
     try {
         console.log('📦 Fetching data from Supabase...\n');
 
-        // Fetch all stickers with clubs
+        // Fetch all stickers with pagination (Supabase limits to 1000 per request)
         console.log('  → Fetching stickers...');
-        let stickerQuery = supabase
-            .from('stickers')
-            .select('*, clubs(*)')
-            .order('id', { ascending: true });
+        let allStickers = [];
+        let page = 0;
+        const pageSize = 1000;
+        let hasMore = true;
 
-        if (LIMIT) {
-            stickerQuery = stickerQuery.limit(LIMIT);
+        // Apply LIMIT if set (for testing)
+        const maxStickers = LIMIT || Infinity;
+
+        while (hasMore && allStickers.length < maxStickers) {
+            const { data: stickers, error: fetchStickersError } = await supabase
+                .from('stickers')
+                .select('*, clubs(*)')
+                .order('id', { ascending: true })
+                .range(page * pageSize, (page + 1) * pageSize - 1);
+
+            if (fetchStickersError) {
+                throw new Error(`Supabase error fetching stickers: ${fetchStickersError.message}`);
+            }
+
+            if (!stickers || stickers.length === 0) {
+                hasMore = false;
+            } else {
+                allStickers = allStickers.concat(stickers);
+                page++;
+
+                if (stickers.length < pageSize) {
+                    hasMore = false;
+                }
+
+                // Show progress for large datasets
+                if (hasMore) {
+                    console.log(`  → Fetched ${allStickers.length} stickers so far...`);
+                }
+            }
         }
 
-        const { data: stickers, error: fetchStickersError } = await stickerQuery;
-
-        if (fetchStickersError) {
-            throw new Error(`Supabase error fetching stickers: ${fetchStickersError.message}`);
-        }
+        // Apply LIMIT if set
+        const stickers = LIMIT ? allStickers.slice(0, LIMIT) : allStickers;
 
         if (!stickers || stickers.length === 0) {
             console.log('⚠️  No stickers found in database.');
             return;
         }
 
-        console.log(`  ✓ Fetched ${stickers.length} stickers`);
+        console.log(`  ✓ Fetched ${stickers.length} stickers total`);
 
         // Check for ID gaps and warn
         if (stickers.length > 0) {
