@@ -46,6 +46,49 @@ const COUNTRY_NAMES = {
 };
 
 /**
+ * Convert original image URL to optimized WebP version URL
+ * Same logic as shared.js getOptimizedImageUrl()
+ */
+function getOptimizedImageUrl(imageUrl, suffix = '_web') {
+    if (!imageUrl) return imageUrl;
+
+    // Check if URL is from Supabase Storage
+    if (!imageUrl.includes('/storage/v1/object/')) {
+        return imageUrl;
+    }
+
+    try {
+        const url = new URL(imageUrl);
+        const pathname = url.pathname;
+        const lastDotIndex = pathname.lastIndexOf('.');
+
+        if (lastDotIndex === -1) {
+            url.pathname = pathname + suffix + '.webp';
+        } else {
+            url.pathname = pathname.substring(0, lastDotIndex) + suffix + '.webp';
+        }
+
+        return url.toString();
+    } catch (e) {
+        return imageUrl;
+    }
+}
+
+/**
+ * Get detail image URL (600x600 WebP)
+ */
+function getDetailImageUrl(imageUrl) {
+    return getOptimizedImageUrl(imageUrl, '_web');
+}
+
+/**
+ * Get thumbnail URL (150x150 WebP)
+ */
+function getThumbnailUrl(imageUrl) {
+    return getOptimizedImageUrl(imageUrl, '_thumb');
+}
+
+/**
  * Get country name from code
  */
 function getCountryName(code) {
@@ -205,7 +248,7 @@ function generateStickerGallery(stickers, clubName) {
     let html = '';
     stickers.forEach(sticker => {
         // Use thumbnail URL (same logic as SharedUtils.getThumbnailUrl)
-        const thumbnailUrl = sticker.image_url;
+        const thumbnailUrl = getThumbnailUrl(sticker.image_url);
         html += `
                 <a href="/stickers/${sticker.id}.html" class="sticker-preview-link">
                     <img src="${thumbnailUrl}"
@@ -302,7 +345,7 @@ async function generateStickerPage(sticker, club, prevStickerId, nextStickerId) 
         CANONICAL_URL: canonicalUrl,
         OG_IMAGE: sticker.image_url,
         STICKER_NAME: `${club.name} Sticker #${sticker.id}`,
-        IMAGE_URL: sticker.image_url,
+        IMAGE_URL: getDetailImageUrl(sticker.image_url),
         IMAGE_FULL_URL: sticker.image_url,
         IMAGE_ALT: `Sticker ${sticker.id} - ${club.name}`,
         BREADCRUMBS: breadcrumbs,
