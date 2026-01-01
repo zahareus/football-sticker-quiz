@@ -530,6 +530,22 @@ async function generateAllPages() {
 
         console.log(`  ✓ Fetched ${stickers.length} stickers`);
 
+        // Check for ID gaps and warn
+        if (stickers.length > 0) {
+            const minId = stickers[0].id;
+            const maxId = stickers[stickers.length - 1].id;
+            const expectedCount = maxId - minId + 1;
+            const actualCount = stickers.length;
+
+            if (actualCount < expectedCount) {
+                const gapCount = expectedCount - actualCount;
+                console.log(`  ⚠️  Note: ${gapCount} sticker ID(s) missing (gaps in sequence ${minId}-${maxId})`);
+                console.log(`  ✓ Will generate pages only for existing ${actualCount} stickers\n`);
+            } else {
+                console.log(`  ✓ Sticker IDs are continuous (${minId}-${maxId})\n`);
+            }
+        }
+
         // Fetch all clubs
         console.log('  → Fetching clubs...');
         const { data: clubs, error: fetchClubsError } = await supabase
@@ -562,9 +578,10 @@ async function generateAllPages() {
             clubsByCountry[country].push(club);
         });
 
-        console.log(`  ✓ Found ${Object.keys(clubsByCountry).length} countries\n`);
+        console.log(`  ✓ Found ${Object.keys(clubsByCountry).length} countries`);
 
         // Generate sticker pages
+        console.log();
         console.log('🔨 Generating sticker pages...');
         let stickerSuccess = 0;
         let stickerError = 0;
