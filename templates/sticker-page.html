@@ -34,6 +34,9 @@
 
     <link rel="stylesheet" href="/style.css">
 
+    <!-- Leaflet.js for OpenStreetMap -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
+
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-4Y0MJKGDZS"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
@@ -77,23 +80,30 @@
     </header>
 
     <main class="container" id="catalogue-container">
-        <nav class="breadcrumbs">
-            {{BREADCRUMBS}}
-        </nav>
+        <div id="catalogue-breadcrumbs">{{BREADCRUMBS}}</div>
 
-        <h1>{{MAIN_HEADING}}</h1>
+        <h1 id="main-catalogue-heading" style="display: none;">{{MAIN_HEADING}}</h1>
 
         <div id="catalogue-content">
-            <div class="sticker-detail-view">
-                <div class="sticker-detail-image">
-                    <img src="{{IMAGE_URL}}" alt="{{IMAGE_ALT}}" loading="eager" fetchpriority="high">
-                </div>
-                <div class="sticker-detail-info">
-                    <h2>{{CLUB_NAME}}</h2>
-                    {{STICKER_INFO}}
+            <div class="sticker-detail-view sticker-detail-two-column">
+                <div class="sticker-detail-left-column">
+                    <div class="sticker-detail-image-container" onclick="window.open('{{IMAGE_FULL_URL}}', '_blank')">
+                        <img src="{{IMAGE_URL}}"
+                             alt="{{IMAGE_ALT}}"
+                             class="sticker-detail-image"
+                             decoding="async"
+                             loading="eager"
+                             fetchpriority="high">
+                    </div>
                     {{NAVIGATION_BUTTONS}}
-                    <div class="sticker-actions">
-                        <a href="/quiz.html" class="btn btn-nav">Play Quiz</a>
+                </div>
+
+                <div class="sticker-detail-right-panel">
+                    <div class="sticker-detail-info-block">
+                        <h2 class="sticker-detail-club-name">{{CLUB_NAME}}</h2>
+                        <p class="sticker-detail-id">#{{STICKER_ID}}</p>
+                        {{STICKER_DATE}}
+                        {{STICKER_LOCATION}}
                     </div>
                 </div>
             </div>
@@ -110,17 +120,21 @@
         <p>StickerHunt &copy; 2025</p>
     </footer>
 
-    <!-- Auth functionality still uses JS for dynamic features -->
+    <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
     <script src="/shared.js"></script>
     <script>
-        // Minimal JS only for auth - content is already rendered
+        // Auth functionality
         if (typeof SharedUtils !== 'undefined') {
             const supabaseClient = SharedUtils.initSupabaseClient();
             if (supabaseClient) {
                 SharedUtils.initAuth(supabaseClient);
             }
         }
+
+        // Initialize map if map container exists
+        {{MAP_INIT_SCRIPT}}
     </script>
 </body>
 </html>
