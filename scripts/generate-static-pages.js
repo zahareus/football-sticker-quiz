@@ -207,15 +207,17 @@ function generateMapInitScript(sticker, clubName) {
     if (!sticker.latitude || !sticker.longitude) return '';
 
     return `
-        if (typeof L !== 'undefined') {
-            const map = L.map('sticker-map').setView([${sticker.latitude}, ${sticker.longitude}], 13);
-            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                attribution: '© OpenStreetMap contributors'
-            }).addTo(map);
-            L.marker([${sticker.latitude}, ${sticker.longitude}])
-                .addTo(map)
-                .bindPopup('${clubName ? clubName.replace(/'/g, "\\'") : 'Sticker location'}');
-        }
+        document.addEventListener('DOMContentLoaded', function() {
+            if (typeof L !== 'undefined' && document.getElementById('sticker-map')) {
+                const map = L.map('sticker-map').setView([${sticker.latitude}, ${sticker.longitude}], 13);
+                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                    attribution: '© OpenStreetMap contributors'
+                }).addTo(map);
+                L.marker([${sticker.latitude}, ${sticker.longitude}])
+                    .addTo(map)
+                    .bindPopup('${clubName ? clubName.replace(/'/g, "\\'") : 'Sticker location'}');
+            }
+        });
     `;
 }
 
@@ -300,13 +302,15 @@ function generateClubMapInitScript(stickersWithCoordinates, clubName) {
     }).join('\n            ');
 
     return `
-        if (typeof L !== 'undefined') {
-            const clubMap = L.map('club-map').setView([${avgLat}, ${avgLng}], 10);
-            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                attribution: '© OpenStreetMap contributors'
-            }).addTo(clubMap);
-            ${markers}
-        }
+        document.addEventListener('DOMContentLoaded', function() {
+            if (typeof L !== 'undefined' && document.getElementById('club-map')) {
+                const clubMap = L.map('club-map').setView([${avgLat}, ${avgLng}], 10);
+                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                    attribution: '© OpenStreetMap contributors'
+                }).addTo(clubMap);
+                ${markers}
+            }
+        });
     `;
 }
 
@@ -333,7 +337,7 @@ async function generateStickerPage(sticker, club, prevStickerId, nextStickerId) 
     // Generate breadcrumbs
     const breadcrumbs = generateBreadcrumbs([
         { text: 'Catalogue', url: '/catalogue.html' },
-        { text: countryName, url: `/countries/${club.country.toLowerCase()}.html` },
+        { text: countryName, url: `/countries/${club.country.toUpperCase()}.html` },
         { text: club.name, url: `/clubs/${club.id}.html` },
         { text: `Sticker #${sticker.id}`, url: `/stickers/${sticker.id}.html` }
     ]);
@@ -397,7 +401,7 @@ async function generateClubPage(club, stickers) {
     // Generate breadcrumbs
     const breadcrumbs = generateBreadcrumbs([
         { text: 'Catalogue', url: '/catalogue.html' },
-        { text: countryName, url: `/countries/${club.country.toLowerCase()}.html` },
+        { text: countryName, url: `/countries/${club.country.toUpperCase()}.html` },
         { text: club.name, url: `/clubs/${club.id}.html` }
     ]);
 
@@ -449,13 +453,13 @@ async function generateCountryPage(countryCode, clubs, stickerCountsByClub) {
     const countryName = getCountryName(countryCode);
     const pageTitle = `${countryName} - Sticker Catalogue`;
     const metaDescription = `Browse ${clubs.length} football clubs from ${countryName} in our sticker database. Explore club stickers and discover the complete collection.`;
-    const canonicalUrl = `${BASE_URL}/countries/${countryCode.toLowerCase()}.html`;
+    const canonicalUrl = `${BASE_URL}/countries/${countryCode.toUpperCase()}.html`;
     const keywords = `football stickers, ${countryName}, panini catalogue, football clubs, sticker collection`;
 
     // Generate breadcrumbs
     const breadcrumbs = generateBreadcrumbs([
         { text: 'Catalogue', url: '/catalogue.html' },
-        { text: countryName, url: `/countries/${countryCode.toLowerCase()}.html` }
+        { text: countryName, url: `/countries/${countryCode.toUpperCase()}.html` }
     ]);
 
     // Add sticker counts to clubs and sort
@@ -493,7 +497,7 @@ async function generateCountryPage(countryCode, clubs, stickerCountsByClub) {
         mkdirSync(outputDir, { recursive: true });
     }
 
-    const outputPath = join(outputDir, `${countryCode.toLowerCase()}.html`);
+    const outputPath = join(outputDir, `${countryCode.toUpperCase()}.html`);
     writeFileSync(outputPath, html, 'utf-8');
 
     return outputPath;

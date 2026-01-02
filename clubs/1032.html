@@ -79,7 +79,7 @@
     </header>
 
     <main class="container" id="catalogue-container">
-        <div id="catalogue-breadcrumbs"><a href="/catalogue.html">Catalogue</a> → <a href="/countries/cze.html">Czech Republic</a> → <a href="/clubs/1032.html">🇨🇿 AC Sparta Prague</a></div>
+        <div id="catalogue-breadcrumbs"><a href="/catalogue.html">Catalogue</a> → <a href="/countries/CZE.html">Czech Republic</a> → <a href="/clubs/1032.html">🇨🇿 AC Sparta Prague</a></div>
 
         <h1 id="main-catalogue-heading">🇨🇿 AC Sparta Prague - Sticker Gallery</h1>
 
@@ -252,15 +252,17 @@
 
         // Initialize club map if map container exists
         
-        if (typeof L !== 'undefined') {
-            const clubMap = L.map('club-map').setView([49.3065111111111, 10.9677972222222], 10);
-            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                attribution: '© OpenStreetMap contributors'
-            }).addTo(clubMap);
-            L.marker([49.3065111111111, 10.9677972222222])
+        document.addEventListener('DOMContentLoaded', function() {
+            if (typeof L !== 'undefined' && document.getElementById('club-map')) {
+                const clubMap = L.map('club-map').setView([49.3065111111111, 10.9677972222222], 10);
+                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                    attribution: '© OpenStreetMap contributors'
+                }).addTo(clubMap);
+                L.marker([49.3065111111111, 10.9677972222222])
             .addTo(clubMap)
             .bindPopup('Sticker #2452');
-        }
+            }
+        });
     
     </script>
 </body>

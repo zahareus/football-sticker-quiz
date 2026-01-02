@@ -80,7 +80,7 @@
     </header>
 
     <main class="container" id="catalogue-container">
-        <div id="catalogue-breadcrumbs"><a href="/catalogue.html">Catalogue</a> → <a href="/countries/swe.html">Sweden</a> → <a href="/clubs/737.html">🇸🇪 Vattnas SK</a> → <a href="/stickers/2491.html">Sticker #2491</a></div>
+        <div id="catalogue-breadcrumbs"><a href="/catalogue.html">Catalogue</a> → <a href="/countries/SWE.html">Sweden</a> → <a href="/clubs/737.html">🇸🇪 Vattnas SK</a> → <a href="/stickers/2491.html">Sticker #2491</a></div>
 
         <h1 id="main-catalogue-heading" style="display: none;">Sticker #2491</h1>
 
@@ -143,15 +143,17 @@
 
         // Initialize map if map container exists
         
-        if (typeof L !== 'undefined') {
-            const map = L.map('sticker-map').setView([42.2833166666667, 18.8405083333333], 13);
-            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                attribution: '© OpenStreetMap contributors'
-            }).addTo(map);
-            L.marker([42.2833166666667, 18.8405083333333])
-                .addTo(map)
-                .bindPopup('🇸🇪 Vattnas SK');
-        }
+        document.addEventListener('DOMContentLoaded', function() {
+            if (typeof L !== 'undefined' && document.getElementById('sticker-map')) {
+                const map = L.map('sticker-map').setView([42.2833166666667, 18.8405083333333], 13);
+                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                    attribution: '© OpenStreetMap contributors'
+                }).addTo(map);
+                L.marker([42.2833166666667, 18.8405083333333])
+                    .addTo(map)
+                    .bindPopup('🇸🇪 Vattnas SK');
+            }
+        });
     
     </script>
 </body>

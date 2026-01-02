@@ -79,7 +79,7 @@
     </header>
 
     <main class="container" id="catalogue-container">
-        <div id="catalogue-breadcrumbs"><a href="/catalogue.html">Catalogue</a> → <a href="/countries/fra.html">France</a> → <a href="/clubs/700.html">🇫🇷 FC Sochaux-Montbéliard</a></div>
+        <div id="catalogue-breadcrumbs"><a href="/catalogue.html">Catalogue</a> → <a href="/countries/FRA.html">France</a> → <a href="/clubs/700.html">🇫🇷 FC Sochaux-Montbéliard</a></div>
 
         <h1 id="main-catalogue-heading">🇫🇷 FC Sochaux-Montbéliard - Sticker Gallery</h1>
 
@@ -161,18 +161,20 @@
 
         // Initialize club map if map container exists
         
-        if (typeof L !== 'undefined') {
-            const clubMap = L.map('club-map').setView([48.2634347222222, 8.259794444444445], 10);
-            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                attribution: '© OpenStreetMap contributors'
-            }).addTo(clubMap);
-            L.marker([48.7795861111111, 9.17933333333333])
+        document.addEventListener('DOMContentLoaded', function() {
+            if (typeof L !== 'undefined' && document.getElementById('club-map')) {
+                const clubMap = L.map('club-map').setView([48.2634347222222, 8.259794444444445], 10);
+                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                    attribution: '© OpenStreetMap contributors'
+                }).addTo(clubMap);
+                L.marker([48.7795861111111, 9.17933333333333])
             .addTo(clubMap)
             .bindPopup('Sticker #2364');
             L.marker([47.7472833333333, 7.34025555555556])
             .addTo(clubMap)
             .bindPopup('Sticker #2564');
-        }
+            }
+        });
     
     </script>
 </body>

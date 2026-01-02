@@ -79,7 +79,7 @@
     </header>
 
     <main class="container" id="catalogue-container">
-        <div id="catalogue-breadcrumbs"><a href="/catalogue.html">Catalogue</a> → <a href="/countries/hrv.html">Croatia</a> → <a href="/clubs/585.html">🇭🇷 HNK Hajduk Split</a></div>
+        <div id="catalogue-breadcrumbs"><a href="/catalogue.html">Catalogue</a> → <a href="/countries/HRV.html">Croatia</a> → <a href="/clubs/585.html">🇭🇷 HNK Hajduk Split</a></div>
 
         <h1 id="main-catalogue-heading">🇭🇷 HNK Hajduk Split - Sticker Gallery</h1>
 
@@ -168,18 +168,20 @@
 
         // Initialize club map if map container exists
         
-        if (typeof L !== 'undefined') {
-            const clubMap = L.map('club-map').setView([51.23589165555555, 9.675322205555549], 10);
-            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                attribution: '© OpenStreetMap contributors'
-            }).addTo(clubMap);
-            L.marker([50.0930361111111, 14.4520611111111])
+        document.addEventListener('DOMContentLoaded', function() {
+            if (typeof L !== 'undefined' && document.getElementById('club-map')) {
+                const clubMap = L.map('club-map').setView([51.23589165555555, 9.675322205555549], 10);
+                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                    attribution: '© OpenStreetMap contributors'
+                }).addTo(clubMap);
+                L.marker([50.0930361111111, 14.4520611111111])
             .addTo(clubMap)
             .bindPopup('Sticker #2345');
             L.marker([52.3787472, 4.8985833])
             .addTo(clubMap)
             .bindPopup('Sticker #2686');
-        }
+            }
+        });
     
     </script>
 </body>

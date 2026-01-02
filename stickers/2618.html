@@ -80,7 +80,7 @@
     </header>
 
     <main class="container" id="catalogue-container">
-        <div id="catalogue-breadcrumbs"><a href="/catalogue.html">Catalogue</a> → <a href="/countries/deu.html">Germany</a> → <a href="/clubs/1100.html">🇩🇪 SC Brühl</a> → <a href="/stickers/2618.html">Sticker #2618</a></div>
+        <div id="catalogue-breadcrumbs"><a href="/catalogue.html">Catalogue</a> → <a href="/countries/DEU.html">Germany</a> → <a href="/clubs/1100.html">🇩🇪 SC Brühl</a> → <a href="/stickers/2618.html">Sticker #2618</a></div>
 
         <h1 id="main-catalogue-heading" style="display: none;">Sticker #2618</h1>
 
@@ -143,15 +143,17 @@
 
         // Initialize map if map container exists
         
-        if (typeof L !== 'undefined') {
-            const map = L.map('sticker-map').setView([52.3135944444444, 4.94094722222222], 13);
-            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                attribution: '© OpenStreetMap contributors'
-            }).addTo(map);
-            L.marker([52.3135944444444, 4.94094722222222])
-                .addTo(map)
-                .bindPopup('🇩🇪 SC Brühl');
-        }
+        document.addEventListener('DOMContentLoaded', function() {
+            if (typeof L !== 'undefined' && document.getElementById('sticker-map')) {
+                const map = L.map('sticker-map').setView([52.3135944444444, 4.94094722222222], 13);
+                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                    attribution: '© OpenStreetMap contributors'
+                }).addTo(map);
+                L.marker([52.3135944444444, 4.94094722222222])
+                    .addTo(map)
+                    .bindPopup('🇩🇪 SC Brühl');
+            }
+        });
     
     </script>
 </body>

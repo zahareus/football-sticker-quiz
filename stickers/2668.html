@@ -80,7 +80,7 @@
     </header>
 
     <main class="container" id="catalogue-container">
-        <div id="catalogue-breadcrumbs"><a href="/catalogue.html">Catalogue</a> → <a href="/countries/fra.html">France</a> → <a href="/clubs/695.html">🇫🇷 Racing Club de Lens</a> → <a href="/stickers/2668.html">Sticker #2668</a></div>
+        <div id="catalogue-breadcrumbs"><a href="/catalogue.html">Catalogue</a> → <a href="/countries/FRA.html">France</a> → <a href="/clubs/695.html">🇫🇷 Racing Club de Lens</a> → <a href="/stickers/2668.html">Sticker #2668</a></div>
 
         <h1 id="main-catalogue-heading" style="display: none;">Sticker #2668</h1>
 
@@ -143,15 +143,17 @@
 
         // Initialize map if map container exists
         
-        if (typeof L !== 'undefined') {
-            const map = L.map('sticker-map').setView([52.3134778, 4.9423917], 13);
-            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                attribution: '© OpenStreetMap contributors'
-            }).addTo(map);
-            L.marker([52.3134778, 4.9423917])
-                .addTo(map)
-                .bindPopup('🇫🇷 Racing Club de Lens');
-        }
+        document.addEventListener('DOMContentLoaded', function() {
+            if (typeof L !== 'undefined' && document.getElementById('sticker-map')) {
+                const map = L.map('sticker-map').setView([52.3134778, 4.9423917], 13);
+                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                    attribution: '© OpenStreetMap contributors'
+                }).addTo(map);
+                L.marker([52.3134778, 4.9423917])
+                    .addTo(map)
+                    .bindPopup('🇫🇷 Racing Club de Lens');
+            }
+        });
     
     </script>
 </body>

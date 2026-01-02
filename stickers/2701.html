@@ -80,7 +80,7 @@
     </header>
 
     <main class="container" id="catalogue-container">
-        <div id="catalogue-breadcrumbs"><a href="/catalogue.html">Catalogue</a> → <a href="/countries/isr.html">ISR</a> → <a href="/clubs/580.html">🇮🇱 Hapoel Tel Aviv FC</a> → <a href="/stickers/2701.html">Sticker #2701</a></div>
+        <div id="catalogue-breadcrumbs"><a href="/catalogue.html">Catalogue</a> → <a href="/countries/ISR.html">ISR</a> → <a href="/clubs/580.html">🇮🇱 Hapoel Tel Aviv FC</a> → <a href="/stickers/2701.html">Sticker #2701</a></div>
 
         <h1 id="main-catalogue-heading" style="display: none;">Sticker #2701</h1>
 
@@ -143,15 +143,17 @@
 
         // Initialize map if map container exists
         
-        if (typeof L !== 'undefined') {
-            const map = L.map('sticker-map').setView([52.3766139, 4.8979306], 13);
-            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                attribution: '© OpenStreetMap contributors'
-            }).addTo(map);
-            L.marker([52.3766139, 4.8979306])
-                .addTo(map)
-                .bindPopup('🇮🇱 Hapoel Tel Aviv FC');
-        }
+        document.addEventListener('DOMContentLoaded', function() {
+            if (typeof L !== 'undefined' && document.getElementById('sticker-map')) {
+                const map = L.map('sticker-map').setView([52.3766139, 4.8979306], 13);
+                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                    attribution: '© OpenStreetMap contributors'
+                }).addTo(map);
+                L.marker([52.3766139, 4.8979306])
+                    .addTo(map)
+                    .bindPopup('🇮🇱 Hapoel Tel Aviv FC');
+            }
+        });
     
     </script>
 </body>

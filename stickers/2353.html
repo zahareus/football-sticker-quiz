@@ -80,7 +80,7 @@
     </header>
 
     <main class="container" id="catalogue-container">
-        <div id="catalogue-breadcrumbs"><a href="/catalogue.html">Catalogue</a> → <a href="/countries/deu.html">Germany</a> → <a href="/clubs/896.html">🇩🇪 TSV 1860 München</a> → <a href="/stickers/2353.html">Sticker #2353</a></div>
+        <div id="catalogue-breadcrumbs"><a href="/catalogue.html">Catalogue</a> → <a href="/countries/DEU.html">Germany</a> → <a href="/clubs/896.html">🇩🇪 TSV 1860 München</a> → <a href="/stickers/2353.html">Sticker #2353</a></div>
 
         <h1 id="main-catalogue-heading" style="display: none;">Sticker #2353</h1>
 
@@ -143,15 +143,17 @@
 
         // Initialize map if map container exists
         
-        if (typeof L !== 'undefined') {
-            const map = L.map('sticker-map').setView([50.0862277777778, 14.42685], 13);
-            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                attribution: '© OpenStreetMap contributors'
-            }).addTo(map);
-            L.marker([50.0862277777778, 14.42685])
-                .addTo(map)
-                .bindPopup('🇩🇪 TSV 1860 München');
-        }
+        document.addEventListener('DOMContentLoaded', function() {
+            if (typeof L !== 'undefined' && document.getElementById('sticker-map')) {
+                const map = L.map('sticker-map').setView([50.0862277777778, 14.42685], 13);
+                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                    attribution: '© OpenStreetMap contributors'
+                }).addTo(map);
+                L.marker([50.0862277777778, 14.42685])
+                    .addTo(map)
+                    .bindPopup('🇩🇪 TSV 1860 München');
+            }
+        });
     
     </script>
 </body>

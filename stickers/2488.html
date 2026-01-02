@@ -80,7 +80,7 @@
     </header>
 
     <main class="container" id="catalogue-container">
-        <div id="catalogue-breadcrumbs"><a href="/catalogue.html">Catalogue</a> → <a href="/countries/hun.html">Hungary</a> → <a href="/clubs/1073.html">🇭🇺 Kecskeméti TE</a> → <a href="/stickers/2488.html">Sticker #2488</a></div>
+        <div id="catalogue-breadcrumbs"><a href="/catalogue.html">Catalogue</a> → <a href="/countries/HUN.html">Hungary</a> → <a href="/clubs/1073.html">🇭🇺 Kecskeméti TE</a> → <a href="/stickers/2488.html">Sticker #2488</a></div>
 
         <h1 id="main-catalogue-heading" style="display: none;">Sticker #2488</h1>
 
@@ -143,15 +143,17 @@
 
         // Initialize map if map container exists
         
-        if (typeof L !== 'undefined') {
-            const map = L.map('sticker-map').setView([42.2787166666667, 18.8383972222222], 13);
-            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                attribution: '© OpenStreetMap contributors'
-            }).addTo(map);
-            L.marker([42.2787166666667, 18.8383972222222])
-                .addTo(map)
-                .bindPopup('🇭🇺 Kecskeméti TE');
-        }
+        document.addEventListener('DOMContentLoaded', function() {
+            if (typeof L !== 'undefined' && document.getElementById('sticker-map')) {
+                const map = L.map('sticker-map').setView([42.2787166666667, 18.8383972222222], 13);
+                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                    attribution: '© OpenStreetMap contributors'
+                }).addTo(map);
+                L.marker([42.2787166666667, 18.8383972222222])
+                    .addTo(map)
+                    .bindPopup('🇭🇺 Kecskeméti TE');
+            }
+        });
     
     </script>
 </body>

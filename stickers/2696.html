@@ -80,7 +80,7 @@
     </header>
 
     <main class="container" id="catalogue-container">
-        <div id="catalogue-breadcrumbs"><a href="/catalogue.html">Catalogue</a> → <a href="/countries/deu.html">Germany</a> → <a href="/clubs/894.html">🇩🇪 SV Waldhof Mannheim</a> → <a href="/stickers/2696.html">Sticker #2696</a></div>
+        <div id="catalogue-breadcrumbs"><a href="/catalogue.html">Catalogue</a> → <a href="/countries/DEU.html">Germany</a> → <a href="/clubs/894.html">🇩🇪 SV Waldhof Mannheim</a> → <a href="/stickers/2696.html">Sticker #2696</a></div>
 
         <h1 id="main-catalogue-heading" style="display: none;">Sticker #2696</h1>
 
@@ -143,15 +143,17 @@
 
         // Initialize map if map container exists
         
-        if (typeof L !== 'undefined') {
-            const map = L.map('sticker-map').setView([52.3774611, 4.8990444], 13);
-            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                attribution: '© OpenStreetMap contributors'
-            }).addTo(map);
-            L.marker([52.3774611, 4.8990444])
-                .addTo(map)
-                .bindPopup('🇩🇪 SV Waldhof Mannheim');
-        }
+        document.addEventListener('DOMContentLoaded', function() {
+            if (typeof L !== 'undefined' && document.getElementById('sticker-map')) {
+                const map = L.map('sticker-map').setView([52.3774611, 4.8990444], 13);
+                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                    attribution: '© OpenStreetMap contributors'
+                }).addTo(map);
+                L.marker([52.3774611, 4.8990444])
+                    .addTo(map)
+                    .bindPopup('🇩🇪 SV Waldhof Mannheim');
+            }
+        });
     
     </script>
 </body>

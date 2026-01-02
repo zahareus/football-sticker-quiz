@@ -80,7 +80,7 @@
     </header>
 
     <main class="container" id="catalogue-container">
-        <div id="catalogue-breadcrumbs"><a href="/catalogue.html">Catalogue</a> → <a href="/countries/deu.html">Germany</a> → <a href="/clubs/879.html">🇩🇪 Dynamo Dresden</a> → <a href="/stickers/2845.html">Sticker #2845</a></div>
+        <div id="catalogue-breadcrumbs"><a href="/catalogue.html">Catalogue</a> → <a href="/countries/DEU.html">Germany</a> → <a href="/clubs/879.html">🇩🇪 Dynamo Dresden</a> → <a href="/stickers/2845.html">Sticker #2845</a></div>
 
         <h1 id="main-catalogue-heading" style="display: none;">Sticker #2845</h1>
 
@@ -143,15 +143,17 @@
 
         // Initialize map if map container exists
         
-        if (typeof L !== 'undefined') {
-            const map = L.map('sticker-map').setView([52.1111944, 4.2805778], 13);
-            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                attribution: '© OpenStreetMap contributors'
-            }).addTo(map);
-            L.marker([52.1111944, 4.2805778])
-                .addTo(map)
-                .bindPopup('🇩🇪 Dynamo Dresden');
-        }
+        document.addEventListener('DOMContentLoaded', function() {
+            if (typeof L !== 'undefined' && document.getElementById('sticker-map')) {
+                const map = L.map('sticker-map').setView([52.1111944, 4.2805778], 13);
+                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                    attribution: '© OpenStreetMap contributors'
+                }).addTo(map);
+                L.marker([52.1111944, 4.2805778])
+                    .addTo(map)
+                    .bindPopup('🇩🇪 Dynamo Dresden');
+            }
+        });
     
     </script>
 </body>

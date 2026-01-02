@@ -79,7 +79,7 @@
     </header>
 
     <main class="container" id="catalogue-container">
-        <div id="catalogue-breadcrumbs"><a href="/catalogue.html">Catalogue</a> → <a href="/countries/grc.html">Greece</a> → <a href="/clubs/571.html">🇬🇷 Panathinaikos FC</a></div>
+        <div id="catalogue-breadcrumbs"><a href="/catalogue.html">Catalogue</a> → <a href="/countries/GRC.html">Greece</a> → <a href="/clubs/571.html">🇬🇷 Panathinaikos FC</a></div>
 
         <h1 id="main-catalogue-heading">🇬🇷 Panathinaikos FC - Sticker Gallery</h1>
 
@@ -175,15 +175,17 @@
 
         // Initialize club map if map container exists
         
-        if (typeof L !== 'undefined') {
-            const clubMap = L.map('club-map').setView([52.3861777777778, 4.63908888888889], 10);
-            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                attribution: '© OpenStreetMap contributors'
-            }).addTo(clubMap);
-            L.marker([52.3861777777778, 4.63908888888889])
+        document.addEventListener('DOMContentLoaded', function() {
+            if (typeof L !== 'undefined' && document.getElementById('club-map')) {
+                const clubMap = L.map('club-map').setView([52.3861777777778, 4.63908888888889], 10);
+                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                    attribution: '© OpenStreetMap contributors'
+                }).addTo(clubMap);
+                L.marker([52.3861777777778, 4.63908888888889])
             .addTo(clubMap)
             .bindPopup('Sticker #2586');
-        }
+            }
+        });
     
     </script>
 </body>

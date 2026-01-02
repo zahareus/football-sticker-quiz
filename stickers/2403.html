@@ -80,7 +80,7 @@
     </header>
 
     <main class="container" id="catalogue-container">
-        <div id="catalogue-breadcrumbs"><a href="/catalogue.html">Catalogue</a> → <a href="/countries/deu.html">Germany</a> → <a href="/clubs/947.html">🇩🇪 VfB Stuttgart</a> → <a href="/stickers/2403.html">Sticker #2403</a></div>
+        <div id="catalogue-breadcrumbs"><a href="/catalogue.html">Catalogue</a> → <a href="/countries/DEU.html">Germany</a> → <a href="/clubs/947.html">🇩🇪 VfB Stuttgart</a> → <a href="/stickers/2403.html">Sticker #2403</a></div>
 
         <h1 id="main-catalogue-heading" style="display: none;">Sticker #2403</h1>
 
@@ -143,15 +143,17 @@
 
         // Initialize map if map container exists
         
-        if (typeof L !== 'undefined') {
-            const map = L.map('sticker-map').setView([48.7930027777778, 9.23310277777778], 13);
-            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                attribution: '© OpenStreetMap contributors'
-            }).addTo(map);
-            L.marker([48.7930027777778, 9.23310277777778])
-                .addTo(map)
-                .bindPopup('🇩🇪 VfB Stuttgart');
-        }
+        document.addEventListener('DOMContentLoaded', function() {
+            if (typeof L !== 'undefined' && document.getElementById('sticker-map')) {
+                const map = L.map('sticker-map').setView([48.7930027777778, 9.23310277777778], 13);
+                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                    attribution: '© OpenStreetMap contributors'
+                }).addTo(map);
+                L.marker([48.7930027777778, 9.23310277777778])
+                    .addTo(map)
+                    .bindPopup('🇩🇪 VfB Stuttgart');
+            }
+        });
     
     </script>
 </body>

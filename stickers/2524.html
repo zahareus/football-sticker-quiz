@@ -80,7 +80,7 @@
     </header>
 
     <main class="container" id="catalogue-container">
-        <div id="catalogue-breadcrumbs"><a href="/catalogue.html">Catalogue</a> → <a href="/countries/pol.html">Poland</a> → <a href="/clubs/1085.html">🇵🇱 Stal Mielec</a> → <a href="/stickers/2524.html">Sticker #2524</a></div>
+        <div id="catalogue-breadcrumbs"><a href="/catalogue.html">Catalogue</a> → <a href="/countries/POL.html">Poland</a> → <a href="/clubs/1085.html">🇵🇱 Stal Mielec</a> → <a href="/stickers/2524.html">Sticker #2524</a></div>
 
         <h1 id="main-catalogue-heading" style="display: none;">Sticker #2524</h1>
 
@@ -143,15 +143,17 @@
 
         // Initialize map if map container exists
         
-        if (typeof L !== 'undefined') {
-            const map = L.map('sticker-map').setView([36.526975, 32.0473444444444], 13);
-            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                attribution: '© OpenStreetMap contributors'
-            }).addTo(map);
-            L.marker([36.526975, 32.0473444444444])
-                .addTo(map)
-                .bindPopup('🇵🇱 Stal Mielec');
-        }
+        document.addEventListener('DOMContentLoaded', function() {
+            if (typeof L !== 'undefined' && document.getElementById('sticker-map')) {
+                const map = L.map('sticker-map').setView([36.526975, 32.0473444444444], 13);
+                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                    attribution: '© OpenStreetMap contributors'
+                }).addTo(map);
+                L.marker([36.526975, 32.0473444444444])
+                    .addTo(map)
+                    .bindPopup('🇵🇱 Stal Mielec');
+            }
+        });
     
     </script>
 </body>
