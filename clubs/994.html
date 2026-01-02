@@ -297,14 +297,6 @@
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
     <script src="/shared.js"></script>
     <script>
-        // Auth functionality
-        if (typeof SharedUtils !== 'undefined') {
-            const supabaseClient = SharedUtils.initSupabaseClient();
-            if (supabaseClient) {
-                SharedUtils.initAuth(supabaseClient);
-            }
-        }
-
         // Initialize club map if map container exists
         
     </script>
