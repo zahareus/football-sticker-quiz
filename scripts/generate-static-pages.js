@@ -500,35 +500,100 @@ async function generateCountryPage(countryCode, clubs, stickerCountsByClub) {
 }
 
 /**
+ * Fetch all stickers with pagination (Supabase limits to 1000 per request)
+ */
+async function fetchAllStickers() {
+    const PAGE_SIZE = 1000;
+    let allStickers = [];
+    let offset = 0;
+    let hasMore = true;
+
+    while (hasMore) {
+        const { data, error } = await supabase
+            .from('stickers')
+            .select('*, clubs(*)')
+            .order('id', { ascending: true })
+            .range(offset, offset + PAGE_SIZE - 1);
+
+        if (error) {
+            throw new Error(`Supabase error fetching stickers: ${error.message}`);
+        }
+
+        if (data && data.length > 0) {
+            allStickers = allStickers.concat(data);
+            console.log(`    Fetched ${allStickers.length} stickers...`);
+            offset += PAGE_SIZE;
+
+            // If we got less than PAGE_SIZE, we've reached the end
+            if (data.length < PAGE_SIZE) {
+                hasMore = false;
+            }
+        } else {
+            hasMore = false;
+        }
+
+        // Apply LIMIT if set
+        if (LIMIT && allStickers.length >= LIMIT) {
+            allStickers = allStickers.slice(0, LIMIT);
+            hasMore = false;
+        }
+    }
+
+    return allStickers;
+}
+
+/**
+ * Fetch all clubs with pagination
+ */
+async function fetchAllClubs() {
+    const PAGE_SIZE = 1000;
+    let allClubs = [];
+    let offset = 0;
+    let hasMore = true;
+
+    while (hasMore) {
+        const { data, error } = await supabase
+            .from('clubs')
+            .select('*')
+            .order('name', { ascending: true })
+            .range(offset, offset + PAGE_SIZE - 1);
+
+        if (error) {
+            throw new Error(`Supabase error fetching clubs: ${error.message}`);
+        }
+
+        if (data && data.length > 0) {
+            allClubs = allClubs.concat(data);
+            offset += PAGE_SIZE;
+
+            if (data.length < PAGE_SIZE) {
+                hasMore = false;
+            }
+        } else {
+            hasMore = false;
+        }
+    }
+
+    return allClubs;
+}
+
+/**
  * Main generation function
  */
 async function generateAllPages() {
     try {
         console.log('📦 Fetching data from Supabase...\n');
 
-        // Fetch all stickers with clubs
-        console.log('  → Fetching stickers...');
-        let stickerQuery = supabase
-            .from('stickers')
-            .select('*, clubs(*)')
-            .order('id', { ascending: true });
-
-        if (LIMIT) {
-            stickerQuery = stickerQuery.limit(LIMIT);
-        }
-
-        const { data: stickers, error: fetchStickersError } = await stickerQuery;
-
-        if (fetchStickersError) {
-            throw new Error(`Supabase error fetching stickers: ${fetchStickersError.message}`);
-        }
+        // Fetch all stickers with clubs (with pagination)
+        console.log('  → Fetching stickers (with pagination)...');
+        const stickers = await fetchAllStickers();
 
         if (!stickers || stickers.length === 0) {
             console.log('⚠️  No stickers found in database.');
             return;
         }
 
-        console.log(`  ✓ Fetched ${stickers.length} stickers`);
+        console.log(`  ✓ Fetched ${stickers.length} stickers total`);
 
         // Check for ID gaps and warn
         if (stickers.length > 0) {
@@ -546,16 +611,9 @@ async function generateAllPages() {
             }
         }
 
-        // Fetch all clubs
+        // Fetch all clubs (with pagination)
         console.log('  → Fetching clubs...');
-        const { data: clubs, error: fetchClubsError } = await supabase
-            .from('clubs')
-            .select('*')
-            .order('name', { ascending: true });
-
-        if (fetchClubsError) {
-            throw new Error(`Supabase error fetching clubs: ${fetchClubsError.message}`);
-        }
+        const clubs = await fetchAllClubs();
 
         console.log(`  ✓ Fetched ${clubs.length} clubs`);
 
