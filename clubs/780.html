@@ -173,15 +173,37 @@
                 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                     attribution: '© OpenStreetMap contributors'
                 }).addTo(clubMap);
-                L.marker([42.2836222222222, 18.8370444444444])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2479');
-            L.marker([42.2836527777778, 18.8371416666667])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2484');
-            L.marker([52.3775639, 4.8986528])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2756');
+                
+                (function() {
+                    const marker = L.marker([42.2836222222222, 18.8370444444444]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇵🇱 LKS Lodz</strong><a href="/stickers/2479.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([42.2836527777778, 18.8371416666667]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇵🇱 LKS Lodz</strong><a href="/stickers/2484.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([52.3775639, 4.8986528]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇵🇱 LKS Lodz</strong><a href="/stickers/2756.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                // Fit bounds if multiple stickers
+                
+                const bounds = L.latLngBounds([
+                    [42.2836222222222, 18.8370444444444],
+                    [42.2836527777778, 18.8371416666667],
+                    [52.3775639, 4.8986528]
+                ]);
+                clubMap.fitBounds(bounds, { padding: [30, 30], maxZoom: 13 });
+                
             }
         });
     

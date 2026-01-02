@@ -208,9 +208,16 @@
                 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                     attribution: '© OpenStreetMap contributors'
                 }).addTo(clubMap);
-                L.marker([37.9933861111111, -0.663355555555556])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2306');
+                
+                (function() {
+                    const marker = L.marker([37.9933861111111, -0.663355555555556]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇸🇪 Hammarby</strong><a href="/stickers/2306.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                // Fit bounds if multiple stickers
+                
             }
         });
     

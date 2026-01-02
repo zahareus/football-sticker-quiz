@@ -138,12 +138,29 @@
                 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                     attribution: '© OpenStreetMap contributors'
                 }).addTo(clubMap);
-                L.marker([47.7607083333333, 7.33125])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2575');
-            L.marker([47.7612277777778, 7.3281])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2578');
+                
+                (function() {
+                    const marker = L.marker([47.7607083333333, 7.33125]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇫🇷 Stade Malherbe Caen</strong><a href="/stickers/2575.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([47.7612277777778, 7.3281]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇫🇷 Stade Malherbe Caen</strong><a href="/stickers/2578.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                // Fit bounds if multiple stickers
+                
+                const bounds = L.latLngBounds([
+                    [47.7607083333333, 7.33125],
+                    [47.7612277777778, 7.3281]
+                ]);
+                clubMap.fitBounds(bounds, { padding: [30, 30], maxZoom: 13 });
+                
             }
         });
     

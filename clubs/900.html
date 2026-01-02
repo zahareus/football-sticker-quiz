@@ -194,24 +194,61 @@
                 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                     attribution: '© OpenStreetMap contributors'
                 }).addTo(clubMap);
-                L.marker([52.3134583333333, 4.94239444444444])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2636');
-            L.marker([52.3134472222222, 4.94237777777778])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2649');
-            L.marker([52.3134583, 4.9423944])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2670');
-            L.marker([52.3778083, 4.8994028])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2697');
-            L.marker([52.3707861, 4.8890861])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2738');
-            L.marker([52.1127583, 4.2796444])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2842');
+                
+                (function() {
+                    const marker = L.marker([52.3134583333333, 4.94239444444444]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇩🇪 Bayer 04 Leverkusen</strong><a href="/stickers/2636.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([52.3134472222222, 4.94237777777778]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇩🇪 Bayer 04 Leverkusen</strong><a href="/stickers/2649.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([52.3134583, 4.9423944]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇩🇪 Bayer 04 Leverkusen</strong><a href="/stickers/2670.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([52.3778083, 4.8994028]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇩🇪 Bayer 04 Leverkusen</strong><a href="/stickers/2697.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([52.3707861, 4.8890861]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇩🇪 Bayer 04 Leverkusen</strong><a href="/stickers/2738.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([52.1127583, 4.2796444]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇩🇪 Bayer 04 Leverkusen</strong><a href="/stickers/2842.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                // Fit bounds if multiple stickers
+                
+                const bounds = L.latLngBounds([
+                    [52.3134583333333, 4.94239444444444],
+                    [52.3134472222222, 4.94237777777778],
+                    [52.3134583, 4.9423944],
+                    [52.3778083, 4.8994028],
+                    [52.3707861, 4.8890861],
+                    [52.1127583, 4.2796444]
+                ]);
+                clubMap.fitBounds(bounds, { padding: [30, 30], maxZoom: 13 });
+                
             }
         });
     

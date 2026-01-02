@@ -215,36 +215,93 @@
                 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                     attribution: '© OpenStreetMap contributors'
                 }).addTo(clubMap);
-                L.marker([50.0885805555556, 14.4307083333333])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2325');
-            L.marker([48.7789805555556, 9.17941666666667])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2360');
-            L.marker([48.7789805555556, 9.17942222222222])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2370');
-            L.marker([42.2885666666667, 18.8452833333333])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2476');
-            L.marker([42.2793583333333, 18.8367444444444])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2485');
-            L.marker([42.278125, 18.8373722222222])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2493');
-            L.marker([42.2798, 18.8366888888889])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2498');
-            L.marker([42.2781111111111, 18.8373555555556])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2501');
-            L.marker([42.2780694444444, 18.8372833333333])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2504');
-            L.marker([42.4122805555556, 18.7179611111111])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2507');
+                
+                (function() {
+                    const marker = L.marker([50.0885805555556, 14.4307083333333]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇷🇸 FK Crvena zvezda</strong><a href="/stickers/2325.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([48.7789805555556, 9.17941666666667]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇷🇸 FK Crvena zvezda</strong><a href="/stickers/2360.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([48.7789805555556, 9.17942222222222]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇷🇸 FK Crvena zvezda</strong><a href="/stickers/2370.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([42.2885666666667, 18.8452833333333]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇷🇸 FK Crvena zvezda</strong><a href="/stickers/2476.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([42.2793583333333, 18.8367444444444]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇷🇸 FK Crvena zvezda</strong><a href="/stickers/2485.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([42.278125, 18.8373722222222]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇷🇸 FK Crvena zvezda</strong><a href="/stickers/2493.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([42.2798, 18.8366888888889]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇷🇸 FK Crvena zvezda</strong><a href="/stickers/2498.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([42.2781111111111, 18.8373555555556]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇷🇸 FK Crvena zvezda</strong><a href="/stickers/2501.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([42.2780694444444, 18.8372833333333]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇷🇸 FK Crvena zvezda</strong><a href="/stickers/2504.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([42.4122805555556, 18.7179611111111]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇷🇸 FK Crvena zvezda</strong><a href="/stickers/2507.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                // Fit bounds if multiple stickers
+                
+                const bounds = L.latLngBounds([
+                    [50.0885805555556, 14.4307083333333],
+                    [48.7789805555556, 9.17941666666667],
+                    [48.7789805555556, 9.17942222222222],
+                    [42.2885666666667, 18.8452833333333],
+                    [42.2793583333333, 18.8367444444444],
+                    [42.278125, 18.8373722222222],
+                    [42.2798, 18.8366888888889],
+                    [42.2781111111111, 18.8373555555556],
+                    [42.2780694444444, 18.8372833333333],
+                    [42.4122805555556, 18.7179611111111]
+                ]);
+                clubMap.fitBounds(bounds, { padding: [30, 30], maxZoom: 13 });
+                
             }
         });
     

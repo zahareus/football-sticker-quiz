@@ -145,9 +145,16 @@
                 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                     attribution: '© OpenStreetMap contributors'
                 }).addTo(clubMap);
-                L.marker([48.7765166666667, 9.17566944444444])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2379');
+                
+                (function() {
+                    const marker = L.marker([48.7765166666667, 9.17566944444444]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇩🇰 Odense</strong><a href="/stickers/2379.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                // Fit bounds if multiple stickers
+                
             }
         });
     

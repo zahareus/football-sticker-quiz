@@ -180,15 +180,37 @@
                 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                     attribution: '© OpenStreetMap contributors'
                 }).addTo(clubMap);
-                L.marker([50.0876777777778, 14.3910638888889])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2336');
-            L.marker([42.2773583333333, 18.8376972222222])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2482');
-            L.marker([52.1163972, 4.2815944])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2850');
+                
+                (function() {
+                    const marker = L.marker([50.0876777777778, 14.3910638888889]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇦🇹 SK Sturm Graz</strong><a href="/stickers/2336.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([42.2773583333333, 18.8376972222222]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇦🇹 SK Sturm Graz</strong><a href="/stickers/2482.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([52.1163972, 4.2815944]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇦🇹 SK Sturm Graz</strong><a href="/stickers/2850.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                // Fit bounds if multiple stickers
+                
+                const bounds = L.latLngBounds([
+                    [50.0876777777778, 14.3910638888889],
+                    [42.2773583333333, 18.8376972222222],
+                    [52.1163972, 4.2815944]
+                ]);
+                clubMap.fitBounds(bounds, { padding: [30, 30], maxZoom: 13 });
+                
             }
         });
     

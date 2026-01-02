@@ -131,9 +131,16 @@
                 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                     attribution: '© OpenStreetMap contributors'
                 }).addTo(clubMap);
-                L.marker([52.3134611111111, 4.94238333333333])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2656');
+                
+                (function() {
+                    const marker = L.marker([52.3134611111111, 4.94238333333333]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇪🇸 CD Napolitana</strong><a href="/stickers/2656.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                // Fit bounds if multiple stickers
+                
             }
         });
     

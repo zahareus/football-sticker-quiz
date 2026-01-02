@@ -145,9 +145,16 @@
                 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                     attribution: '© OpenStreetMap contributors'
                 }).addTo(clubMap);
-                L.marker([50.0777805555556, 14.4195194444444])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2467');
+                
+                (function() {
+                    const marker = L.marker([50.0777805555556, 14.4195194444444]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇩🇪 SSV Ulm 1846</strong><a href="/stickers/2467.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                // Fit bounds if multiple stickers
+                
             }
         });
     

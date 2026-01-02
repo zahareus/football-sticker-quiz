@@ -1210,7 +1210,8 @@ async function loadNewQuestionInternal() {
             imageUrl: imageUrl,
             options: allOptions,
             correctAnswer: correctClubName,
-            clubId: randomStickerData.clubs.id
+            clubId: randomStickerData.clubs.id,
+            stickerId: randomStickerData.id
         };
     } catch (error) {
         console.error("Error in loadNewQuestionInternal:", error);
@@ -1361,6 +1362,7 @@ async function loadNewQuestionInternalWithDifficulty(difficulty) {
             options: allOptions,
             correctAnswer: correctClubName,
             clubId: randomStickerData.clubs.id,
+            stickerId: randomStickerData.id,
             difficulty: difficulty
         };
     } catch (error) {
@@ -1537,9 +1539,9 @@ function endGame() {
     if (difficultySelectionElement) difficultySelectionElement.style.display = 'none';
     if (introTextElement) introTextElement.style.display = 'none';
 
-    // Update sticker info button to link to the failed club's page
-    if (resultStickerInfoButton && currentQuestionData && currentQuestionData.clubId) {
-        resultStickerInfoButton.href = `/clubs/${currentQuestionData.clubId}.html`;
+    // Update sticker info button to link to the sticker page
+    if (resultStickerInfoButton && currentQuestionData && currentQuestionData.stickerId) {
+        resultStickerInfoButton.href = `/stickers/${currentQuestionData.stickerId}.html`;
     } else if (resultStickerInfoButton) {
         resultStickerInfoButton.href = '/catalogue.html';
     }

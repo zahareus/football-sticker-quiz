@@ -208,27 +208,69 @@
                 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                     attribution: '© OpenStreetMap contributors'
                 }).addTo(clubMap);
-                L.marker([42.2399527777778, -8.72636111111111])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2272');
-            L.marker([42.2399777777778, -8.72638611111111])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2283');
-            L.marker([50.0911638888889, 14.4272305555556])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2328');
-            L.marker([52.3130944444444, 4.94092777777778])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2614');
-            L.marker([52.01365, 4.3516222])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2787');
-            L.marker([52.1149111, 4.2828111])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2806');
-            L.marker([52.1116472, 4.2789889])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2819');
+                
+                (function() {
+                    const marker = L.marker([42.2399527777778, -8.72636111111111]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇩🇪 1 FC Magdeburg</strong><a href="/stickers/2272.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([42.2399777777778, -8.72638611111111]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇩🇪 1 FC Magdeburg</strong><a href="/stickers/2283.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([50.0911638888889, 14.4272305555556]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇩🇪 1 FC Magdeburg</strong><a href="/stickers/2328.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([52.3130944444444, 4.94092777777778]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇩🇪 1 FC Magdeburg</strong><a href="/stickers/2614.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([52.01365, 4.3516222]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇩🇪 1 FC Magdeburg</strong><a href="/stickers/2787.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([52.1149111, 4.2828111]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇩🇪 1 FC Magdeburg</strong><a href="/stickers/2806.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([52.1116472, 4.2789889]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇩🇪 1 FC Magdeburg</strong><a href="/stickers/2819.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                // Fit bounds if multiple stickers
+                
+                const bounds = L.latLngBounds([
+                    [42.2399527777778, -8.72636111111111],
+                    [42.2399777777778, -8.72638611111111],
+                    [50.0911638888889, 14.4272305555556],
+                    [52.3130944444444, 4.94092777777778],
+                    [52.01365, 4.3516222],
+                    [52.1149111, 4.2828111],
+                    [52.1116472, 4.2789889]
+                ]);
+                clubMap.fitBounds(bounds, { padding: [30, 30], maxZoom: 13 });
+                
             }
         });
     

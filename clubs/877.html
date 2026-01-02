@@ -257,21 +257,53 @@
                 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                     attribution: '© OpenStreetMap contributors'
                 }).addTo(clubMap);
-                L.marker([50.0709222222222, 14.4151722222222])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2311');
-            L.marker([50.0775861111111, 14.4205555555556])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2449');
-            L.marker([36.5311666666667, 32.0468166666667])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2517');
-            L.marker([52.0107583, 4.3601306])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2768');
-            L.marker([52.1149444, 4.28275])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2805');
+                
+                (function() {
+                    const marker = L.marker([50.0709222222222, 14.4151722222222]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇩🇪 Hannover 96</strong><a href="/stickers/2311.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([50.0775861111111, 14.4205555555556]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇩🇪 Hannover 96</strong><a href="/stickers/2449.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([36.5311666666667, 32.0468166666667]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇩🇪 Hannover 96</strong><a href="/stickers/2517.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([52.0107583, 4.3601306]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇩🇪 Hannover 96</strong><a href="/stickers/2768.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([52.1149444, 4.28275]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇩🇪 Hannover 96</strong><a href="/stickers/2805.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                // Fit bounds if multiple stickers
+                
+                const bounds = L.latLngBounds([
+                    [50.0709222222222, 14.4151722222222],
+                    [50.0775861111111, 14.4205555555556],
+                    [36.5311666666667, 32.0468166666667],
+                    [52.0107583, 4.3601306],
+                    [52.1149444, 4.28275]
+                ]);
+                clubMap.fitBounds(bounds, { padding: [30, 30], maxZoom: 13 });
+                
             }
         });
     

@@ -201,12 +201,29 @@
                 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                     attribution: '© OpenStreetMap contributors'
                 }).addTo(clubMap);
-                L.marker([50.0777555555556, 14.4195388888889])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2458');
-            L.marker([52.3766056, 4.8979222])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2702');
+                
+                (function() {
+                    const marker = L.marker([50.0777555555556, 14.4195388888889]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇮🇹 Genoa CFC</strong><a href="/stickers/2458.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([52.3766056, 4.8979222]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇮🇹 Genoa CFC</strong><a href="/stickers/2702.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                // Fit bounds if multiple stickers
+                
+                const bounds = L.latLngBounds([
+                    [50.0777555555556, 14.4195388888889],
+                    [52.3766056, 4.8979222]
+                ]);
+                clubMap.fitBounds(bounds, { padding: [30, 30], maxZoom: 13 });
+                
             }
         });
     

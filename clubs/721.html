@@ -152,15 +152,37 @@
                 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                     attribution: '© OpenStreetMap contributors'
                 }).addTo(clubMap);
-                L.marker([36.5262361111111, 32.0511888888889])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2511');
-            L.marker([52.3782694, 4.8990972])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2673');
-            L.marker([52.3774806, 4.8982667])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2755');
+                
+                (function() {
+                    const marker = L.marker([36.5262361111111, 32.0511888888889]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇵🇱 Górnik Zabrze</strong><a href="/stickers/2511.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([52.3782694, 4.8990972]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇵🇱 Górnik Zabrze</strong><a href="/stickers/2673.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([52.3774806, 4.8982667]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇵🇱 Górnik Zabrze</strong><a href="/stickers/2755.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                // Fit bounds if multiple stickers
+                
+                const bounds = L.latLngBounds([
+                    [36.5262361111111, 32.0511888888889],
+                    [52.3782694, 4.8990972],
+                    [52.3774806, 4.8982667]
+                ]);
+                clubMap.fitBounds(bounds, { padding: [30, 30], maxZoom: 13 });
+                
             }
         });
     

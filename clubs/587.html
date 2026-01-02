@@ -3,27 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🇮🇱 Maccabi Tel Aviv FC - ISR - Sticker Catalogue</title>
+    <title>🇮🇱 Maccabi Tel Aviv FC - Israel - Sticker Catalogue</title>
     <link rel="icon" href="/favicon.ico" type="image/x-icon">
 
     <!-- SEO Meta Tags - Pre-rendered for better indexing -->
-    <meta name="description" content="View 3 stickers from 🇮🇱 Maccabi Tel Aviv FC (ISR) in our football sticker collection.">
-    <meta name="keywords" content="football stickers, 🇮🇱 Maccabi Tel Aviv FC, ISR, panini, sticker collection, MaccabiTelAviv MaccabiTLV MaccabiTelAvivFC Yellows LigatHaAl">
+    <meta name="description" content="View 3 stickers from 🇮🇱 Maccabi Tel Aviv FC (Israel) in our football sticker collection.">
+    <meta name="keywords" content="football stickers, 🇮🇱 Maccabi Tel Aviv FC, Israel, panini, sticker collection, MaccabiTelAviv MaccabiTLV MaccabiTelAvivFC Yellows LigatHaAl">
     <link rel="canonical" href="https://stickerhunt.club/clubs/587.html">
 
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://stickerhunt.club/clubs/587.html">
-    <meta property="og:title" content="🇮🇱 Maccabi Tel Aviv FC - ISR - Sticker Catalogue">
-    <meta property="og:description" content="View 3 stickers from 🇮🇱 Maccabi Tel Aviv FC (ISR) in our football sticker collection.">
+    <meta property="og:title" content="🇮🇱 Maccabi Tel Aviv FC - Israel - Sticker Catalogue">
+    <meta property="og:description" content="View 3 stickers from 🇮🇱 Maccabi Tel Aviv FC (Israel) in our football sticker collection.">
     <meta property="og:image" content="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/stickers/Maccabi_Tel_Aviv_FC/IMG_9694.jpeg?">
     <meta property="og:site_name" content="StickerHunt">
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image">
     <meta property="twitter:url" content="https://stickerhunt.club/clubs/587.html">
-    <meta property="twitter:title" content="🇮🇱 Maccabi Tel Aviv FC - ISR - Sticker Catalogue">
-    <meta property="twitter:description" content="View 3 stickers from 🇮🇱 Maccabi Tel Aviv FC (ISR) in our football sticker collection.">
+    <meta property="twitter:title" content="🇮🇱 Maccabi Tel Aviv FC - Israel - Sticker Catalogue">
+    <meta property="twitter:description" content="View 3 stickers from 🇮🇱 Maccabi Tel Aviv FC (Israel) in our football sticker collection.">
     <meta property="twitter:image" content="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/stickers/Maccabi_Tel_Aviv_FC/IMG_9694.jpeg?">
     <meta property="twitter:site" content="@StickerHunting">
     <meta property="twitter:creator" content="@StickerHunting">
@@ -51,7 +51,7 @@
       "@context": "https://schema.org",
       "@type": "SportsTeam",
       "name": "🇮🇱 Maccabi Tel Aviv FC",
-      "description": "View 3 stickers from 🇮🇱 Maccabi Tel Aviv FC (ISR) in our football sticker collection.",
+      "description": "View 3 stickers from 🇮🇱 Maccabi Tel Aviv FC (Israel) in our football sticker collection.",
       "url": "https://stickerhunt.club/clubs/587.html",
       "sport": "Football"
     }
@@ -79,7 +79,7 @@
     </header>
 
     <main class="container" id="catalogue-container">
-        <div id="catalogue-breadcrumbs"><a href="/catalogue.html">Catalogue</a> → <a href="/countries/ISR.html">ISR</a> → <a href="/clubs/587.html">🇮🇱 Maccabi Tel Aviv FC</a></div>
+        <div id="catalogue-breadcrumbs"><a href="/catalogue.html">Catalogue</a> → <a href="/countries/ISR.html">Israel</a> → <a href="/clubs/587.html">🇮🇱 Maccabi Tel Aviv FC</a></div>
 
         <h1 id="main-catalogue-heading">🇮🇱 Maccabi Tel Aviv FC - Sticker Gallery</h1>
 
@@ -145,9 +145,16 @@
                 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                     attribution: '© OpenStreetMap contributors'
                 }).addTo(clubMap);
-                L.marker([52.3135027777778, 4.94241944444444])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2654');
+                
+                (function() {
+                    const marker = L.marker([52.3135027777778, 4.94241944444444]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇮🇱 Maccabi Tel Aviv FC</strong><a href="/stickers/2654.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                // Fit bounds if multiple stickers
+                
             }
         });
     

@@ -243,15 +243,37 @@
                 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                     attribution: '© OpenStreetMap contributors'
                 }).addTo(clubMap);
-                L.marker([48.7743222222222, 9.17448055555555])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2386');
-            L.marker([42.2883916666667, 18.8453833333333])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2477');
-            L.marker([52.3135305555556, 4.94165833333333])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2659');
+                
+                (function() {
+                    const marker = L.marker([48.7743222222222, 9.17448055555555]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇷🇸 FK Partizan</strong><a href="/stickers/2386.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([42.2883916666667, 18.8453833333333]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇷🇸 FK Partizan</strong><a href="/stickers/2477.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([52.3135305555556, 4.94165833333333]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇷🇸 FK Partizan</strong><a href="/stickers/2659.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                // Fit bounds if multiple stickers
+                
+                const bounds = L.latLngBounds([
+                    [48.7743222222222, 9.17448055555555],
+                    [42.2883916666667, 18.8453833333333],
+                    [52.3135305555556, 4.94165833333333]
+                ]);
+                clubMap.fitBounds(bounds, { padding: [30, 30], maxZoom: 13 });
+                
             }
         });
     

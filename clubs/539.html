@@ -236,12 +236,29 @@
                 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                     attribution: '© OpenStreetMap contributors'
                 }).addTo(clubMap);
-                L.marker([50.0929194444444, 14.4464611111111])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2355');
-            L.marker([48.776225, 9.17585277777778])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2384');
+                
+                (function() {
+                    const marker = L.marker([50.0929194444444, 14.4464611111111]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇦🇹 SK Rapid Wien</strong><a href="/stickers/2355.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([48.776225, 9.17585277777778]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇦🇹 SK Rapid Wien</strong><a href="/stickers/2384.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                // Fit bounds if multiple stickers
+                
+                const bounds = L.latLngBounds([
+                    [50.0929194444444, 14.4464611111111],
+                    [48.776225, 9.17585277777778]
+                ]);
+                clubMap.fitBounds(bounds, { padding: [30, 30], maxZoom: 13 });
+                
             }
         });
     

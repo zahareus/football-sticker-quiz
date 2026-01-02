@@ -537,114 +537,301 @@
                 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                     attribution: '© OpenStreetMap contributors'
                 }).addTo(clubMap);
-                L.marker([48.7769, 9.17878611111111])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2358');
-            L.marker([48.7789722222222, 9.17943888888889])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2361');
-            L.marker([48.7789888888889, 9.17943611111111])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2362');
-            L.marker([48.7789166666667, 9.17915277777778])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2363');
-            L.marker([48.7831833333333, 9.18055555555556])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2366');
-            L.marker([48.7796027777778, 9.17931388888889])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2375');
-            L.marker([48.7765277777778, 9.17566944444444])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2380');
-            L.marker([48.7763277777778, 9.17603611111111])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2382');
-            L.marker([48.7763027777778, 9.17601944444444])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2383');
-            L.marker([48.774975, 9.17498055555556])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2387');
-            L.marker([48.6922027777778, 9.168425])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2396');
-            L.marker([48.6918333333333, 9.16754722222222])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2397');
-            L.marker([48.7948611111111, 9.23055])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2398');
-            L.marker([48.7957694444444, 9.22724166666667])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2400');
-            L.marker([48.7957611111111, 9.22725])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2401');
-            L.marker([48.7930027777778, 9.23310277777778])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2403');
-            L.marker([48.794675, 9.22460555555556])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2407');
-            L.marker([48.7946472222222, 9.22444722222222])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2408');
-            L.marker([48.7946333333333, 9.22438611111111])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2409');
-            L.marker([48.7946194444444, 9.22436666666667])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2410');
-            L.marker([48.7802916666667, 9.1787])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2417');
-            L.marker([48.7946777777778, 9.22459722222222])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2418');
-            L.marker([48.7952694444444, 9.22301666666667])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2419');
-            L.marker([48.7981916666667, 9.21751944444445])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2421');
-            L.marker([48.7823916666667, 9.18168055555556])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2424');
-            L.marker([48.7810638888889, 9.18279444444444])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2426');
-            L.marker([48.7809861111111, 9.18294722222222])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2428');
-            L.marker([48.7807083333333, 9.183325])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2429');
-            L.marker([48.7801361111111, 9.18383055555556])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2432');
-            L.marker([48.7802416666667, 9.18384722222222])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2434');
-            L.marker([48.7800638888889, 9.18387222222222])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2435');
-            L.marker([48.7795305555556, 9.18401944444444])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2436');
-            L.marker([48.7809222222222, 9.18318055555556])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2440');
-            L.marker([48.7801777777778, 9.18383888888889])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2444');
-            L.marker([48.7789, 9.18530277777778])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2446');
-            L.marker([52.0124694, 4.3568361])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2795');
+                
+                (function() {
+                    const marker = L.marker([48.7769, 9.17878611111111]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇩🇪 VfB Stuttgart</strong><a href="/stickers/2358.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([48.7789722222222, 9.17943888888889]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇩🇪 VfB Stuttgart</strong><a href="/stickers/2361.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([48.7789888888889, 9.17943611111111]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇩🇪 VfB Stuttgart</strong><a href="/stickers/2362.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([48.7789166666667, 9.17915277777778]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇩🇪 VfB Stuttgart</strong><a href="/stickers/2363.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([48.7831833333333, 9.18055555555556]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇩🇪 VfB Stuttgart</strong><a href="/stickers/2366.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([48.7796027777778, 9.17931388888889]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇩🇪 VfB Stuttgart</strong><a href="/stickers/2375.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([48.7765277777778, 9.17566944444444]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇩🇪 VfB Stuttgart</strong><a href="/stickers/2380.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([48.7763277777778, 9.17603611111111]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇩🇪 VfB Stuttgart</strong><a href="/stickers/2382.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([48.7763027777778, 9.17601944444444]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇩🇪 VfB Stuttgart</strong><a href="/stickers/2383.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([48.774975, 9.17498055555556]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇩🇪 VfB Stuttgart</strong><a href="/stickers/2387.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([48.6922027777778, 9.168425]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇩🇪 VfB Stuttgart</strong><a href="/stickers/2396.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([48.6918333333333, 9.16754722222222]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇩🇪 VfB Stuttgart</strong><a href="/stickers/2397.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([48.7948611111111, 9.23055]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇩🇪 VfB Stuttgart</strong><a href="/stickers/2398.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([48.7957694444444, 9.22724166666667]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇩🇪 VfB Stuttgart</strong><a href="/stickers/2400.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([48.7957611111111, 9.22725]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇩🇪 VfB Stuttgart</strong><a href="/stickers/2401.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([48.7930027777778, 9.23310277777778]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇩🇪 VfB Stuttgart</strong><a href="/stickers/2403.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([48.794675, 9.22460555555556]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇩🇪 VfB Stuttgart</strong><a href="/stickers/2407.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([48.7946472222222, 9.22444722222222]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇩🇪 VfB Stuttgart</strong><a href="/stickers/2408.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([48.7946333333333, 9.22438611111111]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇩🇪 VfB Stuttgart</strong><a href="/stickers/2409.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([48.7946194444444, 9.22436666666667]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇩🇪 VfB Stuttgart</strong><a href="/stickers/2410.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([48.7802916666667, 9.1787]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇩🇪 VfB Stuttgart</strong><a href="/stickers/2417.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([48.7946777777778, 9.22459722222222]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇩🇪 VfB Stuttgart</strong><a href="/stickers/2418.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([48.7952694444444, 9.22301666666667]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇩🇪 VfB Stuttgart</strong><a href="/stickers/2419.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([48.7981916666667, 9.21751944444445]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇩🇪 VfB Stuttgart</strong><a href="/stickers/2421.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([48.7823916666667, 9.18168055555556]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇩🇪 VfB Stuttgart</strong><a href="/stickers/2424.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([48.7810638888889, 9.18279444444444]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇩🇪 VfB Stuttgart</strong><a href="/stickers/2426.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([48.7809861111111, 9.18294722222222]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇩🇪 VfB Stuttgart</strong><a href="/stickers/2428.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([48.7807083333333, 9.183325]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇩🇪 VfB Stuttgart</strong><a href="/stickers/2429.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([48.7801361111111, 9.18383055555556]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇩🇪 VfB Stuttgart</strong><a href="/stickers/2432.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([48.7802416666667, 9.18384722222222]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇩🇪 VfB Stuttgart</strong><a href="/stickers/2434.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([48.7800638888889, 9.18387222222222]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇩🇪 VfB Stuttgart</strong><a href="/stickers/2435.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([48.7795305555556, 9.18401944444444]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇩🇪 VfB Stuttgart</strong><a href="/stickers/2436.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([48.7809222222222, 9.18318055555556]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇩🇪 VfB Stuttgart</strong><a href="/stickers/2440.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([48.7801777777778, 9.18383888888889]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇩🇪 VfB Stuttgart</strong><a href="/stickers/2444.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([48.7789, 9.18530277777778]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇩🇪 VfB Stuttgart</strong><a href="/stickers/2446.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([52.0124694, 4.3568361]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇩🇪 VfB Stuttgart</strong><a href="/stickers/2795.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                // Fit bounds if multiple stickers
+                
+                const bounds = L.latLngBounds([
+                    [48.7769, 9.17878611111111],
+                    [48.7789722222222, 9.17943888888889],
+                    [48.7789888888889, 9.17943611111111],
+                    [48.7789166666667, 9.17915277777778],
+                    [48.7831833333333, 9.18055555555556],
+                    [48.7796027777778, 9.17931388888889],
+                    [48.7765277777778, 9.17566944444444],
+                    [48.7763277777778, 9.17603611111111],
+                    [48.7763027777778, 9.17601944444444],
+                    [48.774975, 9.17498055555556],
+                    [48.6922027777778, 9.168425],
+                    [48.6918333333333, 9.16754722222222],
+                    [48.7948611111111, 9.23055],
+                    [48.7957694444444, 9.22724166666667],
+                    [48.7957611111111, 9.22725],
+                    [48.7930027777778, 9.23310277777778],
+                    [48.794675, 9.22460555555556],
+                    [48.7946472222222, 9.22444722222222],
+                    [48.7946333333333, 9.22438611111111],
+                    [48.7946194444444, 9.22436666666667],
+                    [48.7802916666667, 9.1787],
+                    [48.7946777777778, 9.22459722222222],
+                    [48.7952694444444, 9.22301666666667],
+                    [48.7981916666667, 9.21751944444445],
+                    [48.7823916666667, 9.18168055555556],
+                    [48.7810638888889, 9.18279444444444],
+                    [48.7809861111111, 9.18294722222222],
+                    [48.7807083333333, 9.183325],
+                    [48.7801361111111, 9.18383055555556],
+                    [48.7802416666667, 9.18384722222222],
+                    [48.7800638888889, 9.18387222222222],
+                    [48.7795305555556, 9.18401944444444],
+                    [48.7809222222222, 9.18318055555556],
+                    [48.7801777777778, 9.18383888888889],
+                    [48.7789, 9.18530277777778],
+                    [52.0124694, 4.3568361]
+                ]);
+                clubMap.fitBounds(bounds, { padding: [30, 30], maxZoom: 13 });
+                
             }
         });
     

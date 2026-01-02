@@ -131,9 +131,16 @@
                 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                     attribution: '© OpenStreetMap contributors'
                 }).addTo(clubMap);
-                L.marker([52.3138305555556, 4.93986944444444])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2605');
+                
+                (function() {
+                    const marker = L.marker([52.3138305555556, 4.93986944444444]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇧🇬 PFC Slavia Sofia</strong><a href="/stickers/2605.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                // Fit bounds if multiple stickers
+                
             }
         });
     

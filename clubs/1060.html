@@ -131,9 +131,16 @@
                 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                     attribution: '© OpenStreetMap contributors'
                 }).addTo(clubMap);
-                L.marker([48.7793194444444, 9.17919166666667])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2371');
+                
+                (function() {
+                    const marker = L.marker([48.7793194444444, 9.17919166666667]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇩🇪 TSV Unterschüpf 1902</strong><a href="/stickers/2371.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                // Fit bounds if multiple stickers
+                
             }
         });
     

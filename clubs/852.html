@@ -138,9 +138,16 @@
                 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                     attribution: '© OpenStreetMap contributors'
                 }).addTo(clubMap);
-                L.marker([48.7793916666667, 9.18258888888889])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2445');
+                
+                (function() {
+                    const marker = L.marker([48.7793916666667, 9.18258888888889]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇩🇪 1 FC Heidenheim</strong><a href="/stickers/2445.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                // Fit bounds if multiple stickers
+                
             }
         });
     

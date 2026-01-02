@@ -194,9 +194,16 @@
                 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                     attribution: '© OpenStreetMap contributors'
                 }).addTo(clubMap);
-                L.marker([52.3720083, 4.895975])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2742');
+                
+                (function() {
+                    const marker = L.marker([52.3720083, 4.895975]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇪🇸 Athletic Club Bilbao</strong><a href="/stickers/2742.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                // Fit bounds if multiple stickers
+                
             }
         });
     

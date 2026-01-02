@@ -138,9 +138,16 @@
                 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                     attribution: '© OpenStreetMap contributors'
                 }).addTo(clubMap);
-                L.marker([52.3139833333333, 4.94005])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2601');
+                
+                (function() {
+                    const marker = L.marker([52.3139833333333, 4.94005]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇮🇹 Parma Calcio 1913</strong><a href="/stickers/2601.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                // Fit bounds if multiple stickers
+                
             }
         });
     

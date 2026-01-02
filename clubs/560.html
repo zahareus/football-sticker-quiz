@@ -145,12 +145,29 @@
                 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                     attribution: '© OpenStreetMap contributors'
                 }).addTo(clubMap);
-                L.marker([50.0895416666667, 14.4280472222222])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2327');
-            L.marker([36.5269444444444, 32.0500527777778])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2472');
+                
+                (function() {
+                    const marker = L.marker([50.0895416666667, 14.4280472222222]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇩🇰 Brondby IF</strong><a href="/stickers/2327.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([36.5269444444444, 32.0500527777778]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇩🇰 Brondby IF</strong><a href="/stickers/2472.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                // Fit bounds if multiple stickers
+                
+                const bounds = L.latLngBounds([
+                    [50.0895416666667, 14.4280472222222],
+                    [36.5269444444444, 32.0500527777778]
+                ]);
+                clubMap.fitBounds(bounds, { padding: [30, 30], maxZoom: 13 });
+                
             }
         });
     

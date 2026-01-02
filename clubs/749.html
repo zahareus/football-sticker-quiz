@@ -271,18 +271,45 @@
                 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                     attribution: '© OpenStreetMap contributors'
                 }).addTo(clubMap);
-                L.marker([37.9900361111111, -0.667908333333333])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2309');
-            L.marker([50.087775, 14.39005])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2332');
-            L.marker([50.0918361111111, 14.4526694444444])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2342');
-            L.marker([52.3726417, 4.8932])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2721');
+                
+                (function() {
+                    const marker = L.marker([37.9900361111111, -0.667908333333333]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇸🇪 Djurgardens IF</strong><a href="/stickers/2309.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([50.087775, 14.39005]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇸🇪 Djurgardens IF</strong><a href="/stickers/2332.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([50.0918361111111, 14.4526694444444]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇸🇪 Djurgardens IF</strong><a href="/stickers/2342.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([52.3726417, 4.8932]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇸🇪 Djurgardens IF</strong><a href="/stickers/2721.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                // Fit bounds if multiple stickers
+                
+                const bounds = L.latLngBounds([
+                    [37.9900361111111, -0.667908333333333],
+                    [50.087775, 14.39005],
+                    [50.0918361111111, 14.4526694444444],
+                    [52.3726417, 4.8932]
+                ]);
+                clubMap.fitBounds(bounds, { padding: [30, 30], maxZoom: 13 });
+                
             }
         });
     

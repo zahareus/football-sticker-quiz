@@ -138,12 +138,29 @@
                 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                     attribution: '© OpenStreetMap contributors'
                 }).addTo(clubMap);
-                L.marker([36.5272444444444, 32.0490888888889])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2513');
-            L.marker([36.527125, 32.0497805555556])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2523');
+                
+                (function() {
+                    const marker = L.marker([36.5272444444444, 32.0490888888889]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇹🇷 FC Gaziantepspor</strong><a href="/stickers/2513.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([36.527125, 32.0497805555556]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇹🇷 FC Gaziantepspor</strong><a href="/stickers/2523.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                // Fit bounds if multiple stickers
+                
+                const bounds = L.latLngBounds([
+                    [36.5272444444444, 32.0490888888889],
+                    [36.527125, 32.0497805555556]
+                ]);
+                clubMap.fitBounds(bounds, { padding: [30, 30], maxZoom: 13 });
+                
             }
         });
     

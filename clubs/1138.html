@@ -138,12 +138,29 @@
                 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                     attribution: '© OpenStreetMap contributors'
                 }).addTo(clubMap);
-                L.marker([52.377575, 4.8986111])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2783');
-            L.marker([52.1156083, 4.2829639])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2826');
+                
+                (function() {
+                    const marker = L.marker([52.377575, 4.8986111]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇵🇱 GKS Górnik Łęczna</strong><a href="/stickers/2783.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([52.1156083, 4.2829639]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇵🇱 GKS Górnik Łęczna</strong><a href="/stickers/2826.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                // Fit bounds if multiple stickers
+                
+                const bounds = L.latLngBounds([
+                    [52.377575, 4.8986111],
+                    [52.1156083, 4.2829639]
+                ]);
+                clubMap.fitBounds(bounds, { padding: [30, 30], maxZoom: 13 });
+                
             }
         });
     

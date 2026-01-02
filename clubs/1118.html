@@ -131,9 +131,16 @@
                 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                     attribution: '© OpenStreetMap contributors'
                 }).addTo(clubMap);
-                L.marker([52.3134778, 4.9424778])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2688');
+                
+                (function() {
+                    const marker = L.marker([52.3134778, 4.9424778]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇵🇱 Polonia Warsaw</strong><a href="/stickers/2688.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                // Fit bounds if multiple stickers
+                
             }
         });
     

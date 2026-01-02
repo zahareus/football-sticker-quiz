@@ -201,18 +201,45 @@
                 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                     attribution: '© OpenStreetMap contributors'
                 }).addTo(clubMap);
-                L.marker([48.7765083333333, 9.17565555555555])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2393');
-            L.marker([48.778725, 9.18345555555556])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2447');
-            L.marker([47.7612583333333, 7.32806944444444])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2563');
-            L.marker([52.0118667, 4.3585917])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2776');
+                
+                (function() {
+                    const marker = L.marker([48.7765083333333, 9.17565555555555]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇩🇪 SC Freiburg</strong><a href="/stickers/2393.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([48.778725, 9.18345555555556]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇩🇪 SC Freiburg</strong><a href="/stickers/2447.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([47.7612583333333, 7.32806944444444]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇩🇪 SC Freiburg</strong><a href="/stickers/2563.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([52.0118667, 4.3585917]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇩🇪 SC Freiburg</strong><a href="/stickers/2776.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                // Fit bounds if multiple stickers
+                
+                const bounds = L.latLngBounds([
+                    [48.7765083333333, 9.17565555555555],
+                    [48.778725, 9.18345555555556],
+                    [47.7612583333333, 7.32806944444444],
+                    [52.0118667, 4.3585917]
+                ]);
+                clubMap.fitBounds(bounds, { padding: [30, 30], maxZoom: 13 });
+                
             }
         });
     

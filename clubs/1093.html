@@ -138,12 +138,29 @@
                 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                     attribution: '© OpenStreetMap contributors'
                 }).addTo(clubMap);
-                L.marker([52.3105972222222, 4.75916111111111])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2595');
-            L.marker([52.3131778, 4.9434389])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2683');
+                
+                (function() {
+                    const marker = L.marker([52.3105972222222, 4.75916111111111]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇳🇱 RKC Waalwijk</strong><a href="/stickers/2595.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([52.3131778, 4.9434389]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇳🇱 RKC Waalwijk</strong><a href="/stickers/2683.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                // Fit bounds if multiple stickers
+                
+                const bounds = L.latLngBounds([
+                    [52.3105972222222, 4.75916111111111],
+                    [52.3131778, 4.9434389]
+                ]);
+                clubMap.fitBounds(bounds, { padding: [30, 30], maxZoom: 13 });
+                
             }
         });
     

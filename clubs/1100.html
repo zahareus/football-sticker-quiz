@@ -131,9 +131,16 @@
                 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                     attribution: '© OpenStreetMap contributors'
                 }).addTo(clubMap);
-                L.marker([52.3135944444444, 4.94094722222222])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2618');
+                
+                (function() {
+                    const marker = L.marker([52.3135944444444, 4.94094722222222]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇩🇪 SC Brühl</strong><a href="/stickers/2618.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                // Fit bounds if multiple stickers
+                
             }
         });
     

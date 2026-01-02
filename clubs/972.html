@@ -229,18 +229,45 @@
                 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                     attribution: '© OpenStreetMap contributors'
                 }).addTo(clubMap);
-                L.marker([50.0823472222222, 14.4264111111111])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2346');
-            L.marker([49.3063444444444, 10.9673333333333])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2464');
-            L.marker([52.3757861, 4.9006])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2717');
-            L.marker([52.1163972, 4.2815944])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2837');
+                
+                (function() {
+                    const marker = L.marker([50.0823472222222, 14.4264111111111]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇩🇪 1 FC Kaiserslautern</strong><a href="/stickers/2346.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([49.3063444444444, 10.9673333333333]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇩🇪 1 FC Kaiserslautern</strong><a href="/stickers/2464.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([52.3757861, 4.9006]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇩🇪 1 FC Kaiserslautern</strong><a href="/stickers/2717.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([52.1163972, 4.2815944]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇩🇪 1 FC Kaiserslautern</strong><a href="/stickers/2837.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                // Fit bounds if multiple stickers
+                
+                const bounds = L.latLngBounds([
+                    [50.0823472222222, 14.4264111111111],
+                    [49.3063444444444, 10.9673333333333],
+                    [52.3757861, 4.9006],
+                    [52.1163972, 4.2815944]
+                ]);
+                clubMap.fitBounds(bounds, { padding: [30, 30], maxZoom: 13 });
+                
             }
         });
     

@@ -159,21 +159,53 @@
                 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                     attribution: '© OpenStreetMap contributors'
                 }).addTo(clubMap);
-                L.marker([52.3143166666667, 4.94066388888889])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2622');
-            L.marker([52.3719, 4.89585])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2728');
-            L.marker([52.1114778, 4.2794639])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2799');
-            L.marker([52.1111111, 4.2804111])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2823');
-            L.marker([50.8443333333333, 4.35078055555555])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2875');
+                
+                (function() {
+                    const marker = L.marker([52.3143166666667, 4.94066388888889]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇩🇪 Arminia Bielefeld</strong><a href="/stickers/2622.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([52.3719, 4.89585]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇩🇪 Arminia Bielefeld</strong><a href="/stickers/2728.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([52.1114778, 4.2794639]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇩🇪 Arminia Bielefeld</strong><a href="/stickers/2799.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([52.1111111, 4.2804111]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇩🇪 Arminia Bielefeld</strong><a href="/stickers/2823.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([50.8443333333333, 4.35078055555555]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇩🇪 Arminia Bielefeld</strong><a href="/stickers/2875.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                // Fit bounds if multiple stickers
+                
+                const bounds = L.latLngBounds([
+                    [52.3143166666667, 4.94066388888889],
+                    [52.3719, 4.89585],
+                    [52.1114778, 4.2794639],
+                    [52.1111111, 4.2804111],
+                    [50.8443333333333, 4.35078055555555]
+                ]);
+                clubMap.fitBounds(bounds, { padding: [30, 30], maxZoom: 13 });
+                
             }
         });
     

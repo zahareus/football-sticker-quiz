@@ -306,18 +306,45 @@
                 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                     attribution: '© OpenStreetMap contributors'
                 }).addTo(clubMap);
-                L.marker([50.0774388888889, 14.4204083333333])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2462');
-            L.marker([42.2787277777778, 18.838375])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2480');
-            L.marker([52.313525, 4.94242777777778])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2642');
-            L.marker([52.3802722, 4.6337111])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2773');
+                
+                (function() {
+                    const marker = L.marker([50.0774388888889, 14.4204083333333]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇩🇪 Hansa Rostock</strong><a href="/stickers/2462.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([42.2787277777778, 18.838375]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇩🇪 Hansa Rostock</strong><a href="/stickers/2480.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([52.313525, 4.94242777777778]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇩🇪 Hansa Rostock</strong><a href="/stickers/2642.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([52.3802722, 4.6337111]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇩🇪 Hansa Rostock</strong><a href="/stickers/2773.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                // Fit bounds if multiple stickers
+                
+                const bounds = L.latLngBounds([
+                    [50.0774388888889, 14.4204083333333],
+                    [42.2787277777778, 18.838375],
+                    [52.313525, 4.94242777777778],
+                    [52.3802722, 4.6337111]
+                ]);
+                clubMap.fitBounds(bounds, { padding: [30, 30], maxZoom: 13 });
+                
             }
         });
     

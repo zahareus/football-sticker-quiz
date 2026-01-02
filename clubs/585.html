@@ -166,12 +166,29 @@
                 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                     attribution: '© OpenStreetMap contributors'
                 }).addTo(clubMap);
-                L.marker([50.0930361111111, 14.4520611111111])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2345');
-            L.marker([52.3787472, 4.8985833])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2686');
+                
+                (function() {
+                    const marker = L.marker([50.0930361111111, 14.4520611111111]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇭🇷 HNK Hajduk Split</strong><a href="/stickers/2345.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([52.3787472, 4.8985833]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇭🇷 HNK Hajduk Split</strong><a href="/stickers/2686.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                // Fit bounds if multiple stickers
+                
+                const bounds = L.latLngBounds([
+                    [50.0930361111111, 14.4520611111111],
+                    [52.3787472, 4.8985833]
+                ]);
+                clubMap.fitBounds(bounds, { padding: [30, 30], maxZoom: 13 });
+                
             }
         });
     

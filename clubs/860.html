@@ -243,27 +243,69 @@
                 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                     attribution: '© OpenStreetMap contributors'
                 }).addTo(clubMap);
-                L.marker([50.0927472222222, 14.4522416666667])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2453');
-            L.marker([42.2875166666667, 18.8389555555556])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2478');
-            L.marker([42.2845527777778, 18.8434416666667])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2487');
-            L.marker([47.5565305555556, 7.59598055555556])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2546');
-            L.marker([52.3140333333333, 4.94008611111111])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2615');
-            L.marker([52.1160389, 4.28235])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2801');
-            L.marker([52.1119111, 4.2776194])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2851');
+                
+                (function() {
+                    const marker = L.marker([50.0927472222222, 14.4522416666667]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇩🇪 SV Werder Bremen</strong><a href="/stickers/2453.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([42.2875166666667, 18.8389555555556]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇩🇪 SV Werder Bremen</strong><a href="/stickers/2478.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([42.2845527777778, 18.8434416666667]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇩🇪 SV Werder Bremen</strong><a href="/stickers/2487.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([47.5565305555556, 7.59598055555556]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇩🇪 SV Werder Bremen</strong><a href="/stickers/2546.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([52.3140333333333, 4.94008611111111]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇩🇪 SV Werder Bremen</strong><a href="/stickers/2615.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([52.1160389, 4.28235]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇩🇪 SV Werder Bremen</strong><a href="/stickers/2801.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([52.1119111, 4.2776194]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇩🇪 SV Werder Bremen</strong><a href="/stickers/2851.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                // Fit bounds if multiple stickers
+                
+                const bounds = L.latLngBounds([
+                    [50.0927472222222, 14.4522416666667],
+                    [42.2875166666667, 18.8389555555556],
+                    [42.2845527777778, 18.8434416666667],
+                    [47.5565305555556, 7.59598055555556],
+                    [52.3140333333333, 4.94008611111111],
+                    [52.1160389, 4.28235],
+                    [52.1119111, 4.2776194]
+                ]);
+                clubMap.fitBounds(bounds, { padding: [30, 30], maxZoom: 13 });
+                
             }
         });
     

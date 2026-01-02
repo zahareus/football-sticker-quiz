@@ -173,12 +173,29 @@
                 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                     attribution: '© OpenStreetMap contributors'
                 }).addTo(clubMap);
-                L.marker([37.9806638888889, -0.664591666666667])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2296');
-            L.marker([50.086375, 14.4268388888889])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2354');
+                
+                (function() {
+                    const marker = L.marker([37.9806638888889, -0.664591666666667]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇸🇪 Malmö FF</strong><a href="/stickers/2296.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([50.086375, 14.4268388888889]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇸🇪 Malmö FF</strong><a href="/stickers/2354.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                // Fit bounds if multiple stickers
+                
+                const bounds = L.latLngBounds([
+                    [37.9806638888889, -0.664591666666667],
+                    [50.086375, 14.4268388888889]
+                ]);
+                clubMap.fitBounds(bounds, { padding: [30, 30], maxZoom: 13 });
+                
             }
         });
     

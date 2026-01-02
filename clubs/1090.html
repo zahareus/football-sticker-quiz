@@ -138,12 +138,29 @@
                 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                     attribution: '© OpenStreetMap contributors'
                 }).addTo(clubMap);
-                L.marker([52.3105472222222, 4.75940833333333])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2584');
-            L.marker([52.1152806, 4.2830389])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2810');
+                
+                (function() {
+                    const marker = L.marker([52.3105472222222, 4.75940833333333]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇳🇱 FC Den Bosch</strong><a href="/stickers/2584.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([52.1152806, 4.2830389]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇳🇱 FC Den Bosch</strong><a href="/stickers/2810.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                // Fit bounds if multiple stickers
+                
+                const bounds = L.latLngBounds([
+                    [52.3105472222222, 4.75940833333333],
+                    [52.1152806, 4.2830389]
+                ]);
+                clubMap.fitBounds(bounds, { padding: [30, 30], maxZoom: 13 });
+                
             }
         });
     

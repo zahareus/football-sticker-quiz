@@ -34,15 +34,49 @@ console.log(`🚀 Starting static page generation${LIMIT ? ` (LIMIT: ${LIMIT} st
 // Initialize Supabase client
 const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-// Country code mapping (simplified version)
+// Country code mapping (complete version)
 const COUNTRY_NAMES = {
-    'UKR': 'Ukraine', 'USA': 'United States', 'GBR': 'United Kingdom',
-    'DEU': 'Germany', 'FRA': 'France', 'ESP': 'Spain', 'ITA': 'Italy',
-    'BRA': 'Brazil', 'ARG': 'Argentina', 'NLD': 'Netherlands', 'PRT': 'Portugal',
-    'POL': 'Poland', 'TUR': 'Turkey', 'BEL': 'Belgium', 'CHE': 'Switzerland',
-    'AUT': 'Austria', 'CZE': 'Czech Republic', 'SWE': 'Sweden', 'NOR': 'Norway',
-    'DNK': 'Denmark', 'GRC': 'Greece', 'ROU': 'Romania', 'HRV': 'Croatia',
-    'SRB': 'Serbia', 'SVK': 'Slovakia', 'HUN': 'Hungary', 'BGR': 'Bulgaria'
+    'AFG': 'Afghanistan', 'ALB': 'Albania', 'DZA': 'Algeria', 'AND': 'Andorra',
+    'AGO': 'Angola', 'ARG': 'Argentina', 'ARM': 'Armenia', 'AUS': 'Australia',
+    'AUT': 'Austria', 'AZE': 'Azerbaijan', 'BHS': 'Bahamas', 'BHR': 'Bahrain',
+    'BGD': 'Bangladesh', 'BLR': 'Belarus', 'BEL': 'Belgium', 'BLZ': 'Belize',
+    'BEN': 'Benin', 'BOL': 'Bolivia', 'BIH': 'Bosnia and Herzegovina',
+    'BWA': 'Botswana', 'BRA': 'Brazil', 'BGR': 'Bulgaria', 'BFA': 'Burkina Faso',
+    'KHM': 'Cambodia', 'CMR': 'Cameroon', 'CAN': 'Canada', 'CPV': 'Cape Verde',
+    'CAF': 'Central African Republic', 'TCD': 'Chad', 'CHL': 'Chile', 'CHN': 'China',
+    'COL': 'Colombia', 'COG': 'Congo', 'CRI': 'Costa Rica', 'HRV': 'Croatia',
+    'CUB': 'Cuba', 'CYP': 'Cyprus', 'CZE': 'Czech Republic', 'DNK': 'Denmark',
+    'DJI': 'Djibouti', 'DOM': 'Dominican Republic', 'ECU': 'Ecuador', 'EGY': 'Egypt',
+    'SLV': 'El Salvador', 'GNQ': 'Equatorial Guinea', 'EST': 'Estonia', 'ETH': 'Ethiopia',
+    'FJI': 'Fiji', 'FIN': 'Finland', 'FRA': 'France', 'GAB': 'Gabon', 'GMB': 'Gambia',
+    'GEO': 'Georgia', 'DEU': 'Germany', 'GHA': 'Ghana', 'GRC': 'Greece',
+    'GTM': 'Guatemala', 'GIN': 'Guinea', 'HTI': 'Haiti', 'HND': 'Honduras',
+    'HUN': 'Hungary', 'ISL': 'Iceland', 'IND': 'India', 'IDN': 'Indonesia',
+    'IRN': 'Iran', 'IRQ': 'Iraq', 'IRL': 'Ireland', 'ISR': 'Israel', 'ITA': 'Italy',
+    'CIV': 'Ivory Coast', 'JAM': 'Jamaica', 'JPN': 'Japan', 'JOR': 'Jordan',
+    'KAZ': 'Kazakhstan', 'KEN': 'Kenya', 'KWT': 'Kuwait', 'KGZ': 'Kyrgyzstan',
+    'LVA': 'Latvia', 'LBN': 'Lebanon', 'LBR': 'Liberia', 'LBY': 'Libya',
+    'LIE': 'Liechtenstein', 'LTU': 'Lithuania', 'LUX': 'Luxembourg',
+    'MKD': 'North Macedonia', 'MDG': 'Madagascar', 'MWI': 'Malawi', 'MYS': 'Malaysia',
+    'MLI': 'Mali', 'MLT': 'Malta', 'MRT': 'Mauritania', 'MEX': 'Mexico',
+    'MDA': 'Moldova', 'MCO': 'Monaco', 'MNG': 'Mongolia', 'MNE': 'Montenegro',
+    'MAR': 'Morocco', 'MOZ': 'Mozambique', 'NPL': 'Nepal', 'NLD': 'Netherlands',
+    'NZL': 'New Zealand', 'NIC': 'Nicaragua', 'NER': 'Niger', 'NGA': 'Nigeria',
+    'PRK': 'North Korea', 'NOR': 'Norway', 'OMN': 'Oman', 'PAK': 'Pakistan',
+    'PAN': 'Panama', 'PNG': 'Papua New Guinea', 'PRY': 'Paraguay', 'PER': 'Peru',
+    'PHL': 'Philippines', 'POL': 'Poland', 'PRT': 'Portugal', 'QAT': 'Qatar',
+    'ROU': 'Romania', 'RUS': 'Russia', 'RWA': 'Rwanda', 'SAU': 'Saudi Arabia',
+    'SEN': 'Senegal', 'SRB': 'Serbia', 'SLE': 'Sierra Leone', 'SGP': 'Singapore',
+    'SVK': 'Slovakia', 'SVN': 'Slovenia', 'SOM': 'Somalia', 'ZAF': 'South Africa',
+    'KOR': 'South Korea', 'ESP': 'Spain', 'LKA': 'Sri Lanka', 'SDN': 'Sudan',
+    'SWE': 'Sweden', 'CHE': 'Switzerland', 'SYR': 'Syria', 'TWN': 'Taiwan',
+    'TZA': 'Tanzania', 'THA': 'Thailand', 'TGO': 'Togo', 'TUN': 'Tunisia',
+    'TUR': 'Turkey', 'UGA': 'Uganda', 'UKR': 'Ukraine', 'ARE': 'United Arab Emirates',
+    'GBR': 'United Kingdom', 'USA': 'United States', 'URY': 'Uruguay',
+    'UZB': 'Uzbekistan', 'VEN': 'Venezuela', 'VNM': 'Vietnam', 'YEM': 'Yemen',
+    'ZMB': 'Zambia', 'ZWE': 'Zimbabwe',
+    // UK nations
+    'ENG': 'England', 'SCO': 'Scotland', 'WLS': 'Wales', 'NIR': 'Northern Ireland'
 };
 
 /**
@@ -389,12 +423,18 @@ function generateClubMapInitScript(stickersWithCoordinates, clubName) {
     const avgLat = stickersWithCoordinates.reduce((sum, s) => sum + s.latitude, 0) / stickersWithCoordinates.length;
     const avgLng = stickersWithCoordinates.reduce((sum, s) => sum + s.longitude, 0) / stickersWithCoordinates.length;
 
-    // Generate markers
+    const escapedClubName = clubName.replace(/'/g, "\\'");
+
+    // Generate markers with hover and click functionality
     const markers = stickersWithCoordinates.map(sticker => {
-        return `L.marker([${sticker.latitude}, ${sticker.longitude}])
-            .addTo(clubMap)
-            .bindPopup('Sticker #${sticker.id}');`;
-    }).join('\n            ');
+        return `
+                (function() {
+                    const marker = L.marker([${sticker.latitude}, ${sticker.longitude}]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>${escapedClubName}</strong><a href="/stickers/${sticker.id}.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();`;
+    }).join('\n');
 
     return `
         document.addEventListener('DOMContentLoaded', function() {
@@ -404,6 +444,14 @@ function generateClubMapInitScript(stickersWithCoordinates, clubName) {
                     attribution: '© OpenStreetMap contributors'
                 }).addTo(clubMap);
                 ${markers}
+
+                // Fit bounds if multiple stickers
+                ${stickersWithCoordinates.length > 1 ? `
+                const bounds = L.latLngBounds([
+                    ${stickersWithCoordinates.map(s => `[${s.latitude}, ${s.longitude}]`).join(',\n                    ')}
+                ]);
+                clubMap.fitBounds(bounds, { padding: [30, 30], maxZoom: 13 });
+                ` : ''}
             }
         });
     `;

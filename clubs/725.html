@@ -201,12 +201,29 @@
                 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                     attribution: '© OpenStreetMap contributors'
                 }).addTo(clubMap);
-                L.marker([52.3720056, 4.8959528])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2733');
-            L.marker([52.112525, 4.2794])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2818');
+                
+                (function() {
+                    const marker = L.marker([52.3720056, 4.8959528]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇵🇱 Legia Warsaw</strong><a href="/stickers/2733.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([52.112525, 4.2794]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇵🇱 Legia Warsaw</strong><a href="/stickers/2818.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                // Fit bounds if multiple stickers
+                
+                const bounds = L.latLngBounds([
+                    [52.3720056, 4.8959528],
+                    [52.112525, 4.2794]
+                ]);
+                clubMap.fitBounds(bounds, { padding: [30, 30], maxZoom: 13 });
+                
             }
         });
     

@@ -138,12 +138,29 @@
                 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                     attribution: '© OpenStreetMap contributors'
                 }).addTo(clubMap);
-                L.marker([52.3142972222222, 4.94061111111111])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2628');
-            L.marker([52.3142972222222, 4.94060833333333])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2629');
+                
+                (function() {
+                    const marker = L.marker([52.3142972222222, 4.94061111111111]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇮🇹 Fidelis Andria 2018</strong><a href="/stickers/2628.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([52.3142972222222, 4.94060833333333]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇮🇹 Fidelis Andria 2018</strong><a href="/stickers/2629.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                // Fit bounds if multiple stickers
+                
+                const bounds = L.latLngBounds([
+                    [52.3142972222222, 4.94061111111111],
+                    [52.3142972222222, 4.94060833333333]
+                ]);
+                clubMap.fitBounds(bounds, { padding: [30, 30], maxZoom: 13 });
+                
             }
         });
     

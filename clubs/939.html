@@ -145,9 +145,16 @@
                 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                     attribution: '© OpenStreetMap contributors'
                 }).addTo(clubMap);
-                L.marker([48.7940055555556, 9.232225])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2399');
+                
+                (function() {
+                    const marker = L.marker([48.7940055555556, 9.232225]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇩🇪 TSG 1899 Hoffenheim</strong><a href="/stickers/2399.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                // Fit bounds if multiple stickers
+                
             }
         });
     

@@ -138,9 +138,16 @@
                 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                     attribution: '© OpenStreetMap contributors'
                 }).addTo(clubMap);
-                L.marker([48.7775916666667, 9.17735833333333])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2378');
+                
+                (function() {
+                    const marker = L.marker([48.7775916666667, 9.17735833333333]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇭🇺 Kaposvári Rákóczi FC</strong><a href="/stickers/2378.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                // Fit bounds if multiple stickers
+                
             }
         });
     

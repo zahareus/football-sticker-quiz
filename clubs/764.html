@@ -152,12 +152,29 @@
                 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                     attribution: '© OpenStreetMap contributors'
                 }).addTo(clubMap);
-                L.marker([52.3134166666667, 4.941875])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2660');
-            L.marker([52.3134417, 4.9423722])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2665');
+                
+                (function() {
+                    const marker = L.marker([52.3134166666667, 4.941875]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇵🇱 Zawisza Bydgoszcz</strong><a href="/stickers/2660.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([52.3134417, 4.9423722]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇵🇱 Zawisza Bydgoszcz</strong><a href="/stickers/2665.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                // Fit bounds if multiple stickers
+                
+                const bounds = L.latLngBounds([
+                    [52.3134166666667, 4.941875],
+                    [52.3134417, 4.9423722]
+                ]);
+                clubMap.fitBounds(bounds, { padding: [30, 30], maxZoom: 13 });
+                
             }
         });
     
