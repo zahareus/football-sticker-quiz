@@ -28,6 +28,7 @@ let currentStickerDifficulty = 1;  // Current sticker's difficulty for scoring
 
 // ----- Lives System Variables (Classic Mode Only) -----
 const MAX_LIVES = 3;
+let lastFailedStickerId = null; // Track the last sticker player failed to guess
 let currentLives = MAX_LIVES;
 
 // TTR pattern: 3 easy (diff 1), 2 medium (diff 2), 1 hard (diff 3), repeat
@@ -748,6 +749,11 @@ async function handleAnswer(selectedOption) {
             if (selectedButton) selectedButton.classList.add('incorrect-answer');
             if (correctButton) correctButton.classList.add('correct-answer');
 
+            // Track the last failed sticker for the end game screen
+            if (currentQuestionData && currentQuestionData.stickerId) {
+                lastFailedStickerId = currentQuestionData.stickerId;
+            }
+
             // Lose a life with animation
             await loseLife();
 
@@ -797,6 +803,11 @@ async function handleAnswerTTR(isCorrect, selectedButton, correctButton) {
         // Wrong answer - show feedback but don't end game
         if (selectedButton) selectedButton.classList.add('incorrect-answer');
         if (correctButton) correctButton.classList.add('correct-answer');
+
+        // Track the last failed sticker for the end game screen
+        if (currentQuestionData && currentQuestionData.stickerId) {
+            lastFailedStickerId = currentQuestionData.stickerId;
+        }
     }
 
     // Brief pause to show feedback
@@ -933,6 +944,11 @@ function startTimer() {
                         button.classList.add('correct-answer');
                     }
                 });
+
+                // Track current sticker as failed when timer runs out
+                if (currentQuestionData.stickerId) {
+                    lastFailedStickerId = currentQuestionData.stickerId;
+                }
             }
 
             // Classic mode: Use lives system for timeout
@@ -1098,6 +1114,7 @@ async function startGame() {
     }
 
     currentScore = 0;
+    lastFailedStickerId = null; // Reset for new game
     if (currentScoreElement) currentScoreElement.textContent = 0;
 
     // Reset TTR-specific variables
@@ -1539,9 +1556,9 @@ function endGame() {
     if (difficultySelectionElement) difficultySelectionElement.style.display = 'none';
     if (introTextElement) introTextElement.style.display = 'none';
 
-    // Update sticker info button to link to the sticker page
-    if (resultStickerInfoButton && currentQuestionData && currentQuestionData.stickerId) {
-        resultStickerInfoButton.href = `/stickers/${currentQuestionData.stickerId}.html`;
+    // Update sticker info button to link to the last failed sticker
+    if (resultStickerInfoButton && lastFailedStickerId) {
+        resultStickerInfoButton.href = `/stickers/${lastFailedStickerId}.html`;
     } else if (resultStickerInfoButton) {
         resultStickerInfoButton.href = '/catalogue.html';
     }
