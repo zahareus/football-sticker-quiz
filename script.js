@@ -750,7 +750,7 @@ async function handleAnswer(selectedOption) {
             if (correctButton) correctButton.classList.add('correct-answer');
 
             // Track the last failed sticker for the end game screen
-            if (currentQuestionData && currentQuestionData.stickerId) {
+            if (currentQuestionData && currentQuestionData.stickerId != null) {
                 lastFailedStickerId = currentQuestionData.stickerId;
             }
 
@@ -805,7 +805,7 @@ async function handleAnswerTTR(isCorrect, selectedButton, correctButton) {
         if (correctButton) correctButton.classList.add('correct-answer');
 
         // Track the last failed sticker for the end game screen
-        if (currentQuestionData && currentQuestionData.stickerId) {
+        if (currentQuestionData && currentQuestionData.stickerId != null) {
             lastFailedStickerId = currentQuestionData.stickerId;
         }
     }
@@ -946,7 +946,7 @@ function startTimer() {
                 });
 
                 // Track current sticker as failed when timer runs out
-                if (currentQuestionData.stickerId) {
+                if (currentQuestionData.stickerId != null) {
                     lastFailedStickerId = currentQuestionData.stickerId;
                 }
             }
@@ -1557,7 +1557,7 @@ function endGame() {
     if (introTextElement) introTextElement.style.display = 'none';
 
     // Update sticker info button to link to the last failed sticker
-    if (resultStickerInfoButton && lastFailedStickerId) {
+    if (resultStickerInfoButton && lastFailedStickerId != null) {
         resultStickerInfoButton.href = `/stickers/${lastFailedStickerId}.html`;
     } else if (resultStickerInfoButton) {
         resultStickerInfoButton.href = '/catalogue.html';
