@@ -159,15 +159,37 @@
                 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                     attribution: '© OpenStreetMap contributors'
                 }).addTo(clubMap);
-                L.marker([50.0774222222222, 14.4211694444444])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2468');
-            L.marker([36.527675, 32.0509833333333])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2514');
-            L.marker([52.3134472222222, 4.94240833333333])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2646');
+                
+                (function() {
+                    const marker = L.marker([50.0774222222222, 14.4211694444444]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇵🇱 Widzew Łódź</strong><a href="/stickers/2468.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([36.527675, 32.0509833333333]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇵🇱 Widzew Łódź</strong><a href="/stickers/2514.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([52.3134472222222, 4.94240833333333]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇵🇱 Widzew Łódź</strong><a href="/stickers/2646.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                // Fit bounds if multiple stickers
+                
+                const bounds = L.latLngBounds([
+                    [50.0774222222222, 14.4211694444444],
+                    [36.527675, 32.0509833333333],
+                    [52.3134472222222, 4.94240833333333]
+                ]);
+                clubMap.fitBounds(bounds, { padding: [30, 30], maxZoom: 13 });
+                
             }
         });
     

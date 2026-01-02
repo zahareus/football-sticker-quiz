@@ -243,21 +243,53 @@
                 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                     attribution: '© OpenStreetMap contributors'
                 }).addTo(clubMap);
-                L.marker([47.7468305555556, 7.33832777777778])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2572');
-            L.marker([52.3782583, 4.8990556])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2676');
-            L.marker([52.0114333, 4.3595722])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2767');
-            L.marker([52.011925, 4.35865])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2772');
-            L.marker([52.0133472, 4.3657889])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2793');
+                
+                (function() {
+                    const marker = L.marker([47.7468305555556, 7.33832777777778]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇮🇹 UC Sampdoria</strong><a href="/stickers/2572.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([52.3782583, 4.8990556]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇮🇹 UC Sampdoria</strong><a href="/stickers/2676.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([52.0114333, 4.3595722]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇮🇹 UC Sampdoria</strong><a href="/stickers/2767.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([52.011925, 4.35865]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇮🇹 UC Sampdoria</strong><a href="/stickers/2772.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([52.0133472, 4.3657889]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇮🇹 UC Sampdoria</strong><a href="/stickers/2793.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                // Fit bounds if multiple stickers
+                
+                const bounds = L.latLngBounds([
+                    [47.7468305555556, 7.33832777777778],
+                    [52.3782583, 4.8990556],
+                    [52.0114333, 4.3595722],
+                    [52.011925, 4.35865],
+                    [52.0133472, 4.3657889]
+                ]);
+                clubMap.fitBounds(bounds, { padding: [30, 30], maxZoom: 13 });
+                
             }
         });
     

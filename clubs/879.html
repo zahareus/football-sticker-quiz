@@ -530,24 +530,61 @@
                 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                     attribution: '© OpenStreetMap contributors'
                 }).addTo(clubMap);
-                L.marker([50.0889166666667, 14.4279944444444])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2326');
-            L.marker([42.2777972222222, 18.8377833333333])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2483');
-            L.marker([36.5260361111111, 32.0514194444444])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2512');
-            L.marker([36.5272861111111, 32.0471277777778])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2525');
-            L.marker([52.0121722, 4.3596611])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2785');
-            L.marker([52.1111944, 4.2805778])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2845');
+                
+                (function() {
+                    const marker = L.marker([50.0889166666667, 14.4279944444444]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇩🇪 Dynamo Dresden</strong><a href="/stickers/2326.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([42.2777972222222, 18.8377833333333]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇩🇪 Dynamo Dresden</strong><a href="/stickers/2483.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([36.5260361111111, 32.0514194444444]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇩🇪 Dynamo Dresden</strong><a href="/stickers/2512.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([36.5272861111111, 32.0471277777778]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇩🇪 Dynamo Dresden</strong><a href="/stickers/2525.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([52.0121722, 4.3596611]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇩🇪 Dynamo Dresden</strong><a href="/stickers/2785.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([52.1111944, 4.2805778]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇩🇪 Dynamo Dresden</strong><a href="/stickers/2845.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                // Fit bounds if multiple stickers
+                
+                const bounds = L.latLngBounds([
+                    [50.0889166666667, 14.4279944444444],
+                    [42.2777972222222, 18.8377833333333],
+                    [36.5260361111111, 32.0514194444444],
+                    [36.5272861111111, 32.0471277777778],
+                    [52.0121722, 4.3596611],
+                    [52.1111944, 4.2805778]
+                ]);
+                clubMap.fitBounds(bounds, { padding: [30, 30], maxZoom: 13 });
+                
             }
         });
     

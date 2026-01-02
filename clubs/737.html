@@ -145,12 +145,29 @@
                 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                     attribution: '© OpenStreetMap contributors'
                 }).addTo(clubMap);
-                L.marker([42.2833166666667, 18.8405083333333])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2491');
-            L.marker([42.2844111111111, 18.8417694444444])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2497');
+                
+                (function() {
+                    const marker = L.marker([42.2833166666667, 18.8405083333333]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇸🇪 Vattnas SK</strong><a href="/stickers/2491.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([42.2844111111111, 18.8417694444444]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇸🇪 Vattnas SK</strong><a href="/stickers/2497.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                // Fit bounds if multiple stickers
+                
+                const bounds = L.latLngBounds([
+                    [42.2833166666667, 18.8405083333333],
+                    [42.2844111111111, 18.8417694444444]
+                ]);
+                clubMap.fitBounds(bounds, { padding: [30, 30], maxZoom: 13 });
+                
             }
         });
     

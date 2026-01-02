@@ -474,18 +474,45 @@
                 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                     attribution: '© OpenStreetMap contributors'
                 }).addTo(clubMap);
-                L.marker([42.2399527777778, -8.72635833333333])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2273');
-            L.marker([49.3062277777778, 10.9670833333333])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2451');
-            L.marker([47.5566666666667, 7.59608333333333])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2547');
-            L.marker([52.0128528, 4.3607722])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2797');
+                
+                (function() {
+                    const marker = L.marker([42.2399527777778, -8.72635833333333]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇩🇪 FC Bayern Munich</strong><a href="/stickers/2273.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([49.3062277777778, 10.9670833333333]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇩🇪 FC Bayern Munich</strong><a href="/stickers/2451.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([47.5566666666667, 7.59608333333333]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇩🇪 FC Bayern Munich</strong><a href="/stickers/2547.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([52.0128528, 4.3607722]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇩🇪 FC Bayern Munich</strong><a href="/stickers/2797.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                // Fit bounds if multiple stickers
+                
+                const bounds = L.latLngBounds([
+                    [42.2399527777778, -8.72635833333333],
+                    [49.3062277777778, 10.9670833333333],
+                    [47.5566666666667, 7.59608333333333],
+                    [52.0128528, 4.3607722]
+                ]);
+                clubMap.fitBounds(bounds, { padding: [30, 30], maxZoom: 13 });
+                
             }
         });
     

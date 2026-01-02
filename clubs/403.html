@@ -236,12 +236,29 @@
                 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                     attribution: '© OpenStreetMap contributors'
                 }).addTo(clubMap);
-                L.marker([50.8318028, 4.3589333])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2873');
-            L.marker([50.8437305555556, 4.35205833333333])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2878');
+                
+                (function() {
+                    const marker = L.marker([50.8318028, 4.3589333]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇧🇪 RSC Anderlecht</strong><a href="/stickers/2873.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([50.8437305555556, 4.35205833333333]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇧🇪 RSC Anderlecht</strong><a href="/stickers/2878.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                // Fit bounds if multiple stickers
+                
+                const bounds = L.latLngBounds([
+                    [50.8318028, 4.3589333],
+                    [50.8437305555556, 4.35205833333333]
+                ]);
+                clubMap.fitBounds(bounds, { padding: [30, 30], maxZoom: 13 });
+                
             }
         });
     

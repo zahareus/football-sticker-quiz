@@ -3,27 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🇸🇮 NK Maribor - SVN - Sticker Catalogue</title>
+    <title>🇸🇮 NK Maribor - Slovenia - Sticker Catalogue</title>
     <link rel="icon" href="/favicon.ico" type="image/x-icon">
 
     <!-- SEO Meta Tags - Pre-rendered for better indexing -->
-    <meta name="description" content="View 3 stickers from 🇸🇮 NK Maribor (SVN) in our football sticker collection.">
-    <meta name="keywords" content="football stickers, 🇸🇮 NK Maribor, SVN, panini, sticker collection, NKMaribor Vijoličasti LjudskiVrt PrvaLigaTelemach Maribor">
+    <meta name="description" content="View 3 stickers from 🇸🇮 NK Maribor (Slovenia) in our football sticker collection.">
+    <meta name="keywords" content="football stickers, 🇸🇮 NK Maribor, Slovenia, panini, sticker collection, NKMaribor Vijoličasti LjudskiVrt PrvaLigaTelemach Maribor">
     <link rel="canonical" href="https://stickerhunt.club/clubs/615.html">
 
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://stickerhunt.club/clubs/615.html">
-    <meta property="og:title" content="🇸🇮 NK Maribor - SVN - Sticker Catalogue">
-    <meta property="og:description" content="View 3 stickers from 🇸🇮 NK Maribor (SVN) in our football sticker collection.">
+    <meta property="og:title" content="🇸🇮 NK Maribor - Slovenia - Sticker Catalogue">
+    <meta property="og:description" content="View 3 stickers from 🇸🇮 NK Maribor (Slovenia) in our football sticker collection.">
     <meta property="og:image" content="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/stickers/NK_Maribor/IMG_8280.jpeg?">
     <meta property="og:site_name" content="StickerHunt">
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image">
     <meta property="twitter:url" content="https://stickerhunt.club/clubs/615.html">
-    <meta property="twitter:title" content="🇸🇮 NK Maribor - SVN - Sticker Catalogue">
-    <meta property="twitter:description" content="View 3 stickers from 🇸🇮 NK Maribor (SVN) in our football sticker collection.">
+    <meta property="twitter:title" content="🇸🇮 NK Maribor - Slovenia - Sticker Catalogue">
+    <meta property="twitter:description" content="View 3 stickers from 🇸🇮 NK Maribor (Slovenia) in our football sticker collection.">
     <meta property="twitter:image" content="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/stickers/NK_Maribor/IMG_8280.jpeg?">
     <meta property="twitter:site" content="@StickerHunting">
     <meta property="twitter:creator" content="@StickerHunting">
@@ -51,7 +51,7 @@
       "@context": "https://schema.org",
       "@type": "SportsTeam",
       "name": "🇸🇮 NK Maribor",
-      "description": "View 3 stickers from 🇸🇮 NK Maribor (SVN) in our football sticker collection.",
+      "description": "View 3 stickers from 🇸🇮 NK Maribor (Slovenia) in our football sticker collection.",
       "url": "https://stickerhunt.club/clubs/615.html",
       "sport": "Football"
     }
@@ -79,7 +79,7 @@
     </header>
 
     <main class="container" id="catalogue-container">
-        <div id="catalogue-breadcrumbs"><a href="/catalogue.html">Catalogue</a> → <a href="/countries/SVN.html">SVN</a> → <a href="/clubs/615.html">🇸🇮 NK Maribor</a></div>
+        <div id="catalogue-breadcrumbs"><a href="/catalogue.html">Catalogue</a> → <a href="/countries/SVN.html">Slovenia</a> → <a href="/clubs/615.html">🇸🇮 NK Maribor</a></div>
 
         <h1 id="main-catalogue-heading">🇸🇮 NK Maribor - Sticker Gallery</h1>
 
@@ -145,9 +145,16 @@
                 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                     attribution: '© OpenStreetMap contributors'
                 }).addTo(clubMap);
-                L.marker([48.7818138888889, 9.18029444444444])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2374');
+                
+                (function() {
+                    const marker = L.marker([48.7818138888889, 9.18029444444444]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇸🇮 NK Maribor</strong><a href="/stickers/2374.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                // Fit bounds if multiple stickers
+                
             }
         });
     

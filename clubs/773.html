@@ -201,15 +201,37 @@
                 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                     attribution: '© OpenStreetMap contributors'
                 }).addTo(clubMap);
-                L.marker([37.9758805555556, -0.6751])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2305');
-            L.marker([37.9857305555556, -0.662708333333333])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2495');
-            L.marker([37.9869888888889, -0.662344444444445])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2505');
+                
+                (function() {
+                    const marker = L.marker([37.9758805555556, -0.6751]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇸🇪 Helsinborgs IF</strong><a href="/stickers/2305.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([37.9857305555556, -0.662708333333333]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇸🇪 Helsinborgs IF</strong><a href="/stickers/2495.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([37.9869888888889, -0.662344444444445]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇸🇪 Helsinborgs IF</strong><a href="/stickers/2505.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                // Fit bounds if multiple stickers
+                
+                const bounds = L.latLngBounds([
+                    [37.9758805555556, -0.6751],
+                    [37.9857305555556, -0.662708333333333],
+                    [37.9869888888889, -0.662344444444445]
+                ]);
+                clubMap.fitBounds(bounds, { padding: [30, 30], maxZoom: 13 });
+                
             }
         });
     

@@ -292,21 +292,53 @@
                 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                     attribution: '© OpenStreetMap contributors'
                 }).addTo(clubMap);
-                L.marker([48.7766333333333, 9.17779722222222])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2389');
-            L.marker([52.3778639, 4.8993028])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2716');
-            L.marker([52.3775833, 4.8985944])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2748');
-            L.marker([52.0798861, 4.309825])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2855');
-            L.marker([52.0798861, 4.309825])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2863');
+                
+                (function() {
+                    const marker = L.marker([48.7766333333333, 9.17779722222222]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇩🇪 Borussia Mönchengladbach</strong><a href="/stickers/2389.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([52.3778639, 4.8993028]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇩🇪 Borussia Mönchengladbach</strong><a href="/stickers/2716.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([52.3775833, 4.8985944]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇩🇪 Borussia Mönchengladbach</strong><a href="/stickers/2748.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([52.0798861, 4.309825]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇩🇪 Borussia Mönchengladbach</strong><a href="/stickers/2855.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([52.0798861, 4.309825]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇩🇪 Borussia Mönchengladbach</strong><a href="/stickers/2863.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                // Fit bounds if multiple stickers
+                
+                const bounds = L.latLngBounds([
+                    [48.7766333333333, 9.17779722222222],
+                    [52.3778639, 4.8993028],
+                    [52.3775833, 4.8985944],
+                    [52.0798861, 4.309825],
+                    [52.0798861, 4.309825]
+                ]);
+                clubMap.fitBounds(bounds, { padding: [30, 30], maxZoom: 13 });
+                
             }
         });
     

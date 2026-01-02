@@ -390,21 +390,53 @@
                 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                     attribution: '© OpenStreetMap contributors'
                 }).addTo(clubMap);
-                L.marker([37.9763666666667, -0.685358333333333])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2299');
-            L.marker([50.0706361111111, 14.414725])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2313');
-            L.marker([50.0881888888889, 14.4477583333333])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2316');
-            L.marker([50.0881944444444, 14.4477888888889])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2324');
-            L.marker([50.0876805555556, 14.3912305555556])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2337');
+                
+                (function() {
+                    const marker = L.marker([37.9763666666667, -0.685358333333333]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇩🇪 1 FC Union Berlin</strong><a href="/stickers/2299.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([50.0706361111111, 14.414725]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇩🇪 1 FC Union Berlin</strong><a href="/stickers/2313.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([50.0881888888889, 14.4477583333333]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇩🇪 1 FC Union Berlin</strong><a href="/stickers/2316.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([50.0881944444444, 14.4477888888889]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇩🇪 1 FC Union Berlin</strong><a href="/stickers/2324.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([50.0876805555556, 14.3912305555556]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇩🇪 1 FC Union Berlin</strong><a href="/stickers/2337.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                // Fit bounds if multiple stickers
+                
+                const bounds = L.latLngBounds([
+                    [37.9763666666667, -0.685358333333333],
+                    [50.0706361111111, 14.414725],
+                    [50.0881888888889, 14.4477583333333],
+                    [50.0881944444444, 14.4477888888889],
+                    [50.0876805555556, 14.3912305555556]
+                ]);
+                clubMap.fitBounds(bounds, { padding: [30, 30], maxZoom: 13 });
+                
             }
         });
     

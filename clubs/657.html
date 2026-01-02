@@ -411,12 +411,29 @@
                 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                     attribution: '© OpenStreetMap contributors'
                 }).addTo(clubMap);
-                L.marker([52.3788528, 4.8936556])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2707');
-            L.marker([52.0104166666667, 4.35691944444444])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2868');
+                
+                (function() {
+                    const marker = L.marker([52.3788528, 4.8936556]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇫🇷 Paris Saint-Germain</strong><a href="/stickers/2707.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([52.0104166666667, 4.35691944444444]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇫🇷 Paris Saint-Germain</strong><a href="/stickers/2868.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                // Fit bounds if multiple stickers
+                
+                const bounds = L.latLngBounds([
+                    [52.3788528, 4.8936556],
+                    [52.0104166666667, 4.35691944444444]
+                ]);
+                clubMap.fitBounds(bounds, { padding: [30, 30], maxZoom: 13 });
+                
             }
         });
     

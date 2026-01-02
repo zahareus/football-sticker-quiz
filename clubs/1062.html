@@ -131,9 +131,16 @@
                 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                     attribution: '© OpenStreetMap contributors'
                 }).addTo(clubMap);
-                L.marker([48.7790027777778, 9.17942222222222])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2373');
+                
+                (function() {
+                    const marker = L.marker([48.7790027777778, 9.17942222222222]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇭🇷 NK Siroki Brijeg</strong><a href="/stickers/2373.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                // Fit bounds if multiple stickers
+                
             }
         });
     

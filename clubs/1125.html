@@ -145,15 +145,37 @@
                 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                     attribution: '© OpenStreetMap contributors'
                 }).addTo(clubMap);
-                L.marker([52.3762167, 4.8995806])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2712');
-            L.marker([52.3737, 4.8978111])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2761');
-            L.marker([52.3736639, 4.8978167])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2765');
+                
+                (function() {
+                    const marker = L.marker([52.3762167, 4.8995806]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇷🇸 FK Vojvodina</strong><a href="/stickers/2712.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([52.3737, 4.8978111]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇷🇸 FK Vojvodina</strong><a href="/stickers/2761.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([52.3736639, 4.8978167]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇷🇸 FK Vojvodina</strong><a href="/stickers/2765.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                // Fit bounds if multiple stickers
+                
+                const bounds = L.latLngBounds([
+                    [52.3762167, 4.8995806],
+                    [52.3737, 4.8978111],
+                    [52.3736639, 4.8978167]
+                ]);
+                clubMap.fitBounds(bounds, { padding: [30, 30], maxZoom: 13 });
+                
             }
         });
     

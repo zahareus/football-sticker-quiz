@@ -187,21 +187,53 @@
                 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                     attribution: '© OpenStreetMap contributors'
                 }).addTo(clubMap);
-                L.marker([50.0775305555556, 14.4151361111111])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2454');
-            L.marker([36.5299333333333, 32.0447])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2516');
-            L.marker([36.5296944444444, 32.0447305555556])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2522');
-            L.marker([36.5273555555556, 32.046725])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2526');
-            L.marker([52.1115083, 4.2798222])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2798');
+                
+                (function() {
+                    const marker = L.marker([50.0775305555556, 14.4151361111111]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇹🇷 Galatasaray</strong><a href="/stickers/2454.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([36.5299333333333, 32.0447]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇹🇷 Galatasaray</strong><a href="/stickers/2516.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([36.5296944444444, 32.0447305555556]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇹🇷 Galatasaray</strong><a href="/stickers/2522.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([36.5273555555556, 32.046725]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇹🇷 Galatasaray</strong><a href="/stickers/2526.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([52.1115083, 4.2798222]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇹🇷 Galatasaray</strong><a href="/stickers/2798.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                // Fit bounds if multiple stickers
+                
+                const bounds = L.latLngBounds([
+                    [50.0775305555556, 14.4151361111111],
+                    [36.5299333333333, 32.0447],
+                    [36.5296944444444, 32.0447305555556],
+                    [36.5273555555556, 32.046725],
+                    [52.1115083, 4.2798222]
+                ]);
+                clubMap.fitBounds(bounds, { padding: [30, 30], maxZoom: 13 });
+                
             }
         });
     

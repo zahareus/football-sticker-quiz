@@ -383,78 +383,205 @@
                 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                     attribution: '© OpenStreetMap contributors'
                 }).addTo(clubMap);
-                L.marker([36.5305972222222, 32.04715])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2473');
-            L.marker([52.3102222222222, 4.76067222222222])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2594');
-            L.marker([52.0094528, 4.3643111])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2762');
-            L.marker([52.0107472, 4.36295])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2766');
-            L.marker([52.0107306, 4.3629167])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2771');
-            L.marker([52.00945, 4.3643111])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2775');
-            L.marker([52.0111722, 4.3611694])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2779');
-            L.marker([52.0103861, 4.3577556])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2784');
-            L.marker([52.0080944, 4.3569444])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2788');
-            L.marker([52.0078806, 4.3567917])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2792');
-            L.marker([52.0078667, 4.3568972])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2796');
-            L.marker([52.0090472, 4.3640833])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2800');
-            L.marker([52.1147833, 4.2827861])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2804');
-            L.marker([52.0118917, 4.3646472])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2808');
-            L.marker([52.0125667, 4.3621278])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2812');
-            L.marker([52.0092611, 4.3633611])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2816');
-            L.marker([52.0090361, 4.3638889])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2820');
-            L.marker([52.0134361, 4.3516556])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2836');
-            L.marker([52.0077639, 4.3593917])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2849');
-            L.marker([52.0123583, 4.3578194])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2858');
-            L.marker([52.0135778, 4.35145])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2862');
-            L.marker([52.0118833333333, 4.36464722222222])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2867');
-            L.marker([52.0093888888889, 4.36116666666667])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2872');
-            L.marker([52.0116472222222, 4.36487777777778])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2879');
+                
+                (function() {
+                    const marker = L.marker([36.5305972222222, 32.04715]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇳🇱 Feyenoord</strong><a href="/stickers/2473.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([52.3102222222222, 4.76067222222222]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇳🇱 Feyenoord</strong><a href="/stickers/2594.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([52.0094528, 4.3643111]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇳🇱 Feyenoord</strong><a href="/stickers/2762.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([52.0107472, 4.36295]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇳🇱 Feyenoord</strong><a href="/stickers/2766.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([52.0107306, 4.3629167]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇳🇱 Feyenoord</strong><a href="/stickers/2771.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([52.00945, 4.3643111]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇳🇱 Feyenoord</strong><a href="/stickers/2775.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([52.0111722, 4.3611694]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇳🇱 Feyenoord</strong><a href="/stickers/2779.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([52.0103861, 4.3577556]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇳🇱 Feyenoord</strong><a href="/stickers/2784.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([52.0080944, 4.3569444]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇳🇱 Feyenoord</strong><a href="/stickers/2788.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([52.0078806, 4.3567917]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇳🇱 Feyenoord</strong><a href="/stickers/2792.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([52.0078667, 4.3568972]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇳🇱 Feyenoord</strong><a href="/stickers/2796.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([52.0090472, 4.3640833]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇳🇱 Feyenoord</strong><a href="/stickers/2800.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([52.1147833, 4.2827861]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇳🇱 Feyenoord</strong><a href="/stickers/2804.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([52.0118917, 4.3646472]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇳🇱 Feyenoord</strong><a href="/stickers/2808.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([52.0125667, 4.3621278]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇳🇱 Feyenoord</strong><a href="/stickers/2812.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([52.0092611, 4.3633611]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇳🇱 Feyenoord</strong><a href="/stickers/2816.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([52.0090361, 4.3638889]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇳🇱 Feyenoord</strong><a href="/stickers/2820.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([52.0134361, 4.3516556]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇳🇱 Feyenoord</strong><a href="/stickers/2836.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([52.0077639, 4.3593917]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇳🇱 Feyenoord</strong><a href="/stickers/2849.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([52.0123583, 4.3578194]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇳🇱 Feyenoord</strong><a href="/stickers/2858.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([52.0135778, 4.35145]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇳🇱 Feyenoord</strong><a href="/stickers/2862.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([52.0118833333333, 4.36464722222222]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇳🇱 Feyenoord</strong><a href="/stickers/2867.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([52.0093888888889, 4.36116666666667]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇳🇱 Feyenoord</strong><a href="/stickers/2872.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([52.0116472222222, 4.36487777777778]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇳🇱 Feyenoord</strong><a href="/stickers/2879.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                // Fit bounds if multiple stickers
+                
+                const bounds = L.latLngBounds([
+                    [36.5305972222222, 32.04715],
+                    [52.3102222222222, 4.76067222222222],
+                    [52.0094528, 4.3643111],
+                    [52.0107472, 4.36295],
+                    [52.0107306, 4.3629167],
+                    [52.00945, 4.3643111],
+                    [52.0111722, 4.3611694],
+                    [52.0103861, 4.3577556],
+                    [52.0080944, 4.3569444],
+                    [52.0078806, 4.3567917],
+                    [52.0078667, 4.3568972],
+                    [52.0090472, 4.3640833],
+                    [52.1147833, 4.2827861],
+                    [52.0118917, 4.3646472],
+                    [52.0125667, 4.3621278],
+                    [52.0092611, 4.3633611],
+                    [52.0090361, 4.3638889],
+                    [52.0134361, 4.3516556],
+                    [52.0077639, 4.3593917],
+                    [52.0123583, 4.3578194],
+                    [52.0135778, 4.35145],
+                    [52.0118833333333, 4.36464722222222],
+                    [52.0093888888889, 4.36116666666667],
+                    [52.0116472222222, 4.36487777777778]
+                ]);
+                clubMap.fitBounds(bounds, { padding: [30, 30], maxZoom: 13 });
+                
             }
         });
     

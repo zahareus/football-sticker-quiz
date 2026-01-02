@@ -159,12 +159,29 @@
                 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                     attribution: '© OpenStreetMap contributors'
                 }).addTo(clubMap);
-                L.marker([42.2789222222222, 18.8367611111111])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2486');
-            L.marker([52.0800694, 4.3095889])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2841');
+                
+                (function() {
+                    const marker = L.marker([42.2789222222222, 18.8367611111111]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇩🇪 1 FC Lokomotive Leipzig</strong><a href="/stickers/2486.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([52.0800694, 4.3095889]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇩🇪 1 FC Lokomotive Leipzig</strong><a href="/stickers/2841.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                // Fit bounds if multiple stickers
+                
+                const bounds = L.latLngBounds([
+                    [42.2789222222222, 18.8367611111111],
+                    [52.0800694, 4.3095889]
+                ]);
+                clubMap.fitBounds(bounds, { padding: [30, 30], maxZoom: 13 });
+                
             }
         });
     

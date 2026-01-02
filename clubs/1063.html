@@ -145,15 +145,37 @@
                 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                     attribution: '© OpenStreetMap contributors'
                 }).addTo(clubMap);
-                L.marker([48.7782666666667, 9.17844444444444])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2377');
-            L.marker([48.7741472222222, 9.17435833333333])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2395');
-            L.marker([48.7959055555556, 9.22177222222222])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2412');
+                
+                (function() {
+                    const marker = L.marker([48.7782666666667, 9.17844444444444]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇭🇺 Ferencvárosi TC</strong><a href="/stickers/2377.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([48.7741472222222, 9.17435833333333]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇭🇺 Ferencvárosi TC</strong><a href="/stickers/2395.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([48.7959055555556, 9.22177222222222]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇭🇺 Ferencvárosi TC</strong><a href="/stickers/2412.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                // Fit bounds if multiple stickers
+                
+                const bounds = L.latLngBounds([
+                    [48.7782666666667, 9.17844444444444],
+                    [48.7741472222222, 9.17435833333333],
+                    [48.7959055555556, 9.22177222222222]
+                ]);
+                clubMap.fitBounds(bounds, { padding: [30, 30], maxZoom: 13 });
+                
             }
         });
     

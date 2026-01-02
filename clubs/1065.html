@@ -138,12 +138,29 @@
                 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                     attribution: '© OpenStreetMap contributors'
                 }).addTo(clubMap);
-                L.marker([48.7782055555556, 9.17846666666667])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2390');
-            L.marker([48.7827805555556, 9.18191944444444])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2422');
+                
+                (function() {
+                    const marker = L.marker([48.7782055555556, 9.17846666666667]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇭🇺 Békéscsaba 1912 Előre</strong><a href="/stickers/2390.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([48.7827805555556, 9.18191944444444]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇭🇺 Békéscsaba 1912 Előre</strong><a href="/stickers/2422.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                // Fit bounds if multiple stickers
+                
+                const bounds = L.latLngBounds([
+                    [48.7782055555556, 9.17846666666667],
+                    [48.7827805555556, 9.18191944444444]
+                ]);
+                clubMap.fitBounds(bounds, { padding: [30, 30], maxZoom: 13 });
+                
             }
         });
     

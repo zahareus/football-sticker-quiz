@@ -166,12 +166,29 @@
                 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                     attribution: '© OpenStreetMap contributors'
                 }).addTo(clubMap);
-                L.marker([50.0876777777778, 14.390175])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2312');
-            L.marker([48.7769388888889, 9.17688055555555])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2392');
+                
+                (function() {
+                    const marker = L.marker([50.0876777777778, 14.390175]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇫🇷 Lille OSC</strong><a href="/stickers/2312.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([48.7769388888889, 9.17688055555555]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇫🇷 Lille OSC</strong><a href="/stickers/2392.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                // Fit bounds if multiple stickers
+                
+                const bounds = L.latLngBounds([
+                    [50.0876777777778, 14.390175],
+                    [48.7769388888889, 9.17688055555555]
+                ]);
+                clubMap.fitBounds(bounds, { padding: [30, 30], maxZoom: 13 });
+                
             }
         });
     

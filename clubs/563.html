@@ -152,12 +152,29 @@
                 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                     attribution: '© OpenStreetMap contributors'
                 }).addTo(clubMap);
-                L.marker([48.7806277777778, 9.18337777777778])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2431');
-            L.marker([50.8455694444444, 4.35064166666667])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2877');
+                
+                (function() {
+                    const marker = L.marker([48.7806277777778, 9.18337777777778]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇬🇷 PAOK</strong><a href="/stickers/2431.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([50.8455694444444, 4.35064166666667]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇬🇷 PAOK</strong><a href="/stickers/2877.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                // Fit bounds if multiple stickers
+                
+                const bounds = L.latLngBounds([
+                    [48.7806277777778, 9.18337777777778],
+                    [50.8455694444444, 4.35064166666667]
+                ]);
+                clubMap.fitBounds(bounds, { padding: [30, 30], maxZoom: 13 });
+                
             }
         });
     

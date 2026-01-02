@@ -159,9 +159,16 @@
                 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                     attribution: '© OpenStreetMap contributors'
                 }).addTo(clubMap);
-                L.marker([48.7758166666667, 9.17568055555556])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2385');
+                
+                (function() {
+                    const marker = L.marker([48.7758166666667, 9.17568055555556]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇭🇺 Budapest Honvéd FC</strong><a href="/stickers/2385.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                // Fit bounds if multiple stickers
+                
             }
         });
     

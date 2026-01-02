@@ -222,18 +222,45 @@
                 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                     attribution: '© OpenStreetMap contributors'
                 }).addTo(clubMap);
-                L.marker([42.8751305555556, -8.54438611111111])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2259');
-            L.marker([42.8752472222222, -8.54422222222222])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2261');
-            L.marker([42.8752361111111, -8.54423888888889])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2262');
-            L.marker([42.8753277777778, -8.54413055555556])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2263');
+                
+                (function() {
+                    const marker = L.marker([42.8751305555556, -8.54438611111111]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇪🇸 SD Compostela</strong><a href="/stickers/2259.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([42.8752472222222, -8.54422222222222]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇪🇸 SD Compostela</strong><a href="/stickers/2261.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([42.8752361111111, -8.54423888888889]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇪🇸 SD Compostela</strong><a href="/stickers/2262.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([42.8753277777778, -8.54413055555556]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇪🇸 SD Compostela</strong><a href="/stickers/2263.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                // Fit bounds if multiple stickers
+                
+                const bounds = L.latLngBounds([
+                    [42.8751305555556, -8.54438611111111],
+                    [42.8752472222222, -8.54422222222222],
+                    [42.8752361111111, -8.54423888888889],
+                    [42.8753277777778, -8.54413055555556]
+                ]);
+                clubMap.fitBounds(bounds, { padding: [30, 30], maxZoom: 13 });
+                
             }
         });
     

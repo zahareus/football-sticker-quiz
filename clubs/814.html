@@ -257,24 +257,61 @@
                 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                     attribution: '© OpenStreetMap contributors'
                 }).addTo(clubMap);
-                L.marker([42.2349083333333, -8.71755277777778])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2257');
-            L.marker([42.2349694444444, -8.71768333333333])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2265');
-            L.marker([42.2399527777778, -8.72635833333333])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2274');
-            L.marker([42.2363888888889, -8.72013611111111])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2292');
-            L.marker([52.3131527777778, 4.94018333333333])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2611');
-            L.marker([52.3134388888889, 4.94236111111111])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2637');
+                
+                (function() {
+                    const marker = L.marker([42.2349083333333, -8.71755277777778]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇪🇸 Burgos CF</strong><a href="/stickers/2257.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([42.2349694444444, -8.71768333333333]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇪🇸 Burgos CF</strong><a href="/stickers/2265.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([42.2399527777778, -8.72635833333333]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇪🇸 Burgos CF</strong><a href="/stickers/2274.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([42.2363888888889, -8.72013611111111]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇪🇸 Burgos CF</strong><a href="/stickers/2292.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([52.3131527777778, 4.94018333333333]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇪🇸 Burgos CF</strong><a href="/stickers/2611.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([52.3134388888889, 4.94236111111111]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇪🇸 Burgos CF</strong><a href="/stickers/2637.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                // Fit bounds if multiple stickers
+                
+                const bounds = L.latLngBounds([
+                    [42.2349083333333, -8.71755277777778],
+                    [42.2349694444444, -8.71768333333333],
+                    [42.2399527777778, -8.72635833333333],
+                    [42.2363888888889, -8.72013611111111],
+                    [52.3131527777778, 4.94018333333333],
+                    [52.3134388888889, 4.94236111111111]
+                ]);
+                clubMap.fitBounds(bounds, { padding: [30, 30], maxZoom: 13 });
+                
             }
         });
     

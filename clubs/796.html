@@ -166,9 +166,16 @@
                 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                     attribution: '© OpenStreetMap contributors'
                 }).addTo(clubMap);
-                L.marker([42.8802944444444, -8.54153333333333])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2251');
+                
+                (function() {
+                    const marker = L.marker([42.8802944444444, -8.54153333333333]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇪🇸 Málaga CF</strong><a href="/stickers/2251.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                // Fit bounds if multiple stickers
+                
             }
         });
     

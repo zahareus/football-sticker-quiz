@@ -173,9 +173,16 @@
                 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                     attribution: '© OpenStreetMap contributors'
                 }).addTo(clubMap);
-                L.marker([50.0917694444444, 14.4264055555556])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2350');
+                
+                (function() {
+                    const marker = L.marker([50.0917694444444, 14.4264055555556]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇩🇪 Hallescher FC</strong><a href="/stickers/2350.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                // Fit bounds if multiple stickers
+                
             }
         });
     

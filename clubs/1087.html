@@ -138,12 +138,29 @@
                 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                     attribution: '© OpenStreetMap contributors'
                 }).addTo(clubMap);
-                L.marker([47.7488555555556, 7.34074444444444])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2573');
-            L.marker([47.749, 7.34093055555556])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2574');
+                
+                (function() {
+                    const marker = L.marker([47.7488555555556, 7.34074444444444]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇫🇷 FC Mulhouse</strong><a href="/stickers/2573.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([47.749, 7.34093055555556]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇫🇷 FC Mulhouse</strong><a href="/stickers/2574.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                // Fit bounds if multiple stickers
+                
+                const bounds = L.latLngBounds([
+                    [47.7488555555556, 7.34074444444444],
+                    [47.749, 7.34093055555556]
+                ]);
+                clubMap.fitBounds(bounds, { padding: [30, 30], maxZoom: 13 });
+                
             }
         });
     

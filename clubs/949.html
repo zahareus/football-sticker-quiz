@@ -327,18 +327,45 @@
                 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                     attribution: '© OpenStreetMap contributors'
                 }).addTo(clubMap);
-                L.marker([50.0916111111111, 14.4489305555556])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2343');
-            L.marker([48.7796527777778, 9.179375])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2369');
-            L.marker([42.2791833333333, 18.8376805555556])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2494');
-            L.marker([52.3135694444444, 4.94241111111111])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2641');
+                
+                (function() {
+                    const marker = L.marker([50.0916111111111, 14.4489305555556]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇩🇪 FC Schalke 04</strong><a href="/stickers/2343.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([48.7796527777778, 9.179375]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇩🇪 FC Schalke 04</strong><a href="/stickers/2369.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([42.2791833333333, 18.8376805555556]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇩🇪 FC Schalke 04</strong><a href="/stickers/2494.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([52.3135694444444, 4.94241111111111]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇩🇪 FC Schalke 04</strong><a href="/stickers/2641.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                // Fit bounds if multiple stickers
+                
+                const bounds = L.latLngBounds([
+                    [50.0916111111111, 14.4489305555556],
+                    [48.7796527777778, 9.179375],
+                    [42.2791833333333, 18.8376805555556],
+                    [52.3135694444444, 4.94241111111111]
+                ]);
+                clubMap.fitBounds(bounds, { padding: [30, 30], maxZoom: 13 });
+                
             }
         });
     

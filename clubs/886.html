@@ -201,21 +201,53 @@
                 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                     attribution: '© OpenStreetMap contributors'
                 }).addTo(clubMap);
-                L.marker([52.1155806, 4.2829889])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2809');
-            L.marker([52.11555, 4.2831444])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2814');
-            L.marker([52.1152917, 4.2830222])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2817');
-            L.marker([52.1132278, 4.2803667])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2821');
-            L.marker([50.8454277777778, 4.35055277777778])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2876');
+                
+                (function() {
+                    const marker = L.marker([52.1155806, 4.2829889]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇩🇪 VfL Bochum</strong><a href="/stickers/2809.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([52.11555, 4.2831444]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇩🇪 VfL Bochum</strong><a href="/stickers/2814.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([52.1152917, 4.2830222]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇩🇪 VfL Bochum</strong><a href="/stickers/2817.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([52.1132278, 4.2803667]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇩🇪 VfL Bochum</strong><a href="/stickers/2821.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([50.8454277777778, 4.35055277777778]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇩🇪 VfL Bochum</strong><a href="/stickers/2876.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                // Fit bounds if multiple stickers
+                
+                const bounds = L.latLngBounds([
+                    [52.1155806, 4.2829889],
+                    [52.11555, 4.2831444],
+                    [52.1152917, 4.2830222],
+                    [52.1132278, 4.2803667],
+                    [50.8454277777778, 4.35055277777778]
+                ]);
+                clubMap.fitBounds(bounds, { padding: [30, 30], maxZoom: 13 });
+                
             }
         });
     

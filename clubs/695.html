@@ -159,12 +159,29 @@
                 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                     attribution: '© OpenStreetMap contributors'
                 }).addTo(clubMap);
-                L.marker([47.7612583333333, 7.32874722222222])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2579');
-            L.marker([52.3134778, 4.9423917])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2668');
+                
+                (function() {
+                    const marker = L.marker([47.7612583333333, 7.32874722222222]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇫🇷 Racing Club de Lens</strong><a href="/stickers/2579.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([52.3134778, 4.9423917]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇫🇷 Racing Club de Lens</strong><a href="/stickers/2668.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                // Fit bounds if multiple stickers
+                
+                const bounds = L.latLngBounds([
+                    [47.7612583333333, 7.32874722222222],
+                    [52.3134778, 4.9423917]
+                ]);
+                clubMap.fitBounds(bounds, { padding: [30, 30], maxZoom: 13 });
+                
             }
         });
     

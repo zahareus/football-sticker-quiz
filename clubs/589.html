@@ -180,9 +180,16 @@
                 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                     attribution: '© OpenStreetMap contributors'
                 }).addTo(clubMap);
-                L.marker([48.7752, 9.17536111111111])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2388');
+                
+                (function() {
+                    const marker = L.marker([48.7752, 9.17536111111111]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇭🇷 GNK Dinamo Zagreb</strong><a href="/stickers/2388.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                // Fit bounds if multiple stickers
+                
             }
         });
     

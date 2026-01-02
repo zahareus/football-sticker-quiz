@@ -138,9 +138,16 @@
                 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                     attribution: '© OpenStreetMap contributors'
                 }).addTo(clubMap);
-                L.marker([42.2372444444444, -8.71815277777778])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2291');
+                
+                (function() {
+                    const marker = L.marker([42.2372444444444, -8.71815277777778]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇪🇸 AD Alcorcón</strong><a href="/stickers/2291.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                // Fit bounds if multiple stickers
+                
             }
         });
     

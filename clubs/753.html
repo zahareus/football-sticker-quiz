@@ -152,12 +152,29 @@
                 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                     attribution: '© OpenStreetMap contributors'
                 }).addTo(clubMap);
-                L.marker([52.3103027777778, 4.7607])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2583');
-            L.marker([52.3143055555555, 4.94059722222222])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2621');
+                
+                (function() {
+                    const marker = L.marker([52.3103027777778, 4.7607]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇳🇱 FC Groningen</strong><a href="/stickers/2583.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([52.3143055555555, 4.94059722222222]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇳🇱 FC Groningen</strong><a href="/stickers/2621.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                // Fit bounds if multiple stickers
+                
+                const bounds = L.latLngBounds([
+                    [52.3103027777778, 4.7607],
+                    [52.3143055555555, 4.94059722222222]
+                ]);
+                clubMap.fitBounds(bounds, { padding: [30, 30], maxZoom: 13 });
+                
             }
         });
     

@@ -285,18 +285,45 @@
                 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                     attribution: '© OpenStreetMap contributors'
                 }).addTo(clubMap);
-                L.marker([50.0932416666667, 14.4480444444444])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2348');
-            L.marker([52.3134528, 4.9423722])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2664');
-            L.marker([52.3132389, 4.9429111])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2689');
-            L.marker([52.3778139, 4.8989556])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2746');
+                
+                (function() {
+                    const marker = L.marker([50.0932416666667, 14.4480444444444]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇩🇪 Eintracht Frankfurt</strong><a href="/stickers/2348.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([52.3134528, 4.9423722]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇩🇪 Eintracht Frankfurt</strong><a href="/stickers/2664.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([52.3132389, 4.9429111]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇩🇪 Eintracht Frankfurt</strong><a href="/stickers/2689.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([52.3778139, 4.8989556]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇩🇪 Eintracht Frankfurt</strong><a href="/stickers/2746.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                // Fit bounds if multiple stickers
+                
+                const bounds = L.latLngBounds([
+                    [50.0932416666667, 14.4480444444444],
+                    [52.3134528, 4.9423722],
+                    [52.3132389, 4.9429111],
+                    [52.3778139, 4.8989556]
+                ]);
+                clubMap.fitBounds(bounds, { padding: [30, 30], maxZoom: 13 });
+                
             }
         });
     

@@ -243,15 +243,37 @@
                 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                     attribution: '© OpenStreetMap contributors'
                 }).addTo(clubMap);
-                L.marker([37.9766527777778, -0.680402777777778])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2301');
-            L.marker([37.9766527777778, -0.680402777777778])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2310');
-            L.marker([37.9792638888889, -0.668122222222222])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2496');
+                
+                (function() {
+                    const marker = L.marker([37.9766527777778, -0.680402777777778]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇸🇪 AIK Stockholm</strong><a href="/stickers/2301.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([37.9766527777778, -0.680402777777778]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇸🇪 AIK Stockholm</strong><a href="/stickers/2310.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([37.9792638888889, -0.668122222222222]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇸🇪 AIK Stockholm</strong><a href="/stickers/2496.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                // Fit bounds if multiple stickers
+                
+                const bounds = L.latLngBounds([
+                    [37.9766527777778, -0.680402777777778],
+                    [37.9766527777778, -0.680402777777778],
+                    [37.9792638888889, -0.668122222222222]
+                ]);
+                clubMap.fitBounds(bounds, { padding: [30, 30], maxZoom: 13 });
+                
             }
         });
     

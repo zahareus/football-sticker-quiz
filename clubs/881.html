@@ -362,33 +362,85 @@
                 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                     attribution: '© OpenStreetMap contributors'
                 }).addTo(clubMap);
-                L.marker([37.9764972222222, -0.683591666666667])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2298');
-            L.marker([50.0881416666667, 14.4477972222222])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2315');
-            L.marker([50.0903166666667, 14.45905])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2321');
-            L.marker([50.0911972222222, 14.4271972222222])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2329');
-            L.marker([52.3744083, 4.8970583])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2722');
-            L.marker([52.3724972, 4.8968889])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2754');
-            L.marker([52.3844, 4.635925])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2770');
-            L.marker([52.3802528, 4.6337139])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2780');
-            L.marker([52.0797111, 4.3106806])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2834');
+                
+                (function() {
+                    const marker = L.marker([37.9764972222222, -0.683591666666667]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇩🇪 FC St Pauli</strong><a href="/stickers/2298.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([50.0881416666667, 14.4477972222222]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇩🇪 FC St Pauli</strong><a href="/stickers/2315.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([50.0903166666667, 14.45905]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇩🇪 FC St Pauli</strong><a href="/stickers/2321.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([50.0911972222222, 14.4271972222222]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇩🇪 FC St Pauli</strong><a href="/stickers/2329.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([52.3744083, 4.8970583]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇩🇪 FC St Pauli</strong><a href="/stickers/2722.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([52.3724972, 4.8968889]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇩🇪 FC St Pauli</strong><a href="/stickers/2754.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([52.3844, 4.635925]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇩🇪 FC St Pauli</strong><a href="/stickers/2770.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([52.3802528, 4.6337139]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇩🇪 FC St Pauli</strong><a href="/stickers/2780.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([52.0797111, 4.3106806]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇩🇪 FC St Pauli</strong><a href="/stickers/2834.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                // Fit bounds if multiple stickers
+                
+                const bounds = L.latLngBounds([
+                    [37.9764972222222, -0.683591666666667],
+                    [50.0881416666667, 14.4477972222222],
+                    [50.0903166666667, 14.45905],
+                    [50.0911972222222, 14.4271972222222],
+                    [52.3744083, 4.8970583],
+                    [52.3724972, 4.8968889],
+                    [52.3844, 4.635925],
+                    [52.3802528, 4.6337139],
+                    [52.0797111, 4.3106806]
+                ]);
+                clubMap.fitBounds(bounds, { padding: [30, 30], maxZoom: 13 });
+                
             }
         });
     

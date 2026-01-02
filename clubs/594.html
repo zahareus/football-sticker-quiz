@@ -180,21 +180,53 @@
                 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                     attribution: '© OpenStreetMap contributors'
                 }).addTo(clubMap);
-                L.marker([48.7817111111111, 9.18073055555556])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2365');
-            L.marker([48.7771305555556, 9.17621388888889])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2391');
-            L.marker([48.7745861111111, 9.174625])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2394');
-            L.marker([52.3102388888889, 4.760675])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2581');
-            L.marker([52.3778083, 4.8994028])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2699');
+                
+                (function() {
+                    const marker = L.marker([48.7817111111111, 9.18073055555556]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇭🇺 Újpest FC</strong><a href="/stickers/2365.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([48.7771305555556, 9.17621388888889]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇭🇺 Újpest FC</strong><a href="/stickers/2391.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([48.7745861111111, 9.174625]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇭🇺 Újpest FC</strong><a href="/stickers/2394.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([52.3102388888889, 4.760675]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇭🇺 Újpest FC</strong><a href="/stickers/2581.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([52.3778083, 4.8994028]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇭🇺 Újpest FC</strong><a href="/stickers/2699.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                // Fit bounds if multiple stickers
+                
+                const bounds = L.latLngBounds([
+                    [48.7817111111111, 9.18073055555556],
+                    [48.7771305555556, 9.17621388888889],
+                    [48.7745861111111, 9.174625],
+                    [52.3102388888889, 4.760675],
+                    [52.3778083, 4.8994028]
+                ]);
+                clubMap.fitBounds(bounds, { padding: [30, 30], maxZoom: 13 });
+                
             }
         });
     

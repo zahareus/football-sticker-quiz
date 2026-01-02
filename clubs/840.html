@@ -194,21 +194,53 @@
                 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                     attribution: '© OpenStreetMap contributors'
                 }).addTo(clubMap);
-                L.marker([37.9835805555556, -0.660447222222222])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2297');
-            L.marker([37.9913305555556, -0.6737])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2302');
-            L.marker([37.9717833333333, -0.679038888888889])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2307');
-            L.marker([37.9790333333333, -0.669227777777778])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2490');
-            L.marker([37.9771305555556, -0.673169444444444])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2502');
+                
+                (function() {
+                    const marker = L.marker([37.9835805555556, -0.660447222222222]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇪🇸 Real Madrid CF</strong><a href="/stickers/2297.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([37.9913305555556, -0.6737]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇪🇸 Real Madrid CF</strong><a href="/stickers/2302.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([37.9717833333333, -0.679038888888889]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇪🇸 Real Madrid CF</strong><a href="/stickers/2307.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([37.9790333333333, -0.669227777777778]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇪🇸 Real Madrid CF</strong><a href="/stickers/2490.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([37.9771305555556, -0.673169444444444]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇪🇸 Real Madrid CF</strong><a href="/stickers/2502.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                // Fit bounds if multiple stickers
+                
+                const bounds = L.latLngBounds([
+                    [37.9835805555556, -0.660447222222222],
+                    [37.9913305555556, -0.6737],
+                    [37.9717833333333, -0.679038888888889],
+                    [37.9790333333333, -0.669227777777778],
+                    [37.9771305555556, -0.673169444444444]
+                ]);
+                clubMap.fitBounds(bounds, { padding: [30, 30], maxZoom: 13 });
+                
             }
         });
     

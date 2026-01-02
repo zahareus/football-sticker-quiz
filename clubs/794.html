@@ -250,12 +250,29 @@
                 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                     attribution: '© OpenStreetMap contributors'
                 }).addTo(clubMap);
-                L.marker([42.87815, -8.54173055555555])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2295');
-            L.marker([50.8441722222222, 4.35122777777778])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2874');
+                
+                (function() {
+                    const marker = L.marker([42.87815, -8.54173055555555]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇪🇸 CE Europa</strong><a href="/stickers/2295.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([50.8441722222222, 4.35122777777778]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇪🇸 CE Europa</strong><a href="/stickers/2874.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                // Fit bounds if multiple stickers
+                
+                const bounds = L.latLngBounds([
+                    [42.87815, -8.54173055555555],
+                    [50.8441722222222, 4.35122777777778]
+                ]);
+                clubMap.fitBounds(bounds, { padding: [30, 30], maxZoom: 13 });
+                
             }
         });
     

@@ -145,12 +145,29 @@
                 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                     attribution: '© OpenStreetMap contributors'
                 }).addTo(clubMap);
-                L.marker([52.3134833333333, 4.9424])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2650');
-            L.marker([52.3731, 4.8970111])
-            .addTo(clubMap)
-            .bindPopup('Sticker #2782');
+                
+                (function() {
+                    const marker = L.marker([52.3134833333333, 4.9424]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇷🇸 FK Zemun</strong><a href="/stickers/2650.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([52.3731, 4.8970111]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇷🇸 FK Zemun</strong><a href="/stickers/2782.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                // Fit bounds if multiple stickers
+                
+                const bounds = L.latLngBounds([
+                    [52.3134833333333, 4.9424],
+                    [52.3731, 4.8970111]
+                ]);
+                clubMap.fitBounds(bounds, { padding: [30, 30], maxZoom: 13 });
+                
             }
         });
     
