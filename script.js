@@ -1539,7 +1539,7 @@ function endGame() {
 
     // Update sticker info button to link to the failed club's page
     if (resultStickerInfoButton && currentQuestionData && currentQuestionData.clubId) {
-        resultStickerInfoButton.href = `/catalogue.html?club_id=${currentQuestionData.clubId}`;
+        resultStickerInfoButton.href = `/clubs/${currentQuestionData.clubId}.html`;
     } else if (resultStickerInfoButton) {
         resultStickerInfoButton.href = '/catalogue.html';
     }

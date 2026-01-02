@@ -135,7 +135,7 @@ async function initializeGlobalMap() {
                 const popupContent = `
                     <div class="nearby-sticker-popup">
                         <strong>${clubName}</strong>
-                        <a href="catalogue.html?sticker_id=${sticker.id}" class="map-popup-link">View</a>
+                        <a href="/stickers/${sticker.id}.html" class="map-popup-link">View</a>
                     </div>
                 `;
 

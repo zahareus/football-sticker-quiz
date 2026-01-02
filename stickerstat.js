@@ -376,7 +376,7 @@ async function loadTopClubs() {
             tableHtml += `
                 <tr>
                     <td class="stats-rank">${index + 1}</td>
-                    <td class="stats-name"><a href="/catalogue.html?club_id=${club.id}">${club.name}</a></td>
+                    <td class="stats-name"><a href="/clubs/${club.id}.html">${club.name}</a></td>
                     <td class="stats-count">${club.stickerCount}</td>
                 </tr>
             `;
@@ -442,7 +442,7 @@ async function loadTopCountries() {
             tableHtml += `
                 <tr>
                     <td class="stats-rank">${index + 1}</td>
-                    <td class="stats-name"><span class="flag-emoji">${country.flag}</span> <a href="/catalogue.html?country=${country.code}">${country.name}</a></td>
+                    <td class="stats-name"><span class="flag-emoji">${country.flag}</span> <a href="/countries/${country.code.toUpperCase()}.html">${country.name}</a></td>
                     <td class="stats-count">${country.clubCount}</td>
                 </tr>
             `;

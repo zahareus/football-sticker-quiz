@@ -228,10 +228,10 @@ function formatStickerEntry(sticker) {
 
     // Build the entry with links
     // Format: #2866, FK Austria Viena.
-    let entry = '<a href="catalogue.html?sticker_id=' + stickerId + '" class="sticker-link">#' + stickerId + '</a>, ';
+    let entry = '<a href="/stickers/' + stickerId + '.html" class="sticker-link">#' + stickerId + '</a>, ';
 
     if (clubId) {
-        entry += '<a href="catalogue.html?club_id=' + clubId + '" class="club-link">' + clubName + '</a>';
+        entry += '<a href="/clubs/' + clubId + '.html" class="club-link">' + clubName + '</a>';
     } else {
         entry += clubName;
     }
