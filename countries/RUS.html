@@ -97,16 +97,6 @@
     </footer>
 
     <!-- Scripts -->
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="/shared.js"></script>
-    <script>
-        // Auth functionality
-        if (typeof SharedUtils !== 'undefined') {
-            const supabaseClient = SharedUtils.initSupabaseClient();
-            if (supabaseClient) {
-                SharedUtils.initAuth(supabaseClient);
-            }
-        }
-    </script>
 </body>
 </html>
