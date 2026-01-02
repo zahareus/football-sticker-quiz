@@ -1188,7 +1188,7 @@ async function loadNewQuestionInternal() {
 
         const { data: randomStickerData, error: stickerError } = await supabaseClient
             .from('stickers')
-            .select(`image_url, clubs ( id, name )`)
+            .select(`id, image_url, clubs ( id, name )`)
             .eq('difficulty', selectedDifficulty)
             .order('id', { ascending: true })
             .range(randomIndex, randomIndex)
@@ -1342,7 +1342,7 @@ async function loadNewQuestionInternalWithDifficulty(difficulty) {
 
         const { data: randomStickerData, error: stickerError } = await supabaseClient
             .from('stickers')
-            .select(`image_url, clubs ( id, name )`)
+            .select(`id, image_url, clubs ( id, name )`)
             .eq('difficulty', difficulty)
             .order('id', { ascending: true })
             .range(randomIndex, randomIndex)
