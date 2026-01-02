@@ -53,19 +53,19 @@ module.exports = async function handler(req, res) {
         xml += `<url><loc>${BASE_URL}/stickerstat.html</loc><changefreq>daily</changefreq><priority>0.6</priority></url>`;
         xml += `<url><loc>${BASE_URL}/about.html</loc><changefreq>monthly</changefreq><priority>0.3</priority></url>`;
 
-        // Country pages
+        // Country pages (static)
         for (const country of countries) {
-            xml += `<url><loc>${BASE_URL}/catalogue.html?country=${country}</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>`;
+            xml += `<url><loc>${BASE_URL}/countries/${country.toUpperCase()}.html</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>`;
         }
 
-        // Club pages
+        // Club pages (static)
         for (const club of clubs) {
-            xml += `<url><loc>${BASE_URL}/catalogue.html?club_id=${club.id}</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>`;
+            xml += `<url><loc>${BASE_URL}/clubs/${club.id}.html</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>`;
         }
 
-        // Sticker pages
+        // Sticker pages (static)
         for (const sticker of stickers) {
-            xml += `<url><loc>${BASE_URL}/catalogue.html?sticker_id=${sticker.id}</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>`;
+            xml += `<url><loc>${BASE_URL}/stickers/${sticker.id}.html</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>`;
         }
 
         xml += '</urlset>';

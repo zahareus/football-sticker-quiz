@@ -144,125 +144,165 @@
 
                 // Nearby stickers (shown first, so main marker is on top)
                 
-                L.marker([48.7982027777778, 9.21750833333333], {
-                    icon: L.icon({
-                        iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
-                        iconSize: [20, 33],
-                        iconAnchor: [10, 33],
-                        popupAnchor: [1, -28],
-                        className: 'nearby-marker'
-                    }),
-                    opacity: 0.7
-                }).addTo(map)
-                    .bindPopup('<div class="nearby-popup"><strong>🇭🇺 Debreceni VSC</strong><br><a href="/stickers/2413.html">View sticker #2413</a></div>');
+                (function() {
+                    const nearbyMarker = L.marker([48.7982027777778, 9.21750833333333], {
+                        icon: L.icon({
+                            iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
+                            iconSize: [20, 33],
+                            iconAnchor: [10, 33],
+                            popupAnchor: [1, -28],
+                            className: 'nearby-marker'
+                        }),
+                        opacity: 0.7
+                    }).addTo(map);
+                    nearbyMarker.bindPopup('<div class="nearby-sticker-popup"><strong>🇭🇺 Debreceni VSC</strong><a href="/stickers/2413.html" class="map-popup-link">View</a></div>');
+                    nearbyMarker.on('mouseover', function() { this.openPopup(); });
+                    nearbyMarker.on('click', function() { this.openPopup(); });
+                })();
                 
-                L.marker([48.7985638888889, 9.21699166666667], {
-                    icon: L.icon({
-                        iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
-                        iconSize: [20, 33],
-                        iconAnchor: [10, 33],
-                        popupAnchor: [1, -28],
-                        className: 'nearby-marker'
-                    }),
-                    opacity: 0.7
-                }).addTo(map)
-                    .bindPopup('<div class="nearby-popup"><strong>🇭🇺 Tatabányai SC</strong><br><a href="/stickers/2414.html">View sticker #2414</a></div>');
+                (function() {
+                    const nearbyMarker = L.marker([48.7985638888889, 9.21699166666667], {
+                        icon: L.icon({
+                            iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
+                            iconSize: [20, 33],
+                            iconAnchor: [10, 33],
+                            popupAnchor: [1, -28],
+                            className: 'nearby-marker'
+                        }),
+                        opacity: 0.7
+                    }).addTo(map);
+                    nearbyMarker.bindPopup('<div class="nearby-sticker-popup"><strong>🇭🇺 Tatabányai SC</strong><a href="/stickers/2414.html" class="map-popup-link">View</a></div>');
+                    nearbyMarker.on('mouseover', function() { this.openPopup(); });
+                    nearbyMarker.on('click', function() { this.openPopup(); });
+                })();
                 
-                L.marker([48.7959055555556, 9.22177222222222], {
-                    icon: L.icon({
-                        iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
-                        iconSize: [20, 33],
-                        iconAnchor: [10, 33],
-                        popupAnchor: [1, -28],
-                        className: 'nearby-marker'
-                    }),
-                    opacity: 0.7
-                }).addTo(map)
-                    .bindPopup('<div class="nearby-popup"><strong>🇭🇺 Ferencvárosi TC</strong><br><a href="/stickers/2412.html">View sticker #2412</a></div>');
+                (function() {
+                    const nearbyMarker = L.marker([48.7959055555556, 9.22177222222222], {
+                        icon: L.icon({
+                            iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
+                            iconSize: [20, 33],
+                            iconAnchor: [10, 33],
+                            popupAnchor: [1, -28],
+                            className: 'nearby-marker'
+                        }),
+                        opacity: 0.7
+                    }).addTo(map);
+                    nearbyMarker.bindPopup('<div class="nearby-sticker-popup"><strong>🇭🇺 Ferencvárosi TC</strong><a href="/stickers/2412.html" class="map-popup-link">View</a></div>');
+                    nearbyMarker.on('mouseover', function() { this.openPopup(); });
+                    nearbyMarker.on('click', function() { this.openPopup(); });
+                })();
                 
-                L.marker([48.7955944444444, 9.22271944444445], {
-                    icon: L.icon({
-                        iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
-                        iconSize: [20, 33],
-                        iconAnchor: [10, 33],
-                        popupAnchor: [1, -28],
-                        className: 'nearby-marker'
-                    }),
-                    opacity: 0.7
-                }).addTo(map)
-                    .bindPopup('<div class="nearby-popup"><strong>🇩🇪 Karlsruher SC</strong><br><a href="/stickers/2411.html">View sticker #2411</a></div>');
+                (function() {
+                    const nearbyMarker = L.marker([48.7955944444444, 9.22271944444445], {
+                        icon: L.icon({
+                            iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
+                            iconSize: [20, 33],
+                            iconAnchor: [10, 33],
+                            popupAnchor: [1, -28],
+                            className: 'nearby-marker'
+                        }),
+                        opacity: 0.7
+                    }).addTo(map);
+                    nearbyMarker.bindPopup('<div class="nearby-sticker-popup"><strong>🇩🇪 Karlsruher SC</strong><a href="/stickers/2411.html" class="map-popup-link">View</a></div>');
+                    nearbyMarker.on('mouseover', function() { this.openPopup(); });
+                    nearbyMarker.on('click', function() { this.openPopup(); });
+                })();
                 
-                L.marker([48.7952694444444, 9.22301666666667], {
-                    icon: L.icon({
-                        iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
-                        iconSize: [20, 33],
-                        iconAnchor: [10, 33],
-                        popupAnchor: [1, -28],
-                        className: 'nearby-marker'
-                    }),
-                    opacity: 0.7
-                }).addTo(map)
-                    .bindPopup('<div class="nearby-popup"><strong>🇩🇪 VfB Stuttgart</strong><br><a href="/stickers/2419.html">View sticker #2419</a></div>');
+                (function() {
+                    const nearbyMarker = L.marker([48.7952694444444, 9.22301666666667], {
+                        icon: L.icon({
+                            iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
+                            iconSize: [20, 33],
+                            iconAnchor: [10, 33],
+                            popupAnchor: [1, -28],
+                            className: 'nearby-marker'
+                        }),
+                        opacity: 0.7
+                    }).addTo(map);
+                    nearbyMarker.bindPopup('<div class="nearby-sticker-popup"><strong>🇩🇪 VfB Stuttgart</strong><a href="/stickers/2419.html" class="map-popup-link">View</a></div>');
+                    nearbyMarker.on('mouseover', function() { this.openPopup(); });
+                    nearbyMarker.on('click', function() { this.openPopup(); });
+                })();
                 
-                L.marker([48.7952527777778, 9.22306666666667], {
-                    icon: L.icon({
-                        iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
-                        iconSize: [20, 33],
-                        iconAnchor: [10, 33],
-                        popupAnchor: [1, -28],
-                        className: 'nearby-marker'
-                    }),
-                    opacity: 0.7
-                }).addTo(map)
-                    .bindPopup('<div class="nearby-popup"><strong>🇩🇪 TB Ruit 1892 e.V.</strong><br><a href="/stickers/2420.html">View sticker #2420</a></div>');
+                (function() {
+                    const nearbyMarker = L.marker([48.7952527777778, 9.22306666666667], {
+                        icon: L.icon({
+                            iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
+                            iconSize: [20, 33],
+                            iconAnchor: [10, 33],
+                            popupAnchor: [1, -28],
+                            className: 'nearby-marker'
+                        }),
+                        opacity: 0.7
+                    }).addTo(map);
+                    nearbyMarker.bindPopup('<div class="nearby-sticker-popup"><strong>🇩🇪 TB Ruit 1892 e.V.</strong><a href="/stickers/2420.html" class="map-popup-link">View</a></div>');
+                    nearbyMarker.on('mouseover', function() { this.openPopup(); });
+                    nearbyMarker.on('click', function() { this.openPopup(); });
+                })();
                 
-                L.marker([48.7946194444444, 9.22436666666667], {
-                    icon: L.icon({
-                        iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
-                        iconSize: [20, 33],
-                        iconAnchor: [10, 33],
-                        popupAnchor: [1, -28],
-                        className: 'nearby-marker'
-                    }),
-                    opacity: 0.7
-                }).addTo(map)
-                    .bindPopup('<div class="nearby-popup"><strong>🇩🇪 VfB Stuttgart</strong><br><a href="/stickers/2410.html">View sticker #2410</a></div>');
+                (function() {
+                    const nearbyMarker = L.marker([48.7946194444444, 9.22436666666667], {
+                        icon: L.icon({
+                            iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
+                            iconSize: [20, 33],
+                            iconAnchor: [10, 33],
+                            popupAnchor: [1, -28],
+                            className: 'nearby-marker'
+                        }),
+                        opacity: 0.7
+                    }).addTo(map);
+                    nearbyMarker.bindPopup('<div class="nearby-sticker-popup"><strong>🇩🇪 VfB Stuttgart</strong><a href="/stickers/2410.html" class="map-popup-link">View</a></div>');
+                    nearbyMarker.on('mouseover', function() { this.openPopup(); });
+                    nearbyMarker.on('click', function() { this.openPopup(); });
+                })();
                 
-                L.marker([48.7946333333333, 9.22438611111111], {
-                    icon: L.icon({
-                        iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
-                        iconSize: [20, 33],
-                        iconAnchor: [10, 33],
-                        popupAnchor: [1, -28],
-                        className: 'nearby-marker'
-                    }),
-                    opacity: 0.7
-                }).addTo(map)
-                    .bindPopup('<div class="nearby-popup"><strong>🇩🇪 VfB Stuttgart</strong><br><a href="/stickers/2409.html">View sticker #2409</a></div>');
+                (function() {
+                    const nearbyMarker = L.marker([48.7946333333333, 9.22438611111111], {
+                        icon: L.icon({
+                            iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
+                            iconSize: [20, 33],
+                            iconAnchor: [10, 33],
+                            popupAnchor: [1, -28],
+                            className: 'nearby-marker'
+                        }),
+                        opacity: 0.7
+                    }).addTo(map);
+                    nearbyMarker.bindPopup('<div class="nearby-sticker-popup"><strong>🇩🇪 VfB Stuttgart</strong><a href="/stickers/2409.html" class="map-popup-link">View</a></div>');
+                    nearbyMarker.on('mouseover', function() { this.openPopup(); });
+                    nearbyMarker.on('click', function() { this.openPopup(); });
+                })();
                 
-                L.marker([48.7946472222222, 9.22444722222222], {
-                    icon: L.icon({
-                        iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
-                        iconSize: [20, 33],
-                        iconAnchor: [10, 33],
-                        popupAnchor: [1, -28],
-                        className: 'nearby-marker'
-                    }),
-                    opacity: 0.7
-                }).addTo(map)
-                    .bindPopup('<div class="nearby-popup"><strong>🇩🇪 VfB Stuttgart</strong><br><a href="/stickers/2408.html">View sticker #2408</a></div>');
+                (function() {
+                    const nearbyMarker = L.marker([48.7946472222222, 9.22444722222222], {
+                        icon: L.icon({
+                            iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
+                            iconSize: [20, 33],
+                            iconAnchor: [10, 33],
+                            popupAnchor: [1, -28],
+                            className: 'nearby-marker'
+                        }),
+                        opacity: 0.7
+                    }).addTo(map);
+                    nearbyMarker.bindPopup('<div class="nearby-sticker-popup"><strong>🇩🇪 VfB Stuttgart</strong><a href="/stickers/2408.html" class="map-popup-link">View</a></div>');
+                    nearbyMarker.on('mouseover', function() { this.openPopup(); });
+                    nearbyMarker.on('click', function() { this.openPopup(); });
+                })();
                 
-                L.marker([48.7946777777778, 9.22459722222222], {
-                    icon: L.icon({
-                        iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
-                        iconSize: [20, 33],
-                        iconAnchor: [10, 33],
-                        popupAnchor: [1, -28],
-                        className: 'nearby-marker'
-                    }),
-                    opacity: 0.7
-                }).addTo(map)
-                    .bindPopup('<div class="nearby-popup"><strong>🇩🇪 VfB Stuttgart</strong><br><a href="/stickers/2418.html">View sticker #2418</a></div>');
+                (function() {
+                    const nearbyMarker = L.marker([48.7946777777778, 9.22459722222222], {
+                        icon: L.icon({
+                            iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
+                            iconSize: [20, 33],
+                            iconAnchor: [10, 33],
+                            popupAnchor: [1, -28],
+                            className: 'nearby-marker'
+                        }),
+                        opacity: 0.7
+                    }).addTo(map);
+                    nearbyMarker.bindPopup('<div class="nearby-sticker-popup"><strong>🇩🇪 VfB Stuttgart</strong><a href="/stickers/2418.html" class="map-popup-link">View</a></div>');
+                    nearbyMarker.on('mouseover', function() { this.openPopup(); });
+                    nearbyMarker.on('click', function() { this.openPopup(); });
+                })();
 
                 // Main sticker marker (larger, on top)
                 L.marker([48.7981916666667, 9.21751944444445], {

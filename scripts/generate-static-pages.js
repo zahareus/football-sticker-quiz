@@ -259,17 +259,21 @@ function generateMapInitScript(sticker, clubName, nearbyStickers = []) {
         nearbyMarkersCode = nearbyStickers.map(nearby => {
             const escapedClubName = nearby.clubName.replace(/'/g, "\\'");
             return `
-                L.marker([${nearby.latitude}, ${nearby.longitude}], {
-                    icon: L.icon({
-                        iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
-                        iconSize: [20, 33],
-                        iconAnchor: [10, 33],
-                        popupAnchor: [1, -28],
-                        className: 'nearby-marker'
-                    }),
-                    opacity: 0.7
-                }).addTo(map)
-                    .bindPopup('<div class="nearby-popup"><strong>${escapedClubName}</strong><br><a href="/stickers/${nearby.id}.html">View sticker #${nearby.id}</a></div>');`;
+                (function() {
+                    const nearbyMarker = L.marker([${nearby.latitude}, ${nearby.longitude}], {
+                        icon: L.icon({
+                            iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
+                            iconSize: [20, 33],
+                            iconAnchor: [10, 33],
+                            popupAnchor: [1, -28],
+                            className: 'nearby-marker'
+                        }),
+                        opacity: 0.7
+                    }).addTo(map);
+                    nearbyMarker.bindPopup('<div class="nearby-sticker-popup"><strong>${escapedClubName}</strong><a href="/stickers/${nearby.id}.html" class="map-popup-link">View</a></div>');
+                    nearbyMarker.on('mouseover', function() { this.openPopup(); });
+                    nearbyMarker.on('click', function() { this.openPopup(); });
+                })();`;
         }).join('\n                ');
     }
 
@@ -611,7 +615,7 @@ async function generateIndexPage(stickers) {
     // Create sticker pool with optimized image URLs
     const stickerPool = selectedStickers.map(sticker => ({
         id: sticker.id,
-        url: getOptimizedImageUrl(sticker.image_url, '_home')
+        url: getOptimizedImageUrl(sticker.image_url, '_web')
     }));
 
     // First sticker for preload and initial display

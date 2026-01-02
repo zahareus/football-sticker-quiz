@@ -454,7 +454,7 @@ async function handleSubmit(event) {
         const socialResult = await triggerWebhook(sticker);
 
         // 5. Show success message with link
-        const stickerUrl = `https://stickerhunt.club/catalogue.html?sticker_id=${sticker.id}`;
+        const stickerUrl = `https://stickerhunt.club/stickers/${sticker.id}.html`;
 
         let socialInfo = '';
         if (socialResult.success) {
