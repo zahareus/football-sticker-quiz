@@ -2,13 +2,5 @@ node_modules/
 .env
 .DS_Store
 
-# Generated static pages (exclude from git)
-stickers/*.html
-clubs/*.html
-countries/*.html
-
-# Keep a few examples for demonstration
-!stickers/4.html
-!stickers/5.html
-!clubs/27.html
-!countries/ukr.html
+# Generated static pages are now tracked in git for deployment
+# Run `node scripts/generate-static-pages.js` to regenerate
