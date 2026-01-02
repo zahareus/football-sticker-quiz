@@ -4,11 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>StickerHunt - Global Football Sticker Database</title>
-    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
 
     <!-- SEO Meta Tags -->
     <meta name="description" content="Browse our comprehensive database of football stickers from clubs around the world. Play quiz game now and compete on the global leaderboard.">
     <meta name="keywords" content="football, stickers, panini, quiz, database, soccer, player identification, leaderboard">
+    <link rel="canonical" href="https://stickerhunt.club/">
 
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
@@ -31,13 +32,15 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preconnect" href="https://rbmeslzlbsolkxnvesqb.supabase.co">
-    <link rel="preconnect" href="https://cdn.jsdelivr.net">
+
+    <!-- Preload the first featured sticker for instant display -->
+    <link rel="preload" href="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/stickers/TSV_1860_Munchen/IMG_1483_home.webp?" as="image" fetchpriority="high">
 
     <!-- Preload critical font weights only -->
     <link rel="preload" href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600&display=swap" as="style">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600&display=swap" rel="stylesheet">
 
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="/style.css">
 
     <!-- Analytics - load after page content -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-4Y0MJKGDZS"></script>
@@ -46,6 +49,22 @@
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
       gtag('config', 'G-4Y0MJKGDZS');
+    </script>
+
+    <!-- Structured data for SEO -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "StickerHunt",
+      "description": "Global Football Sticker Database",
+      "url": "https://stickerhunt.club/",
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": "https://stickerhunt.club/catalogue.html?search={search_term_string}",
+        "query-input": "required name=search_term_string"
+      }
+    }
     </script>
 </head>
 <body class="home-page">
@@ -72,13 +91,15 @@
     <main class="container home-container">
         <p class="home-subtitle" id="sticker-count-text">
             Global database of football stickers.<br>
-            Total stickers: <span id="total-stickers">Loading...</span>
+            Total stickers: <span id="total-stickers">2835</span>
         </p>
 
         <div id="featured-sticker">
-            <div id="home-sticker-container">
-                <img id="home-sticker-image" src="" alt="Featured Sticker" fetchpriority="high">
-            </div>
+            <a href="/stickers/1471.html" id="home-sticker-link">
+                <div id="home-sticker-container">
+                    <img id="home-sticker-image" src="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/stickers/TSV_1860_Munchen/IMG_1483_home.webp?" alt="Featured Sticker" fetchpriority="high" decoding="async">
+                </div>
+            </a>
         </div>
 
         <div class="home-actions">
@@ -96,9 +117,29 @@
         <p>StickerHunt &copy; 2025</p>
     </footer>
 
-    <!-- Supabase must load first, then shared.js, then page script -->
+    <!-- Inline script for instant random sticker selection (no network calls) -->
+    <script>
+        // Pre-embedded random sticker URLs for instant loading
+        const featuredStickers = [{"id":1471,"url":"https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/stickers/TSV_1860_Munchen/IMG_1483_home.webp?"},{"id":76,"url":"https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/AUT%20SK%20Sturm%20Graz/IMG_8932_home.webp"},{"id":560,"url":"https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/stickers/AC_Ancona/IMG_0002_home.webp?"},{"id":24,"url":"https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/ARG%20Rosario%20Central/IMG_8411_(1)_home.webp"},{"id":227,"url":"https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/stickers/Moghreb_Tetouan/IMG_8564_home.webp?"},{"id":341,"url":"https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/stickers/Valerenga_Fotball/IMG_9606_home.webp?"},{"id":7,"url":"https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/ARG%20Atletico%20Belgrano/IMG_8822_home.webp"},{"id":267,"url":"https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/stickers/Olympique_Club_de_Khouribga/IMG_0490_home.webp?"},{"id":299,"url":"https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/stickers/FCSB/IMG_3567_home.webp?"},{"id":148,"url":"https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/CHE%20FC%20Sion/IMG_4787_home.webp"},{"id":18,"url":"https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/ARG%20Newells%20Old%20Boys/IMG_8767_home.webp"},{"id":141,"url":"https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/CHE%20FC%20Basel%201893/IMG_5880_home.webp"},{"id":149,"url":"https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/CHE%20FC%20Sion/IMG_8925_home.webp"},{"id":9,"url":"https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/ARG%20Atletico%20Atlanta/IMG_8505_home.webp"},{"id":301,"url":"https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/stickers/FCSB/IMG_3573_home.webp?"},{"id":26,"url":"https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/ARG%20Rosario%20Central/IMG_9964_home.webp"},{"id":53,"url":"https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/AUT%20LASK/IMG_5337_home.webp"},{"id":277,"url":"https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/stickers/FC_Tokyo/IMG_4945_home.webp?"},{"id":151,"url":"https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/CHE%20FC%20St%20Gallen/IMG_0305_home.webp"},{"id":89,"url":"https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/BEL%20Molenbek/IMG_7171_home.webp"},{"id":19,"url":"https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/ARG%20Newells%20Old%20Boys/IMG_9593_(2)_home.webp"},{"id":87,"url":"https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/BEL%20K%20R%20C%20Genk/IMG_2580_home.webp"},{"id":233,"url":"https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/stickers/Hapoel_Tel_Aviv_FC/IMG_8154_home.webp?"},{"id":305,"url":"https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/stickers/NK_Maribor/IMG_7025_home.webp?"},{"id":37,"url":"https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/AUT%20FK%20Austria%20Viena/IMG_1777_home.webp"},{"id":332,"url":"https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/stickers/Fenerbahce_SK/IMG_9427_home.webp?"},{"id":269,"url":"https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/stickers/Shamrock_Rovers_FC/IMG_8639_home.webp?"},{"id":1008,"url":"https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/stickers/Sevilla_FC/IMG_4228_home.webp?"},{"id":1414,"url":"https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/stickers/FC_St_Pauli/IMG_9743_home.webp?"},{"id":923,"url":"https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/stickers/Sporting_de_Gijon/IMG_9049_(1)_home.webp?"},{"id":1181,"url":"https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/stickers/Atletico_Madrid/IMG_7486_home.webp?"},{"id":1256,"url":"https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/stickers/SV_Werder_Bremen/IMG_8425_(1)_home.webp?"},{"id":158,"url":"https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/CHE%20FC%20Zurich/IMG_8356_home.webp"},{"id":104,"url":"https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/BEL%20RSC%20Anderlecht/IMG_8376_home.webp"},{"id":1198,"url":"https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/stickers/Fortuna_Dusseldorf/IMG_8508_home.webp?"},{"id":157,"url":"https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/CHE%20FC%20Zurich/IMG_8309_home.webp"},{"id":197,"url":"https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/stickers/FC_Kobenhavn/IMG_4462_home.webp?"},{"id":1209,"url":"https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/stickers/FC_Bayern_Munich/IMG_1171_home.webp?"},{"id":1201,"url":"https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/stickers/1_FC_Heidenheim/IMG_3508_home.webp?"},{"id":1213,"url":"https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/stickers/FC_Bayern_Munich/IMG_1540_home.webp?"},{"id":795,"url":"https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/stickers/Feyenoord/IMG_0517_home.webp?"},{"id":326,"url":"https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/stickers/SL_Benfica/IMG_4632_home.webp?"},{"id":920,"url":"https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/stickers/Xerez_CD/IMG_4125_home.webp?"},{"id":931,"url":"https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/stickers/Sporting_de_Gijon/IMG_9105_home.webp?"},{"id":275,"url":"https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/stickers/Fehervar_FC/IMG_3515_home.webp?"},{"id":1234,"url":"https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/stickers/FC_Bayern_Munich/IMG_0676_home.webp?"},{"id":790,"url":"https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/stickers/FC_Twente/IMG_9494_home.webp?"},{"id":297,"url":"https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/stickers/FC_Spartak_Trnava/IMG_9584_home.webp?"},{"id":51,"url":"https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/AUT%20GAK/IMG_9362_home.webp"},{"id":232,"url":"https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/stickers/Hapoel_Tel_Aviv_FC/IMG_8899_home.webp?"}];
+
+        // Pick a random sticker on page load
+        if (featuredStickers.length > 1) {
+            const randomIndex = Math.floor(Math.random() * featuredStickers.length);
+            const randomSticker = featuredStickers[randomIndex];
+            const img = document.getElementById('home-sticker-image');
+            const link = document.getElementById('home-sticker-link');
+            if (img && randomSticker.url) {
+                img.src = randomSticker.url;
+            }
+            if (link && randomSticker.id) {
+                link.href = '/stickers/' + randomSticker.id + '.html';
+            }
+        }
+    </script>
+
+    <!-- Auth functionality (loads in background, non-blocking) -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script src="shared.js"></script>
-    <script src="index-script.js"></script>
+    <script src="/shared.js"></script>
+    <script src="/index-static.js"></script>
 </body>
 </html>

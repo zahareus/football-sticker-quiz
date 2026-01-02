@@ -137,13 +137,165 @@
         
         document.addEventListener('DOMContentLoaded', function() {
             if (typeof L !== 'undefined' && document.getElementById('sticker-map')) {
-                const map = L.map('sticker-map').setView([47.5564805555556, 7.57209166666667], 13);
+                const map = L.map('sticker-map').setView([47.5564805555556, 7.57209166666667], 12);
                 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                     attribution: '© OpenStreetMap contributors'
                 }).addTo(map);
-                L.marker([47.5564805555556, 7.57209166666667])
-                    .addTo(map)
-                    .bindPopup('🇨🇭 FC Basel 1893');
+
+                // Nearby stickers (shown first, so main marker is on top)
+                
+                L.marker([47.5569166666667, 7.57119444444444], {
+                    icon: L.icon({
+                        iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
+                        iconSize: [20, 33],
+                        iconAnchor: [10, 33],
+                        popupAnchor: [1, -28],
+                        className: 'nearby-marker'
+                    }),
+                    opacity: 0.7
+                }).addTo(map)
+                    .bindPopup('<div class="nearby-popup"><strong>🇨🇭 FC Basel 1893</strong><br><a href="/stickers/2537.html">View sticker #2537</a></div>');
+                
+                L.marker([47.5596888888889, 7.57250555555555], {
+                    icon: L.icon({
+                        iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
+                        iconSize: [20, 33],
+                        iconAnchor: [10, 33],
+                        popupAnchor: [1, -28],
+                        className: 'nearby-marker'
+                    }),
+                    opacity: 0.7
+                }).addTo(map)
+                    .bindPopup('<div class="nearby-popup"><strong>🇨🇭 FC Basel 1893</strong><br><a href="/stickers/2536.html">View sticker #2536</a></div>');
+                
+                L.marker([47.5543444444444, 7.57617222222222], {
+                    icon: L.icon({
+                        iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
+                        iconSize: [20, 33],
+                        iconAnchor: [10, 33],
+                        popupAnchor: [1, -28],
+                        className: 'nearby-marker'
+                    }),
+                    opacity: 0.7
+                }).addTo(map)
+                    .bindPopup('<div class="nearby-popup"><strong>🇨🇭 FC Basel 1893</strong><br><a href="/stickers/2527.html">View sticker #2527</a></div>');
+                
+                L.marker([47.5602694444444, 7.57626666666667], {
+                    icon: L.icon({
+                        iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
+                        iconSize: [20, 33],
+                        iconAnchor: [10, 33],
+                        popupAnchor: [1, -28],
+                        className: 'nearby-marker'
+                    }),
+                    opacity: 0.7
+                }).addTo(map)
+                    .bindPopup('<div class="nearby-popup"><strong>🇨🇭 FC Basel 1893</strong><br><a href="/stickers/2550.html">View sticker #2550</a></div>');
+                
+                L.marker([47.560275, 7.5763], {
+                    icon: L.icon({
+                        iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
+                        iconSize: [20, 33],
+                        iconAnchor: [10, 33],
+                        popupAnchor: [1, -28],
+                        className: 'nearby-marker'
+                    }),
+                    opacity: 0.7
+                }).addTo(map)
+                    .bindPopup('<div class="nearby-popup"><strong>🇨🇭 FC Basel 1893</strong><br><a href="/stickers/2534.html">View sticker #2534</a></div>');
+                
+                L.marker([47.5604666666667, 7.57626111111111], {
+                    icon: L.icon({
+                        iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
+                        iconSize: [20, 33],
+                        iconAnchor: [10, 33],
+                        popupAnchor: [1, -28],
+                        className: 'nearby-marker'
+                    }),
+                    opacity: 0.7
+                }).addTo(map)
+                    .bindPopup('<div class="nearby-popup"><strong>🇨🇭 FC Basel 1893</strong><br><a href="/stickers/2535.html">View sticker #2535</a></div>');
+                
+                L.marker([47.5598027777778, 7.57747777777778], {
+                    icon: L.icon({
+                        iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
+                        iconSize: [20, 33],
+                        iconAnchor: [10, 33],
+                        popupAnchor: [1, -28],
+                        className: 'nearby-marker'
+                    }),
+                    opacity: 0.7
+                }).addTo(map)
+                    .bindPopup('<div class="nearby-popup"><strong>🇨🇭 FC Basel 1893</strong><br><a href="/stickers/2531.html">View sticker #2531</a></div>');
+                
+                L.marker([47.5601222222222, 7.57742777777778], {
+                    icon: L.icon({
+                        iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
+                        iconSize: [20, 33],
+                        iconAnchor: [10, 33],
+                        popupAnchor: [1, -28],
+                        className: 'nearby-marker'
+                    }),
+                    opacity: 0.7
+                }).addTo(map)
+                    .bindPopup('<div class="nearby-popup"><strong>🇨🇭 FC Basel 1893</strong><br><a href="/stickers/2532.html">View sticker #2532</a></div>');
+                
+                L.marker([47.5602333333333, 7.57726111111111], {
+                    icon: L.icon({
+                        iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
+                        iconSize: [20, 33],
+                        iconAnchor: [10, 33],
+                        popupAnchor: [1, -28],
+                        className: 'nearby-marker'
+                    }),
+                    opacity: 0.7
+                }).addTo(map)
+                    .bindPopup('<div class="nearby-popup"><strong>🇨🇭 FC Basel 1893</strong><br><a href="/stickers/2533.html">View sticker #2533</a></div>');
+                
+                L.marker([47.5546083333333, 7.57952222222222], {
+                    icon: L.icon({
+                        iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
+                        iconSize: [20, 33],
+                        iconAnchor: [10, 33],
+                        popupAnchor: [1, -28],
+                        className: 'nearby-marker'
+                    }),
+                    opacity: 0.7
+                }).addTo(map)
+                    .bindPopup('<div class="nearby-popup"><strong>🇨🇭 FC Basel 1893</strong><br><a href="/stickers/2528.html">View sticker #2528</a></div>');
+
+                // Main sticker marker (larger, on top)
+                L.marker([47.5564805555556, 7.57209166666667], {
+                    icon: L.icon({
+                        iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
+                        iconRetinaUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png',
+                        shadowUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png',
+                        iconSize: [25, 41],
+                        iconAnchor: [12, 41],
+                        popupAnchor: [1, -34],
+                        shadowSize: [41, 41]
+                    }),
+                    zIndexOffset: 1000
+                }).addTo(map)
+                    .bindPopup('<strong>🇨🇭 FC Basel 1893</strong>').openPopup();
+
+                // Fit bounds to show all markers if there are nearby stickers
+                
+                const bounds = L.latLngBounds([
+                    [47.5564805555556, 7.57209166666667],
+                    [47.5569166666667, 7.57119444444444],
+                    [47.5596888888889, 7.57250555555555],
+                    [47.5543444444444, 7.57617222222222],
+                    [47.5602694444444, 7.57626666666667],
+                    [47.560275, 7.5763],
+                    [47.5604666666667, 7.57626111111111],
+                    [47.5598027777778, 7.57747777777778],
+                    [47.5601222222222, 7.57742777777778],
+                    [47.5602333333333, 7.57726111111111],
+                    [47.5546083333333, 7.57952222222222]
+                ]);
+                map.fitBounds(bounds, { padding: [30, 30], maxZoom: 13 });
+                
             }
         });
     

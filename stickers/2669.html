@@ -137,13 +137,165 @@
         
         document.addEventListener('DOMContentLoaded', function() {
             if (typeof L !== 'undefined' && document.getElementById('sticker-map')) {
-                const map = L.map('sticker-map').setView([52.3134722, 4.9423833], 13);
+                const map = L.map('sticker-map').setView([52.3134722, 4.9423833], 12);
                 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                     attribution: '© OpenStreetMap contributors'
                 }).addTo(map);
-                L.marker([52.3134722, 4.9423833])
-                    .addTo(map)
-                    .bindPopup('🏴󠁧󠁢󠁳󠁣󠁴󠁿 Dundee FC');
+
+                // Nearby stickers (shown first, so main marker is on top)
+                
+                L.marker([52.3134722222222, 4.94238333333333], {
+                    icon: L.icon({
+                        iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
+                        iconSize: [20, 33],
+                        iconAnchor: [10, 33],
+                        popupAnchor: [1, -28],
+                        className: 'nearby-marker'
+                    }),
+                    opacity: 0.7
+                }).addTo(map)
+                    .bindPopup('<div class="nearby-popup"><strong>🏴󠁧󠁢󠁥󠁮󠁧󠁿 Southampton F.C.</strong><br><a href="/stickers/2640.html">View sticker #2640</a></div>');
+                
+                L.marker([52.3134694444444, 4.94239166666667], {
+                    icon: L.icon({
+                        iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
+                        iconSize: [20, 33],
+                        iconAnchor: [10, 33],
+                        popupAnchor: [1, -28],
+                        className: 'nearby-marker'
+                    }),
+                    opacity: 0.7
+                }).addTo(map)
+                    .bindPopup('<div class="nearby-popup"><strong>🇬🇧 Glentoran FC</strong><br><a href="/stickers/2643.html">View sticker #2643</a></div>');
+                
+                L.marker([52.3134778, 4.9423917], {
+                    icon: L.icon({
+                        iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
+                        iconSize: [20, 33],
+                        iconAnchor: [10, 33],
+                        popupAnchor: [1, -28],
+                        className: 'nearby-marker'
+                    }),
+                    opacity: 0.7
+                }).addTo(map)
+                    .bindPopup('<div class="nearby-popup"><strong>🇫🇷 Racing Club de Lens</strong><br><a href="/stickers/2668.html">View sticker #2668</a></div>');
+                
+                L.marker([52.3134611111111, 4.94238333333333], {
+                    icon: L.icon({
+                        iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
+                        iconSize: [20, 33],
+                        iconAnchor: [10, 33],
+                        popupAnchor: [1, -28],
+                        className: 'nearby-marker'
+                    }),
+                    opacity: 0.7
+                }).addTo(map)
+                    .bindPopup('<div class="nearby-popup"><strong>🇪🇸 CD Napolitana</strong><br><a href="/stickers/2656.html">View sticker #2656</a></div>');
+                
+                L.marker([52.3134611111111, 4.94237777777778], {
+                    icon: L.icon({
+                        iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
+                        iconSize: [20, 33],
+                        iconAnchor: [10, 33],
+                        popupAnchor: [1, -28],
+                        className: 'nearby-marker'
+                    }),
+                    opacity: 0.7
+                }).addTo(map)
+                    .bindPopup('<div class="nearby-popup"><strong>🇸🇪 Örgryte</strong><br><a href="/stickers/2651.html">View sticker #2651</a></div>');
+                
+                L.marker([52.3134611, 4.9423917], {
+                    icon: L.icon({
+                        iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
+                        iconSize: [20, 33],
+                        iconAnchor: [10, 33],
+                        popupAnchor: [1, -28],
+                        className: 'nearby-marker'
+                    }),
+                    opacity: 0.7
+                }).addTo(map)
+                    .bindPopup('<div class="nearby-popup"><strong>🇮🇱 Hapoel Tel Aviv FC</strong><br><a href="/stickers/2667.html">View sticker #2667</a></div>');
+                
+                L.marker([52.3134806, 4.9424], {
+                    icon: L.icon({
+                        iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
+                        iconSize: [20, 33],
+                        iconAnchor: [10, 33],
+                        popupAnchor: [1, -28],
+                        className: 'nearby-marker'
+                    }),
+                    opacity: 0.7
+                }).addTo(map)
+                    .bindPopup('<div class="nearby-popup"><strong>🇩🇪 Rot-Weiß Oberhausen</strong><br><a href="/stickers/2680.html">View sticker #2680</a></div>');
+                
+                L.marker([52.3134583333333, 4.942375], {
+                    icon: L.icon({
+                        iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
+                        iconSize: [20, 33],
+                        iconAnchor: [10, 33],
+                        popupAnchor: [1, -28],
+                        className: 'nearby-marker'
+                    }),
+                    opacity: 0.7
+                }).addTo(map)
+                    .bindPopup('<div class="nearby-popup"><strong>🇷🇴 FCSB</strong><br><a href="/stickers/2639.html">View sticker #2639</a></div>');
+                
+                L.marker([52.3134833333333, 4.9424], {
+                    icon: L.icon({
+                        iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
+                        iconSize: [20, 33],
+                        iconAnchor: [10, 33],
+                        popupAnchor: [1, -28],
+                        className: 'nearby-marker'
+                    }),
+                    opacity: 0.7
+                }).addTo(map)
+                    .bindPopup('<div class="nearby-popup"><strong>🇷🇸 FK Zemun</strong><br><a href="/stickers/2650.html">View sticker #2650</a></div>');
+                
+                L.marker([52.3134583333333, 4.94239444444444], {
+                    icon: L.icon({
+                        iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
+                        iconSize: [20, 33],
+                        iconAnchor: [10, 33],
+                        popupAnchor: [1, -28],
+                        className: 'nearby-marker'
+                    }),
+                    opacity: 0.7
+                }).addTo(map)
+                    .bindPopup('<div class="nearby-popup"><strong>🇨🇭 Neuchâtel Xamax FCS</strong><br><a href="/stickers/2635.html">View sticker #2635</a></div>');
+
+                // Main sticker marker (larger, on top)
+                L.marker([52.3134722, 4.9423833], {
+                    icon: L.icon({
+                        iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
+                        iconRetinaUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png',
+                        shadowUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png',
+                        iconSize: [25, 41],
+                        iconAnchor: [12, 41],
+                        popupAnchor: [1, -34],
+                        shadowSize: [41, 41]
+                    }),
+                    zIndexOffset: 1000
+                }).addTo(map)
+                    .bindPopup('<strong>🏴󠁧󠁢󠁳󠁣󠁴󠁿 Dundee FC</strong>').openPopup();
+
+                // Fit bounds to show all markers if there are nearby stickers
+                
+                const bounds = L.latLngBounds([
+                    [52.3134722, 4.9423833],
+                    [52.3134722222222, 4.94238333333333],
+                    [52.3134694444444, 4.94239166666667],
+                    [52.3134778, 4.9423917],
+                    [52.3134611111111, 4.94238333333333],
+                    [52.3134611111111, 4.94237777777778],
+                    [52.3134611, 4.9423917],
+                    [52.3134806, 4.9424],
+                    [52.3134583333333, 4.942375],
+                    [52.3134833333333, 4.9424],
+                    [52.3134583333333, 4.94239444444444]
+                ]);
+                map.fitBounds(bounds, { padding: [30, 30], maxZoom: 13 });
+                
             }
         });
     

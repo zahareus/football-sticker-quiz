@@ -137,13 +137,61 @@
         
         document.addEventListener('DOMContentLoaded', function() {
             if (typeof L !== 'undefined' && document.getElementById('sticker-map')) {
-                const map = L.map('sticker-map').setView([49.3065111111111, 10.9677972222222], 13);
+                const map = L.map('sticker-map').setView([49.3065111111111, 10.9677972222222], 12);
                 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                     attribution: '© OpenStreetMap contributors'
                 }).addTo(map);
-                L.marker([49.3065111111111, 10.9677972222222])
-                    .addTo(map)
-                    .bindPopup('🇨🇿 AC Sparta Prague');
+
+                // Nearby stickers (shown first, so main marker is on top)
+                
+                L.marker([49.3063444444444, 10.9673333333333], {
+                    icon: L.icon({
+                        iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
+                        iconSize: [20, 33],
+                        iconAnchor: [10, 33],
+                        popupAnchor: [1, -28],
+                        className: 'nearby-marker'
+                    }),
+                    opacity: 0.7
+                }).addTo(map)
+                    .bindPopup('<div class="nearby-popup"><strong>🇩🇪 1 FC Kaiserslautern</strong><br><a href="/stickers/2464.html">View sticker #2464</a></div>');
+                
+                L.marker([49.3062277777778, 10.9670833333333], {
+                    icon: L.icon({
+                        iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
+                        iconSize: [20, 33],
+                        iconAnchor: [10, 33],
+                        popupAnchor: [1, -28],
+                        className: 'nearby-marker'
+                    }),
+                    opacity: 0.7
+                }).addTo(map)
+                    .bindPopup('<div class="nearby-popup"><strong>🇩🇪 FC Bayern Munich</strong><br><a href="/stickers/2451.html">View sticker #2451</a></div>');
+
+                // Main sticker marker (larger, on top)
+                L.marker([49.3065111111111, 10.9677972222222], {
+                    icon: L.icon({
+                        iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
+                        iconRetinaUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png',
+                        shadowUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png',
+                        iconSize: [25, 41],
+                        iconAnchor: [12, 41],
+                        popupAnchor: [1, -34],
+                        shadowSize: [41, 41]
+                    }),
+                    zIndexOffset: 1000
+                }).addTo(map)
+                    .bindPopup('<strong>🇨🇿 AC Sparta Prague</strong>').openPopup();
+
+                // Fit bounds to show all markers if there are nearby stickers
+                
+                const bounds = L.latLngBounds([
+                    [49.3065111111111, 10.9677972222222],
+                    [49.3063444444444, 10.9673333333333],
+                    [49.3062277777778, 10.9670833333333]
+                ]);
+                map.fitBounds(bounds, { padding: [30, 30], maxZoom: 13 });
+                
             }
         });
     
