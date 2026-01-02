@@ -80,7 +80,7 @@
     </header>
 
     <main class="container" id="catalogue-container">
-        <div id="catalogue-breadcrumbs"><a href="/catalogue.html">Catalogue</a> → <a href="/countries/deu.html">Germany</a> → <a href="/clubs/1102.html">🇩🇪 Arminia Bielefeld</a> → <a href="/stickers/2875.html">Sticker #2875</a></div>
+        <div id="catalogue-breadcrumbs"><a href="/catalogue.html">Catalogue</a> → <a href="/countries/DEU.html">Germany</a> → <a href="/clubs/1102.html">🇩🇪 Arminia Bielefeld</a> → <a href="/stickers/2875.html">Sticker #2875</a></div>
 
         <h1 id="main-catalogue-heading" style="display: none;">Sticker #2875</h1>
 
@@ -143,15 +143,17 @@
 
         // Initialize map if map container exists
         
-        if (typeof L !== 'undefined') {
-            const map = L.map('sticker-map').setView([50.8443333333333, 4.35078055555555], 13);
-            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                attribution: '© OpenStreetMap contributors'
-            }).addTo(map);
-            L.marker([50.8443333333333, 4.35078055555555])
-                .addTo(map)
-                .bindPopup('🇩🇪 Arminia Bielefeld');
-        }
+        document.addEventListener('DOMContentLoaded', function() {
+            if (typeof L !== 'undefined' && document.getElementById('sticker-map')) {
+                const map = L.map('sticker-map').setView([50.8443333333333, 4.35078055555555], 13);
+                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                    attribution: '© OpenStreetMap contributors'
+                }).addTo(map);
+                L.marker([50.8443333333333, 4.35078055555555])
+                    .addTo(map)
+                    .bindPopup('🇩🇪 Arminia Bielefeld');
+            }
+        });
     
     </script>
 </body>

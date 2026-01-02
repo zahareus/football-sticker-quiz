@@ -80,7 +80,7 @@
     </header>
 
     <main class="container" id="catalogue-container">
-        <div id="catalogue-breadcrumbs"><a href="/catalogue.html">Catalogue</a> → <a href="/countries/nor.html">Norway</a> → <a href="/clubs/626.html">🇳🇴 Vålerenga Fotball</a> → <a href="/stickers/2300.html">Sticker #2300</a></div>
+        <div id="catalogue-breadcrumbs"><a href="/catalogue.html">Catalogue</a> → <a href="/countries/NOR.html">Norway</a> → <a href="/clubs/626.html">🇳🇴 Vålerenga Fotball</a> → <a href="/stickers/2300.html">Sticker #2300</a></div>
 
         <h1 id="main-catalogue-heading" style="display: none;">Sticker #2300</h1>
 
@@ -143,15 +143,17 @@
 
         // Initialize map if map container exists
         
-        if (typeof L !== 'undefined') {
-            const map = L.map('sticker-map').setView([37.9855333333333, -0.678561111111111], 13);
-            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                attribution: '© OpenStreetMap contributors'
-            }).addTo(map);
-            L.marker([37.9855333333333, -0.678561111111111])
-                .addTo(map)
-                .bindPopup('🇳🇴 Vålerenga Fotball');
-        }
+        document.addEventListener('DOMContentLoaded', function() {
+            if (typeof L !== 'undefined' && document.getElementById('sticker-map')) {
+                const map = L.map('sticker-map').setView([37.9855333333333, -0.678561111111111], 13);
+                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                    attribution: '© OpenStreetMap contributors'
+                }).addTo(map);
+                L.marker([37.9855333333333, -0.678561111111111])
+                    .addTo(map)
+                    .bindPopup('🇳🇴 Vålerenga Fotball');
+            }
+        });
     
     </script>
 </body>

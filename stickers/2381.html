@@ -80,7 +80,7 @@
     </header>
 
     <main class="container" id="catalogue-container">
-        <div id="catalogue-breadcrumbs"><a href="/catalogue.html">Catalogue</a> → <a href="/countries/eng.html">ENG</a> → <a href="/clubs/1064.html">🏴󠁧󠁢󠁥󠁮󠁧󠁿 Lewisham Borough F.C.</a> → <a href="/stickers/2381.html">Sticker #2381</a></div>
+        <div id="catalogue-breadcrumbs"><a href="/catalogue.html">Catalogue</a> → <a href="/countries/ENG.html">ENG</a> → <a href="/clubs/1064.html">🏴󠁧󠁢󠁥󠁮󠁧󠁿 Lewisham Borough F.C.</a> → <a href="/stickers/2381.html">Sticker #2381</a></div>
 
         <h1 id="main-catalogue-heading" style="display: none;">Sticker #2381</h1>
 
@@ -143,15 +143,17 @@
 
         // Initialize map if map container exists
         
-        if (typeof L !== 'undefined') {
-            const map = L.map('sticker-map').setView([48.7763833333333, 9.17531944444444], 13);
-            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                attribution: '© OpenStreetMap contributors'
-            }).addTo(map);
-            L.marker([48.7763833333333, 9.17531944444444])
-                .addTo(map)
-                .bindPopup('🏴󠁧󠁢󠁥󠁮󠁧󠁿 Lewisham Borough F.C.');
-        }
+        document.addEventListener('DOMContentLoaded', function() {
+            if (typeof L !== 'undefined' && document.getElementById('sticker-map')) {
+                const map = L.map('sticker-map').setView([48.7763833333333, 9.17531944444444], 13);
+                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                    attribution: '© OpenStreetMap contributors'
+                }).addTo(map);
+                L.marker([48.7763833333333, 9.17531944444444])
+                    .addTo(map)
+                    .bindPopup('🏴󠁧󠁢󠁥󠁮󠁧󠁿 Lewisham Borough F.C.');
+            }
+        });
     
     </script>
 </body>

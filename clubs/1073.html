@@ -79,7 +79,7 @@
     </header>
 
     <main class="container" id="catalogue-container">
-        <div id="catalogue-breadcrumbs"><a href="/catalogue.html">Catalogue</a> → <a href="/countries/hun.html">Hungary</a> → <a href="/clubs/1073.html">🇭🇺 Kecskeméti TE</a></div>
+        <div id="catalogue-breadcrumbs"><a href="/catalogue.html">Catalogue</a> → <a href="/countries/HUN.html">Hungary</a> → <a href="/clubs/1073.html">🇭🇺 Kecskeméti TE</a></div>
 
         <h1 id="main-catalogue-heading">🇭🇺 Kecskeméti TE - Sticker Gallery</h1>
 
@@ -140,18 +140,20 @@
 
         // Initialize club map if map container exists
         
-        if (typeof L !== 'undefined') {
-            const clubMap = L.map('club-map').setView([45.5294277777778, 14.011112499999989], 10);
-            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                attribution: '© OpenStreetMap contributors'
-            }).addTo(clubMap);
-            L.marker([48.7801388888889, 9.18382777777778])
+        document.addEventListener('DOMContentLoaded', function() {
+            if (typeof L !== 'undefined' && document.getElementById('club-map')) {
+                const clubMap = L.map('club-map').setView([45.5294277777778, 14.011112499999989], 10);
+                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                    attribution: '© OpenStreetMap contributors'
+                }).addTo(clubMap);
+                L.marker([48.7801388888889, 9.18382777777778])
             .addTo(clubMap)
             .bindPopup('Sticker #2433');
             L.marker([42.2787166666667, 18.8383972222222])
             .addTo(clubMap)
             .bindPopup('Sticker #2488');
-        }
+            }
+        });
     
     </script>
 </body>

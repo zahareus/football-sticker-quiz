@@ -80,7 +80,7 @@
     </header>
 
     <main class="container" id="catalogue-container">
-        <div id="catalogue-breadcrumbs"><a href="/catalogue.html">Catalogue</a> → <a href="/countries/eng.html">ENG</a> → <a href="/clubs/1078.html">🏴󠁧󠁢󠁥󠁮󠁧󠁿 Leeds United</a> → <a href="/stickers/2469.html">Sticker #2469</a></div>
+        <div id="catalogue-breadcrumbs"><a href="/catalogue.html">Catalogue</a> → <a href="/countries/ENG.html">ENG</a> → <a href="/clubs/1078.html">🏴󠁧󠁢󠁥󠁮󠁧󠁿 Leeds United</a> → <a href="/stickers/2469.html">Sticker #2469</a></div>
 
         <h1 id="main-catalogue-heading" style="display: none;">Sticker #2469</h1>
 
@@ -143,15 +143,17 @@
 
         // Initialize map if map container exists
         
-        if (typeof L !== 'undefined') {
-            const map = L.map('sticker-map').setView([50.0845527777778, 14.4135583333333], 13);
-            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                attribution: '© OpenStreetMap contributors'
-            }).addTo(map);
-            L.marker([50.0845527777778, 14.4135583333333])
-                .addTo(map)
-                .bindPopup('🏴󠁧󠁢󠁥󠁮󠁧󠁿 Leeds United');
-        }
+        document.addEventListener('DOMContentLoaded', function() {
+            if (typeof L !== 'undefined' && document.getElementById('sticker-map')) {
+                const map = L.map('sticker-map').setView([50.0845527777778, 14.4135583333333], 13);
+                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                    attribution: '© OpenStreetMap contributors'
+                }).addTo(map);
+                L.marker([50.0845527777778, 14.4135583333333])
+                    .addTo(map)
+                    .bindPopup('🏴󠁧󠁢󠁥󠁮󠁧󠁿 Leeds United');
+            }
+        });
     
     </script>
 </body>

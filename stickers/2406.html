@@ -80,7 +80,7 @@
     </header>
 
     <main class="container" id="catalogue-container">
-        <div id="catalogue-breadcrumbs"><a href="/catalogue.html">Catalogue</a> → <a href="/countries/hun.html">Hungary</a> → <a href="/clubs/1067.html">🇭🇺 Diósgyőri VTK</a> → <a href="/stickers/2406.html">Sticker #2406</a></div>
+        <div id="catalogue-breadcrumbs"><a href="/catalogue.html">Catalogue</a> → <a href="/countries/HUN.html">Hungary</a> → <a href="/clubs/1067.html">🇭🇺 Diósgyőri VTK</a> → <a href="/stickers/2406.html">Sticker #2406</a></div>
 
         <h1 id="main-catalogue-heading" style="display: none;">Sticker #2406</h1>
 
@@ -143,15 +143,17 @@
 
         // Initialize map if map container exists
         
-        if (typeof L !== 'undefined') {
-            const map = L.map('sticker-map').setView([48.7952722222222, 9.22531111111111], 13);
-            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                attribution: '© OpenStreetMap contributors'
-            }).addTo(map);
-            L.marker([48.7952722222222, 9.22531111111111])
-                .addTo(map)
-                .bindPopup('🇭🇺 Diósgyőri VTK');
-        }
+        document.addEventListener('DOMContentLoaded', function() {
+            if (typeof L !== 'undefined' && document.getElementById('sticker-map')) {
+                const map = L.map('sticker-map').setView([48.7952722222222, 9.22531111111111], 13);
+                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                    attribution: '© OpenStreetMap contributors'
+                }).addTo(map);
+                L.marker([48.7952722222222, 9.22531111111111])
+                    .addTo(map)
+                    .bindPopup('🇭🇺 Diósgyőri VTK');
+            }
+        });
     
     </script>
 </body>

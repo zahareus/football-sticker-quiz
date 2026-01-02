@@ -79,7 +79,7 @@
     </header>
 
     <main class="container" id="catalogue-container">
-        <div id="catalogue-breadcrumbs"><a href="/catalogue.html">Catalogue</a> → <a href="/countries/swe.html">Sweden</a> → <a href="/clubs/1053.html">🇸🇪 Stora Mellösa AIF</a></div>
+        <div id="catalogue-breadcrumbs"><a href="/catalogue.html">Catalogue</a> → <a href="/countries/SWE.html">Sweden</a> → <a href="/clubs/1053.html">🇸🇪 Stora Mellösa AIF</a></div>
 
         <h1 id="main-catalogue-heading">🇸🇪 Stora Mellösa AIF - Sticker Gallery</h1>
 
@@ -133,15 +133,17 @@
 
         // Initialize club map if map container exists
         
-        if (typeof L !== 'undefined') {
-            const clubMap = L.map('club-map').setView([37.9830333333333, -0.662391666666667], 10);
-            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                attribution: '© OpenStreetMap contributors'
-            }).addTo(clubMap);
-            L.marker([37.9830333333333, -0.662391666666667])
+        document.addEventListener('DOMContentLoaded', function() {
+            if (typeof L !== 'undefined' && document.getElementById('club-map')) {
+                const clubMap = L.map('club-map').setView([37.9830333333333, -0.662391666666667], 10);
+                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                    attribution: '© OpenStreetMap contributors'
+                }).addTo(clubMap);
+                L.marker([37.9830333333333, -0.662391666666667])
             .addTo(clubMap)
             .bindPopup('Sticker #2304');
-        }
+            }
+        });
     
     </script>
 </body>

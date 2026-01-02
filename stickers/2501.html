@@ -80,7 +80,7 @@
     </header>
 
     <main class="container" id="catalogue-container">
-        <div id="catalogue-breadcrumbs"><a href="/catalogue.html">Catalogue</a> → <a href="/countries/srb.html">Serbia</a> → <a href="/clubs/631.html">🇷🇸 FK Crvena zvezda</a> → <a href="/stickers/2501.html">Sticker #2501</a></div>
+        <div id="catalogue-breadcrumbs"><a href="/catalogue.html">Catalogue</a> → <a href="/countries/SRB.html">Serbia</a> → <a href="/clubs/631.html">🇷🇸 FK Crvena zvezda</a> → <a href="/stickers/2501.html">Sticker #2501</a></div>
 
         <h1 id="main-catalogue-heading" style="display: none;">Sticker #2501</h1>
 
@@ -143,15 +143,17 @@
 
         // Initialize map if map container exists
         
-        if (typeof L !== 'undefined') {
-            const map = L.map('sticker-map').setView([42.2781111111111, 18.8373555555556], 13);
-            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                attribution: '© OpenStreetMap contributors'
-            }).addTo(map);
-            L.marker([42.2781111111111, 18.8373555555556])
-                .addTo(map)
-                .bindPopup('🇷🇸 FK Crvena zvezda');
-        }
+        document.addEventListener('DOMContentLoaded', function() {
+            if (typeof L !== 'undefined' && document.getElementById('sticker-map')) {
+                const map = L.map('sticker-map').setView([42.2781111111111, 18.8373555555556], 13);
+                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                    attribution: '© OpenStreetMap contributors'
+                }).addTo(map);
+                L.marker([42.2781111111111, 18.8373555555556])
+                    .addTo(map)
+                    .bindPopup('🇷🇸 FK Crvena zvezda');
+            }
+        });
     
     </script>
 </body>

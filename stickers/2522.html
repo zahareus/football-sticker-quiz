@@ -80,7 +80,7 @@
     </header>
 
     <main class="container" id="catalogue-container">
-        <div id="catalogue-breadcrumbs"><a href="/catalogue.html">Catalogue</a> → <a href="/countries/tur.html">Turkey</a> → <a href="/clubs/469.html">🇹🇷 Galatasaray</a> → <a href="/stickers/2522.html">Sticker #2522</a></div>
+        <div id="catalogue-breadcrumbs"><a href="/catalogue.html">Catalogue</a> → <a href="/countries/TUR.html">Turkey</a> → <a href="/clubs/469.html">🇹🇷 Galatasaray</a> → <a href="/stickers/2522.html">Sticker #2522</a></div>
 
         <h1 id="main-catalogue-heading" style="display: none;">Sticker #2522</h1>
 
@@ -143,15 +143,17 @@
 
         // Initialize map if map container exists
         
-        if (typeof L !== 'undefined') {
-            const map = L.map('sticker-map').setView([36.5296944444444, 32.0447305555556], 13);
-            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                attribution: '© OpenStreetMap contributors'
-            }).addTo(map);
-            L.marker([36.5296944444444, 32.0447305555556])
-                .addTo(map)
-                .bindPopup('🇹🇷 Galatasaray');
-        }
+        document.addEventListener('DOMContentLoaded', function() {
+            if (typeof L !== 'undefined' && document.getElementById('sticker-map')) {
+                const map = L.map('sticker-map').setView([36.5296944444444, 32.0447305555556], 13);
+                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                    attribution: '© OpenStreetMap contributors'
+                }).addTo(map);
+                L.marker([36.5296944444444, 32.0447305555556])
+                    .addTo(map)
+                    .bindPopup('🇹🇷 Galatasaray');
+            }
+        });
     
     </script>
 </body>
