@@ -1283,7 +1283,16 @@ body.home-page #app-logo {
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
     margin-bottom: calc(var(--spacing-unit) * 2);
+    width: 100%;
+}
+
+#home-sticker-link {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
 }
 
 .random-sticker-label {
