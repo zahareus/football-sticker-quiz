@@ -201,21 +201,112 @@ function generateMapSection(sticker) {
 }
 
 /**
- * Generate map initialization script
+ * Calculate distance between two coordinates in km (Haversine formula)
  */
-function generateMapInitScript(sticker, clubName) {
+function getDistanceKm(lat1, lon1, lat2, lon2) {
+    const R = 6371; // Earth's radius in km
+    const dLat = (lat2 - lat1) * Math.PI / 180;
+    const dLon = (lon2 - lon1) * Math.PI / 180;
+    const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+        Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+        Math.sin(dLon / 2) * Math.sin(dLon / 2);
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    return R * c;
+}
+
+/**
+ * Find nearby stickers within a given radius
+ */
+function findNearbyStickers(currentSticker, allStickers, radiusKm = 50, maxCount = 10) {
+    if (!currentSticker.latitude || !currentSticker.longitude) return [];
+
+    const nearby = [];
+
+    for (const sticker of allStickers) {
+        if (sticker.id === currentSticker.id) continue;
+        if (!sticker.latitude || !sticker.longitude) continue;
+
+        const distance = getDistanceKm(
+            currentSticker.latitude, currentSticker.longitude,
+            sticker.latitude, sticker.longitude
+        );
+
+        if (distance <= radiusKm) {
+            nearby.push({
+                id: sticker.id,
+                latitude: sticker.latitude,
+                longitude: sticker.longitude,
+                clubName: sticker.clubs?.name || 'Unknown Club',
+                distance: distance
+            });
+        }
+    }
+
+    // Sort by distance and limit
+    nearby.sort((a, b) => a.distance - b.distance);
+    return nearby.slice(0, maxCount);
+}
+
+/**
+ * Generate map initialization script with nearby stickers
+ */
+function generateMapInitScript(sticker, clubName, nearbyStickers = []) {
     if (!sticker.latitude || !sticker.longitude) return '';
+
+    // Generate nearby stickers markers code
+    let nearbyMarkersCode = '';
+    if (nearbyStickers.length > 0) {
+        nearbyMarkersCode = nearbyStickers.map(nearby => {
+            const escapedClubName = nearby.clubName.replace(/'/g, "\\'");
+            return `
+                L.marker([${nearby.latitude}, ${nearby.longitude}], {
+                    icon: L.icon({
+                        iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
+                        iconSize: [20, 33],
+                        iconAnchor: [10, 33],
+                        popupAnchor: [1, -28],
+                        className: 'nearby-marker'
+                    }),
+                    opacity: 0.7
+                }).addTo(map)
+                    .bindPopup('<div class="nearby-popup"><strong>${escapedClubName}</strong><br><a href="/stickers/${nearby.id}.html">View sticker #${nearby.id}</a></div>');`;
+        }).join('\n                ');
+    }
 
     return `
         document.addEventListener('DOMContentLoaded', function() {
             if (typeof L !== 'undefined' && document.getElementById('sticker-map')) {
-                const map = L.map('sticker-map').setView([${sticker.latitude}, ${sticker.longitude}], 13);
+                const map = L.map('sticker-map').setView([${sticker.latitude}, ${sticker.longitude}], 12);
                 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                     attribution: '© OpenStreetMap contributors'
                 }).addTo(map);
-                L.marker([${sticker.latitude}, ${sticker.longitude}])
-                    .addTo(map)
-                    .bindPopup('${clubName ? clubName.replace(/'/g, "\\'") : 'Sticker location'}');
+
+                // Nearby stickers (shown first, so main marker is on top)
+                ${nearbyMarkersCode}
+
+                // Main sticker marker (larger, on top)
+                L.marker([${sticker.latitude}, ${sticker.longitude}], {
+                    icon: L.icon({
+                        iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
+                        iconRetinaUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png',
+                        shadowUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png',
+                        iconSize: [25, 41],
+                        iconAnchor: [12, 41],
+                        popupAnchor: [1, -34],
+                        shadowSize: [41, 41]
+                    }),
+                    zIndexOffset: 1000
+                }).addTo(map)
+                    .bindPopup('<strong>${clubName ? clubName.replace(/'/g, "\\'") : 'Sticker location'}</strong>').openPopup();
+
+                // Fit bounds to show all markers if there are nearby stickers
+                ${nearbyStickers.length > 0 ? `
+                const bounds = L.latLngBounds([
+                    [${sticker.latitude}, ${sticker.longitude}],
+                    ${nearbyStickers.map(n => `[${n.latitude}, ${n.longitude}]`).join(',\n                    ')}
+                ]);
+                map.fitBounds(bounds, { padding: [30, 30], maxZoom: 13 });
+                ` : ''}
             }
         });
     `;
@@ -317,7 +408,7 @@ function generateClubMapInitScript(stickersWithCoordinates, clubName) {
 /**
  * Generate a single sticker page
  */
-async function generateStickerPage(sticker, club, prevStickerId, nextStickerId) {
+async function generateStickerPage(sticker, club, prevStickerId, nextStickerId, allStickers = []) {
     const template = loadTemplate('sticker-page.html');
 
     const countryName = getCountryName(club.country);
@@ -342,6 +433,9 @@ async function generateStickerPage(sticker, club, prevStickerId, nextStickerId) 
         { text: `Sticker #${sticker.id}`, url: `/stickers/${sticker.id}.html` }
     ]);
 
+    // Find nearby stickers for map (50km radius, max 10)
+    const nearbyStickers = findNearbyStickers(sticker, allStickers, 50, 10);
+
     const data = {
         PAGE_TITLE: pageTitle,
         META_DESCRIPTION: metaDescription,
@@ -360,7 +454,7 @@ async function generateStickerPage(sticker, club, prevStickerId, nextStickerId) 
         STICKER_LOCATION: generateStickerLocation(sticker),
         NAVIGATION_BUTTONS: generateNavigationButtons(prevStickerId, nextStickerId),
         MAP_SECTION: generateMapSection(sticker),
-        MAP_INIT_SCRIPT: generateMapInitScript(sticker, club.name)
+        MAP_INIT_SCRIPT: generateMapInitScript(sticker, club.name, nearbyStickers)
     };
 
     const html = replacePlaceholders(template, data);
@@ -498,6 +592,42 @@ async function generateCountryPage(countryCode, clubs, stickerCountsByClub) {
     }
 
     const outputPath = join(outputDir, `${countryCode.toUpperCase()}.html`);
+    writeFileSync(outputPath, html, 'utf-8');
+
+    return outputPath;
+}
+
+/**
+ * Generate static index.html with pre-embedded random sticker pool
+ */
+async function generateIndexPage(stickers) {
+    const template = loadTemplate('index-page.html');
+
+    // Select random stickers for the pool (50 stickers for variety)
+    const poolSize = Math.min(50, stickers.length);
+    const shuffled = [...stickers].sort(() => Math.random() - 0.5);
+    const selectedStickers = shuffled.slice(0, poolSize);
+
+    // Create sticker pool with optimized image URLs
+    const stickerPool = selectedStickers.map(sticker => ({
+        id: sticker.id,
+        url: getOptimizedImageUrl(sticker.image_url, '_home')
+    }));
+
+    // First sticker for preload and initial display
+    const firstSticker = stickerPool[0];
+
+    const data = {
+        TOTAL_STICKERS: stickers.length,
+        FIRST_STICKER_URL: firstSticker.url,
+        FIRST_STICKER_LINK: `/stickers/${firstSticker.id}.html`,
+        STICKER_POOL_JSON: JSON.stringify(stickerPool)
+    };
+
+    const html = replacePlaceholders(template, data);
+
+    // Save directly to project root as index.html
+    const outputPath = join(PROJECT_ROOT, 'index.html');
     writeFileSync(outputPath, html, 'utf-8');
 
     return outputPath;
@@ -642,7 +772,7 @@ async function generateAllPages() {
 
         console.log(`  ✓ Found ${Object.keys(clubsByCountry).length} countries`);
 
-        // Generate sticker pages
+        // Generate sticker pages (pass all stickers for nearby calculation)
         console.log();
         console.log('🔨 Generating sticker pages...');
         let stickerSuccess = 0;
@@ -654,10 +784,10 @@ async function generateAllPages() {
             const nextStickerId = i < stickers.length - 1 ? stickers[i + 1].id : null;
 
             try {
-                await generateStickerPage(sticker, sticker.clubs, prevStickerId, nextStickerId);
+                await generateStickerPage(sticker, sticker.clubs, prevStickerId, nextStickerId, stickers);
                 stickerSuccess++;
 
-                if (stickerSuccess % 10 === 0 || stickerSuccess === stickers.length) {
+                if (stickerSuccess % 100 === 0 || stickerSuccess === stickers.length) {
                     console.log(`  ✓ Generated ${stickerSuccess}/${stickers.length} sticker pages...`);
                 }
             } catch (error) {
@@ -711,15 +841,26 @@ async function generateAllPages() {
             }
         }
 
+        // Generate index page with pre-embedded random stickers
+        console.log('\n🏠 Generating index page...');
+        try {
+            await generateIndexPage(stickers);
+            console.log('  ✓ Generated index.html with random sticker pool');
+        } catch (error) {
+            console.error('  ✗ Error generating index page:', error.message);
+        }
+
         // Summary
         console.log(`\n✅ Generation complete!`);
         console.log(`\n   Sticker pages: ${stickerSuccess} success, ${stickerError} errors`);
         console.log(`   Club pages: ${clubSuccess} success, ${clubError} errors`);
         console.log(`   Country pages: ${countrySuccess} success, ${countryError} errors`);
-        console.log(`\n📁 Output directories:`);
-        console.log(`   ${join(PROJECT_ROOT, 'stickers')}`);
-        console.log(`   ${join(PROJECT_ROOT, 'clubs')}`);
-        console.log(`   ${join(PROJECT_ROOT, 'countries')}`);
+        console.log(`   Index page: generated`);
+        console.log(`\n📁 Output files:`);
+        console.log(`   ${join(PROJECT_ROOT, 'index.html')}`);
+        console.log(`   ${join(PROJECT_ROOT, 'stickers')}/*.html`);
+        console.log(`   ${join(PROJECT_ROOT, 'clubs')}/*.html`);
+        console.log(`   ${join(PROJECT_ROOT, 'countries')}/*.html`);
 
     } catch (error) {
         console.error('❌ Fatal error:', error);
