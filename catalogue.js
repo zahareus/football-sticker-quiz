@@ -340,10 +340,10 @@ async function loadLastStickers() {
                 const clubName = sticker.clubs?.name || 'Unknown Club';
                 const clubId = sticker.clubs?.id || null;
 
-                let entry = '<a href="catalogue.html?sticker_id=' + sticker.id + '" class="sticker-link">#' + sticker.id + '</a>, ';
+                let entry = '<a href="/stickers/' + sticker.id + '.html" class="sticker-link">#' + sticker.id + '</a>, ';
 
                 if (clubId) {
-                    entry += '<a href="catalogue.html?club_id=' + clubId + '" class="club-link">' + clubName + '</a>';
+                    entry += '<a href="/clubs/' + clubId + '.html" class="club-link">' + clubName + '</a>';
                 } else {
                     entry += clubName;
                 }
@@ -539,7 +539,7 @@ async function loadContinentsAndCountries() {
             countriesInContinent.forEach(country => {
                 const flagEmoji = countryCodeToFlagEmoji[country.code.toUpperCase()] || '🏳️';
                 const clubWord = country.clubCount === 1 ? 'club' : 'clubs';
-                listHtml += `<li><a href="catalogue.html?country=${country.code}"><span class="flag-emoji">${flagEmoji}</span> ${country.name} (${country.clubCount} ${clubWord})</a></li>`;
+                listHtml += `<li><a href="/countries/${country.code.toUpperCase()}.html"><span class="flag-emoji">${flagEmoji}</span> ${country.name} (${country.clubCount} ${clubWord})</a></li>`;
             });
             listHtml += `</ul></div>`;
         });
@@ -590,7 +590,7 @@ async function loadCountryDetails(countryCode) {
             const countryInfo = countryCodeToDetails_Generic[countryCode];
             const countryDisplayName = countryInfo ? countryInfo.name : countryCode;
             document.title = `${countryDisplayName} - Sticker Catalogue`;
-            updateCanonicalUrl(`https://stickerhunt.club/catalogue.html?country=${countryCode}`);
+            updateCanonicalUrl(`https://stickerhunt.club/countries/${countryCode.toUpperCase()}.html`);
             updateMetaDescription(`Browse ${clubsInCountry.length} football clubs from ${countryDisplayName} in our sticker database. Explore club stickers and discover the complete collection.`);
 
             // Get all club IDs to fetch sticker counts in one query
@@ -623,7 +623,7 @@ async function loadCountryDetails(countryCode) {
             let clubListHtml = '<ul class="club-list">';
             clubsWithStickerCounts.forEach(club => {
                 const countText = `(${club.stickerCount} sticker${club.stickerCount !== 1 ? 's' : ''})`;
-                clubListHtml += `<li><a href="catalogue.html?club_id=${club.id}">${club.name} ${countText}</a></li>`;
+                clubListHtml += `<li><a href="/clubs/${club.id}.html">${club.name} ${countText}</a></li>`;
             });
             clubListHtml += '</ul>';
             contentBodyHtml = clubListHtml;
@@ -667,7 +667,7 @@ async function loadClubDetails(clubId) {
 
             if (mainHeading) mainHeading.textContent = `${clubData.name} - Sticker Gallery`;
             document.title = `${clubData.name} - ${countryDisplayName} - Sticker Catalogue`;
-            updateCanonicalUrl(`https://stickerhunt.club/catalogue.html?club_id=${clubId}`);
+            updateCanonicalUrl(`https://stickerhunt.club/clubs/${clubId}.html`);
 
             // Update meta keywords from media field
             if (clubData.media) {
@@ -681,7 +681,7 @@ async function loadClubDetails(clubId) {
 
             updateBreadcrumbs([
                 { text: `All Countries (${totalCountriesInCatalogue})`, link: 'catalogue.html' },
-                { text: `All clubs from ${countryDisplayName} (${totalClubsInCountry || 0})`, link: `catalogue.html?country=${clubData.country}` }
+                { text: `All clubs from ${countryDisplayName} (${totalClubsInCountry || 0})`, link: `/countries/${clubData.country.toUpperCase()}.html` }
             ]);
 
             const { data: stickersResponse, error: stickersError } = await supabaseClient
@@ -725,7 +725,7 @@ async function loadClubDetails(clubId) {
                     // Use optimized thumbnail URL with lazy loading for faster page load
                     const thumbnailUrl = SharedUtils.getThumbnailUrl(sticker.image_url);
                     galleryHtml += `
-                        <a href="catalogue.html?sticker_id=${sticker.id}" class="sticker-preview-link">
+                        <a href="/stickers/${sticker.id}.html" class="sticker-preview-link">
                             <img src="${thumbnailUrl}"
                                  alt="Sticker ID ${sticker.id} for ${clubData.name}"
                                  class="sticker-preview-image"
@@ -822,7 +822,7 @@ async function loadStickerDetails(stickerId) {
                 }
                 if (mainHeading) mainHeading.style.display = 'none'; // Hide heading - info shown in right column
                 document.title = `Sticker #${sticker.id} - ${clubName} - ${countryDisplayNameForBreadcrumb} - Sticker Catalogue`;
-                updateCanonicalUrl(`https://stickerhunt.club/catalogue.html?sticker_id=${sticker.id}`);
+                updateCanonicalUrl(`https://stickerhunt.club/stickers/${sticker.id}.html`);
                 updateMetaDescription(`Football sticker #${sticker.id} from ${clubName}, ${countryDisplayNameForBreadcrumb}. View this sticker in our collection.`);
 
                 // Update meta keywords from club media field
@@ -842,8 +842,8 @@ async function loadStickerDetails(stickerId) {
 
                 updateBreadcrumbs([
                     { text: `All Countries (${totalCountriesInCatalogue})`, link: 'catalogue.html' },
-                    { text: `All clubs from ${countryDisplayNameForBreadcrumb} (${totalClubsInCountry || 0})`, link: `catalogue.html?country=${countryCodeForBreadcrumb}` },
-                    { text: `All stickers from ${clubName} (${totalStickersInClub || 0})`, link: `catalogue.html?club_id=${sticker.club_id}` }
+                    { text: `All clubs from ${countryDisplayNameForBreadcrumb} (${totalClubsInCountry || 0})`, link: `/countries/${countryCodeForBreadcrumb.toUpperCase()}.html` },
+                    { text: `All stickers from ${clubName} (${totalStickersInClub || 0})`, link: `/clubs/${sticker.club_id}.html` }
                 ]);
 
                 // Get all stickers for this club to enable prev/next navigation
@@ -873,13 +873,13 @@ async function loadStickerDetails(stickerId) {
                 navigationHtml = '<div class="sticker-nav-buttons">';
 
                 if (prevStickerId !== null) {
-                    navigationHtml += `<a href="catalogue.html?sticker_id=${prevStickerId}" class="btn btn-nav sticker-nav-btn">← #${prevStickerId}</a>`;
+                    navigationHtml += `<a href="/stickers/${prevStickerId}.html" class="btn btn-nav sticker-nav-btn">← #${prevStickerId}</a>`;
                 } else {
                     navigationHtml += '<span class="sticker-nav-placeholder"></span>';
                 }
 
                 if (nextStickerId !== null) {
-                    navigationHtml += `<a href="catalogue.html?sticker_id=${nextStickerId}" class="btn btn-nav sticker-nav-btn">#${nextStickerId} →</a>`;
+                    navigationHtml += `<a href="/stickers/${nextStickerId}.html" class="btn btn-nav sticker-nav-btn">#${nextStickerId} →</a>`;
                 } else {
                     navigationHtml += '<span class="sticker-nav-placeholder"></span>';
                 }
@@ -1311,7 +1311,7 @@ function initializeStickerMap(latitude, longitude, clubName, currentStickerId, n
                 const popupContent = `
                     <div class="nearby-sticker-popup">
                         <strong>${nearbyClubName}</strong>
-                        <a href="catalogue.html?sticker_id=${sticker.id}" class="map-popup-link">View</a>
+                        <a href="/stickers/${sticker.id}.html" class="map-popup-link">View</a>
                     </div>
                 `;
 
@@ -1413,7 +1413,7 @@ function initializeClubMap(stickers, clubName) {
             const popupContent = `
                 <div class="club-sticker-popup">
                     <strong>${clubName}</strong>
-                    <a href="catalogue.html?sticker_id=${sticker.id}" class="map-popup-link">View sticker</a>
+                    <a href="/stickers/${sticker.id}.html" class="map-popup-link">View sticker</a>
                 </div>
             `;
 
