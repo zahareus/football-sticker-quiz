@@ -817,3 +817,108 @@ window.SharedUtils = {
     getDetailImageUrl,
     getHomeImageUrl
 };
+
+// ============================================================
+// AUTO-INITIALIZATION FOR STATIC PAGES
+// ============================================================
+
+/**
+ * Auto-initialize basic auth functionality for all pages.
+ * This ensures logout button works even on static pages that don't have
+ * their own JavaScript to call setupAuth().
+ */
+(function autoInitAuth() {
+    // Only run on DOMContentLoaded
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initBasicAuth);
+    } else {
+        // DOM already loaded
+        initBasicAuth();
+    }
+
+    function initBasicAuth() {
+        // Skip if page has its own auth setup (check for page-specific scripts)
+        // These pages have their own setupAuth() call
+        const pageScripts = Array.from(document.querySelectorAll('script[src]')).map(s => s.src);
+        const hasOwnAuthSetup = pageScripts.some(src =>
+            src.includes('catalogue.js') ||
+            src.includes('script.js') ||
+            src.includes('index-static.js') ||
+            src.includes('index-script.js') ||
+            src.includes('leaderboard.js') ||
+            src.includes('profile.js') ||
+            src.includes('stickerlog.js') ||
+            src.includes('stickerstat.js') ||
+            src.includes('map.js') ||
+            src.includes('upload.js')
+        );
+
+        if (hasOwnAuthSetup) {
+            return; // Page has its own auth setup
+        }
+
+        // Initialize Supabase client for static pages
+        const client = initSupabaseClient();
+        if (!client) {
+            return;
+        }
+
+        // Set up logout button handler
+        const logoutButton = document.getElementById('logout-button');
+        if (logoutButton) {
+            logoutButton.addEventListener('click', async function() {
+                const result = await logout(client, null);
+                if (result.error) {
+                    alert('Logout failed. Please try again.');
+                } else {
+                    window.location.reload();
+                }
+            });
+        }
+
+        // Set up login button handler
+        const loginButton = document.getElementById('login-button');
+        if (loginButton) {
+            loginButton.addEventListener('click', function() {
+                loginWithGoogle(client, window.location.pathname);
+            });
+        }
+
+        // Check session and update UI
+        client.auth.getSession().then(async ({ data: { session } }) => {
+            const user = session?.user ?? null;
+            const userStatusElement = document.getElementById('user-status');
+            const userNicknameElement = document.getElementById('user-nickname');
+            const loginBtn = document.getElementById('login-button');
+
+            if (user && userStatusElement && userNicknameElement) {
+                // Load cached profile
+                const cachedProfile = loadCachedProfile(user.id);
+                if (cachedProfile && cachedProfile.username) {
+                    userNicknameElement.textContent = truncateString(cachedProfile.username);
+                }
+
+                // Try to load fresh profile
+                const profile = await loadUserProfile(client, user);
+                if (profile && profile.username) {
+                    userNicknameElement.textContent = truncateString(profile.username);
+                    cacheUserProfile(profile);
+                }
+
+                if (loginBtn) loginBtn.style.display = 'none';
+                userStatusElement.style.display = 'flex';
+            } else {
+                if (loginBtn) loginBtn.style.display = 'none';
+                if (userStatusElement) userStatusElement.style.display = 'none';
+            }
+        });
+
+        // Listen for auth state changes
+        client.auth.onAuthStateChange((event, session) => {
+            if (event === 'SIGNED_OUT') {
+                const userStatusElement = document.getElementById('user-status');
+                if (userStatusElement) userStatusElement.style.display = 'none';
+            }
+        });
+    }
+})();
