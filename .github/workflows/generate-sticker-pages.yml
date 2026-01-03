@@ -13,6 +13,10 @@ on:
         required: true
         type: string
 
+# Required for pushing commits
+permissions:
+  contents: write
+
 jobs:
   generate-pages:
     runs-on: ubuntu-latest
