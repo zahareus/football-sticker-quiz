@@ -8,8 +8,8 @@ on:
   # Manual trigger for testing
   workflow_dispatch:
     inputs:
-      sticker_id:
-        description: 'Sticker ID to generate pages for'
+      sticker_ids:
+        description: 'Sticker IDs (comma-separated, e.g., 123, 456, 789)'
         required: true
         type: string
 
@@ -37,24 +37,37 @@ jobs:
         working-directory: ./scripts
         run: npm install
 
-      - name: Get sticker ID
-        id: get-sticker-id
+      - name: Get sticker IDs
+        id: get-sticker-ids
         run: |
           if [ "${{ github.event_name }}" == "repository_dispatch" ]; then
-            STICKER_ID="${{ github.event.client_payload.sticker_id }}"
+            # Support both single sticker_id and multiple sticker_ids from API
+            if [ -n "${{ github.event.client_payload.sticker_ids }}" ]; then
+              STICKER_IDS="${{ github.event.client_payload.sticker_ids }}"
+            else
+              STICKER_IDS="${{ github.event.client_payload.sticker_id }}"
+            fi
           else
-            STICKER_ID="${{ github.event.inputs.sticker_id }}"
+            STICKER_IDS="${{ github.event.inputs.sticker_ids }}"
           fi
-          echo "sticker_id=$STICKER_ID" >> $GITHUB_OUTPUT
-          echo "Generating pages for sticker #$STICKER_ID"
+          # Remove spaces and store
+          STICKER_IDS=$(echo "$STICKER_IDS" | tr -d ' ')
+          echo "sticker_ids=$STICKER_IDS" >> $GITHUB_OUTPUT
+          echo "Processing sticker IDs: $STICKER_IDS"
 
       - name: Generate sticker pages
         working-directory: ./scripts
         env:
-          STICKER_ID: ${{ steps.get-sticker-id.outputs.sticker_id }}
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
           SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
-        run: node generate-single-sticker.js ${{ steps.get-sticker-id.outputs.sticker_id }}
+        run: |
+          IFS=',' read -ra IDS <<< "${{ steps.get-sticker-ids.outputs.sticker_ids }}"
+          for id in "${IDS[@]}"; do
+            echo "=========================================="
+            echo "Generating pages for sticker #$id"
+            echo "=========================================="
+            node generate-single-sticker.js "$id"
+          done
 
       - name: Check for changes
         id: check-changes
@@ -71,11 +84,21 @@ jobs:
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
           git add stickers/ clubs/ countries/
-          git commit -m "Auto-generate pages for sticker #${{ steps.get-sticker-id.outputs.sticker_id }}"
+
+          # Create commit message with all IDs
+          STICKER_IDS="${{ steps.get-sticker-ids.outputs.sticker_ids }}"
+          if [[ "$STICKER_IDS" == *","* ]]; then
+            git commit -m "Auto-generate pages for stickers #$STICKER_IDS"
+          else
+            git commit -m "Auto-generate pages for sticker #$STICKER_IDS"
+          fi
           git push
 
       - name: Output result
         run: |
-          STICKER_URL="https://stickerhunt.club/stickers/${{ steps.get-sticker-id.outputs.sticker_id }}.html"
-          echo "Sticker page URL: $STICKER_URL"
-          echo "STICKER_URL=$STICKER_URL" >> $GITHUB_ENV
+          echo "Generated pages for stickers: ${{ steps.get-sticker-ids.outputs.sticker_ids }}"
+          IFS=',' read -ra IDS <<< "${{ steps.get-sticker-ids.outputs.sticker_ids }}"
+          echo "Sticker URLs:"
+          for id in "${IDS[@]}"; do
+            echo "  - https://stickerhunt.club/stickers/$id.html"
+          done
