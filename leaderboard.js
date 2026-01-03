@@ -450,6 +450,7 @@ function setupAuth() {
 
             // Load fresh profile and update UI
             await loadAndSetUserProfile(user);
+            SharedUtils.identifyAmplitudeUser(user, currentUserProfile); // Identify in Amplitude
             updateAuthUI(user);
         } else {
             updateAuthUI(null);
@@ -482,6 +483,7 @@ function setupAuthStateListener() {
             }
             currentUser = null;
             currentUserProfile = null;
+            SharedUtils.clearAmplitudeUser(); // Clear Amplitude user
             updateAuthUI(null);
             return;
         }
@@ -496,6 +498,7 @@ function setupAuthStateListener() {
                 }
                 updateAuthUI(user);
                 await loadAndSetUserProfile(user);
+            SharedUtils.identifyAmplitudeUser(user, currentUserProfile); // Identify in Amplitude
                 updateAuthUI(user);
             }
         }
