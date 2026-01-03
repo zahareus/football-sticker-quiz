@@ -1597,6 +1597,80 @@ body.home-page #app-logo {
     }
 }
 
+/* Most Rated Stickers Section */
+.most-rated-section {
+    margin-top: calc(var(--spacing-unit) * 4);
+    margin-bottom: calc(var(--spacing-unit) * 4);
+    text-align: left;
+}
+
+.most-rated-section h3 {
+    font-size: 1.4em;
+    font-weight: 600;
+    margin-bottom: calc(var(--spacing-unit) * 1.5);
+    padding-bottom: calc(var(--spacing-unit) * 0.5);
+    border-bottom: 1px dashed var(--color-border);
+}
+
+.most-rated-list {
+    list-style: none;
+    padding-left: 0;
+}
+
+.most-rated-list li {
+    margin-bottom: var(--spacing-unit);
+    font-size: 1.1em;
+}
+
+.most-rated-list .rank {
+    color: var(--color-rank);
+    font-weight: 600;
+    min-width: 2em;
+    display: inline-block;
+}
+
+.most-rated-list .sticker-link,
+.most-rated-list .club-link {
+    color: var(--color-info-text);
+    text-decoration: none;
+    font-weight: 500;
+}
+
+@media (hover: hover) {
+    .most-rated-list .sticker-link:hover,
+    .most-rated-list .club-link:hover {
+        color: var(--color-link);
+        text-decoration: underline;
+    }
+}
+
+.rating-badge {
+    display: inline-block;
+    background-color: var(--color-accent);
+    color: var(--color-accent-text);
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-size: 0.8em;
+    font-weight: 600;
+    margin-left: 4px;
+}
+
+.rate-stickers-link {
+    display: inline-block;
+    margin-top: calc(var(--spacing-unit) * 1.5);
+    color: var(--color-info-text);
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 0.95em;
+}
+
+@media (hover: hover) {
+    .rate-stickers-link:hover {
+        color: var(--color-link);
+        text-decoration: underline;
+    }
+}
+
 /* Stats page container */
 #stats-container {
     text-align: left;
