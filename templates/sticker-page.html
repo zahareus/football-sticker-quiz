@@ -83,35 +83,37 @@
          </div>
     </header>
 
-    <main class="container" id="catalogue-container">
-        <div id="catalogue-breadcrumbs">{{BREADCRUMBS}}</div>
+    <main class="container sticker-page-container" id="catalogue-container">
+        <div class="sticker-page-content-wrapper">
+            <div id="catalogue-breadcrumbs">{{BREADCRUMBS}}</div>
 
-        <h1 id="main-catalogue-heading" style="display: none;">{{MAIN_HEADING}}</h1>
+            <h1 id="main-catalogue-heading" style="display: none;">{{MAIN_HEADING}}</h1>
 
-        <div id="catalogue-content">
-            <div class="sticker-detail-view sticker-detail-two-column">
-                <div class="sticker-detail-left-column">
-                    <div class="sticker-detail-image-container" onclick="window.open('{{IMAGE_FULL_URL}}', '_blank')">
-                        <img src="{{IMAGE_URL}}"
-                             alt="{{IMAGE_ALT}}"
-                             class="sticker-detail-image"
-                             decoding="async"
-                             loading="eager"
-                             fetchpriority="high">
+            <div id="catalogue-content">
+                <div class="sticker-detail-view sticker-detail-two-column">
+                    <div class="sticker-detail-left-column">
+                        <div class="sticker-detail-image-container" onclick="window.open('{{IMAGE_FULL_URL}}', '_blank')">
+                            <img src="{{IMAGE_URL}}"
+                                 alt="{{IMAGE_ALT}}"
+                                 class="sticker-detail-image"
+                                 decoding="async"
+                                 loading="eager"
+                                 fetchpriority="high">
+                        </div>
+                        {{NAVIGATION_BUTTONS}}
                     </div>
-                    {{NAVIGATION_BUTTONS}}
-                </div>
 
-                <div class="sticker-detail-right-panel">
-                    <div class="sticker-detail-info-block">
-                        <h2 class="sticker-detail-club-name">{{CLUB_NAME}}</h2>
-                        <p class="sticker-detail-id">#{{STICKER_ID}}</p>
-                        {{STICKER_DATE}}
-                        {{STICKER_LOCATION}}
+                    <div class="sticker-detail-right-panel">
+                        <div class="sticker-detail-info-block">
+                            <h2 class="sticker-detail-club-name">{{CLUB_NAME}}</h2>
+                            <p class="sticker-detail-id">#{{STICKER_ID}}</p>
+                            {{STICKER_DATE}}
+                            {{STICKER_LOCATION}}
+                        </div>
                     </div>
                 </div>
+                {{MAP_SECTION}}
             </div>
-            {{MAP_SECTION}}
         </div>
     </main>
 

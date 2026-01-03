@@ -948,6 +948,56 @@ body.quiz-result .result-right-panel {
     margin-top: calc(var(--spacing-unit) * 4);
 }
 
+/* Sticker Page Container - ensures consistent layout across all sticker pages */
+.sticker-page-container {
+    max-width: none;
+    width: 100%;
+    padding: 0;
+}
+
+.sticker-page-content-wrapper {
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 0 calc(var(--spacing-unit) * 2);
+}
+
+/* Desktop: expand sticker page wrapper to match two-column layout */
+@media (min-width: 1000px) {
+    .sticker-page-content-wrapper {
+        max-width: 1000px;
+    }
+
+    /* Remove the breakout positioning since wrapper controls width now */
+    .sticker-page-container .sticker-detail-two-column {
+        width: 100%;
+        max-width: none;
+        position: static;
+        left: auto;
+        transform: none;
+    }
+}
+
+/* Tablet: sticker page wrapper matches container width */
+@media (min-width: 701px) and (max-width: 999px) {
+    .sticker-page-content-wrapper {
+        max-width: 800px;
+    }
+
+    .sticker-page-container .sticker-detail-two-column {
+        width: 100%;
+        max-width: none;
+    }
+}
+
+/* Mobile: full width with padding */
+@media (max-width: 700px) {
+    .sticker-page-content-wrapper {
+        max-width: 100%;
+        padding: 0 calc(var(--spacing-unit) * 1.5);
+    }
+}
+
 .sticker-map-label {
     font-size: 1.2em;
     margin-bottom: calc(var(--spacing-unit) * 1.5);
