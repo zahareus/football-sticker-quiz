@@ -135,14 +135,17 @@ function generateRandomNickname() {
  * @param {Object} user - Supabase user object
  * @param {Object} profile - User profile with nickname
  */
-function identifyAmplitudeUser(user, profile = null) {
+function identifyAmplitudeUser(user, profile = null, retryCount = 0) {
     if (typeof window.amplitude === 'undefined') {
         console.warn('Amplitude not loaded, skipping user identification');
         return;
     }
 
+    const MAX_RETRIES = 5;
+    const RETRY_DELAY = 200; // ms
+
     try {
-        console.log('🔍 Identifying user in Amplitude:', {
+        console.log('🔍 Identifying user in Amplitude (attempt', retryCount + 1, '):', {
             userId: user.id,
             email: user.email,
             nickname: profile?.nickname || profile?.username || 'N/A'
@@ -165,13 +168,25 @@ function identifyAmplitudeUser(user, profile = null) {
 
         window.amplitude.identify(new window.amplitude.Identify().set(userProperties));
 
-        // Verify it was set
-        const currentUserId = window.amplitude.getUserId();
-        console.log('✅ Amplitude User ID set to:', currentUserId);
+        // Verify it was set - check after a small delay to allow SDK to process
+        setTimeout(() => {
+            const currentUserId = window.amplitude.getUserId();
+            console.log('✅ Amplitude User ID set to:', currentUserId);
 
-        if (currentUserId !== user.id) {
-            console.error('❌ Amplitude User ID mismatch! Expected:', user.id, 'Got:', currentUserId);
-        }
+            if (currentUserId !== user.id) {
+                console.error('❌ Amplitude User ID mismatch! Expected:', user.id, 'Got:', currentUserId);
+
+                // Retry if SDK not ready yet
+                if (retryCount < MAX_RETRIES) {
+                    console.warn('⚠️ Retrying Amplitude identification in', RETRY_DELAY, 'ms...');
+                    setTimeout(() => {
+                        identifyAmplitudeUser(user, profile, retryCount + 1);
+                    }, RETRY_DELAY * (retryCount + 1)); // Exponential backoff
+                } else {
+                    console.error('❌ Failed to identify user in Amplitude after', MAX_RETRIES, 'attempts');
+                }
+            }
+        }, 100);
     } catch (error) {
         console.error('Error identifying user in Amplitude:', error);
     }
