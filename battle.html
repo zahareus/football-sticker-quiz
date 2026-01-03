@@ -70,7 +70,6 @@
         <div class="battle-page-content-wrapper">
             <div id="battle-header">
                 <h1>Which sticker is better?</h1>
-                <p class="battle-subtitle">Click on your favorite to vote</p>
                 <div id="battle-stats" class="battle-stats">
                     <span id="total-votes">Loading...</span>
                 </div>
@@ -92,10 +91,6 @@
                         <div class="battle-sticker-overlay">
                             <span class="vote-text">Vote</span>
                         </div>
-                    </div>
-
-                    <div class="battle-vs">
-                        <span>VS</span>
                     </div>
 
                     <div class="battle-sticker battle-sticker-right" id="sticker-b" data-id="">
@@ -121,6 +116,12 @@
             <div id="battle-error" class="battle-error" style="display: none;">
                 <p>Failed to load stickers. Please try again.</p>
                 <button class="btn btn-primary" onclick="loadNewPair()">Retry</button>
+            </div>
+
+            <!-- Navigation buttons -->
+            <div class="battle-actions">
+                <a href="/quiz.html" class="btn btn-primary">Play Quiz</a>
+                <a href="/catalogue.html" class="btn btn-nav">View Catalogue</a>
             </div>
         </div>
     </main>
