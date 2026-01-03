@@ -155,18 +155,17 @@ function identifyAmplitudeUser(user, profile = null, retryCount = 0) {
         window.amplitude.setUserId(user.id);
 
         // Set user properties for better analytics
-        const userProperties = {
-            email: user.email,
-            provider: user.app_metadata?.provider || 'unknown',
-            created_at: user.created_at
-        };
+        const identifyObj = new window.amplitude.Identify();
+        identifyObj.set('email', user.email);
+        identifyObj.set('provider', user.app_metadata?.provider || 'unknown');
+        identifyObj.set('created_at', user.created_at);
 
         // Add nickname if available
         if (profile && (profile.nickname || profile.username)) {
-            userProperties.nickname = profile.nickname || profile.username;
+            identifyObj.set('nickname', profile.nickname || profile.username);
         }
 
-        window.amplitude.identify(new window.amplitude.Identify().set(userProperties));
+        window.amplitude.identify(identifyObj);
 
         // Verify it was set - check after a small delay to allow SDK to process
         setTimeout(() => {
