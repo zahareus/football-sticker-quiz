@@ -132,6 +132,7 @@ async function initializeAuth() {
 
             // Load fresh profile in background
             loadAndSetUserProfile(user).then(() => {
+                SharedUtils.identifyAmplitudeUser(user, currentUserProfile); // Identify in Amplitude
                 updateAuthUI(user);
             });
         } else {
@@ -165,6 +166,7 @@ function setupAuthStateListener() {
             }
             currentUser = null;
             currentUserProfile = null;
+            SharedUtils.clearAmplitudeUser(); // Clear Amplitude user
             updateAuthUI(null);
             return;
         }
@@ -178,6 +180,7 @@ function setupAuthStateListener() {
                 }
                 updateAuthUI(user);
                 await loadAndSetUserProfile(user);
+                SharedUtils.identifyAmplitudeUser(user, currentUserProfile); // Identify in Amplitude
                 updateAuthUI(user);
             }
         }
