@@ -56,18 +56,46 @@ jobs:
           echo "Processing sticker IDs: $STICKER_IDS"
 
       - name: Generate sticker pages
+        id: generate-pages
         working-directory: ./scripts
         env:
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
           SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
         run: |
-          IFS=',' read -ra IDS <<< "${{ steps.get-sticker-ids.outputs.sticker_ids }}"
+          STICKER_IDS="${{ steps.get-sticker-ids.outputs.sticker_ids }}"
+          IFS=',' read -ra IDS <<< "$STICKER_IDS"
+
+          GENERATED_URLS=""
           for id in "${IDS[@]}"; do
             echo "=========================================="
             echo "Generating pages for sticker #$id"
             echo "=========================================="
             node generate-single-sticker.js "$id"
+
+            if [ -z "$GENERATED_URLS" ]; then
+              GENERATED_URLS="https://stickerhunt.club/stickers/$id.html"
+            else
+              GENERATED_URLS="$GENERATED_URLS,https://stickerhunt.club/stickers/$id.html"
+            fi
           done
+
+          echo "page_generation=success" >> $GITHUB_OUTPUT
+          echo "generated_urls=$GENERATED_URLS" >> $GITHUB_OUTPUT
+
+      - name: Optimize images
+        id: optimize-images
+        working-directory: ./scripts
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
+        run: |
+          STICKER_IDS="${{ steps.get-sticker-ids.outputs.sticker_ids }}"
+          echo "Optimizing images for stickers: $STICKER_IDS"
+
+          # Run optimization for specific sticker IDs
+          node optimize-images.js --only=$STICKER_IDS
+
+          echo "image_optimization=success" >> $GITHUB_OUTPUT
 
       - name: Check for changes
         id: check-changes
@@ -96,9 +124,16 @@ jobs:
 
       - name: Output result
         run: |
-          echo "Generated pages for stickers: ${{ steps.get-sticker-ids.outputs.sticker_ids }}"
+          echo "========================================"
+          echo "WORKFLOW COMPLETED SUCCESSFULLY"
+          echo "========================================"
+          echo ""
+          echo "Sticker IDs: ${{ steps.get-sticker-ids.outputs.sticker_ids }}"
+          echo "Page Generation: ${{ steps.generate-pages.outputs.page_generation }}"
+          echo "Image Optimization: ${{ steps.optimize-images.outputs.image_optimization }}"
+          echo ""
+          echo "Generated URLs:"
           IFS=',' read -ra IDS <<< "${{ steps.get-sticker-ids.outputs.sticker_ids }}"
-          echo "Sticker URLs:"
           for id in "${IDS[@]}"; do
             echo "  - https://stickerhunt.club/stickers/$id.html"
           done
