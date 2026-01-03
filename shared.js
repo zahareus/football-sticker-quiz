@@ -142,6 +142,12 @@ function identifyAmplitudeUser(user, profile = null) {
     }
 
     try {
+        console.log('🔍 Identifying user in Amplitude:', {
+            userId: user.id,
+            email: user.email,
+            nickname: profile?.nickname || profile?.username || 'N/A'
+        });
+
         // Set user ID (Supabase user ID)
         window.amplitude.setUserId(user.id);
 
@@ -153,12 +159,19 @@ function identifyAmplitudeUser(user, profile = null) {
         };
 
         // Add nickname if available
-        if (profile && profile.nickname) {
-            userProperties.nickname = profile.nickname;
+        if (profile && (profile.nickname || profile.username)) {
+            userProperties.nickname = profile.nickname || profile.username;
         }
 
         window.amplitude.identify(new window.amplitude.Identify().set(userProperties));
-        console.log('Amplitude: User identified', user.id);
+
+        // Verify it was set
+        const currentUserId = window.amplitude.getUserId();
+        console.log('✅ Amplitude User ID set to:', currentUserId);
+
+        if (currentUserId !== user.id) {
+            console.error('❌ Amplitude User ID mismatch! Expected:', user.id, 'Got:', currentUserId);
+        }
     } catch (error) {
         console.error('Error identifying user in Amplitude:', error);
     }
