@@ -100,7 +100,7 @@
                                  loading="eager"
                                  fetchpriority="high">
                         </div>
-                        <div class="sticker-nav-buttons"><a href="/stickers/2878.html" class="btn btn-nav sticker-nav-btn">← #2878</a><span class="sticker-nav-placeholder"></span></div>
+                        <div class="sticker-nav-buttons"><a href="/stickers/2878.html" class="btn btn-nav sticker-nav-btn">← #2878</a><a href="/stickers/2880.html" class="btn btn-nav sticker-nav-btn">#2880 →</a></div>
                     </div>
 
                     <div class="sticker-detail-right-panel">
@@ -151,7 +151,6 @@
                     attribution: '© OpenStreetMap contributors'
                 }).addTo(map);
 
-                // Nearby stickers (shown first, so main marker is on top)
                 
                 (function() {
                     const nearbyMarker = L.marker([52.0116806, 4.3648611], {
@@ -313,7 +312,6 @@
                     nearbyMarker.on('click', function() { this.openPopup(); });
                 })();
 
-                // Main sticker marker (larger, on top)
                 L.marker([52.0116472222222, 4.36487777777778], {
                     icon: L.icon({
                         iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
@@ -328,7 +326,6 @@
                 }).addTo(map)
                     .bindPopup('<strong>🇳🇱 Feyenoord</strong>').openPopup();
 
-                // Fit bounds to show all markers if there are nearby stickers
                 
                 const bounds = L.latLngBounds([
                     [52.0116472222222, 4.36487777777778],
