@@ -2643,3 +2643,28 @@ body.ttr-mode .game-info #timer {
         text-decoration: underline;
     }
 }
+
+/* Battle page action buttons */
+.battle-actions {
+    display: flex;
+    justify-content: center;
+    gap: calc(var(--spacing-unit) * 2);
+    margin-top: calc(var(--spacing-unit) * 4);
+}
+
+.battle-actions .btn {
+    min-width: 160px;
+}
+
+@media (max-width: 500px) {
+    .battle-actions {
+        flex-direction: column;
+        align-items: center;
+        gap: calc(var(--spacing-unit) * 1.5);
+    }
+
+    .battle-actions .btn {
+        width: 100%;
+        max-width: 280px;
+    }
+}

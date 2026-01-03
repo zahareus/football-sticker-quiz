@@ -107,7 +107,9 @@
                         <div class="sticker-detail-info-block">
                             <h2 class="sticker-detail-club-name">{{CLUB_NAME}}</h2>
                             <p class="sticker-detail-id">#{{STICKER_ID}}</p>
-                            {{STICKER_RATING}}
+                            <p class="sticker-detail-rating" id="sticker-rating" data-sticker-id="{{STICKER_ID}}">
+                                <a href="/battle.html">Rate: <span id="rating-value">...</span> (<span id="rating-rank">#...</span>)</a>
+                            </p>
                             {{STICKER_DATE}}
                             {{STICKER_LOCATION}}
                         </div>
@@ -134,6 +136,36 @@
     <script>
         // Initialize map if map container exists
         {{MAP_INIT_SCRIPT}}
+
+        // Load dynamic rating from database
+        document.addEventListener('DOMContentLoaded', async function() {
+            const ratingEl = document.getElementById('sticker-rating');
+            if (!ratingEl) return;
+
+            const stickerId = parseInt(ratingEl.dataset.stickerId);
+            if (!stickerId) return;
+
+            try {
+                const supabase = getSupabaseClient();
+                if (!supabase) return;
+
+                const { data, error } = await supabase.rpc('get_sticker_rank', {
+                    p_sticker_id: stickerId
+                });
+
+                if (error) {
+                    console.error('Error loading rating:', error);
+                    return;
+                }
+
+                if (data && !data.error) {
+                    document.getElementById('rating-value').textContent = data.rating;
+                    document.getElementById('rating-rank').textContent = '#' + data.rank;
+                }
+            } catch (err) {
+                console.error('Error loading rating:', err);
+            }
+        });
     </script>
 </body>
 </html>
