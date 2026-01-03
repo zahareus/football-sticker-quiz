@@ -488,11 +488,15 @@ async function handleSubmit(event) {
 
 async function triggerWebhook(sticker) {
     try {
+        // Generate sticker page URL
+        const stickerUrl = `https://stickerhunt.club/stickers/${sticker.id}.html`;
+
         const response = await fetch(UPLOAD_CONFIG.N8N_WEBHOOK_URL, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
                 sticker_id: sticker.id,
+                sticker_url: stickerUrl,
                 club_id: sticker.club_id,
                 club_name: selectedClub.name,
                 difficulty: sticker.difficulty,
