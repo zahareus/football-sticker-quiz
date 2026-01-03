@@ -186,6 +186,20 @@ function generateStickerLocation(sticker) {
 }
 
 /**
+ * Generate sticker rating HTML with rank link
+ * Shows: Rate: 1520 (#123) with link to battle page
+ */
+function generateStickerRating(sticker, rank) {
+    // Only show if sticker has rating data (games > 0) or if we want to always show
+    const rating = sticker.rating || 1500;
+    const hasGames = sticker.games && sticker.games > 0;
+
+    // Always show rating with link to battle, even for new stickers
+    const rankText = rank ? ` (#${rank})` : '';
+    return `<p class="sticker-detail-rating"><a href="/battle.html">Rate: ${rating}${rankText}</a></p>`;
+}
+
+/**
  * Generate navigation buttons HTML (formatted like current site)
  */
 function generateNavigationButtons(prevId, nextId) {
@@ -460,7 +474,7 @@ function generateClubMapInitScript(stickersWithCoordinates, clubName) {
 /**
  * Generate a single sticker page
  */
-async function generateStickerPage(sticker, club, prevStickerId, nextStickerId, allStickers = []) {
+async function generateStickerPage(sticker, club, prevStickerId, nextStickerId, allStickers = [], stickerRanks = {}) {
     const template = loadTemplate('sticker-page.html');
 
     const countryName = getCountryName(club.country);
@@ -488,6 +502,9 @@ async function generateStickerPage(sticker, club, prevStickerId, nextStickerId, 
     // Find nearby stickers for map (50km radius, max 10)
     const nearbyStickers = findNearbyStickers(sticker, allStickers, 50, 10);
 
+    // Get rank for this sticker
+    const rank = stickerRanks[sticker.id] || null;
+
     const data = {
         PAGE_TITLE: pageTitle,
         META_DESCRIPTION: metaDescription,
@@ -502,6 +519,7 @@ async function generateStickerPage(sticker, club, prevStickerId, nextStickerId, 
         MAIN_HEADING: `Sticker #${sticker.id}`,
         STICKER_ID: sticker.id,
         CLUB_NAME: club.name,
+        STICKER_RATING: generateStickerRating(sticker, rank),
         STICKER_DATE: generateStickerDate(sticker),
         STICKER_LOCATION: generateStickerLocation(sticker),
         NAVIGATION_BUTTONS: generateNavigationButtons(prevStickerId, nextStickerId),
@@ -695,6 +713,7 @@ async function fetchAllStickers() {
     let hasMore = true;
 
     while (hasMore) {
+        // Include rating and games fields for ELO display
         const { data, error } = await supabase
             .from('stickers')
             .select('*, clubs(*)')
@@ -824,6 +843,18 @@ async function generateAllPages() {
 
         console.log(`  ✓ Found ${Object.keys(clubsByCountry).length} countries`);
 
+        // Calculate sticker ranks based on rating (for ELO display)
+        console.log('\n📊 Calculating sticker ranks...');
+        const stickerRanks = {};
+        const sortedByRating = [...stickers]
+            .filter(s => s.rating !== null && s.rating !== undefined)
+            .sort((a, b) => (b.rating || 1500) - (a.rating || 1500));
+
+        sortedByRating.forEach((sticker, index) => {
+            stickerRanks[sticker.id] = index + 1;
+        });
+        console.log(`  ✓ Calculated ranks for ${Object.keys(stickerRanks).length} stickers`);
+
         // Generate sticker pages (pass all stickers for nearby calculation)
         console.log();
         console.log('🔨 Generating sticker pages...');
@@ -836,7 +867,7 @@ async function generateAllPages() {
             const nextStickerId = i < stickers.length - 1 ? stickers[i + 1].id : null;
 
             try {
-                await generateStickerPage(sticker, sticker.clubs, prevStickerId, nextStickerId, stickers);
+                await generateStickerPage(sticker, sticker.clubs, prevStickerId, nextStickerId, stickers, stickerRanks);
                 stickerSuccess++;
 
                 if (stickerSuccess % 100 === 0 || stickerSuccess === stickers.length) {
