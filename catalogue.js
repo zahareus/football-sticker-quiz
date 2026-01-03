@@ -1017,13 +1017,24 @@ function handleLoginClick() {
 
 // Logout
 async function handleLogoutClick() {
-    if (!supabaseClient) return;
+    console.log('Logout clicked, supabaseClient:', !!supabaseClient);
+    if (!supabaseClient) {
+        console.error('Logout failed: supabaseClient is null');
+        return;
+    }
 
-    const result = await SharedUtils.logout(supabaseClient, currentUser?.id);
-    if (result.error) {
-        alert('Logout failed. Please try again.');
-    } else {
-        window.location.reload();
+    try {
+        console.log('Calling SharedUtils.logout...');
+        const result = await SharedUtils.logout(supabaseClient, currentUser?.id);
+        console.log('Logout result:', result);
+        if (result.error) {
+            alert('Logout failed. Please try again.');
+        } else {
+            window.location.reload();
+        }
+    } catch (err) {
+        console.error('Logout exception:', err);
+        alert('Logout error: ' + err.message);
     }
 }
 
@@ -1033,10 +1044,13 @@ async function handleLogoutClick() {
  * Ignores INITIAL_SESSION to avoid race conditions on mobile.
  */
 function setupAuth() {
+    console.log('setupAuth called, supabaseClient:', !!supabaseClient);
     if (!supabaseClient) return;
 
     const loginButton = document.getElementById('login-button');
     const logoutButton = document.getElementById('logout-button');
+
+    console.log('logoutButton found:', !!logoutButton);
 
     // Set up button handlers
     if (loginButton) {
@@ -1044,6 +1058,7 @@ function setupAuth() {
     }
     if (logoutButton) {
         logoutButton.addEventListener('click', handleLogoutClick);
+        console.log('Logout click handler attached');
     }
 
     // Step 1: Get current session FIRST (this is the source of truth)
