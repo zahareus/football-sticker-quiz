@@ -127,6 +127,61 @@ function generateRandomNickname() {
 }
 
 // ============================================================
+// AMPLITUDE ANALYTICS INTEGRATION
+// ============================================================
+
+/**
+ * Identify user in Amplitude when they sign in
+ * @param {Object} user - Supabase user object
+ * @param {Object} profile - User profile with nickname
+ */
+function identifyAmplitudeUser(user, profile = null) {
+    if (typeof window.amplitude === 'undefined') {
+        console.warn('Amplitude not loaded, skipping user identification');
+        return;
+    }
+
+    try {
+        // Set user ID (Supabase user ID)
+        window.amplitude.setUserId(user.id);
+
+        // Set user properties for better analytics
+        const userProperties = {
+            email: user.email,
+            provider: user.app_metadata?.provider || 'unknown',
+            created_at: user.created_at
+        };
+
+        // Add nickname if available
+        if (profile && profile.nickname) {
+            userProperties.nickname = profile.nickname;
+        }
+
+        window.amplitude.identify(new window.amplitude.Identify().set(userProperties));
+        console.log('Amplitude: User identified', user.id);
+    } catch (error) {
+        console.error('Error identifying user in Amplitude:', error);
+    }
+}
+
+/**
+ * Clear user identification in Amplitude when they sign out
+ */
+function clearAmplitudeUser() {
+    if (typeof window.amplitude === 'undefined') {
+        return;
+    }
+
+    try {
+        window.amplitude.setUserId(null);
+        window.amplitude.reset();
+        console.log('Amplitude: User cleared');
+    } catch (error) {
+        console.error('Error clearing Amplitude user:', error);
+    }
+}
+
+// ============================================================
 // IMAGE OPTIMIZATION (Pre-generated WebP versions)
 // ============================================================
 
@@ -695,6 +750,10 @@ window.SharedUtils = {
     truncateString,
     truncateLongWords,
     generateRandomNickname,
+
+    // Amplitude Analytics
+    identifyAmplitudeUser,
+    clearAmplitudeUser,
 
     // Session management
     generateSessionId,

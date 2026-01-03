@@ -419,6 +419,7 @@ function setupAuthStateListener() {
             }
             currentUser = null;
             currentUserProfile = null;
+            SharedUtils.clearAmplitudeUser(); // Clear Amplitude user ID
             updateAuthStateUI(null);
             return;
         }
@@ -434,6 +435,7 @@ function setupAuthStateListener() {
                     currentUserProfile = cachedProfile;
                 }
                 checkAndCreateUserProfile(user).then(() => {
+                    SharedUtils.identifyAmplitudeUser(user, currentUserProfile); // Identify user in Amplitude
                     updateAuthStateUI(user);
                 });
             }
@@ -1853,6 +1855,7 @@ function initializeApp() {
 
             // Fetch fresh profile in background and update UI again
             checkAndCreateUserProfile(user).then(() => {
+                SharedUtils.identifyAmplitudeUser(user, currentUserProfile); // Identify user in Amplitude
                 updateAuthStateUI(user);
             }).catch(err => {
                 console.error("Profile load error:", err);
