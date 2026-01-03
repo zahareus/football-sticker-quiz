@@ -960,6 +960,7 @@ body.quiz-result .result-right-panel {
     max-width: 800px;
     margin: 0 auto;
     padding: 0 calc(var(--spacing-unit) * 2);
+    box-sizing: border-box;
 }
 
 /* Desktop: expand sticker page wrapper to match two-column layout */
@@ -975,6 +976,26 @@ body.quiz-result .result-right-panel {
         position: static;
         left: auto;
         transform: none;
+        justify-content: flex-start; /* Align to left edge, not center */
+    }
+
+    /* Fixed width for left column to ensure consistent layout */
+    .sticker-page-container .sticker-detail-left-column {
+        width: 500px;
+        flex-shrink: 0;
+    }
+
+    .sticker-page-container .sticker-detail-image-container {
+        width: 500px;
+        height: 500px;
+        min-width: 500px;
+        min-height: 500px;
+    }
+
+    /* Fixed width for right panel */
+    .sticker-page-container .sticker-detail-right-panel {
+        width: 400px;
+        flex-shrink: 0;
     }
 }
 
@@ -987,6 +1008,22 @@ body.quiz-result .result-right-panel {
     .sticker-page-container .sticker-detail-two-column {
         width: 100%;
         max-width: none;
+        justify-content: flex-start;
+    }
+
+    .sticker-page-container .sticker-detail-left-column {
+        width: 350px;
+        flex-shrink: 0;
+    }
+
+    .sticker-page-container .sticker-detail-image-container {
+        width: 350px;
+        height: 350px;
+    }
+
+    .sticker-page-container .sticker-detail-right-panel {
+        flex: 1;
+        min-width: 200px;
     }
 }
 
@@ -995,6 +1032,10 @@ body.quiz-result .result-right-panel {
     .sticker-page-content-wrapper {
         max-width: 100%;
         padding: 0 calc(var(--spacing-unit) * 1.5);
+    }
+
+    .sticker-page-container .sticker-detail-two-column {
+        justify-content: center;
     }
 }
 
