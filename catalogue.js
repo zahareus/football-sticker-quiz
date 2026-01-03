@@ -366,6 +366,66 @@ async function loadLastStickers() {
     }
 }
 
+/**
+ * Load top 10 stickers by rating
+ * @returns {string} - HTML string for most rated stickers section
+ */
+async function loadMostRatedStickers() {
+    if (!supabaseClient) return '';
+
+    try {
+        const { data: stickers, error } = await supabaseClient
+            .from('stickers')
+            .select(`
+                id,
+                rating,
+                clubs (
+                    id,
+                    name,
+                    country
+                )
+            `)
+            .order('rating', { ascending: false })
+            .limit(10);
+
+        if (error || !stickers || stickers.length === 0) {
+            return '';
+        }
+
+        // Build HTML
+        let html = '<div class="most-rated-section"><h3>Most rated stickers</h3>';
+        html += '<ul class="most-rated-list">';
+
+        stickers.forEach((sticker, index) => {
+            const clubName = sticker.clubs?.name || 'Unknown Club';
+            const clubId = sticker.clubs?.id || null;
+            const rating = sticker.rating || 1500;
+
+            let entry = `<span class="rank">${index + 1}.</span> `;
+            entry += `<a href="/stickers/${sticker.id}.html" class="sticker-link">#${sticker.id}</a>, `;
+
+            if (clubId) {
+                entry += `<a href="/clubs/${clubId}.html" class="club-link">${clubName}</a>`;
+            } else {
+                entry += clubName;
+            }
+
+            entry += ` <span class="rating-badge">${rating}</span>`;
+
+            html += `<li>${entry}</li>`;
+        });
+
+        html += '</ul>';
+        html += '<a href="/battle.html" class="rate-stickers-link">Rate stickers</a>';
+        html += '</div>';
+
+        return html;
+    } catch (e) {
+        console.error('Error loading most rated stickers:', e);
+        return '';
+    }
+}
+
 document.addEventListener('DOMContentLoaded', async () => {
     if (supabaseClient) {
         // Setup auth
@@ -526,8 +586,9 @@ async function loadContinentsAndCountries() {
             </div>
         `;
 
-        // Fetch last 10 stickers
+        // Fetch last 10 stickers and most rated stickers
         const lastStickersHtml = await loadLastStickers();
+        const mostRatedHtml = await loadMostRatedStickers();
 
         let listHtml = '';
         const sortedContinentNames = Object.keys(continents).sort((a, b) => a.localeCompare(b));
@@ -547,7 +608,7 @@ async function loadContinentsAndCountries() {
         if (listHtml === '') {
             contentDiv.innerHTML = '<p>No data to display. Check the maps and database entries.</p>';
         } else {
-            contentDiv.innerHTML = statsHtml + lastStickersHtml + listHtml;
+            contentDiv.innerHTML = statsHtml + lastStickersHtml + mostRatedHtml + listHtml;
         }
     } catch (error) {
         console.error('An error occurred while loading countries:', error);
