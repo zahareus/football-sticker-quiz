@@ -454,13 +454,25 @@ async function handleSubmit(event) {
         const socialResult = await triggerWebhook(sticker);
 
         // 5. Show success message with link
-        const stickerUrl = `https://stickerhunt.club/stickers/${sticker.id}.html`;
+        const stickerUrl = socialResult.sticker_url || `https://stickerhunt.club/stickers/${sticker.id}.html`;
 
+        // Build status messages
         let socialInfo = '';
-        if (socialResult.success) {
-            socialInfo = `<p class="social-success">Social post scheduled: ${escapeHtml(socialResult.scheduled_for || 'soon')}</p>`;
+        if (socialResult.success && socialResult.scheduled_for) {
+            socialInfo = `<p class="social-success">📱 Social post scheduled: ${escapeHtml(formatScheduledTime(socialResult.scheduled_for))}</p>`;
+        } else if (socialResult.success) {
+            socialInfo = `<p class="social-success">📱 Social post: scheduled</p>`;
         } else {
-            socialInfo = `<p class="social-warning">Social post: ${escapeHtml(socialResult.message || 'pending')}</p>`;
+            socialInfo = `<p class="social-warning">📱 Social post: ${escapeHtml(socialResult.message || 'pending')}</p>`;
+        }
+
+        // Page generation & optimization status
+        let automationInfo = '';
+        if (socialResult.page_generation) {
+            automationInfo += `<p class="automation-success">📄 Page generation: ${escapeHtml(socialResult.page_generation)}</p>`;
+        }
+        if (socialResult.image_optimization) {
+            automationInfo += `<p class="automation-success">🖼️ Image optimization: ${escapeHtml(socialResult.image_optimization)}</p>`;
         }
 
         showStatus(`
@@ -472,7 +484,8 @@ async function handleSubmit(event) {
                 ${sticker.location ? `<p>Location: ${escapeHtml(sticker.location)}</p>` : ''}
                 ${sticker.found ? `<p>Date: ${formatDate(sticker.found)}</p>` : ''}
                 ${socialInfo}
-                <p><a href="${stickerUrl}" target="_blank">View in catalogue</a></p>
+                ${automationInfo}
+                <p><a href="${stickerUrl}" target="_blank">View sticker page →</a></p>
             </div>
         `, 'success');
 
@@ -512,7 +525,10 @@ async function triggerWebhook(sticker) {
             const data = await response.json();
             return {
                 success: true,
+                sticker_url: data.sticker_url || stickerUrl,
                 scheduled_for: data.scheduled_for || data.scheduledFor || null,
+                page_generation: data.page_generation || null,
+                image_optimization: data.image_optimization || null,
                 post_url: data.post_url || null
             };
         } else {
@@ -522,6 +538,25 @@ async function triggerWebhook(sticker) {
     } catch (error) {
         console.warn('Webhook error (non-critical):', error);
         return { success: false, message: 'Social posting unavailable' };
+    }
+}
+
+/**
+ * Format scheduled time for display
+ */
+function formatScheduledTime(isoString) {
+    if (!isoString) return 'soon';
+    try {
+        const date = new Date(isoString);
+        return date.toLocaleString('uk-UA', {
+            day: '2-digit',
+            month: '2-digit',
+            year: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit'
+        });
+    } catch (e) {
+        return isoString;
     }
 }
 
