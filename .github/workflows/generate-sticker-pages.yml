@@ -1,0 +1,77 @@
+name: Generate Sticker Pages
+
+on:
+  # Trigger via GitHub API (from n8n or other webhook)
+  repository_dispatch:
+    types: [generate-sticker-pages]
+
+  # Manual trigger for testing
+  workflow_dispatch:
+    inputs:
+      sticker_id:
+        description: 'Sticker ID to generate pages for'
+        required: true
+        type: string
+
+jobs:
+  generate-pages:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          fetch-depth: 1
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        working-directory: ./scripts
+        run: npm install
+
+      - name: Get sticker ID
+        id: get-sticker-id
+        run: |
+          if [ "${{ github.event_name }}" == "repository_dispatch" ]; then
+            STICKER_ID="${{ github.event.client_payload.sticker_id }}"
+          else
+            STICKER_ID="${{ github.event.inputs.sticker_id }}"
+          fi
+          echo "sticker_id=$STICKER_ID" >> $GITHUB_OUTPUT
+          echo "Generating pages for sticker #$STICKER_ID"
+
+      - name: Generate sticker pages
+        working-directory: ./scripts
+        env:
+          STICKER_ID: ${{ steps.get-sticker-id.outputs.sticker_id }}
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
+        run: node generate-single-sticker.js ${{ steps.get-sticker-id.outputs.sticker_id }}
+
+      - name: Check for changes
+        id: check-changes
+        run: |
+          if [ -n "$(git status --porcelain)" ]; then
+            echo "has_changes=true" >> $GITHUB_OUTPUT
+          else
+            echo "has_changes=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Commit and push changes
+        if: steps.check-changes.outputs.has_changes == 'true'
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add stickers/ clubs/ countries/
+          git commit -m "Auto-generate pages for sticker #${{ steps.get-sticker-id.outputs.sticker_id }}"
+          git push
+
+      - name: Output result
+        run: |
+          STICKER_URL="https://stickerhunt.club/stickers/${{ steps.get-sticker-id.outputs.sticker_id }}.html"
+          echo "Sticker page URL: $STICKER_URL"
+          echo "STICKER_URL=$STICKER_URL" >> $GITHUB_ENV
