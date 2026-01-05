@@ -7,7 +7,7 @@
     <link rel="icon" href="/favicon.ico" type="image/x-icon">
 
     <!-- SEO Meta Tags - Pre-rendered for better indexing -->
-    <meta name="description" content="View 10 stickers from 🇩🇪 Bayer 04 Leverkusen (Germany) in our football sticker collection.">
+    <meta name="description" content="View 11 stickers from 🇩🇪 Bayer 04 Leverkusen (Germany) in our football sticker collection.">
     <meta name="keywords" content="football stickers, 🇩🇪 Bayer 04 Leverkusen, Germany, panini, sticker collection, Bayer04 Leverkusen B04 DieWerkself Bundesliga">
     <link rel="canonical" href="https://stickerhunt.club/clubs/900.html">
 
@@ -15,7 +15,7 @@
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://stickerhunt.club/clubs/900.html">
     <meta property="og:title" content="🇩🇪 Bayer 04 Leverkusen - Germany - Sticker Catalogue">
-    <meta property="og:description" content="View 10 stickers from 🇩🇪 Bayer 04 Leverkusen (Germany) in our football sticker collection.">
+    <meta property="og:description" content="View 11 stickers from 🇩🇪 Bayer 04 Leverkusen (Germany) in our football sticker collection.">
     <meta property="og:image" content="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/stickers/Bayer_04_Leverkusen/IMG_9520.jpeg?">
     <meta property="og:site_name" content="StickerHunt">
 
@@ -23,7 +23,7 @@
     <meta property="twitter:card" content="summary_large_image">
     <meta property="twitter:url" content="https://stickerhunt.club/clubs/900.html">
     <meta property="twitter:title" content="🇩🇪 Bayer 04 Leverkusen - Germany - Sticker Catalogue">
-    <meta property="twitter:description" content="View 10 stickers from 🇩🇪 Bayer 04 Leverkusen (Germany) in our football sticker collection.">
+    <meta property="twitter:description" content="View 11 stickers from 🇩🇪 Bayer 04 Leverkusen (Germany) in our football sticker collection.">
     <meta property="twitter:image" content="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/stickers/Bayer_04_Leverkusen/IMG_9520.jpeg?">
     <meta property="twitter:site" content="@StickerHunting">
     <meta property="twitter:creator" content="@StickerHunting">
@@ -51,7 +51,7 @@
       "@context": "https://schema.org",
       "@type": "SportsTeam",
       "name": "🇩🇪 Bayer 04 Leverkusen",
-      "description": "View 10 stickers from 🇩🇪 Bayer 04 Leverkusen (Germany) in our football sticker collection.",
+      "description": "View 11 stickers from 🇩🇪 Bayer 04 Leverkusen (Germany) in our football sticker collection.",
       "url": "https://stickerhunt.club/clubs/900.html",
       "sport": "Football"
     }
@@ -163,6 +163,13 @@
                          loading="lazy"
                          decoding="async">
                 </a>
+                <a href="/stickers/2898.html" class="sticker-preview-link">
+                    <img src="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/club_900/1767600206151_IMG_7809_thumb.webp"
+                         alt="Sticker ID 2898 for 🇩🇪 Bayer 04 Leverkusen"
+                         class="sticker-preview-image"
+                         loading="lazy"
+                         decoding="async">
+                </a>
             </div>
             
             <div class="club-map-section">
@@ -194,7 +201,7 @@
         
         document.addEventListener('DOMContentLoaded', function() {
             if (typeof L !== 'undefined' && document.getElementById('club-map')) {
-                const clubMap = L.map('club-map').setView([52.300286092592586, 4.815883320370371], 10);
+                const clubMap = L.map('club-map').setView([52.093002365079364, 4.749880544444444], 10);
                 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                     attribution: '© OpenStreetMap contributors'
                 }).addTo(clubMap);
@@ -241,7 +248,13 @@
                     marker.on('click', function() { this.openPopup(); });
                 })();
 
-                // Fit bounds if multiple stickers
+                (function() {
+                    const marker = L.marker([50.8493, 4.35386388888889]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇩🇪 Bayer 04 Leverkusen</strong><a href="/stickers/2898.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
                 
                 const bounds = L.latLngBounds([
                     [52.3134583333333, 4.94239444444444],
@@ -249,7 +262,8 @@
                     [52.3134583, 4.9423944],
                     [52.3778083, 4.8994028],
                     [52.3707861, 4.8890861],
-                    [52.1127583, 4.2796444]
+                    [52.1127583, 4.2796444],
+                    [50.8493, 4.35386388888889]
                 ]);
                 clubMap.fitBounds(bounds, { padding: [30, 30], maxZoom: 13 });
                 
