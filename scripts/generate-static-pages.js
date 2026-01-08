@@ -178,6 +178,22 @@ function generateStickerDate(sticker) {
 }
 
 /**
+ * Generate "Added on" date HTML (date when sticker was added to catalogue)
+ */
+function generateAddedDate(sticker) {
+    if (!sticker.created_at) return '';
+
+    const dateObj = new Date(sticker.created_at);
+    const formattedDate = dateObj.toLocaleDateString('en-GB', {
+        day: 'numeric',
+        month: 'long',
+        year: 'numeric'
+    });
+
+    return `<p class="sticker-detail-added">Added on ${formattedDate}</p>`;
+}
+
+/**
  * Generate sticker location HTML (formatted like current site)
  */
 function generateStickerLocation(sticker) {
@@ -502,6 +518,7 @@ async function generateStickerPage(sticker, club, prevStickerId, nextStickerId, 
         MAIN_HEADING: `Sticker #${sticker.id}`,
         STICKER_ID: sticker.id,
         CLUB_NAME: club.name,
+        ADDED_DATE: generateAddedDate(sticker),
         STICKER_DATE: generateStickerDate(sticker),
         STICKER_LOCATION: generateStickerLocation(sticker),
         NAVIGATION_BUTTONS: generateNavigationButtons(prevStickerId, nextStickerId),

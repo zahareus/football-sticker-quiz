@@ -2718,6 +2718,21 @@ body.ttr-mode .game-info #timer {
     }
 }
 
+/* Answer Rate display on sticker detail pages */
+.sticker-detail-answer-rate {
+    font-size: 1.1em;
+    font-weight: 500;
+    color: var(--color-info-text);
+    margin-top: calc(var(--spacing-unit) * 0.5);
+}
+
+/* Added date display on sticker detail pages */
+.sticker-detail-added {
+    font-size: 0.95em;
+    color: var(--color-info-text);
+    margin-top: calc(var(--spacing-unit) * 1);
+}
+
 /* Battle page action buttons */
 .battle-actions {
     display: flex;
