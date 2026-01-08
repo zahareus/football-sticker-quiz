@@ -278,6 +278,22 @@
                 })();
                 
                 (function() {
+                    const nearbyMarker = L.marker([50.8312638888889, 4.35648611111111], {
+                        icon: L.icon({
+                            iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
+                            iconSize: [20, 33],
+                            iconAnchor: [10, 33],
+                            popupAnchor: [1, -28],
+                            className: 'nearby-marker'
+                        }),
+                        opacity: 0.7
+                    }).addTo(map);
+                    nearbyMarker.bindPopup('<div class="nearby-sticker-popup"><strong>🇮🇱 Maccabi Tel Aviv FC</strong><a href="/stickers/2902.html" class="map-popup-link">View</a></div>');
+                    nearbyMarker.on('mouseover', function() { this.openPopup(); });
+                    nearbyMarker.on('click', function() { this.openPopup(); });
+                })();
+                
+                (function() {
                     const nearbyMarker = L.marker([50.8318028, 4.3589333], {
                         icon: L.icon({
                             iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
@@ -324,22 +340,6 @@
                     nearbyMarker.on('mouseover', function() { this.openPopup(); });
                     nearbyMarker.on('click', function() { this.openPopup(); });
                 })();
-                
-                (function() {
-                    const nearbyMarker = L.marker([50.8443333333333, 4.35078055555555], {
-                        icon: L.icon({
-                            iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
-                            iconSize: [20, 33],
-                            iconAnchor: [10, 33],
-                            popupAnchor: [1, -28],
-                            className: 'nearby-marker'
-                        }),
-                        opacity: 0.7
-                    }).addTo(map);
-                    nearbyMarker.bindPopup('<div class="nearby-sticker-popup"><strong>🇩🇪 Arminia Bielefeld</strong><a href="/stickers/2875.html" class="map-popup-link">View</a></div>');
-                    nearbyMarker.on('mouseover', function() { this.openPopup(); });
-                    nearbyMarker.on('click', function() { this.openPopup(); });
-                })();
 
                 // Main sticker marker (larger, on top)
                 L.marker([50.8368722222222, 4.35310833333333], {
@@ -366,10 +366,10 @@
                     [50.8331666666667, 4.35729722222222],
                     [50.8331944444444, 4.35771666666667],
                     [50.8330777777778, 4.35782222222222],
+                    [50.8312638888889, 4.35648611111111],
                     [50.8318028, 4.3589333],
                     [50.8437305555556, 4.35205833333333],
-                    [50.8441722222222, 4.35122777777778],
-                    [50.8443333333333, 4.35078055555555]
+                    [50.8441722222222, 4.35122777777778]
                 ]);
                 map.fitBounds(bounds, { padding: [30, 30], maxZoom: 13 });
                 
@@ -584,7 +584,7 @@
                         clubsToRegenerate.push(oldClubId);
                     }
 
-                    const { error: regenError } = await supabase.functions.invoke('trigger-regeneration', {
+                    const { error: regenError } = await supabase.functions.invoke('supabase-functions-new-trigger-regeneration', {
                         body: {
                             sticker_ids: pagesToRegenerate,
                             club_ids: clubsToRegenerate

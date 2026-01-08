@@ -584,7 +584,7 @@
                         clubsToRegenerate.push(oldClubId);
                     }
 
-                    const { error: regenError } = await supabase.functions.invoke('trigger-regeneration', {
+                    const { error: regenError } = await supabase.functions.invoke('supabase-functions-new-trigger-regeneration', {
                         body: {
                             sticker_ids: pagesToRegenerate,
                             club_ids: clubsToRegenerate

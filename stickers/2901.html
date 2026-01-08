@@ -115,7 +115,7 @@
                                 <div class="edit-field">
                                     <label for="edit-club-input">Club:</label>
                                     <input type="text" id="edit-club-input" class="edit-input" placeholder="Start typing club name..." autocomplete="off">
-                                    <input type="hidden" id="edit-club-id" value="{{CLUB_ID}}">
+                                    <input type="hidden" id="edit-club-id" value="789">
                                     <div id="club-autocomplete" class="autocomplete-dropdown"></div>
                                 </div>
                                 <div class="edit-field">
@@ -132,12 +132,12 @@
                                 </div>
                             </div>
 
-                            <p class="sticker-detail-rating" id="sticker-rating" data-sticker-id="2901" data-club-id="{{CLUB_ID}}" data-difficulty="{{DIFFICULTY_VALUE}}">
+                            <p class="sticker-detail-rating" id="sticker-rating" data-sticker-id="2901" data-club-id="789" data-difficulty="1">
                                 <a href="/battle.html">Like Rate: <span id="rating-value">...</span> (<span id="rating-rank">#...</span>)</a>
                             </p>
                             <p class="sticker-detail-answer-rate" id="sticker-answer-rate">Answer Rate: <span id="answer-rate-value">...</span></p>
-                            {{DIFFICULTY}}
-                            {{ADDED_DATE}}
+                            <p class="sticker-detail-difficulty">Difficulty: 🟢</p>
+                            <p class="sticker-detail-added">Added on 5 January 2026</p>
                             <p class="sticker-detail-date">Hunted on 7 August 2024</p>
                             <p class="sticker-detail-location">Brussels, Belgium</p>
                         </div>
@@ -179,6 +179,7 @@
                     attribution: '© OpenStreetMap contributors'
                 }).addTo(map);
 
+                // Nearby stickers (shown first, so main marker is on top)
                 
                 (function() {
                     const nearbyMarker = L.marker([50.8331944444444, 4.35771666666667], {
@@ -340,6 +341,7 @@
                     nearbyMarker.on('click', function() { this.openPopup(); });
                 })();
 
+                // Main sticker marker (larger, on top)
                 L.marker([50.8330777777778, 4.35782222222222], {
                     icon: L.icon({
                         iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
@@ -354,6 +356,7 @@
                 }).addTo(map)
                     .bindPopup('<strong>🇪🇸 SD Eibar</strong>').openPopup();
 
+                // Fit bounds to show all markers if there are nearby stickers
                 
                 const bounds = L.latLngBounds([
                     [50.8330777777778, 4.35782222222222],
@@ -581,7 +584,7 @@
                         clubsToRegenerate.push(oldClubId);
                     }
 
-                    const { error: regenError } = await supabase.functions.invoke('trigger-regeneration', {
+                    const { error: regenError } = await supabase.functions.invoke('supabase-functions-new-trigger-regeneration', {
                         body: {
                             sticker_ids: pagesToRegenerate,
                             club_ids: clubsToRegenerate
