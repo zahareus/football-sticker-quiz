@@ -47,13 +47,21 @@ jobs:
             else
               STICKER_IDS="${{ github.event.client_payload.sticker_id }}"
             fi
+            # Get club_ids if provided (for regenerating old club/country pages)
+            CLUB_IDS="${{ github.event.client_payload.club_ids }}"
           else
             STICKER_IDS="${{ github.event.inputs.sticker_ids }}"
+            CLUB_IDS=""
           fi
           # Remove spaces and store
           STICKER_IDS=$(echo "$STICKER_IDS" | tr -d ' ')
+          CLUB_IDS=$(echo "$CLUB_IDS" | tr -d ' ')
           echo "sticker_ids=$STICKER_IDS" >> $GITHUB_OUTPUT
+          echo "club_ids=$CLUB_IDS" >> $GITHUB_OUTPUT
           echo "Processing sticker IDs: $STICKER_IDS"
+          if [ -n "$CLUB_IDS" ]; then
+            echo "Additional club IDs to regenerate: $CLUB_IDS"
+          fi
 
       - name: Generate sticker pages
         id: generate-pages
@@ -81,6 +89,17 @@ jobs:
 
           echo "page_generation=success" >> $GITHUB_OUTPUT
           echo "generated_urls=$GENERATED_URLS" >> $GITHUB_OUTPUT
+
+      - name: Regenerate club pages
+        if: steps.get-sticker-ids.outputs.club_ids != ''
+        working-directory: ./scripts
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
+        run: |
+          CLUB_IDS="${{ steps.get-sticker-ids.outputs.club_ids }}"
+          echo "Regenerating pages for clubs: $CLUB_IDS"
+          node regenerate-club-pages.js "$CLUB_IDS"
 
       - name: Optimize images
         id: optimize-images
