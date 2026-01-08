@@ -105,8 +105,34 @@
 
                     <div class="sticker-detail-right-panel">
                         <div class="sticker-detail-info-block">
-                            <h2 class="sticker-detail-club-name">🇭🇷 HNK Hajduk Split</h2>
-                            <p class="sticker-detail-rating" id="sticker-rating" data-sticker-id="2686">
+                            <h2 class="sticker-detail-club-name">
+                                <span id="club-name-display">🇭🇷 HNK Hajduk Split</span>
+                                <a href="#" id="edit-sticker-btn" class="edit-link" style="display: none;">edit</a>
+                            </h2>
+
+                            <!-- Edit Form (hidden by default) -->
+                            <div id="sticker-edit-form" class="sticker-edit-form" style="display: none;">
+                                <div class="edit-field">
+                                    <label for="edit-club-input">Club:</label>
+                                    <input type="text" id="edit-club-input" class="edit-input" placeholder="Start typing club name..." autocomplete="off">
+                                    <input type="hidden" id="edit-club-id" value="585">
+                                    <div id="club-autocomplete" class="autocomplete-dropdown"></div>
+                                </div>
+                                <div class="edit-field">
+                                    <label for="edit-difficulty-select">Difficulty:</label>
+                                    <select id="edit-difficulty-select" class="edit-select">
+                                        <option value="1">🟢 Easy</option>
+                                        <option value="2">🟡🟡 Medium</option>
+                                        <option value="3">🔴🔴🔴 Hard</option>
+                                    </select>
+                                </div>
+                                <div class="edit-buttons">
+                                    <button id="save-sticker-btn" class="btn btn-save" disabled>Save</button>
+                                    <button id="cancel-edit-btn" class="btn btn-cancel">Cancel</button>
+                                </div>
+                            </div>
+
+                            <p class="sticker-detail-rating" id="sticker-rating" data-sticker-id="2686" data-club-id="585" data-difficulty="1">
                                 <a href="/battle.html">Like Rate: <span id="rating-value">...</span> (<span id="rating-rank">#...</span>)</a>
                             </p>
                             <p class="sticker-detail-answer-rate" id="sticker-answer-rate">Answer Rate: <span id="answer-rate-value">...</span></p>
@@ -351,6 +377,15 @@
         });
     
 
+        // Sticker page state
+        const stickerPageState = {
+            stickerId: null,
+            originalClubId: null,
+            originalDifficulty: null,
+            allClubs: [],
+            canEdit: false
+        };
+
         // Load dynamic rating and answer rate from database
         document.addEventListener('DOMContentLoaded', async function() {
             const ratingEl = document.getElementById('sticker-rating');
@@ -358,6 +393,10 @@
 
             const stickerId = parseInt(ratingEl.dataset.stickerId);
             if (!stickerId) return;
+
+            stickerPageState.stickerId = stickerId;
+            stickerPageState.originalClubId = parseInt(ratingEl.dataset.clubId);
+            stickerPageState.originalDifficulty = parseInt(ratingEl.dataset.difficulty);
 
             try {
                 const supabase = getSupabaseClient();
@@ -387,14 +426,189 @@
                 } else if (stickerData) {
                     const shown = stickerData.quiz_shown_count || 0;
                     const correct = stickerData.quiz_correct_count || 0;
-                    // If never shown, default to 100%
                     const answerRate = shown > 0 ? Math.round((correct / shown) * 100) : 100;
                     document.getElementById('answer-rate-value').textContent = answerRate + '%';
                 }
+
+                // Check if user can edit (has can_edit permission)
+                await checkEditPermission(supabase);
+
             } catch (err) {
                 console.error('Error loading sticker data:', err);
             }
         });
+
+        // Check if current user has edit permission
+        async function checkEditPermission(supabase) {
+            try {
+                const { data: { user } } = await supabase.auth.getUser();
+                if (!user) return;
+
+                const { data: profile, error } = await supabase
+                    .from('profiles')
+                    .select('can_edit')
+                    .eq('id', user.id)
+                    .single();
+
+                if (!error && profile && profile.can_edit) {
+                    stickerPageState.canEdit = true;
+                    document.getElementById('edit-sticker-btn').style.display = 'inline';
+                    initEditFunctionality(supabase);
+                }
+            } catch (err) {
+                console.error('Error checking edit permission:', err);
+            }
+        }
+
+        // Initialize edit functionality
+        async function initEditFunctionality(supabase) {
+            const editBtn = document.getElementById('edit-sticker-btn');
+            const editForm = document.getElementById('sticker-edit-form');
+            const clubInput = document.getElementById('edit-club-input');
+            const clubIdInput = document.getElementById('edit-club-id');
+            const difficultySelect = document.getElementById('edit-difficulty-select');
+            const saveBtn = document.getElementById('save-sticker-btn');
+            const cancelBtn = document.getElementById('cancel-edit-btn');
+            const autocompleteDropdown = document.getElementById('club-autocomplete');
+
+            // Load all clubs for autocomplete
+            const { data: clubs } = await supabase
+                .from('clubs')
+                .select('id, name, country')
+                .order('name');
+            stickerPageState.allClubs = clubs || [];
+
+            // Set initial values
+            clubInput.value = document.getElementById('club-name-display').textContent;
+            difficultySelect.value = stickerPageState.originalDifficulty;
+
+            // Edit button click
+            editBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                editForm.style.display = 'block';
+                editBtn.style.display = 'none';
+                checkForChanges();
+            });
+
+            // Cancel button click
+            cancelBtn.addEventListener('click', () => {
+                editForm.style.display = 'none';
+                editBtn.style.display = 'inline';
+                clubInput.value = document.getElementById('club-name-display').textContent;
+                clubIdInput.value = stickerPageState.originalClubId;
+                difficultySelect.value = stickerPageState.originalDifficulty;
+                autocompleteDropdown.style.display = 'none';
+            });
+
+            // Club autocomplete
+            clubInput.addEventListener('input', () => {
+                const query = clubInput.value.toLowerCase().trim();
+                if (query.length < 2) {
+                    autocompleteDropdown.style.display = 'none';
+                    return;
+                }
+
+                const matches = stickerPageState.allClubs
+                    .filter(c => c.name.toLowerCase().includes(query))
+                    .slice(0, 10);
+
+                if (matches.length === 0) {
+                    autocompleteDropdown.style.display = 'none';
+                    return;
+                }
+
+                autocompleteDropdown.innerHTML = matches.map(c =>
+                    `<div class="autocomplete-item" data-id="${c.id}" data-name="${c.name}">${c.name}</div>`
+                ).join('');
+                autocompleteDropdown.style.display = 'block';
+
+                // Click on autocomplete item
+                autocompleteDropdown.querySelectorAll('.autocomplete-item').forEach(item => {
+                    item.addEventListener('click', () => {
+                        clubInput.value = item.dataset.name;
+                        clubIdInput.value = item.dataset.id;
+                        autocompleteDropdown.style.display = 'none';
+                        checkForChanges();
+                    });
+                });
+            });
+
+            // Close autocomplete on click outside
+            document.addEventListener('click', (e) => {
+                if (!e.target.closest('#edit-club-input') && !e.target.closest('#club-autocomplete')) {
+                    autocompleteDropdown.style.display = 'none';
+                }
+            });
+
+            // Check for changes on input
+            clubInput.addEventListener('change', checkForChanges);
+            difficultySelect.addEventListener('change', checkForChanges);
+
+            function checkForChanges() {
+                const newClubId = parseInt(clubIdInput.value);
+                const newDifficulty = parseInt(difficultySelect.value);
+                const hasChanges = newClubId !== stickerPageState.originalClubId ||
+                                   newDifficulty !== stickerPageState.originalDifficulty;
+                saveBtn.disabled = !hasChanges;
+            }
+
+            // Save button click
+            saveBtn.addEventListener('click', async () => {
+                if (!confirm('Do you want to save changes? The page will be regenerated.')) {
+                    return;
+                }
+
+                const newClubId = parseInt(clubIdInput.value);
+                const newDifficulty = parseInt(difficultySelect.value);
+                const oldClubId = stickerPageState.originalClubId;
+
+                saveBtn.disabled = true;
+                saveBtn.textContent = 'Saving...';
+
+                try {
+                    // Update sticker in database
+                    const { error: updateError } = await supabase
+                        .from('stickers')
+                        .update({
+                            club_id: newClubId,
+                            difficulty: newDifficulty
+                        })
+                        .eq('id', stickerPageState.stickerId);
+
+                    if (updateError) throw updateError;
+
+                    // Trigger page regeneration via Supabase Edge Function
+                    const pagesToRegenerate = [stickerPageState.stickerId];
+                    const clubsToRegenerate = [newClubId];
+                    if (newClubId !== oldClubId) {
+                        clubsToRegenerate.push(oldClubId);
+                    }
+
+                    const { error: regenError } = await supabase.functions.invoke('trigger-regeneration', {
+                        body: {
+                            sticker_ids: pagesToRegenerate,
+                            club_ids: clubsToRegenerate
+                        }
+                    });
+
+                    if (regenError) {
+                        console.error('Regeneration trigger error:', regenError);
+                        alert('Changes saved, but page regeneration may be delayed. Please refresh later.');
+                    } else {
+                        alert('Changes saved! The page will be updated shortly.');
+                    }
+
+                    // Reload page to show updated data
+                    setTimeout(() => window.location.reload(), 2000);
+
+                } catch (err) {
+                    console.error('Error saving changes:', err);
+                    alert('Error saving changes: ' + err.message);
+                    saveBtn.disabled = false;
+                    saveBtn.textContent = 'Save';
+                }
+            });
+        }
     </script>
 </body>
 </html>
