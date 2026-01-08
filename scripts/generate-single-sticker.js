@@ -158,6 +158,28 @@ function generateStickerLocation(sticker) {
     return `<p class="sticker-detail-location">${sticker.location}</p>`;
 }
 
+function generateDifficulty(sticker) {
+    const difficulty = sticker.difficulty || 1;
+    let circles = '';
+    if (difficulty === 1) {
+        circles = '🟢';
+    } else if (difficulty === 2) {
+        circles = '🟡🟡';
+    } else if (difficulty === 3) {
+        circles = '🔴🔴🔴';
+    }
+    return `<p class="sticker-detail-difficulty">Difficulty: ${circles}</p>`;
+}
+
+function generateAddedDate(sticker) {
+    if (!sticker.created_at) return '';
+    const dateObj = new Date(sticker.created_at);
+    const formattedDate = dateObj.toLocaleDateString('en-GB', {
+        day: 'numeric', month: 'long', year: 'numeric'
+    });
+    return `<p class="sticker-detail-added">Added on ${formattedDate}</p>`;
+}
+
 function generateNavigationButtons(prevId, nextId) {
     if (!prevId && !nextId) return '';
 
@@ -425,12 +447,17 @@ async function generateStickerPage(sticker, club, prevStickerId, nextStickerId, 
         OG_IMAGE: sticker.image_url,
         STICKER_NAME: `${club.name} Sticker #${sticker.id}`,
         IMAGE_URL: getDetailImageUrl(sticker.image_url),
+        THUMBNAIL_URL: getThumbnailUrl(sticker.image_url),
         IMAGE_FULL_URL: sticker.image_url,
         IMAGE_ALT: `Sticker ${sticker.id} - ${club.name}`,
         BREADCRUMBS: breadcrumbs,
         MAIN_HEADING: `Sticker #${sticker.id}`,
         STICKER_ID: sticker.id,
+        CLUB_ID: club.id,
         CLUB_NAME: club.name,
+        DIFFICULTY_VALUE: sticker.difficulty || 1,
+        DIFFICULTY: generateDifficulty(sticker),
+        ADDED_DATE: generateAddedDate(sticker),
         STICKER_DATE: generateStickerDate(sticker),
         STICKER_LOCATION: generateStickerLocation(sticker),
         NAVIGATION_BUTTONS: generateNavigationButtons(prevStickerId, nextStickerId),
