@@ -111,6 +111,23 @@ function getPreloadedQuestion() {
     return null;
 }
 
+// ----- Answer Rate Tracking -----
+// Records each quiz answer for Answer Rate statistics (fire-and-forget)
+function recordQuizAnswer(stickerId, isCorrect) {
+    if (!stickerId) return;
+
+    // Fire-and-forget: don't await, don't block the game
+    supabaseClient.rpc('record_quiz_answer', {
+        p_sticker_id: stickerId,
+        p_is_correct: isCorrect
+    }).then(() => {
+        // Success - silently logged
+    }).catch((error) => {
+        // Log error but don't disrupt gameplay
+        console.warn('Failed to record quiz answer:', error);
+    });
+}
+
 // ----- 3. DOM Element References -----
 let gameAreaElement, stickerImageElement, optionsContainerElement, timeLeftElement, currentScoreElement, finalScoreElement, playAgainButton, resultSignInButton, authSectionElement, loginButton, userStatusElement, logoutButton, difficultySelectionElement, loadingIndicator, errorMessageElement;
 let difficultyButtons;
@@ -704,6 +721,9 @@ async function handleAnswer(selectedOption) {
 
     const isCorrect = selectedOption === currentQuestionData.correctAnswer;
 
+    // Record answer for Answer Rate statistics (fire-and-forget)
+    recordQuizAnswer(currentQuestionData.stickerId, isCorrect);
+
     let selectedButton = null;
     let correctButton = null;
     buttons.forEach(button => {
@@ -950,6 +970,8 @@ function startTimer() {
                 // Track current sticker as failed when timer runs out
                 if (currentQuestionData.stickerId != null) {
                     lastFailedStickerId = currentQuestionData.stickerId;
+                    // Record timeout as incorrect answer for Answer Rate
+                    recordQuizAnswer(currentQuestionData.stickerId, false);
                 }
             }
 
