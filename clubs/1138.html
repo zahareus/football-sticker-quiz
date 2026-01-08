@@ -16,7 +16,7 @@
     <meta property="og:url" content="https://stickerhunt.club/clubs/1138.html">
     <meta property="og:title" content="🇵🇱 GKS Górnik Łęczna - Poland - Sticker Catalogue">
     <meta property="og:description" content="View 2 stickers from 🇵🇱 GKS Górnik Łęczna (Poland) in our football sticker collection.">
-    <meta property="og:image" content="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/club_1138/1763898176271_IMG_7473.jpeg">
+    <meta property="og:image" content="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/club_721/1763817442080_IMG_7471.jpeg">
     <meta property="og:site_name" content="StickerHunt">
 
     <!-- Twitter -->
@@ -24,7 +24,7 @@
     <meta property="twitter:url" content="https://stickerhunt.club/clubs/1138.html">
     <meta property="twitter:title" content="🇵🇱 GKS Górnik Łęczna - Poland - Sticker Catalogue">
     <meta property="twitter:description" content="View 2 stickers from 🇵🇱 GKS Górnik Łęczna (Poland) in our football sticker collection.">
-    <meta property="twitter:image" content="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/club_1138/1763898176271_IMG_7473.jpeg">
+    <meta property="twitter:image" content="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/club_721/1763817442080_IMG_7471.jpeg">
     <meta property="twitter:site" content="@StickerHunting">
     <meta property="twitter:creator" content="@StickerHunting">
 
@@ -93,16 +93,16 @@
             </div>
             <div class="sticker-gallery">
                 
-                <a href="/stickers/2783.html" class="sticker-preview-link">
-                    <img src="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/club_1138/1763898176271_IMG_7473_thumb.webp"
-                         alt="Sticker ID 2783 for 🇵🇱 GKS Górnik Łęczna"
+                <a href="/stickers/2755.html" class="sticker-preview-link">
+                    <img src="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/club_721/1763817442080_IMG_7471_thumb.webp"
+                         alt="Sticker ID 2755 for 🇵🇱 GKS Górnik Łęczna"
                          class="sticker-preview-image"
                          loading="lazy"
                          decoding="async">
                 </a>
-                <a href="/stickers/2826.html" class="sticker-preview-link">
-                    <img src="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/club_1138/1766186100542_IMG_7631_thumb.webp"
-                         alt="Sticker ID 2826 for 🇵🇱 GKS Górnik Łęczna"
+                <a href="/stickers/2783.html" class="sticker-preview-link">
+                    <img src="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/club_1138/1763898176271_IMG_7473_thumb.webp"
+                         alt="Sticker ID 2783 for 🇵🇱 GKS Górnik Łęczna"
                          class="sticker-preview-image"
                          loading="lazy"
                          decoding="async">
@@ -138,11 +138,18 @@
         
         document.addEventListener('DOMContentLoaded', function() {
             if (typeof L !== 'undefined' && document.getElementById('club-map')) {
-                const clubMap = L.map('club-map').setView([52.24659165, 4.5907875], 10);
+                const clubMap = L.map('club-map').setView([52.377527799999996, 4.8984389], 10);
                 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                     attribution: '© OpenStreetMap contributors'
                 }).addTo(clubMap);
                 
+                (function() {
+                    const marker = L.marker([52.3774806, 4.8982667]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇵🇱 GKS Górnik Łęczna</strong><a href="/stickers/2755.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
                 (function() {
                     const marker = L.marker([52.377575, 4.8986111]).addTo(clubMap);
                     marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇵🇱 GKS Górnik Łęczna</strong><a href="/stickers/2783.html" class="map-popup-link">View</a></div>');
@@ -150,18 +157,10 @@
                     marker.on('click', function() { this.openPopup(); });
                 })();
 
-                (function() {
-                    const marker = L.marker([52.1156083, 4.2829639]).addTo(clubMap);
-                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇵🇱 GKS Górnik Łęczna</strong><a href="/stickers/2826.html" class="map-popup-link">View</a></div>');
-                    marker.on('mouseover', function() { this.openPopup(); });
-                    marker.on('click', function() { this.openPopup(); });
-                })();
-
-                // Fit bounds if multiple stickers
                 
                 const bounds = L.latLngBounds([
-                    [52.377575, 4.8986111],
-                    [52.1156083, 4.2829639]
+                    [52.3774806, 4.8982667],
+                    [52.377575, 4.8986111]
                 ]);
                 clubMap.fitBounds(bounds, { padding: [30, 30], maxZoom: 13 });
                 
