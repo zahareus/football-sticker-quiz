@@ -53,7 +53,7 @@
       "name": "🇳🇱 HBS Craeyenhout Sticker #2825",
       "description": "Football sticker #2825 from 🇳🇱 HBS Craeyenhout, Netherlands. View this sticker in our collection.",
       "contentUrl": "https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/club_1143/1766185764651_IMG_7609_web.webp",
-      "thumbnailUrl": "https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/club_1143/1766185764651_IMG_7609_thumb.webp",
+      "thumbnailUrl": "{{THUMBNAIL_URL}}",
       "url": "https://stickerhunt.club/stickers/2825.html"
     }
     </script>
@@ -137,7 +137,7 @@
                             </p>
                             <p class="sticker-detail-answer-rate" id="sticker-answer-rate">Answer Rate: <span id="answer-rate-value">...</span></p>
                             <p class="sticker-detail-difficulty">Difficulty: 🟢</p>
-                            <p class="sticker-detail-added">Added on 19 December 2025</p>
+                            <p class="sticker-detail-added">Added on 20 December 2025</p>
                             <p class="sticker-detail-date">Hunted on 5 August 2024</p>
                             <p class="sticker-detail-location">The Hague, Netherlands</p>
                         </div>
@@ -179,6 +179,7 @@
                     attribution: '© OpenStreetMap contributors'
                 }).addTo(map);
 
+                // Nearby stickers (shown first, so main marker is on top)
                 
                 (function() {
                     const nearbyMarker = L.marker([52.1111944, 4.2805778], {
@@ -340,6 +341,7 @@
                     nearbyMarker.on('click', function() { this.openPopup(); });
                 })();
 
+                // Main sticker marker (larger, on top)
                 L.marker([52.1111667, 4.2804972], {
                     icon: L.icon({
                         iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
@@ -354,6 +356,7 @@
                 }).addTo(map)
                     .bindPopup('<strong>🇳🇱 HBS Craeyenhout</strong>').openPopup();
 
+                // Fit bounds to show all markers if there are nearby stickers
                 
                 const bounds = L.latLngBounds([
                     [52.1111667, 4.2804972],

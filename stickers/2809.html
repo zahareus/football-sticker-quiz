@@ -53,7 +53,7 @@
       "name": "🇩🇪 MSV Duisburg Sticker #2809",
       "description": "Football sticker #2809 from 🇩🇪 MSV Duisburg, Germany. View this sticker in our collection.",
       "contentUrl": "https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/club_886/1766183389704_IMG_7630_web.webp",
-      "thumbnailUrl": "https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/club_886/1766183389704_IMG_7630_thumb.webp",
+      "thumbnailUrl": "{{THUMBNAIL_URL}}",
       "url": "https://stickerhunt.club/stickers/2809.html"
     }
     </script>
@@ -179,6 +179,7 @@
                     attribution: '© OpenStreetMap contributors'
                 }).addTo(map);
 
+                // Nearby stickers (shown first, so main marker is on top)
                 
                 (function() {
                     const nearbyMarker = L.marker([52.1155806, 4.2829889], {
@@ -207,7 +208,7 @@
                         }),
                         opacity: 0.7
                     }).addTo(map);
-                    nearbyMarker.bindPopup('<div class="nearby-sticker-popup"><strong>🇵🇱 GKS Górnik Łęczna</strong><a href="/stickers/2826.html" class="map-popup-link">View</a></div>');
+                    nearbyMarker.bindPopup('<div class="nearby-sticker-popup"><strong>🇵🇱 Radomiak Radom</strong><a href="/stickers/2826.html" class="map-popup-link">View</a></div>');
                     nearbyMarker.on('mouseover', function() { this.openPopup(); });
                     nearbyMarker.on('click', function() { this.openPopup(); });
                 })();
@@ -340,6 +341,7 @@
                     nearbyMarker.on('click', function() { this.openPopup(); });
                 })();
 
+                // Main sticker marker (larger, on top)
                 L.marker([52.1155806, 4.2829889], {
                     icon: L.icon({
                         iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
@@ -354,6 +356,7 @@
                 }).addTo(map)
                     .bindPopup('<strong>🇩🇪 MSV Duisburg</strong>').openPopup();
 
+                // Fit bounds to show all markers if there are nearby stickers
                 
                 const bounds = L.latLngBounds([
                     [52.1155806, 4.2829889],

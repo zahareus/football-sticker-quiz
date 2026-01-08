@@ -7,7 +7,7 @@
     <link rel="icon" href="/favicon.ico" type="image/x-icon">
 
     <!-- SEO Meta Tags - Pre-rendered for better indexing -->
-    <meta name="description" content="View 11 stickers from 🇩🇪 VfL Bochum (Germany) in our football sticker collection.">
+    <meta name="description" content="View 10 stickers from 🇩🇪 VfL Bochum (Germany) in our football sticker collection.">
     <meta name="keywords" content="football stickers, 🇩🇪 VfL Bochum, Germany, panini, sticker collection, VfLBochum Bochum VfL Bundesliga SchwarzWeiss">
     <link rel="canonical" href="https://stickerhunt.club/clubs/886.html">
 
@@ -15,7 +15,7 @@
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://stickerhunt.club/clubs/886.html">
     <meta property="og:title" content="🇩🇪 VfL Bochum - Germany - Sticker Catalogue">
-    <meta property="og:description" content="View 11 stickers from 🇩🇪 VfL Bochum (Germany) in our football sticker collection.">
+    <meta property="og:description" content="View 10 stickers from 🇩🇪 VfL Bochum (Germany) in our football sticker collection.">
     <meta property="og:image" content="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/stickers/VfL_Bochum/IMG_3750.jpeg?">
     <meta property="og:site_name" content="StickerHunt">
 
@@ -23,7 +23,7 @@
     <meta property="twitter:card" content="summary_large_image">
     <meta property="twitter:url" content="https://stickerhunt.club/clubs/886.html">
     <meta property="twitter:title" content="🇩🇪 VfL Bochum - Germany - Sticker Catalogue">
-    <meta property="twitter:description" content="View 11 stickers from 🇩🇪 VfL Bochum (Germany) in our football sticker collection.">
+    <meta property="twitter:description" content="View 10 stickers from 🇩🇪 VfL Bochum (Germany) in our football sticker collection.">
     <meta property="twitter:image" content="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/stickers/VfL_Bochum/IMG_3750.jpeg?">
     <meta property="twitter:site" content="@StickerHunting">
     <meta property="twitter:creator" content="@StickerHunting">
@@ -51,7 +51,7 @@
       "@context": "https://schema.org",
       "@type": "SportsTeam",
       "name": "🇩🇪 VfL Bochum",
-      "description": "View 11 stickers from 🇩🇪 VfL Bochum (Germany) in our football sticker collection.",
+      "description": "View 10 stickers from 🇩🇪 VfL Bochum (Germany) in our football sticker collection.",
       "url": "https://stickerhunt.club/clubs/886.html",
       "sport": "Football"
     }
@@ -135,13 +135,6 @@
                          loading="lazy"
                          decoding="async">
                 </a>
-                <a href="/stickers/2809.html" class="sticker-preview-link">
-                    <img src="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/club_886/1766183389704_IMG_7630_thumb.webp"
-                         alt="Sticker ID 2809 for 🇩🇪 VfL Bochum"
-                         class="sticker-preview-image"
-                         loading="lazy"
-                         decoding="async">
-                </a>
                 <a href="/stickers/2814.html" class="sticker-preview-link">
                     <img src="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/club_886/1766183910596_IMG_7629_thumb.webp"
                          alt="Sticker ID 2814 for 🇩🇪 VfL Bochum"
@@ -201,18 +194,11 @@
         
         document.addEventListener('DOMContentLoaded', function() {
             if (typeof L !== 'undefined' && document.getElementById('club-map')) {
-                const clubMap = L.map('club-map').setView([51.86101557555556, 4.296014995555557], 10);
+                const clubMap = L.map('club-map').setView([51.797374319444444, 4.299271519444445], 10);
                 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                     attribution: '© OpenStreetMap contributors'
                 }).addTo(clubMap);
                 
-                (function() {
-                    const marker = L.marker([52.1155806, 4.2829889]).addTo(clubMap);
-                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇩🇪 VfL Bochum</strong><a href="/stickers/2809.html" class="map-popup-link">View</a></div>');
-                    marker.on('mouseover', function() { this.openPopup(); });
-                    marker.on('click', function() { this.openPopup(); });
-                })();
-
                 (function() {
                     const marker = L.marker([52.11555, 4.2831444]).addTo(clubMap);
                     marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇩🇪 VfL Bochum</strong><a href="/stickers/2814.html" class="map-popup-link">View</a></div>');
@@ -241,9 +227,9 @@
                     marker.on('click', function() { this.openPopup(); });
                 })();
 
+                // Fit bounds if multiple stickers
                 
                 const bounds = L.latLngBounds([
-                    [52.1155806, 4.2829889],
                     [52.11555, 4.2831444],
                     [52.1152917, 4.2830222],
                     [52.1132278, 4.2803667],
