@@ -2726,6 +2726,14 @@ body.ttr-mode .game-info #timer {
     margin-top: calc(var(--spacing-unit) * 0.5);
 }
 
+/* Difficulty display on sticker detail pages */
+.sticker-detail-difficulty {
+    font-size: 1.1em;
+    font-weight: 500;
+    color: var(--color-info-text);
+    margin-top: calc(var(--spacing-unit) * 0.5);
+}
+
 /* Added date display on sticker detail pages */
 .sticker-detail-added {
     font-size: 0.95em;

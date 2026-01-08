@@ -194,6 +194,29 @@ function generateAddedDate(sticker) {
 }
 
 /**
+ * Generate Difficulty HTML with colored circles
+ * Level 1 (Easy): 🟢 (1 green)
+ * Level 2 (Medium): 🟡🟡 (2 yellow)
+ * Level 3 (Hard): 🔴🔴🔴 (3 red)
+ */
+function generateDifficulty(sticker) {
+    const difficulty = sticker.difficulty || 1;
+
+    let circles = '';
+    if (difficulty === 1) {
+        circles = '🟢';
+    } else if (difficulty === 2) {
+        circles = '🟡🟡';
+    } else if (difficulty === 3) {
+        circles = '🔴🔴🔴';
+    } else {
+        circles = '🟢'; // default to easy
+    }
+
+    return `<p class="sticker-detail-difficulty">Difficulty: ${circles}</p>`;
+}
+
+/**
  * Generate sticker location HTML (formatted like current site)
  */
 function generateStickerLocation(sticker) {
@@ -518,6 +541,7 @@ async function generateStickerPage(sticker, club, prevStickerId, nextStickerId, 
         MAIN_HEADING: `Sticker #${sticker.id}`,
         STICKER_ID: sticker.id,
         CLUB_NAME: club.name,
+        DIFFICULTY: generateDifficulty(sticker),
         ADDED_DATE: generateAddedDate(sticker),
         STICKER_DATE: generateStickerDate(sticker),
         STICKER_LOCATION: generateStickerLocation(sticker),
