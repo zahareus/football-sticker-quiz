@@ -2708,12 +2708,13 @@ body.ttr-mode .game-info #timer {
 }
 
 .sticker-detail-rating a {
-    color: var(--color-link);
+    color: var(--color-info-text);
     text-decoration: none;
 }
 
 @media (hover: hover) {
     .sticker-detail-rating a:hover {
+        color: var(--color-link);
         text-decoration: underline;
     }
 }
@@ -2739,6 +2740,128 @@ body.ttr-mode .game-info #timer {
     font-size: 0.95em;
     color: var(--color-info-text);
     margin-top: calc(var(--spacing-unit) * 1);
+}
+
+/* Edit link on sticker page */
+.edit-link {
+    font-size: 0.5em;
+    font-weight: 400;
+    color: var(--color-info-text);
+    text-decoration: none;
+    margin-left: 0.5em;
+    vertical-align: middle;
+}
+
+@media (hover: hover) {
+    .edit-link:hover {
+        color: var(--color-link);
+        text-decoration: underline;
+    }
+}
+
+/* Sticker edit form */
+.sticker-edit-form {
+    background-color: var(--color-secondary-bg);
+    border: 1px solid var(--color-border);
+    border-radius: var(--border-radius);
+    padding: calc(var(--spacing-unit) * 2);
+    margin: calc(var(--spacing-unit) * 1.5) 0;
+}
+
+.edit-field {
+    margin-bottom: calc(var(--spacing-unit) * 1.5);
+    position: relative;
+}
+
+.edit-field label {
+    display: block;
+    font-size: 0.9em;
+    font-weight: 500;
+    color: var(--color-info-text);
+    margin-bottom: calc(var(--spacing-unit) * 0.5);
+}
+
+.edit-input,
+.edit-select {
+    width: 100%;
+    padding: calc(var(--spacing-unit) * 1) calc(var(--spacing-unit) * 1.5);
+    font-size: 1em;
+    border: 1px solid var(--color-border);
+    border-radius: var(--border-radius);
+    background-color: var(--color-background);
+    color: var(--color-text);
+}
+
+.edit-input:focus,
+.edit-select:focus {
+    outline: none;
+    border-color: var(--color-link);
+}
+
+/* Autocomplete dropdown */
+.autocomplete-dropdown {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background-color: var(--color-background);
+    border: 1px solid var(--color-border);
+    border-top: none;
+    border-radius: 0 0 var(--border-radius) var(--border-radius);
+    max-height: 200px;
+    overflow-y: auto;
+    z-index: 100;
+    display: none;
+}
+
+.autocomplete-item {
+    padding: calc(var(--spacing-unit) * 1) calc(var(--spacing-unit) * 1.5);
+    cursor: pointer;
+    font-size: 0.95em;
+}
+
+.autocomplete-item:hover {
+    background-color: var(--color-secondary-bg);
+}
+
+/* Edit form buttons */
+.edit-buttons {
+    display: flex;
+    gap: calc(var(--spacing-unit) * 1);
+    margin-top: calc(var(--spacing-unit) * 2);
+}
+
+.btn-save {
+    background-color: #22c55e;
+    color: white;
+    border: none;
+    padding: calc(var(--spacing-unit) * 1) calc(var(--spacing-unit) * 2);
+    border-radius: var(--border-radius);
+    font-weight: 500;
+    cursor: pointer;
+}
+
+.btn-save:hover:not(:disabled) {
+    background-color: #16a34a;
+}
+
+.btn-save:disabled {
+    background-color: #86efac;
+    cursor: not-allowed;
+}
+
+.btn-cancel {
+    background-color: #ef4444;
+    color: white;
+    border: none;
+    padding: calc(var(--spacing-unit) * 1) calc(var(--spacing-unit) * 2);
+    border-radius: var(--border-radius);
+    font-weight: 500;
+    cursor: pointer;
+}
+
+.btn-cancel:hover {
+    background-color: #dc2626;
 }
 
 /* Battle page action buttons */
