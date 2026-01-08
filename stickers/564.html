@@ -106,10 +106,12 @@
                     <div class="sticker-detail-right-panel">
                         <div class="sticker-detail-info-block">
                             <h2 class="sticker-detail-club-name">🇫🇷 OC Blausasc</h2>
-                            <p class="sticker-detail-id">#564</p>
                             <p class="sticker-detail-rating" id="sticker-rating" data-sticker-id="564">
-                                <a href="/battle.html">Rate: <span id="rating-value">...</span> (<span id="rating-rank">#...</span>)</a>
+                                <a href="/battle.html">Like Rate: <span id="rating-value">...</span> (<span id="rating-rank">#...</span>)</a>
                             </p>
+                            <p class="sticker-detail-answer-rate" id="sticker-answer-rate">Answer Rate: <span id="answer-rate-value">...</span></p>
+                            <p class="sticker-detail-difficulty">Difficulty: 🔴🔴🔴</p>
+                            <p class="sticker-detail-added">Added on 6 May 2025</p>
                             
                             
                         </div>
@@ -141,7 +143,7 @@
         // Initialize map if map container exists
         
 
-        // Load dynamic rating from database
+        // Load dynamic rating and answer rate from database
         document.addEventListener('DOMContentLoaded', async function() {
             const ratingEl = document.getElementById('sticker-rating');
             if (!ratingEl) return;
@@ -153,21 +155,36 @@
                 const supabase = getSupabaseClient();
                 if (!supabase) return;
 
+                // Load Like Rate (ELO rating)
                 const { data, error } = await supabase.rpc('get_sticker_rank', {
                     p_sticker_id: stickerId
                 });
 
                 if (error) {
                     console.error('Error loading rating:', error);
-                    return;
-                }
-
-                if (data && !data.error) {
+                } else if (data && !data.error) {
                     document.getElementById('rating-value').textContent = data.rating;
                     document.getElementById('rating-rank').textContent = '#' + data.rank;
                 }
+
+                // Load Answer Rate
+                const { data: stickerData, error: stickerError } = await supabase
+                    .from('stickers')
+                    .select('quiz_shown_count, quiz_correct_count')
+                    .eq('id', stickerId)
+                    .single();
+
+                if (stickerError) {
+                    console.error('Error loading answer rate:', stickerError);
+                } else if (stickerData) {
+                    const shown = stickerData.quiz_shown_count || 0;
+                    const correct = stickerData.quiz_correct_count || 0;
+                    // If never shown, default to 100%
+                    const answerRate = shown > 0 ? Math.round((correct / shown) * 100) : 100;
+                    document.getElementById('answer-rate-value').textContent = answerRate + '%';
+                }
             } catch (err) {
-                console.error('Error loading rating:', err);
+                console.error('Error loading sticker data:', err);
             }
         });
     </script>
