@@ -53,7 +53,7 @@
       "name": "🇩🇪 Arminia Bielefeld Sticker #2823",
       "description": "Football sticker #2823 from 🇩🇪 Arminia Bielefeld, Germany. View this sticker in our collection.",
       "contentUrl": "https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/club_1102/1766185418362_IMG_7610_web.webp",
-      "thumbnailUrl": "{{THUMBNAIL_URL}}",
+      "thumbnailUrl": "https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/club_1102/1766185418362_IMG_7610_thumb.webp",
       "url": "https://stickerhunt.club/stickers/2823.html"
     }
     </script>
@@ -137,7 +137,7 @@
                             </p>
                             <p class="sticker-detail-answer-rate" id="sticker-answer-rate">Answer Rate: <span id="answer-rate-value">...</span></p>
                             <p class="sticker-detail-difficulty">Difficulty: 🟡🟡</p>
-                            <p class="sticker-detail-added">Added on 20 December 2025</p>
+                            <p class="sticker-detail-added">Added on 19 December 2025</p>
                             <p class="sticker-detail-date">Hunted on 5 August 2024</p>
                             <p class="sticker-detail-location">The Hague, Netherlands</p>
                         </div>
@@ -179,7 +179,6 @@
                     attribution: '© OpenStreetMap contributors'
                 }).addTo(map);
 
-                // Nearby stickers (shown first, so main marker is on top)
                 
                 (function() {
                     const nearbyMarker = L.marker([52.1111667, 4.2804972], {
@@ -341,7 +340,6 @@
                     nearbyMarker.on('click', function() { this.openPopup(); });
                 })();
 
-                // Main sticker marker (larger, on top)
                 L.marker([52.1111111, 4.2804111], {
                     icon: L.icon({
                         iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
@@ -356,7 +354,6 @@
                 }).addTo(map)
                     .bindPopup('<strong>🇩🇪 Arminia Bielefeld</strong>').openPopup();
 
-                // Fit bounds to show all markers if there are nearby stickers
                 
                 const bounds = L.latLngBounds([
                     [52.1111111, 4.2804111],
