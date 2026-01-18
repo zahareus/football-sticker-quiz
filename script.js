@@ -27,8 +27,9 @@ let ttrTimerPaused = false;  // Pause timer while loading
 let isProcessingAnswer = false;  // Block multiple answer clicks during transition
 let currentStickerDifficulty = 1;  // Current sticker's difficulty for scoring
 
-// ----- Lives System Variables (Classic Mode Only) -----
-const MAX_LIVES = 3;
+// ----- Lives System Variables -----
+const MAX_LIVES = 3;  // Classic mode lives
+const TTR_MAX_LIVES = 5;  // TTR mode lives
 let lastFailedStickerId = null; // Track the last sticker player failed to guess
 let currentLives = MAX_LIVES;
 
@@ -849,8 +850,11 @@ async function handleAnswerTTR(isCorrect, selectedButton, correctButton) {
             });
         }
         if (selectedButton) selectedButton.classList.add('correct-answer');
+
+        // Brief pause to show correct answer feedback
+        await new Promise(resolve => setTimeout(resolve, 1000));
     } else {
-        // Wrong answer - show feedback but don't end game
+        // Wrong answer - show feedback and lose a life
         if (selectedButton) selectedButton.classList.add('incorrect-answer');
         if (correctButton) correctButton.classList.add('correct-answer');
 
@@ -858,14 +862,23 @@ async function handleAnswerTTR(isCorrect, selectedButton, correctButton) {
         if (currentQuestionData && currentQuestionData.stickerId != null) {
             lastFailedStickerId = currentQuestionData.stickerId;
         }
-    }
 
-    // Brief pause to show feedback
-    await new Promise(resolve => setTimeout(resolve, 1000));
+        // Lose a life with animation (1.5s)
+        await loseLife();
+
+        // Brief pause after life loss to show feedback
+        await new Promise(resolve => setTimeout(resolve, 500));
+    }
 
     // Remove answer styling
     if (selectedButton) selectedButton.classList.remove('correct-answer', 'incorrect-answer');
     if (correctButton) correctButton.classList.remove('correct-answer');
+
+    // Check if all lives are lost
+    if (currentLives <= 0) {
+        endGame();
+        return;
+    }
 
     // Move to next sticker in pattern
     ttrStickerIndex++;
@@ -891,13 +904,20 @@ async function handleAnswerTTR(isCorrect, selectedButton, correctButton) {
     }
 }
 
-// ----- Lives System Functions (Classic Mode Only) -----
-function resetLives() {
-    currentLives = MAX_LIVES;
+// ----- Lives System Functions -----
+function resetLives(maxLives = MAX_LIVES) {
+    currentLives = maxLives;
     const hearts = document.querySelectorAll('#lives-hearts .heart');
-    hearts.forEach(heart => {
+    hearts.forEach((heart, index) => {
         heart.classList.remove('lost', 'losing');
-        heart.classList.add('active');
+        // Only activate hearts up to maxLives count
+        if (index < maxLives) {
+            heart.classList.add('active');
+            heart.style.display = '';  // Show heart
+        } else {
+            heart.classList.remove('active');
+            heart.style.display = 'none';  // Hide extra hearts
+        }
     });
 }
 
@@ -1176,11 +1196,12 @@ async function startGame() {
         ttrTimerPaused = false;
         isProcessingAnswer = false;
         timeLeft = SharedUtils.CONFIG.TTR_TIMER_DURATION;
-        // Hide lives display for TTR mode
-        showLivesDisplay(false);
+        // TTR mode: Reset and show 5 lives
+        resetLives(TTR_MAX_LIVES);
+        showLivesDisplay(true);
     } else {
-        // Classic mode: Reset and show lives
-        resetLives();
+        // Classic mode: Reset and show 3 lives
+        resetLives(MAX_LIVES);
         showLivesDisplay(true);
         isProcessingAnswer = false;
     }
