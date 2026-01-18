@@ -451,17 +451,12 @@ async function handleSubmit(event) {
             throw new Error('Database error: ' + insertError.message);
         }
 
-        // 4. Trigger n8n webhook for social media posting (if checkbox is enabled)
+        // 4. Trigger n8n webhook for social media posting (always, with post flag)
         const postToMedia = elements.postToMediaCheckbox ? elements.postToMediaCheckbox.checked : true;
         console.log('Post to media checkbox state:', postToMedia);
-        let socialResult = { success: false, message: 'disabled' };
 
-        if (postToMedia) {
-            showStatus('Sticker saved! Scheduling social media post...', 'info');
-            socialResult = await triggerWebhook(sticker);
-        } else {
-            console.log('Webhook skipped - checkbox is unchecked');
-        }
+        showStatus('Sticker saved! Notifying automation...', 'info');
+        const socialResult = await triggerWebhook(sticker, postToMedia);
 
         // 5. Show success message with link
         const stickerUrl = socialResult.sticker_url || `https://stickerhunt.club/stickers/${sticker.id}.html`;
@@ -511,26 +506,31 @@ async function handleSubmit(event) {
     }
 }
 
-async function triggerWebhook(sticker) {
+async function triggerWebhook(sticker, postToMedia = true) {
     try {
         // Generate sticker page URL
         const stickerUrl = `https://stickerhunt.club/stickers/${sticker.id}.html`;
 
+        const payload = {
+            sticker_id: sticker.id,
+            sticker_url: stickerUrl,
+            club_id: sticker.club_id,
+            club_name: selectedClub.name,
+            difficulty: sticker.difficulty,
+            image_url: sticker.image_url,
+            location: sticker.location,
+            latitude: sticker.latitude,
+            longitude: sticker.longitude,
+            found: sticker.found,
+            post: postToMedia
+        };
+
+        console.log('Sending webhook payload:', payload);
+
         const response = await fetch(UPLOAD_CONFIG.N8N_WEBHOOK_URL, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                sticker_id: sticker.id,
-                sticker_url: stickerUrl,
-                club_id: sticker.club_id,
-                club_name: selectedClub.name,
-                difficulty: sticker.difficulty,
-                image_url: sticker.image_url,
-                location: sticker.location,
-                latitude: sticker.latitude,
-                longitude: sticker.longitude,
-                found: sticker.found
-            })
+            body: JSON.stringify(payload)
         });
 
         if (response.ok) {
