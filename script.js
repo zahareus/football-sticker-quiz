@@ -24,6 +24,7 @@ let nextQuestionPromise = null;
 let currentGameMode = SharedUtils.CONFIG.GAME_MODE_CLASSIC; // 'classic' or 'ttr'
 let ttrStickerIndex = 0;  // Tracks current position in the 3-2-1 pattern
 let ttrTimerPaused = false;  // Pause timer while loading
+let isProcessingAnswer = false;  // Block multiple answer clicks during transition
 let currentStickerDifficulty = 1;  // Current sticker's difficulty for scoring
 
 // ----- Lives System Variables (Classic Mode Only) -----
@@ -666,7 +667,7 @@ async function displayQuestion(questionData) {
             const button = document.createElement('button');
             button.className = 'btn';
             button.textContent = SharedUtils.truncateLongWords(optionText);
-            button.disabled = false;
+            button.disabled = true;  // Start disabled, enable before timer starts
             button.classList.remove('correct-answer', 'incorrect-answer');
             button.addEventListener('click', () => handleAnswer(optionText));
             optionsContainerElement.appendChild(button);
@@ -701,6 +702,18 @@ async function displayQuestion(questionData) {
     if (gameRightPanelElement) gameRightPanelElement.style.display = '';
     if (resultRightPanelElement) resultRightPanelElement.style.display = 'none';
 
+    // Enable answer buttons only after everything is loaded
+    const buttons = optionsContainerElement.querySelectorAll('button');
+    buttons.forEach(button => button.disabled = false);
+
+    // Resume timer for TTR mode (unpause)
+    if (currentGameMode === SharedUtils.CONFIG.GAME_MODE_TTR) {
+        ttrTimerPaused = false;
+    }
+
+    // Unblock answer processing
+    isProcessingAnswer = false;
+
     startTimer();
 
     // Start filling preload queue in background (replaces single nextQuestionPromise)
@@ -711,10 +724,25 @@ async function displayQuestion(questionData) {
 
 // ----- 8. Handle User Answer Function -----
 async function handleAnswer(selectedOption) {
-    stopTimer();
+    // Block multiple answer clicks during transition
+    if (isProcessingAnswer) return;
+    isProcessingAnswer = true;
+
+    // For TTR: pause timer and apply 1 second penalty, don't stop completely
+    if (currentGameMode === SharedUtils.CONFIG.GAME_MODE_TTR) {
+        ttrTimerPaused = true;
+        timeLeft = Math.max(0, timeLeft - 1);  // Penalty: subtract 1 second
+        if (timeLeftElement) timeLeftElement.textContent = timeLeft;
+    } else {
+        stopTimer();
+    }
+
     hideError();
 
-    if (!currentQuestionData || !optionsContainerElement) return;
+    if (!currentQuestionData || !optionsContainerElement) {
+        isProcessingAnswer = false;
+        return;
+    }
 
     const buttons = optionsContainerElement.querySelectorAll('button');
     buttons.forEach(button => button.disabled = true);
@@ -1091,6 +1119,7 @@ function startTTRGame() {
     currentGameMode = SharedUtils.CONFIG.GAME_MODE_TTR;
     ttrStickerIndex = 0;
     ttrTimerPaused = false;
+    isProcessingAnswer = false;
 
     // Start with easy difficulty (first in pattern)
     selectedDifficulty = getTTRDifficulty(0);
@@ -1145,6 +1174,7 @@ async function startGame() {
     if (currentGameMode === SharedUtils.CONFIG.GAME_MODE_TTR) {
         ttrStickerIndex = 0;
         ttrTimerPaused = false;
+        isProcessingAnswer = false;
         timeLeft = SharedUtils.CONFIG.TTR_TIMER_DURATION;
         // Hide lives display for TTR mode
         showLivesDisplay(false);
@@ -1152,6 +1182,7 @@ async function startGame() {
         // Classic mode: Reset and show lives
         resetLives();
         showLivesDisplay(true);
+        isProcessingAnswer = false;
     }
 
     // Reset panels for new game
@@ -1547,6 +1578,7 @@ function endGame() {
 
     // Reset TTR-specific state
     ttrTimerPaused = false;
+    isProcessingAnswer = false;
 
     // Clear TTR difficulty border from sticker container
     const stickerContainer = document.getElementById('sticker-container');
