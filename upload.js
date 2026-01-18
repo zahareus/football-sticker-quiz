@@ -452,12 +452,15 @@ async function handleSubmit(event) {
         }
 
         // 4. Trigger n8n webhook for social media posting (if checkbox is enabled)
-        const postToMedia = elements.postToMediaCheckbox.checked;
+        const postToMedia = elements.postToMediaCheckbox ? elements.postToMediaCheckbox.checked : true;
+        console.log('Post to media checkbox state:', postToMedia);
         let socialResult = { success: false, message: 'disabled' };
 
         if (postToMedia) {
             showStatus('Sticker saved! Scheduling social media post...', 'info');
             socialResult = await triggerWebhook(sticker);
+        } else {
+            console.log('Webhook skipped - checkbox is unchecked');
         }
 
         // 5. Show success message with link
