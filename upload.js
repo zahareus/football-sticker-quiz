@@ -55,6 +55,7 @@ const elements = {
     fileInput: null,
     imagePreview: null,
     metadataInfo: null,
+    postToMediaCheckbox: null,
     submitBtn: null,
     statusMessage: null,
     loginButton: null,
@@ -94,6 +95,7 @@ function initElements() {
     elements.fileInput = document.getElementById('file-input');
     elements.imagePreview = document.getElementById('image-preview');
     elements.metadataInfo = document.getElementById('metadata-info');
+    elements.postToMediaCheckbox = document.getElementById('post-to-media');
     elements.submitBtn = document.getElementById('submit-btn');
     elements.statusMessage = document.getElementById('status-message');
     elements.loginButton = document.getElementById('login-button');
@@ -449,16 +451,23 @@ async function handleSubmit(event) {
             throw new Error('Database error: ' + insertError.message);
         }
 
-        // 4. Trigger n8n webhook for social media posting
-        showStatus('Sticker saved! Scheduling social media post...', 'info');
-        const socialResult = await triggerWebhook(sticker);
+        // 4. Trigger n8n webhook for social media posting (if checkbox is enabled)
+        const postToMedia = elements.postToMediaCheckbox.checked;
+        let socialResult = { success: false, message: 'disabled' };
+
+        if (postToMedia) {
+            showStatus('Sticker saved! Scheduling social media post...', 'info');
+            socialResult = await triggerWebhook(sticker);
+        }
 
         // 5. Show success message with link
         const stickerUrl = socialResult.sticker_url || `https://stickerhunt.club/stickers/${sticker.id}.html`;
 
         // Build status messages
         let socialInfo = '';
-        if (socialResult.success && socialResult.scheduled_for) {
+        if (!postToMedia) {
+            socialInfo = `<p class="social-warning">📱 Social post: NO POST</p>`;
+        } else if (socialResult.success && socialResult.scheduled_for) {
             socialInfo = `<p class="social-success">📱 Social post scheduled: ${escapeHtml(formatScheduledTime(socialResult.scheduled_for))}</p>`;
         } else if (socialResult.success) {
             socialInfo = `<p class="social-success">📱 Social post: scheduled</p>`;
@@ -582,6 +591,11 @@ function resetForm() {
     elements.difficultyButtons.forEach(btn => {
         btn.classList.toggle('active', btn.dataset.value === '1');
     });
+
+    // Reset "Post to media" checkbox to checked
+    if (elements.postToMediaCheckbox) {
+        elements.postToMediaCheckbox.checked = true;
+    }
 
     // Reset dropzone
     elements.dropzone.classList.remove('has-file');
