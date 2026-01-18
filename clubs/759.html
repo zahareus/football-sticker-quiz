@@ -7,7 +7,7 @@
     <link rel="icon" href="/favicon.ico" type="image/x-icon">
 
     <!-- SEO Meta Tags - Pre-rendered for better indexing -->
-    <meta name="description" content="View 43 stickers from 🇳🇱 Feyenoord (Netherlands) in our football sticker collection.">
+    <meta name="description" content="View 44 stickers from 🇳🇱 Feyenoord (Netherlands) in our football sticker collection.">
     <meta name="keywords" content="football stickers, 🇳🇱 Feyenoord, Netherlands, panini, sticker collection, Feyenoord FeyenoordRotterdam ForzaFeyenoord 010 Eredivisie">
     <link rel="canonical" href="https://stickerhunt.club/clubs/759.html">
 
@@ -15,7 +15,7 @@
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://stickerhunt.club/clubs/759.html">
     <meta property="og:title" content="🇳🇱 Feyenoord - Netherlands - Sticker Catalogue">
-    <meta property="og:description" content="View 43 stickers from 🇳🇱 Feyenoord (Netherlands) in our football sticker collection.">
+    <meta property="og:description" content="View 44 stickers from 🇳🇱 Feyenoord (Netherlands) in our football sticker collection.">
     <meta property="og:image" content="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/stickers/Feyenoord/IMG_5884.jpeg?">
     <meta property="og:site_name" content="StickerHunt">
 
@@ -23,7 +23,7 @@
     <meta property="twitter:card" content="summary_large_image">
     <meta property="twitter:url" content="https://stickerhunt.club/clubs/759.html">
     <meta property="twitter:title" content="🇳🇱 Feyenoord - Netherlands - Sticker Catalogue">
-    <meta property="twitter:description" content="View 43 stickers from 🇳🇱 Feyenoord (Netherlands) in our football sticker collection.">
+    <meta property="twitter:description" content="View 44 stickers from 🇳🇱 Feyenoord (Netherlands) in our football sticker collection.">
     <meta property="twitter:image" content="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/stickers/Feyenoord/IMG_5884.jpeg?">
     <meta property="twitter:site" content="@StickerHunting">
     <meta property="twitter:creator" content="@StickerHunting">
@@ -51,7 +51,7 @@
       "@context": "https://schema.org",
       "@type": "SportsTeam",
       "name": "🇳🇱 Feyenoord",
-      "description": "View 43 stickers from 🇳🇱 Feyenoord (Netherlands) in our football sticker collection.",
+      "description": "View 44 stickers from 🇳🇱 Feyenoord (Netherlands) in our football sticker collection.",
       "url": "https://stickerhunt.club/clubs/759.html",
       "sport": "Football"
     }
@@ -394,6 +394,13 @@
                          loading="lazy"
                          decoding="async">
                 </a>
+                <a href="/stickers/2936.html" class="sticker-preview-link">
+                    <img src="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/club_759/1768770050481_IMG_7559_thumb.webp"
+                         alt="Sticker ID 2936 for 🇳🇱 Feyenoord"
+                         class="sticker-preview-image"
+                         loading="lazy"
+                         decoding="async">
+                </a>
             </div>
             
             <div class="club-map-section">
@@ -425,7 +432,7 @@
         
         document.addEventListener('DOMContentLoaded', function() {
             if (typeof L !== 'undefined' && document.getElementById('club-map')) {
-                const clubMap = L.map('club-map').setView([51.50794907481481, 5.295444350740742], 10);
+                const clubMap = L.map('club-map').setView([51.524232975627235, 5.2655005365591405], 10);
                 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                     attribution: '© OpenStreetMap contributors'
                 }).addTo(clubMap);
@@ -640,6 +647,13 @@
                     marker.on('click', function() { this.openPopup(); });
                 })();
 
+                (function() {
+                    const marker = L.marker([52.01275, 4.36718611111111]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇳🇱 Feyenoord</strong><a href="/stickers/2936.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
                 
                 const bounds = L.latLngBounds([
                     [36.5305972222222, 32.04715],
@@ -671,7 +685,8 @@
                     [52.0108416666667, 4.36818055555556],
                     [52.0106111111111, 4.36937777777778],
                     [52.0109055555556, 4.36964166666667],
-                    [52.0107083333333, 4.35826388888889]
+                    [52.0107083333333, 4.35826388888889],
+                    [52.01275, 4.36718611111111]
                 ]);
                 clubMap.fitBounds(bounds, { padding: [30, 30], maxZoom: 13 });
                 
