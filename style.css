@@ -618,30 +618,30 @@ body.quiz-result .result-right-panel {
 
 /* Desktop layout (min-width: 900px) */
 @media (min-width: 900px) {
-    /* Top row: two equal columns with same height */
+    /* Top row: two equal columns with same height using grid */
     .catalogue-top-row {
-        flex-direction: row;
-        align-items: stretch;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
         gap: calc(var(--spacing-unit) * 3);
     }
 
     .catalogue-top-row .catalogue-stats {
-        flex: 1;
         display: flex;
         flex-direction: column;
         justify-content: space-between;
+        height: 100%;
     }
 
     .catalogue-top-row .catalogue-map-preview {
-        flex: 1;
         display: flex;
         flex-direction: column;
+        height: 100%;
     }
 
     .catalogue-top-row .catalogue-map-container {
         flex: 1;
         height: auto;
-        min-height: 180px;
+        min-height: 160px;
     }
 
     /* Stickers row: two equal columns */
