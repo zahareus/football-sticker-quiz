@@ -340,8 +340,7 @@ async function loadLastStickers() {
                 const clubName = sticker.clubs?.name || 'Unknown Club';
                 const clubId = sticker.clubs?.id || null;
 
-                const flagEmoji = countryCodeToFlagEmoji[sticker.clubs?.country?.toUpperCase()] || '';
-                let entry = '<a href="/stickers/' + sticker.id + '.html" class="sticker-link">' + sticker.id + '</a>, ' + flagEmoji + ' ';
+                let entry = '<a href="/stickers/' + sticker.id + '.html" class="sticker-link">' + sticker.id + '</a>, ';
 
                 if (clubId) {
                     entry += '<a href="/clubs/' + clubId + '.html" class="club-link">' + clubName + '</a>';
@@ -402,9 +401,8 @@ async function loadMostRatedStickers() {
             const clubId = sticker.clubs?.id || null;
             const rating = sticker.rating || 1500;
 
-            const flagEmoji = countryCodeToFlagEmoji[sticker.clubs?.country?.toUpperCase()] || '';
             let entry = `<span class="rank">${index + 1}.</span> `;
-            entry += `<a href="/stickers/${sticker.id}.html" class="sticker-link">${sticker.id}</a>, ${flagEmoji} `;
+            entry += `<a href="/stickers/${sticker.id}.html" class="sticker-link">${sticker.id}</a>, `;
 
             if (clubId) {
                 entry += `<a href="/clubs/${clubId}.html" class="club-link">${clubName}</a>`;
