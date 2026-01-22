@@ -526,6 +526,13 @@ body.quiz-result .result-right-panel {
 
 /* --- Catalogue Desktop Two-Column Layout --- */
 
+/* Expand catalogue container on desktop (like quiz) */
+@media (min-width: 900px) {
+    #catalogue-container {
+        max-width: 1000px;
+    }
+}
+
 /* Top row: Stats + Map Preview */
 .catalogue-top-row {
     display: flex;
@@ -541,6 +548,8 @@ body.quiz-result .result-right-panel {
     background-color: var(--color-secondary-bg);
     border-radius: var(--border-radius);
     border: 1px solid var(--color-border);
+    display: flex;
+    flex-direction: column;
 }
 
 .catalogue-map-container {
@@ -581,6 +590,26 @@ body.quiz-result .result-right-panel {
     margin-bottom: 0;
 }
 
+/* Links at bottom of sticker sections */
+.view-full-log-link,
+.rate-stickers-link {
+    display: inline-block;
+    margin-top: auto;
+    padding-top: calc(var(--spacing-unit) * 2);
+    color: var(--color-info-text);
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 0.95em;
+}
+
+@media (hover: hover) {
+    .view-full-log-link:hover,
+    .rate-stickers-link:hover {
+        color: var(--color-link);
+        text-decoration: underline;
+    }
+}
+
 /* Countries grid - two columns on desktop */
 .catalogue-countries-grid {
     display: flex;
@@ -589,10 +618,11 @@ body.quiz-result .result-right-panel {
 
 /* Desktop layout (min-width: 900px) */
 @media (min-width: 900px) {
-    /* Top row: two equal columns */
+    /* Top row: two equal columns with same height */
     .catalogue-top-row {
         flex-direction: row;
         align-items: stretch;
+        gap: calc(var(--spacing-unit) * 3);
     }
 
     .catalogue-top-row .catalogue-stats {
@@ -600,7 +630,6 @@ body.quiz-result .result-right-panel {
         display: flex;
         flex-direction: column;
         justify-content: space-between;
-        min-height: 260px;
     }
 
     .catalogue-top-row .catalogue-map-preview {
@@ -612,13 +641,14 @@ body.quiz-result .result-right-panel {
     .catalogue-top-row .catalogue-map-container {
         flex: 1;
         height: auto;
-        min-height: 200px;
+        min-height: 180px;
     }
 
     /* Stickers row: two equal columns */
     .catalogue-stickers-row {
         flex-direction: row;
         align-items: stretch;
+        gap: calc(var(--spacing-unit) * 3);
     }
 
     .catalogue-stickers-row .last-stickers-section,
