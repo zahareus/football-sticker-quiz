@@ -23,6 +23,7 @@ let userNicknameElement;
 let editNicknameForm;
 let nicknameInputElement;
 let cancelEditNicknameButton;
+let homeAuthButton;
 
 // Auth State
 let currentUser = null;
@@ -48,9 +49,19 @@ function updateAuthUI(user) {
         userNicknameElement.textContent = SharedUtils.truncateString(displayName);
         loginButton.style.display = 'none';
         userStatusElement.style.display = 'flex';
+
+        // Update home auth button
+        if (homeAuthButton) {
+            homeAuthButton.textContent = 'Profile';
+        }
     } else {
         loginButton.style.display = 'none';
         userStatusElement.style.display = 'none';
+
+        // Update home auth button
+        if (homeAuthButton) {
+            homeAuthButton.textContent = 'Sign In';
+        }
     }
 }
 
@@ -86,6 +97,20 @@ function setupButtonHandlers() {
     if (logoutButton) {
         logoutButton.addEventListener('click', handleLogoutClick);
     }
+    if (homeAuthButton) {
+        homeAuthButton.addEventListener('click', handleHomeAuthClick);
+    }
+}
+
+// Handle home auth button click
+function handleHomeAuthClick() {
+    if (currentUser) {
+        // User is logged in, navigate to profile
+        window.location.href = '/profile.html';
+    } else {
+        // User is not logged in, trigger login
+        handleLoginClick();
+    }
 }
 
 /**
@@ -100,6 +125,7 @@ async function initializeAuth() {
     editNicknameForm = document.getElementById('edit-nickname-form');
     nicknameInputElement = document.getElementById('nickname-input');
     cancelEditNicknameButton = document.getElementById('cancel-edit-nickname-button');
+    homeAuthButton = document.getElementById('home-auth-button');
 
     // Set up button handlers
     setupButtonHandlers();
