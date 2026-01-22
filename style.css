@@ -1557,23 +1557,30 @@ body.home-page #app-logo {
 }
 
 .home-actions {
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    grid-template-columns: 1fr;
     gap: calc(var(--spacing-unit) * 1.5);
     width: 100%;
-    max-width: 320px;
+    max-width: 300px;
     margin: 0 auto;
 }
 
-.home-actions .btn {
+.home-actions .btn,
+.home-actions button {
     width: 100%;
-    min-width: 200px;
+    height: 68px;
     text-decoration: none;
     display: flex;
     align-items: center;
     justify-content: center;
     box-sizing: border-box;
     margin: 0;
+    background-color: var(--color-background);
+    border: 1px solid var(--color-border);
+    color: var(--color-text);
+    font-weight: 400;
+    font-size: 1em;
+    cursor: pointer;
 }
 
 #home-loading-indicator {
@@ -1590,6 +1597,90 @@ body.home-page #app-logo {
     margin-top: calc(var(--spacing-unit) * 2);
     border: 1px solid var(--color-error);
     display: inline-block;
+}
+
+/* New homepage layout (quiz-style) */
+#home-game-area {
+    margin-top: calc(var(--spacing-unit) * 2);
+}
+
+#home-sticker-section {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-bottom: calc(var(--spacing-unit) * 3);
+}
+
+#home-sticker-section #home-sticker-container {
+    width: 300px;
+    height: 300px;
+    margin: 0;
+    max-width: none;
+}
+
+.home-right-panel {
+    display: contents;
+}
+
+.home-info {
+    width: 100%;
+    max-width: 300px;
+    margin: 0 auto calc(var(--spacing-unit) * 2) auto;
+    text-align: center;
+}
+
+#home-title {
+    font-size: 1.1em;
+    color: var(--color-text);
+    font-weight: 500;
+}
+
+#home-title #total-stickers {
+    font-weight: 600;
+}
+
+/* Desktop horizontal layout */
+@media (min-width: 1000px) {
+    .home-container {
+        max-width: 1200px;
+    }
+
+    #home-game-area {
+        display: flex !important;
+        flex-direction: row;
+        align-items: flex-start;
+        justify-content: center;
+        gap: calc(var(--spacing-unit) * 4);
+        margin-top: calc(var(--spacing-unit) * 2);
+        width: calc(100vw - var(--spacing-unit) * 4);
+        max-width: 1000px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    #home-sticker-section {
+        flex-shrink: 0;
+        margin-bottom: 0;
+    }
+
+    .home-right-panel {
+        display: flex !important;
+        flex-direction: column;
+        align-items: center;
+        gap: calc(var(--spacing-unit) * 2);
+        flex-shrink: 0;
+    }
+
+    .home-info {
+        width: 300px;
+        margin: 0 0 calc(var(--spacing-unit) * 1) 0;
+        text-align: left;
+    }
+
+    #home-game-area .home-actions.options-group {
+        grid-template-columns: 1fr;
+        gap: calc(var(--spacing-unit) * 1.5);
+    }
 }
 
 /* Responsive adjustments for home page */
@@ -1624,6 +1715,19 @@ body.home-page #app-logo {
     .home-actions {
         max-width: 100%;
         gap: var(--spacing-unit);
+    }
+
+    .home-actions .btn,
+    .home-actions button {
+        height: 56px;
+        font-size: 0.95em;
+    }
+
+    #home-sticker-section #home-sticker-container {
+        width: 80%;
+        height: auto;
+        max-width: 300px;
+        aspect-ratio: 1 / 1;
     }
 }
 

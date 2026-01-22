@@ -93,22 +93,25 @@
     </header>
 
     <main class="container home-container">
-        <p class="home-subtitle" id="sticker-count-text">
-            Global database of football stickers.<br>
-            Total stickers: <span id="total-stickers">2857</span>
-        </p>
-
-        <div id="featured-sticker">
-            <a href="/stickers/1913.html" id="home-sticker-link">
-                <div id="home-sticker-container">
-                    <img id="home-sticker-image" src="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/stickers/Borussia_Monchengladbach/IMG_0860_web.webp?" alt="Featured Sticker" fetchpriority="high" decoding="async">
+        <div id="home-game-area">
+            <div id="home-sticker-section">
+                <a href="/stickers/1913.html" id="home-sticker-link">
+                    <div id="home-sticker-container">
+                        <img id="home-sticker-image" src="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/stickers/Borussia_Monchengladbach/IMG_0860_web.webp?" alt="Featured Sticker" fetchpriority="high" decoding="async">
+                    </div>
+                </a>
+            </div>
+            <div class="home-right-panel">
+                <div class="home-info">
+                    <div id="home-title">Football stickers. Total: <span id="total-stickers">2857</span></div>
                 </div>
-            </a>
-        </div>
-
-        <div class="home-actions">
-            <a href="/quiz.html" class="btn btn-large">Play Quiz</a>
-            <a href="/catalogue.html" class="btn btn-large">View Catalogue</a>
+                <div class="home-actions options-group">
+                    <a href="/catalogue.html" class="btn">View Catalogue</a>
+                    <a href="/battle.html" class="btn">Rate Stickers</a>
+                    <a href="/quiz.html" class="btn">Play Quiz</a>
+                    <button id="home-auth-button" class="btn">Sign In</button>
+                </div>
+            </div>
         </div>
     </main>
 
