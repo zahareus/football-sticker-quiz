@@ -706,7 +706,14 @@ async function displayQuestion(questionData) {
             timeLeftElement.classList.remove('low-time');
         }
     }
-    if (currentScoreElement) currentScoreElement.textContent = currentScore;
+    // Update score/stickers display based on game mode
+    if (currentScoreElement) {
+        if (currentGameMode === SharedUtils.CONFIG.GAME_MODE_DAILY) {
+            currentScoreElement.textContent = dailyStickersRemaining;
+        } else {
+            currentScoreElement.textContent = currentScore;
+        }
+    }
     if (gameAreaElement) gameAreaElement.style.display = 'block';
     // Show game panel, hide result panel
     if (gameRightPanelElement) gameRightPanelElement.style.display = '';
@@ -1494,7 +1501,10 @@ async function loadNewQuestion(isQuickTransition = false) {
 }
 
 // Load new question for TTR mode with difficulty based on pattern
-async function loadNewQuestionTTR(isQuickTransition = false) {
+// Includes retry mechanism for transient failures
+async function loadNewQuestionTTR(isQuickTransition = false, retryCount = 0) {
+    const MAX_RETRIES = 3;
+
     if (!supabaseClient) {
         showError("DB connection error.");
         return null;
@@ -1526,16 +1536,29 @@ async function loadNewQuestionTTR(isQuickTransition = false) {
         questionData.difficulty = difficulty;
         return questionData;
     } catch (error) {
-        console.error("Error loadNewQuestionTTR:", error);
+        console.error("Error loadNewQuestionTTR (attempt " + (retryCount + 1) + "):", error);
+
+        // Retry if we haven't exceeded max retries
+        if (retryCount < MAX_RETRIES) {
+            console.log("Retrying loadNewQuestionTTR...");
+            await new Promise(resolve => setTimeout(resolve, 500)); // Wait 500ms before retry
+            return loadNewQuestionTTR(isQuickTransition, retryCount + 1);
+        }
+
         showError(`Loading Error: ${error.message || 'Failed to load question'}`);
         return null;
     } finally {
-        hideLoading();
+        if (retryCount === 0 || retryCount >= MAX_RETRIES) {
+            hideLoading();
+        }
     }
 }
 
 // Load new question for Daily Quiz mode with difficulty based on pattern (same as TTR)
-async function loadNewQuestionDaily(isQuickTransition = false) {
+// Includes retry mechanism for transient failures
+async function loadNewQuestionDaily(isQuickTransition = false, retryCount = 0) {
+    const MAX_RETRIES = 3;
+
     if (!supabaseClient) {
         showError("DB connection error.");
         return null;
@@ -1567,11 +1590,21 @@ async function loadNewQuestionDaily(isQuickTransition = false) {
         questionData.difficulty = difficulty;
         return questionData;
     } catch (error) {
-        console.error("Error loadNewQuestionDaily:", error);
+        console.error("Error loadNewQuestionDaily (attempt " + (retryCount + 1) + "):", error);
+
+        // Retry if we haven't exceeded max retries
+        if (retryCount < MAX_RETRIES) {
+            console.log("Retrying loadNewQuestionDaily...");
+            await new Promise(resolve => setTimeout(resolve, 500)); // Wait 500ms before retry
+            return loadNewQuestionDaily(isQuickTransition, retryCount + 1);
+        }
+
         showError(`Loading Error: ${error.message || 'Failed to load question'}`);
         return null;
     } finally {
-        hideLoading();
+        if (retryCount === 0 || retryCount >= MAX_RETRIES) {
+            hideLoading();
+        }
     }
 }
 
