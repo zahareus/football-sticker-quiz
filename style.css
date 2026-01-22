@@ -524,6 +524,118 @@ body.quiz-result .result-right-panel {
     color: var(--color-text);
 }
 
+/* --- Catalogue Desktop Two-Column Layout --- */
+
+/* Top row: Stats + Map Preview */
+.catalogue-top-row {
+    display: flex;
+    flex-direction: column;
+    gap: calc(var(--spacing-unit) * 3);
+    margin-bottom: calc(var(--spacing-unit) * 4);
+}
+
+/* Map preview block */
+.catalogue-map-preview {
+    text-align: left;
+    padding: calc(var(--spacing-unit) * 2);
+    background-color: var(--color-secondary-bg);
+    border-radius: var(--border-radius);
+    border: 1px solid var(--color-border);
+}
+
+.catalogue-map-container {
+    width: 100%;
+    height: 180px;
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    background-color: #e9ecef;
+}
+
+.map-more-link {
+    display: inline-block;
+    margin-top: calc(var(--spacing-unit) * 1.5);
+    color: var(--color-info-text);
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 0.95em;
+}
+
+@media (hover: hover) {
+    .map-more-link:hover {
+        color: var(--color-link);
+        text-decoration: underline;
+    }
+}
+
+/* Stickers row: Last stickers + Most rated */
+.catalogue-stickers-row {
+    display: flex;
+    flex-direction: column;
+    gap: calc(var(--spacing-unit) * 3);
+    margin-bottom: calc(var(--spacing-unit) * 4);
+}
+
+.catalogue-stickers-row .last-stickers-section,
+.catalogue-stickers-row .most-rated-section {
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+/* Countries grid - two columns on desktop */
+.catalogue-countries-grid {
+    display: flex;
+    flex-direction: column;
+}
+
+/* Desktop layout (min-width: 900px) */
+@media (min-width: 900px) {
+    /* Top row: two equal columns */
+    .catalogue-top-row {
+        flex-direction: row;
+        align-items: stretch;
+    }
+
+    .catalogue-top-row .catalogue-stats {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        min-height: 260px;
+    }
+
+    .catalogue-top-row .catalogue-map-preview {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .catalogue-top-row .catalogue-map-container {
+        flex: 1;
+        height: auto;
+        min-height: 200px;
+    }
+
+    /* Stickers row: two equal columns */
+    .catalogue-stickers-row {
+        flex-direction: row;
+        align-items: stretch;
+    }
+
+    .catalogue-stickers-row .last-stickers-section,
+    .catalogue-stickers-row .most-rated-section {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+    }
+
+    /* Countries grid: two columns */
+    .catalogue-countries-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: calc(var(--spacing-unit) * 4);
+    }
+}
+
 /* --- Breadcrumbs Styling --- */
 #catalogue-breadcrumbs {
     margin-bottom: calc(var(--spacing-unit) * 2.5); /* Ð’Ñ–Ð´ÑÑ‚ÑƒÐ¿ Ð¿Ñ–Ð´ breadcrumbs */
