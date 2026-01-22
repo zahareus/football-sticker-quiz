@@ -53,7 +53,7 @@
       "name": "🇪🇸 SD Eibar Sticker #2934",
       "description": "Football sticker #2934 from 🇪🇸 SD Eibar, Spain. View this sticker in our collection.",
       "contentUrl": "https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/club_789/1768769087040_IMG_7843_web.webp",
-      "thumbnailUrl": "https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/club_789/1768769087040_IMG_7843_thumb.webp",
+      "thumbnailUrl": "{{THUMBNAIL_URL}}",
       "url": "https://stickerhunt.club/stickers/2934.html"
     }
     </script>
@@ -179,6 +179,7 @@
                     attribution: '© OpenStreetMap contributors'
                 }).addTo(map);
 
+                // Nearby stickers (shown first, so main marker is on top)
                 
                 (function() {
                     const nearbyMarker = L.marker([50.8457722222222, 4.35655], {
@@ -340,6 +341,7 @@
                     nearbyMarker.on('click', function() { this.openPopup(); });
                 })();
 
+                // Main sticker marker (larger, on top)
                 L.marker([50.8452333333333, 4.35693888888889], {
                     icon: L.icon({
                         iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
@@ -354,6 +356,7 @@
                 }).addTo(map)
                     .bindPopup('<strong>🇪🇸 SD Eibar</strong>').openPopup();
 
+                // Fit bounds to show all markers if there are nearby stickers
                 
                 const bounds = L.latLngBounds([
                     [50.8452333333333, 4.35693888888889],
@@ -606,6 +609,36 @@
                 }
             });
         }
+
+        // Keyboard navigation for sticker pages
+        document.addEventListener('keydown', function(event) {
+            // Ignore if user is typing in an input field
+            if (event.target.tagName === 'INPUT' || event.target.tagName === 'TEXTAREA') {
+                return;
+            }
+
+            // Find navigation buttons
+            const navButtons = document.querySelectorAll('.sticker-nav-btn');
+            if (navButtons.length === 0) return;
+
+            // Left arrow key - go to previous sticker
+            if (event.key === 'ArrowLeft') {
+                const prevButton = Array.from(navButtons).find(btn => btn.textContent.includes('←'));
+                if (prevButton && prevButton.href) {
+                    event.preventDefault();
+                    window.location.href = prevButton.href;
+                }
+            }
+
+            // Right arrow key - go to next sticker
+            if (event.key === 'ArrowRight') {
+                const nextButton = Array.from(navButtons).find(btn => btn.textContent.includes('→'));
+                if (nextButton && nextButton.href) {
+                    event.preventDefault();
+                    window.location.href = nextButton.href;
+                }
+            }
+        });
     </script>
 </body>
 </html>

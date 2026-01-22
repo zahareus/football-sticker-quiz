@@ -53,7 +53,7 @@
       "name": "🇧🇪 Molenbek Sticker #2913",
       "description": "Football sticker #2913 from 🇧🇪 Molenbek, Belgium. View this sticker in our collection.",
       "contentUrl": "https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/club_449/1768765804427_IMG_7848_web.webp",
-      "thumbnailUrl": "https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/club_449/1768765804427_IMG_7848_thumb.webp",
+      "thumbnailUrl": "{{THUMBNAIL_URL}}",
       "url": "https://stickerhunt.club/stickers/2913.html"
     }
     </script>
@@ -179,6 +179,7 @@
                     attribution: '© OpenStreetMap contributors'
                 }).addTo(map);
 
+                // Nearby stickers (shown first, so main marker is on top)
                 
                 (function() {
                     const nearbyMarker = L.marker([50.8535527777778, 4.35628611111111], {
@@ -208,6 +209,70 @@
                         opacity: 0.7
                     }).addTo(map);
                     nearbyMarker.bindPopup('<div class="nearby-sticker-popup"><strong>🇩🇪 Bayer 04 Leverkusen</strong><a href="/stickers/2898.html" class="map-popup-link">View</a></div>');
+                    nearbyMarker.on('mouseover', function() { this.openPopup(); });
+                    nearbyMarker.on('click', function() { this.openPopup(); });
+                })();
+                
+                (function() {
+                    const nearbyMarker = L.marker([50.8489388888889, 4.355125], {
+                        icon: L.icon({
+                            iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
+                            iconSize: [20, 33],
+                            iconAnchor: [10, 33],
+                            popupAnchor: [1, -28],
+                            className: 'nearby-marker'
+                        }),
+                        opacity: 0.7
+                    }).addTo(map);
+                    nearbyMarker.bindPopup('<div class="nearby-sticker-popup"><strong>🇧🇪 RSC Anderlecht</strong><a href="/stickers/2924.html" class="map-popup-link">View</a></div>');
+                    nearbyMarker.on('mouseover', function() { this.openPopup(); });
+                    nearbyMarker.on('click', function() { this.openPopup(); });
+                })();
+                
+                (function() {
+                    const nearbyMarker = L.marker([50.8485055555556, 4.35611388888889], {
+                        icon: L.icon({
+                            iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
+                            iconSize: [20, 33],
+                            iconAnchor: [10, 33],
+                            popupAnchor: [1, -28],
+                            className: 'nearby-marker'
+                        }),
+                        opacity: 0.7
+                    }).addTo(map);
+                    nearbyMarker.bindPopup('<div class="nearby-sticker-popup"><strong>🇨🇭 FC Luzern</strong><a href="/stickers/2925.html" class="map-popup-link">View</a></div>');
+                    nearbyMarker.on('mouseover', function() { this.openPopup(); });
+                    nearbyMarker.on('click', function() { this.openPopup(); });
+                })();
+                
+                (function() {
+                    const nearbyMarker = L.marker([50.8483666666667, 4.35267222222222], {
+                        icon: L.icon({
+                            iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
+                            iconSize: [20, 33],
+                            iconAnchor: [10, 33],
+                            popupAnchor: [1, -28],
+                            className: 'nearby-marker'
+                        }),
+                        opacity: 0.7
+                    }).addTo(map);
+                    nearbyMarker.bindPopup('<div class="nearby-sticker-popup"><strong>🇧🇪 RSC Anderlecht</strong><a href="/stickers/2920.html" class="map-popup-link">View</a></div>');
+                    nearbyMarker.on('mouseover', function() { this.openPopup(); });
+                    nearbyMarker.on('click', function() { this.openPopup(); });
+                })();
+                
+                (function() {
+                    const nearbyMarker = L.marker([50.8483666666667, 4.35267222222222], {
+                        icon: L.icon({
+                            iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
+                            iconSize: [20, 33],
+                            iconAnchor: [10, 33],
+                            popupAnchor: [1, -28],
+                            className: 'nearby-marker'
+                        }),
+                        opacity: 0.7
+                    }).addTo(map);
+                    nearbyMarker.bindPopup('<div class="nearby-sticker-popup"><strong>🇧🇪 RSC Anderlecht</strong><a href="/stickers/2921.html" class="map-popup-link">View</a></div>');
                     nearbyMarker.on('mouseover', function() { this.openPopup(); });
                     nearbyMarker.on('click', function() { this.openPopup(); });
                 })();
@@ -261,7 +326,7 @@
                 })();
                 
                 (function() {
-                    const nearbyMarker = L.marker([50.8455694444444, 4.35064166666667], {
+                    const nearbyMarker = L.marker([50.8467916666667, 4.35677777777778], {
                         icon: L.icon({
                             iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
                             iconSize: [20, 33],
@@ -271,75 +336,12 @@
                         }),
                         opacity: 0.7
                     }).addTo(map);
-                    nearbyMarker.bindPopup('<div class="nearby-sticker-popup"><strong>🇬🇷 PAOK</strong><a href="/stickers/2877.html" class="map-popup-link">View</a></div>');
-                    nearbyMarker.on('mouseover', function() { this.openPopup(); });
-                    nearbyMarker.on('click', function() { this.openPopup(); });
-                })();
-                
-                (function() {
-                    const nearbyMarker = L.marker([50.8454277777778, 4.35055277777778], {
-                        icon: L.icon({
-                            iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
-                            iconSize: [20, 33],
-                            iconAnchor: [10, 33],
-                            popupAnchor: [1, -28],
-                            className: 'nearby-marker'
-                        }),
-                        opacity: 0.7
-                    }).addTo(map);
-                    nearbyMarker.bindPopup('<div class="nearby-sticker-popup"><strong>🇩🇪 VfL Bochum</strong><a href="/stickers/2876.html" class="map-popup-link">View</a></div>');
-                    nearbyMarker.on('mouseover', function() { this.openPopup(); });
-                    nearbyMarker.on('click', function() { this.openPopup(); });
-                })();
-                
-                (function() {
-                    const nearbyMarker = L.marker([50.8443333333333, 4.35078055555555], {
-                        icon: L.icon({
-                            iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
-                            iconSize: [20, 33],
-                            iconAnchor: [10, 33],
-                            popupAnchor: [1, -28],
-                            className: 'nearby-marker'
-                        }),
-                        opacity: 0.7
-                    }).addTo(map);
-                    nearbyMarker.bindPopup('<div class="nearby-sticker-popup"><strong>🇩🇪 Arminia Bielefeld</strong><a href="/stickers/2875.html" class="map-popup-link">View</a></div>');
-                    nearbyMarker.on('mouseover', function() { this.openPopup(); });
-                    nearbyMarker.on('click', function() { this.openPopup(); });
-                })();
-                
-                (function() {
-                    const nearbyMarker = L.marker([50.8616611111111, 4.35760555555555], {
-                        icon: L.icon({
-                            iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
-                            iconSize: [20, 33],
-                            iconAnchor: [10, 33],
-                            popupAnchor: [1, -28],
-                            className: 'nearby-marker'
-                        }),
-                        opacity: 0.7
-                    }).addTo(map);
-                    nearbyMarker.bindPopup('<div class="nearby-sticker-popup"><strong>🇩🇪 Borussia Dortmund</strong><a href="/stickers/2871.html" class="map-popup-link">View</a></div>');
-                    nearbyMarker.on('mouseover', function() { this.openPopup(); });
-                    nearbyMarker.on('click', function() { this.openPopup(); });
-                })();
-                
-                (function() {
-                    const nearbyMarker = L.marker([50.8616861111111, 4.35759166666667], {
-                        icon: L.icon({
-                            iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
-                            iconSize: [20, 33],
-                            iconAnchor: [10, 33],
-                            popupAnchor: [1, -28],
-                            className: 'nearby-marker'
-                        }),
-                        opacity: 0.7
-                    }).addTo(map);
-                    nearbyMarker.bindPopup('<div class="nearby-sticker-popup"><strong>🏴󠁧󠁢󠁳󠁣󠁴󠁿 Hibernian</strong><a href="/stickers/2870.html" class="map-popup-link">View</a></div>');
+                    nearbyMarker.bindPopup('<div class="nearby-sticker-popup"><strong>🇦🇹 SK Sturm Graz</strong><a href="/stickers/2929.html" class="map-popup-link">View</a></div>');
                     nearbyMarker.on('mouseover', function() { this.openPopup(); });
                     nearbyMarker.on('click', function() { this.openPopup(); });
                 })();
 
+                // Main sticker marker (larger, on top)
                 L.marker([50.8527305555556, 4.35582222222222], {
                     icon: L.icon({
                         iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
@@ -354,19 +356,20 @@
                 }).addTo(map)
                     .bindPopup('<strong>🇧🇪 Molenbek</strong>').openPopup();
 
+                // Fit bounds to show all markers if there are nearby stickers
                 
                 const bounds = L.latLngBounds([
                     [50.8527305555556, 4.35582222222222],
                     [50.8535527777778, 4.35628611111111],
                     [50.8493, 4.35386388888889],
+                    [50.8489388888889, 4.355125],
+                    [50.8485055555556, 4.35611388888889],
+                    [50.8483666666667, 4.35267222222222],
+                    [50.8483666666667, 4.35267222222222],
                     [50.8481638888889, 4.35238611111111],
                     [50.8470611111111, 4.35676388888889],
                     [50.8468861111111, 4.35686111111111],
-                    [50.8455694444444, 4.35064166666667],
-                    [50.8454277777778, 4.35055277777778],
-                    [50.8443333333333, 4.35078055555555],
-                    [50.8616611111111, 4.35760555555555],
-                    [50.8616861111111, 4.35759166666667]
+                    [50.8467916666667, 4.35677777777778]
                 ]);
                 map.fitBounds(bounds, { padding: [30, 30], maxZoom: 13 });
                 
@@ -606,6 +609,36 @@
                 }
             });
         }
+
+        // Keyboard navigation for sticker pages
+        document.addEventListener('keydown', function(event) {
+            // Ignore if user is typing in an input field
+            if (event.target.tagName === 'INPUT' || event.target.tagName === 'TEXTAREA') {
+                return;
+            }
+
+            // Find navigation buttons
+            const navButtons = document.querySelectorAll('.sticker-nav-btn');
+            if (navButtons.length === 0) return;
+
+            // Left arrow key - go to previous sticker
+            if (event.key === 'ArrowLeft') {
+                const prevButton = Array.from(navButtons).find(btn => btn.textContent.includes('←'));
+                if (prevButton && prevButton.href) {
+                    event.preventDefault();
+                    window.location.href = prevButton.href;
+                }
+            }
+
+            // Right arrow key - go to next sticker
+            if (event.key === 'ArrowRight') {
+                const nextButton = Array.from(navButtons).find(btn => btn.textContent.includes('→'));
+                if (nextButton && nextButton.href) {
+                    event.preventDefault();
+                    window.location.href = nextButton.href;
+                }
+            }
+        });
     </script>
 </body>
 </html>

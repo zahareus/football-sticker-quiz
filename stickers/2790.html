@@ -278,6 +278,22 @@
                 })();
                 
                 (function() {
+                    const nearbyMarker = L.marker([52.0107083333333, 4.35826388888889], {
+                        icon: L.icon({
+                            iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
+                            iconSize: [20, 33],
+                            iconAnchor: [10, 33],
+                            popupAnchor: [1, -28],
+                            className: 'nearby-marker'
+                        }),
+                        opacity: 0.7
+                    }).addTo(map);
+                    nearbyMarker.bindPopup('<div class="nearby-sticker-popup"><strong>🇳🇱 Feyenoord</strong><a href="/stickers/2933.html" class="map-popup-link">View</a></div>');
+                    nearbyMarker.on('mouseover', function() { this.openPopup(); });
+                    nearbyMarker.on('click', function() { this.openPopup(); });
+                })();
+                
+                (function() {
                     const nearbyMarker = L.marker([52.0107306, 4.3629167], {
                         icon: L.icon({
                             iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
@@ -324,22 +340,6 @@
                     nearbyMarker.on('mouseover', function() { this.openPopup(); });
                     nearbyMarker.on('click', function() { this.openPopup(); });
                 })();
-                
-                (function() {
-                    const nearbyMarker = L.marker([52.0121722, 4.3596611], {
-                        icon: L.icon({
-                            iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
-                            iconSize: [20, 33],
-                            iconAnchor: [10, 33],
-                            popupAnchor: [1, -28],
-                            className: 'nearby-marker'
-                        }),
-                        opacity: 0.7
-                    }).addTo(map);
-                    nearbyMarker.bindPopup('<div class="nearby-sticker-popup"><strong>🇩🇪 Dynamo Dresden</strong><a href="/stickers/2785.html" class="map-popup-link">View</a></div>');
-                    nearbyMarker.on('mouseover', function() { this.openPopup(); });
-                    nearbyMarker.on('click', function() { this.openPopup(); });
-                })();
 
                 // Main sticker marker (larger, on top)
                 L.marker([52.0106, 4.360475], {
@@ -366,10 +366,10 @@
                     [52.0114333, 4.3595722],
                     [52.0093888888889, 4.36116666666667],
                     [52.0110194, 4.3625361],
+                    [52.0107083333333, 4.35826388888889],
                     [52.0107306, 4.3629167],
                     [52.0107472, 4.36295],
-                    [52.0116889, 4.3586917],
-                    [52.0121722, 4.3596611]
+                    [52.0116889, 4.3586917]
                 ]);
                 map.fitBounds(bounds, { padding: [30, 30], maxZoom: 13 });
                 
@@ -609,6 +609,36 @@
                 }
             });
         }
+
+        // Keyboard navigation for sticker pages
+        document.addEventListener('keydown', function(event) {
+            // Ignore if user is typing in an input field
+            if (event.target.tagName === 'INPUT' || event.target.tagName === 'TEXTAREA') {
+                return;
+            }
+
+            // Find navigation buttons
+            const navButtons = document.querySelectorAll('.sticker-nav-btn');
+            if (navButtons.length === 0) return;
+
+            // Left arrow key - go to previous sticker
+            if (event.key === 'ArrowLeft') {
+                const prevButton = Array.from(navButtons).find(btn => btn.textContent.includes('←'));
+                if (prevButton && prevButton.href) {
+                    event.preventDefault();
+                    window.location.href = prevButton.href;
+                }
+            }
+
+            // Right arrow key - go to next sticker
+            if (event.key === 'ArrowRight') {
+                const nextButton = Array.from(navButtons).find(btn => btn.textContent.includes('→'));
+                if (nextButton && nextButton.href) {
+                    event.preventDefault();
+                    window.location.href = nextButton.href;
+                }
+            }
+        });
     </script>
 </body>
 </html>

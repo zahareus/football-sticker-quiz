@@ -326,7 +326,7 @@
                 })();
                 
                 (function() {
-                    const nearbyMarker = L.marker([52.0134722, 4.3644111], {
+                    const nearbyMarker = L.marker([52.01275, 4.36718611111111], {
                         icon: L.icon({
                             iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
                             iconSize: [20, 33],
@@ -336,7 +336,7 @@
                         }),
                         opacity: 0.7
                     }).addTo(map);
-                    nearbyMarker.bindPopup('<div class="nearby-sticker-popup"><strong>🇩🇪 1 FSV Mainz 05</strong><a href="/stickers/2794.html" class="map-popup-link">View</a></div>');
+                    nearbyMarker.bindPopup('<div class="nearby-sticker-popup"><strong>🇳🇱 Feyenoord</strong><a href="/stickers/2936.html" class="map-popup-link">View</a></div>');
                     nearbyMarker.on('mouseover', function() { this.openPopup(); });
                     nearbyMarker.on('click', function() { this.openPopup(); });
                 })();
@@ -369,7 +369,7 @@
                     [52.0107306, 4.3629167],
                     [52.0110194, 4.3625361],
                     [52.0133472, 4.3657889],
-                    [52.0134722, 4.3644111]
+                    [52.01275, 4.36718611111111]
                 ]);
                 map.fitBounds(bounds, { padding: [30, 30], maxZoom: 13 });
                 
@@ -609,6 +609,36 @@
                 }
             });
         }
+
+        // Keyboard navigation for sticker pages
+        document.addEventListener('keydown', function(event) {
+            // Ignore if user is typing in an input field
+            if (event.target.tagName === 'INPUT' || event.target.tagName === 'TEXTAREA') {
+                return;
+            }
+
+            // Find navigation buttons
+            const navButtons = document.querySelectorAll('.sticker-nav-btn');
+            if (navButtons.length === 0) return;
+
+            // Left arrow key - go to previous sticker
+            if (event.key === 'ArrowLeft') {
+                const prevButton = Array.from(navButtons).find(btn => btn.textContent.includes('←'));
+                if (prevButton && prevButton.href) {
+                    event.preventDefault();
+                    window.location.href = prevButton.href;
+                }
+            }
+
+            // Right arrow key - go to next sticker
+            if (event.key === 'ArrowRight') {
+                const nextButton = Array.from(navButtons).find(btn => btn.textContent.includes('→'));
+                if (nextButton && nextButton.href) {
+                    event.preventDefault();
+                    window.location.href = nextButton.href;
+                }
+            }
+        });
     </script>
 </body>
 </html>

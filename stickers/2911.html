@@ -53,7 +53,7 @@
       "name": "🇧🇪 RSC Anderlecht Sticker #2911",
       "description": "Football sticker #2911 from 🇧🇪 RSC Anderlecht, Belgium. View this sticker in our collection.",
       "contentUrl": "https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/club_403/1768765726245_IMG_7825_web.webp",
-      "thumbnailUrl": "https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/club_403/1768765726245_IMG_7825_thumb.webp",
+      "thumbnailUrl": "{{THUMBNAIL_URL}}",
       "url": "https://stickerhunt.club/stickers/2911.html"
     }
     </script>
@@ -179,6 +179,7 @@
                     attribution: '© OpenStreetMap contributors'
                 }).addTo(map);
 
+                // Nearby stickers (shown first, so main marker is on top)
                 
                 (function() {
                     const nearbyMarker = L.marker([50.8350555555556, 4.35615277777778], {
@@ -197,6 +198,22 @@
                 })();
                 
                 (function() {
+                    const nearbyMarker = L.marker([50.8350722222222, 4.35616944444444], {
+                        icon: L.icon({
+                            iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
+                            iconSize: [20, 33],
+                            iconAnchor: [10, 33],
+                            popupAnchor: [1, -28],
+                            className: 'nearby-marker'
+                        }),
+                        opacity: 0.7
+                    }).addTo(map);
+                    nearbyMarker.bindPopup('<div class="nearby-sticker-popup"><strong>🇧🇪 RSC Anderlecht</strong><a href="/stickers/2926.html" class="map-popup-link">View</a></div>');
+                    nearbyMarker.on('mouseover', function() { this.openPopup(); });
+                    nearbyMarker.on('click', function() { this.openPopup(); });
+                })();
+                
+                (function() {
                     const nearbyMarker = L.marker([50.8345222222222, 4.35621388888889], {
                         icon: L.icon({
                             iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
@@ -208,6 +225,22 @@
                         opacity: 0.7
                     }).addTo(map);
                     nearbyMarker.bindPopup('<div class="nearby-sticker-popup"><strong>🇩🇪 VfL Bochum</strong><a href="/stickers/2910.html" class="map-popup-link">View</a></div>');
+                    nearbyMarker.on('mouseover', function() { this.openPopup(); });
+                    nearbyMarker.on('click', function() { this.openPopup(); });
+                })();
+                
+                (function() {
+                    const nearbyMarker = L.marker([50.8343083333333, 4.35633055555556], {
+                        icon: L.icon({
+                            iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
+                            iconSize: [20, 33],
+                            iconAnchor: [10, 33],
+                            popupAnchor: [1, -28],
+                            className: 'nearby-marker'
+                        }),
+                        opacity: 0.7
+                    }).addTo(map);
+                    nearbyMarker.bindPopup('<div class="nearby-sticker-popup"><strong>🇧🇪 RSC Anderlecht</strong><a href="/stickers/2930.html" class="map-popup-link">View</a></div>');
                     nearbyMarker.on('mouseover', function() { this.openPopup(); });
                     nearbyMarker.on('click', function() { this.openPopup(); });
                 })();
@@ -307,39 +340,8 @@
                     nearbyMarker.on('mouseover', function() { this.openPopup(); });
                     nearbyMarker.on('click', function() { this.openPopup(); });
                 })();
-                
-                (function() {
-                    const nearbyMarker = L.marker([50.8368694444444, 4.35310555555556], {
-                        icon: L.icon({
-                            iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
-                            iconSize: [20, 33],
-                            iconAnchor: [10, 33],
-                            popupAnchor: [1, -28],
-                            className: 'nearby-marker'
-                        }),
-                        opacity: 0.7
-                    }).addTo(map);
-                    nearbyMarker.bindPopup('<div class="nearby-sticker-popup"><strong>🇧🇪 RSC Anderlecht</strong><a href="/stickers/2900.html" class="map-popup-link">View</a></div>');
-                    nearbyMarker.on('mouseover', function() { this.openPopup(); });
-                    nearbyMarker.on('click', function() { this.openPopup(); });
-                })();
-                
-                (function() {
-                    const nearbyMarker = L.marker([50.8368722222222, 4.35310833333333], {
-                        icon: L.icon({
-                            iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
-                            iconSize: [20, 33],
-                            iconAnchor: [10, 33],
-                            popupAnchor: [1, -28],
-                            className: 'nearby-marker'
-                        }),
-                        opacity: 0.7
-                    }).addTo(map);
-                    nearbyMarker.bindPopup('<div class="nearby-sticker-popup"><strong>🇧🇪 RSC Anderlecht</strong><a href="/stickers/2897.html" class="map-popup-link">View</a></div>');
-                    nearbyMarker.on('mouseover', function() { this.openPopup(); });
-                    nearbyMarker.on('click', function() { this.openPopup(); });
-                })();
 
+                // Main sticker marker (larger, on top)
                 L.marker([50.8350555555556, 4.35615277777778], {
                     icon: L.icon({
                         iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
@@ -354,19 +356,20 @@
                 }).addTo(map)
                     .bindPopup('<strong>🇧🇪 RSC Anderlecht</strong>').openPopup();
 
+                // Fit bounds to show all markers if there are nearby stickers
                 
                 const bounds = L.latLngBounds([
                     [50.8350555555556, 4.35615277777778],
                     [50.8350555555556, 4.35615277777778],
+                    [50.8350722222222, 4.35616944444444],
                     [50.8345222222222, 4.35621388888889],
+                    [50.8343083333333, 4.35633055555556],
                     [50.8339416666667, 4.35705833333333],
                     [50.8338583333333, 4.35712222222222],
                     [50.8337972222222, 4.35695277777778],
                     [50.8331666666667, 4.35729722222222],
                     [50.8331944444444, 4.35771666666667],
-                    [50.8330777777778, 4.35782222222222],
-                    [50.8368694444444, 4.35310555555556],
-                    [50.8368722222222, 4.35310833333333]
+                    [50.8330777777778, 4.35782222222222]
                 ]);
                 map.fitBounds(bounds, { padding: [30, 30], maxZoom: 13 });
                 
@@ -606,6 +609,36 @@
                 }
             });
         }
+
+        // Keyboard navigation for sticker pages
+        document.addEventListener('keydown', function(event) {
+            // Ignore if user is typing in an input field
+            if (event.target.tagName === 'INPUT' || event.target.tagName === 'TEXTAREA') {
+                return;
+            }
+
+            // Find navigation buttons
+            const navButtons = document.querySelectorAll('.sticker-nav-btn');
+            if (navButtons.length === 0) return;
+
+            // Left arrow key - go to previous sticker
+            if (event.key === 'ArrowLeft') {
+                const prevButton = Array.from(navButtons).find(btn => btn.textContent.includes('←'));
+                if (prevButton && prevButton.href) {
+                    event.preventDefault();
+                    window.location.href = prevButton.href;
+                }
+            }
+
+            // Right arrow key - go to next sticker
+            if (event.key === 'ArrowRight') {
+                const nextButton = Array.from(navButtons).find(btn => btn.textContent.includes('→'));
+                if (nextButton && nextButton.href) {
+                    event.preventDefault();
+                    window.location.href = nextButton.href;
+                }
+            }
+        });
     </script>
 </body>
 </html>
