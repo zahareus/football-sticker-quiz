@@ -19,11 +19,14 @@ const CONFIG = {
     // Game settings
     TIMER_DURATION: 10,
     TTR_TIMER_DURATION: 60,  // Time To Run mode: 60 seconds total
+    DAILY_TIMER_DURATION: 60,  // Daily Quiz mode: 60 seconds initial
+    DAILY_TOTAL_STICKERS: 18,  // Daily Quiz: 18 stickers to guess (3 sets of 6)
     LEADERBOARD_LIMIT: 10,
 
     // Game modes
     GAME_MODE_CLASSIC: 'classic',
     GAME_MODE_TTR: 'ttr',  // Time To Run mode
+    GAME_MODE_DAILY: 'daily',  // Daily Quiz mode
 
     // Nickname settings
     NICKNAME_MIN_LENGTH: 3,

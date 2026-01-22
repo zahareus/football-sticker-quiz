@@ -21,11 +21,16 @@ let stickerCountCache = {};
 let nextQuestionPromise = null;
 
 // ----- Time To Run Mode Variables -----
-let currentGameMode = SharedUtils.CONFIG.GAME_MODE_CLASSIC; // 'classic' or 'ttr'
+let currentGameMode = SharedUtils.CONFIG.GAME_MODE_CLASSIC; // 'classic', 'ttr', or 'daily'
 let ttrStickerIndex = 0;  // Tracks current position in the 3-2-1 pattern
 let ttrTimerPaused = false;  // Pause timer while loading
 let isProcessingAnswer = false;  // Block multiple answer clicks during transition
 let currentStickerDifficulty = 1;  // Current sticker's difficulty for scoring
+
+// ----- Daily Quiz Mode Variables -----
+let dailyStickerIndex = 0;  // Tracks current sticker in daily quiz (0-17)
+let dailyStickersRemaining = SharedUtils.CONFIG.DAILY_TOTAL_STICKERS;  // Stickers left to guess
+const DAILY_MAX_LIVES = 5;  // Daily mode lives
 
 // ----- Lives System Variables -----
 const MAX_LIVES = 3;  // Classic mode lives
@@ -136,8 +141,8 @@ let difficultyButtons;
 let leaderboardSectionElement, leaderboardListElement, closeLeaderboardButton;
 let userNicknameElement, editNicknameForm, nicknameInputElement, cancelEditNicknameButton;
 let scoreDisplayElement;
-let landingPageElement, landingLoginButton, landingLeaderboardButton, landingPlayEasyButton, landingTTRButton;
-let ttrModeButton;
+let landingPageElement, landingLoginButton, landingLeaderboardButton, landingPlayEasyButton, landingTTRButton, landingDailyButton;
+let ttrModeButton, dailyModeButton;
 let introTextElement;
 let personalRankContainerElement, timeframeRanksContainerElement;
 let playerStatsElement, playersTotalElement, playersTodayElement;
@@ -183,7 +188,9 @@ function initializeDOMElements(isRetry = false) {
     landingLeaderboardButton = document.getElementById('landing-leaderboard-button');
     landingPlayEasyButton = document.getElementById('landing-play-easy-button');
     landingTTRButton = document.getElementById('landing-ttr-button');
+    landingDailyButton = document.getElementById('landing-daily-button');
     ttrModeButton = document.getElementById('ttr-mode-button');
+    dailyModeButton = document.getElementById('daily-mode-button');
     introTextElement = document.getElementById('intro-text-element');
     playerStatsElement = document.getElementById('player-stats-element');
     playersTotalElement = document.getElementById('players-total');
@@ -248,6 +255,8 @@ function initializeDOMElements(isRetry = false) {
         if (landingPlayEasyButton) landingPlayEasyButton.addEventListener('click', startEasyGame);
         if (landingTTRButton) landingTTRButton.addEventListener('click', startTTRGame);
         if (ttrModeButton) ttrModeButton.addEventListener('click', startTTRGame);
+        if (landingDailyButton) landingDailyButton.addEventListener('click', startDailyGame);
+        if (dailyModeButton) dailyModeButton.addEventListener('click', startDailyGame);
         closeLeaderboardButton.addEventListener('click', closeLeaderboard);
         leaderboardTimeFilterButtons.forEach(button => button.addEventListener('click', handleTimeFilterChange));
         leaderboardDifficultyFilterButtons.forEach(button => button.addEventListener('click', handleDifficultyFilterChange));
@@ -646,8 +655,8 @@ async function displayQuestion(questionData) {
         setTimeout(endGame, 500);
     };
 
-    // Get difficulty class for TTR mode border styling
-    const difficultyClass = currentGameMode === SharedUtils.CONFIG.GAME_MODE_TTR
+    // Get difficulty class for TTR and Daily mode border styling
+    const difficultyClass = (currentGameMode === SharedUtils.CONFIG.GAME_MODE_TTR || currentGameMode === SharedUtils.CONFIG.GAME_MODE_DAILY)
         ? `ttr-difficulty-${questionData.difficulty || currentStickerDifficulty}`
         : '';
 
@@ -689,7 +698,7 @@ async function displayQuestion(questionData) {
     if (timeLeftElement) {
         timeLeftElement.textContent = timeLeft;
         // Remove low-time class if timer is above threshold
-        if (currentGameMode === SharedUtils.CONFIG.GAME_MODE_TTR) {
+        if (currentGameMode === SharedUtils.CONFIG.GAME_MODE_TTR || currentGameMode === SharedUtils.CONFIG.GAME_MODE_DAILY) {
             if (timeLeft > 10) {
                 timeLeftElement.classList.remove('low-time', 'ttr-flash');
             }
@@ -707,8 +716,8 @@ async function displayQuestion(questionData) {
     const buttons = optionsContainerElement.querySelectorAll('button');
     buttons.forEach(button => button.disabled = false);
 
-    // Resume timer for TTR mode (unpause)
-    if (currentGameMode === SharedUtils.CONFIG.GAME_MODE_TTR) {
+    // Resume timer for TTR and Daily mode (unpause)
+    if (currentGameMode === SharedUtils.CONFIG.GAME_MODE_TTR || currentGameMode === SharedUtils.CONFIG.GAME_MODE_DAILY) {
         ttrTimerPaused = false;
     }
 
@@ -730,10 +739,14 @@ async function handleAnswer(selectedOption) {
     isProcessingAnswer = true;
 
     // For TTR: pause timer and apply 1 second penalty, don't stop completely
+    // For Daily: pause timer but no time penalty
     if (currentGameMode === SharedUtils.CONFIG.GAME_MODE_TTR) {
         ttrTimerPaused = true;
         timeLeft = Math.max(0, timeLeft - 1);  // Penalty: subtract 1 second
         if (timeLeftElement) timeLeftElement.textContent = timeLeft;
+    } else if (currentGameMode === SharedUtils.CONFIG.GAME_MODE_DAILY) {
+        ttrTimerPaused = true;  // Reuse ttrTimerPaused for daily mode as well
+        // No time penalty for daily mode
     } else {
         stopTimer();
     }
@@ -763,6 +776,9 @@ async function handleAnswer(selectedOption) {
     if (currentGameMode === SharedUtils.CONFIG.GAME_MODE_TTR) {
         // TTR Mode: Different handling
         await handleAnswerTTR(isCorrect, selectedButton, correctButton);
+    } else if (currentGameMode === SharedUtils.CONFIG.GAME_MODE_DAILY) {
+        // Daily Mode: Different handling
+        await handleAnswerDaily(isCorrect, selectedButton, correctButton);
     } else {
         // Classic mode: Original behavior
         if (isCorrect) {
@@ -904,6 +920,86 @@ async function handleAnswerTTR(isCorrect, selectedButton, correctButton) {
     }
 }
 
+// Daily Mode answer handling
+async function handleAnswerDaily(isCorrect, selectedButton, correctButton) {
+    if (isCorrect) {
+        // Decrement stickers remaining
+        dailyStickersRemaining--;
+        if (currentScoreElement) currentScoreElement.textContent = dailyStickersRemaining;
+
+        // Add bonus time based on difficulty: Easy=+1s, Medium=+2s, Hard=+3s
+        const bonusTime = currentStickerDifficulty;
+        timeLeft += bonusTime;
+        if (timeLeftElement) {
+            timeLeftElement.textContent = timeLeft;
+            // Flash green animation for time bonus
+            timeLeftElement.classList.add('time-bonus-flash');
+            setTimeout(() => {
+                timeLeftElement.classList.remove('time-bonus-flash');
+            }, 600);
+        }
+
+        if (selectedButton) selectedButton.classList.add('correct-answer');
+
+        // Brief pause to show correct answer feedback
+        await new Promise(resolve => setTimeout(resolve, 1000));
+    } else {
+        // Wrong answer - show feedback and lose a life (no time penalty)
+        if (selectedButton) selectedButton.classList.add('incorrect-answer');
+        if (correctButton) correctButton.classList.add('correct-answer');
+
+        // Track the last failed sticker for the end game screen
+        if (currentQuestionData && currentQuestionData.stickerId != null) {
+            lastFailedStickerId = currentQuestionData.stickerId;
+        }
+
+        // Lose a life with animation (1.5s)
+        await loseLife();
+
+        // Brief pause after life loss to show feedback
+        await new Promise(resolve => setTimeout(resolve, 500));
+    }
+
+    // Remove answer styling
+    if (selectedButton) selectedButton.classList.remove('correct-answer', 'incorrect-answer');
+    if (correctButton) correctButton.classList.remove('correct-answer');
+
+    // Check if all lives are lost
+    if (currentLives <= 0) {
+        endGame();
+        return;
+    }
+
+    // Check if all stickers have been guessed - WIN!
+    if (dailyStickersRemaining <= 0) {
+        endGame(true);  // Pass true to indicate win
+        return;
+    }
+
+    // Move to next sticker in pattern (same pattern as TTR)
+    dailyStickerIndex++;
+    currentStickerDifficulty = getTTRDifficulty(dailyStickerIndex);
+
+    // Check if time has run out during the pause
+    if (timeLeft <= 0) {
+        endGame();
+        return;
+    }
+
+    // Load next question
+    try {
+        const questionData = await loadNewQuestionDaily(true);
+        if (questionData) {
+            displayQuestion(questionData);
+        } else {
+            endGame();
+        }
+    } catch (error) {
+        console.error("Error loading next Daily question:", error);
+        endGame();
+    }
+}
+
 // ----- Lives System Functions -----
 function resetLives(maxLives = MAX_LIVES) {
     currentLives = maxLives;
@@ -952,11 +1048,11 @@ async function loseLife() {
 function startTimer() {
     stopTimer();
 
-    // Only reset time for classic mode - TTR mode continues its global timer
+    // Only reset time for classic mode - TTR and Daily modes continue their global timer
     if (currentGameMode === SharedUtils.CONFIG.GAME_MODE_CLASSIC) {
         timeLeft = SharedUtils.CONFIG.TIMER_DURATION;
     }
-    // For TTR mode, timeLeft continues from where it was
+    // For TTR and Daily mode, timeLeft continues from where it was
 
     if (!timeLeftElement) return;
 
@@ -974,8 +1070,8 @@ function startTimer() {
                 // Don't show negative values - show 0 as minimum
                 timeLeftElement.textContent = Math.max(0, timeLeft).toString();
 
-                if (currentGameMode === SharedUtils.CONFIG.GAME_MODE_TTR) {
-                    // TTR mode: Flash red on last 10 seconds
+                if (currentGameMode === SharedUtils.CONFIG.GAME_MODE_TTR || currentGameMode === SharedUtils.CONFIG.GAME_MODE_DAILY) {
+                    // TTR/Daily mode: Flash red on last 10 seconds
                     if (timeLeft <= 10 && timeLeft >= 0) {
                         timeLeftElement.classList.add('low-time', 'ttr-flash');
                         timeLeftElement.classList.remove('timer-tick-animation');
@@ -1027,7 +1123,7 @@ function startTimer() {
             if (currentGameMode === SharedUtils.CONFIG.GAME_MODE_CLASSIC) {
                 handleTimeoutClassic();
             } else {
-                // TTR mode: End game on timeout
+                // TTR/Daily mode: End game on timeout
                 setTimeout(endGame, 1500);
             }
         }
@@ -1157,6 +1253,29 @@ function startTTRGame() {
     startGame();
 }
 
+function startDailyGame() {
+    currentGameMode = SharedUtils.CONFIG.GAME_MODE_DAILY;
+    dailyStickerIndex = 0;
+    dailyStickersRemaining = SharedUtils.CONFIG.DAILY_TOTAL_STICKERS;
+    ttrTimerPaused = false;
+    isProcessingAnswer = false;
+
+    // Start with easy difficulty (first in pattern, same as TTR)
+    selectedDifficulty = getTTRDifficulty(0);
+    currentStickerDifficulty = selectedDifficulty;
+
+    // Clear old queue and start preloading for Daily
+    preloadQueue = [];
+    preloadingPromise = loadNewQuestionDaily(true);
+
+    if (landingPageElement) landingPageElement.style.display = 'none';
+    if (difficultySelectionElement) difficultySelectionElement.style.display = 'none';
+    if (introTextElement) introTextElement.style.display = 'none';
+    if (playerStatsElement) playerStatsElement.style.display = 'none';
+
+    startGame();
+}
+
 async function startGame() {
     hideError();
 
@@ -1179,18 +1298,18 @@ async function startGame() {
     document.body.classList.add('quiz-active');
     document.body.classList.remove('quiz-result');
 
-    // Add TTR-specific body class for styling
+    // Add mode-specific body class for styling
+    document.body.classList.remove('ttr-mode', 'daily-mode');
     if (currentGameMode === SharedUtils.CONFIG.GAME_MODE_TTR) {
         document.body.classList.add('ttr-mode');
-    } else {
-        document.body.classList.remove('ttr-mode');
+    } else if (currentGameMode === SharedUtils.CONFIG.GAME_MODE_DAILY) {
+        document.body.classList.add('daily-mode');
     }
 
     currentScore = 0;
     lastFailedStickerId = null; // Reset for new game
-    if (currentScoreElement) currentScoreElement.textContent = 0;
 
-    // Reset TTR-specific variables
+    // Reset mode-specific variables
     if (currentGameMode === SharedUtils.CONFIG.GAME_MODE_TTR) {
         ttrStickerIndex = 0;
         ttrTimerPaused = false;
@@ -1199,11 +1318,27 @@ async function startGame() {
         // TTR mode: Reset and show 5 lives
         resetLives(TTR_MAX_LIVES);
         showLivesDisplay(true);
+        if (currentScoreElement) currentScoreElement.textContent = 0;
+        if (scoreDisplayElement) scoreDisplayElement.innerHTML = 'Score: <span id="current-score">0</span>';
+    } else if (currentGameMode === SharedUtils.CONFIG.GAME_MODE_DAILY) {
+        dailyStickerIndex = 0;
+        dailyStickersRemaining = SharedUtils.CONFIG.DAILY_TOTAL_STICKERS;
+        ttrTimerPaused = false;
+        isProcessingAnswer = false;
+        timeLeft = SharedUtils.CONFIG.DAILY_TIMER_DURATION;
+        // Daily mode: Reset and show 5 lives
+        resetLives(DAILY_MAX_LIVES);
+        showLivesDisplay(true);
+        // Show stickers remaining instead of score
+        if (scoreDisplayElement) scoreDisplayElement.innerHTML = 'Left: <span id="current-score">' + dailyStickersRemaining + '</span>';
+        currentScoreElement = document.getElementById('current-score');
     } else {
         // Classic mode: Reset and show 3 lives
         resetLives(MAX_LIVES);
         showLivesDisplay(true);
         isProcessingAnswer = false;
+        if (currentScoreElement) currentScoreElement.textContent = 0;
+        if (scoreDisplayElement) scoreDisplayElement.innerHTML = 'Score: <span id="current-score">0</span>';
     }
 
     // Reset panels for new game
@@ -1392,6 +1527,47 @@ async function loadNewQuestionTTR(isQuickTransition = false) {
         return questionData;
     } catch (error) {
         console.error("Error loadNewQuestionTTR:", error);
+        showError(`Loading Error: ${error.message || 'Failed to load question'}`);
+        return null;
+    } finally {
+        hideLoading();
+    }
+}
+
+// Load new question for Daily Quiz mode with difficulty based on pattern (same as TTR)
+async function loadNewQuestionDaily(isQuickTransition = false) {
+    if (!supabaseClient) {
+        showError("DB connection error.");
+        return null;
+    }
+
+    if (!clubNamesLoaded) {
+        showLoading();
+        const loaded = await loadAllClubNames();
+        hideLoading();
+        if (!loaded) {
+            showError("Failed to load essential game data.");
+            return null;
+        }
+    }
+
+    // Get difficulty based on current Daily pattern position (same pattern as TTR)
+    const difficulty = getTTRDifficulty(dailyStickerIndex);
+    currentStickerDifficulty = difficulty;
+
+    if (!isQuickTransition) showLoading();
+    hideError();
+
+    try {
+        const questionData = await loadNewQuestionInternalWithDifficulty(difficulty);
+        if (!questionData) {
+            throw new Error("Failed to load question data");
+        }
+        // Store the difficulty in the question data for bonus time calculation
+        questionData.difficulty = difficulty;
+        return questionData;
+    } catch (error) {
+        console.error("Error loadNewQuestionDaily:", error);
         showError(`Loading Error: ${error.message || 'Failed to load question'}`);
         return null;
     } finally {
@@ -1590,7 +1766,7 @@ async function getPercentileRank(score, difficulty) {
     }
 }
 
-function endGame() {
+function endGame(dailyWin = false) {
     stopTimer();
 
     // Clear preload queue to prevent memory leak
@@ -1608,11 +1784,35 @@ function endGame() {
     }
 
     // Show body class to indicate quiz is over (for hiding header/footer on mobile)
-    document.body.classList.remove('quiz-active', 'ttr-mode');
+    document.body.classList.remove('quiz-active', 'ttr-mode', 'daily-mode');
     document.body.classList.add('quiz-result');
 
-    if (finalScoreElement) {
-        finalScoreElement.textContent = currentScore;
+    // Get final score container
+    const finalScoreContainer = document.querySelector('.final-score-container');
+
+    // Handle Daily Quiz win condition
+    if (currentGameMode === SharedUtils.CONFIG.GAME_MODE_DAILY && dailyWin) {
+        // Daily Quiz WIN!
+        if (gameOverTextElement) {
+            gameOverTextElement.textContent = 'YOU WON!';
+            gameOverTextElement.classList.add('daily-win');
+        }
+        // Hide the score display for wins
+        if (finalScoreContainer) {
+            finalScoreContainer.style.display = 'none';
+        }
+    } else {
+        // Normal game over (loss or TTR/Classic end)
+        if (gameOverTextElement) {
+            gameOverTextElement.textContent = 'Game Over!';
+            gameOverTextElement.classList.remove('daily-win');
+        }
+        if (finalScoreContainer) {
+            finalScoreContainer.style.display = '';
+        }
+        if (finalScoreElement) {
+            finalScoreElement.textContent = currentScore;
+        }
     }
 
     // Animate Game Over text
@@ -1640,8 +1840,8 @@ function endGame() {
         resultStickerInfoButton.href = '/catalogue.html';
     }
 
-    // Calculate and display percentile rank
-    if (percentileValueElement) {
+    // Calculate and display percentile rank (only for non-daily or daily losses)
+    if (percentileValueElement && !(currentGameMode === SharedUtils.CONFIG.GAME_MODE_DAILY && dailyWin)) {
         getPercentileRank(currentScore, selectedDifficulty).then(percentile => {
             if (percentileValueElement) {
                 percentileValueElement.textContent = percentile;
@@ -1655,7 +1855,10 @@ function endGame() {
         leaderboardButton.onclick = () => window.location.href = '/leaderboard.html';
     }
 
-    saveScore();
+    // Don't save score for Daily Quiz wins (no scoring system)
+    if (!(currentGameMode === SharedUtils.CONFIG.GAME_MODE_DAILY && dailyWin)) {
+        saveScore();
+    }
 }
 
 async function saveScore() {
