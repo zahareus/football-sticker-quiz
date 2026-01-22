@@ -2363,18 +2363,64 @@ body.daily-mode .game-info #timer {
     color: var(--color-text);
 }
 
-/* Daily Quiz win message styling */
+/* TTR/Daily mode mobile layout - compact counters */
+@media (max-width: 600px) {
+    body.ttr-mode .game-info,
+    body.daily-mode .game-info {
+        width: 100%;
+        max-width: 300px;
+        justify-content: space-between;
+        gap: 0;
+    }
+
+    body.ttr-mode .game-info #timer,
+    body.ttr-mode .game-info #lives,
+    body.ttr-mode .game-info #score,
+    body.daily-mode .game-info #timer,
+    body.daily-mode .game-info #lives,
+    body.daily-mode .game-info #score {
+        font-size: 0.75em;
+        flex: 1;
+        text-align: center;
+        min-width: 0;
+    }
+
+    body.ttr-mode .game-info #timer,
+    body.daily-mode .game-info #timer {
+        text-align: left;
+    }
+
+    body.ttr-mode .game-info #score,
+    body.daily-mode .game-info #score {
+        text-align: right;
+    }
+
+    body.ttr-mode .game-info #time-left,
+    body.ttr-mode .game-info #current-score,
+    body.daily-mode .game-info #time-left,
+    body.daily-mode .game-info #current-score {
+        font-size: 1em;
+    }
+}
+
+/* Hunt them all (Daily Quiz) win message styling */
 #game-over-text.daily-win {
     color: var(--color-success) !important;
     font-size: 1.5em;
 }
 
-/* Daily Quiz button styling - inverted colors (black bg, yellow text) */
+/* Hunt them all button styling - inverted colors (black bg, yellow text) */
 #daily-mode-button,
 #landing-daily-button {
     background-color: var(--color-text) !important;
     color: var(--color-accent) !important;
     border-color: var(--color-text) !important;
+    width: 100% !important;  /* Match other buttons width */
+}
+
+#landing-daily-button {
+    width: 90% !important;
+    max-width: 320px !important;
 }
 
 @media (hover: hover) {
@@ -2385,7 +2431,7 @@ body.daily-mode .game-info #timer {
     }
 }
 
-/* Daily Quiz description under button */
+/* Hunt them all description under button */
 .daily-quiz-description {
     font-size: 0.85em;
     color: var(--color-info-text);
