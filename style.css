@@ -1473,7 +1473,7 @@ body.quiz-result .result-right-panel {
 /* Home page adjustments */
 body.home-page .app-header {
     justify-content: center;
-    margin-bottom: calc(var(--spacing-unit) * 2);
+    margin-bottom: 0;
 }
 
 body.home-page .logo-container {
@@ -1492,11 +1492,11 @@ body.home-page #app-logo {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
-    max-width: 600px;
+    justify-content: flex-start;
+    max-width: 1200px;
     margin-top: 0;
     margin-bottom: 0;
-    min-height: calc(100vh - var(--header-height) - 180px); /* Subtract header and footer */
+    padding-top: calc(var(--spacing-unit) * 2);
 }
 
 .home-subtitle {
@@ -1510,50 +1510,6 @@ body.home-page #app-logo {
 .home-subtitle #total-stickers {
     font-weight: 600;
     color: var(--color-text);
-}
-
-#featured-sticker {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    margin-bottom: calc(var(--spacing-unit) * 2);
-    width: 100%;
-}
-
-#home-sticker-link {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-}
-
-.random-sticker-label {
-    font-size: 1em;
-    color: var(--color-info-text);
-    text-align: center;
-    margin: 0 0 calc(var(--spacing-unit) * 1.5) 0;
-    font-weight: 500;
-}
-
-#home-sticker-container {
-    width: 80%;
-    max-width: 400px;
-    aspect-ratio: 1 / 1;
-    margin-bottom: calc(var(--spacing-unit) * 1.5);
-    background-color: var(--color-secondary-bg);
-    border: 1px solid var(--color-border);
-    border-radius: var(--border-radius);
-    overflow: hidden;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-#home-sticker-image {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
 }
 
 .home-actions {
@@ -1599,71 +1555,75 @@ body.home-page #app-logo {
     display: inline-block;
 }
 
-/* New homepage layout (quiz-style) */
-#home-game-area {
-    margin-top: calc(var(--spacing-unit) * 2);
+/* Homepage specific adjustments for game area */
+body.home-page #game-area {
+    margin-top: 0;
 }
 
-#home-sticker-section {
+body.home-page #sticker-container a {
+    display: block;
     width: 100%;
-    display: flex;
-    justify-content: center;
-    margin-bottom: calc(var(--spacing-unit) * 3);
+    height: 100%;
 }
 
-#home-sticker-section #home-sticker-container {
-    width: 300px;
-    height: 300px;
-    margin: 0;
-    max-width: none;
+body.home-page #home-sticker-image {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
 }
 
-.home-right-panel {
-    display: contents;
+/* Always single column for homepage buttons */
+body.home-page .options-group {
+    grid-template-columns: 1fr;
+    max-width: 300px;
 }
 
-.home-info {
+body.home-page .game-info {
     width: 100%;
     max-width: 300px;
     margin: 0 auto calc(var(--spacing-unit) * 2) auto;
+    justify-content: center;
     text-align: center;
 }
 
-#home-title {
+body.home-page #home-title {
     font-size: 1.1em;
     color: var(--color-text);
     font-weight: 500;
 }
 
-#home-title #total-stickers {
+body.home-page #home-title #total-stickers {
     font-weight: 600;
 }
 
-/* Desktop horizontal layout */
+/* Desktop horizontal layout for homepage */
 @media (min-width: 1000px) {
-    .home-container {
-        max-width: 1200px;
-    }
-
-    #home-game-area {
+    body.home-page #game-area {
         display: flex !important;
         flex-direction: row;
         align-items: flex-start;
         justify-content: center;
         gap: calc(var(--spacing-unit) * 4);
-        margin-top: calc(var(--spacing-unit) * 2);
+        margin-top: 0;
         width: calc(100vw - var(--spacing-unit) * 4);
         max-width: 1000px;
         margin-left: auto;
         margin-right: auto;
+        position: relative;
+        left: 50%;
+        transform: translateX(-50%);
     }
 
-    #home-sticker-section {
+    body.home-page #sticker-container {
+        width: min(600px, calc(100vh - 300px));
+        height: min(600px, calc(100vh - 300px));
+        min-width: 450px;
+        min-height: 450px;
+        margin: 0;
         flex-shrink: 0;
-        margin-bottom: 0;
     }
 
-    .home-right-panel {
+    body.home-page .game-right-panel {
         display: flex !important;
         flex-direction: column;
         align-items: center;
@@ -1671,13 +1631,13 @@ body.home-page #app-logo {
         flex-shrink: 0;
     }
 
-    .home-info {
+    body.home-page .game-info {
         width: 300px;
         margin: 0 0 calc(var(--spacing-unit) * 1) 0;
         text-align: left;
     }
 
-    #home-game-area .home-actions.options-group {
+    body.home-page #game-area .options-group {
         grid-template-columns: 1fr;
         gap: calc(var(--spacing-unit) * 1.5);
     }
@@ -1691,43 +1651,16 @@ body.home-page #app-logo {
     }
 
     body.home-page .app-header {
-        margin-bottom: var(--spacing-unit);
+        margin-bottom: 0;
     }
 
     .home-container {
-        padding: 0 calc(var(--spacing-unit) * 2);
-        min-height: calc(100vh - 140px);
+        padding: calc(var(--spacing-unit) * 2) calc(var(--spacing-unit) * 2) 0;
     }
 
     .home-subtitle {
         font-size: 1em;
         margin-bottom: var(--spacing-unit);
-    }
-
-    #home-sticker-container {
-        margin-bottom: var(--spacing-unit);
-    }
-
-    #featured-sticker {
-        margin-bottom: calc(var(--spacing-unit) * 1.5);
-    }
-
-    .home-actions {
-        max-width: 100%;
-        gap: var(--spacing-unit);
-    }
-
-    .home-actions .btn,
-    .home-actions button {
-        height: 56px;
-        font-size: 0.95em;
-    }
-
-    #home-sticker-section #home-sticker-container {
-        width: 80%;
-        height: auto;
-        max-width: 300px;
-        aspect-ratio: 1 / 1;
     }
 }
 
