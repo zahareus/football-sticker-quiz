@@ -573,16 +573,19 @@ async function loadContinentsAndCountries() {
             });
         }
 
-        // Add statistics block
-        let statsHtml = `
-            <div class="catalogue-stats">
-                <p><strong>Stickers:</strong> ${totalStickers}</p>
-                <p><strong>Clubs:</strong> ${clubs.length}</p>
-                <p><strong>Countries:</strong> ${totalCountriesInCatalogue}</p>
-                <a href="/stickerstat.html" class="stats-more-link">View more stats</a>
-            </div>
-            <div class="catalogue-map-btn-container">
-                <a href="/map.html" class="btn btn-nav">View Full Map</a>
+        // Add statistics and map preview row (two columns on desktop)
+        let statsMapRowHtml = `
+            <div class="catalogue-top-row">
+                <div class="catalogue-stats">
+                    <p><strong>Stickers:</strong> ${totalStickers}</p>
+                    <p><strong>Clubs:</strong> ${clubs.length}</p>
+                    <p><strong>Countries:</strong> ${totalCountriesInCatalogue}</p>
+                    <a href="/stickerstat.html" class="stats-more-link">View more stats</a>
+                </div>
+                <div class="catalogue-map-preview">
+                    <div id="catalogue-map-container" class="catalogue-map-container"></div>
+                    <a href="/map.html" class="map-more-link">View full map</a>
+                </div>
             </div>
         `;
 
@@ -590,7 +593,13 @@ async function loadContinentsAndCountries() {
         const lastStickersHtml = await loadLastStickers();
         const mostRatedHtml = await loadMostRatedStickers();
 
-        let listHtml = '';
+        // Wrap last stickers and most rated in a row (two columns on desktop)
+        let stickersRowHtml = '';
+        if (lastStickersHtml || mostRatedHtml) {
+            stickersRowHtml = `<div class="catalogue-stickers-row">${lastStickersHtml}${mostRatedHtml}</div>`;
+        }
+
+        let listHtml = '<div class="catalogue-countries-grid">';
         const sortedContinentNames = Object.keys(continents).sort((a, b) => a.localeCompare(b));
         sortedContinentNames.forEach(continentName => {
             listHtml += `<div class="continent-section">`;
@@ -604,11 +613,14 @@ async function loadContinentsAndCountries() {
             });
             listHtml += `</ul></div>`;
         });
+        listHtml += '</div>';
 
-        if (listHtml === '') {
+        if (sortedContinentNames.length === 0) {
             contentDiv.innerHTML = '<p>No data to display. Check the maps and database entries.</p>';
         } else {
-            contentDiv.innerHTML = statsHtml + lastStickersHtml + mostRatedHtml + listHtml;
+            contentDiv.innerHTML = statsMapRowHtml + stickersRowHtml + listHtml;
+            // Initialize the map preview after content is rendered
+            initializeCatalogueMapPreview();
         }
     } catch (error) {
         console.error('An error occurred while loading countries:', error);
@@ -1520,4 +1532,88 @@ function initializeClubMap(stickers, clubName) {
     mapContainer.addEventListener('mouseleave', function() {
         map.scrollWheelZoom.disable();
     });
+}
+
+/**
+ * Initialize catalogue map preview (static mini-map)
+ */
+function initializeCatalogueMapPreview() {
+    const mapContainer = document.getElementById('catalogue-map-container');
+    if (!mapContainer) {
+        return;
+    }
+
+    // Check if Leaflet is loaded
+    if (typeof L === 'undefined') {
+        mapContainer.innerHTML = '<p style="text-align: center; color: var(--color-info-text); padding: 40px 0;">Map preview unavailable</p>';
+        return;
+    }
+
+    // Initialize static map preview centered on Europe
+    const map = L.map('catalogue-map-container', {
+        scrollWheelZoom: false,
+        zoomControl: false,
+        dragging: false,
+        touchZoom: false,
+        doubleClickZoom: false,
+        boxZoom: false,
+        keyboard: false,
+        attributionControl: false
+    }).setView([50.0, 10.0], 3);
+
+    // Add CartoDB Voyager tiles (English labels)
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
+        maxZoom: 19
+    }).addTo(map);
+
+    // Load a sample of stickers with coordinates for preview dots
+    fetchSampleGeoStickers().then(stickers => {
+        if (stickers && stickers.length > 0) {
+            // Add simple circle markers for stickers
+            stickers.forEach(sticker => {
+                if (sticker.latitude && sticker.longitude) {
+                    L.circleMarker([sticker.latitude, sticker.longitude], {
+                        radius: 4,
+                        fillColor: '#007bff',
+                        color: '#007bff',
+                        weight: 1,
+                        opacity: 0.7,
+                        fillOpacity: 0.5
+                    }).addTo(map);
+                }
+            });
+        }
+    });
+
+    // Make the whole map clickable to go to full map
+    mapContainer.style.cursor = 'pointer';
+    mapContainer.addEventListener('click', function() {
+        window.location.href = '/map.html';
+    });
+}
+
+/**
+ * Fetch sample of stickers with coordinates for map preview
+ */
+async function fetchSampleGeoStickers() {
+    if (!supabaseClient) return [];
+
+    try {
+        const { data, error } = await supabaseClient
+            .from('stickers')
+            .select('latitude, longitude')
+            .not('latitude', 'is', null)
+            .not('longitude', 'is', null)
+            .limit(200);
+
+        if (error) {
+            console.error('Error fetching geo stickers for preview:', error);
+            return [];
+        }
+
+        return data || [];
+    } catch (e) {
+        console.error('Error in fetchSampleGeoStickers:', e);
+        return [];
+    }
 }
