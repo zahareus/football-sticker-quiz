@@ -340,7 +340,8 @@ async function loadLastStickers() {
                 const clubName = sticker.clubs?.name || 'Unknown Club';
                 const clubId = sticker.clubs?.id || null;
 
-                let entry = '<a href="/stickers/' + sticker.id + '.html" class="sticker-link">#' + sticker.id + '</a>, ';
+                const flagEmoji = countryCodeToFlagEmoji[sticker.clubs?.country?.toUpperCase()] || '';
+                let entry = '<a href="/stickers/' + sticker.id + '.html" class="sticker-link">' + sticker.id + '</a>, ' + flagEmoji + ' ';
 
                 if (clubId) {
                     entry += '<a href="/clubs/' + clubId + '.html" class="club-link">' + clubName + '</a>';
@@ -401,8 +402,9 @@ async function loadMostRatedStickers() {
             const clubId = sticker.clubs?.id || null;
             const rating = sticker.rating || 1500;
 
+            const flagEmoji = countryCodeToFlagEmoji[sticker.clubs?.country?.toUpperCase()] || '';
             let entry = `<span class="rank">${index + 1}.</span> `;
-            entry += `<a href="/stickers/${sticker.id}.html" class="sticker-link">#${sticker.id}</a>, `;
+            entry += `<a href="/stickers/${sticker.id}.html" class="sticker-link">${sticker.id}</a>, ${flagEmoji} `;
 
             if (clubId) {
                 entry += `<a href="/clubs/${clubId}.html" class="club-link">${clubName}</a>`;
@@ -530,12 +532,8 @@ async function loadContinentsAndCountries() {
             return;
         }
 
-        // Fetch total sticker count
-        const { count: stickerCount, error: stickerCountError } = await supabaseClient
-            .from('stickers')
-            .select('*', { count: 'exact', head: true });
-
-        const totalStickers = stickerCountError ? 0 : (stickerCount || 0);
+        // Use hardcoded sticker count (same as index.html) - actual sticker pages count
+        const totalStickers = 2857;
 
         // Update meta description with actual counts
         updateMetaDescription(`Browse ${totalStickers} football stickers from ${clubs.length} clubs across ${totalCountriesInCatalogue} countries. Explore by country and discover the complete collection.`);
@@ -600,7 +598,16 @@ async function loadContinentsAndCountries() {
         }
 
         let listHtml = '<div class="catalogue-countries-grid">';
-        const sortedContinentNames = Object.keys(continents).sort((a, b) => a.localeCompare(b));
+        // Custom order: Europe, North America, Africa, South America, Asia, Oceania, Other
+        const continentOrder = ['Europe', 'North America', 'Africa', 'South America', 'Asia', 'Oceania', 'Other Countries / Unclassified'];
+        const sortedContinentNames = Object.keys(continents).sort((a, b) => {
+            const indexA = continentOrder.indexOf(a);
+            const indexB = continentOrder.indexOf(b);
+            if (indexA === -1 && indexB === -1) return a.localeCompare(b);
+            if (indexA === -1) return 1;
+            if (indexB === -1) return -1;
+            return indexA - indexB;
+        });
         sortedContinentNames.forEach(continentName => {
             listHtml += `<div class="continent-section">`;
             listHtml += `<h3>${continentName}</h3>`;
