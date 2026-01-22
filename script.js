@@ -1325,8 +1325,8 @@ async function startGame() {
         // TTR mode: Reset and show 5 lives
         resetLives(TTR_MAX_LIVES);
         showLivesDisplay(true);
-        if (currentScoreElement) currentScoreElement.textContent = 0;
         if (scoreDisplayElement) scoreDisplayElement.innerHTML = 'Score: <span id="current-score">0</span>';
+        currentScoreElement = document.getElementById('current-score');
     } else if (currentGameMode === SharedUtils.CONFIG.GAME_MODE_DAILY) {
         dailyStickerIndex = 0;
         dailyStickersRemaining = SharedUtils.CONFIG.DAILY_TOTAL_STICKERS;
@@ -1344,8 +1344,8 @@ async function startGame() {
         resetLives(MAX_LIVES);
         showLivesDisplay(true);
         isProcessingAnswer = false;
-        if (currentScoreElement) currentScoreElement.textContent = 0;
         if (scoreDisplayElement) scoreDisplayElement.innerHTML = 'Score: <span id="current-score">0</span>';
+        currentScoreElement = document.getElementById('current-score');
     }
 
     // Reset panels for new game
@@ -1866,9 +1866,10 @@ function endGame(dailyWin = false) {
     if (difficultySelectionElement) difficultySelectionElement.style.display = 'none';
     if (introTextElement) introTextElement.style.display = 'none';
 
-    // Update sticker info button to link to the last failed sticker
-    if (resultStickerInfoButton && lastFailedStickerId != null) {
-        resultStickerInfoButton.href = `/stickers/${lastFailedStickerId}.html`;
+    // Update sticker info button to link to the last sticker (failed or current)
+    const stickerIdForLink = lastFailedStickerId || (currentQuestionData && currentQuestionData.stickerId);
+    if (resultStickerInfoButton && stickerIdForLink != null) {
+        resultStickerInfoButton.href = `/stickers/${stickerIdForLink}.html`;
     } else if (resultStickerInfoButton) {
         resultStickerInfoButton.href = '/catalogue.html';
     }
