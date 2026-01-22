@@ -105,8 +105,8 @@ function setupButtonHandlers() {
 // Handle home auth button click
 function handleHomeAuthClick() {
     if (currentUser) {
-        // User is logged in, navigate to profile
-        window.location.href = '/profile.html';
+        // User is logged in, navigate to profile with user ID
+        window.location.href = '/profile.html?id=' + currentUser.id;
     } else {
         // User is not logged in, trigger login
         handleLoginClick();
