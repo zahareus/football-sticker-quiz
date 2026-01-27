@@ -78,6 +78,13 @@ function updateMetaDescription(description) {
     }
 }
 
+// Truncate long text to max length
+function truncateText(text, maxLength = 25) {
+    if (!text) return '';
+    if (text.length <= maxLength) return text;
+    return text.substring(0, maxLength) + '...';
+}
+
 const countryCodeToDetails_Generic = {
     "AFG": { name: "Afghanistan", continent: "Asia" },
     "ALB": { name: "Albania", continent: "Europe" },
@@ -338,14 +345,15 @@ async function loadLastStickers() {
 
             groupedByDate[date].forEach(sticker => {
                 const clubName = sticker.clubs?.name || 'Unknown Club';
+                const clubNameDisplay = truncateText(clubName, 25);
                 const clubId = sticker.clubs?.id || null;
 
                 let entry = '<a href="/stickers/' + sticker.id + '.html" class="sticker-link">' + sticker.id + '</a>, ';
 
                 if (clubId) {
-                    entry += '<a href="/clubs/' + clubId + '.html" class="club-link">' + clubName + '</a>';
+                    entry += '<a href="/clubs/' + clubId + '.html" class="club-link" title="' + clubName + '">' + clubNameDisplay + '</a>';
                 } else {
-                    entry += clubName;
+                    entry += '<span title="' + clubName + '">' + clubNameDisplay + '</span>';
                 }
 
                 entry += '.';
@@ -399,6 +407,7 @@ async function loadMostRatedStickers() {
 
         stickers.forEach((sticker, index) => {
             const clubName = sticker.clubs?.name || 'Unknown Club';
+            const clubNameDisplay = truncateText(clubName, 25);
             const clubId = sticker.clubs?.id || null;
             const rating = sticker.rating || 1500;
 
@@ -407,9 +416,9 @@ async function loadMostRatedStickers() {
             html += `<td class="sticker-cell"><a href="/stickers/${sticker.id}.html">${sticker.id}</a></td>`;
             html += '<td class="club-cell">';
             if (clubId) {
-                html += `<a href="/clubs/${clubId}.html">${clubName}</a>`;
+                html += `<a href="/clubs/${clubId}.html" title="${clubName}">${clubNameDisplay}</a>`;
             } else {
-                html += clubName;
+                html += `<span title="${clubName}">${clubNameDisplay}</span>`;
             }
             html += '</td>';
             html += `<td class="rating-cell">${rating}</td>`;
