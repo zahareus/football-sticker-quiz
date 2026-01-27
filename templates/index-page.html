@@ -93,22 +93,24 @@
     </header>
 
     <main class="container home-container">
-        <p class="home-subtitle" id="sticker-count-text">
-            Global database of football stickers.<br>
-            Total stickers: <span id="total-stickers">{{TOTAL_STICKERS}}</span>
-        </p>
-
-        <div id="featured-sticker">
-            <a href="{{FIRST_STICKER_LINK}}" id="home-sticker-link">
-                <div id="home-sticker-container">
+        <div id="game-area" style="display: block;">
+            <div id="sticker-container">
+                <a href="{{FIRST_STICKER_LINK}}" id="home-sticker-link">
                     <img id="home-sticker-image" src="{{FIRST_STICKER_URL}}" alt="Featured Sticker" fetchpriority="high" decoding="async">
+                </a>
+            </div>
+            <div class="game-right-panel">
+                <div class="game-info">
+                    <div id="home-title">Football stickers. Total: <span id="total-stickers">{{TOTAL_STICKERS}}</span></div>
                 </div>
-            </a>
-        </div>
-
-        <div class="home-actions">
-            <a href="/quiz.html" class="btn btn-large">Play Quiz</a>
-            <a href="/catalogue.html" class="btn btn-large">View Catalogue</a>
+                <div id="options" class="button-group options-group">
+                    <a href="/catalogue.html" class="btn">View Catalogue</a>
+                    <a href="/map.html" class="btn">View Map</a>
+                    <a href="/battle.html" class="btn">Rate Stickers</a>
+                    <a href="/quiz.html" class="btn">Play Quiz</a>
+                    <button id="home-auth-button" class="btn">Sign In</button>
+                </div>
+            </div>
         </div>
     </main>
 
