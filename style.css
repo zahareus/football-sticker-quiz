@@ -1729,38 +1729,80 @@ body.home-page #home-title #total-stickers {
     border-bottom: 1px dashed var(--color-border);
 }
 
-.last-stickers-date-header {
-    margin-top: calc(var(--spacing-unit) * 2);
-    margin-bottom: calc(var(--spacing-unit) * 1);
-    color: var(--color-text);
+/* Last stickers table */
+.last-stickers-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    text-align: left;
     font-size: 1em;
+}
+
+.last-stickers-table tbody tr {
+    border-bottom: 1px solid var(--color-border);
+    transition: background-color 0.2s ease;
+}
+
+.last-stickers-table tbody tr:last-child {
+    border-bottom: none;
+}
+
+.last-stickers-table td {
+    padding: calc(var(--spacing-unit) * 1) calc(var(--spacing-unit) * 0.75);
+    vertical-align: middle;
+}
+
+.last-stickers-table .rank-cell {
+    color: var(--color-rank);
     font-weight: 600;
+    text-align: right;
+    min-width: 2.5em;
+    white-space: nowrap;
 }
 
-.last-stickers-date-header:first-of-type {
-    margin-top: 0;
+.last-stickers-table .sticker-cell {
+    text-align: left;
+    min-width: 4em;
+    white-space: nowrap;
 }
 
-.last-stickers-list {
-    list-style: none;
-    padding-left: 0;
-}
-
-.last-stickers-list li {
-    margin-bottom: var(--spacing-unit);
-    font-size: 1.1em;
-}
-
-.last-stickers-list .sticker-link,
-.last-stickers-list .club-link {
+.last-stickers-table .sticker-cell a {
     color: var(--color-info-text);
     text-decoration: none;
     font-weight: 500;
 }
 
+.last-stickers-table .club-cell {
+    text-align: left;
+    width: 100%;
+    padding-right: calc(var(--spacing-unit) * 1);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.last-stickers-table .club-cell a {
+    color: var(--color-info-text);
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.last-stickers-table .date-cell {
+    text-align: right;
+    font-weight: 500;
+    color: var(--color-info-text);
+    min-width: 4em;
+    white-space: nowrap;
+    font-size: 0.9em;
+}
+
 @media (hover: hover) {
-    .last-stickers-list .sticker-link:hover,
-    .last-stickers-list .club-link:hover {
+    .last-stickers-table tbody tr:hover {
+        background-color: var(--color-secondary-bg-hover);
+    }
+
+    .last-stickers-table .sticker-cell a:hover,
+    .last-stickers-table .club-cell a:hover {
         color: var(--color-link);
         text-decoration: underline;
     }
@@ -1844,6 +1886,9 @@ body.home-page #home-title #total-stickers {
     text-align: left;
     width: 100%;
     padding-right: calc(var(--spacing-unit) * 1);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .most-rated-table .club-cell a {
@@ -3327,6 +3372,9 @@ body.daily-mode .game-info #timer {
     text-align: left;
     width: 100%;
     padding-right: calc(var(--spacing-unit) * 1);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .club-cell a {

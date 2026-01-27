@@ -316,54 +316,42 @@ async function loadLastStickers() {
             return '';
         }
 
-        // Group stickers by date
-        const groupedByDate = {};
-        stickers.forEach(sticker => {
-            if (!sticker.created_at) return;
-            const dateKey = new Date(sticker.created_at).toISOString().split('T')[0];
-            if (!groupedByDate[dateKey]) {
-                groupedByDate[dateKey] = [];
-            }
-            groupedByDate[dateKey].push(sticker);
-        });
-
-        // Build HTML
+        // Build HTML in table format (same as Most rated)
         let html = '<div class="last-stickers-section"><h3>Last stickers</h3>';
+        html += '<table class="last-stickers-table">';
+        html += '<tbody>';
 
-        const sortedDates = Object.keys(groupedByDate).sort((a, b) => b.localeCompare(a));
+        stickers.forEach((sticker, index) => {
+            const clubName = sticker.clubs?.name || 'Unknown Club';
+            const clubNameDisplay = truncateText(clubName, 25);
+            const clubId = sticker.clubs?.id || null;
 
-        sortedDates.forEach(date => {
-            const dateObj = new Date(date);
-            const formattedDate = dateObj.toLocaleDateString('en-GB', {
-                day: 'numeric',
-                month: 'long',
-                year: 'numeric'
-            });
+            // Format date
+            let dateDisplay = '';
+            if (sticker.created_at) {
+                const dateObj = new Date(sticker.created_at);
+                dateDisplay = dateObj.toLocaleDateString('en-GB', {
+                    day: 'numeric',
+                    month: 'short'
+                });
+            }
 
-            html += `<div class="last-stickers-date-header"><strong>${formattedDate}</strong></div>`;
-            html += '<ul class="last-stickers-list">';
-
-            groupedByDate[date].forEach(sticker => {
-                const clubName = sticker.clubs?.name || 'Unknown Club';
-                const clubNameDisplay = truncateText(clubName, 25);
-                const clubId = sticker.clubs?.id || null;
-
-                let entry = '<a href="/stickers/' + sticker.id + '.html" class="sticker-link">' + sticker.id + '</a>, ';
-
-                if (clubId) {
-                    entry += '<a href="/clubs/' + clubId + '.html" class="club-link" title="' + clubName + '">' + clubNameDisplay + '</a>';
-                } else {
-                    entry += '<span title="' + clubName + '">' + clubNameDisplay + '</span>';
-                }
-
-                entry += '.';
-
-                html += '<li>' + entry + '</li>';
-            });
-
-            html += '</ul>';
+            html += '<tr>';
+            html += `<td class="rank-cell">${index + 1}.</td>`;
+            html += `<td class="sticker-cell"><a href="/stickers/${sticker.id}.html">${sticker.id}</a></td>`;
+            html += '<td class="club-cell">';
+            if (clubId) {
+                html += `<a href="/clubs/${clubId}.html" title="${clubName}">${clubNameDisplay}</a>`;
+            } else {
+                html += `<span title="${clubName}">${clubNameDisplay}</span>`;
+            }
+            html += '</td>';
+            html += `<td class="date-cell">${dateDisplay}</td>`;
+            html += '</tr>';
         });
 
+        html += '</tbody>';
+        html += '</table>';
         html += '<a href="/stickerlog.html" class="view-full-log-link">View full stickerLog</a>';
         html += '</div>';
 
