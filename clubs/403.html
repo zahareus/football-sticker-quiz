@@ -7,7 +7,7 @@
     <link rel="icon" href="/favicon.ico" type="image/x-icon">
 
     <!-- SEO Meta Tags - Pre-rendered for better indexing -->
-    <meta name="description" content="View 36 stickers from 🇧🇪 RSC Anderlecht (Belgium) in our football sticker collection.">
+    <meta name="description" content="View 37 stickers from 🇧🇪 RSC Anderlecht (Belgium) in our football sticker collection.">
     <meta name="keywords" content="football stickers, 🇧🇪 RSC Anderlecht, Belgium, panini, sticker collection, RSCA Anderlecht PurpleAndWhite ForzaAnderlecht JPL">
     <link rel="canonical" href="https://stickerhunt.club/clubs/403.html">
 
@@ -15,7 +15,7 @@
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://stickerhunt.club/clubs/403.html">
     <meta property="og:title" content="🇧🇪 RSC Anderlecht - Belgium - Sticker Catalogue">
-    <meta property="og:description" content="View 36 stickers from 🇧🇪 RSC Anderlecht (Belgium) in our football sticker collection.">
+    <meta property="og:description" content="View 37 stickers from 🇧🇪 RSC Anderlecht (Belgium) in our football sticker collection.">
     <meta property="og:image" content="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/BEL%20RSC%20Anderlecht/IMG_3062.jpeg">
     <meta property="og:site_name" content="StickerHunt">
 
@@ -23,7 +23,7 @@
     <meta property="twitter:card" content="summary_large_image">
     <meta property="twitter:url" content="https://stickerhunt.club/clubs/403.html">
     <meta property="twitter:title" content="🇧🇪 RSC Anderlecht - Belgium - Sticker Catalogue">
-    <meta property="twitter:description" content="View 36 stickers from 🇧🇪 RSC Anderlecht (Belgium) in our football sticker collection.">
+    <meta property="twitter:description" content="View 37 stickers from 🇧🇪 RSC Anderlecht (Belgium) in our football sticker collection.">
     <meta property="twitter:image" content="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/BEL%20RSC%20Anderlecht/IMG_3062.jpeg">
     <meta property="twitter:site" content="@StickerHunting">
     <meta property="twitter:creator" content="@StickerHunting">
@@ -51,7 +51,7 @@
       "@context": "https://schema.org",
       "@type": "SportsTeam",
       "name": "🇧🇪 RSC Anderlecht",
-      "description": "View 36 stickers from 🇧🇪 RSC Anderlecht (Belgium) in our football sticker collection.",
+      "description": "View 37 stickers from 🇧🇪 RSC Anderlecht (Belgium) in our football sticker collection.",
       "url": "https://stickerhunt.club/clubs/403.html",
       "sport": "Football"
     }
@@ -187,6 +187,13 @@
                 <a href="/stickers/108.html" class="sticker-preview-link">
                     <img src="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/BEL%20RSC%20Anderlecht/IMG_8399_thumb.webp"
                          alt="Sticker ID 108 for 🇧🇪 RSC Anderlecht"
+                         class="sticker-preview-image"
+                         loading="lazy"
+                         decoding="async">
+                </a>
+                <a href="/stickers/2866.html" class="sticker-preview-link">
+                    <img src="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/club_345/1766232894639_IMG_7707_thumb.webp"
+                         alt="Sticker ID 2866 for 🇧🇪 RSC Anderlecht"
                          class="sticker-preview-image"
                          loading="lazy"
                          decoding="async">
@@ -376,11 +383,18 @@
         
         document.addEventListener('DOMContentLoaded', function() {
             if (typeof L !== 'undefined' && document.getElementById('club-map')) {
-                const clubMap = L.map('club-map').setView([50.83966300606061, 4.356041538888889], 10);
+                const clubMap = L.map('club-map').setView([50.893642149275365, 4.35417572415459], 10);
                 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                     attribution: '© OpenStreetMap contributors'
                 }).addTo(clubMap);
                 
+                (function() {
+                    const marker = L.marker([52.0811833, 4.3131278]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇧🇪 RSC Anderlecht</strong><a href="/stickers/2866.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
                 (function() {
                     const marker = L.marker([50.8318028, 4.3589333]).addTo(clubMap);
                     marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇧🇪 RSC Anderlecht</strong><a href="/stickers/2873.html" class="map-popup-link">View</a></div>');
@@ -534,10 +548,9 @@
                     marker.on('mouseover', function() { this.openPopup(); });
                     marker.on('click', function() { this.openPopup(); });
                 })();
-
-                // Fit bounds if multiple stickers
                 
                 const bounds = L.latLngBounds([
+                    [52.0811833, 4.3131278],
                     [50.8318028, 4.3589333],
                     [50.8437305555556, 4.35205833333333],
                     [50.8468861111111, 4.35686111111111],
