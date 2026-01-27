@@ -1791,33 +1791,76 @@ body.home-page #home-title #total-stickers {
     border-bottom: 1px dashed var(--color-border);
 }
 
-.most-rated-list {
-    list-style: none;
-    padding-left: 0;
+/* Most rated table */
+.most-rated-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    text-align: left;
+    font-size: 1em;
 }
 
-.most-rated-list li {
-    margin-bottom: var(--spacing-unit);
-    font-size: 1.1em;
+.most-rated-table tbody tr {
+    border-bottom: 1px solid var(--color-border);
+    transition: background-color 0.2s ease;
 }
 
-.most-rated-list .rank {
+.most-rated-table tbody tr:last-child {
+    border-bottom: none;
+}
+
+.most-rated-table td {
+    padding: calc(var(--spacing-unit) * 1) calc(var(--spacing-unit) * 0.75);
+    vertical-align: middle;
+}
+
+.most-rated-table .rank-cell {
     color: var(--color-rank);
     font-weight: 600;
-    min-width: 2em;
-    display: inline-block;
+    text-align: right;
+    min-width: 2.5em;
+    white-space: nowrap;
 }
 
-.most-rated-list .sticker-link,
-.most-rated-list .club-link {
+.most-rated-table .sticker-cell {
+    text-align: left;
+    min-width: 4em;
+    white-space: nowrap;
+}
+
+.most-rated-table .sticker-cell a {
     color: var(--color-info-text);
     text-decoration: none;
     font-weight: 500;
 }
 
+.most-rated-table .club-cell {
+    text-align: left;
+    width: 100%;
+    padding-right: calc(var(--spacing-unit) * 1);
+}
+
+.most-rated-table .club-cell a {
+    color: var(--color-info-text);
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.most-rated-table .rating-cell {
+    text-align: right;
+    font-weight: 600;
+    color: var(--color-accent-darker);
+    min-width: 4em;
+    white-space: nowrap;
+}
+
 @media (hover: hover) {
-    .most-rated-list .sticker-link:hover,
-    .most-rated-list .club-link:hover {
+    .most-rated-table tbody tr:hover {
+        background-color: var(--color-secondary-bg-hover);
+    }
+
+    .most-rated-table .sticker-cell a:hover,
+    .most-rated-table .club-cell a:hover {
         color: var(--color-link);
         text-decoration: underline;
     }
@@ -1834,7 +1877,8 @@ body.home-page #home-title #total-stickers {
     margin-left: 4px;
 }
 
-.rate-stickers-link {
+.rate-stickers-link,
+.view-full-rating-link {
     display: inline-block;
     margin-top: calc(var(--spacing-unit) * 1.5);
     color: var(--color-info-text);
@@ -1844,7 +1888,8 @@ body.home-page #home-title #total-stickers {
 }
 
 @media (hover: hover) {
-    .rate-stickers-link:hover {
+    .rate-stickers-link:hover,
+    .view-full-rating-link:hover {
         color: var(--color-link);
         text-decoration: underline;
     }
@@ -3154,5 +3199,227 @@ body.daily-mode .game-info #timer {
     .battle-actions .btn {
         width: 100%;
         max-width: 280px;
+    }
+}
+
+/* ------------------------------ */
+/* Rating Page Styles             */
+/* ------------------------------ */
+
+#rating-container {
+    max-width: 1200px;
+    text-align: center;
+}
+
+#rating-container h1 {
+    margin-bottom: calc(var(--spacing-unit) * 3);
+}
+
+/* Rate Stickers buttons at top and bottom */
+.rating-actions-top,
+.rating-actions-bottom {
+    margin: calc(var(--spacing-unit) * 3) auto;
+    text-align: center;
+}
+
+.rating-actions-top {
+    margin-top: 0;
+}
+
+.rating-actions-bottom {
+    margin-bottom: calc(var(--spacing-unit) * 2);
+}
+
+/* Rating table container - holds columns */
+.rating-table-container {
+    display: flex;
+    gap: calc(var(--spacing-unit) * 4);
+    justify-content: center;
+    align-items: flex-start;
+    margin: calc(var(--spacing-unit) * 3) auto;
+    flex-wrap: wrap;
+}
+
+/* Individual rating column */
+.rating-column {
+    flex: 1;
+    min-width: 400px;
+    max-width: 550px;
+}
+
+/* Rating table */
+.rating-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    text-align: left;
+    font-size: 1em;
+}
+
+.rating-table tbody tr {
+    border-bottom: 1px solid var(--color-border);
+    transition: background-color 0.2s ease;
+}
+
+.rating-table tbody tr:last-child {
+    border-bottom: none;
+}
+
+/* Table cells */
+.rating-table td {
+    padding: calc(var(--spacing-unit) * 1.25) calc(var(--spacing-unit) * 0.75);
+    vertical-align: middle;
+}
+
+/* Rank cell */
+.rank-cell {
+    color: var(--color-rank);
+    font-weight: 600;
+    text-align: right;
+    min-width: 3em;
+    white-space: nowrap;
+}
+
+/* Sticker ID cell */
+.sticker-cell {
+    text-align: left;
+    min-width: 4em;
+    white-space: nowrap;
+}
+
+.sticker-cell a {
+    color: var(--color-info-text);
+    text-decoration: none;
+    font-weight: 500;
+}
+
+/* Club name cell - takes remaining space */
+.club-cell {
+    text-align: left;
+    width: 100%;
+    padding-right: calc(var(--spacing-unit) * 1);
+}
+
+.club-cell a {
+    color: var(--color-info-text);
+    text-decoration: none;
+    font-weight: 500;
+}
+
+/* Rating cell */
+.rating-cell {
+    text-align: right;
+    font-weight: 600;
+    color: var(--color-accent-darker);
+    min-width: 4em;
+    white-space: nowrap;
+}
+
+/* Hover effects */
+@media (hover: hover) {
+    .rating-table tbody tr:hover {
+        background-color: var(--color-secondary-bg-hover);
+    }
+
+    .sticker-cell a:hover,
+    .club-cell a:hover {
+        color: var(--color-link);
+        text-decoration: underline;
+    }
+}
+
+/* Pagination */
+#rating-pagination {
+    margin: calc(var(--spacing-unit) * 4) auto calc(var(--spacing-unit) * 2) auto;
+    text-align: center;
+}
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: calc(var(--spacing-unit) * 2);
+    flex-wrap: wrap;
+}
+
+.pagination-btn {
+    display: inline-block;
+    padding: calc(var(--spacing-unit) * 1) calc(var(--spacing-unit) * 2);
+    background-color: var(--color-background);
+    color: var(--color-text);
+    border: 1px solid var(--color-border);
+    border-radius: var(--border-radius);
+    text-decoration: none;
+    font-weight: 500;
+    transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+}
+
+.pagination-btn:not(.disabled):hover {
+    background-color: var(--color-accent);
+    border-color: var(--color-accent);
+    color: var(--color-accent-text);
+}
+
+.pagination-btn.disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+.pagination-info {
+    font-weight: 500;
+    color: var(--color-info-text);
+}
+
+/* Responsive: Mobile */
+@media (max-width: 900px) {
+    .rating-table-container {
+        flex-direction: column;
+        gap: 0;
+    }
+
+    .rating-column {
+        width: 100%;
+        min-width: unset;
+        max-width: 100%;
+    }
+
+    .rating-table {
+        font-size: 0.95em;
+    }
+
+    .rating-table td {
+        padding: calc(var(--spacing-unit) * 1) calc(var(--spacing-unit) * 0.5);
+    }
+
+    .rank-cell {
+        min-width: 2.5em;
+    }
+
+    .sticker-cell {
+        min-width: 3em;
+    }
+
+    .rating-cell {
+        min-width: 3.5em;
+    }
+}
+
+@media (max-width: 500px) {
+    .rating-table {
+        font-size: 0.9em;
+    }
+
+    .rating-table td {
+        padding: calc(var(--spacing-unit) * 0.75) calc(var(--spacing-unit) * 0.4);
+    }
+
+    .pagination {
+        gap: calc(var(--spacing-unit) * 1);
+    }
+
+    .pagination-btn {
+        padding: calc(var(--spacing-unit) * 0.75) calc(var(--spacing-unit) * 1.5);
+        font-size: 0.9em;
     }
 }
