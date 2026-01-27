@@ -392,31 +392,33 @@ async function loadMostRatedStickers() {
             return '';
         }
 
-        // Build HTML
+        // Build HTML in table format
         let html = '<div class="most-rated-section"><h3>Most rated stickers</h3>';
-        html += '<ul class="most-rated-list">';
+        html += '<table class="most-rated-table">';
+        html += '<tbody>';
 
         stickers.forEach((sticker, index) => {
             const clubName = sticker.clubs?.name || 'Unknown Club';
             const clubId = sticker.clubs?.id || null;
             const rating = sticker.rating || 1500;
 
-            let entry = `<span class="rank">${index + 1}.</span> `;
-            entry += `<a href="/stickers/${sticker.id}.html" class="sticker-link">${sticker.id}</a>, `;
-
+            html += '<tr>';
+            html += `<td class="rank-cell">${index + 1}.</td>`;
+            html += `<td class="sticker-cell"><a href="/stickers/${sticker.id}.html">${sticker.id}</a></td>`;
+            html += '<td class="club-cell">';
             if (clubId) {
-                entry += `<a href="/clubs/${clubId}.html" class="club-link">${clubName}</a>`;
+                html += `<a href="/clubs/${clubId}.html">${clubName}</a>`;
             } else {
-                entry += clubName;
+                html += clubName;
             }
-
-            entry += ` <span class="rating-badge">${rating}</span>`;
-
-            html += `<li>${entry}</li>`;
+            html += '</td>';
+            html += `<td class="rating-cell">${rating}</td>`;
+            html += '</tr>';
         });
 
-        html += '</ul>';
-        html += '<a href="/battle.html" class="rate-stickers-link">Rate stickers</a>';
+        html += '</tbody>';
+        html += '</table>';
+        html += '<a href="/rating.html" class="view-full-rating-link">View full rating</a>';
         html += '</div>';
 
         return html;
