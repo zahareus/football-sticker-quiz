@@ -41,6 +41,13 @@ function getColumnsCount() {
     return isDesktop() ? 2 : 1;
 }
 
+// Truncate long text to max length
+function truncateText(text, maxLength = 25) {
+    if (!text) return '';
+    if (text.length <= maxLength) return text;
+    return text.substring(0, maxLength) + '...';
+}
+
 document.addEventListener('DOMContentLoaded', async () => {
     if (supabaseClient) {
         // Setup auth
@@ -161,6 +168,7 @@ async function loadRatingData() {
             columnStickers.forEach((sticker, idx) => {
                 const globalRank = offset + startIdx + idx + 1;
                 const clubName = sticker.clubs?.name || 'Unknown Club';
+                const clubNameDisplay = truncateText(clubName, 25);
                 const clubId = sticker.clubs?.id || null;
                 const rating = sticker.rating || 1500;
 
@@ -169,9 +177,9 @@ async function loadRatingData() {
                 html += `<td class="sticker-cell"><a href="/stickers/${sticker.id}.html">${sticker.id}</a></td>`;
                 html += '<td class="club-cell">';
                 if (clubId) {
-                    html += `<a href="/clubs/${clubId}.html">${clubName}</a>`;
+                    html += `<a href="/clubs/${clubId}.html" title="${clubName}">${clubNameDisplay}</a>`;
                 } else {
-                    html += clubName;
+                    html += `<span title="${clubName}">${clubNameDisplay}</span>`;
                 }
                 html += '</td>';
                 html += `<td class="rating-cell">${rating}</td>`;
