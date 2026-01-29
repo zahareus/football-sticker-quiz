@@ -170,6 +170,8 @@
                     marker.on('mouseover', function() { this.openPopup(); });
                     marker.on('click', function() { this.openPopup(); });
                 })();
+
+                // Fit bounds if multiple stickers
                 
                 const bounds = L.latLngBounds([
                     [48.7810138888889, 9.17995833333333],

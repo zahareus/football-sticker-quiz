@@ -44,28 +44,35 @@ module.exports = async function handler(req, res) {
         let xml = '<?xml version="1.0" encoding="UTF-8"?>';
         xml += '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">';
 
+        // Current date for lastmod
+        const today = new Date().toISOString().split('T')[0];
+
         // Static pages
-        xml += `<url><loc>${BASE_URL}/</loc><changefreq>daily</changefreq><priority>1.0</priority></url>`;
-        xml += `<url><loc>${BASE_URL}/quiz.html</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>`;
-        xml += `<url><loc>${BASE_URL}/catalogue.html</loc><changefreq>daily</changefreq><priority>0.9</priority></url>`;
-        xml += `<url><loc>${BASE_URL}/leaderboard.html</loc><changefreq>hourly</changefreq><priority>0.7</priority></url>`;
-        xml += `<url><loc>${BASE_URL}/map.html</loc><changefreq>weekly</changefreq><priority>0.6</priority></url>`;
-        xml += `<url><loc>${BASE_URL}/stickerstat.html</loc><changefreq>daily</changefreq><priority>0.6</priority></url>`;
-        xml += `<url><loc>${BASE_URL}/about.html</loc><changefreq>monthly</changefreq><priority>0.3</priority></url>`;
+        xml += `<url><loc>${BASE_URL}/</loc><lastmod>${today}</lastmod><changefreq>daily</changefreq><priority>1.0</priority></url>`;
+        xml += `<url><loc>${BASE_URL}/quiz.html</loc><lastmod>${today}</lastmod><changefreq>weekly</changefreq><priority>0.9</priority></url>`;
+        xml += `<url><loc>${BASE_URL}/catalogue.html</loc><lastmod>${today}</lastmod><changefreq>daily</changefreq><priority>0.9</priority></url>`;
+        xml += `<url><loc>${BASE_URL}/leaderboard.html</loc><lastmod>${today}</lastmod><changefreq>hourly</changefreq><priority>0.7</priority></url>`;
+        xml += `<url><loc>${BASE_URL}/map.html</loc><lastmod>${today}</lastmod><changefreq>weekly</changefreq><priority>0.6</priority></url>`;
+        xml += `<url><loc>${BASE_URL}/stickerstat.html</loc><lastmod>${today}</lastmod><changefreq>daily</changefreq><priority>0.6</priority></url>`;
+        xml += `<url><loc>${BASE_URL}/rating.html</loc><lastmod>${today}</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>`;
+        xml += `<url><loc>${BASE_URL}/battle.html</loc><lastmod>${today}</lastmod><changefreq>weekly</changefreq><priority>0.6</priority></url>`;
+        xml += `<url><loc>${BASE_URL}/about.html</loc><lastmod>${today}</lastmod><changefreq>monthly</changefreq><priority>0.3</priority></url>`;
+        xml += `<url><loc>${BASE_URL}/privacy.html</loc><lastmod>${today}</lastmod><changefreq>monthly</changefreq><priority>0.2</priority></url>`;
+        xml += `<url><loc>${BASE_URL}/terms.html</loc><lastmod>${today}</lastmod><changefreq>monthly</changefreq><priority>0.2</priority></url>`;
 
         // Country pages (static)
         for (const country of countries) {
-            xml += `<url><loc>${BASE_URL}/countries/${country.toUpperCase()}.html</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>`;
+            xml += `<url><loc>${BASE_URL}/countries/${country.toUpperCase()}.html</loc><lastmod>${today}</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>`;
         }
 
         // Club pages (static)
         for (const club of clubs) {
-            xml += `<url><loc>${BASE_URL}/clubs/${club.id}.html</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>`;
+            xml += `<url><loc>${BASE_URL}/clubs/${club.id}.html</loc><lastmod>${today}</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>`;
         }
 
         // Sticker pages (static)
         for (const sticker of stickers) {
-            xml += `<url><loc>${BASE_URL}/stickers/${sticker.id}.html</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>`;
+            xml += `<url><loc>${BASE_URL}/stickers/${sticker.id}.html</loc><lastmod>${today}</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>`;
         }
 
         xml += '</urlset>';

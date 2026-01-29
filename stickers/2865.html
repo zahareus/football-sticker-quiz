@@ -179,6 +179,7 @@
                     attribution: '© OpenStreetMap contributors'
                 }).addTo(map);
 
+                // Nearby stickers (shown first, so main marker is on top)
                 
                 (function() {
                     const nearbyMarker = L.marker([52.111375, 4.280675], {
@@ -340,6 +341,7 @@
                     nearbyMarker.on('click', function() { this.openPopup(); });
                 })();
 
+                // Main sticker marker (larger, on top)
                 L.marker([52.1112972, 4.2808361], {
                     icon: L.icon({
                         iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
@@ -354,6 +356,7 @@
                 }).addTo(map)
                     .bindPopup('<strong>🇩🇪 TV Rönkhausen 1892 eV</strong>').openPopup();
 
+                // Fit bounds to show all markers if there are nearby stickers
                 
                 const bounds = L.latLngBounds([
                     [52.1112972, 4.2808361],
