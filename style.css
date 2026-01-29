@@ -1306,7 +1306,7 @@ body.quiz-result .result-right-panel {
 /* Global Map Page Styles */
 .container.map-page-container {
     text-align: center;
-    /* Removed max-width override to match standard container width */
+    max-width: 1200px;
 }
 
 .map-page-container h1 {
