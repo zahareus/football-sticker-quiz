@@ -526,12 +526,7 @@ body.quiz-result .result-right-panel {
 
 /* --- Catalogue Desktop Two-Column Layout --- */
 
-/* Expand catalogue container on desktop (like quiz) */
-@media (min-width: 900px) {
-    #catalogue-container {
-        max-width: 1000px;
-    }
-}
+/* Catalogue uses standard container width */
 
 /* Top row: Stats + Map Preview */
 .catalogue-top-row {
@@ -694,7 +689,7 @@ body.quiz-result .result-right-panel {
 }
 
 .breadcrumb-item a {
-    color: var(--color-info-text);
+    color: var(--color-text);
     text-decoration: none;
     font-weight: 500;
 }
@@ -798,7 +793,7 @@ body.quiz-result .result-right-panel {
 
 .country-list li a {
     text-decoration: none;
-    color: var(--color-info-text);
+    color: var(--color-text);
     font-weight: 500;
     padding: calc(var(--spacing-unit) * 0.5) 0;
     display: inline-block;
@@ -839,7 +834,7 @@ body.quiz-result .result-right-panel {
 .club-list li a,
 #catalogue-content .club-list li a {
     text-decoration: none;
-    color: var(--color-info-text);
+    color: var(--color-text);
     font-weight: 500;
     display: inline-block;
     padding: calc(var(--spacing-unit) * 0.5) 0;
@@ -868,7 +863,7 @@ body.quiz-result .result-right-panel {
 }
 
 .club-info-item a {
-    color: var(--color-info-text);
+    color: var(--color-text);
     text-decoration: none;
     word-break: break-all;
 }
@@ -1098,23 +1093,21 @@ body.quiz-result .result-right-panel {
 
 /* Sticker Page Container - ensures consistent layout across all sticker pages */
 .sticker-page-container {
-    max-width: none;
-    width: 100%;
-    padding: 0;
+    /* Uses standard container width */
 }
 
 .sticker-page-content-wrapper {
     width: 100%;
-    max-width: 800px;
+    max-width: var(--container-width);
     margin: 0 auto;
     padding: 0 calc(var(--spacing-unit) * 2);
     box-sizing: border-box;
 }
 
-/* Desktop: expand sticker page wrapper to match two-column layout */
+/* Desktop sticker page - uses standard container width */
 @media (min-width: 1000px) {
     .sticker-page-content-wrapper {
-        max-width: 1000px;
+        max-width: var(--container-width);
     }
 
     /* Remove the breakout positioning since wrapper controls width now */
@@ -1313,8 +1306,7 @@ body.quiz-result .result-right-panel {
 /* Global Map Page Styles */
 .container.map-page-container {
     text-align: center;
-    max-width: 1200px !important;
-    width: 100%;
+    /* Removed max-width override to match standard container width */
 }
 
 .map-page-container h1 {
@@ -1767,7 +1759,7 @@ body.home-page #home-title #total-stickers {
 }
 
 .last-stickers-table .sticker-cell a {
-    color: var(--color-info-text);
+    color: var(--color-text);
     text-decoration: none;
     font-weight: 500;
 }
@@ -1782,7 +1774,7 @@ body.home-page #home-title #total-stickers {
 }
 
 .last-stickers-table .club-cell a {
-    color: var(--color-info-text);
+    color: var(--color-text);
     text-decoration: none;
     font-weight: 500;
 }
@@ -1877,7 +1869,7 @@ body.home-page #home-title #total-stickers {
 }
 
 .most-rated-table .sticker-cell a {
-    color: var(--color-info-text);
+    color: var(--color-text);
     text-decoration: none;
     font-weight: 500;
 }
@@ -1892,7 +1884,7 @@ body.home-page #home-title #total-stickers {
 }
 
 .most-rated-table .club-cell a {
-    color: var(--color-info-text);
+    color: var(--color-text);
     text-decoration: none;
     font-weight: 500;
 }
@@ -2035,7 +2027,7 @@ body.home-page #home-title #total-stickers {
 }
 
 .stats-table .stats-name a {
-    color: var(--color-info-text);
+    color: var(--color-text);
     text-decoration: none;
     font-weight: 500;
 }
@@ -2487,7 +2479,7 @@ body.home-page #home-title #total-stickers {
 /* Sticker and club links - styled like country links */
 .stickerlog-entry .sticker-link,
 .stickerlog-entry .club-link {
-    color: var(--color-info-text);
+    color: var(--color-text);
     text-decoration: none;
     font-weight: 500;
 }
@@ -2764,14 +2756,12 @@ body.daily-mode .game-info #timer {
 /* ------------------------------ */
 
 .battle-page-container {
-    max-width: none;
-    width: 100%;
-    padding: 0;
+    /* Uses standard container width */
 }
 
 .battle-page-content-wrapper {
     width: 100%;
-    max-width: 1100px;
+    max-width: var(--container-width);
     margin: 0 auto;
     padding: calc(var(--spacing-unit) * 2);
 }
@@ -3228,7 +3218,72 @@ body.daily-mode .game-info #timer {
     background-color: #dc2626;
 }
 
-/* Battle page action buttons */
+/* ------------------------------ */
+/* Site Navigation (unified)      */
+/* ------------------------------ */
+
+/* Unified site navigation - used across all pages */
+.site-nav {
+    display: flex;
+    justify-content: center;
+    gap: calc(var(--spacing-unit) * 1.5);
+    margin-top: calc(var(--spacing-unit) * 4);
+    flex-wrap: wrap;
+}
+
+.site-nav .btn {
+    min-width: 140px;
+    background-color: var(--color-background);
+    color: var(--color-text);
+    border: 1px solid var(--color-border);
+    text-decoration: none;
+}
+
+@media (hover: hover) {
+    .site-nav .btn:hover:not(:disabled) {
+        background-color: var(--color-accent);
+        color: var(--color-accent-text);
+        border-color: var(--color-accent);
+    }
+}
+
+/* Disabled state for current page button */
+.site-nav .btn:disabled,
+.site-nav .btn.disabled {
+    cursor: not-allowed !important;
+    background-color: var(--color-disabled-bg) !important;
+    color: var(--color-disabled-text) !important;
+    border-color: var(--color-disabled-bg) !important;
+    pointer-events: none;
+}
+
+@media (max-width: 650px) {
+    .site-nav {
+        gap: calc(var(--spacing-unit) * 1);
+    }
+
+    .site-nav .btn {
+        min-width: 120px;
+        font-size: 0.95em;
+        padding: calc(var(--spacing-unit) * 1.2) calc(var(--spacing-unit) * 1.5);
+    }
+}
+
+@media (max-width: 500px) {
+    .site-nav {
+        flex-direction: column;
+        align-items: center;
+        gap: calc(var(--spacing-unit) * 1.5);
+    }
+
+    .site-nav .btn {
+        width: 100%;
+        max-width: 280px;
+        min-width: unset;
+    }
+}
+
+/* Legacy battle-actions class - now uses site-nav styles */
 .battle-actions {
     display: flex;
     justify-content: center;
@@ -3244,10 +3299,12 @@ body.daily-mode .game-info #timer {
     border: 1px solid var(--color-border);
 }
 
-.battle-actions .btn:hover {
-    background-color: var(--color-accent);
-    color: var(--color-accent-text);
-    border-color: var(--color-accent);
+@media (hover: hover) {
+    .battle-actions .btn:hover:not(:disabled) {
+        background-color: var(--color-accent);
+        color: var(--color-accent-text);
+        border-color: var(--color-accent);
+    }
 }
 
 @media (max-width: 650px) {
@@ -3281,7 +3338,7 @@ body.daily-mode .game-info #timer {
 /* ------------------------------ */
 
 #rating-container {
-    max-width: 1200px;
+    /* Uses standard container width */
     text-align: center;
 }
 
@@ -3362,7 +3419,7 @@ body.daily-mode .game-info #timer {
 }
 
 .sticker-cell a {
-    color: var(--color-info-text);
+    color: var(--color-text);
     text-decoration: none;
     font-weight: 500;
 }
@@ -3378,7 +3435,7 @@ body.daily-mode .game-info #timer {
 }
 
 .club-cell a {
-    color: var(--color-info-text);
+    color: var(--color-text);
     text-decoration: none;
     font-weight: 500;
 }
