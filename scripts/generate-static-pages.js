@@ -813,6 +813,78 @@ async function fetchAllClubs() {
 }
 
 /**
+ * Generate sitemaps (index + sub-sitemaps for Google Search Console)
+ */
+async function generateSitemaps(stickers, clubs, countries) {
+    const today = new Date().toISOString().split('T')[0];
+
+    // Create sitemap index
+    let indexXml = '<?xml version="1.0" encoding="UTF-8"?>\n';
+    indexXml += '<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n';
+    indexXml += '<sitemap><loc>https://stickerhunt.club/sitemap-main.xml</loc></sitemap>\n';
+    indexXml += '<sitemap><loc>https://stickerhunt.club/sitemap-stickers-1.xml</loc></sitemap>\n';
+    indexXml += '<sitemap><loc>https://stickerhunt.club/sitemap-stickers-2.xml</loc></sitemap>\n';
+    indexXml += '<sitemap><loc>https://stickerhunt.club/sitemap-stickers-3.xml</loc></sitemap>\n';
+    indexXml += '</sitemapindex>';
+    writeFileSync(join(PROJECT_ROOT, 'sitemap.xml'), indexXml, 'utf-8');
+
+    // Create main sitemap (static pages + countries + clubs)
+    let mainXml = '<?xml version="1.0" encoding="UTF-8"?>\n';
+    mainXml += '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n';
+
+    // Static pages
+    const staticPages = [
+        { loc: '/', changefreq: 'daily', priority: '1.0' },
+        { loc: '/quiz.html', changefreq: 'weekly', priority: '0.9' },
+        { loc: '/catalogue.html', changefreq: 'daily', priority: '0.9' },
+        { loc: '/leaderboard.html', changefreq: 'hourly', priority: '0.7' },
+        { loc: '/map.html', changefreq: 'weekly', priority: '0.6' },
+        { loc: '/stickerstat.html', changefreq: 'daily', priority: '0.6' },
+        { loc: '/rating.html', changefreq: 'daily', priority: '0.7' },
+        { loc: '/battle.html', changefreq: 'weekly', priority: '0.6' },
+        { loc: '/about.html', changefreq: 'monthly', priority: '0.3' },
+        { loc: '/privacy.html', changefreq: 'monthly', priority: '0.2' },
+        { loc: '/terms.html', changefreq: 'monthly', priority: '0.2' },
+    ];
+
+    for (const page of staticPages) {
+        mainXml += `<url><loc>https://stickerhunt.club${page.loc}</loc><lastmod>${today}</lastmod><changefreq>${page.changefreq}</changefreq><priority>${page.priority}</priority></url>\n`;
+    }
+
+    // Country pages
+    for (const country of countries) {
+        mainXml += `<url><loc>https://stickerhunt.club/countries/${country.toUpperCase()}.html</loc><lastmod>${today}</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>\n`;
+    }
+
+    // Club pages
+    for (const club of clubs) {
+        mainXml += `<url><loc>https://stickerhunt.club/clubs/${club.id}.html</loc><lastmod>${today}</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>\n`;
+    }
+
+    mainXml += '</urlset>';
+    writeFileSync(join(PROJECT_ROOT, 'sitemap-main.xml'), mainXml, 'utf-8');
+
+    // Create sticker sitemaps (split into 3 parts)
+    const stickerChunks = [[], [], []];
+    stickers.forEach((sticker, index) => {
+        const chunkIndex = index < 1000 ? 0 : (index < 2000 ? 1 : 2);
+        stickerChunks[chunkIndex].push(sticker);
+    });
+
+    for (let i = 0; i < 3; i++) {
+        let stickerXml = '<?xml version="1.0" encoding="UTF-8"?>\n';
+        stickerXml += '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n';
+
+        for (const sticker of stickerChunks[i]) {
+            stickerXml += `<url><loc>https://stickerhunt.club/stickers/${sticker.id}.html</loc><lastmod>${today}</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>\n`;
+        }
+
+        stickerXml += '</urlset>';
+        writeFileSync(join(PROJECT_ROOT, `sitemap-stickers-${i + 1}.xml`), stickerXml, 'utf-8');
+    }
+}
+
+/**
  * Main generation function
  */
 async function generateAllPages() {
@@ -949,6 +1021,15 @@ async function generateAllPages() {
             console.log('  ✓ Generated index.html with random sticker pool');
         } catch (error) {
             console.error('  ✗ Error generating index page:', error.message);
+        }
+
+        // Generate sitemaps
+        console.log('\n🗺️  Generating sitemaps...');
+        try {
+            await generateSitemaps(stickers, clubs, Object.keys(clubsByCountry));
+            console.log('  ✓ Generated sitemap index + 4 sub-sitemaps');
+        } catch (error) {
+            console.error('  ✗ Error generating sitemaps:', error.message);
         }
 
         // Summary
