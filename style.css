@@ -27,7 +27,7 @@
 
 
     --border-radius: 8px;
-    --container-width: 800px;
+    --container-width: 1000px;
     --spacing-unit: 8px;
     --header-height: 60px;
 }
@@ -917,7 +917,7 @@ body.quiz-result .result-right-panel {
     justify-content: center;
     gap: calc(var(--spacing-unit) * 4);
     width: 100%;
-    max-width: 800px;
+    max-width: var(--container-width);
     margin: 0 auto;
 }
 
@@ -1143,7 +1143,7 @@ body.quiz-result .result-right-panel {
 /* Tablet: sticker page wrapper matches container width */
 @media (min-width: 701px) and (max-width: 999px) {
     .sticker-page-content-wrapper {
-        max-width: 800px;
+        max-width: var(--container-width);
     }
 
     .sticker-page-container .sticker-detail-two-column {
@@ -1491,7 +1491,7 @@ body.home-page #app-logo {
     flex-direction: column;
     align-items: center;
     justify-content: flex-start;
-    max-width: 1200px;
+    /* max-width inherits from .container (--container-width) */
     margin-top: 0;
     margin-bottom: 0;
     padding-top: calc(var(--spacing-unit) * 2);
