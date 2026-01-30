@@ -384,6 +384,7 @@
         // Club page state
         const clubPageState = {
             clubId: null,
+            firstStickerId: null,
             originalName: '',
             originalCity: '',
             originalWeb: '',
@@ -408,6 +409,18 @@
             try {
                 const supabase = getSupabaseClient();
                 if (!supabase) return;
+
+                // Get first sticker ID for this club (needed for regeneration trigger)
+                const { data: sticker } = await supabase
+                    .from('stickers')
+                    .select('id')
+                    .eq('club_id', clubPageState.clubId)
+                    .limit(1)
+                    .single();
+
+                if (sticker) {
+                    clubPageState.firstStickerId = sticker.id;
+                }
 
                 // Check if user can edit
                 await checkEditPermission(supabase);
@@ -523,10 +536,19 @@
                     if (updateError) throw updateError;
 
                     // Step 2: Trigger regeneration via Edge Function
+                    // Use first sticker ID from this club to trigger regeneration (same as sticker editing)
+                    if (!clubPageState.firstStickerId) {
+                        console.warn('No stickers found for this club, skipping regeneration');
+                        alert('Changes saved! Note: No stickers to regenerate.');
+                        setTimeout(() => window.location.reload(), 1000);
+                        return;
+                    }
+
                     const { error: regenError } = await supabase.functions.invoke('supabase-functions-new-trigger-regeneration', {
                         body: {
+                            sticker_ids: [clubPageState.firstStickerId],
                             club_ids: [clubPageState.clubId],
-                            regenerate_stickers: nameChanged  // Only regenerate sticker pages if name changed
+                            regenerate_stickers: nameChanged
                         }
                     });
 

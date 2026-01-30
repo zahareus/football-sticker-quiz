@@ -102,7 +102,7 @@
             </div>
             <div class="edit-field">
                 <label for="edit-club-web">Website:</label>
-                <input type="url" id="edit-club-web" class="edit-input" value="https://es.wikipedia.org/wiki/Club_Atl%C3%A9tico_Nueva_Chicago" placeholder="https://example.com">
+                <input type="url" id="edit-club-web" class="edit-input" value="https://en.wikipedia.org/wiki/Club_Atl%C3%A9tico_Nueva_Chicago" placeholder="https://example.com">
             </div>
             <div class="edit-field">
                 <label for="edit-club-media">Tags / Social:</label>
@@ -116,7 +116,7 @@
 
         <div id="catalogue-content" data-club-id="1123">
             <div class="club-info-section" id="club-info-display">
-                <p class="club-info-item">🌍 Buenos Aires, Argentina</p><p class="club-info-item">🌐 <a href="https://es.wikipedia.org/wiki/Club_Atl%25C3%25A9tico_Nueva_Chicago" target="_blank" rel="noopener noreferrer">https://es.wikipedia.org/wiki/Club_Atl%C3%A9tico_Nueva_Chicago</a></p><p class="club-info-item">#️⃣ #NuevaChicago #ClubAtleticoNuevaChicago #ChicagoVerdeYNegro #Torito #PrimeraBNacional</p>
+                <p class="club-info-item">🌍 Buenos Aires, Argentina</p><p class="club-info-item">🌐 <a href="https://en.wikipedia.org/wiki/Club_Atl%25C3%25A9tico_Nueva_Chicago" target="_blank" rel="noopener noreferrer">https://en.wikipedia.org/wiki/Club_Atl%C3%A9tico_Nueva_Chicago</a></p><p class="club-info-item">#️⃣ #NuevaChicago #ClubAtleticoNuevaChicago #ChicagoVerdeYNegro #Torito #PrimeraBNacional</p>
             </div>
             <div class="sticker-gallery">
                 
@@ -186,6 +186,7 @@
         // Club page state
         const clubPageState = {
             clubId: null,
+            firstStickerId: null,
             originalName: '',
             originalCity: '',
             originalWeb: '',
@@ -210,6 +211,18 @@
             try {
                 const supabase = getSupabaseClient();
                 if (!supabase) return;
+
+                // Get first sticker ID for this club (needed for regeneration trigger)
+                const { data: sticker } = await supabase
+                    .from('stickers')
+                    .select('id')
+                    .eq('club_id', clubPageState.clubId)
+                    .limit(1)
+                    .single();
+
+                if (sticker) {
+                    clubPageState.firstStickerId = sticker.id;
+                }
 
                 // Check if user can edit
                 await checkEditPermission(supabase);
@@ -325,10 +338,19 @@
                     if (updateError) throw updateError;
 
                     // Step 2: Trigger regeneration via Edge Function
+                    // Use first sticker ID from this club to trigger regeneration (same as sticker editing)
+                    if (!clubPageState.firstStickerId) {
+                        console.warn('No stickers found for this club, skipping regeneration');
+                        alert('Changes saved! Note: No stickers to regenerate.');
+                        setTimeout(() => window.location.reload(), 1000);
+                        return;
+                    }
+
                     const { error: regenError } = await supabase.functions.invoke('supabase-functions-new-trigger-regeneration', {
                         body: {
+                            sticker_ids: [clubPageState.firstStickerId],
                             club_ids: [clubPageState.clubId],
-                            regenerate_stickers: nameChanged  // Only regenerate sticker pages if name changed
+                            regenerate_stickers: nameChanged
                         }
                     });
 
