@@ -293,6 +293,7 @@
                     // Step 2: Trigger regeneration via Edge Function
                     const { error: regenError } = await supabase.functions.invoke('supabase-functions-new-trigger-regeneration', {
                         body: {
+                            sticker_ids: [],  // Empty array to trigger the function
                             club_ids: [clubPageState.clubId],
                             regenerate_stickers: nameChanged  // Only regenerate sticker pages if name changed
                         }
