@@ -85,10 +85,37 @@
     <main class="container" id="catalogue-container">
         <div id="catalogue-breadcrumbs"><a href="/catalogue.html">Catalogue</a> → <a href="/countries/ESP.html">Spain</a> → <a href="/clubs/789.html">🇪🇸 SD Eibar</a></div>
 
-        <h1 id="main-catalogue-heading">🇪🇸 SD Eibar - Sticker Gallery</h1>
+        <h1 id="main-catalogue-heading">
+            <span id="club-name-display">🇪🇸 SD Eibar</span> - Sticker Gallery
+            <a href="#" id="edit-club-btn" class="edit-link" style="display: none;">edit</a>
+        </h1>
 
-        <div id="catalogue-content">
-            <div class="club-info-section">
+        <!-- Edit Form (hidden by default) -->
+        <div id="club-edit-form" class="club-edit-form" style="display: none;">
+            <div class="edit-field">
+                <label for="edit-club-name">Club Name:</label>
+                <input type="text" id="edit-club-name" class="edit-input" value="🇪🇸 SD Eibar">
+            </div>
+            <div class="edit-field">
+                <label for="edit-club-city">City:</label>
+                <input type="text" id="edit-club-city" class="edit-input" value="Eibar, Spain" placeholder="City name">
+            </div>
+            <div class="edit-field">
+                <label for="edit-club-web">Website:</label>
+                <input type="url" id="edit-club-web" class="edit-input" value="https://es.wikipedia.org/wiki/SD_Eibar" placeholder="https://example.com">
+            </div>
+            <div class="edit-field">
+                <label for="edit-club-media">Tags / Social:</label>
+                <input type="text" id="edit-club-media" class="edit-input" value="#SDEibar #Eibar #Armeros #LaLigaSmartBank #SDEM" placeholder="#hashtag @handle">
+            </div>
+            <div class="edit-buttons">
+                <button id="save-club-btn" class="btn btn-save" disabled>Save</button>
+                <button id="cancel-edit-btn" class="btn btn-cancel">Cancel</button>
+            </div>
+        </div>
+
+        <div id="catalogue-content" data-club-id="789">
+            <div class="club-info-section" id="club-info-display">
                 <p class="club-info-item">🌍 Eibar, Spain</p><p class="club-info-item">🌐 <a href="https://es.wikipedia.org/wiki/SD_Eibar" target="_blank" rel="noopener noreferrer">https://es.wikipedia.org/wiki/SD_Eibar</a></p><p class="club-info-item">#️⃣ #SDEibar #Eibar #Armeros #LaLigaSmartBank #SDEM</p>
             </div>
             <div class="sticker-gallery">
@@ -210,6 +237,174 @@
             }
         });
     
+
+        // Club page state
+        const clubPageState = {
+            clubId: null,
+            originalName: '',
+            originalCity: '',
+            originalWeb: '',
+            originalMedia: '',
+            canEdit: false
+        };
+
+        // Initialize club editing
+        document.addEventListener('DOMContentLoaded', async function() {
+            const catalogueContent = document.getElementById('catalogue-content');
+            if (!catalogueContent) return;
+
+            clubPageState.clubId = parseInt(catalogueContent.dataset.clubId);
+            if (!clubPageState.clubId) return;
+
+            // Store original values
+            clubPageState.originalName = document.getElementById('edit-club-name')?.value || '';
+            clubPageState.originalCity = document.getElementById('edit-club-city')?.value || '';
+            clubPageState.originalWeb = document.getElementById('edit-club-web')?.value || '';
+            clubPageState.originalMedia = document.getElementById('edit-club-media')?.value || '';
+
+            try {
+                const supabase = getSupabaseClient();
+                if (!supabase) return;
+
+                // Check if user can edit
+                await checkEditPermission(supabase);
+
+            } catch (err) {
+                console.error('Error initializing club page:', err);
+            }
+        });
+
+        // Check if current user has edit permission
+        async function checkEditPermission(supabase) {
+            try {
+                const { data: { user } } = await supabase.auth.getUser();
+                if (!user) return;
+
+                const { data: profile, error } = await supabase
+                    .from('profiles')
+                    .select('can_edit')
+                    .eq('id', user.id)
+                    .single();
+
+                if (!error && profile && profile.can_edit) {
+                    clubPageState.canEdit = true;
+                    document.getElementById('edit-club-btn').style.display = 'inline';
+                    initEditFunctionality(supabase);
+                }
+            } catch (err) {
+                console.error('Error checking edit permission:', err);
+            }
+        }
+
+        // Initialize edit functionality
+        function initEditFunctionality(supabase) {
+            const editBtn = document.getElementById('edit-club-btn');
+            const editForm = document.getElementById('club-edit-form');
+            const clubInfoDisplay = document.getElementById('club-info-display');
+            const clubNameDisplay = document.getElementById('club-name-display');
+
+            const nameInput = document.getElementById('edit-club-name');
+            const cityInput = document.getElementById('edit-club-city');
+            const webInput = document.getElementById('edit-club-web');
+            const mediaInput = document.getElementById('edit-club-media');
+
+            const saveBtn = document.getElementById('save-club-btn');
+            const cancelBtn = document.getElementById('cancel-edit-btn');
+
+            // Edit button click
+            editBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                editForm.style.display = 'block';
+                clubInfoDisplay.style.display = 'none';
+                editBtn.style.display = 'none';
+                checkForChanges();
+            });
+
+            // Cancel button click
+            cancelBtn.addEventListener('click', () => {
+                editForm.style.display = 'none';
+                clubInfoDisplay.style.display = 'block';
+                editBtn.style.display = 'inline';
+                // Reset to original values
+                nameInput.value = clubPageState.originalName;
+                cityInput.value = clubPageState.originalCity;
+                webInput.value = clubPageState.originalWeb;
+                mediaInput.value = clubPageState.originalMedia;
+            });
+
+            // Check for changes on input
+            nameInput.addEventListener('input', checkForChanges);
+            cityInput.addEventListener('input', checkForChanges);
+            webInput.addEventListener('input', checkForChanges);
+            mediaInput.addEventListener('input', checkForChanges);
+
+            function checkForChanges() {
+                const hasChanges =
+                    nameInput.value.trim() !== clubPageState.originalName ||
+                    cityInput.value.trim() !== clubPageState.originalCity ||
+                    webInput.value.trim() !== clubPageState.originalWeb ||
+                    mediaInput.value.trim() !== clubPageState.originalMedia;
+
+                const nameValid = nameInput.value.trim().length > 0;
+                saveBtn.disabled = !hasChanges || !nameValid;
+            }
+
+            // Save button click
+            saveBtn.addEventListener('click', async () => {
+                if (!confirm('Save changes? Pages will be regenerated.')) {
+                    return;
+                }
+
+                const newName = nameInput.value.trim();
+                const newCity = cityInput.value.trim() || null;
+                const newWeb = webInput.value.trim() || null;
+                const newMedia = mediaInput.value.trim() || null;
+
+                const nameChanged = newName !== clubPageState.originalName;
+
+                saveBtn.disabled = true;
+                saveBtn.textContent = 'Saving...';
+
+                try {
+                    // Step 1: Update club in database
+                    const { error: updateError } = await supabase
+                        .from('clubs')
+                        .update({
+                            name: newName,
+                            city: newCity,
+                            web: newWeb,
+                            media: newMedia
+                        })
+                        .eq('id', clubPageState.clubId);
+
+                    if (updateError) throw updateError;
+
+                    // Step 2: Trigger regeneration via Edge Function
+                    const { error: regenError } = await supabase.functions.invoke('supabase-functions-new-trigger-regeneration', {
+                        body: {
+                            club_ids: [clubPageState.clubId],
+                            regenerate_stickers: nameChanged  // Only regenerate sticker pages if name changed
+                        }
+                    });
+
+                    if (regenError) {
+                        console.error('Regeneration trigger error:', regenError);
+                        alert('Changes saved, but page regeneration may be delayed. Please refresh later.');
+                    } else {
+                        alert('Changes saved! The page will be updated shortly.');
+                    }
+
+                    // Step 3: Reload page after delay
+                    setTimeout(() => window.location.reload(), 2000);
+
+                } catch (err) {
+                    console.error('Error saving changes:', err);
+                    alert('Error saving changes: ' + err.message);
+                    saveBtn.disabled = false;
+                    saveBtn.textContent = 'Save';
+                }
+            });
+        }
     </script>
 </body>
 </html>
