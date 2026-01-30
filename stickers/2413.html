@@ -146,14 +146,11 @@
                 
             <div class="sticker-map-section sticker-map-full-width">
                 <div id="sticker-map" class="sticker-map-container"></div>
+                <div class="sticker-detail-actions">
+                    <a href="/map.html" class="btn btn-nav">View Full Map</a>
+                    <a href="/quiz.html" class="btn btn-nav">Play Quiz</a>
+                </div>
             </div>
-        
-            <nav class="site-nav">
-                <a href="/catalogue.html" class="btn btn-nav">Catalogue</a>
-                <a href="/map.html" class="btn btn-nav">Map</a>
-                <a href="/rating.html" class="btn btn-nav">Rating</a>
-                <a href="/quiz.html" class="btn btn-nav">Play Quiz</a>
-            </nav>
         
             </div>
         </div>
@@ -182,7 +179,6 @@
                     attribution: '© OpenStreetMap contributors'
                 }).addTo(map);
 
-                // Nearby stickers (shown first, so main marker is on top)
                 
                 (function() {
                     const nearbyMarker = L.marker([48.7981916666667, 9.21751944444445], {
@@ -344,7 +340,6 @@
                     nearbyMarker.on('click', function() { this.openPopup(); });
                 })();
 
-                // Main sticker marker (larger, on top)
                 L.marker([48.7982027777778, 9.21750833333333], {
                     icon: L.icon({
                         iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
@@ -359,7 +354,6 @@
                 }).addTo(map)
                     .bindPopup('<strong>🇭🇺 Debreceni VSC</strong>').openPopup();
 
-                // Fit bounds to show all markers if there are nearby stickers
                 
                 const bounds = L.latLngBounds([
                     [48.7982027777778, 9.21750833333333],
