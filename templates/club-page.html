@@ -174,7 +174,7 @@
             clubPageState.originalMedia = document.getElementById('edit-club-media')?.value || '';
 
             try {
-                const supabase = SharedUtils.getSupabaseClient();
+                const supabase = getSupabaseClient();
                 if (!supabase) return;
 
                 // Check if user can edit
