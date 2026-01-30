@@ -37,8 +37,8 @@ jobs:
         working-directory: ./scripts
         run: npm install
 
-      - name: Get sticker IDs
-        id: get-sticker-ids
+      - name: Get IDs and flags
+        id: get-ids
         run: |
           if [ "${{ github.event_name }}" == "repository_dispatch" ]; then
             # Support both single sticker_id and multiple sticker_ids from API
@@ -47,30 +47,41 @@ jobs:
             else
               STICKER_IDS="${{ github.event.client_payload.sticker_id }}"
             fi
-            # Get club_ids if provided (for regenerating old club/country pages)
+            # Get club_ids if provided (for regenerating club/country pages)
             CLUB_IDS="${{ github.event.client_payload.club_ids }}"
+            # Get regenerate_stickers flag (for club edits that change name)
+            REGENERATE_STICKERS="${{ github.event.client_payload.regenerate_stickers }}"
           else
             STICKER_IDS="${{ github.event.inputs.sticker_ids }}"
             CLUB_IDS=""
+            REGENERATE_STICKERS=""
           fi
           # Remove spaces and store
           STICKER_IDS=$(echo "$STICKER_IDS" | tr -d ' ')
           CLUB_IDS=$(echo "$CLUB_IDS" | tr -d ' ')
           echo "sticker_ids=$STICKER_IDS" >> $GITHUB_OUTPUT
           echo "club_ids=$CLUB_IDS" >> $GITHUB_OUTPUT
-          echo "Processing sticker IDs: $STICKER_IDS"
+          echo "regenerate_stickers=$REGENERATE_STICKERS" >> $GITHUB_OUTPUT
+
+          if [ -n "$STICKER_IDS" ]; then
+            echo "Processing sticker IDs: $STICKER_IDS"
+          fi
           if [ -n "$CLUB_IDS" ]; then
-            echo "Additional club IDs to regenerate: $CLUB_IDS"
+            echo "Club IDs to regenerate: $CLUB_IDS"
+          fi
+          if [ "$REGENERATE_STICKERS" == "true" ]; then
+            echo "Will also regenerate sticker pages for clubs"
           fi
 
       - name: Generate sticker pages
         id: generate-pages
+        if: steps.get-ids.outputs.sticker_ids != ''
         working-directory: ./scripts
         env:
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
           SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
         run: |
-          STICKER_IDS="${{ steps.get-sticker-ids.outputs.sticker_ids }}"
+          STICKER_IDS="${{ steps.get-ids.outputs.sticker_ids }}"
           IFS=',' read -ra IDS <<< "$STICKER_IDS"
 
           GENERATED_URLS=""
@@ -91,24 +102,42 @@ jobs:
           echo "generated_urls=$GENERATED_URLS" >> $GITHUB_OUTPUT
 
       - name: Regenerate club pages
-        if: steps.get-sticker-ids.outputs.club_ids != ''
+        if: steps.get-ids.outputs.club_ids != ''
         working-directory: ./scripts
         env:
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
           SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
         run: |
-          CLUB_IDS="${{ steps.get-sticker-ids.outputs.club_ids }}"
+          CLUB_IDS="${{ steps.get-ids.outputs.club_ids }}"
           echo "Regenerating pages for clubs: $CLUB_IDS"
           node regenerate-club-pages.js "$CLUB_IDS"
 
+      - name: Regenerate sticker pages for clubs
+        if: steps.get-ids.outputs.regenerate_stickers == 'true' && steps.get-ids.outputs.club_ids != ''
+        working-directory: ./scripts
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
+        run: |
+          CLUB_IDS="${{ steps.get-ids.outputs.club_ids }}"
+          echo "Regenerating sticker pages for clubs: $CLUB_IDS"
+          IFS=',' read -ra IDS <<< "$CLUB_IDS"
+          for id in "${IDS[@]}"; do
+            echo "=========================================="
+            echo "Regenerating sticker pages for club #$id"
+            echo "=========================================="
+            node regenerate-club-sticker-pages.js "$id"
+          done
+
       - name: Optimize images
         id: optimize-images
+        if: steps.get-ids.outputs.sticker_ids != ''
         working-directory: ./scripts
         env:
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
           SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
         run: |
-          STICKER_IDS="${{ steps.get-sticker-ids.outputs.sticker_ids }}"
+          STICKER_IDS="${{ steps.get-ids.outputs.sticker_ids }}"
           echo "Optimizing images for stickers: $STICKER_IDS"
 
           # Run optimization for specific sticker IDs
@@ -132,12 +161,24 @@ jobs:
           git config --local user.name "github-actions[bot]"
           git add stickers/ clubs/ countries/
 
-          # Create commit message with all IDs
-          STICKER_IDS="${{ steps.get-sticker-ids.outputs.sticker_ids }}"
-          if [[ "$STICKER_IDS" == *","* ]]; then
-            git commit -m "Auto-generate pages for stickers #$STICKER_IDS"
+          # Create commit message
+          STICKER_IDS="${{ steps.get-ids.outputs.sticker_ids }}"
+          CLUB_IDS="${{ steps.get-ids.outputs.club_ids }}"
+
+          if [ -n "$STICKER_IDS" ]; then
+            if [[ "$STICKER_IDS" == *","* ]]; then
+              git commit -m "Auto-generate pages for stickers #$STICKER_IDS"
+            else
+              git commit -m "Auto-generate pages for sticker #$STICKER_IDS"
+            fi
+          elif [ -n "$CLUB_IDS" ]; then
+            if [[ "$CLUB_IDS" == *","* ]]; then
+              git commit -m "Auto-regenerate pages for clubs #$CLUB_IDS"
+            else
+              git commit -m "Auto-regenerate pages for club #$CLUB_IDS"
+            fi
           else
-            git commit -m "Auto-generate pages for sticker #$STICKER_IDS"
+            git commit -m "Auto-regenerate pages"
           fi
           git push
 
@@ -147,12 +188,12 @@ jobs:
           echo "WORKFLOW COMPLETED SUCCESSFULLY"
           echo "========================================"
           echo ""
-          echo "Sticker IDs: ${{ steps.get-sticker-ids.outputs.sticker_ids }}"
+          echo "Sticker IDs: ${{ steps.get-ids.outputs.sticker_ids }}"
           echo "Page Generation: ${{ steps.generate-pages.outputs.page_generation }}"
           echo "Image Optimization: ${{ steps.optimize-images.outputs.image_optimization }}"
           echo ""
           echo "Generated URLs:"
-          IFS=',' read -ra IDS <<< "${{ steps.get-sticker-ids.outputs.sticker_ids }}"
+          IFS=',' read -ra IDS <<< "${{ steps.get-ids.outputs.sticker_ids }}"
           for id in "${IDS[@]}"; do
             echo "  - https://stickerhunt.club/stickers/$id.html"
           done
