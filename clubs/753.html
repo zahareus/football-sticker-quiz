@@ -7,7 +7,7 @@
     <link rel="icon" href="/favicon.ico" type="image/x-icon">
 
     <!-- SEO Meta Tags - Pre-rendered for better indexing -->
-    <meta name="description" content="View 5 stickers from 🇳🇱 FC Groningen (Netherlands) in our football sticker collection.">
+    <meta name="description" content="View 4 stickers from 🇳🇱 FC Groningen (Netherlands) in our football sticker collection.">
     <meta name="keywords" content="football stickers, 🇳🇱 FC Groningen, Netherlands, panini, sticker collection, FCGroningen trotsopgroenwit Eredivisie FCG roodwitgroen">
     <link rel="canonical" href="https://stickerhunt.club/clubs/753.html">
 
@@ -15,7 +15,7 @@
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://stickerhunt.club/clubs/753.html">
     <meta property="og:title" content="🇳🇱 FC Groningen - Netherlands - Sticker Catalogue">
-    <meta property="og:description" content="View 5 stickers from 🇳🇱 FC Groningen (Netherlands) in our football sticker collection.">
+    <meta property="og:description" content="View 4 stickers from 🇳🇱 FC Groningen (Netherlands) in our football sticker collection.">
     <meta property="og:image" content="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/stickers/FC_Groningen/IMG_5338.jpeg?">
     <meta property="og:site_name" content="StickerHunt">
 
@@ -23,7 +23,7 @@
     <meta property="twitter:card" content="summary_large_image">
     <meta property="twitter:url" content="https://stickerhunt.club/clubs/753.html">
     <meta property="twitter:title" content="🇳🇱 FC Groningen - Netherlands - Sticker Catalogue">
-    <meta property="twitter:description" content="View 5 stickers from 🇳🇱 FC Groningen (Netherlands) in our football sticker collection.">
+    <meta property="twitter:description" content="View 4 stickers from 🇳🇱 FC Groningen (Netherlands) in our football sticker collection.">
     <meta property="twitter:image" content="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/stickers/FC_Groningen/IMG_5338.jpeg?">
     <meta property="twitter:site" content="@StickerHunting">
     <meta property="twitter:creator" content="@StickerHunting">
@@ -51,7 +51,7 @@
       "@context": "https://schema.org",
       "@type": "SportsTeam",
       "name": "🇳🇱 FC Groningen",
-      "description": "View 5 stickers from 🇳🇱 FC Groningen (Netherlands) in our football sticker collection.",
+      "description": "View 4 stickers from 🇳🇱 FC Groningen (Netherlands) in our football sticker collection.",
       "url": "https://stickerhunt.club/clubs/753.html",
       "sport": "Football"
     }
@@ -148,13 +148,6 @@
                          loading="lazy"
                          decoding="async">
                 </a>
-                <a href="/stickers/2944.html" class="sticker-preview-link">
-                    <img src="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/club_753/1769891242876_IMG_7908_thumb.webp"
-                         alt="Sticker ID 2944 for 🇳🇱 FC Groningen"
-                         class="sticker-preview-image"
-                         loading="lazy"
-                         decoding="async">
-                </a>
             </div>
             
             <div class="club-map-section">
@@ -193,7 +186,7 @@
         
         document.addEventListener('DOMContentLoaded', function() {
             if (typeof L !== 'undefined' && document.getElementById('club-map')) {
-                const clubMap = L.map('club-map').setView([51.824750925925905, 5.1337361111111095], 10);
+                const clubMap = L.map('club-map').setView([52.31230416666665, 4.85064861111111], 10);
                 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                     attribution: '© OpenStreetMap contributors'
                 }).addTo(clubMap);
@@ -211,19 +204,10 @@
                     marker.on('mouseover', function() { this.openPopup(); });
                     marker.on('click', function() { this.openPopup(); });
                 })();
-
-                (function() {
-                    const marker = L.marker([50.8496444444444, 5.69991111111111]).addTo(clubMap);
-                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇳🇱 FC Groningen</strong><a href="/stickers/2944.html" class="map-popup-link">View</a></div>');
-                    marker.on('mouseover', function() { this.openPopup(); });
-                    marker.on('click', function() { this.openPopup(); });
-                })();
-
                 
                 const bounds = L.latLngBounds([
                     [52.3103027777778, 4.7607],
-                    [52.3143055555555, 4.94059722222222],
-                    [50.8496444444444, 5.69991111111111]
+                    [52.3143055555555, 4.94059722222222]
                 ]);
                 clubMap.fitBounds(bounds, { padding: [30, 30], maxZoom: 13 });
                 

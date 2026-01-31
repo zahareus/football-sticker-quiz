@@ -7,7 +7,7 @@
     <link rel="icon" href="/favicon.ico" type="image/x-icon">
 
     <!-- SEO Meta Tags - Pre-rendered for better indexing -->
-    <meta name="description" content="View 19 stickers from 🇩🇪 Hannover 96 (Germany) in our football sticker collection.">
+    <meta name="description" content="View 20 stickers from 🇩🇪 Hannover 96 (Germany) in our football sticker collection.">
     <meta name="keywords" content="football stickers, 🇩🇪 Hannover 96, Germany, panini, sticker collection, Hannover96 H96 DieRoten Roten 2Bundesliga">
     <link rel="canonical" href="https://stickerhunt.club/clubs/877.html">
 
@@ -15,7 +15,7 @@
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://stickerhunt.club/clubs/877.html">
     <meta property="og:title" content="🇩🇪 Hannover 96 - Germany - Sticker Catalogue">
-    <meta property="og:description" content="View 19 stickers from 🇩🇪 Hannover 96 (Germany) in our football sticker collection.">
+    <meta property="og:description" content="View 20 stickers from 🇩🇪 Hannover 96 (Germany) in our football sticker collection.">
     <meta property="og:image" content="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/stickers/Hannover_96/IMG_5149.jpeg?">
     <meta property="og:site_name" content="StickerHunt">
 
@@ -23,7 +23,7 @@
     <meta property="twitter:card" content="summary_large_image">
     <meta property="twitter:url" content="https://stickerhunt.club/clubs/877.html">
     <meta property="twitter:title" content="🇩🇪 Hannover 96 - Germany - Sticker Catalogue">
-    <meta property="twitter:description" content="View 19 stickers from 🇩🇪 Hannover 96 (Germany) in our football sticker collection.">
+    <meta property="twitter:description" content="View 20 stickers from 🇩🇪 Hannover 96 (Germany) in our football sticker collection.">
     <meta property="twitter:image" content="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/stickers/Hannover_96/IMG_5149.jpeg?">
     <meta property="twitter:site" content="@StickerHunting">
     <meta property="twitter:creator" content="@StickerHunting">
@@ -51,7 +51,7 @@
       "@context": "https://schema.org",
       "@type": "SportsTeam",
       "name": "🇩🇪 Hannover 96",
-      "description": "View 19 stickers from 🇩🇪 Hannover 96 (Germany) in our football sticker collection.",
+      "description": "View 20 stickers from 🇩🇪 Hannover 96 (Germany) in our football sticker collection.",
       "url": "https://stickerhunt.club/clubs/877.html",
       "sport": "Football"
     }
@@ -253,6 +253,13 @@
                          loading="lazy"
                          decoding="async">
                 </a>
+                <a href="/stickers/2944.html" class="sticker-preview-link">
+                    <img src="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/club_753/1769891242876_IMG_7908_thumb.webp"
+                         alt="Sticker ID 2944 for 🇩🇪 Hannover 96"
+                         class="sticker-preview-image"
+                         loading="lazy"
+                         decoding="async">
+                </a>
             </div>
             
             <div class="club-map-section">
@@ -291,7 +298,7 @@
         
         document.addEventListener('DOMContentLoaded', function() {
             if (typeof L !== 'undefined' && document.getElementById('club-map')) {
-                const clubMap = L.map('club-map').setView([48.16107554, 13.905085008888898], 10);
+                const clubMap = L.map('club-map').setView([48.6091703574074, 12.537556025925932], 10);
                 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                     attribution: '© OpenStreetMap contributors'
                 }).addTo(clubMap);
@@ -331,14 +338,20 @@
                     marker.on('click', function() { this.openPopup(); });
                 })();
 
-                // Fit bounds if multiple stickers
+                (function() {
+                    const marker = L.marker([50.8496444444444, 5.69991111111111]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇩🇪 Hannover 96</strong><a href="/stickers/2944.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
                 
                 const bounds = L.latLngBounds([
                     [50.0709222222222, 14.4151722222222],
                     [50.0775861111111, 14.4205555555556],
                     [36.5311666666667, 32.0468166666667],
                     [52.0107583, 4.3601306],
-                    [52.1149444, 4.28275]
+                    [52.1149444, 4.28275],
+                    [50.8496444444444, 5.69991111111111]
                 ]);
                 clubMap.fitBounds(bounds, { padding: [30, 30], maxZoom: 13 });
                 
