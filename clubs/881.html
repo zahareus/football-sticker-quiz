@@ -7,7 +7,7 @@
     <link rel="icon" href="/favicon.ico" type="image/x-icon">
 
     <!-- SEO Meta Tags - Pre-rendered for better indexing -->
-    <meta name="description" content="View 34 stickers from 🇩🇪 FC St Pauli (Germany) in our football sticker collection.">
+    <meta name="description" content="View 35 stickers from 🇩🇪 FC St Pauli (Germany) in our football sticker collection.">
     <meta name="keywords" content="football stickers, 🇩🇪 FC St Pauli, Germany, panini, sticker collection, fcstpauli stpauli brownandwhite bethedifference 2liga">
     <link rel="canonical" href="https://stickerhunt.club/clubs/881.html">
 
@@ -15,7 +15,7 @@
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://stickerhunt.club/clubs/881.html">
     <meta property="og:title" content="🇩🇪 FC St Pauli - Germany - Sticker Catalogue">
-    <meta property="og:description" content="View 34 stickers from 🇩🇪 FC St Pauli (Germany) in our football sticker collection.">
+    <meta property="og:description" content="View 35 stickers from 🇩🇪 FC St Pauli (Germany) in our football sticker collection.">
     <meta property="og:image" content="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/stickers/FC_St_Pauli/IMG_8852.jpeg?">
     <meta property="og:site_name" content="StickerHunt">
 
@@ -23,7 +23,7 @@
     <meta property="twitter:card" content="summary_large_image">
     <meta property="twitter:url" content="https://stickerhunt.club/clubs/881.html">
     <meta property="twitter:title" content="🇩🇪 FC St Pauli - Germany - Sticker Catalogue">
-    <meta property="twitter:description" content="View 34 stickers from 🇩🇪 FC St Pauli (Germany) in our football sticker collection.">
+    <meta property="twitter:description" content="View 35 stickers from 🇩🇪 FC St Pauli (Germany) in our football sticker collection.">
     <meta property="twitter:image" content="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/stickers/FC_St_Pauli/IMG_8852.jpeg?">
     <meta property="twitter:site" content="@StickerHunting">
     <meta property="twitter:creator" content="@StickerHunting">
@@ -51,7 +51,7 @@
       "@context": "https://schema.org",
       "@type": "SportsTeam",
       "name": "🇩🇪 FC St Pauli",
-      "description": "View 34 stickers from 🇩🇪 FC St Pauli (Germany) in our football sticker collection.",
+      "description": "View 35 stickers from 🇩🇪 FC St Pauli (Germany) in our football sticker collection.",
       "url": "https://stickerhunt.club/clubs/881.html",
       "sport": "Football"
     }
@@ -358,6 +358,13 @@
                          loading="lazy"
                          decoding="async">
                 </a>
+                <a href="/stickers/2960.html" class="sticker-preview-link">
+                    <img src="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/club_881/1769892814555_IMG_7859_thumb.webp"
+                         alt="Sticker ID 2960 for 🇩🇪 FC St Pauli"
+                         class="sticker-preview-image"
+                         loading="lazy"
+                         decoding="async">
+                </a>
             </div>
             
             <div class="club-map-section">
@@ -396,7 +403,7 @@
         
         document.addEventListener('DOMContentLoaded', function() {
             if (typeof L !== 'undefined' && document.getElementById('club-map')) {
-                const clubMap = L.map('club-map').setView([50.067247773333335, 7.03808722555555], 10);
+                const clubMap = L.map('club-map').setView([50.13790277373739, 6.794293942424238], 10);
                 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                     attribution: '© OpenStreetMap contributors'
                 }).addTo(clubMap);
@@ -471,7 +478,13 @@
                     marker.on('click', function() { this.openPopup(); });
                 })();
 
-                // Fit bounds if multiple stickers
+                (function() {
+                    const marker = L.marker([50.8444527777778, 4.35636111111111]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇩🇪 FC St Pauli</strong><a href="/stickers/2960.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
                 
                 const bounds = L.latLngBounds([
                     [37.9764972222222, -0.683591666666667],
@@ -483,7 +496,8 @@
                     [52.3844, 4.635925],
                     [52.3802528, 4.6337139],
                     [52.0797111, 4.3106806],
-                    [50.8350555555556, 4.35615277777778]
+                    [50.8350555555556, 4.35615277777778],
+                    [50.8444527777778, 4.35636111111111]
                 ]);
                 clubMap.fitBounds(bounds, { padding: [30, 30], maxZoom: 13 });
                 
