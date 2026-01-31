@@ -132,11 +132,11 @@
                                 </div>
                             </div>
 
-                            <p class="sticker-detail-rating" id="sticker-rating" data-sticker-id="2967" data-club-id="566" data-difficulty="1">
+                            <p class="sticker-detail-rating" id="sticker-rating" data-sticker-id="2967" data-club-id="566" data-difficulty="3">
                                 <a href="/battle.html">Like Rate: <span id="rating-value">...</span> (<span id="rating-rank">#...</span>)</a>
                             </p>
                             <p class="sticker-detail-answer-rate" id="sticker-answer-rate">Answer Rate: <span id="answer-rate-value">...</span></p>
-                            <p class="sticker-detail-difficulty">Difficulty: 🟢</p>
+                            <p class="sticker-detail-difficulty">Difficulty: 🔴🔴🔴</p>
                             <p class="sticker-detail-added">Added on 31 January 2026</p>
                             <p class="sticker-detail-date">Hunted on 7 August 2024</p>
                             <p class="sticker-detail-location">Ixelles - Elsene, Belgium</p>
@@ -192,6 +192,22 @@
                         opacity: 0.7
                     }).addTo(map);
                     nearbyMarker.bindPopup('<div class="nearby-sticker-popup"><strong>🇧🇪 RSC Anderlecht</strong><a href="/stickers/2958.html" class="map-popup-link">View</a></div>');
+                    nearbyMarker.on('mouseover', function() { this.openPopup(); });
+                    nearbyMarker.on('click', function() { this.openPopup(); });
+                })();
+                
+                (function() {
+                    const nearbyMarker = L.marker([50.8352166666667, 4.36359166666667], {
+                        icon: L.icon({
+                            iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
+                            iconSize: [20, 33],
+                            iconAnchor: [10, 33],
+                            popupAnchor: [1, -28],
+                            className: 'nearby-marker'
+                        }),
+                        opacity: 0.7
+                    }).addTo(map);
+                    nearbyMarker.bindPopup('<div class="nearby-sticker-popup"><strong>🇬🇷 Aris Thessaloniki FC</strong><a href="/stickers/2969.html" class="map-popup-link">View</a></div>');
                     nearbyMarker.on('mouseover', function() { this.openPopup(); });
                     nearbyMarker.on('click', function() { this.openPopup(); });
                 })();
@@ -323,22 +339,6 @@
                     nearbyMarker.on('mouseover', function() { this.openPopup(); });
                     nearbyMarker.on('click', function() { this.openPopup(); });
                 })();
-                
-                (function() {
-                    const nearbyMarker = L.marker([50.8378027777778, 4.36044722222222], {
-                        icon: L.icon({
-                            iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
-                            iconSize: [20, 33],
-                            iconAnchor: [10, 33],
-                            popupAnchor: [1, -28],
-                            className: 'nearby-marker'
-                        }),
-                        opacity: 0.7
-                    }).addTo(map);
-                    nearbyMarker.bindPopup('<div class="nearby-sticker-popup"><strong>🇩🇪 SC Freiburg</strong><a href="/stickers/2908.html" class="map-popup-link">View</a></div>');
-                    nearbyMarker.on('mouseover', function() { this.openPopup(); });
-                    nearbyMarker.on('click', function() { this.openPopup(); });
-                })();
 
                 L.marker([50.8357722222222, 4.36341111111111], {
                     icon: L.icon({
@@ -358,6 +358,7 @@
                 const bounds = L.latLngBounds([
                     [50.8357722222222, 4.36341111111111],
                     [50.8361888888889, 4.36303888888889],
+                    [50.8352166666667, 4.36359166666667],
                     [50.8367888888889, 4.36263888888889],
                     [50.8368027777778, 4.36261111111111],
                     [50.8368083333333, 4.36259166666667],
@@ -365,8 +366,7 @@
                     [50.8368027777778, 4.36253611111111],
                     [50.8344805555556, 4.36335833333333],
                     [50.8380666666667, 4.36198055555556],
-                    [50.837975, 4.36128333333333],
-                    [50.8378027777778, 4.36044722222222]
+                    [50.837975, 4.36128333333333]
                 ]);
                 map.fitBounds(bounds, { padding: [30, 30], maxZoom: 13 });
                 
