@@ -400,8 +400,16 @@ function generateClubInfo(club) {
         html += `<p class="club-info-item">🌍 ${club.city}</p>`;
     }
     if (club.web) {
-        const sanitizedUrl = encodeURI(club.web);
-        html += `<p class="club-info-item">🌐 <a href="${sanitizedUrl}" target="_blank" rel="noopener noreferrer">${club.web}</a></p>`;
+        // Decode first (in case URL is already encoded), then encode properly
+        // This prevents double-encoding of URLs like Wikipedia links
+        let safeUrl;
+        try {
+            safeUrl = encodeURI(decodeURI(club.web));
+        } catch (e) {
+            // If decoding fails, URL might have invalid encoding - use as-is
+            safeUrl = club.web;
+        }
+        html += `<p class="club-info-item">🌐 <a href="${safeUrl}" target="_blank" rel="noopener noreferrer">${club.web}</a></p>`;
     }
     if (club.media) {
         html += `<p class="club-info-item">#️⃣ ${club.media}</p>`;

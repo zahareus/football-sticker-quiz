@@ -145,7 +145,14 @@ function generateClubInfo(club) {
         html += `<p class="club-info-item">🌍 ${club.city}</p>`;
     }
     if (club.web) {
-        const sanitizedUrl = encodeURI(club.web);
+        // Decode first (in case URL is already encoded), then encode properly
+        let safeUrl;
+        try {
+            safeUrl = encodeURI(decodeURI(club.web));
+        } catch (e) {
+            safeUrl = club.web;
+        }
+        const sanitizedUrl = safeUrl;
         html += `<p class="club-info-item">🌐 <a href="${sanitizedUrl}" target="_blank" rel="noopener noreferrer">${club.web}</a></p>`;
     }
     if (club.media) {
