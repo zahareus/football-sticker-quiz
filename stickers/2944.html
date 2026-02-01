@@ -100,7 +100,7 @@
                                  loading="eager"
                                  fetchpriority="high">
                         </div>
-                        <div class="sticker-nav-buttons"><a href="/stickers/2943.html" class="btn btn-nav sticker-nav-btn">← #2943</a><a href="/stickers/2945.html" class="btn btn-nav sticker-nav-btn">#2945 →</a></div>
+                        <div class="sticker-nav-buttons"><span class="sticker-nav-placeholder"></span><a href="/stickers/4.html" class="btn btn-nav sticker-nav-btn">#4 →</a></div>
                     </div>
 
                     <div class="sticker-detail-right-panel">
@@ -138,7 +138,7 @@
                             <p class="sticker-detail-answer-rate" id="sticker-answer-rate">Answer Rate: <span id="answer-rate-value">...</span></p>
                             <p class="sticker-detail-difficulty">Difficulty: 🔴🔴🔴</p>
                             <p class="sticker-detail-added">Added on 31 January 2026</p>
-                            <p class="sticker-detail-date">Hunted on 8 August 2024</p>
+                            
                             <p class="sticker-detail-location">Maastricht, Netherlands</p>
                         </div>
                     </div>
@@ -146,11 +146,14 @@
                 
             <div class="sticker-map-section sticker-map-full-width">
                 <div id="sticker-map" class="sticker-map-container"></div>
-                <div class="sticker-detail-actions">
-                    <a href="/map.html" class="btn btn-nav">View Full Map</a>
-                    <a href="/quiz.html" class="btn btn-nav">Play Quiz</a>
-                </div>
             </div>
+        
+            <nav class="site-nav">
+                <a href="/catalogue.html" class="btn btn-nav">Catalogue</a>
+                <a href="/map.html" class="btn btn-nav">Map</a>
+                <a href="/rating.html" class="btn btn-nav">Rating</a>
+                <a href="/quiz.html" class="btn btn-nav">Play Quiz</a>
+            </nav>
         
             </div>
         </div>
@@ -179,167 +182,6 @@
                     attribution: '© OpenStreetMap contributors'
                 }).addTo(map);
 
-                
-                (function() {
-                    const nearbyMarker = L.marker([50.8495638888889, 5.70005277777778], {
-                        icon: L.icon({
-                            iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
-                            iconSize: [20, 33],
-                            iconAnchor: [10, 33],
-                            popupAnchor: [1, -28],
-                            className: 'nearby-marker'
-                        }),
-                        opacity: 0.7
-                    }).addTo(map);
-                    nearbyMarker.bindPopup('<div class="nearby-sticker-popup"><strong>🇳🇱 Willem II</strong><a href="/stickers/2945.html" class="map-popup-link">View</a></div>');
-                    nearbyMarker.on('mouseover', function() { this.openPopup(); });
-                    nearbyMarker.on('click', function() { this.openPopup(); });
-                })();
-                
-                (function() {
-                    const nearbyMarker = L.marker([50.8495638888889, 5.69877222222222], {
-                        icon: L.icon({
-                            iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
-                            iconSize: [20, 33],
-                            iconAnchor: [10, 33],
-                            popupAnchor: [1, -28],
-                            className: 'nearby-marker'
-                        }),
-                        opacity: 0.7
-                    }).addTo(map);
-                    nearbyMarker.bindPopup('<div class="nearby-sticker-popup"><strong>🇳🇱 Feyenoord</strong><a href="/stickers/2943.html" class="map-popup-link">View</a></div>');
-                    nearbyMarker.on('mouseover', function() { this.openPopup(); });
-                    nearbyMarker.on('click', function() { this.openPopup(); });
-                })();
-                
-                (function() {
-                    const nearbyMarker = L.marker([50.8495361111111, 5.69876111111111], {
-                        icon: L.icon({
-                            iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
-                            iconSize: [20, 33],
-                            iconAnchor: [10, 33],
-                            popupAnchor: [1, -28],
-                            className: 'nearby-marker'
-                        }),
-                        opacity: 0.7
-                    }).addTo(map);
-                    nearbyMarker.bindPopup('<div class="nearby-sticker-popup"><strong>🇳🇱 Feyenoord</strong><a href="/stickers/2942.html" class="map-popup-link">View</a></div>');
-                    nearbyMarker.on('mouseover', function() { this.openPopup(); });
-                    nearbyMarker.on('click', function() { this.openPopup(); });
-                })();
-                
-                (function() {
-                    const nearbyMarker = L.marker([50.8496888888889, 5.70220833333333], {
-                        icon: L.icon({
-                            iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
-                            iconSize: [20, 33],
-                            iconAnchor: [10, 33],
-                            popupAnchor: [1, -28],
-                            className: 'nearby-marker'
-                        }),
-                        opacity: 0.7
-                    }).addTo(map);
-                    nearbyMarker.bindPopup('<div class="nearby-sticker-popup"><strong>🇳🇱 Roda JC Kerkrade</strong><a href="/stickers/2884.html" class="map-popup-link">View</a></div>');
-                    nearbyMarker.on('mouseover', function() { this.openPopup(); });
-                    nearbyMarker.on('click', function() { this.openPopup(); });
-                })();
-                
-                (function() {
-                    const nearbyMarker = L.marker([50.8495138888889, 5.69727222222222], {
-                        icon: L.icon({
-                            iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
-                            iconSize: [20, 33],
-                            iconAnchor: [10, 33],
-                            popupAnchor: [1, -28],
-                            className: 'nearby-marker'
-                        }),
-                        opacity: 0.7
-                    }).addTo(map);
-                    nearbyMarker.bindPopup('<div class="nearby-sticker-popup"><strong>🇳🇱 FC Twente</strong><a href="/stickers/2883.html" class="map-popup-link">View</a></div>');
-                    nearbyMarker.on('mouseover', function() { this.openPopup(); });
-                    nearbyMarker.on('click', function() { this.openPopup(); });
-                })();
-                
-                (function() {
-                    const nearbyMarker = L.marker([50.8494416666667, 5.69726388888889], {
-                        icon: L.icon({
-                            iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
-                            iconSize: [20, 33],
-                            iconAnchor: [10, 33],
-                            popupAnchor: [1, -28],
-                            className: 'nearby-marker'
-                        }),
-                        opacity: 0.7
-                    }).addTo(map);
-                    nearbyMarker.bindPopup('<div class="nearby-sticker-popup"><strong>🇩🇪 Rot-Weiß Oberhausen</strong><a href="/stickers/2941.html" class="map-popup-link">View</a></div>');
-                    nearbyMarker.on('mouseover', function() { this.openPopup(); });
-                    nearbyMarker.on('click', function() { this.openPopup(); });
-                })();
-                
-                (function() {
-                    const nearbyMarker = L.marker([50.8498305555556, 5.6948], {
-                        icon: L.icon({
-                            iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
-                            iconSize: [20, 33],
-                            iconAnchor: [10, 33],
-                            popupAnchor: [1, -28],
-                            className: 'nearby-marker'
-                        }),
-                        opacity: 0.7
-                    }).addTo(map);
-                    nearbyMarker.bindPopup('<div class="nearby-sticker-popup"><strong>🇩🇪 Fortuna Düsseldorf</strong><a href="/stickers/2880.html" class="map-popup-link">View</a></div>');
-                    nearbyMarker.on('mouseover', function() { this.openPopup(); });
-                    nearbyMarker.on('click', function() { this.openPopup(); });
-                })();
-                
-                (function() {
-                    const nearbyMarker = L.marker([50.8498277777778, 5.69476666666667], {
-                        icon: L.icon({
-                            iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
-                            iconSize: [20, 33],
-                            iconAnchor: [10, 33],
-                            popupAnchor: [1, -28],
-                            className: 'nearby-marker'
-                        }),
-                        opacity: 0.7
-                    }).addTo(map);
-                    nearbyMarker.bindPopup('<div class="nearby-sticker-popup"><strong>🇩🇪 SV Eintracht Trier 05</strong><a href="/stickers/2939.html" class="map-popup-link">View</a></div>');
-                    nearbyMarker.on('mouseover', function() { this.openPopup(); });
-                    nearbyMarker.on('click', function() { this.openPopup(); });
-                })();
-                
-                (function() {
-                    const nearbyMarker = L.marker([50.8494194444445, 5.69475555555556], {
-                        icon: L.icon({
-                            iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
-                            iconSize: [20, 33],
-                            iconAnchor: [10, 33],
-                            popupAnchor: [1, -28],
-                            className: 'nearby-marker'
-                        }),
-                        opacity: 0.7
-                    }).addTo(map);
-                    nearbyMarker.bindPopup('<div class="nearby-sticker-popup"><strong>🇧🇪 KAA Gent</strong><a href="/stickers/2940.html" class="map-popup-link">View</a></div>');
-                    nearbyMarker.on('mouseover', function() { this.openPopup(); });
-                    nearbyMarker.on('click', function() { this.openPopup(); });
-                })();
-                
-                (function() {
-                    const nearbyMarker = L.marker([50.8493583333333, 5.69306666666667], {
-                        icon: L.icon({
-                            iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
-                            iconSize: [20, 33],
-                            iconAnchor: [10, 33],
-                            popupAnchor: [1, -28],
-                            className: 'nearby-marker'
-                        }),
-                        opacity: 0.7
-                    }).addTo(map);
-                    nearbyMarker.bindPopup('<div class="nearby-sticker-popup"><strong>🇳🇱 MVV Maastricht</strong><a href="/stickers/2938.html" class="map-popup-link">View</a></div>');
-                    nearbyMarker.on('mouseover', function() { this.openPopup(); });
-                    nearbyMarker.on('click', function() { this.openPopup(); });
-                })();
-
                 L.marker([50.8496444444444, 5.69991111111111], {
                     icon: L.icon({
                         iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
@@ -353,23 +195,6 @@
                     zIndexOffset: 1000
                 }).addTo(map)
                     .bindPopup('<strong>🇩🇪 Hannover 96</strong>').openPopup();
-
-                
-                const bounds = L.latLngBounds([
-                    [50.8496444444444, 5.69991111111111],
-                    [50.8495638888889, 5.70005277777778],
-                    [50.8495638888889, 5.69877222222222],
-                    [50.8495361111111, 5.69876111111111],
-                    [50.8496888888889, 5.70220833333333],
-                    [50.8495138888889, 5.69727222222222],
-                    [50.8494416666667, 5.69726388888889],
-                    [50.8498305555556, 5.6948],
-                    [50.8498277777778, 5.69476666666667],
-                    [50.8494194444445, 5.69475555555556],
-                    [50.8493583333333, 5.69306666666667]
-                ]);
-                map.fitBounds(bounds, { padding: [30, 30], maxZoom: 13 });
-                
             }
         });
     

@@ -138,7 +138,7 @@
                             <p class="sticker-detail-answer-rate" id="sticker-answer-rate">Answer Rate: <span id="answer-rate-value">...</span></p>
                             <p class="sticker-detail-difficulty">Difficulty: 🟢</p>
                             <p class="sticker-detail-added">Added on 1 February 2026</p>
-                            <p class="sticker-detail-date">Hunted on 8 August 2024</p>
+                            
                             <p class="sticker-detail-location">Maastricht, Netherlands</p>
                         </div>
                     </div>
@@ -146,11 +146,14 @@
                 
             <div class="sticker-map-section sticker-map-full-width">
                 <div id="sticker-map" class="sticker-map-container"></div>
-                <div class="sticker-detail-actions">
-                    <a href="/map.html" class="btn btn-nav">View Full Map</a>
-                    <a href="/quiz.html" class="btn btn-nav">Play Quiz</a>
-                </div>
             </div>
+        
+            <nav class="site-nav">
+                <a href="/catalogue.html" class="btn btn-nav">Catalogue</a>
+                <a href="/map.html" class="btn btn-nav">Map</a>
+                <a href="/rating.html" class="btn btn-nav">Rating</a>
+                <a href="/quiz.html" class="btn btn-nav">Play Quiz</a>
+            </nav>
         
             </div>
         </div>
@@ -179,8 +182,6 @@
                     attribution: '© OpenStreetMap contributors'
                 }).addTo(map);
 
-                
-
                 L.marker([50.8467972222222, 5.69159166666667], {
                     icon: L.icon({
                         iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
@@ -194,8 +195,6 @@
                     zIndexOffset: 1000
                 }).addTo(map)
                     .bindPopup('<strong>🇩🇪 Hertha BSC</strong>').openPopup();
-
-                
             }
         });
     
