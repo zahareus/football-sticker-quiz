@@ -7,7 +7,7 @@
     <link rel="icon" href="/favicon.ico" type="image/x-icon">
 
     <!-- SEO Meta Tags - Pre-rendered for better indexing -->
-    <meta name="description" content="View 6 stickers from 🇧🇪 Standard Liège (Belgium) in our football sticker collection.">
+    <meta name="description" content="View 7 stickers from 🇧🇪 Standard Liège (Belgium) in our football sticker collection.">
     <meta name="keywords" content="football stickers, 🇧🇪 Standard Liège, Belgium, panini, sticker collection, StandardLiege RSCL LesRouches JPL StandardDeLiège">
     <link rel="canonical" href="https://stickerhunt.club/clubs/317.html">
 
@@ -15,7 +15,7 @@
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://stickerhunt.club/clubs/317.html">
     <meta property="og:title" content="🇧🇪 Standard Liège - Belgium - Sticker Catalogue">
-    <meta property="og:description" content="View 6 stickers from 🇧🇪 Standard Liège (Belgium) in our football sticker collection.">
+    <meta property="og:description" content="View 7 stickers from 🇧🇪 Standard Liège (Belgium) in our football sticker collection.">
     <meta property="og:image" content="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/BEL%20Standard%20Liege/IMG_2912.jpeg">
     <meta property="og:site_name" content="StickerHunt">
 
@@ -23,7 +23,7 @@
     <meta property="twitter:card" content="summary_large_image">
     <meta property="twitter:url" content="https://stickerhunt.club/clubs/317.html">
     <meta property="twitter:title" content="🇧🇪 Standard Liège - Belgium - Sticker Catalogue">
-    <meta property="twitter:description" content="View 6 stickers from 🇧🇪 Standard Liège (Belgium) in our football sticker collection.">
+    <meta property="twitter:description" content="View 7 stickers from 🇧🇪 Standard Liège (Belgium) in our football sticker collection.">
     <meta property="twitter:image" content="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/BEL%20Standard%20Liege/IMG_2912.jpeg">
     <meta property="twitter:site" content="@StickerHunting">
     <meta property="twitter:creator" content="@StickerHunting">
@@ -51,7 +51,7 @@
       "@context": "https://schema.org",
       "@type": "SportsTeam",
       "name": "🇧🇪 Standard Liège",
-      "description": "View 6 stickers from 🇧🇪 Standard Liège (Belgium) in our football sticker collection.",
+      "description": "View 7 stickers from 🇧🇪 Standard Liège (Belgium) in our football sticker collection.",
       "url": "https://stickerhunt.club/clubs/317.html",
       "sport": "Football"
     }
@@ -162,6 +162,13 @@
                          loading="lazy"
                          decoding="async">
                 </a>
+                <a href="/stickers/2978.html" class="sticker-preview-link">
+                    <img src="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/club_317/1769941752374_IMG_7933_thumb.webp"
+                         alt="Sticker ID 2978 for 🇧🇪 Standard Liège"
+                         class="sticker-preview-image"
+                         loading="lazy"
+                         decoding="async">
+                </a>
             </div>
             
             <div class="club-map-section">
@@ -200,7 +207,7 @@
         
         document.addEventListener('DOMContentLoaded', function() {
             if (typeof L !== 'undefined' && document.getElementById('club-map')) {
-                const clubMap = L.map('club-map').setView([50.84844166666665, 5.030305555555556], 10);
+                const clubMap = L.map('club-map').setView([50.848567592592566, 5.251039814814813], 10);
                 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                     attribution: '© OpenStreetMap contributors'
                 }).addTo(clubMap);
@@ -219,10 +226,18 @@
                     marker.on('click', function() { this.openPopup(); });
                 })();
 
+                (function() {
+                    const marker = L.marker([50.8488194444444, 5.69250833333333]).addTo(clubMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇧🇪 Standard Liège</strong><a href="/stickers/2978.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
                 
                 const bounds = L.latLngBounds([
                     [50.8470611111111, 4.35676388888889],
-                    [50.8498222222222, 5.70384722222222]
+                    [50.8498222222222, 5.70384722222222],
+                    [50.8488194444444, 5.69250833333333]
                 ]);
                 clubMap.fitBounds(bounds, { padding: [30, 30], maxZoom: 13 });
                 
