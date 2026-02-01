@@ -7,7 +7,8 @@
     "optimize": "node optimize-images.js",
     "optimize:dry": "node optimize-images.js --dry-run",
     "generate": "node generate-static-pages.js",
-    "generate:test": "node generate-static-pages.js --test"
+    "generate:test": "node generate-static-pages.js --test",
+    "regenerate:countries": "node regenerate-country-pages.js"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.39.0",

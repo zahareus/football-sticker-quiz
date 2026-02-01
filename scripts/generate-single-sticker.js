@@ -697,17 +697,36 @@ async function generatePagesForSticker() {
             .eq('country', club.country)
             .order('name');
 
-        // Count stickers per club
-        const { data: stickerCounts } = await supabase
-            .from('stickers')
-            .select('club_id');
+        // Count stickers per club (with pagination - Supabase limits to 1000)
+        let allStickerCounts = [];
+        let offset = 0;
+        const PAGE_SIZE = 1000;
+        let hasMore = true;
+
+        while (hasMore) {
+            const { data, error } = await supabase
+                .from('stickers')
+                .select('club_id')
+                .range(offset, offset + PAGE_SIZE - 1);
+
+            if (error) {
+                console.error('Error fetching sticker counts:', error.message);
+                break;
+            }
+
+            if (data && data.length > 0) {
+                allStickerCounts = allStickerCounts.concat(data);
+                offset += PAGE_SIZE;
+                if (data.length < PAGE_SIZE) hasMore = false;
+            } else {
+                hasMore = false;
+            }
+        }
 
         const stickerCountsByClub = {};
-        if (stickerCounts) {
-            stickerCounts.forEach(s => {
-                stickerCountsByClub[s.club_id] = (stickerCountsByClub[s.club_id] || 0) + 1;
-            });
-        }
+        allStickerCounts.forEach(s => {
+            stickerCountsByClub[s.club_id] = (stickerCountsByClub[s.club_id] || 0) + 1;
+        });
 
         const countryPath = await generateCountryPage(countryCode, countryClubs || [], stickerCountsByClub);
         console.log(`  ✓ Generated: ${countryPath}`);

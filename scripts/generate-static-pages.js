@@ -727,9 +727,8 @@ async function generateIndexPage(stickers) {
     // First sticker for preload and initial display
     const firstSticker = stickerPool[0];
 
-    // Hardcoded sticker count (actual active sticker pages, excluding deleted/inactive)
-    // This should match the value in catalogue.js
-    const TOTAL_ACTIVE_STICKERS = 2857;
+    // Use actual count from fetched stickers (no hardcoding)
+    const TOTAL_ACTIVE_STICKERS = stickers.length;
 
     const data = {
         TOTAL_STICKERS: TOTAL_ACTIVE_STICKERS,
