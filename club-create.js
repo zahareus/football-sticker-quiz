@@ -5,19 +5,14 @@
 // ============================================================
 
 const CLUB_CREATE_CONFIG = {
-    // OpenAI API key for enrichment - loaded from environment or config
-    // For production, this should be moved to a backend API endpoint
-    OPENAI_API_KEY: window.OPENAI_API_KEY || '',
+    // API endpoint for club enrichment (secured with server-side OpenAI key)
+    ENRICH_API_URL: '/api/enrich-club',
 
     // Debounce delay for search (ms)
     SEARCH_DEBOUNCE: 300,
 
     // Maximum suggestions to show
-    MAX_SUGGESTIONS: 10,
-
-    // OpenAI retry settings
-    OPENAI_RETRIES: 2,
-    OPENAI_RETRY_DELAY: 500
+    MAX_SUGGESTIONS: 10
 };
 
 // ============================================================
@@ -286,51 +281,8 @@ function hideCountrySuggestions() {
 }
 
 // ============================================================
-// OPENAI ENRICHMENT
+// CLUB ENRICHMENT VIA SECURE API
 // ============================================================
-
-async function callOpenAI(prompt, retries = CLUB_CREATE_CONFIG.OPENAI_RETRIES) {
-    for (let i = 0; i < retries; i++) {
-        try {
-            const response = await fetch('https://api.openai.com/v1/chat/completions', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${CLUB_CREATE_CONFIG.OPENAI_API_KEY}`
-                },
-                body: JSON.stringify({
-                    model: 'gpt-4',
-                    messages: [{ role: 'user', content: prompt }],
-                    temperature: 0.5,
-                })
-            });
-
-            if (!response.ok) {
-                const errorData = await response.json();
-                console.error('OpenAI API Error:', errorData);
-                if (i === retries - 1) {
-                    throw new Error(`OpenAI API error: ${errorData.error?.message || response.status}`);
-                }
-                await new Promise(resolve => setTimeout(resolve, CLUB_CREATE_CONFIG.OPENAI_RETRY_DELAY));
-                continue;
-            }
-
-            const data = await response.json();
-            const content = data.choices?.[0]?.message?.content?.trim();
-            if (content) return content;
-
-            if (i === retries - 1) {
-                throw new Error('OpenAI returned empty content');
-            }
-            await new Promise(resolve => setTimeout(resolve, CLUB_CREATE_CONFIG.OPENAI_RETRY_DELAY));
-        } catch (error) {
-            console.error(`OpenAI call attempt ${i + 1} failed:`, error);
-            if (i === retries - 1) throw error;
-            await new Promise(resolve => setTimeout(resolve, CLUB_CREATE_CONFIG.OPENAI_RETRY_DELAY));
-        }
-    }
-    return null;
-}
 
 async function enrichClubData(clubName, countryCode) {
     const enrichedData = {
@@ -339,58 +291,56 @@ async function enrichClubData(clubName, countryCode) {
         web: null
     };
 
-    // Enrich city
-    logProgress('Fetching city information...', 'info');
-    try {
-        const cityPrompt = `What is the city and country of the football club '${clubName}' from country code '${countryCode}'? Provide the answer in English, in the format 'City, FullCountryName'. Only provide the location, nothing else.`;
-        const cityResult = await callOpenAI(cityPrompt);
-        if (cityResult) {
-            enrichedData.city = cityResult.replace(/['"]/g, '').trim();
-            logProgress(`City: ${enrichedData.city}`, 'success');
-        } else {
-            logProgress('City: Could not retrieve', 'error');
-        }
-    } catch (e) {
-        console.error('City enrichment failed:', e);
-        logProgress(`City: Error - ${e.message}`, 'error');
-    }
+    logProgress('Starting AI enrichment via secure API...', 'info');
 
-    // Enrich media (hashtags)
-    logProgress('Fetching relevant hashtags...', 'info');
     try {
-        const mediaPrompt = `Provide 5 relevant hashtags in English for the football club '${clubName}'. These hashtags should be commonly used by the club, its fans, or in relation to the club, its stadium, or competitions it participates in. List them separated by single spaces, without commas, for example: #hashtag1 #hashtag2 #hashtag3 #hashtag4 #hashtag5. Only provide the hashtags, nothing else.`;
-        const mediaResult = await callOpenAI(mediaPrompt);
-        if (mediaResult) {
-            enrichedData.media = mediaResult.replace(/['"]/g, '').trim();
-            logProgress(`Hashtags: ${enrichedData.media}`, 'success');
-        } else {
-            logProgress('Hashtags: Could not retrieve', 'error');
-        }
-    } catch (e) {
-        console.error('Media enrichment failed:', e);
-        logProgress(`Hashtags: Error - ${e.message}`, 'error');
-    }
+        const response = await fetch(CLUB_CREATE_CONFIG.ENRICH_API_URL, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                clubName,
+                countryCode,
+                field: 'all'
+            })
+        });
 
-    // Enrich web (Wikipedia or website)
-    logProgress('Fetching website/Wikipedia URL...', 'info');
-    try {
-        const webPrompt = `Find a web URL for the football club '${clubName}' from country code '${countryCode}'. Prioritize in the following order: 1. The club's official English Wikipedia page. 2. If not found, the club's Wikipedia page in its local language. 3. If not found, the club's official website. 4. If none found, any relevant informational page (Transfermarkt, Soccerway). Provide only the URL as a string, nothing else.`;
-        const webResult = await callOpenAI(webPrompt);
-        if (webResult) {
-            // Clean up the URL
-            let cleanUrl = webResult.replace(/['"<>]/g, '').trim();
-            // Ensure it starts with http
-            if (cleanUrl && !cleanUrl.startsWith('http')) {
-                cleanUrl = 'https://' + cleanUrl;
+        if (!response.ok) {
+            const errorData = await response.json();
+            throw new Error(errorData.error || `API error: ${response.status}`);
+        }
+
+        const result = await response.json();
+
+        if (result.success && result.data) {
+            if (result.data.city) {
+                enrichedData.city = result.data.city;
+                logProgress(`City: ${enrichedData.city}`, 'success');
+            } else {
+                logProgress('City: Could not retrieve', 'error');
             }
-            enrichedData.web = cleanUrl;
-            logProgress(`Website: ${enrichedData.web}`, 'success');
+
+            if (result.data.media) {
+                enrichedData.media = result.data.media;
+                logProgress(`Hashtags: ${enrichedData.media}`, 'success');
+            } else {
+                logProgress('Hashtags: Could not retrieve', 'error');
+            }
+
+            if (result.data.web) {
+                enrichedData.web = result.data.web;
+                logProgress(`Website: ${enrichedData.web}`, 'success');
+            } else {
+                logProgress('Website: Could not retrieve', 'error');
+            }
         } else {
-            logProgress('Website: Could not retrieve', 'error');
+            throw new Error('Invalid API response');
         }
-    } catch (e) {
-        console.error('Web enrichment failed:', e);
-        logProgress(`Website: Error - ${e.message}`, 'error');
+
+    } catch (error) {
+        console.error('Enrichment API error:', error);
+        logProgress(`Enrichment failed: ${error.message}`, 'error');
     }
 
     return enrichedData;
