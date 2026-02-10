@@ -170,6 +170,11 @@ function identifyAmplitudeUser(user, profile = null, retryCount = 0) {
 
         window.amplitude.identify(identifyObj);
 
+        // PostHog: identify user
+        if (typeof identifyPosthogUser === 'function') {
+            identifyPosthogUser(user, profile);
+        }
+
         // Verify it was set - check after a small delay to allow SDK to process
         setTimeout(() => {
             const currentUserId = window.amplitude.getUserId();
@@ -206,6 +211,11 @@ function clearAmplitudeUser() {
         window.amplitude.setUserId(null);
         window.amplitude.reset();
         console.log('Amplitude: User cleared');
+
+        // PostHog: reset user
+        if (typeof resetPosthogUser === 'function') {
+            resetPosthogUser();
+        }
     } catch (error) {
         console.error('Error clearing Amplitude user:', error);
     }

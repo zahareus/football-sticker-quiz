@@ -300,6 +300,9 @@ async function handleVote(choice) {
                     winner_rating_after: result.winner.rating_after
                 });
             }
+
+            // PostHog: track battle vote
+            trackBattleVote(winnerId, loserId, result.winner.rating_before, result.winner.rating_after);
         }
     } catch (error) {
         console.error('Error submitting vote:', error);

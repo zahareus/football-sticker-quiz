@@ -770,6 +770,9 @@ async function handleAnswer(selectedOption) {
 
     const isCorrect = selectedOption === currentQuestionData.correctAnswer;
 
+    // PostHog: track answer
+    trackQuizAnswered(currentGameMode, selectedDifficulty, currentQuestionData.stickerId, isCorrect);
+
     // Record answer for Answer Rate statistics (fire-and-forget)
     recordQuizAnswer(currentQuestionData.stickerId, isCorrect);
 
@@ -1375,6 +1378,9 @@ async function startGame() {
     } else {
         await loadNextQuestion();
     }
+
+    // PostHog: track game start
+    trackQuizStarted(currentGameMode, selectedDifficulty);
 }
 
 async function loadNextQuestion(isQuickTransition = false) {
@@ -1802,6 +1808,9 @@ async function getPercentileRank(score, difficulty) {
 function endGame(dailyWin = false) {
     stopTimer();
 
+    // PostHog: track game completion
+    trackQuizCompleted(currentGameMode, selectedDifficulty, currentScore, dailyWin);
+
     // Clear preload queue to prevent memory leak
     preloadQueue = [];
     nextQuestionPromise = null;
@@ -1917,6 +1926,9 @@ async function saveScore() {
             });
 
         if (error) throw error;
+
+        // PostHog: track score saved
+        trackScoreSaved(currentScore, difficultyToSave, currentGameMode);
     } catch (error) {
         console.error("Error saving score:", error);
         showError(`Failed to save score: ${error.message}`);
