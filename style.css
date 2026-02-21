@@ -863,6 +863,23 @@ body.quiz-result .result-right-panel {
     display: inline-block; /* Ð©Ð¾Ð± margin-top Ð¿Ñ€Ð°Ñ†ÑŽÐ²Ð°Ð² Ñ– ÐºÐ½Ð¾Ð¿ÐºÐ° Ð½Ðµ Ñ€Ð¾Ð·Ñ‚ÑÐ³ÑƒÐ²Ð°Ð»Ð°ÑÑŒ Ð½Ð° Ð²ÑÑŽ ÑˆÐ¸Ñ€Ð¸Ð½Ñƒ */
 }
 
+/* Club description text block (SEO) */
+.club-description-text {
+    margin-bottom: calc(var(--spacing-unit) * 2);
+    color: var(--color-text);
+}
+
+.club-description-text p {
+    font-size: 1em;
+    line-height: 1.6;
+    color: #555;
+}
+
+.club-description-text a {
+    color: var(--color-accent-darker);
+    text-decoration: none;
+}
+
 /* Club info section */
 .club-info-section {
     text-align: left;

@@ -49,11 +49,20 @@
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
-      "@type": "SportsTeam",
-      "name": "{{CLUB_NAME}}",
+      "@type": "CollectionPage",
+      "name": "{{PAGE_TITLE}}",
       "description": "{{META_DESCRIPTION}}",
       "url": "{{CANONICAL_URL}}",
-      "sport": "Football"
+      "about": {
+        "@type": "SportsTeam",
+        "name": "{{CLUB_NAME}}",
+        "sport": "Football"
+      },
+      "isPartOf": {
+        "@type": "WebSite",
+        "name": "StickerHunt",
+        "url": "https://stickerhunt.club"
+      }
     }
     </script>
     <!-- Amplitude Analytics -->
@@ -97,7 +106,7 @@
         <div id="catalogue-breadcrumbs">{{BREADCRUMBS}}</div>
 
         <h1 id="main-catalogue-heading">
-            <span id="club-name-display">{{CLUB_NAME}}</span> - Sticker Gallery
+            <span id="club-name-display">{{CLUB_NAME}}</span> — <span class="heading-suffix">{{HEADING_SUFFIX}}</span>
             <a href="#" id="edit-club-btn" class="edit-link" style="display: none;">edit</a>
         </h1>
 
@@ -126,6 +135,7 @@
         </div>
 
         <div id="catalogue-content" data-club-id="{{CLUB_ID}}">
+            {{CLUB_DESCRIPTION}}
             <div class="club-info-section" id="club-info-display">
                 {{CLUB_INFO}}
             </div>
@@ -149,7 +159,7 @@
             <a href="/terms.html">Terms of Service</a> |
             <a href="/privacy.html">Privacy Policy</a>
         </p>
-        <p>StickerHunt &copy; 2025</p>
+        <p>StickerHunt &copy; 2026</p>
     </footer>
 
     <!-- Scripts -->
