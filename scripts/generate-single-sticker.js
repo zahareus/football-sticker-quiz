@@ -144,6 +144,37 @@ function generateBreadcrumbs(links) {
     return links.map(link => `<a href="${link.url}">${link.text}</a>`).join(' → ');
 }
 
+function stripEmoji(str) {
+    return str.replace(/[\u{1F000}-\u{1FFFF}|\u{2600}-\u{27BF}|\u{FE00}-\u{FEFF}|\u{1F900}-\u{1F9FF}|⚽🏆🌍🎯🏅🥇🥈🥉]/gu, '').replace(/\s+/g, ' ').trim();
+}
+
+function generateClubDescription(club, countryName) {
+    const clubName = stripEmoji(club.name);
+    const city = club.city ? ` from ${club.city}` : '';
+    const stickerWord = 'stickers';
+    return `<p class="club-description-text">${clubName} is a football club${city}, ${countryName}. This page contains football stickers from ${clubName} found in different cities around the world. Identify your ${clubName} sticker by browsing our collection below.</p>`;
+}
+
+function generateBreadcrumbSchema(links) {
+    const items = [
+        { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://stickerhunt.club" }
+    ];
+    links.forEach((link, i) => {
+        items.push({
+            "@type": "ListItem",
+            "position": i + 2,
+            "name": link.text,
+            "item": `https://stickerhunt.club${link.url}`
+        });
+    });
+    const schema = {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": items
+    };
+    return `<script type="application/ld+json">\n    ${JSON.stringify(schema, null, 2)}\n    </script>`;
+}
+
 function generateStickerDate(sticker) {
     if (!sticker.found) return '';
     const dateObj = new Date(sticker.found);
@@ -427,8 +458,9 @@ async function generateStickerPage(sticker, club, prevStickerId, nextStickerId, 
     const template = loadTemplate('sticker-page.html');
 
     const countryName = getCountryName(club.country);
-    const pageTitle = `Sticker #${sticker.id} - ${club.name} - ${countryName} - StickerHunt`;
-    const metaDescription = `Football sticker #${sticker.id} from ${club.name}, ${countryName}. View this sticker in our collection.`;
+    const clubNameClean = stripEmoji(club.name);
+    const pageTitle = `${clubNameClean} Sticker #${sticker.id} — Identify This Football Sticker | StickerHunt`;
+    const metaDescription = `Football sticker #${sticker.id} from ${clubNameClean}, ${countryName}. Can you identify this ${clubNameClean} sticker? Browse our collection.`;
     const canonicalUrl = `${BASE_URL}/stickers/${sticker.id}.html`;
 
     let keywords = `football stickers, ${club.name}, ${countryName}, panini, sticker collection`;
@@ -458,8 +490,14 @@ async function generateStickerPage(sticker, club, prevStickerId, nextStickerId, 
         IMAGE_URL: getDetailImageUrl(sticker.image_url),
         THUMBNAIL_URL: getThumbnailUrl(sticker.image_url),
         IMAGE_FULL_URL: sticker.image_url,
-        IMAGE_ALT: `Sticker ${sticker.id} - ${club.name}`,
+        IMAGE_ALT: `${clubNameClean} football sticker #${sticker.id} — identify this sticker`,
         BREADCRUMBS: breadcrumbs,
+        BREADCRUMB_SCHEMA: generateBreadcrumbSchema([
+            { text: 'Catalogue', url: '/catalogue.html' },
+            { text: countryName, url: `/countries/${club.country.toUpperCase()}.html` },
+            { text: club.name, url: `/clubs/${club.id}.html` },
+            { text: `Sticker #${sticker.id}`, url: `/stickers/${sticker.id}.html` }
+        ]),
         MAIN_HEADING: `Sticker #${sticker.id}`,
         STICKER_ID: sticker.id,
         CLUB_ID: club.id,
@@ -494,9 +532,11 @@ async function generateClubPage(club, stickers) {
     const template = loadTemplate('club-page.html');
 
     const countryName = getCountryName(club.country);
-    const pageTitle = `${club.name} - ${countryName} - Sticker Catalogue`;
+    const clubNameClean = stripEmoji(club.name);
     const stickerCount = stickers ? stickers.length : 0;
-    const metaDescription = `View ${stickerCount} stickers from ${club.name} (${countryName}) in our football sticker collection.`;
+    const stickerWord = stickerCount !== 1 ? 'stickers' : 'sticker';
+    const pageTitle = `${clubNameClean} Stickers — ${stickerCount} Football ${stickerWord} | StickerHunt`;
+    const metaDescription = `Browse ${stickerCount} ${clubNameClean} football ${stickerWord} found across different cities. Identify your ${clubNameClean} sticker from ${countryName}.`;
     const canonicalUrl = `${BASE_URL}/clubs/${club.id}.html`;
 
     let keywords = `football stickers, ${club.name}, ${countryName}, panini, sticker collection`;
@@ -533,7 +573,14 @@ async function generateClubPage(club, stickers) {
         CLUB_WEB: club.web || '',
         CLUB_MEDIA: club.media || '',
         BREADCRUMBS: breadcrumbs,
-        MAIN_HEADING: `${club.name} - Sticker Gallery`,
+        BREADCRUMB_SCHEMA: generateBreadcrumbSchema([
+            { text: 'Catalogue', url: '/catalogue.html' },
+            { text: countryName, url: `/countries/${club.country.toUpperCase()}.html` },
+            { text: club.name, url: `/clubs/${club.id}.html` }
+        ]),
+        MAIN_HEADING: club.name,
+        HEADING_SUFFIX: `${stickerCount} Football ${stickerWord}`,
+        CLUB_DESCRIPTION: generateClubDescription(club, countryName),
         CLUB_INFO: generateClubInfo(club),
         STICKER_GALLERY: generateStickerGallery(stickers, club.name),
         CLUB_MAP_SECTION: generateClubMapSection(stickersWithCoordinates),
@@ -560,10 +607,11 @@ async function generateCountryPage(countryCode, clubs, stickerCountsByClub) {
     const template = loadTemplate('country-page.html');
 
     const countryName = getCountryName(countryCode);
-    const pageTitle = `${countryName} - Sticker Catalogue`;
-    const metaDescription = `Browse ${clubs.length} football clubs from ${countryName} in our sticker database. Explore club stickers and discover the complete collection.`;
+    const totalStickers = Object.values(stickerCountsByClub).reduce((a, b) => a + b, 0);
+    const pageTitle = `${countryName} Football Stickers — ${clubs.length} Clubs | StickerHunt`;
+    const metaDescription = `Browse football stickers from ${clubs.length} clubs in ${countryName}. Identify stickers from ${countryName} clubs in our database of ${totalStickers}+ stickers.`;
     const canonicalUrl = `${BASE_URL}/countries/${countryCode.toUpperCase()}.html`;
-    const keywords = `football stickers, ${countryName}, panini catalogue, football clubs, sticker collection`;
+    const keywords = `${countryName} football stickers, ${countryName} clubs stickers, identify ${countryName} sticker, football sticker database`;
 
     const breadcrumbs = generateBreadcrumbs([
         { text: 'Catalogue', url: '/catalogue.html' },
@@ -591,6 +639,10 @@ async function generateCountryPage(countryCode, clubs, stickerCountsByClub) {
         COUNTRY_NAME: countryName,
         CLUB_COUNT: clubs.length,
         BREADCRUMBS: breadcrumbs,
+        BREADCRUMB_SCHEMA: generateBreadcrumbSchema([
+            { text: 'Catalogue', url: '/catalogue.html' },
+            { text: countryName, url: `/countries/${countryCode.toUpperCase()}.html` }
+        ]),
         MAIN_HEADING: countryName,
         CLUB_LIST: clubListHtml
     };

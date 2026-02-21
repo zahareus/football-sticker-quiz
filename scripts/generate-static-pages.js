@@ -184,6 +184,26 @@ function generateBreadcrumbs(links) {
     ).join(' → ');
 }
 
+function generateBreadcrumbSchema(links) {
+    const items = [
+        { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://stickerhunt.club" }
+    ];
+    links.forEach((link, i) => {
+        items.push({
+            "@type": "ListItem",
+            "position": i + 2,
+            "name": link.text,
+            "item": `https://stickerhunt.club${link.url}`
+        });
+    });
+    const schema = {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": items
+    };
+    return `<script type="application/ld+json">\n    ${JSON.stringify(schema, null, 2)}\n    </script>`;
+}
+
 /**
  * Generate sticker date HTML (formatted like current site)
  */
@@ -571,8 +591,14 @@ async function generateStickerPage(sticker, club, prevStickerId, nextStickerId, 
         IMAGE_URL: getDetailImageUrl(sticker.image_url),
         THUMBNAIL_URL: getThumbnailUrl(sticker.image_url),
         IMAGE_FULL_URL: sticker.image_url,
-        IMAGE_ALT: `Sticker ${sticker.id} - ${club.name}`,
+        IMAGE_ALT: `${clubNameClean} football sticker #${sticker.id} — identify this sticker`,
         BREADCRUMBS: breadcrumbs,
+        BREADCRUMB_SCHEMA: generateBreadcrumbSchema([
+            { text: 'Catalogue', url: '/catalogue.html' },
+            { text: countryName, url: `/countries/${club.country.toUpperCase()}.html` },
+            { text: club.name, url: `/clubs/${club.id}.html` },
+            { text: `Sticker #${sticker.id}`, url: `/stickers/${sticker.id}.html` }
+        ]),
         MAIN_HEADING: `Sticker #${sticker.id}`,
         STICKER_ID: sticker.id,
         CLUB_ID: club.id,
@@ -652,6 +678,11 @@ async function generateClubPage(club, stickers) {
         CLUB_WEB: club.web || '',
         CLUB_MEDIA: club.media || '',
         BREADCRUMBS: breadcrumbs,
+        BREADCRUMB_SCHEMA: generateBreadcrumbSchema([
+            { text: 'Catalogue', url: '/catalogue.html' },
+            { text: countryName, url: `/countries/${club.country.toUpperCase()}.html` },
+            { text: club.name, url: `/clubs/${club.id}.html` }
+        ]),
         MAIN_HEADING: `${club.name} — ${stickerCount} Football ${stickerWord.charAt(0).toUpperCase() + stickerWord.slice(1)}`,
         HEADING_SUFFIX: `${stickerCount} Football ${stickerWord.charAt(0).toUpperCase() + stickerWord.slice(1)}`,
         CLUB_DESCRIPTION: generateClubDescription(club, stickerCount, countryName),
@@ -717,6 +748,10 @@ async function generateCountryPage(countryCode, clubs, stickerCountsByClub) {
         COUNTRY_NAME: countryName,
         CLUB_COUNT: clubs.length,
         BREADCRUMBS: breadcrumbs,
+        BREADCRUMB_SCHEMA: generateBreadcrumbSchema([
+            { text: 'Catalogue', url: '/catalogue.html' },
+            { text: countryName, url: `/countries/${countryCode.toUpperCase()}.html` }
+        ]),
         MAIN_HEADING: countryName,
         CLUB_LIST: clubListHtml
     };
