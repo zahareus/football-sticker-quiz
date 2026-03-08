@@ -249,6 +249,22 @@
                 })();
                 
                 (function() {
+                    const nearbyMarker = L.marker([37.5983888888889, -0.985433333333333], {
+                        icon: L.icon({
+                            iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
+                            iconSize: [20, 33],
+                            iconAnchor: [10, 33],
+                            popupAnchor: [1, -28],
+                            className: 'nearby-marker'
+                        }),
+                        opacity: 0.7
+                    }).addTo(map);
+                    nearbyMarker.bindPopup('<div class="nearby-sticker-popup"><strong>🇪🇸 Cartagena</strong><a href="/stickers/3059.html" class="map-popup-link">View</a></div>');
+                    nearbyMarker.on('mouseover', function() { this.openPopup(); });
+                    nearbyMarker.on('click', function() { this.openPopup(); });
+                })();
+                
+                (function() {
                     const nearbyMarker = L.marker([37.5983916666667, -0.98545], {
                         icon: L.icon({
                             iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
@@ -375,22 +391,6 @@
                     nearbyMarker.on('mouseover', function() { this.openPopup(); });
                     nearbyMarker.on('click', function() { this.openPopup(); });
                 })();
-                
-                (function() {
-                    const nearbyMarker = L.marker([37.5996333333333, -0.985847222222222], {
-                        icon: L.icon({
-                            iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
-                            iconSize: [20, 33],
-                            iconAnchor: [10, 33],
-                            popupAnchor: [1, -28],
-                            className: 'nearby-marker'
-                        }),
-                        opacity: 0.7
-                    }).addTo(map);
-                    nearbyMarker.bindPopup('<div class="nearby-sticker-popup"><strong>🇷🇴 Rapid Bucuresti</strong><a href="/stickers/3056.html" class="map-popup-link">View</a></div>');
-                    nearbyMarker.on('mouseover', function() { this.openPopup(); });
-                    nearbyMarker.on('click', function() { this.openPopup(); });
-                })();
 
                 L.marker([37.5983888888889, -0.985283333333333], {
                     icon: L.icon({
@@ -410,6 +410,7 @@
                 const bounds = L.latLngBounds([
                     [37.5983888888889, -0.985283333333333],
                     [37.5983861111111, -0.985294444444444],
+                    [37.5983888888889, -0.985433333333333],
                     [37.5983916666667, -0.98545],
                     [37.5983916666667, -0.98545],
                     [37.5989, -0.985266666666667],
@@ -417,8 +418,7 @@
                     [37.5993333333333, -0.985030555555556],
                     [37.5993416666667, -0.985013888888889],
                     [37.5993777777778, -0.984836111111111],
-                    [37.5994444444444, -0.984541666666667],
-                    [37.5996333333333, -0.985847222222222]
+                    [37.5994444444444, -0.984541666666667]
                 ]);
                 map.fitBounds(bounds, { padding: [30, 30], maxZoom: 13 });
                 
