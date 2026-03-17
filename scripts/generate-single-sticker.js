@@ -469,59 +469,62 @@ function findNearbyStickers(currentSticker, allStickers, radiusKm = 50, maxCount
 function generateMapInitScript(sticker, clubName, nearbyStickers = []) {
     if (!sticker.latitude || !sticker.longitude) return '';
 
+    // Filter nearby stickers that have coordinates
+    const withCoords = nearbyStickers.filter(s => s.latitude && s.longitude);
+
     let nearbyMarkersCode = '';
-    if (nearbyStickers.length > 0) {
-        nearbyMarkersCode = nearbyStickers.map(nearby => {
-            const escapedClubName = nearby.clubName.replace(/'/g, "\\'");
+    if (withCoords.length > 0) {
+        nearbyMarkersCode = withCoords.map(nearby => {
+            const escapedClubName = (nearby.clubName || '').replace(/'/g, "\\'").replace(/[\u{1F000}-\u{1FFFF}\u{2600}-\u{26FF}\u{2700}-\u{27BF}\u{1F900}-\u{1F9FF}\u{1FA00}-\u{1FAFF}\u{FE00}-\u{FE0F}\u{1F1E0}-\u{1F1FF}]/gu, '').trim();
             return `
                 (function() {
-                    const nearbyMarker = L.marker([${nearby.latitude}, ${nearby.longitude}], {
+                    L.marker([${nearby.latitude}, ${nearby.longitude}], {
                         icon: L.icon({
                             iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
-                            iconSize: [20, 33],
-                            iconAnchor: [10, 33],
-                            popupAnchor: [1, -28],
-                            className: 'nearby-marker'
+                            iconSize: [18, 30],
+                            iconAnchor: [9, 30],
+                            popupAnchor: [1, -25]
                         }),
-                        opacity: 0.7
-                    }).addTo(map);
-                    nearbyMarker.bindPopup('<div class="nearby-sticker-popup"><strong>${escapedClubName}</strong><a href="/stickers/${nearby.id}.html" class="map-popup-link">View</a></div>');
-                    nearbyMarker.on('mouseover', function() { this.openPopup(); });
-                    nearbyMarker.on('click', function() { this.openPopup(); });
+                        opacity: 0.6
+                    }).addTo(map)
+                    .bindPopup('<div class="nearby-sticker-popup"><strong>${escapedClubName}</strong><a href="/stickers/${nearby.id}.html" class="map-popup-link">View</a></div>');
                 })();`;
-        }).join('\n                ');
+        }).join('\n');
     }
+
+    const escapedName = clubName ? clubName.replace(/'/g, "\\'").replace(/[\u{1F000}-\u{1FFFF}\u{2600}-\u{26FF}\u{2700}-\u{27BF}\u{1F900}-\u{1F9FF}\u{1FA00}-\u{1FAFF}\u{FE00}-\u{FE0F}\u{1F1E0}-\u{1F1FF}]/gu, '').trim() : 'This sticker';
 
     return `
         document.addEventListener('DOMContentLoaded', function() {
             if (typeof L !== 'undefined' && document.getElementById('sticker-map')) {
-                const map = L.map('sticker-map').setView([${sticker.latitude}, ${sticker.longitude}], 12);
+                const map = L.map('sticker-map').setView([${sticker.latitude}, ${sticker.longitude}], 13);
                 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                     attribution: '© OpenStreetMap contributors'
                 }).addTo(map);
 
                 ${nearbyMarkersCode}
 
+                // Current sticker — larger marker, opened popup
                 L.marker([${sticker.latitude}, ${sticker.longitude}], {
                     icon: L.icon({
                         iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
                         iconRetinaUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png',
                         shadowUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png',
-                        iconSize: [25, 41],
-                        iconAnchor: [12, 41],
-                        popupAnchor: [1, -34],
-                        shadowSize: [41, 41]
+                        iconSize: [30, 49],
+                        iconAnchor: [15, 49],
+                        popupAnchor: [1, -40],
+                        shadowSize: [49, 49]
                     }),
                     zIndexOffset: 1000
                 }).addTo(map)
-                    .bindPopup('<strong>${clubName ? clubName.replace(/'/g, "\\'") : 'Sticker location'}</strong>').openPopup();
+                    .bindPopup('<strong>${escapedName}</strong> ← this sticker').openPopup();
 
-                ${nearbyStickers.length > 0 ? `
+                ${withCoords.length > 0 ? `
                 const bounds = L.latLngBounds([
                     [${sticker.latitude}, ${sticker.longitude}],
-                    ${nearbyStickers.map(n => `[${n.latitude}, ${n.longitude}]`).join(',\n                    ')}
+                    ${withCoords.slice(0, 50).map(n => `[${n.latitude}, ${n.longitude}]`).join(',\n                    ')}
                 ]);
-                map.fitBounds(bounds, { padding: [30, 30], maxZoom: 13 });
+                map.fitBounds(bounds, { padding: [30, 30], maxZoom: 14 });
                 ` : ''}
             }
         });
@@ -889,19 +892,23 @@ async function generatePagesForSticker() {
 
         console.log(`  ✓ Navigation: prev=#${prevStickerId || 'none'}, next=#${nextStickerId || 'none'}`);
 
-        // 3. Fetch nearby stickers for map (within 50km)
+        // 3. Fetch all stickers from the same city (for map + nearby section)
         let nearbyStickers = [];
-        if (sticker.latitude && sticker.longitude) {
-            const { data: allStickers } = await supabase
+        if (sticker.location) {
+            const { data: cityStickers } = await supabase
                 .from('stickers')
-                .select('id, latitude, longitude, image_url, clubs(name)')
-                .not('latitude', 'is', null)
-                .not('longitude', 'is', null);
+                .select('id, latitude, longitude, image_url, location, clubs(name)')
+                .eq('location', sticker.location)
+                .neq('id', stickerId);
 
-            if (allStickers) {
-                nearbyStickers = allStickers.map(s => ({
-                    ...s,
-                    clubs: s.clubs
+            if (cityStickers) {
+                nearbyStickers = cityStickers.map(s => ({
+                    id: s.id,
+                    latitude: s.latitude,
+                    longitude: s.longitude,
+                    image_url: s.image_url,
+                    clubName: s.clubs?.name || 'Unknown Club',
+                    distance: 0
                 }));
             }
         }
