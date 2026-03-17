@@ -728,7 +728,12 @@
   },
   "614": {
     "wikiUrl": "https://en.wikipedia.org/wiki/FCSB",
-    "intro": "Fotbal Club FCSB (Romanian pronunciation: [fet͡ʃeseˌbe]), formerly named and still sometimes referred to as FC Steaua București, is a Romanian professional football club based in Bucharest. It has spent its entire history in the Liga I, the top flight of the Romanian football league system."
+    "intro": "Fotbal Club FCSB (Romanian pronunciation: [fet͡ʃeseˌbe]), formerly named and still sometimes referred to as FC Steaua București, is a Romanian professional football club based in Bucharest. It has spent its entire history in the Liga I, the top flight of the Romanian football league system.",
+    "founded": "1947",
+    "stadium": "National Arena",
+    "capacity": "55 634",
+    "league": "Liga I",
+    "website": "https://www.fcsb.ro/"
   },
   "615": {
     "wikiUrl": "https://en.wikipedia.org/wiki/NK_Maribor",
@@ -1402,7 +1407,12 @@
   },
   "725": {
     "wikiUrl": "https://en.wikipedia.org/wiki/Legia_Warsaw",
-    "intro": "Legia Warszawa (Polish: [ˈlɛɡʲja varˈʂava] ), commonly referred to as Legia Warsaw or simply Legia, is a professional football club based in Warsaw, Poland. Legia is the most successful Polish football club in history, winning a record 15 Ekstraklasa champions titles, a record 21 Polish Cup and 6 Polish Super Cup trophies."
+    "intro": "Legia Warszawa (Polish: [ˈlɛɡʲja varˈʂava] ), commonly referred to as Legia Warsaw or simply Legia, is a professional football club based in Warsaw, Poland. Legia is the most successful Polish football club in history, winning a record 15 Ekstraklasa champions titles, a record 21 Polish Cup and 6 Polish Super Cup trophies.",
+    "founded": "1916",
+    "stadium": "Polish Army Stadium",
+    "capacity": "31 103",
+    "league": "Ekstraklasa",
+    "website": "https://legia.com/"
   },
   "726": {
     "wikiUrl": "https://sv.wikipedia.org/wiki/Halmstads_BK",
@@ -1435,7 +1445,9 @@
   },
   "731": {
     "wikiUrl": "https://en.wikipedia.org/wiki/ADO_%2720",
-    "intro": "Aanhouden Doet Overwinnen 1920, simply known as ADO '20, is a Dutch association football club from Heemskerk. They are currently playing in the Dutch Tweede Divisie."
+    "intro": "Aanhouden Doet Overwinnen 1920, simply known as ADO '20, is a Dutch association football club from Heemskerk. They are currently playing in the Dutch Tweede Divisie.",
+    "founded": "1920",
+    "league": "Tweede Divisie"
   },
   "732": {
     "wikiUrl": "https://nl.wikipedia.org/wiki/Heracles_Almelo",
@@ -1582,7 +1594,12 @@
   },
   "759": {
     "wikiUrl": "https://en.wikipedia.org/wiki/Feyenoord",
-    "intro": "Feyenoord Rotterdam ([ˈfɛiənoːrt]) is a Dutch professional football club based in Rotterdam, which plays in the Eredivisie, the top tier in Dutch football. Founded as Wilhelmina in 1908, the club changed to various names before settling on being called after its neighbourhood in 1912 as SC Feijenoord, updated in 1974 to SC Feyenoord, and then to Feyenoord in 1978, when it split from the amateur club under its wing, SC Feyenoord."
+    "intro": "Feyenoord Rotterdam ([ˈfɛiənoːrt]) is a Dutch professional football club based in Rotterdam, which plays in the Eredivisie, the top tier in Dutch football. Founded as Wilhelmina in 1908, the club changed to various names before settling on being called after its neighbourhood in 1912 as SC Feijenoord, updated in 1974 to SC Feyenoord, and then to Feyenoord in 1978, when it split from the amateur club under its wing, SC Feyenoord.",
+    "founded": "1908",
+    "stadium": "De Kuip",
+    "capacity": "51 577",
+    "league": "Eredivisie",
+    "website": "https://www.feyenoord.com/"
   },
   "760": {
     "wikiUrl": "https://sv.wikipedia.org/wiki/IF_Elfsborg",
@@ -1841,7 +1858,8 @@
     "founded": 1945,
     "website": "http://www.clubdeportivovitoria.es",
     "league": "Primera Federación",
-    "intro": "Club Deportivo Vitoria is a football team based in Vitoria-Gasteiz, in the autonomous community of Basque Country. Founded in 1945, the club has a senior side and a full youth system within its football section, as well as a basketball section."
+    "intro": "Club Deportivo Vitoria is a football team based in Vitoria-Gasteiz, in the autonomous community of Basque Country. Founded in 1945, the club has a senior side and a full youth system within its football section, as well as a basketball section.",
+    "capacity": "2 550"
   },
   "816": {
     "wikiUrl": "https://es.wikipedia.org/wiki/Real_Oviedo",
@@ -1863,7 +1881,12 @@
   },
   "820": {
     "wikiUrl": "https://en.wikipedia.org/wiki/Valencia_CF",
-    "intro": "Valencia Club de Fútbol, S. A. D. (Spanish: [baˈlenθja ˈkluβ ðe ˈfuðβol]; Valencian: València Club de Futbol [vaˈlensi.a ˈklub de fubˈbɔl]), commonly referred to as Valencia CF or simply Valencia, is a Spanish professional football club based in Valencia, Spain, that currently plays in La Liga, the top tier of the Spanish league system. Valencia was founded in 1919 and has played its home games at the 49,430-seater Mestalla since its opening in 1923."
+    "intro": "Valencia Club de Fútbol, S. A. D. (Spanish: [baˈlenθja ˈkluβ ðe ˈfuðβol]; Valencian: València Club de Futbol [vaˈlensi.a ˈklub de fubˈbɔl]), commonly referred to as Valencia CF or simply Valencia, is a Spanish professional football club based in Valencia, Spain, that currently plays in La Liga, the top tier of the Spanish league system. Valencia was founded in 1919 and has played its home games at the 49,430-seater Mestalla since its opening in 1923.",
+    "founded": "1919",
+    "stadium": "Mestalla Stadium",
+    "capacity": "49 430",
+    "league": "La Liga",
+    "website": "https://www.valenciacf.com"
   },
   "821": {
     "wikiUrl": "https://es.wikipedia.org/wiki/Club_Deportivo_Alcalá",
@@ -1943,7 +1966,12 @@
   },
   "840": {
     "wikiUrl": "https://en.wikipedia.org/wiki/Real_Madrid_CF",
-    "intro": "Real Madrid Club de Fútbol (Spanish pronunciation: [reˈal maˈðɾið ˈkluβ ðe ˈfuðβol] ), commonly referred to as Real Madrid, is a Spanish professional association football club based in Madrid. The club competes in La Liga, the top tier of Spanish football."
+    "intro": "Real Madrid Club de Fútbol (Spanish pronunciation: [reˈal maˈðɾið ˈkluβ ðe ˈfuðβol] ), commonly referred to as Real Madrid, is a Spanish professional association football club based in Madrid. The club competes in La Liga, the top tier of Spanish football.",
+    "founded": "1902",
+    "stadium": "Bernabéu",
+    "capacity": "83 186",
+    "league": "La Liga",
+    "website": "https://www.realmadrid.com/"
   },
   "842": {
     "wikiUrl": "https://en.wikipedia.org/wiki/Real_Sociedad",
