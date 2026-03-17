@@ -1,0 +1,134 @@
+{
+  "Amsterdam": {
+    "intro": "Amsterdam is the capital and largest city of the Netherlands.  It has a population of 933,680 in June 2024 within the city proper, 1,457,018 in the urban area and 2,480,394 in the metropolitan area.",
+    "population": 921468,
+    "country": "County of Holland",
+    "wikiUrl": "https://en.wikipedia.org/wiki/Amsterdam"
+  },
+  "Stuttgart": {
+    "intro": "Stuttgart is the capital and largest city of the German state of Baden-Württemberg.  It is located on the Neckar river in a fertile valley known as the Stuttgarter Kessel and lies an hour from the Swabian Jura and the Black Forest.",
+    "population": 633484,
+    "country": "Duchy of Württemberg",
+    "wikiUrl": "https://en.wikipedia.org/wiki/Stuttgart"
+  },
+  "Brussels": {
+    "intro": "Brussels, officially the Brussels-Capital Region, is a region of Belgium comprising 19 municipalities, including the City of Brussels, which is the capital of Belgium.  The Brussels-Capital Region is located in the central portion of the country.",
+    "population": 1255795,
+    "country": "Belgium",
+    "wikiUrl": "https://en.wikipedia.org/wiki/Brussels"
+  },
+  "Prague": {
+    "intro": "Prague is the capital and largest city of the Czech Republic and the historical capital of Bohemia.  Prague, located on the Vltava River, has a population of about 1.",
+    "population": 1397880,
+    "country": "Holy Roman Empire",
+    "wikiUrl": "https://en.wikipedia.org/wiki/Prague"
+  },
+  "Maastricht": {
+    "intro": "Maastricht is a city and a municipality in the southeastern Netherlands.  It is the capital and largest city of the province of Limburg.",
+    "population": 120227,
+    "country": "Netherlands",
+    "wikiUrl": "https://en.wikipedia.org/wiki/Maastricht"
+  },
+  "The Hague": {
+    "intro": "The Hague is the capital city of the South Holland province of the Netherlands.  With a population of over half a million, it is the third-largest city in the Netherlands.",
+    "population": 548320,
+    "country": "County of Holland",
+    "wikiUrl": "https://en.wikipedia.org/wiki/The%20Hague"
+  },
+  "Torrevieja": {
+    "intro": "Torrevieja is a Mediterranean-seaside city and municipality on the Costa Blanca, in the province of Alicante, Valencian Community, in southeastern Spain.  The city is in one of the only Spanish-speaking areas of the Valencian Community.",
+    "population": 98533,
+    "country": "Spain",
+    "wikiUrl": "https://en.wikipedia.org/wiki/Torrevieja"
+  },
+  "Delft": {
+    "intro": "Delft is a city and municipality in the province of South Holland, Netherlands.  It is located between Rotterdam, to the southeast, and The Hague, to the northwest.",
+    "population": 109435,
+    "country": "Netherlands",
+    "wikiUrl": "https://en.wikipedia.org/wiki/Delft"
+  },
+  "Santiago de Compostela": {
+    "intro": "Santiago de Compostela, alternatively abbreviated to Santiago or Compostela, is the capital of the autonomous community of Galicia, Spain.  It is located in the province of A Coruña, in the northwest of the Iberian Peninsula.",
+    "population": 100965,
+    "country": "Spain",
+    "wikiUrl": "https://en.wikipedia.org/wiki/Santiago%20de%20Compostela"
+  },
+  "Cartagena": {
+    "intro": "",
+    "population": null,
+    "country": null,
+    "wikiUrl": "https://en.wikipedia.org/wiki/Cartagena"
+  },
+  "Seville": {
+    "intro": "Seville is the capital and largest city of the Spanish autonomous community of Andalusia and the province of Seville.  It is situated on the lower reaches of the River Guadalquivir, in the southwest of the Iberian Peninsula.",
+    "population": 689423,
+    "country": "Taifa of Seville",
+    "wikiUrl": "https://en.wikipedia.org/wiki/Seville"
+  },
+  "Vigo": {
+    "intro": "Vigo is a city and municipality in Spain, in the autonomous community of Galicia in the province of Pontevedra, and the capital of the comarca of Vigo.  Located in the northwest of the Iberian Peninsula, it sits on the southern shore of an inlet of the Atlantic Ocean, the Ria de Vigo, the southernmost of the Rías Baixas.",
+    "population": 294489,
+    "country": "Spain",
+    "wikiUrl": "https://en.wikipedia.org/wiki/Vigo"
+  },
+  "Basel": {
+    "intro": "Basel, also known as Basle, is a city in northwestern Switzerland on the river Rhine.  Basel is Switzerland's third-most-populous city, with 177,595 inhabitants within the city municipality limits.",
+    "population": 176329,
+    "country": "Switzerland",
+    "wikiUrl": "https://en.wikipedia.org/wiki/Basel"
+  },
+  "A Coruna": {
+    "intro": "A Coruña is a city and municipality in Galicia, Spain.  With a population of 249,255, it is the 2nd-largest city in Galicia behind Vigo.",
+    "population": null,
+    "country": null,
+    "wikiUrl": "https://en.wikipedia.org/wiki/A_Coru%C3%B1a"
+  },
+  "Budva": {
+    "intro": "Budva is a town in the Coastal region of Montenegro.  It had 17,479 inhabitants as of 2023, and is the centre of Budva Municipality.",
+    "population": 10918,
+    "country": "Montenegro",
+    "wikiUrl": "https://en.wikipedia.org/wiki/Budva"
+  },
+  "Alanya": {
+    "intro": "Alanya, formerly Alaiye, is a beach resort city, a municipality and district of Antalya Province, Turkey.  It is on the southern coast of Turkey, in the country's Mediterranean Region, 133 kilometres (83 mi) east of the city of Antalya.",
+    "population": 98627,
+    "country": "Turkey",
+    "wikiUrl": "https://en.wikipedia.org/wiki/Alanya"
+  },
+  "Haarlem": {
+    "intro": "Haarlem is a city and municipality in the Netherlands.  It is the capital of the province of North Holland.",
+    "population": 162543,
+    "country": "Netherlands",
+    "wikiUrl": "https://en.wikipedia.org/wiki/Haarlem"
+  },
+  "Mulhouse": {
+    "intro": "Mulhouse is a French city of the European Collectivity of Alsace.  It is near the border with Switzerland and Germany.",
+    "population": 104978,
+    "country": "Old Swiss Confederacy",
+    "wikiUrl": "https://en.wikipedia.org/wiki/Mulhouse"
+  },
+  "Alicante": {
+    "intro": "Alicante or Alacant is a city and municipality in the Valencian Community, Spain.  It is the capital of the province of Alicante and a historic Mediterranean port.",
+    "population": 366221,
+    "country": "Spain",
+    "wikiUrl": "https://en.wikipedia.org/wiki/Alicante"
+  },
+  "Lisbon": {
+    "intro": "Lisbon is the capital and most populous city of Portugal, with an estimated population of 575,739 as of 2024, within its administrative limits and 3,028,000 within the metropolis, as of 2025.  Lisbon is mainland Europe's westernmost capital city, and the only one along the Atlantic coast, the others being on islands.",
+    "population": 545796,
+    "country": "Almoravid dynasty",
+    "wikiUrl": "https://en.wikipedia.org/wiki/Lisbon"
+  },
+  "Elche": {
+    "intro": "Elche or Elx is a city and municipality of Spain, belonging to the province of Alicante, in the Valencian Community.  With of 242,317 inhabitants as of 2024, it is the 3rd-most populated municipality in the region.",
+    "population": 245557,
+    "country": "Spain",
+    "wikiUrl": "https://en.wikipedia.org/wiki/Elche"
+  },
+  "Kammerstein": {
+    "intro": "Kammerstein is a municipality in the district of Roth in Bavaria in Germany.",
+    "population": 3071,
+    "country": "Germany",
+    "wikiUrl": "https://en.wikipedia.org/wiki/Kammerstein"
+  }
+}

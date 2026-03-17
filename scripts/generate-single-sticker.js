@@ -223,7 +223,11 @@ function generateStickerStats(stickers) {
 
     const cities = [...new Set(stickers.filter(s => s.location).map(s => s.location.split(',')[0].trim()))];
     if (cities.length > 0) {
-        items.push(`<p class="club-info-item">📍 Found in: ${cities.join(', ')}</p>`);
+        const cityLinks = cities.map(city => {
+            const slug = city.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/-+/g, '-').replace(/^-|-$/g, '');
+            return `<a href="/cities/${slug}.html">${city}</a>`;
+        });
+        items.push(`<p class="club-info-item">📍 Found in: ${cityLinks.join(', ')}</p>`);
     }
 
     const withDiff = stickers.filter(s => s.difficulty);
