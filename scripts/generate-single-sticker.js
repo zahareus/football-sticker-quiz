@@ -416,24 +416,13 @@ function generateNavigationButtons(prevId, nextId) {
 function generateMapSection(sticker) {
     const hasCoordinates = sticker.latitude != null && sticker.longitude != null;
 
-    // Site navigation - same on all pages
-    const siteNav = `
-            <nav class="site-nav">
-                <a href="/catalogue.html" class="btn btn-nav">Catalogue</a>
-                <a href="/map.html" class="btn btn-nav">Map</a>
-                <a href="/rating.html" class="btn btn-nav">Rating</a>
-                <a href="/quiz.html" class="btn btn-nav">Play Quiz</a>
-            </nav>
-        `;
-
     if (hasCoordinates) {
         return `
             <div class="sticker-map-section sticker-map-full-width">
                 <div id="sticker-map" class="sticker-map-container"></div>
-            </div>
-        ${siteNav}`;
+            </div>`;
     } else {
-        return siteNav;
+        return '';
     }
 }
 
