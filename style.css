@@ -16,6 +16,76 @@
 }
 
 /* ------------------------------ */
+/* Wikipedia Section               */
+/* ------------------------------ */
+.wiki-section {
+    margin: 16px 0;
+    padding: 16px;
+    background: #f9f9f9;
+    border: 1px solid #e5e5e5;
+    border-radius: 8px;
+}
+
+.wiki-facts {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 24px;
+    margin-bottom: 12px;
+}
+
+.wiki-fact {
+    display: flex;
+    gap: 6px;
+    font-size: 0.9rem;
+}
+
+.wiki-fact-label {
+    color: #777;
+    font-weight: 500;
+}
+
+.wiki-fact-value {
+    font-weight: 600;
+    color: #222;
+}
+
+.wiki-fact-value a {
+    color: #222;
+    text-decoration: underline;
+    text-decoration-color: #ccc;
+}
+
+.wiki-intro {
+    font-size: 0.88rem;
+    line-height: 1.55;
+    color: #444;
+}
+
+.wiki-intro p {
+    margin: 0;
+}
+
+.wiki-source {
+    margin-top: 6px !important;
+    font-size: 0.78rem;
+    color: #999;
+}
+
+.wiki-source a {
+    color: #999;
+}
+
+@media (max-width: 600px) {
+    .wiki-facts {
+        flex-direction: column;
+        gap: 4px;
+    }
+    .wiki-section {
+        padding: 12px;
+    }
+}
+
+/* ------------------------------ */
 /* Variables & Basic Reset        */
 /* ------------------------------ */
 :root {
