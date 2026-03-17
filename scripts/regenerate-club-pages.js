@@ -253,7 +253,7 @@ function generateStickerStats(stickers) {
     }
 
     if (items.length === 0) return '';
-    return `<div class="club-info-section sticker-stats-section">\n${items.join('\n')}\n</div>`;
+    return `<div class="sticker-stats-section">\n${items.join('\n')}\n</div>`;
 }
 
 function generateClubDescription(club, stickerCount, countryName) {

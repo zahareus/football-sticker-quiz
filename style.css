@@ -934,36 +934,54 @@ body.quiz-result .result-right-panel {
     display: inline-block; /* Ð©Ð¾Ð± margin-top Ð¿Ñ€Ð°Ñ†ÑŽÐ²Ð°Ð² Ñ– ÐºÐ½Ð¾Ð¿ÐºÐ° Ð½Ðµ Ñ€Ð¾Ð·Ñ‚ÑÐ³ÑƒÐ²Ð°Ð»Ð°ÑÑŒ Ð½Ð° Ð²ÑÑŽ ÑˆÐ¸Ñ€Ð¸Ð½Ñƒ */
 }
 
+/* Club details block (info + stats + description) */
+.club-details-block {
+    margin: 16px 0;
+    padding: 16px;
+    background: #f9f9f9;
+    border: 1px solid #e5e5e5;
+    border-radius: 8px;
+    text-align: left;
+}
+
 /* Club description text block (SEO) */
 .club-description-text {
-    margin-bottom: calc(var(--spacing-unit) * 2);
+    margin: 0;
     color: var(--color-text);
     text-align: left;
 }
 
 .club-description-text p {
-    font-size: 1.1em;
-    line-height: 1.6;
-    color: var(--color-text);
+    font-size: 0.88rem;
+    line-height: 1.55;
+    color: #444;
+    margin: 0;
 }
 
 .club-description-text a {
-    color: var(--color-accent-darker);
-    text-decoration: none;
+    color: #444;
+    text-decoration: underline;
+    text-decoration-color: #ccc;
 }
 
 /* Club info section */
 .club-info-section {
     text-align: left;
-    margin-bottom: calc(var(--spacing-unit) * 3);
+    margin-bottom: calc(var(--spacing-unit) * 1);
     padding: 0;
 }
 
+.sticker-stats-section {
+    margin-top: calc(var(--spacing-unit) * 1);
+    padding-top: calc(var(--spacing-unit) * 1);
+    border-top: 1px solid #e5e5e5;
+}
+
 .club-info-item {
-    font-size: 1.1em;
-    margin-bottom: calc(var(--spacing-unit) * 1.5);
+    font-size: 0.9rem;
+    margin-bottom: calc(var(--spacing-unit) * 0.75);
     line-height: 1.5;
-    color: var(--color-text);
+    color: #444;
 }
 
 .club-info-item a {
