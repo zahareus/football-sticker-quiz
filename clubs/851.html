@@ -154,7 +154,7 @@
             </div>
             <div class="edit-field">
                 <label for="edit-club-web">Website:</label>
-                <input type="url" id="edit-club-web" class="edit-input" value="https://de.wikipedia.org/wiki/ Fortuna_Düsseldorf" placeholder="https://example.com">
+                <input type="url" id="edit-club-web" class="edit-input" value="https://de.wikipedia.org/wiki/Fortuna_D%C3%BCsseldorf" placeholder="https://example.com">
             </div>
             <div class="edit-field">
                 <label for="edit-club-media">Tags / Social:</label>
@@ -169,7 +169,7 @@
         <div id="catalogue-content" data-club-id="851">
             <div class="club-description-text"><p>Fortuna Düsseldorf is a football club from Germany, based in Düsseldorf, Germany. Our database contains <strong>9 stickers</strong> from Fortuna Düsseldorf. Browse the full collection below or <a href="/quiz.html">play the quiz</a> to identify a specific sticker.</p></div>
             <div class="club-info-section" id="club-info-display">
-                <p class="club-info-item">🌍 Düsseldorf, Germany</p><p class="club-info-item">🌐 <a href="https://de.wikipedia.org/wiki/%20Fortuna_D%C3%BCsseldorf" target="_blank" rel="noopener noreferrer">https://de.wikipedia.org/wiki/ Fortuna_Düsseldorf</a></p><p class="club-info-item">#️⃣ #FortunaDüsseldorf #f95 #ForzaFortuna #Düsseldorf #2Bundesliga</p>
+                <p class="club-info-item">🌍 Düsseldorf, Germany</p><p class="club-info-item">🌐 <a href="https://de.wikipedia.org/wiki/Fortuna_D%C3%BCsseldorf" target="_blank" rel="noopener noreferrer">https://de.wikipedia.org/wiki/Fortuna_D%C3%BCsseldorf</a></p><p class="club-info-item">#️⃣ #FortunaDüsseldorf #f95 #ForzaFortuna #Düsseldorf #2Bundesliga</p>
             </div>
             <div class="sticker-gallery">
                 
@@ -306,8 +306,6 @@
                     marker.on('mouseover', function() { this.openPopup(); });
                     marker.on('click', function() { this.openPopup(); });
                 })();
-
-                // Fit bounds if multiple stickers
                 
                 const bounds = L.latLngBounds([
                     [52.3718944, 4.896],
