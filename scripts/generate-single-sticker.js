@@ -1016,12 +1016,36 @@ async function generatePagesForSticker() {
                     .limit(1)
                     .single();
 
+                // Fetch prev sticker's city stickers for map + nearby
+                let prevNearby = [];
+                if (prevStickerData.location) {
+                    const { data: prevCityStickers } = await supabase
+                        .from('stickers')
+                        .select('id, latitude, longitude, image_url, location, clubs(name)')
+                        .eq('location', prevStickerData.location)
+                        .neq('id', prevStickerId);
+                    if (prevCityStickers) {
+                        prevNearby = prevCityStickers.map(s => ({
+                            id: s.id, latitude: s.latitude, longitude: s.longitude,
+                            image_url: s.image_url, clubName: s.clubs?.name || 'Unknown Club', distance: 0
+                        }));
+                    }
+                }
+
+                // Fetch prev sticker's club stickers for more-from-club
+                const { data: prevClubStickers } = await supabase
+                    .from('stickers')
+                    .select('*')
+                    .eq('club_id', prevStickerData.club_id)
+                    .order('id', { ascending: true });
+
                 await generateStickerPage(
                     prevStickerData,
                     prevStickerData.clubs,
                     prevPrevSticker?.id || null,
                     stickerId,
-                    nearbyStickers
+                    prevNearby,
+                    prevClubStickers || []
                 );
                 console.log(`  ✓ Updated: stickers/${prevStickerId}.html`);
             }
