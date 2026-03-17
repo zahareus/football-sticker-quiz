@@ -46,25 +46,7 @@
     </script>
 
     <!-- Structured data for SEO -->
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "CollectionPage",
-      "name": "{{PAGE_TITLE}}",
-      "description": "{{META_DESCRIPTION}}",
-      "url": "{{CANONICAL_URL}}",
-      "about": {
-        "@type": "SportsTeam",
-        "name": "{{CLUB_NAME}}",
-        "sport": "Football"
-      },
-      "isPartOf": {
-        "@type": "WebSite",
-        "name": "StickerHunt",
-        "url": "https://stickerhunt.club"
-      }
-    }
-    </script>
+    {{SCHEMA_JSON_LD}}
     {{BREADCRUMB_SCHEMA}}
 
 </head>
@@ -133,6 +115,8 @@
             </div>
             {{CLUB_MAP_SECTION}}
         </div>
+
+        {{OTHER_CLUBS}}
 
         <nav class="site-nav">
             <a href="/catalogue.html" class="btn btn-nav">Catalogue</a>

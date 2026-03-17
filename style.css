@@ -1006,6 +1006,42 @@ body.quiz-result .result-right-panel {
     }
 }
 
+/* Other clubs from same country */
+.other-clubs-section {
+    margin: 20px 0;
+    text-align: left;
+}
+
+.other-clubs-section h3 {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: #444;
+    margin-bottom: 8px;
+}
+
+.other-clubs-list {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px 16px;
+}
+
+.other-clubs-list li {
+    font-size: 0.85rem;
+    color: #666;
+}
+
+.other-clubs-list a {
+    color: #444;
+    text-decoration: underline;
+    text-decoration-color: #ccc;
+}
+
+.other-clubs-list a:hover {
+    color: var(--color-link);
+}
+
 .club-info-item a {
     color: var(--color-text);
     text-decoration: none;

@@ -260,6 +260,73 @@ function generateStickerStats(stickers) {
     return `<div class="sticker-stats-section">\n${items.join('\n')}\n</div>`;
 }
 
+function generateOtherClubs(currentClubId, allClubsInCountry, stickerCountsByClub, countryName) {
+    const others = allClubsInCountry.filter(c => c.id !== currentClubId && (stickerCountsByClub[c.id] || 0) > 0);
+    if (others.length === 0) return '';
+
+    // Sort by sticker count descending, take up to 10
+    others.sort((a, b) => (stickerCountsByClub[b.id] || 0) - (stickerCountsByClub[a.id] || 0));
+    const shown = others.slice(0, 10);
+
+    let html = `<div class="other-clubs-section">\n<h3>Other clubs from ${countryName}</h3>\n<ul class="other-clubs-list">`;
+    shown.forEach(c => {
+        const count = stickerCountsByClub[c.id] || 0;
+        html += `\n<li><a href="/clubs/${c.id}.html">${stripEmoji(c.name)}</a> (${count})</li>`;
+    });
+    if (others.length > 10) {
+        const countryCode = allClubsInCountry[0]?.country?.toUpperCase();
+        html += `\n<li><a href="/countries/${countryCode}.html">View all ${others.length + 1} clubs →</a></li>`;
+    }
+    html += '\n</ul>\n</div>';
+    return html;
+}
+
+function generateSchemaJsonLd(club, stickerCount, canonicalUrl, metaDescription, pageTitle) {
+    const clubNameClean = stripEmoji(club.name);
+    const wiki = wikiCache[club.id];
+
+    const schema = {
+        "@context": "https://schema.org",
+        "@type": "CollectionPage",
+        "name": pageTitle,
+        "description": metaDescription,
+        "url": canonicalUrl,
+        "about": {
+            "@type": "SportsTeam",
+            "name": clubNameClean,
+            "sport": "Association football"
+        },
+        "isPartOf": {
+            "@type": "WebSite",
+            "name": "StickerHunt",
+            "url": "https://stickerhunt.club"
+        }
+    };
+
+    // Enrich SportsTeam with wiki data
+    if (wiki) {
+        if (wiki.founded) schema.about.foundingDate = wiki.founded;
+        if (wiki.website) schema.about.url = wiki.website;
+        if (wiki.stadium) {
+            schema.about.location = {
+                "@type": "StadiumOrArena",
+                "name": wiki.stadium
+            };
+            if (wiki.capacity) {
+                schema.about.location.maximumAttendeeCapacity = parseInt(String(wiki.capacity).replace(/[^0-9]/g, ''));
+            }
+        }
+        if (wiki.league) {
+            schema.about.memberOf = {
+                "@type": "SportsOrganization",
+                "name": wiki.league
+            };
+        }
+    }
+
+    return `<script type="application/ld+json">\n    ${JSON.stringify(schema, null, 2).split('\n').join('\n    ')}\n    </script>`;
+}
+
 function generateClubDescription(club, stickerCount, countryName) {
     const clubNameClean = stripEmoji(club.name);
     const stickerWord = stickerCount !== 1 ? 'stickers' : 'sticker';
@@ -364,7 +431,7 @@ function generateClubMapInitScript(stickersWithCoordinates, clubName) {
     `;
 }
 
-async function generateClubPage(club, stickers) {
+async function generateClubPage(club, stickers, allClubsInCountry = [], stickerCountsByClub = {}) {
     const template = loadTemplate('club-page.html');
     const countryName = getCountryName(club.country);
     const clubNameClean = stripEmoji(club.name);
@@ -421,7 +488,9 @@ async function generateClubPage(club, stickers) {
         CLUB_INFO: generateClubInfo(club),
         STICKER_GALLERY: generateStickerGallery(stickers, club.name),
         CLUB_MAP_SECTION: generateClubMapSection(stickersWithCoordinates),
-        CLUB_MAP_INIT_SCRIPT: generateClubMapInitScript(stickersWithCoordinates, club.name)
+        CLUB_MAP_INIT_SCRIPT: generateClubMapInitScript(stickersWithCoordinates, club.name),
+        OTHER_CLUBS: generateOtherClubs(club.id, allClubsInCountry, stickerCountsByClub, countryName),
+        SCHEMA_JSON_LD: generateSchemaJsonLd(club, stickerCount, canonicalUrl, metaDescription, pageTitle)
     };
 
     const html = replacePlaceholders(template, data);
@@ -531,6 +600,15 @@ async function regenerateClubPages() {
         // Track which countries need regeneration
         const countriesToRegenerate = new Set();
 
+        // Fetch ALL clubs for "other clubs" section
+        const { data: allClubsList } = await supabase.from('clubs').select('id, name, country').order('name');
+        const clubsByCountryMap = {};
+        (allClubsList || []).forEach(c => {
+            const cc = c.country.toUpperCase();
+            if (!clubsByCountryMap[cc]) clubsByCountryMap[cc] = [];
+            clubsByCountryMap[cc].push(c);
+        });
+
         // Regenerate club pages
         for (const club of clubs) {
             console.log(`\n📦 Processing club: ${club.name} (ID: ${club.id})`);
@@ -542,7 +620,8 @@ async function regenerateClubPages() {
                 .eq('club_id', club.id)
                 .order('id', { ascending: true });
 
-            const clubPath = await generateClubPage(club, clubStickers || []);
+            const countryClubs = clubsByCountryMap[club.country.toUpperCase()] || [];
+            const clubPath = await generateClubPage(club, clubStickers || [], countryClubs, stickerCountsByClub);
             console.log(`  ✓ Generated: ${clubPath}`);
 
             countriesToRegenerate.add(club.country.toUpperCase());
