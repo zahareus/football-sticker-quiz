@@ -402,17 +402,36 @@ async function regenerateClubPages() {
             return;
         }
 
-        // Get all sticker counts
-        const { data: allStickers } = await supabase
-            .from('stickers')
-            .select('id, club_id');
+        // Get all sticker counts (with pagination - Supabase limits to 1000)
+        let allStickers = [];
+        let stickerOffset = 0;
+        const PAGE_SIZE = 1000;
+        let hasMore = true;
+
+        while (hasMore) {
+            const { data, error } = await supabase
+                .from('stickers')
+                .select('club_id')
+                .range(stickerOffset, stickerOffset + PAGE_SIZE - 1);
+
+            if (error) {
+                console.error('Error fetching sticker counts:', error.message);
+                break;
+            }
+
+            if (data && data.length > 0) {
+                allStickers = allStickers.concat(data);
+                stickerOffset += PAGE_SIZE;
+                if (data.length < PAGE_SIZE) hasMore = false;
+            } else {
+                hasMore = false;
+            }
+        }
 
         const stickerCountsByClub = {};
-        if (allStickers) {
-            allStickers.forEach(s => {
-                stickerCountsByClub[s.club_id] = (stickerCountsByClub[s.club_id] || 0) + 1;
-            });
-        }
+        allStickers.forEach(s => {
+            stickerCountsByClub[s.club_id] = (stickerCountsByClub[s.club_id] || 0) + 1;
+        });
 
         // Track which countries need regeneration
         const countriesToRegenerate = new Set();
