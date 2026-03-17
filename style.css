@@ -1075,8 +1075,8 @@ body.quiz-result .result-right-panel {
 }
 
 .sticker-strip-item img {
-    width: 72px;
-    height: 72px;
+    width: 100px;
+    height: 100px;
     object-fit: cover;
     border-radius: 6px;
     border: 1px solid #e5e5e5;
