@@ -2002,7 +2002,12 @@
   },
   "848": {
     "wikiUrl": "https://en.wikipedia.org/wiki/Atlético_Madrid",
-    "intro": "Club Atlético de Madrid, S.A.D. (Spanish pronunciation: [ˈkluβ aˈtletiko ðe maˈðɾið]; meaning \"Athletic Club of Madrid\"), commonly referred to as Atlético Madrid or simply Atlético and colloquially as Atleti, is a Spanish professional football club based in Madrid that plays in La Liga. The club play their home games at the Riyadh Air Metropolitano, which has a capacity of 70,692."
+    "intro": "Club Atlético de Madrid, S.A.D. (Spanish pronunciation: [ˈkluβ aˈtletiko ðe maˈðɾið]; meaning \"Athletic Club of Madrid\"), commonly referred to as Atlético Madrid or simply Atlético and colloquially as Atleti, is a Spanish professional football club based in Madrid that plays in La Liga. The club play their home games at the Riyadh Air Metropolitano, which has a capacity of 70,692.",
+    "founded": "1903",
+    "league": "La Liga",
+    "stadium": "Metropolitano Stadium",
+    "capacity": "70 692",
+    "website": "https://www.atleticodemadrid.com/"
   },
   "850": {
     "wikiUrl": "https://en.wikipedia.org/wiki/RB_Leipzig",
@@ -2179,7 +2184,12 @@
   },
   "900": {
     "wikiUrl": "https://en.wikipedia.org/wiki/Bayer_04_Leverkusen",
-    "intro": "Bayer 04 Leverkusen, officially known as Bayer 04 Leverkusen Fußball GmbH (German: [ˌbaɪ̯ɐ ˈleːvɐˌkuːzn̩]) and commonly known as Bayer Leverkusen or simply Leverkusen, is a German professional football club based in Leverkusen, North Rhine-Westphalia. It competes in the Bundesliga, the top tier of German football, and plays its home matches at the BayArena."
+    "intro": "Bayer 04 Leverkusen, officially known as Bayer 04 Leverkusen Fußball GmbH (German: [ˌbaɪ̯ɐ ˈleːvɐˌkuːzn̩]) and commonly known as Bayer Leverkusen or simply Leverkusen, is a German professional football club based in Leverkusen, North Rhine-Westphalia. It competes in the Bundesliga, the top tier of German football, and plays its home matches at the BayArena.",
+    "founded": "1904",
+    "league": null,
+    "stadium": "BayArena",
+    "capacity": "30 210",
+    "website": "https://www.bayer04.de/"
   },
   "902": {
     "wikiUrl": "https://de.wikipedia.org/wiki/SV_Wehen_Wiesbaden",
@@ -2307,7 +2317,12 @@
   },
   "925": {
     "wikiUrl": "https://en.wikipedia.org/wiki/Eintracht_Frankfurt",
-    "intro": "Eintracht Frankfurt e.V. (German pronunciation: [ˈaɪntʁaxt ˈfʁaŋkfʊʁt] ) is a German professional sports club based in Frankfurt, Hesse. It is best known for its football club, which was founded on 8 March 1899."
+    "intro": "Eintracht Frankfurt e.V. (German pronunciation: [ˈaɪntʁaxt ˈfʁaŋkfʊʁt] ) is a German professional sports club based in Frankfurt, Hesse. It is best known for its football club, which was founded on 8 March 1899.",
+    "founded": "1899",
+    "league": null,
+    "stadium": "Waldstadion",
+    "capacity": "51 500",
+    "website": "https://www.eintracht.de/"
   },
   "927": {
     "wikiUrl": "https://de.wikipedia.org/wiki/FC_Hansa_Rostock",
@@ -2680,7 +2695,12 @@
   },
   "993": {
     "wikiUrl": "https://en.wikipedia.org/wiki/Tottenham_Hotspur_F.C.",
-    "intro": "Tottenham Hotspur Football Club, commonly referred to as simply Tottenham (, TOT-ən-əm, , TOT-nəm) or Spurs, is a professional football club based in Tottenham, North London, England. It competes in the Premier League, the top tier of English football."
+    "intro": "Tottenham Hotspur Football Club, commonly referred to as simply Tottenham (, TOT-ən-əm, , TOT-nəm) or Spurs, is a professional football club based in Tottenham, North London, England. It competes in the Premier League, the top tier of English football.",
+    "founded": "1882",
+    "league": "Premier League",
+    "stadium": "Tottenham Hotspur Stadium",
+    "capacity": "62 850",
+    "website": "https://www.tottenhamhotspur.com/"
   },
   "994": {
     "wikiUrl": "https://en.wikipedia.org/wiki/West_Ham_United_F.C.",
@@ -2798,7 +2818,12 @@
   },
   "1014": {
     "wikiUrl": "https://en.wikipedia.org/wiki/Motherwell_F.C.",
-    "intro": "Motherwell Football Club is a Scottish professional football club based in Motherwell, North Lanarkshire, which plays in the Scottish Premiership. Motherwell have not dropped out of the top flight of Scottish football since 1985, and have lifted one trophy in that time – the Scottish Cup in 1991."
+    "intro": "Motherwell Football Club is a Scottish professional football club based in Motherwell, North Lanarkshire, which plays in the Scottish Premiership. Motherwell have not dropped out of the top flight of Scottish football since 1985, and have lifted one trophy in that time – the Scottish Cup in 1991.",
+    "founded": "1886",
+    "league": "Scottish Premiership",
+    "stadium": "Fir Park",
+    "capacity": "13 677",
+    "website": "https://www.motherwellfc.co.uk/"
   },
   "1016": {
     "wikiUrl": "https://en.wikipedia.org/wiki/FC_Dynamo_Moscow",
@@ -2901,7 +2926,12 @@
   },
   "1032": {
     "wikiUrl": "https://en.wikipedia.org/wiki/AC_Sparta_Prague",
-    "intro": "Athletic Club Sparta Praha (Czech pronunciation: [ˈaː ˈtsɛː ˈsparta ˈpraɦa]), commonly known as Sparta Prague and Sparta Praha, is a professional football club based in Prague.\nIt is the most successful club in the Czech Republic and one of the most successful in central Europe, winning the central European Cup (also known as the Mitropa Cup) three times and reaching the semi-finals of the European Cup (now the UEFA Champions League) in 1992 and the UEFA Cup Winners' Cup in 1973."
+    "intro": "Athletic Club Sparta Praha (Czech pronunciation: [ˈaː ˈtsɛː ˈsparta ˈpraɦa]), commonly known as Sparta Prague and Sparta Praha, is a professional football club based in Prague.\nIt is the most successful club in the Czech Republic and one of the most successful in central Europe, winning the central European Cup (also known as the Mitropa Cup) three times and reaching the semi-finals of the European Cup (now the UEFA Champions League) in 1992 and the UEFA Cup Winners' Cup in 1973.",
+    "founded": "1893",
+    "league": "Czech First League",
+    "stadium": "Letná Stadium",
+    "capacity": "19 784",
+    "website": "https://sparta.cz/"
   },
   "1033": {
     "wikiUrl": "https://en.wikipedia.org/wiki/FC_Ban%C3%ADk_Ostrava",
@@ -3263,7 +3293,12 @@
   },
   "1098": {
     "wikiUrl": "https://en.wikipedia.org/wiki/NK_Osijek",
-    "intro": "Nogometni klub Osijek (English: Osijek Football Club), commonly referred to as NK Osijek (Croatian pronunciation: [ôsijeːk]), is a Croatian professional football club from Osijek. Founded in 1947, it was the club from Slavonia with the most seasons in the Yugoslav First League and, after the independence of Croatia in 1992, it is one of the four clubs that have never been relegated from the Croatian First League, with the others being Dinamo Zagreb, Hajduk Split and Rijeka."
+    "intro": "Nogometni klub Osijek (English: Osijek Football Club), commonly referred to as NK Osijek (Croatian pronunciation: [ôsijeːk]), is a Croatian professional football club from Osijek. Founded in 1947, it was the club from Slavonia with the most seasons in the Yugoslav First League and, after the independence of Croatia in 1992, it is one of the four clubs that have never been relegated from the Croatian First League, with the others being Dinamo Zagreb, Hajduk Split and Rijeka.",
+    "founded": "1947",
+    "league": "Croatian Football League",
+    "stadium": "Opus Arena",
+    "capacity": "13 005",
+    "website": "https://nk-osijek.hr/"
   },
   "1099": {
     "wikiUrl": "https://en.wikipedia.org/wiki/PFC_Slavia_Sofia",
