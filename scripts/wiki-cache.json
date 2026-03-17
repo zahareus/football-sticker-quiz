@@ -86,6 +86,15 @@
     "league": "First Professional Football League",
     "intro": "CSKA Sofia (Bulgarian: ЦСКА София) is a Bulgarian professional association football club based in Sofia and currently competing in the country's premier football competition, the First League. CSKA is an abbreviation for Central Sports Club of the Army (Bulgarian: Централен спортен клуб на армията), named after the Bulgarian Army."
   },
+  "94": {
+    "wikiUrl": "https://en.wikipedia.org/wiki/K.R.C._Genk",
+    "intro": "Koninklijke Racing Club Genk (Dutch pronunciation: [ˈkoːnɪŋkləkə ˈreːsɪŋ ˌklʏp ˈxɛŋk]), commonly known as KRC Genk or Racing Genk, is a Belgian professional football club based in the city of Genk in Belgian Limburg.  Racing Genk plays in the Belgian Pro League and have won four championship titles; in 1998–99, in 2001–02, in 2010–11 and in 2018–19.",
+    "founded": "1923",
+    "stadium": "Cegeka Arena",
+    "capacity": "25 000",
+    "league": "Belgian Pro League",
+    "website": "https://www.krcgenk.be/"
+  },
   "103": {
     "wikiUrl": "https://de.wikipedia.org/wiki/Wiener_Sport-Club",
     "founded": 1883,
@@ -94,6 +103,15 @@
     "capacity": 8700,
     "league": "Austrian Regional League East",
     "intro": "The Wiener Sport-Club, sometimes abbreviated as WSC, was established in 24 February 1883 in Vienna, Austria and is one of the country's oldest athletics clubs. Their traditional home is in the Dornbach quarter of the city (17th district)."
+  },
+  "105": {
+    "wikiUrl": "https://no.wikipedia.org/wiki/Lyn_1896_FK",
+    "intro": "Lyn 1896 Fotballklubb (Norwegian pronunciation: [lyːn]) is a Norwegian football club and a department of the sports club Ski- og Fotballklubben Lyn based in Oslo, whose members also participate in Nordic skiing and orienteering. Until 2010, SFK Lyn had two football departments, one professional section and one amateur section.",
+    "founded": "1896",
+    "stadium": "Ullevaal Stadion",
+    "capacity": "28 000",
+    "league": "Norwegian Second Division",
+    "website": "https://www.lyn1896.no/"
   },
   "107": {
     "wikiUrl": "https://en.wikipedia.org/wiki/FC_Vaduz",
@@ -589,6 +607,15 @@
     "league": "Botola 1 Pro",
     "intro": "Moghreb Atlético Tétouan  (Arabic: المغرب أتلتيكو تطوان; MAT) is a Moroccan football club based in Tétouan, was founded on 12 March 1922. MA Tétouan is best known for its professional football team that competes in Botola Pro 2, the Second Division of Moroccan football league system."
   },
+  "580": {
+    "wikiUrl": "https://en.wikipedia.org/wiki/Hapoel_Tel_Aviv_FC",
+    "intro": "Hapoel Tel Aviv Football Club (Hebrew: מועדון כדורגל הפועל תל אביב) is an Israeli professional football club based in Tel Aviv that competes in the Israeli Premier League. The club's traditional home ground is Bloomfield Stadium.",
+    "founded": "1923",
+    "stadium": "Bloomfield Stadium",
+    "capacity": "29 400",
+    "league": "Israeli Premier League",
+    "website": "https://www.htafc.co.il/"
+  },
   "581": {
     "wikiUrl": "https://en.wikipedia.org/wiki/FK_Auda",
     "founded": 1969,
@@ -702,6 +729,24 @@
     "league": "Botola 1 Pro",
     "intro": "Olympique Club de Khouribga, known simply as OCK, is a Moroccan professional football club based in Khouribga."
   },
+  "596": {
+    "wikiUrl": "https://en.wikipedia.org/wiki/Shamrock_Rovers_FC",
+    "intro": "Shamrock Rovers Football Club is an Irish professional football club based in the South Dublin suburb of Tallaght. The club's senior team competes in the League of Ireland Premier Division and it is the most successful club in the Republic of Ireland.",
+    "founded": "1901",
+    "stadium": "Tallaght Stadium",
+    "capacity": "6 000",
+    "league": "League of Ireland Premier Division",
+    "website": "https://shamrockrovers.ie/"
+  },
+  "600": {
+    "wikiUrl": "https://en.wikipedia.org/wiki/Club_Universidad_Nacional",
+    "intro": "Club Universidad Nacional, A.C., simply known as Pumas UNAM or Pumas, is a Mexican professional football club based in Mexico City. It competes in Liga MX, the top division of Mexican football, and plays its home matches at the Estadio Olímpico Universitario.",
+    "founded": "1954",
+    "stadium": "Universitary Olympic Stadium",
+    "capacity": "83 954",
+    "league": "Liga MX",
+    "website": "https://pumas.mx/"
+  },
   "602": {
     "wikiUrl": "https://en.wikipedia.org/wiki/S.C._Braga",
     "founded": 1921,
@@ -734,6 +779,24 @@
     "capacity": 2500,
     "league": "Premier League",
     "intro": "FC Kryvbas Kryvyi Rih (Ukrainian: Футбольний Клуб Кривбас Кривий Ріг) is a Ukrainian professional football club based in Kryvyi Rih.\nUntil 2013 the club participated in professional competitions."
+  },
+  "606": {
+    "wikiUrl": "https://pt.wikipedia.org/wiki/F.C._Paços_de_Ferreira",
+    "intro": "Futebol Clube Paços de Ferreira (Portuguese pronunciation: [ˈpasuʒ ðɨ fɨˈʁɐjɾɐ]) is a Portuguese professional football club based in Paços de Ferreira, district of Porto. Founded in 1950, the club competes in the Liga Portugal 2, holding home games at the 9,076 seat Estádio Capital do Móvel The club's colours are yellow and green.",
+    "founded": "1950",
+    "stadium": "Estádio Capital do Móvel",
+    "capacity": "9 076",
+    "league": "Liga Portugal 2",
+    "website": "http://www.fcpf.pt/"
+  },
+  "607": {
+    "wikiUrl": "https://pt.wikipedia.org/wiki/Vit%C3%B3ria_S.C.",
+    "intro": "Vitória Sport Clube, commonly known as Vitória de Guimarães or just Vitória, is a Portuguese professional football club based in Guimarães that competes in the Primeira Liga, the top flight of Portuguese football, at the Estádio D. Afonso Henriques.",
+    "founded": "1922",
+    "stadium": "Estádio D. Afonso Henriques",
+    "capacity": "30 029",
+    "league": "Liga Portugal",
+    "website": "https://www.vitoriasc.pt/"
   },
   "609": {
     "wikiUrl": "https://es.wikipedia.org/wiki/Club_Nacional_de_Football",
@@ -851,6 +914,15 @@
     "capacity": 16750,
     "league": "Eliteserien",
     "intro": "Sportsklubben Brann is a Norwegian professional football club based in Bergen. Founded on 26 September 1908, Brann has played in  the first tier of Norwegian football for 67 out of 80 seasons, the second most of any club."
+  },
+  "625": {
+    "wikiUrl": "https://no.wikipedia.org/wiki/Viking_FK",
+    "intro": "Viking Fotballklubb, commonly known as Viking or Viking Stavanger internationally, is a Norwegian professional football club from the city of Stavanger. The club was founded in 1899.",
+    "founded": "1899",
+    "stadium": "Lyse Arena",
+    "capacity": "15 400",
+    "league": "Eliteserien",
+    "website": "https://www.vikingfotball.no/"
   },
   "626": {
     "wikiUrl": "https://no.wikipedia.org/wiki/V%C3%A5lerenga_Fotball",
@@ -2060,6 +2132,15 @@
     "league": "La Liga",
     "intro": "Sevilla Fútbol Club (Spanish pronunciation: [seˈβiʎa ˈfuðβol ˈkluβ]) is a Spanish professional football club based in Seville, Andalusia, that competes in La Liga, the top flight of Spanish football. The club was formed on 25 January 1890, making it Spain's oldest sporting club solely devoted to football."
   },
+  "814": {
+    "wikiUrl": "https://es.wikipedia.org/wiki/Burgos_CF",
+    "intro": "El Burgos Club de Fútbol, S. A.",
+    "founded": "1922",
+    "stadium": "Estadio El Plantío",
+    "capacity": "16 000",
+    "league": "Segunda División B",
+    "website": "https://www.burgoscf.es/"
+  },
   "815": {
     "wikiUrl": "https://es.wikipedia.org/wiki/Club_Deportivo_Vitoria",
     "founded": 1945,
@@ -2076,6 +2157,24 @@
     "capacity": 30500,
     "league": "La Liga",
     "intro": "Real Oviedo (Spanish: [reˈal oˈβjeðo]; Asturian: Real Uviéu [reˈal uˈβjew]) is a Spanish professional football club based in Oviedo, Asturias. Founded on 26 March 1926, the club plays in LaLiga, the highest level of the Spanish football league system."
+  },
+  "817": {
+    "wikiUrl": "https://es.wikipedia.org/wiki/Gimn%C3%A1stica_Segoviana_CF",
+    "intro": "La Gimnástica Segoviana Club de Fútbol es un club de fútbol español, de la ciudad de Segovia. Fundado el 28 de junio de 1928, hasta el 7 de abril de 2006 se denominó Sociedad Deportiva Gimnástica Segoviana, pero un decreto de la Junta de Castilla y León obligó a la Asamblea a cambiar la denominación originaria del club.​Actualmente compite en la  Segunda Federación tras descender de la Primera Federación, siendo la temporada anterior (2024-25) la primera que el equipo gimnástico disputó en esta categoría..",
+    "founded": "1928",
+    "stadium": null,
+    "capacity": null,
+    "league": "Segunda División B",
+    "website": "http://www.gimnasticasegoviana.com"
+  },
+  "818": {
+    "wikiUrl": "https://es.wikipedia.org/wiki/Gimn%C3%A0stic_de_Tarragona",
+    "intro": "Club Gimnàstic de Tarragona, commonly known as Gimnàstic Tarragona or sometimes just Nàstic, is a Spanish sports club based in Tarragona, in the autonomous community of Catalonia. Its football team plays in Primera Federación – Group 2.\nThe club was founded in 1886 and is one of the oldest football clubs in Spain.",
+    "founded": "1886",
+    "stadium": "Nou Estadi Costa Daurada",
+    "capacity": "14 591",
+    "league": "Primera Federación",
+    "website": "https://gimnasticdetarragona.cat"
   },
   "819": {
     "wikiUrl": "https://es.wikipedia.org/wiki/Club_Deportivo_Mirand%C3%A9s",
@@ -2110,6 +2209,33 @@
     "capacity": 5300,
     "league": "Tercera División",
     "intro": "Club Deportivo Toledo, S.A.D. is a Spanish football team based in Toledo, in the autonomous community of Castile-La Mancha. Founded in 1928 it plays in Tercera Federación – Group 18, holding home games at Estadio Salto del Caballo, with a seating capacity of 5,500 spectators."
+  },
+  "824": {
+    "wikiUrl": "https://es.wikipedia.org/wiki/Real_Betis",
+    "intro": "Real Betis Balompié, S.A.D., known as Real Betis (pronounced [reˈal ˈβetis]) is a Spanish professional football club based in Seville, Andalusia, Spain. It plays in La Liga, the top flight of Spanish football.",
+    "founded": "1907",
+    "stadium": "Estadio Benito Villamarín",
+    "capacity": "60 721",
+    "league": "La Liga",
+    "website": "http://www.realbetisbalompie.es/"
+  },
+  "826": {
+    "wikiUrl": "https://es.wikipedia.org/wiki/UE_Cornellà",
+    "intro": "La Unió Esportiva Cornellà es un club de fútbol de la localidad catalana de Cornellá de Llobregat, ubicado en Barcelona, España. Fue fundado en 1951 y actualmente milita en el grupo V de la Tercera Federación, quinta categoría del fútbol español, tras haber descendido en la temporada 2024-25 quedando en el puesto 14 del grupo 3 de la Segunda Federación..",
+    "founded": "1951",
+    "stadium": null,
+    "capacity": null,
+    "league": "Tercera División",
+    "website": null
+  },
+  "827": {
+    "wikiUrl": "https://es.wikipedia.org/wiki/Real_Murcia_CF",
+    "intro": "Real Murcia Club de Fútbol, S.A.D., commonly known as Real Murcia ([reˈal ˈmuɾθja], \"Royal Murcia\"), is a Spanish football club based in Murcia, in the Región de Murcia. Founded in 1919, it currently plays in Primera Federación – Group 2, playing home matches at Estadio Nueva Condomina, which holds 31,179 spectators.\nIn domestic football, the club has won a record 8 Segunda División titles and 1 Spanish Royal Federation Cup.\nHome colours are mainly scarlet shirt and white shorts..",
+    "founded": "1919",
+    "stadium": "Estadio Nueva Condomina",
+    "capacity": "31 179",
+    "league": "Primera Federación",
+    "website": "https://www.realmurcia.es/"
   },
   "829": {
     "wikiUrl": "https://es.wikipedia.org/wiki/UE_Sant_Andreu",
@@ -2189,6 +2315,15 @@
     "league": "Primera Federación",
     "intro": "Club Deportivo Atlético Baleares, S.A.D. (Catalan: Club Esportiu Atlètic Balears) is a Spanish football team based in Palma, the capital of the island of Mallorca, in the autonomous community of the Balearic Islands. Founded in 20 November 1920, its first men's team currently plays in Segunda Federación, the fourth tier of Spanish football, hosting games at the Estadi Balear with a capacity of 6,000 seats."
   },
+  "839": {
+    "wikiUrl": "https://es.wikipedia.org/wiki/UD_Las_Palmas",
+    "intro": "Unión Deportiva Las Palmas S.A.D. is a professional football club based in Las Palmas de Gran Canaria, Canary Islands, Spain.",
+    "founded": "1949",
+    "stadium": "Gran Canaria Stadium",
+    "capacity": "32 392",
+    "league": "LaLiga 2",
+    "website": "https://www.udlaspalmas.es/"
+  },
   "840": {
     "wikiUrl": "https://en.wikipedia.org/wiki/Real_Madrid_CF",
     "intro": "Real Madrid Club de Fútbol (Spanish pronunciation: [reˈal maˈðɾið ˈkluβ ðe ˈfuðβol] ), commonly referred to as Real Madrid, is a Spanish professional association football club based in Madrid. The club competes in La Liga, the top tier of Spanish football.",
@@ -2225,6 +2360,15 @@
     "league": "LaLiga 2",
     "intro": "Albacete Balompié is a Spanish football team based in Albacete, in the autonomous community of Castile–La Mancha. Founded on 5 July 1939, it currently plays in Segunda División, the second tier of Spanish football, holding home matches at Estadio Carlos Belmonte, with a capacity of 17,524."
   },
+  "846": {
+    "wikiUrl": "https://es.wikipedia.org/wiki/Terrassa_FC",
+    "intro": "El Terrassa Futbol Club, con diversos nombres a lo largo de su historia, es una histórica entidad polideportiva catalana de la ciudad de Tarrasa (Barcelona), fundada en el año 1906.\nEl club juega en la Segunda División RFEF en la temporada 2023-24. El Terrassa FC cuenta en su palmarés con 4 Copas Cataluña en el fútbol -máximo título catalán-, como títulos principales.",
+    "founded": "1906",
+    "stadium": "Estadi Olímpic de Terrassa",
+    "capacity": "11 500",
+    "league": "Tercera División",
+    "website": "https://www.terrassafc.com/"
+  },
   "847": {
     "wikiUrl": "https://es.wikipedia.org/wiki/Extremadura_UD",
     "intro": "Extremadura Unión Deportiva was a Spanish football team based in Almendralejo, in the autonomous community of Extremadura. Founded in 2007, it last played in Primera División RFEF – Group 1, holding home games at Estadio Francisco de la Hera..",
@@ -2259,6 +2403,15 @@
     "capacity": 51500,
     "league": "2. Bundesliga",
     "intro": "Düsseldorfer Turn- und Sportverein Fortuna 1895 e.V., commonly known as Fortuna Düsseldorf (pronounced [fɔʁˈtuːna ˈdʏsl̩dɔʁf] ) or Fortuna 95, is a German football club based in Düsseldorf, North Rhine-Westphalia, that competes in the 2. Bundesliga."
+  },
+  "852": {
+    "wikiUrl": "https://de.wikipedia.org/wiki/1._FC_Heidenheim_1846",
+    "intro": "1. FC Heidenheim 1846 is a German professional association football club from the town of Heidenheim, Baden-Württemberg.",
+    "founded": "2007",
+    "stadium": "Voith-Arena",
+    "capacity": "10 001",
+    "league": null,
+    "website": "https://www.fc-heidenheim.de/"
   },
   "856": {
     "wikiUrl": "https://en.wikipedia.org/wiki/FC_Bayern_Munich",
@@ -2855,6 +3008,15 @@
     "league": "Premier League",
     "intro": "Everton Football Club () is a professional association football club based in Liverpool, England. The club competes in the Premier League, the top tier of English football."
   },
+  "977": {
+    "wikiUrl": "https://en.wikipedia.org/wiki/Liverpool_FC",
+    "intro": "Liverpool Football Club is a professional football club based in Liverpool, England. The club competes in the Premier League, the top tier of English football.",
+    "founded": "1892",
+    "stadium": "Anfield",
+    "capacity": "53 394",
+    "league": "Premier League",
+    "website": "https://www.liverpoolfc.com"
+  },
   "978": {
     "wikiUrl": "https://en.wikipedia.org/wiki/Manchester_United_F.C.",
     "founded": 1878,
@@ -2864,6 +3026,15 @@
     "league": "Premier League",
     "intro": "Manchester United Football Club, commonly referred to as Man United (often stylised as Man Utd) or simply United, is a professional football club based in Old Trafford, Greater Manchester, England. They compete in the Premier League, the top tier of English football."
   },
+  "979": {
+    "wikiUrl": "https://en.wikipedia.org/wiki/Arsenal_FC",
+    "intro": "The Arsenal Football Club is a professional football club based in Islington, North London, England. They compete in the Premier League, the top tier of English football.",
+    "founded": "1886",
+    "stadium": "Emirates Stadium",
+    "capacity": "60 338",
+    "league": "Premier League",
+    "website": "https://www.arsenal.com/"
+  },
   "980": {
     "wikiUrl": "https://en.wikipedia.org/wiki/Newcastle_United_F.C.",
     "founded": 1892,
@@ -2872,6 +3043,15 @@
     "capacity": 52305,
     "league": "Premier League",
     "intro": "Newcastle United Football Club is a professional association football club based in Newcastle upon Tyne, Tyne and Wear, England. The club competes in the Premier League, the top tier of English football."
+  },
+  "981": {
+    "wikiUrl": "https://en.wikipedia.org/wiki/AFC_Portchester",
+    "intro": "A.F.C. Portchester is a football club based in Portchester, a suburb of the town of Fareham, Hampshire, England.",
+    "founded": "1976",
+    "stadium": null,
+    "capacity": null,
+    "league": "Wessex Football League",
+    "website": null
   },
   "982": {
     "wikiUrl": "https://en.wikipedia.org/wiki/Inverness_Caledonian_Thistle_F.C.",
@@ -2917,6 +3097,24 @@
     "capacity": 9546,
     "league": "EFL League Two",
     "intro": "Grimsby Town Football Club is a professional association football club based in Cleethorpes, North East Lincolnshire, England, that competes in EFL League Two, the fourth level of the English football league system. \nNicknamed \"the Mariners\", the club was founded as Grimsby Pelham Football Club in 1878, changed its name to Grimsby Town a year later, and moved to its current stadium, Blundell Park, in 1898."
+  },
+  "989": {
+    "wikiUrl": "https://ru.wikipedia.org/wiki/ФК_Ростов",
+    "intro": "«Росто́в» — российский футбольный клуб из Ростова-на-Дону. Основан 10 мая 1930 года под названием «Сельмашстрой».",
+    "founded": "1930",
+    "stadium": "Olimp-2",
+    "capacity": "15 840",
+    "league": "Russian Premier League",
+    "website": "http://www.fc-rostov.ru/"
+  },
+  "990": {
+    "wikiUrl": "https://en.wikipedia.org/wiki/Wrexham_AFC",
+    "intro": "Wrexham Association Football Club (Welsh: Clwb Pêl-droed Wrecsam) is a Welsh professional football club based in Wrexham, Wales. Formed in 1864, it is the oldest club in Wales and the third-oldest professional football team in the world.",
+    "founded": "1864",
+    "stadium": "Racecourse Ground",
+    "capacity": "13 341",
+    "league": "EFL Championship",
+    "website": "https://www.wrexhamafc.co.uk/"
   },
   "991": {
     "wikiUrl": "https://en.wikipedia.org/wiki/FC_Spartak_Moscow",
