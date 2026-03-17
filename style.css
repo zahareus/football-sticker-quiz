@@ -1042,6 +1042,62 @@ body.quiz-result .result-right-panel {
     color: var(--color-link);
 }
 
+/* Club mini card on sticker page */
+.club-mini-card {
+    margin: 12px 0 !important;
+    padding: 12px !important;
+}
+
+/* Sticker strips (more from club, nearby) */
+.more-from-club,
+.nearby-stickers-section {
+    margin: 16px 0;
+    text-align: left;
+}
+
+.more-from-club h3,
+.nearby-stickers-section h3 {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #444;
+    margin-bottom: 8px;
+}
+
+.sticker-strip {
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    padding-bottom: 4px;
+}
+
+.sticker-strip-item {
+    flex-shrink: 0;
+}
+
+.sticker-strip-item img {
+    width: 72px;
+    height: 72px;
+    object-fit: cover;
+    border-radius: 6px;
+    border: 1px solid #e5e5e5;
+    transition: border-color 0.2s;
+}
+
+.sticker-strip-item img:hover {
+    border-color: var(--color-accent);
+}
+
+/* Location link on sticker page */
+.sticker-detail-location a {
+    color: var(--color-text);
+    text-decoration: underline;
+    text-decoration-color: #ccc;
+}
+
+.sticker-detail-location a:hover {
+    color: var(--color-link);
+}
+
 .club-info-item a {
     color: var(--color-text);
     text-decoration: none;

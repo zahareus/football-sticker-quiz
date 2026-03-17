@@ -319,7 +319,58 @@ function generateStickerDate(sticker) {
 
 function generateStickerLocation(sticker) {
     if (!sticker.location || sticker.location.trim() === '') return '';
-    return `<p class="sticker-detail-location">${sticker.location}</p>`;
+    const city = sticker.location.split(',')[0].trim();
+    const slug = city.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/-+/g, '-').replace(/^-|-$/g, '');
+    return `<p class="sticker-detail-location"><a href="/cities/${slug}.html">${sticker.location}</a></p>`;
+}
+
+function generateClubMiniCard(club, stickerCount) {
+    const wiki = wikiCache[club.id];
+    const clubNameClean = stripEmoji(club.name);
+    const items = [];
+
+    if (wiki) {
+        const facts = [];
+        if (wiki.founded) facts.push(`Est. ${wiki.founded}`);
+        if (wiki.league) facts.push(wiki.league);
+        if (wiki.stadium) facts.push(wiki.stadium);
+        if (facts.length > 0) {
+            items.push(`<p class="club-info-item">${facts.join(' · ')}</p>`);
+        }
+    }
+
+    items.push(`<p class="club-info-item"><a href="/clubs/${club.id}.html">View all ${stickerCount} stickers from ${clubNameClean} →</a></p>`);
+
+    return `<div class="club-details-block club-mini-card">\n${items.join('\n')}\n</div>`;
+}
+
+function generateMoreFromClub(currentStickerId, clubStickers, clubName) {
+    const others = clubStickers.filter(s => s.id !== currentStickerId);
+    if (others.length === 0) return '';
+
+    // Take up to 6, spread evenly
+    const shown = others.slice(0, 6);
+    let html = '<div class="more-from-club">\n<h3>More from ' + stripEmoji(clubName) + '</h3>\n<div class="sticker-strip">';
+    shown.forEach(s => {
+        const thumbUrl = getThumbnailUrl(s.image_url);
+        html += `\n<a href="/stickers/${s.id}.html" class="sticker-strip-item"><img src="${thumbUrl}" alt="Sticker #${s.id}" loading="lazy" decoding="async"></a>`;
+    });
+    html += '\n</div>\n</div>';
+    return html;
+}
+
+function generateNearbyStickers(currentSticker, nearbyStickers) {
+    if (!nearbyStickers || nearbyStickers.length === 0) return '';
+
+    const shown = nearbyStickers.slice(0, 6);
+    const city = currentSticker.location ? currentSticker.location.split(',')[0].trim() : 'this area';
+    let html = '<div class="nearby-stickers-section">\n<h3>Also found in ' + city + '</h3>\n<div class="sticker-strip">';
+    shown.forEach(s => {
+        const thumbUrl = s.image_url ? getThumbnailUrl(s.image_url) : '';
+        html += `\n<a href="/stickers/${s.id}.html" class="sticker-strip-item" title="${s.clubName}"><img src="${thumbUrl}" alt="${s.clubName}" loading="lazy" decoding="async"></a>`;
+    });
+    html += '\n</div>\n</div>';
+    return html;
 }
 
 function generateDifficulty(sticker) {
@@ -415,6 +466,7 @@ function findNearbyStickers(currentSticker, allStickers, radiusKm = 50, maxCount
                 id: sticker.id,
                 latitude: sticker.latitude,
                 longitude: sticker.longitude,
+                image_url: sticker.image_url,
                 clubName: sticker.clubs?.name || 'Unknown Club',
                 distance: distance
             });
@@ -587,7 +639,7 @@ function generateClubMapInitScript(stickersWithCoordinates, clubName) {
 /**
  * Generate a single sticker page
  */
-async function generateStickerPage(sticker, club, prevStickerId, nextStickerId, allStickers = []) {
+async function generateStickerPage(sticker, club, prevStickerId, nextStickerId, allStickers = [], clubStickers = []) {
     const template = loadTemplate('sticker-page.html');
 
     const countryName = getCountryName(club.country);
@@ -642,7 +694,10 @@ async function generateStickerPage(sticker, club, prevStickerId, nextStickerId, 
         STICKER_LOCATION: generateStickerLocation(sticker),
         NAVIGATION_BUTTONS: generateNavigationButtons(prevStickerId, nextStickerId),
         MAP_SECTION: generateMapSection(sticker),
-        MAP_INIT_SCRIPT: generateMapInitScript(sticker, club.name, nearbyStickers)
+        MAP_INIT_SCRIPT: generateMapInitScript(sticker, club.name, nearbyStickers),
+        CLUB_MINI_CARD: generateClubMiniCard(club, clubStickers.length),
+        MORE_FROM_CLUB: generateMoreFromClub(sticker.id, clubStickers, club.name),
+        NEARBY_STICKERS: generateNearbyStickers(sticker, nearbyStickers)
     };
 
     const html = replacePlaceholders(template, data);
@@ -850,7 +905,7 @@ async function generatePagesForSticker() {
         if (sticker.latitude && sticker.longitude) {
             const { data: allStickers } = await supabase
                 .from('stickers')
-                .select('id, latitude, longitude, clubs(name)')
+                .select('id, latitude, longitude, image_url, clubs(name)')
                 .not('latitude', 'is', null)
                 .not('longitude', 'is', null);
 
@@ -862,18 +917,20 @@ async function generatePagesForSticker() {
             }
         }
 
-        // 4. Generate sticker page
-        console.log('\n🔨 Generating sticker page...');
-        const stickerPath = await generateStickerPage(sticker, club, prevStickerId, nextStickerId, nearbyStickers);
-        console.log(`  ✓ Generated: ${stickerPath}`);
-
-        // 5. Fetch all stickers for this club and generate club page
-        console.log('\n🔨 Generating club page...');
+        // 4. Fetch all stickers for this club (needed for sticker page + club page)
         const { data: clubStickers } = await supabase
             .from('stickers')
             .select('*')
             .eq('club_id', club.id)
             .order('id', { ascending: true });
+
+        // 5. Generate sticker page
+        console.log('\n🔨 Generating sticker page...');
+        const stickerPath = await generateStickerPage(sticker, club, prevStickerId, nextStickerId, nearbyStickers, clubStickers || []);
+        console.log(`  ✓ Generated: ${stickerPath}`);
+
+        // 6. Generate club page
+        console.log('\n🔨 Generating club page...');
 
         // Get all clubs for this country (needed for "Other clubs" section + country page)
         const { data: countryClubs } = await supabase
