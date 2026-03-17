@@ -655,7 +655,8 @@ async function generateStickerPage(sticker, club, prevStickerId, nextStickerId, 
         { text: `Sticker #${sticker.id}`, url: `/stickers/${sticker.id}.html` }
     ]);
 
-    const nearbyStickers = findNearbyStickers(sticker, allStickers, 50, 10);
+    // allStickers = city stickers passed from caller (all stickers from same location)
+    const nearbyStickers = allStickers;
 
     const data = {
         PAGE_TITLE: pageTitle,
