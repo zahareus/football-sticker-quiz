@@ -44,6 +44,14 @@ console.log(`🚀 Generating pages for sticker #${stickerId}...\n`);
 // Initialize Supabase client
 const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
+// Load wiki cache
+let wikiCache = {};
+try {
+    wikiCache = JSON.parse(readFileSync(join(PROJECT_ROOT, 'scripts/wiki-cache.json'), 'utf-8'));
+} catch {
+    // No cache available
+}
+
 // Country code mapping
 const COUNTRY_NAMES = {
     'AFG': 'Afghanistan', 'ALB': 'Albania', 'DZA': 'Algeria', 'AND': 'Andorra',
@@ -150,6 +158,49 @@ function generateBreadcrumbs(links) {
 
 function stripEmoji(str) {
     return str.replace(/[\u{1F000}-\u{1FFFF}|\u{2600}-\u{27BF}|\u{FE00}-\u{FEFF}|\u{1F900}-\u{1F9FF}|⚽🏆🌍🎯🏅🥇🥈🥉]/gu, '').replace(/\s+/g, ' ').trim();
+}
+
+/**
+ * Generate wiki section HTML from wiki cache data
+ */
+function generateWikiSection(clubId) {
+    const wiki = wikiCache[clubId];
+    if (!wiki) return '';
+
+    const facts = [];
+    if (wiki.founded) {
+        facts.push(`<div class="wiki-fact"><span class="wiki-fact-label">Founded</span><span class="wiki-fact-value">${wiki.founded}</span></div>`);
+    }
+    if (wiki.stadium) {
+        const capacityStr = wiki.capacity ? ` (${wiki.capacity.toLocaleString()})` : '';
+        facts.push(`<div class="wiki-fact"><span class="wiki-fact-label">Stadium</span><span class="wiki-fact-value">${wiki.stadium}${capacityStr}</span></div>`);
+    }
+    if (wiki.league) {
+        facts.push(`<div class="wiki-fact"><span class="wiki-fact-label">League</span><span class="wiki-fact-value">${wiki.league}</span></div>`);
+    }
+    if (wiki.website) {
+        try {
+            const domain = new URL(wiki.website).hostname.replace('www.', '');
+            facts.push(`<div class="wiki-fact"><span class="wiki-fact-label">Website</span><span class="wiki-fact-value"><a href="${wiki.website}" target="_blank" rel="noopener noreferrer">${domain}</a></span></div>`);
+        } catch {}
+    }
+
+    const hasIntro = wiki.intro && wiki.intro.trim().length > 0;
+    if (facts.length === 0 && !hasIntro) return '';
+
+    let html = '<div class="wiki-section">';
+    if (facts.length > 0) {
+        html += `\n    <div class="wiki-facts">\n        ${facts.join('\n        ')}\n    </div>`;
+    }
+    if (hasIntro) {
+        html += `\n    <div class="wiki-intro">\n        <p>${wiki.intro}</p>`;
+        if (wiki.wikiUrl) {
+            html += `\n        <p class="wiki-source">Source: <a href="${wiki.wikiUrl}" target="_blank" rel="noopener noreferrer">Wikipedia</a></p>`;
+        }
+        html += `\n    </div>`;
+    }
+    html += '\n</div>';
+    return html;
 }
 
 function generateClubDescription(club, countryName) {
@@ -585,6 +636,7 @@ async function generateClubPage(club, stickers) {
         ]),
         MAIN_HEADING: `${club.name} — ${stickerCount} ${stickerWord.charAt(0).toUpperCase() + stickerWord.slice(1)}`,
         HEADING_SUFFIX: `${stickerCount} ${stickerWord.charAt(0).toUpperCase() + stickerWord.slice(1)}`,
+        WIKI_SECTION: generateWikiSection(club.id),
         CLUB_DESCRIPTION: generateClubDescription(club, countryName),
         CLUB_INFO: generateClubInfo(club),
         STICKER_GALLERY: generateStickerGallery(stickers, club.name),
