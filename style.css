@@ -971,6 +971,12 @@ body.quiz-result .result-right-panel {
     text-decoration-color: #ccc;
 }
 
+.club-details-block .club-description-text a:hover,
+.club-description-text a:hover {
+    color: var(--color-link);
+    text-decoration: underline;
+}
+
 /* Club info section */
 .club-details-block .club-info-item,
 .club-info-item {
