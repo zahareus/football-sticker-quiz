@@ -941,16 +941,22 @@ body.quiz-result .result-right-panel {
     background: #f9f9f9;
     border: 1px solid #e5e5e5;
     border-radius: 8px;
-    text-align: left;
+    text-align: left !important;
+}
+
+.club-details-block * {
+    text-align: left !important;
 }
 
 /* Club description text block (SEO) */
+.club-details-block .club-description-text,
 .club-description-text {
     margin: 0;
-    color: var(--color-text);
-    text-align: left;
+    color: #444;
+    text-align: left !important;
 }
 
+.club-details-block .club-description-text p,
 .club-description-text p {
     font-size: 0.88rem;
     line-height: 1.55;
@@ -958,6 +964,7 @@ body.quiz-result .result-right-panel {
     margin: 0;
 }
 
+.club-details-block .club-description-text a,
 .club-description-text a {
     color: #444;
     text-decoration: underline;
@@ -965,23 +972,32 @@ body.quiz-result .result-right-panel {
 }
 
 /* Club info section */
-.club-info-section {
-    text-align: left;
-    margin-bottom: calc(var(--spacing-unit) * 1);
-    padding: 0;
+.club-details-block .club-info-item,
+.club-info-item {
+    font-size: 0.88rem !important;
+    margin-bottom: 4px;
+    line-height: 1.55;
+    color: #444;
+    text-align: left !important;
 }
 
+.club-details-block .sticker-stats-section,
 .sticker-stats-section {
-    margin-top: calc(var(--spacing-unit) * 1);
-    padding-top: calc(var(--spacing-unit) * 1);
+    margin-top: 8px;
+    padding-top: 8px;
     border-top: 1px solid #e5e5e5;
 }
 
-.club-info-item {
-    font-size: 0.9rem;
-    margin-bottom: calc(var(--spacing-unit) * 0.75);
-    line-height: 1.5;
+.club-details-block .club-info-item a {
     color: #444;
+    text-decoration: underline;
+    text-decoration-color: #ccc;
+}
+
+@media (max-width: 600px) {
+    .club-details-block {
+        padding: 12px;
+    }
 }
 
 .club-info-item a {
