@@ -1,121 +1,104 @@
 # StickerHunt — SEO Improvements Roadmap
 
-**Created:** 17.03.2026 | **Status:** Planning
+**Created:** 17.03.2026 | **Last updated:** 17.03.2026
 
 ---
 
-## Phase 1: Club Page Enrichment (Wikipedia Integration)
+## Completed (17.03.2026)
 
-### 1.1 Wikipedia/Wikidata Club Facts Card
-**What:** Add structured info card to each club page with founding year, stadium, capacity, league, official website — pulled from Wikidata API at generation time.
+### SEO Audit & Technical Fixes
+- **SEO report** with GSC + Crawler.sh analysis. Baseline: 185 clicks, 4308 impr, CTR 4.29%, pos 9.2
+- **Country pages (53):** new titles ("Norway Football Stickers — 16 Clubs | StickerHunt") + H1 tags
+- **Club pages (671):** shortened titles, improved meta descriptions with city + CTA
+- **Homepage + Quiz:** added H1 tags (sr-only)
+- **Sticker count** updated 2942 → 2955
+- **Copyright** 2025 → 2026 across all templates and static pages
+- **Amplitude** removed entirely, **PostHog** moved before `</body>`
+- **OG image** trailing "?" stripped via cleanTrailingQuery()
+- **Orphan pages** fixed: leaderboard (button→a), stickerstat (static link)
+- **15 broken external links** identified and fixed
+- **2 empty clubs** removed (Ararat Yerevan, Modica Calcio), Armenia country page removed
+- **Sticker count pagination bug** fixed in regenerate-club-pages.js
+- **City names normalized** in Supabase (7 fixes: Prague, Brussels districts, etc.)
+- **reverseGeocode()** fixed in upload.js (municipality before borough)
+- **Sitemaps** regenerated: 3844 URLs + sitemap-cities.xml (23 URLs). All submitted to GSC
 
-**Impact:** +30-50 words per page of factual, keyword-rich content. Richer Schema.org (SportsTeam with foundingDate, location, memberOf). Better Knowledge Graph matching.
+### Club Page Enrichment (Phase 1)
+- **1.1 Wiki Facts Card:** Founded, Stadium, Capacity, League, Website from Wikidata API
+- **1.2 Wiki Intro:** First 2 sentences from Wikipedia (English, with attribution)
+- **1.3 Sticker Statistics:** First/latest found dates, cities, avg difficulty
+- **1.4 Internal Links:** "Other clubs from {Country}" section (top 10 by sticker count)
+- **1.5 Schema.org:** SportsTeam with foundingDate, StadiumOrArena, SportsOrganization, URL
+- **Wikipedia coverage:** 558/671 clubs (83%) with wiki data. wiki-cache.json committed to repo
+- **Unified design:** All info blocks in grey cards matching wiki-section style (0.88rem)
 
-**Implementation:** Wikidata API query during page generation → cache to JSON → inject into template. No auth needed, no rate limits.
+### Sticker Page Enrichment
+- **Club mini-card:** Founded, league, stadium + "View all N stickers" link
+- **More from club:** 6 thumbnail strip of other stickers from same club
+- **Location → city link:** Location text links to /cities/{slug}.html
+- **Map shows ALL city stickers:** Not just 10 nearby — all stickers from same city on map
+- **Current sticker highlighted:** Larger marker (30x49) with "← this sticker" popup
+- **Nearby stickers:** 6 thumbnail strip under map from same city
+- **Layout:** mini-card under title, strips full-width, nav buttons at bottom
+- **All 3088 sticker pages regenerated** with new layout
 
-**Dependency:** Wikipedia URL mapping for all clubs (Step 1.0).
+### New Page Types (Phase 2)
+- **2.1 City Pages:** 22 pages + index at /cities/. Each has: Wikipedia intro + population, city details, sticker gallery, Leaflet map with all markers. Minimum 3 stickers per city.
 
-### 1.2 Wikipedia Intro Paragraph
-**What:** Add "About {Club}" section with first paragraph from Wikipedia article. CC BY-SA attribution required.
+### Generator Updates
+All 6 generator scripts updated consistently:
+- `generate-single-sticker.js` (GitHub Actions — new stickers)
+- `regenerate-club-pages.js` (club edits)
+- `regenerate-club-sticker-pages.js` (club name changes)
+- `regenerate-country-pages.js` (standalone country regen)
+- `regenerate-stickers-batch.js` (batch sticker regen)
+- `generate-static-pages.js` (full batch generator)
 
-**Impact:** +100-250 words of unique, relevant content per page. Triples current text content (~50 words → ~300 words). Major improvement for thin content issue (480/509 pages flagged).
+Plus new scripts:
+- `fetch-wiki-data.js` — builds wiki-cache.json from Wikidata + Wikipedia APIs
+- `generate-city-pages.js` — generates city pages + index
+- `regenerate-all-stickers.js` — batch regeneration of all sticker pages
 
-**Implementation:** Wikipedia Extracts API → cache → truncate to 2-3 sentences → inject after club description.
-
-**Coverage:** ~400-500 of 671 clubs (those with Wikipedia articles in any language).
-
-### 1.3 Sticker Statistics Section (Own Data)
-**What:** Add stats from our Supabase data: first/last sticker found (date + city), cities where found, average difficulty, battle stats.
-
-**Impact:** +50-100 words of truly unique content (exists nowhere else). Differentiator from any competitor.
-
-**Implementation:** Aggregate queries during generation. All data already in Supabase. Zero external dependencies.
-
-**Coverage:** 671/671 clubs.
-
-### 1.4 Internal Linking — "Other Clubs from {Country}"
-**What:** Block at bottom of club page with links to other clubs from the same country.
-
-**Impact:** Better crawlability, lower bounce rate, more link equity distribution. Also adds textual content with country/club names.
-
-**Implementation:** Already have country data. Add to club page template.
-
-### 1.5 Schema.org Enrichment
-**What:** Expand SportsTeam JSON-LD with foundingDate, StadiumOrArena (name + capacity), SportsOrganization (league), official URL.
-
-**Impact:** Rich results potential, Knowledge Graph matching, better entity understanding by Google.
-
-**Implementation:** Populate from Wikidata cache (same as 1.1).
-
----
-
-## Phase 2: Programmatic SEO — New Page Types
-
-### 2.1 City Pages — `/cities/{city}.html`
-**What:** Pages showing all stickers found in a specific city, with map and club breakdown.
-
-**Impact:** 30-50 new pages with unique geographic content. Captures "football stickers [city]", "street stickers [city]" queries. No competitor has this.
-
-**Implementation:** Extract unique cities from sticker location data. Normalize city names. Set minimum threshold (5+ stickers). Template similar to country pages + map.
-
-**Data:** 949 stickers (31%) have GPS + city. Growing with each new sticker.
-
-### 2.2 Collection Pages (Static Aggregations)
-**What:**
-- `/collections/rarest.html` — clubs with fewest stickers
-- `/collections/newest.html` — last 50 found stickers
-- `/collections/top-rated.html` — highest ELO rating
-- `/collections/hardest.html` — difficulty 3 stickers
-
-**Impact:** 4-5 new pages capturing long-tail queries ("rare football stickers", "best football stickers"). Auto-updating content.
-
-**Implementation:** Pure Supabase queries, simple templates. Very easy.
-
-### 2.3 League Pages — `/leagues/{league}.html`
-**What:** Group clubs by football league (Bundesliga, La Liga, Eredivisie, etc.)
-
-**Impact:** 20-40 new pages. Captures "[league] stickers" queries. Better organization.
-
-**Implementation:** Map clubs to leagues via Wikidata P118 property (same API as Phase 1). Minimum 3 clubs per league page.
-
-**Risk:** Some cannibalisation with country pages. Searchers for "Bundesliga stickers" mostly want Panini.
-
-### 2.4 Culture Content Hub
-**What:** 3-5 editorial articles about ultras sticker culture, identification guides, spotting tips.
-
-**Impact:** Captures informational queries. Brand authority. Links to programmatic pages.
-
-**Implementation:** Manual content creation (not automated). High quality required.
-
-**Pages:**
-- "What Are Football Ultras Stickers?"
-- "How to Identify a Football Sticker"
-- "Street Sticker Spotting Guide"
+### Tools Installed
+- **Crawler.sh** — local Rust SEO spider at ~/.crawler/bin/crawler
 
 ---
 
-## Phase 3: Technical & Monitoring
+## Backlog (not started)
 
-### 3.1 Sitemap Updates
-Add new sitemaps for each new page type: `sitemap-cities.xml`, `sitemap-leagues.xml`, `sitemap-collections.xml`.
+### Country Page Enrichment
+- Add Wikipedia intro about the country
+- Group clubs by league (where data available)
+- Add city/sticker statistics
+- **Blocked by:** many lower-division clubs don't have league data in Wikidata
 
-### 3.2 Regular Audits
-- Bi-weekly GSC metrics check (next: 31.03.2026)
-- Monthly crawler.sh full crawl
-- Track: clicks, impressions, CTR, position, indexed pages count
+### Collection Pages (2.2) — Deprioritized
+- Rarest, newest, top-rated, hardest stickers
+- Low search intent — more of an engagement feature than SEO play
 
----
-
-## Priority Order
-1. Wikipedia URL mapping (prerequisite for 1.1, 1.2, 1.5, 2.3)
-2. Phase 1.3 — Sticker stats (no dependencies, quick win)
-3. Phase 1.1 + 1.2 — Wikipedia integration
-4. Phase 1.4 — Internal links
-5. Phase 2.1 — City pages
-6. Phase 2.2 — Collection pages
-7. Phase 2.3 — League pages
-8. Phase 2.4 — Culture content
+### Culture Content Hub (2.4)
+- "What Are Football Ultras Stickers?" — editorial article
+- "How to Identify a Football Sticker" — guide
+- "Street Sticker Spotting Guide" — guide
+- **Requires:** manual content writing, not automated
 
 ---
 
-*Last updated: 17.03.2026*
+## Monitoring
+
+- **Next SEO audit:** ~31.03.2026
+- **GSC property:** sc-domain:stickerhunt.club
+- **Baseline (17.03.2026):** 185 clicks, 4308 impr, CTR 4.29%, pos 9.2
+- **Previous report:** ~/Claude Code/stickerhunt/seo-reports/2026-03-17_report.pdf
+
+### What to check at next audit
+1. Impact of new titles/H1/meta on impressions and CTR
+2. Brand query "sticker hunt" position (regressed to 18.4)
+3. City pages indexation (22 new URLs)
+4. Sticker page enrichment impact on bounce rate
+5. Core Web Vitals after Amplitude removal
+6. New sitemaps crawl status
+
+---
+
+*Last updated: 17.03.2026 by Claude Code*
