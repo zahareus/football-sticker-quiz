@@ -17,6 +17,15 @@
     "league": "Belgian Pro League",
     "website": "https://rusg.brussels/"
   },
+  "18": {
+    "wikiUrl": "https://nl.wikipedia.org/wiki/K.A.S._Eupen",
+    "intro": "K.A.S. Eupen (short for Königliche Allgemeine Sportvereinigung Eupen, English: Royal General Sports Association Eupen, simply referred to as Eupen) is a Belgian professional association football club located in Eupen, Province of Liège, which currently plays in the Challenger Pro League, the second tier of Belgian football.",
+    "founded": "1945",
+    "stadium": "Kehrweg Stadion",
+    "capacity": "8 000",
+    "league": "Challenger Pro League",
+    "website": "http://as-eupen.be/"
+  },
   "22": {
     "wikiUrl": "https://ro.wikipedia.org/wiki/FC_Corvinul_Hunedoara",
     "founded": 1921,
@@ -95,6 +104,15 @@
     "league": "Belgian Pro League",
     "website": "https://www.krcgenk.be/"
   },
+  "98": {
+    "wikiUrl": "https://de.wikipedia.org/wiki/Neuchâtel_Xamax_FCS",
+    "intro": "Neuchâtel Xamax Football Club Serrières (pronounced [nøʃɑtɛl ksamaks]) is a Swiss football club based in Neuchâtel. It was created in 1970 through a merger between FC Cantonal, founded in 1906 and Swiss champions of 1916, and FC Xamax founded in 1912.",
+    "founded": "1912",
+    "stadium": "Stade de la Maladière",
+    "capacity": "12 000",
+    "league": "Challenge League",
+    "website": "http://www.xamax.ch/"
+  },
   "103": {
     "wikiUrl": "https://de.wikipedia.org/wiki/Wiener_Sport-Club",
     "founded": 1883,
@@ -149,6 +167,15 @@
     "league": "Swiss Super League",
     "intro": "Fussballclub St. Gallen 1879, commonly known as St."
   },
+  "166": {
+    "wikiUrl": "https://es.wikipedia.org/wiki/Estudiantes_de_La_Plata",
+    "intro": "Club Estudiantes de La Plata (Spanish pronunciation: [kluβ estuˈðjantes ðe la ˈplata] lit. \"La Plata Students\"), simply referred to as Estudiantes de La Plata, is an Argentine professional sports club based in La Plata.",
+    "founded": "1905",
+    "stadium": "Estadio Jorge Luis Hirschi",
+    "capacity": "30 018",
+    "league": "Argentine Primera División",
+    "website": "https://www.estudiantesdelaplata.com/"
+  },
   "179": {
     "wikiUrl": "https://nl.wikipedia.org/wiki/SV_Zulte_Waregem",
     "founded": 2001,
@@ -198,6 +225,15 @@
     "wikiUrl": "https://de.wikipedia.org/wiki/SV_Austria_Salzburg",
     "intro": "SV Austria Salzburg bzw."
   },
+  "283": {
+    "wikiUrl": "https://es.wikipedia.org/wiki/C.D._Cobreloa",
+    "intro": "Club de Deportes Cobreloa S.A.D.P. (Spanish pronunciation: [ˈkluβ ðe ðeˈpoɾtes koβɾeˈloa] ), commonly referred to as Cobreloa, is a professional Chilean football club based in Calama, Región de Antofagasta, Chile.",
+    "founded": "1977",
+    "stadium": "Estadio Municipal de Calama",
+    "capacity": "13 000",
+    "league": "Chilean First B Division",
+    "website": "https://cobreloa.cl/"
+  },
   "290": {
     "wikiUrl": "https://es.wikipedia.org/wiki/Club_Deportivo_Universidad_Cat%C3%B3lica_(f%C3%BAtbol)",
     "founded": 1937,
@@ -225,6 +261,15 @@
     "league": "Bundesliga",
     "intro": "Sportklub Sturm Graz is an Austrian professional association football club, based in Graz, playing in the Austrian Football Bundesliga. The club was founded in 1909."
   },
+  "293": {
+    "wikiUrl": "https://es.wikipedia.org/wiki/Newell's_Old_Boys",
+    "intro": "Club Atlético Newell's Old Boys (Spanish pronunciation: [ˈkluβ aˈtletiko ˈɲuls olˈβojs]) is an Argentine sports club based in Rosario, Santa Fe. The club was founded on 3 November 1903, and is named after English teacher Isaac Newell, one of the pioneers of Argentine football.\nA founding member of Liga Rosarina de Football, the club affiliated to the Argentine Football Association (AFA) in 1939.",
+    "founded": "1903",
+    "stadium": "Marcelo Bielsa Stadium",
+    "capacity": "49 000",
+    "league": "Argentine Primera División",
+    "website": "https://www.newellsoldboys.com.ar/"
+  },
   "301": {
     "wikiUrl": "https://de.wikipedia.org/wiki/Grasshopper_Club_Zürich",
     "founded": 1886,
@@ -233,6 +278,15 @@
     "capacity": 25000,
     "league": "Swiss Super League",
     "intro": "Grasshopper Club Zurich (GCZ), commonly referred to as Grasshopper Club or simply just GC, is a professional multisports club based in Zurich, Switzerland. The oldest and best-known department of the club is its football team."
+  },
+  "304": {
+    "wikiUrl": "https://en.wikipedia.org/wiki/Club_Atl%C3%A9tico_Boca_Juniors",
+    "intro": "Club Atlético Boca Juniors (CABJ) (Spanish pronunciation: [kluβ aˈtletiko ˈβoka ˈʝunjoɾs]) is an Argentine professional sports club based in La Boca, a neighbourhood of Buenos Aires. The club is best known for its men's professional football team which, since its promotion in 1913, has always played in the Argentine Primera División.",
+    "founded": "1905",
+    "stadium": "La Bombonera",
+    "capacity": "58 840",
+    "league": "Argentine Primera División",
+    "website": "https://www.bocajuniors.com.ar/"
   },
   "317": {
     "wikiUrl": "https://en.wikipedia.org/wiki/Standard_Li%C3%A8ge",
@@ -269,6 +323,15 @@
     "league": "First Professional Football League",
     "intro": "Profesionalen Futbolen Klub Botev AD, commonly referred to as Botev Plovdiv (Bulgarian: Ботев Пловдив, pronounced [ˈbɔtɛf ˈpɫɔvdif]), or simply Botev (within its associated city), is a Bulgarian professional football club based in Plovdiv. It competes in the Bulgarian Parva Liga, the top flight of Bulgarian football."
   },
+  "332": {
+    "wikiUrl": "https://es.wikipedia.org/wiki/Millonarios_F.C.",
+    "intro": "Millonarios Fútbol Club, known simply as Millonarios, is a Colombian professional football club based in Bogotá, that competes in the Categoría Primera A, top flight of football in Colombia.\nIt is one of the most successful and iconic clubs in Colombia, making it one of the largest sports entities in the country and one of the most important in South America. The team's origins date back to the 1920s, but it began to be called Los Millonarios in 1937 when its name was Club Deportivo Municipal.",
+    "founded": "1946",
+    "stadium": "Estadio El Campín",
+    "capacity": "36 343",
+    "league": "Categoría Primera A",
+    "website": "https://millonarios.com.co/"
+  },
   "345": {
     "wikiUrl": "https://de.wikipedia.org/wiki/FK_Austria_Wien",
     "founded": 1911,
@@ -286,6 +349,15 @@
     "capacity": 10000,
     "league": "Primera Nacional",
     "intro": "Club Atlético Atlanta is an Argentine sports club from the Villa Crespo district of Buenos Aires. Nicknamed Los Bohemios ('The Bohemians'), Atlanta is mostly known for its football team, although the institution also hosts the practise of basketball, boxing, martial arts, handball and roller skating."
+  },
+  "366": {
+    "wikiUrl": "https://es.wikipedia.org/wiki/Independiente_Santa_Fe",
+    "intro": "Club Independiente Santa Fe, known simply as Santa Fe, is a Colombian professional football team based in Bogotá, that currently plays in the Categoría Primera A. They play their home games at the El Campín stadium.",
+    "founded": "1941",
+    "stadium": "Estadio El Campín",
+    "capacity": "36 343",
+    "league": "Categoría Primera A",
+    "website": "https://independientesantafe.com/"
   },
   "393": {
     "wikiUrl": "https://en.wikipedia.org/wiki/FC_Orsha",
@@ -330,6 +402,24 @@
     "capacity": 12919,
     "league": "Belgian Pro League",
     "intro": "Koninklijke Atletiek Associatie Gent (Dutch pronunciation: [ˈkoːnɪŋkləkə ʔɑtləˈtik ɑsoːˈɕaːsi ˈɣɛnt]; English: Royal Athletic Association Ghent), often simply known as Gent or by their nickname De Buffalo's (English: The Buffalos), is a Belgian professional sports club, based in the city of Ghent, East Flanders. Their football team is the best known section within the club and has been playing in the Belgian First Division A since the 1989–90 season."
+  },
+  "402": {
+    "wikiUrl": "https://en.wikipedia.org/wiki/AS_Monaco",
+    "intro": "Association Sportive de Monaco Football Club, commonly referred to as AS Monaco (French pronunciation: [ɑ.ɛs mɔnako]), is a professional football club based in Fontvieille, Monaco. Although not in France, they are a member of the French Football Federation (FFF) and currently compete in Ligue 1, the top tier of French football.",
+    "founded": "1924",
+    "stadium": "Stade Louis II",
+    "capacity": "18 523",
+    "league": "Ligue 1",
+    "website": "http://www.asmonaco.com/"
+  },
+  "403": {
+    "wikiUrl": "https://en.wikipedia.org/wiki/RSC_Anderlecht",
+    "intro": "Royal Sporting Club Anderlecht, commonly abbreviated to RSC Anderlecht (Dutch: [ˈɑndərlɛxt] , French: [ɑ̃dɛʁlɛkt] , German: [ˈandɐlɛçt]) or  RSCA (Dutch: [ˌɛr.ɛs.seːˈaː, -ˈʔaː], French: [ɛʁ.ɛs.se.ɑ] , German: [ˌɛʁʔɛs.tseːˈʔaː]), is a Belgian professional football club based in Anderlecht, Brussels Capital-Region. Anderlecht plays in the Belgian First Division A and is the most successful Belgian football team in European competitions, with five trophies, as well as in the Belgian domestic league, with 34 championship wins.",
+    "founded": "1908",
+    "stadium": "Lotto Park",
+    "capacity": "21 500",
+    "league": "Belgian Pro League",
+    "website": "https://www.rsca.be/"
   },
   "417": {
     "wikiUrl": "https://en.wikipedia.org/wiki/PFC_Lokomotiv_Plovdiv",
@@ -425,6 +515,15 @@
     "league": "Argentine Primera División",
     "intro": "Club Atlético Belgrano (Spanish pronunciation: [ˈkluβ aˈtletiko βelˈɣɾano]; mostly known simply as Belgrano [belˈɣɾano] or Belgrano de Córdoba [belˈɣɾano ðe ˈkoɾðoβa]) is an Argentine sports club from the city of Córdoba, best known for its football team, which currently plays in the Primera División, the first level of Argentine football league system, after being promoted from the 2022 Primera Nacional. \nBelgrano's stadium is called Julio César Villagra and is also known as El Gigante de Alberdi; it is located in Barrio Alberdi, in the central area of the city of Córdoba; it has a capacity of 35,000 spectators."
   },
+  "481": {
+    "wikiUrl": "https://en.wikipedia.org/wiki/FC_Basel_1893",
+    "intro": "Fussball Club Basel 1893, widely known as FC Basel, FCB, or just Basel, is a Swiss professional football club based in Basel, in the Canton of Basel-Stadt. Formed in 1893, the club has been Swiss national champions 21 times, Swiss Cup winners 14 times, and Swiss League Cup winners once.\nBasel competed in UEFA competitions for 25 consecutive seasons between 1999–2000 and 2023–2024.",
+    "founded": "1893",
+    "stadium": "St. Jakob-Park",
+    "capacity": "38 512",
+    "league": "Swiss Super League",
+    "website": "https://www.fcb.ch/"
+  },
   "499": {
     "wikiUrl": "https://de.wikipedia.org/wiki/GAK",
     "intro": "Gak or GAK may refer to:"
@@ -483,6 +582,15 @@
     "league": "Swiss Super League",
     "intro": "Berner Sport Club Young Boys (YB by short abbreviation, Alemannic German: [ˈiːbɛ] EE-beh) is a Swiss professional sports club based in Bern, Switzerland. Its first team has won 17 Swiss league championships and eight Swiss Cups."
   },
+  "538": {
+    "wikiUrl": "https://en.wikipedia.org/wiki/Besiktas_JK",
+    "intro": "Beşiktaş Jimnastik Kulübü (Turkish pronunciation: [beˈʃictaʃ], lit. 'Beşiktaş Gymnastics Club'), abbreviated as BJK, is a Turkish professional sports club founded in 1903 that is based in the Beşiktaş district of Istanbul. The club's football team is one of the Big Three in Turkey and one of the most successful teams in the country, having never been relegated to a lower division.",
+    "founded": "1903",
+    "stadium": "Beşiktaş Stadium",
+    "capacity": "41 903",
+    "league": "Süper Lig",
+    "website": "http://bjk.com.tr/"
+  },
   "539": {
     "wikiUrl": "https://de.wikipedia.org/wiki/SK_Rapid_Wien",
     "founded": 1899,
@@ -509,6 +617,24 @@
     "league": "Zealand Series",
     "intro": "Brøndbyernes Idrætsforening (Danish pronunciation: [ˈpʁɶnˌpyˀɐnəs ˈitʁætsfɒˌe̝ˀne̝ŋ]), usually abbreviated to Brøndby IF (Danish pronunciation: [ˈpʁɶnˌpyˀ ˌiˀˈef]), is a Danish professional football club based in Brøndbyvester. Brøndby is the professional football section of Brøndbyernes Idrætsforening, which was founded on 3 December 1964 by a merger of the football clubs Brøndbyøster Idrætsforening (founded on 10 October 1928) and Brøndbyvester Idrætsforening (founded on 1 February 1909)."
   },
+  "561": {
+    "wikiUrl": "https://en.wikipedia.org/wiki/FC_Flora_Tallinn",
+    "intro": "FC Flora, commonly known as Flora Tallinn, or simply as Flora, is an Estonian professional football club based in Tallinn that competes in the Meistriliiga, the top flight of Estonian football. The club's home ground is Lilleküla Stadium.\nFormed in 1990, Flora were founding members of the Meistriliiga, and is one of two clubs which have never been relegated from the Estonian top division since its inception in 1992, along with Narva Trans.",
+    "founded": "1990",
+    "stadium": "A. Le Coq Arena",
+    "capacity": "14 336",
+    "league": "Meistriliiga",
+    "website": "https://fcflora.ee/"
+  },
+  "562": {
+    "wikiUrl": "https://en.wikipedia.org/wiki/HJK_Helsinki",
+    "intro": "Helsingin Jalkapalloklubi (lit. 'Helsinki's Football Club'), commonly known as HJK Helsinki (Swedish: HJK Helsingfors), or simply as HJK (Finnish: ['hoː jiː koː]), is a Finnish football club based in Helsinki. The club competes in Veikkausliiga, the top division of the Finnish football league system.",
+    "founded": "1907",
+    "stadium": "Bolt Arena",
+    "capacity": "10 770",
+    "league": "Veikkausliiga",
+    "website": "https://www.hjk.fi/"
+  },
   "563": {
     "wikiUrl": "https://en.wikipedia.org/wiki/PAOK_FC",
     "founded": 1926,
@@ -518,6 +644,15 @@
     "league": "Super League Greece",
     "intro": "PAOK FC (Greek: ΠΑΕ ΠΑΟΚ, ['pa.ok]), short for Pan-Thessalonian Athletic Club of Constantinopolitans (Greek: Πανθεσσαλονίκειος Αθλητικός Όμιλος Κωνσταντινουπολιτών, romanized: Panthessaloníkios Athlitikós Ómilos Konstadinoupolitón), is a Greek professional football club based in Thessaloniki, Macedonia, Greece. The club is commonly known internationally as PAOK Thessaloniki or PAOK Salonica, while in Greece it is referred to simply as PAOK. PAOK are one of the top domestic clubs and the most successful and widely supported in Northern Greece."
   },
+  "564": {
+    "wikiUrl": "https://en.wikipedia.org/wiki/FC_K%C3%B8benhavn",
+    "intro": "Football Club Copenhagen (Danish: Football Club København, pronounced [kʰøpm̩ˈhɑwˀn]), commonly known as F.C. København, F.C.",
+    "founded": "1992",
+    "stadium": "Parken Stadium",
+    "capacity": "38 065",
+    "league": "Danish Superliga",
+    "website": "https://www.fck.dk/"
+  },
   "565": {
     "wikiUrl": "https://da.wikipedia.org/wiki/Aarhus_Gymnastikforening",
     "intro": "Der er for få eller ingen kildehenvisninger i denne artikel, hvilket er et problem. Du kan hjælpe ved at angive troværdige kilder til de påstande, som fremføres i artiklen.\n\nAarhus Gymnastikforening af 1880 (i daglig tale: AGF) er en idrætsforening i Aarhus, der blev stiftet på foranledning af kommis Christian Christensen den 26.",
@@ -526,6 +661,15 @@
     "capacity": null,
     "league": null,
     "website": null
+  },
+  "566": {
+    "wikiUrl": "https://en.wikipedia.org/wiki/Aris_Thessaloniki_FC",
+    "intro": "Aris FC (Greek: ΠΑΕ Άρης) ['aris], commonly known as Aris Thessaloniki or simply Aris, is a Greek professional football club from the city of Thessaloniki, Macedonia, Greece. The team competes in the top-tier Super League Greece and their home ground is the Kleanthis Vikelidis Stadium.\nFounded in 1914, the club was a founding member of the Macedonian Football Clubs Association, as well as the Hellenic Football Federation.",
+    "founded": "1914",
+    "stadium": "Kleanthis Vikelidis Stadium",
+    "capacity": "22 800",
+    "league": "Super League Greece",
+    "website": "https://arisfc.com.gr/gr"
   },
   "567": {
     "wikiUrl": "https://da.wikipedia.org/wiki/Odense_Boldklub",
@@ -542,6 +686,15 @@
     "league": "Kakkonen",
     "intro": "Lohjan Pallo (abbreviated LoPa) is a football club from Lohja, Finland. The club was formed in 1966 and their home ground is at the Harjun urheilukenttä."
   },
+  "569": {
+    "wikiUrl": "https://en.wikipedia.org/wiki/Olympiacos_FC",
+    "intro": "Olympiacos Football Club (Greek: ΠΑΕ Ολυμπιακός Σ.Φ.Π. [olibiaˈkos]), known simply as Olympiacos or Olympiacos Piraeus, is a Greek professional football club based in Piraeus.",
+    "founded": "1925",
+    "stadium": "Karaiskakis Stadium",
+    "capacity": "33 334",
+    "league": "Super League Greece",
+    "website": "https://www.olympiacos.org"
+  },
   "570": {
     "wikiUrl": "https://el.wikipedia.org/wiki/%CE%A0%CE%B1%CE%BD%CE%B9%CF%8E%CE%BD%CE%B9%CE%BF%CF%82_(%CF%80%CE%BF%CE%B4%CF%8C%CF%83%CF%86%CE%B1%CE%B9%CF%81%CE%BF)",
     "founded": 1890,
@@ -550,6 +703,15 @@
     "capacity": 11115,
     "league": "Super League Greece 2",
     "intro": "Panionios G.S.S. Football Club (Greek: ΠΑΕ Πανιώνιος Γ.Σ.Σ.), the Pan-Ionian Gymnastics Club of Smyrna (Πανιώνιος Γυμναστικός Σύλλογος Σμύρνης, Panionios Gymnastikos Syllogos Smyrnis), more commonly known as Panionios F.C. or simply Panionios, is a Greek football club based in Nea Smyrni,  a suburban town in the Athens agglomeration, Greece. Part of Panionios G.S.S. (founded in 1890 in [Smyrna], Panionios F.C. is the oldest Greek football club."
+  },
+  "571": {
+    "wikiUrl": "https://en.wikipedia.org/wiki/Panathinaikos_FC",
+    "intro": "Panathinaikos Football Club (Greek: ΠΑΕ Παναθηναϊκός \nΑ.Ο. [panaθinaiˈkos] ), known as Panathinaikos, or by its full name, and the name of its parent sports club, Panathinaikos A.O.",
+    "founded": "1908",
+    "stadium": "Apostolos Nikolaidis Stadium",
+    "capacity": "16 003",
+    "league": "Super League Greece",
+    "website": "https://www.pao.gr"
   },
   "572": {
     "wikiUrl": "https://en.wikipedia.org/wiki/JK_Jalgpallihaigla",
@@ -574,6 +736,15 @@
     "capacity": 14856,
     "league": "Gamma Ethniki",
     "intro": "Apollon Smyrnis Football Club (Greek: Απόλλων Σμύρνης) is a professional football club based in Athens, Greece, which competes in the Athens FCA first division.\nIt is part of GS Apollon Smyrnis (Γυμναστικός Σύλλογος Απόλλων Σμύρνης), a sports society that was founded in Smyrna, Ottoman Empire, by Anatolian Greeks in 1891 and is one of the oldest Hellenic sports clubs."
+  },
+  "575": {
+    "wikiUrl": "https://en.wikipedia.org/wiki/Drogheda_United_FC",
+    "intro": "Drogheda United Football Club is a professional Irish association football club based in Drogheda, County Louth playing in the League of Ireland Premier Division. They play their home matches at Sullivan & Lambe Park.\nThe current club is the amalgamation of two former clubs in the town: Drogheda United, a non-league club founded in 1919; and Drogheda F.C., founded in 1962.",
+    "founded": "1919",
+    "stadium": "Hunky Dorys Park",
+    "capacity": "2 000",
+    "league": "League of Ireland Premier Division",
+    "website": "https://droghedaunited.ie/"
   },
   "576": {
     "wikiUrl": "https://hr.wikipedia.org/wiki/NK_Zadar",
@@ -623,6 +794,15 @@
     "league": "Latvian Higher League",
     "intro": "Futbola klubs Auda is a Latvian professional football club, playing in the Latvian Higher League, the highest division of domestic football. They are based in Ķekava, near the capital Riga."
   },
+  "582": {
+    "wikiUrl": "https://fr.wikipedia.org/wiki/AS_FAR",
+    "intro": "Association sportive des Forces armées royales (transl. Sports Association of the Royal Armed Forces, Arabic: الجمعية الرياضية للقوات المسلحة الملكية), abbreviated as AS FAR (Arabic: نادي الجيش الملكي, romanized: Nādī al-Jaysh al-Malakī), is a professional sports club based in Rabat, the capital of Morocco. It competes in Botola Pro, the top tier of Moroccan football.\nThe club was founded in 1958, 3 years after Morocco had gained their independence and is one of the most famous football clubs in Morocco.",
+    "founded": "1958",
+    "stadium": "50 Years Without Championship Stadium",
+    "capacity": "68 095",
+    "league": "Botola 1 Pro",
+    "website": "https://www.as-far.ma/"
+  },
   "583": {
     "wikiUrl": "https://en.wikipedia.org/wiki/Riga_FC",
     "founded": 2014,
@@ -658,6 +838,15 @@
     "capacity": "30 950",
     "league": "Israeli Premier League",
     "website": "http://mhaifafc.com/"
+  },
+  "587": {
+    "wikiUrl": "https://en.wikipedia.org/wiki/Maccabi_Tel_Aviv_FC",
+    "intro": "Maccabi Tel Aviv Football Club (Hebrew: מועדון כדורגל מכבי תל אביב; Moadon Kaduregel Maccabi Tel Aviv) is an Israeli professional football club from Tel Aviv and part of the Maccabi Tel Aviv Sport Club.\nFounded in 1906 in Jaffa as the HaRishon Le Zion-Yafo Association, it is the oldest football club in Israel. With the establishment of the city of Tel Aviv in 1909, the club changed its name to Maccabi Tel Aviv.",
+    "founded": "1906",
+    "stadium": "Bloomfield Stadium",
+    "capacity": "29 400",
+    "league": "Israeli Premier League",
+    "website": "https://www.maccabi-tlv.co.il/"
   },
   "588": {
     "wikiUrl": "https://en.wikipedia.org/wiki/FK_Jelgava",
@@ -738,6 +927,33 @@
     "league": "League of Ireland Premier Division",
     "website": "https://shamrockrovers.ie/"
   },
+  "597": {
+    "wikiUrl": "https://en.wikipedia.org/wiki/Hapoel_Haifa_FC",
+    "intro": "Hapoel Haifa Football Club (Hebrew: מועדון הכדורגל הפועל חיפה, Moadon HaKaduregel Hapoel Haifa) is an Israeli professional football club located in the city of Haifa. The club won one championship (1998–99) and 4 Israeli cups (1962–63, 1965–66 and 1973–74, 2017–18).",
+    "founded": "1924",
+    "stadium": "Sammy Ofer Stadium",
+    "capacity": "30 950",
+    "league": "Israeli Premier League",
+    "website": "https://hapoelhaifa.co.il/"
+  },
+  "598": {
+    "wikiUrl": "https://en.wikipedia.org/wiki/Jeunesse_d%27Esch",
+    "intro": "Jeunesse Esch (full name Association Sportive la Jeunesse d'Esch/Alzette) is a professional football club based in Esch-sur-Alzette, in south-western Luxembourg. The side play in the National Division, the highest league in the country, and have won the league title on 28 occasions between 1921 and 2010, the most of any team in Luxembourg..",
+    "founded": "1907",
+    "stadium": "Stade de la Frontière",
+    "capacity": "4 000",
+    "league": "Luxembourg National Division",
+    "website": "http://www.jeunesse-esch.lu/"
+  },
+  "599": {
+    "wikiUrl": "https://en.wikipedia.org/wiki/Fehérvár_FC",
+    "intro": "Videoton Football Club Fehérvár (commonly known as Vidi or Fehérvár FC), is a Hungarian professional football club based in Székesfehérvár, which plays in the Nemzeti Bajnokság II from 2025–26, the second level of the Hungarian league system after relegation from Nemzeti Bajnokság I in 2024–25. Due to sponsorship reasons, the club changed its name from Videoton FC to MOL Vidi FC in 2018, the main sponsor of the club being that time the oil and gas multinational company MOL.",
+    "founded": "1941",
+    "stadium": "Sóstói Stadion",
+    "capacity": "14 300",
+    "league": "Nemzeti Bajnokság II",
+    "website": "https://www.fehervarfc.hu"
+  },
   "600": {
     "wikiUrl": "https://en.wikipedia.org/wiki/Club_Universidad_Nacional",
     "intro": "Club Universidad Nacional, A.C., simply known as Pumas UNAM or Pumas, is a Mexican professional football club based in Mexico City. It competes in Liga MX, the top division of Mexican football, and plays its home matches at the Estadio Olímpico Universitario.",
@@ -798,6 +1014,15 @@
     "league": "Liga Portugal",
     "website": "https://www.vitoriasc.pt/"
   },
+  "608": {
+    "wikiUrl": "https://no.wikipedia.org/wiki/Stab%C3%A6k_Fotball",
+    "intro": "Stabæk Fotball is a Norwegian professional football club based in Bærum, a suburb of Oslo. It is part of the multi-sport organization Stabæk IF.",
+    "founded": "1995",
+    "stadium": "Nadderud Sports Arena",
+    "capacity": "7 000",
+    "league": "1. divisjon football",
+    "website": "https://www.stabak.no/"
+  },
   "609": {
     "wikiUrl": "https://es.wikipedia.org/wiki/Club_Nacional_de_Football",
     "founded": 1899,
@@ -834,6 +1059,15 @@
     "league": "Slovak First Football League",
     "intro": "FC Spartak Trnava (Slovak pronunciation: [ˈspartak ˈtr̩naʋa]) is a professional football club based in Trnava, Slovakia. The club competes in Slovak First Football League, the top flight in the Slovak league system, having participated in more seasons than any other club."
   },
+  "613": {
+    "wikiUrl": "https://no.wikipedia.org/wiki/Tromsø_IL",
+    "intro": "Tromsø Idrettslag (Northern Sami: Romssa Valáštallansearvi) is a Norwegian professional football club based in Tromsø. They play their home games at the Romssa Arena which has a seating capacity of 6,801.",
+    "founded": "1920",
+    "stadium": "Romssa Arena",
+    "capacity": "6 859",
+    "league": "Eliteserien",
+    "website": "http://www.til.no/"
+  },
   "614": {
     "wikiUrl": "https://en.wikipedia.org/wiki/FCSB",
     "intro": "Fotbal Club FCSB (Romanian pronunciation: [fet͡ʃeseˌbe]), formerly named and still sometimes referred to as FC Steaua București, is a Romanian professional football club based in Bucharest. It has spent its entire history in the Liga I, the top flight of the Romanian football league system.",
@@ -860,6 +1094,15 @@
     "capacity": 23888,
     "league": "Terceira Divisão",
     "intro": "União Desportiva de Leiria (Portuguese pronunciation: [uniˈɐ̃w dɨ lɐjˈɾiɐ]), commonly known as União de Leiria, is a Portuguese professional football club based in Leiria. Founded on 6 June 1966, it currently plays in the Liga Portugal 2, holding home matches at Estádio Dr."
+  },
+  "617": {
+    "wikiUrl": "https://no.wikipedia.org/wiki/Bod%C3%B8_Glimt",
+    "intro": "Fotballklubben Bodø/Glimt (Norwegian pronunciation: [ˈbûːdøːˌɡlɪmt]), also referred to as Bodø/Glimt or its former name Glimt, is a Norwegian professional football club from the city of Bodø in Bodø Municipality, Nordland county,  Norway. The club currently plays in Eliteserien, the Norwegian top division.",
+    "founded": "1916",
+    "stadium": "Aspmyra Stadion",
+    "capacity": "7 354",
+    "league": "Eliteserien",
+    "website": "https://www.glimt.no/"
   },
   "618": {
     "wikiUrl": "https://en.wikipedia.org/wiki/FC_Dinamo_București",
@@ -896,6 +1139,15 @@
     "capacity": 68100,
     "league": "Liga Portugal",
     "intro": "Sport Lisboa e Benfica (Portuguese pronunciation: [sɨˈpɔɾ liʒˈβoɐ i βɐ̃jˈfikɐ] ), commonly known as Benfica, is a professional football club based in Lisbon, Portugal, that competes in the Primeira Liga, the top flight of Portuguese football.\nFounded on 28 February 1904, as Sport Lisboa, Benfica is one of the \"Big Three\" clubs in Portugal that have never been relegated from Primeira Liga, along with rivals Sporting CP and FC Porto."
+  },
+  "622": {
+    "wikiUrl": "https://en.wikipedia.org/wiki/Fenerbah%C3%A7e_SK",
+    "intro": "Fenerbahçe Spor Kulübü (Turkish pronunciation: [feˈnæɾbahtʃe], Fenerbahçe Sports Club), commonly known as Fenerbahçe or colloquially Fener, is a Turkish professional multi-sport club based in the Kadıköy district of Istanbul, Turkey. Fenerbahçe is parent to a number of different competitive departments including football, basketball, volleyball, table tennis, athletics, swimming, sailing, boxing, rowing, and eSports, which have won both international and domestic titles over the club's history.",
+    "founded": "1907",
+    "stadium": "Şükrü Saracoğlu Stadium",
+    "capacity": "50 530",
+    "league": "Süper Lig",
+    "website": "https://www.fenerbahce.org/"
   },
   "623": {
     "wikiUrl": "https://no.wikipedia.org/wiki/FK_Haugesund",
@@ -950,6 +1202,15 @@
     "league": "Liga II",
     "intro": "Asociația Club Sportiv Muncitoresc Reșița (Romanian pronunciation: [ˌklubul sporˈtiv ˌmuŋtʃi.toˈresk ˈreʃit͡sa]), commonly known as CSM Reșița or simply as Reșița, is a professional football club based in Reșița, Caraș-Severin County, which competes in the Liga II.\nThe club was founded on 16 May 1926 as UD (Uzinele și Domeniile) Reșița and throughout its almost centennial history survived to many sharp ups and downs, from a national title in 1931 and a silver medal in 1932 to the last shine in the late 1990s, several reorganizations in the 2000s and an almost fatal fall at the level of amateur leagues during the 2010s.\nOver time CSM had important battles with local rivals as Muncitorul Reșița or Gloria Reșița, but has secured itself the city's supremacy, as well as the title of county's most important and supported club."
   },
+  "629": {
+    "wikiUrl": "https://no.wikipedia.org/wiki/Odds_BK",
+    "intro": "Odds Ballklubb, commonly known as Odd, is a Norwegian professional football club from Skien. Originally the football section of a multi-sports club, it was founded in 1894, nine years after the club's founding.",
+    "founded": "1894",
+    "stadium": "Skagerak Arena",
+    "capacity": "13 500",
+    "league": "1. divisjon football",
+    "website": "https://www.odd.no/"
+  },
   "630": {
     "wikiUrl": "https://en.wikipedia.org/wiki/Sporting_CP",
     "founded": 1906,
@@ -958,6 +1219,24 @@
     "capacity": 52095,
     "league": "Liga Portugal",
     "intro": "Sporting Clube de Portugal (Portuguese pronunciation: [sɨˈpɔɾtĩg ˈkluβɨ ðɨ puɾtuˈɣal]), otherwise referred to as Sporting CP or simply Sporting (particularly within Portugal), or as Sporting Lisbon in other countries, is a Portuguese sports club based in Lisbon. Having various sports departments and sporting disciplines, it is best known for its men's professional football team playing in the Primeira Liga, the top flight of Portuguese football."
+  },
+  "631": {
+    "wikiUrl": "https://en.wikipedia.org/wiki/FK_Crvena_zvezda",
+    "intro": "Fudbalski klub Crvena zvezda (Serbian Cyrillic: Фудбалски клуб Црвена звезда, lit. 'Red Star Football Club'), commonly referred to as Crvena zvezda (pronounced [tsř̩ʋenaː zʋěːzda]) and colloquially referred to as Red Star Belgrade in Anglophone media, is a Serbian professional football club based in Belgrade, and a major part of the Red Star multi-sport society.\nThey are the most successful club from the Balkans and Southeast Europe, being the only club to have won both the European Cup and Intercontinental Cup, having done so in 1991, and only the second team from Eastern Europe to win the European Cup. With 36 national championships, 29 national cups, 2 national supercups, 2 national champions leagues and one league cup between Serbian and Yugoslav competitions, Red Star was the most successful club in Yugoslavia and finished first in the Yugoslav First League all-time table, and is the most successful club in Serbia.\nAccording to 2008 polls, Red Star Belgrade is the most popular football club in Serbia, with 48% of the population supporting them.",
+    "founded": "1945",
+    "stadium": "Rajko Mitić Stadium",
+    "capacity": "55 538",
+    "league": "Serbian SuperLiga",
+    "website": "http://www.crvenazvezdafk.com/"
+  },
+  "632": {
+    "wikiUrl": "https://pt.wikipedia.org/wiki/C.D._Santa_Clara",
+    "intro": "Clube Desportivo Santa Clara is a Portuguese professional football club from Ponta Delgada, Azores. As the most successful football team from the Azores Islands, they are the only team from the archipelago to compete in a UEFA competition, having qualified for the UEFA Intertoto Cup and the UEFA Europa Conference League.\nSanta Clara is the only club from the Azores to have competed in the top division of the Portuguese Liga, being thus the westernmost top-flight club in Europe.",
+    "founded": "1927",
+    "stadium": "Estádio de São Miguel",
+    "capacity": "12 500",
+    "league": "Liga Portugal",
+    "website": "http://www.cdsantaclara.pt"
   },
   "633": {
     "wikiUrl": "https://en.wikipedia.org/wiki/CS_Universitatea_Craiova",
@@ -1022,6 +1301,15 @@
     "league": "Slovak First Football League",
     "intro": "ŠK Slovan Bratislava (Slovak pronunciation: [ˈslɔʋam ˈbracislaʋa], \"Bratislava Slavs\") is a professional football club based in Bratislava, Slovakia, that plays in the Slovak First Football League. Founded as I. ČSŠK Bratislava in 1919, the club changed its name to Slovan Bratislava in 1953."
   },
+  "641": {
+    "wikiUrl": "https://pt.wikipedia.org/wiki/SU_Sintrense",
+    "intro": "Sport União Sintrense is a Portuguese football club based in Sintra, that plays in the Campeonato de Portugal, the fourth division of Portuguese football. The club was established on 7 October 1911..",
+    "founded": "1911",
+    "stadium": null,
+    "capacity": null,
+    "league": "Campeonato de Portugal",
+    "website": "http://www.susintrense.pt/"
+  },
   "642": {
     "wikiUrl": "https://en.wikipedia.org/wiki/FC_UTA_Arad",
     "founded": 1945,
@@ -1054,6 +1342,15 @@
     "capacity": 11390,
     "league": "Liga II",
     "intro": "Fotbal Club Politehnica Iași (Romanian pronunciation: [po.liˈteh.nika ˈjaʃʲ]), commonly known as Politehnica Iași or simply Poli Iași, was a Romanian football club from the city of Iași, Iași County.\nNamed after the Gheorghe Asachi Technical University of Iași, the team was founded in 1945."
+  },
+  "647": {
+    "wikiUrl": "https://fr.wikipedia.org/wiki/Angers_SCO",
+    "intro": "Angers Sporting Club de l'Ouest, commonly referred to as Angers SCO (French pronunciation: [ɑ̃ʒe]), is a French professional football club based in Angers in Pays de la Loire in western France. The club was founded in 1919 and plays in Ligue 1, the first division of Football in France.",
+    "founded": "1919",
+    "stadium": "Stade Raymond Kopa",
+    "capacity": "18 000",
+    "league": "Ligue 1",
+    "website": "https://www.angers-sco.fr/"
   },
   "649": {
     "wikiUrl": "https://en.wikipedia.org/wiki/U.C._Sampdoria",
@@ -1098,6 +1395,15 @@
     "league": "Championnat National 2",
     "intro": "Sporting Club Toulon is a football club from Toulon, France, that plays in the Championnat National 2, the fourth tier of the French football league system. The club was founded in 1944 and played under that name until the 1999–2000 season when they were administratively reformed as Sporting Toulon Var."
   },
+  "656": {
+    "wikiUrl": "https://fr.wikipedia.org/wiki/Paris_FC",
+    "intro": "Paris Football Club (French pronunciation: [paʁi futbol klœb]), commonly referred to as Paris FC or simply PFC, is a French professional football club based in Paris, France, which competes in Ligue 1, the top division of French football.\nFounded in 1969, the club merged with Stade Saint-Germain to form Paris Saint-Germain in 1970, but it eventually spun off in 1972. They are nicknamed Les Bleus (The Blues) for their shirt colour, and their crest features the Eiffel Tower.",
+    "founded": "1969",
+    "stadium": "Stade Charléty",
+    "capacity": "20 000",
+    "league": "Ligue 1",
+    "website": "https://parisfc.fr/"
+  },
   "657": {
     "wikiUrl": "https://en.wikipedia.org/wiki/Paris_Saint-Germain_F.C.",
     "founded": 1970,
@@ -1114,6 +1420,15 @@
     "capacity": 20987,
     "league": "Serie B",
     "intro": "Cosenza Calcio S.r.l. is an Italian football club, based in Cosenza, Calabria."
+  },
+  "659": {
+    "wikiUrl": "https://fr.wikipedia.org/wiki/Montpellier_HSC",
+    "intro": "Montpellier Hérault Sport Club (French: [mɔ̃pəlje eʁo spɔʁ klœb]; Occitan: Montpelhièr Erau Sport Club), commonly referred to as Montpellier HSC, is a French professional football club based in Montpellier, Occitanie, France. The club's origins date back to 1919, but it was officially founded in 1974 through a merger of both Stade Olympique Montpelliérain and AS Paillade.\nThe club currently competes in Ligue 2, the second level of French football.",
+    "founded": "1919",
+    "stadium": "Stade de la Mosson",
+    "capacity": "32 900",
+    "league": "Ligue 2",
+    "website": "http://www.mhscfoot.com/"
   },
   "660": {
     "wikiUrl": "https://it.wikipedia.org/wiki/US_Salernitana_1919",
@@ -1218,6 +1533,15 @@
     "capacity": 36462,
     "intro": "Bologna Football Club 1909, commonly referred to as Bologna (Italian pronunciation: [boˈloɲɲa]), is an Italian professional football club based in Bologna, Emilia-Romagna that plays in Serie A, the top flight of Italian football. The club have won seven top-flight titles, three Coppa Italia titles, and one UEFA Intertoto Cup."
   },
+  "673": {
+    "wikiUrl": "https://fr.wikipedia.org/wiki/SC_Bastia",
+    "intro": "Sporting Club Bastia (Corsican: Sporting Club di Bastia, commonly referred to as SC Bastia or simply Bastia; French: [bastja] ) is a French professional football club based in Bastia on the island of Corsica. The club plays in Ligue 2, the second tier of French football, having won the 2020–21 Championnat National.",
+    "founded": "1905",
+    "stadium": "Stade Armand Cesari",
+    "capacity": "16 000",
+    "league": "Ligue 2",
+    "website": "http://www.sc-bastia.corsica/"
+  },
   "674": {
     "wikiUrl": "https://en.wikipedia.org/wiki/Empoli_F.C.",
     "founded": 1920,
@@ -1288,6 +1612,15 @@
     "capacity": 12020,
     "league": "Serie C1",
     "intro": "Ravenna Football Club is an Italian association football club, based in Ravenna, Emilia-Romagna. It currently plays in Serie C Group B.\nThe club was founded in 1913."
+  },
+  "683": {
+    "wikiUrl": "https://it.wikipedia.org/wiki/AC_Ancona",
+    "intro": "Società Sportiva Calcistica Ancona, commonly referred to as Ancona, is an Italian football club based in Ancona, Marche, currently playing in Serie D.\nThe club is the heir of the defunct former Serie A club Ancona, with whom it shares its official historical logo. The history of football in Ancona dates back to 1905, when the original club was founded..",
+    "founded": "1905",
+    "stadium": "Stadio del Conero",
+    "capacity": "26 000",
+    "league": "Serie C",
+    "website": null
   },
   "685": {
     "wikiUrl": "https://en.wikipedia.org/wiki/Inter_Milan",
@@ -1394,6 +1727,15 @@
     "league": "Ligue 1",
     "intro": "Olympique Lyonnais (French: Olympique lyonnais; French pronunciation: [ɔlɛ̃pik ljɔnɛ]), commonly referred to as simply Lyon (French pronunciation: [ljɔ̃]) or OL, is a men's French professional football club based in Lyon, Auvergne-Rhône-Alpes, France. With origins dating back to 1899, they were founded in 1950."
   },
+  "697": {
+    "wikiUrl": "https://fr.wikipedia.org/wiki/AS_Saint-%C3%89tienne",
+    "intro": "Association Sportive de Saint-Étienne Loire (French pronunciation: [sɛ̃t‿etjɛn lwaʁ]), abbreviated as A.S.S.E. (French pronunciation: [a.ɛs.ɛs.ø]) and commonly known as Saint-Étienne, is a French professional football club based in Saint-Étienne, Auvergne-Rhône-Alpes.",
+    "founded": "1919",
+    "stadium": "Stade Geoffroy-Guichard",
+    "capacity": "41 965",
+    "league": "Ligue 2",
+    "website": "https://www.asse.fr/"
+  },
   "698": {
     "wikiUrl": "https://it.wikipedia.org/wiki/Latina_Calcio_1932",
     "founded": 1945,
@@ -1411,6 +1753,15 @@
     "capacity": 21151,
     "league": "Serie B",
     "intro": "Modena Football Club 2018, commonly referred to as Modena, is an Italian football club based in Modena, Emilia-Romagna. The club was founded in 1912, and refounded in 2018, having spent the majority of its existence playing in Serie B. They play in Serie B, having won 2021–22 Serie C's Group B title."
+  },
+  "700": {
+    "wikiUrl": "https://fr.wikipedia.org/wiki/FC_Sochaux-Montbéliard",
+    "intro": "Football Club Sochaux-Montbéliard (French pronunciation: [sɔʃo mɔ̃beljaʁ]; commonly referred to as FCSM or simply Sochaux) is a French association football club based in the commune of Montbéliard. The club was founded in 1928 and currently plays in Championnat National, the third tier of French football, after having been administratively relegated from Ligue 2 in the 2022–23 season, despite a 9th place finish.",
+    "founded": "1928",
+    "stadium": "Stade Auguste Bonal",
+    "capacity": "20 025",
+    "league": "Ligue 2",
+    "website": "http://www.fcsochaux.fr/"
   },
   "701": {
     "wikiUrl": "https://fr.wikipedia.org/wiki/FC_Nantes",
@@ -1454,6 +1805,15 @@
     "capacity": 33205,
     "intro": "Genoa Cricket and Football Club (Italian pronunciation: [ˈdʒeːnoa]) is an Italian professional football club based in Genoa, Liguria. The team competes in the Serie A, the top division of the Italian football league system."
   },
+  "709": {
+    "wikiUrl": "https://fr.wikipedia.org/wiki/AJ_Auxerre",
+    "intro": "Association de la Jeunesse Auxerroise (French pronunciation: [asɔsjɑsjɔ̃ də la ʒœnɛs osɛʁwaz]), commonly known as AJ Auxerre or by the abbreviation AJA, is a French professional football club based in Auxerre, Bourgogne-Franche-Comté, France. The club currently competes in Ligue 1, the top division of French football.",
+    "founded": "1905",
+    "stadium": "Stade de l'Abbé-Deschamps",
+    "capacity": "18 541",
+    "league": "Ligue 1",
+    "website": "http://www.aja.fr/"
+  },
   "710": {
     "wikiUrl": "https://en.wikipedia.org/wiki/AS_Roma",
     "founded": 1927,
@@ -1473,6 +1833,15 @@
     "stadium": "Arena Garibaldi – Stadio Romeo Anconetani",
     "capacity": 10442,
     "intro": "Pisa Sporting Club, commonly referred to as Pisa, is an Italian professional football club based in Pisa, Tuscany. The club currently competes in Serie A in the 2025–26 season."
+  },
+  "714": {
+    "wikiUrl": "https://fr.wikipedia.org/wiki/Toulouse_FC",
+    "intro": "Toulouse Football Club (Occitan: Tolosa Fotbòl Club) is a French professional football club based in Toulouse. The club was founded in 1970 and currently plays in Ligue 1, the first division of French football.",
+    "founded": "1970",
+    "stadium": "Stadium Municipal",
+    "capacity": "33 150",
+    "league": "Ligue 1",
+    "website": "http://www.tfc.info/"
   },
   "715": {
     "wikiUrl": "https://fr.wikipedia.org/wiki/OGC_Nice",
@@ -1666,6 +2035,15 @@
     "league": "Ettan Fotboll",
     "intro": "IFK Haninge is a Swedish football club located in Haninge in Stockholm County."
   },
+  "745": {
+    "wikiUrl": "https://nl.wikipedia.org/wiki/SC_Heerenveen",
+    "intro": "Sportclub Heerenveen (Dutch pronunciation: [ˈspɔrtklʏp ˌɦeːrə(ɱ)ˈveːn]; West Frisian: Sportklub It Hearrenfean) is a Dutch professional football club from Heerenveen. They currently play in the Eredivisie, the top level of football in the Netherlands.",
+    "founded": "1920",
+    "stadium": "Abe Lenstra Stadion",
+    "capacity": "26 100",
+    "league": "Eredivisie",
+    "website": "https://www.sc-heerenveen.nl/"
+  },
   "746": {
     "wikiUrl": "https://pl.wikipedia.org/wiki/Pogoń_Szczecin",
     "founded": 1948,
@@ -1803,6 +2181,15 @@
     "capacity": 19000,
     "league": "Eredivisie",
     "intro": "NAC Breda (Dutch pronunciation: [nɑɡ breːˈdaː]), often simply known as NAC, is a Dutch professional football club, based in Breda, Netherlands. NAC Breda play in the Rat Verlegh Stadium, named after their most important player, Antoon 'Rat' Verlegh."
+  },
+  "768": {
+    "wikiUrl": "https://sv.wikipedia.org/wiki/IK_Sirius_Fotboll",
+    "intro": "Idrottsklubben Sirius, more commonly known as IK Sirius or Sirius, is a Swedish professional football club located in Uppsala. The club is affiliated to the Upplands Fotbollförbund..",
+    "founded": "1907",
+    "stadium": "Studenternas IP",
+    "capacity": "6 500",
+    "league": "Allsvenskan",
+    "website": "https://www.siriusfotboll.se/"
   },
   "770": {
     "wikiUrl": "https://nl.wikipedia.org/wiki/VV_Kockengen",
@@ -2080,6 +2467,15 @@
     "league": "La Liga",
     "website": "http://www.rayovallecano.es/"
   },
+  "806": {
+    "wikiUrl": "https://es.wikipedia.org/wiki/Unionistas_de_Salamanca_CF",
+    "intro": "Unionistas de Salamanca Club de Fútbol is a Spanish football club in Salamanca, in the autonomous community of Castile and León. Founded in 2013, the club plays in Primera Federación – Group 1, holding home games at Campo de Fútbol Municipal Reina Sofía with a 4895-seat capacity..",
+    "founded": "2013",
+    "stadium": null,
+    "capacity": "4 895",
+    "league": "Primera Federación",
+    "website": "https://www.unionistascf.com/"
+  },
   "807": {
     "wikiUrl": "https://es.wikipedia.org/wiki/Club_Deportivo_Tenerife",
     "founded": 1922,
@@ -2122,6 +2518,15 @@
     "website": "http://www.irunavoley.com/castellano.htm",
     "league": "Tercera División",
     "intro": "Club Deportivo Iruña is a Spanish football team based in Pamplona, in the autonomous community of Navarre. Founded in 1939, it plays in Regional Preferente – Group 1, holding home matches at Estadio Paternain, with a capacity of 3,000 seats."
+  },
+  "812": {
+    "wikiUrl": "https://en.wikipedia.org/wiki/Athletic_Club_Bilbao",
+    "intro": "Athletic Club (Basque: Athletic Kluba; Spanish: Athletic Club), commonly known as Athletic Bilbao (Spanish: Athletic de Bilbao), or simply Athletic, is a professional football club based in the city of Bilbao, Spain. They are known as Lehoiak (The Lions) because their stadium was built near a church called San Mamés, which was named after Saint Mammes, an early Christian thrown to the lions by the Romans.",
+    "founded": "1898",
+    "stadium": "San Mamés Stadium",
+    "capacity": "53 289",
+    "league": "La Liga",
+    "website": "https://www.athletic-club.eus/"
   },
   "813": {
     "wikiUrl": "https://en.wikipedia.org/wiki/Sevilla_FC",
@@ -2219,6 +2624,15 @@
     "league": "La Liga",
     "website": "http://www.realbetisbalompie.es/"
   },
+  "825": {
+    "wikiUrl": "https://es.wikipedia.org/wiki/Racing_de_Santander",
+    "intro": "Real Racing Club de Santander, S.A.D. (Spanish pronunciation: [reˈal ˈraθiŋ kluβ ðe santanˈdeɾ]), also known as Racing de Santander (pronounced [ˈraθin de santanˈdeɾ]) or simply Racing, is a football club based in Santander, Cantabria, Spain, that currently competes in Segunda División, the second tier of the Spanish league system.",
+    "founded": "1913",
+    "stadium": "Campos de Sport de El Sardinero",
+    "capacity": "21 700",
+    "league": "LaLiga 2",
+    "website": "https://www.realracingclub.es/"
+  },
   "826": {
     "wikiUrl": "https://es.wikipedia.org/wiki/UE_Cornellà",
     "intro": "La Unió Esportiva Cornellà es un club de fútbol de la localidad catalana de Cornellá de Llobregat, ubicado en Barcelona, España. Fue fundado en 1951 y actualmente milita en el grupo V de la Tercera Federación, quinta categoría del fútbol español, tras haber descendido en la temporada 2024-25 quedando en el puesto 14 del grupo 3 de la Segunda Federación..",
@@ -2279,6 +2693,15 @@
     "league": "Tercera División",
     "intro": "Club Deportivo Villacañas, named Club Deportivo Fibritel Villacañas for sponsorship reasons, is a Spanish football team based in Villacañas, in the autonomous community of Castile-La Mancha. Founded in 1998, it plays in Tercera Federación – Group 18, holding home matches at Campo Municipal de Fútbol de Las Pirámides."
   },
+  "834": {
+    "wikiUrl": "https://es.wikipedia.org/wiki/C%C3%A1diz_CF",
+    "intro": "Cádiz Club de Fútbol, S.A.D. is a Spanish professional football club based in Cádiz, Andalusia.\nFounded in 1910, the club competes in Segunda División, holding home games at Nuevo Mirandilla, with a seating capacity of 20,724.\nSalvadoran legend Mágico González played for the club during the 1980s and the early 1990s, and is widely recognized as the best player to ever play for the team.\nBetween 1929 and 1977, Cádiz played in either the second or third tier of Spanish football.",
+    "founded": "1910",
+    "stadium": "Estadio Nuevo Mirandilla",
+    "capacity": "26 000",
+    "league": "LaLiga 2",
+    "website": "https://www.cadizcf.com/"
+  },
   "835": {
     "wikiUrl": "https://es.wikipedia.org/wiki/Club_Deportivo_Logroñés",
     "founded": 1940,
@@ -2333,6 +2756,15 @@
     "league": "La Liga",
     "website": "https://www.realmadrid.com/"
   },
+  "841": {
+    "wikiUrl": "https://es.wikipedia.org/wiki/Recreativo_de_Huelva",
+    "intro": "Real Club Recreativo de Huelva, S.A.D. (Spanish pronunciation: [reˈal ˈkluβ rekɾeaˈtiβo ðe ˈwelβa]) is a Spanish football club based in Huelva, Andalucia, Spain.",
+    "founded": "1889",
+    "stadium": "Estadio Nuevo Colombino",
+    "capacity": "21 670",
+    "league": "Segunda División B",
+    "website": "https://recreativohuelva.com/"
+  },
   "842": {
     "wikiUrl": "https://en.wikipedia.org/wiki/Real_Sociedad",
     "founded": 1909,
@@ -2386,6 +2818,15 @@
     "stadium": "Metropolitano Stadium",
     "capacity": "70 692",
     "website": "https://www.atleticodemadrid.com/"
+  },
+  "849": {
+    "wikiUrl": "https://es.wikipedia.org/wiki/Villarreal_CF",
+    "intro": "Villarreal Club de Fútbol, S.A.D., usually abbreviated to Villarreal CF, is a Spanish professional football club based in Villarreal, in the Castellón province of eastern Spain, that plays in La Liga, the top flight of Spanish football.\nFounded in 1923, the club spent much time of its history in the lower divisions of Spanish football and began in La Liga in 1998. In the 21st century, Villarreal gained some league stability, although they sustained relegation in 2012, rebounding the next year and then remaining in the top division to date.",
+    "founded": "1923",
+    "stadium": "Estadio de la Cerámica",
+    "capacity": "24 891",
+    "league": "La Liga",
+    "website": "https://villarrealcf.es/"
   },
   "850": {
     "wikiUrl": "https://en.wikipedia.org/wiki/RB_Leipzig",
@@ -2451,6 +2892,15 @@
     "capacity": 35303,
     "league": "3. Liga",
     "intro": "1. Fußball-Club Saarbrücken (German: 1."
+  },
+  "866": {
+    "wikiUrl": "https://de.wikipedia.org/wiki/Darmstadt_98",
+    "intro": "Sportverein Darmstadt 1898 e.V., commonly known as Darmstadt 98 (German pronunciation: [ˌdaʁmʃtat ʔaxtʔʊntˈnɔɪ̯nt͡sɪç] ), is a German professional association football club based in Darmstadt, Hesse. The club was founded on 22 May 1898 as FC Olympia Darmstadt.",
+    "founded": "1898",
+    "stadium": "Stadion am Böllenfalltor",
+    "capacity": "19 000",
+    "league": "2. Bundesliga",
+    "website": "https://www.sv98.de/"
   },
   "869": {
     "wikiUrl": "https://de.wikipedia.org/wiki/FC_Energie_Cottbus",
@@ -2990,6 +3440,15 @@
     "league": "Russian Premier League",
     "intro": "FC Lokomotiv Moscow (Russian: Футбольный клуб \"Локомотив\" Москва, romanized: Futbol'nyy klub \"Lokomotiv\" Moskva, IPA: [fʊdˈbolʲnɨj ˈklup ləkəmɐˈtʲif mɐˈskva]) is a Russian professional football club based in Moscow. Lokomotiv have won the Russian Premier League on three occasions; the Soviet Cup twice; and the Russian Cup a record nine times."
   },
+  "974": {
+    "wikiUrl": "https://ru.wikipedia.org/wiki/%D0%9A%D1%80%D1%8B%D0%BB%D1%8C%D1%8F_%D0%A1%D0%BE%D0%B2%D0%B5%D1%82%D0%BE%D0%B2_%D0%A1%D0%B0%D0%BC%D0%B0%D1%80%D0%B0",
+    "intro": "PFC Krylia Sovetov Samara (Russian: Профессиональный футбольный клуб «Крылья Советов» Самара) is a Russian professional football club based in Samara that plays in the Russian Premier League. In 2004, they finished third in the Russian Premier League..",
+    "founded": "1942",
+    "stadium": "Metallurg Stadium",
+    "capacity": "35 330",
+    "league": "Russian Premier League",
+    "website": "https://pfcks.ru/"
+  },
   "975": {
     "wikiUrl": "https://en.wikipedia.org/wiki/Birmingham_City_F.C.",
     "founded": 1875,
@@ -3152,6 +3611,15 @@
     "league": "Premier League",
     "intro": "West Ham United Football Club is a professional football club based in Stratford, East London, England. The club competes in the Premier League, the top tier of the English football league system."
   },
+  "995": {
+    "wikiUrl": "https://en.wikipedia.org/wiki/Chester_FC",
+    "intro": "Chester Football Club is an association football club based in Chester, England. They are currently members of the National League North, the sixth tier of English football, and play at the Deva Stadium.\nThe club was reformed in 2010 following the liquidation of Chester City.",
+    "founded": "2010",
+    "stadium": "Deva Stadium",
+    "capacity": "6 000",
+    "league": "National League North",
+    "website": "https://chesterfc.com/"
+  },
   "996": {
     "wikiUrl": "https://en.wikipedia.org/wiki/CSKA_Moscow",
     "founded": 1923,
@@ -3176,6 +3644,15 @@
     "league": "EFL League Two",
     "intro": "Notts County Football Club is a professional football club in Nottingham, England, which competes in EFL League Two, the fourth tier of English football, following promotion from the National League in the 2022–23 season. Founded in 1862, Notts County are the oldest professional football club in the world."
   },
+  "999": {
+    "wikiUrl": "https://en.wikipedia.org/wiki/Celtic_FC",
+    "intro": "The Celtic Football Club, commonly known as Celtic (), is a professional football club in Glasgow, Scotland. The team competes in the Scottish Premiership, the top division of Scottish football.",
+    "founded": "1887",
+    "stadium": "Celtic Park",
+    "capacity": "60 355",
+    "league": "Scottish Premiership",
+    "website": "https://www.celticfc.com"
+  },
   "1000": {
     "wikiUrl": "https://en.wikipedia.org/wiki/Chelsea_F.C.",
     "founded": 1905,
@@ -3184,6 +3661,33 @@
     "capacity": 41875,
     "league": "Premier League",
     "intro": "Chelsea Football Club is a professional football club based in Fulham, West London, England. They compete in the Premier League, the top tier of English football, and are one of the most successful clubs in English football history."
+  },
+  "1001": {
+    "wikiUrl": "https://en.wikipedia.org/wiki/Brentford_FC",
+    "intro": "Brentford Football Club is a professional association football club based in Brentford, West London, England. The team competes in the Premier League, the top tier of English football.",
+    "founded": "1889",
+    "stadium": "Griffin Park",
+    "capacity": "14 863",
+    "league": "Premier League",
+    "website": "https://www.brentfordfc.com/"
+  },
+  "1002": {
+    "wikiUrl": "https://ru.wikipedia.org/wiki/ФК_Кубань_Краснодар",
+    "intro": "FC Kuban (Russian: Футбольный клуб \"Кубань\" Краснодар) was a Russian professional football club based in Krasnodar, which now only plays on a regional level. The team began playing in the Russian Premier League in 2011, having for won the Russian First Division a year prior.",
+    "founded": "1928",
+    "stadium": "Kuban Stadium",
+    "capacity": "31 654",
+    "league": "Russian First League",
+    "website": "https://www.fckuban.com/"
+  },
+  "1003": {
+    "wikiUrl": "https://en.wikipedia.org/wiki/Hull_City_AFC",
+    "intro": "Hull City Association Football Club is a professional association football club based in Kingston upon Hull, East Riding of Yorkshire, England. The club competes in the EFL Championship, the second tier of English football.",
+    "founded": "1904",
+    "stadium": "MKM Stadium",
+    "capacity": "25 400",
+    "league": "EFL Championship",
+    "website": "https://www.wearehullcity.co.uk/"
   },
   "1004": {
     "wikiUrl": "https://en.wikipedia.org/wiki/Heart_of_Midlothian_F.C.",
@@ -3202,6 +3706,15 @@
     "capacity": 80000,
     "league": "Russian Premier League",
     "intro": "Football Club Zenit (Russian: Футбольный клуб «Зенит», romanized: Futbolny klub \"Zenit\", pronounced [fʊdˈbolʲnɨj ˈklub zʲɪˈnʲit]), also known as Zenit Saint Petersburg or simply Zenit, is a Russian professional football club based in Saint Petersburg. Founded in 1925 (or in 1914, according to some Russian sources), the club plays in the Russian Premier League."
+  },
+  "1006": {
+    "wikiUrl": "https://en.wikipedia.org/wiki/Dundee_FC",
+    "intro": "Dundee Football Club is a professional football club based in the city of Dundee, Scotland, founded in 1893. The team are nicknamed \"The Dark Blues\" or \"The Dee\".",
+    "founded": "1893",
+    "stadium": "Dens Park",
+    "capacity": "11 506",
+    "league": "Scottish Premiership",
+    "website": "https://dundeefc.co.uk/"
   },
   "1007": {
     "wikiUrl": "https://en.wikipedia.org/wiki/Hibernian_F.C.",
@@ -3248,6 +3761,15 @@
     "league": "Premier League",
     "intro": "Nottingham Forest Football Club is a professional football club based in West Bridgford, Nottinghamshire, England. The club competes in the Premier League, the top tier of English football."
   },
+  "1012": {
+    "wikiUrl": "https://en.wikipedia.org/wiki/Clyde_FC",
+    "intro": "Clyde Football Club is a Scottish semi-professional football club who play in Scottish League Two. Nicknamed the Bully Wee, the club was formed in 1877 at the River Clyde in Glasgow, the club currently host their home matches at New Douglas Park in Hamilton, having played at Broadwood Stadium in Cumbernauld from 1994 until 2022.\nThe club's biggest accomplishments are winning the Scottish Cup on three occasions: 1939, 1955 and 1958; they reached the final a further three times, all during a long period based at Shawfield, in Rutherglen.",
+    "founded": "1877",
+    "stadium": "New Douglas Park",
+    "capacity": "6 078",
+    "league": "Scottish Football League Third Division",
+    "website": "https://www.clydefc.co.uk/"
+  },
   "1013": {
     "wikiUrl": "https://en.wikipedia.org/wiki/Rangers_F.C.",
     "founded": 1872,
@@ -3265,6 +3787,15 @@
     "stadium": "Fir Park",
     "capacity": "13 677",
     "website": "https://www.motherwellfc.co.uk/"
+  },
+  "1015": {
+    "wikiUrl": "https://en.wikipedia.org/wiki/Clapton_CFC",
+    "intro": "Clapton Community Football Club is a supporters fan owned members football club based in Forest Gate, London, England. Their men's team are currently members of the Eastern Counties League Division One South.",
+    "founded": null,
+    "stadium": null,
+    "capacity": null,
+    "league": null,
+    "website": null
   },
   "1016": {
     "wikiUrl": "https://en.wikipedia.org/wiki/FC_Dynamo_Moscow",
@@ -3355,6 +3886,15 @@
     "capacity": 4700,
     "league": "Eliteserien",
     "intro": "Sarpsborg 08 Fotballforening, commonly known as Sarpsborg 08 or simply Sarpsborg ([ˈsɑ̀ʂbɔr]), is a Norwegian professional football club based in Sarpsborg, playing in Eliteserien. Sarpsborg 08 and its predecessors played in 1."
+  },
+  "1030": {
+    "wikiUrl": "https://en.wikipedia.org/wiki/Racing_Ferrol",
+    "intro": "Racing Club de Ferrol, commonly known as Racing de Ferrol or Racing Ferrol, is a Spanish football team based in Ferrol, Province of A Coruña, in the autonomous community of Galicia.\nFounded in 1919, the club currently plays in Primera Federación – Group 1, holding home games at Estadio da Malata. Club colours are green shirts with white shorts, though during the early years of its existence green and white shirts with vertical stripes were used.\nAlthough Racing has never played in Spain's top division of La Liga, the club has spent many years in the second tier before being in the third tier more recently.",
+    "founded": "1919",
+    "stadium": "Municipal Stadium of A Malata",
+    "capacity": "11 669",
+    "league": "LaLiga 2",
+    "website": "https://racingclubferrol.net/"
   },
   "1031": {
     "wikiUrl": "https://en.wikipedia.org/wiki/1._FC_Slov%C3%A1cko",
@@ -3733,6 +4273,15 @@
     "league": "Eerste Divisie",
     "intro": "Alles Door Oefening Den Haag (Dutch pronunciation: [ˈɑləz doːr ˈufənɪŋ dɛn ˈɦaːx]), commonly known by the abbreviated name ADO Den Haag ([ˈaːdoː dɛn ˈɦaːx]), is a Dutch association football club from the city of The Hague. They play in the Eerste Divisie, the second tier of Dutch football, following relegation from the Eredivisie in the 2020–21 season."
   },
+  "1096": {
+    "wikiUrl": "https://en.wikipedia.org/wiki/S.S._Juve_Stabia",
+    "intro": "Società Sportiva Juve Stabia is an Italian professional football club based in Castellammare di Stabia, Campania.\nJuve Stabia plays in Serie B, the second tier of Italian football system, following their promotion ahead of the 2024–25 season..",
+    "founded": "1907",
+    "stadium": "Stadio Romeo Menti",
+    "capacity": "13 000",
+    "league": "Serie B",
+    "website": "https://www.ssjuvestabia.it/"
+  },
   "1097": {
     "wikiUrl": "https://en.wikipedia.org/wiki/Parma_Calcio_1913",
     "founded": 1913,
@@ -3877,6 +4426,15 @@
     "capacity": 9410,
     "league": "1. divisjon football",
     "intro": "Moss Fotballklubb is a Norwegian football club, founded on 28 August 1906. They play in the 1."
+  },
+  "1116": {
+    "wikiUrl": "https://en.wikipedia.org/wiki/I.K._Start",
+    "intro": "Idrettsklubben Start (or simply IK Start) is a Norwegian football club from the city of Kristiansand that currently plays in the Eliteserien, the top tier of the Norwegian football league system. The club was founded on 19 September 1905.",
+    "founded": "1905",
+    "stadium": "Sparebanken Norge Arena Kristiansand",
+    "capacity": "14 563",
+    "league": "Eliteserien",
+    "website": "https://www.ikstart.no/"
   },
   "1117": {
     "wikiUrl": "https://pl.wikipedia.org/wiki/Motor_Lublin",
@@ -4151,6 +4709,15 @@
     "capacity": 10841,
     "league": "EFL League One",
     "intro": "Stockport County Football Club is a professional football club in Stockport, Greater Manchester, England, which competes in EFL League One, the third tier of the English football league system.\nFormed in 1883 as Heaton Norris Rovers, they were renamed Stockport County in 1890 after the County Borough of Stockport."
+  },
+  "1165": {
+    "wikiUrl": "https://en.wikipedia.org/wiki/Livorno_Calcio",
+    "intro": "Unione Sportiva Livorno 1915 (formerly A.S. Livorno Calcio, commonly known as Livorno), is a professional football club based in Livorno, Tuscany, Italy.",
+    "founded": "1915",
+    "stadium": "Stadio Armando Picchi",
+    "capacity": "14 312",
+    "league": "Eccellenza Tuscany",
+    "website": "https://www.uslivorno.com/"
   },
   "1166": {
     "wikiUrl": "https://en.wikipedia.org/wiki/Coritiba_Foot_Ball_Club",
