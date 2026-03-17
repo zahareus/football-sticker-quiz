@@ -169,7 +169,7 @@
 
                             <div class="club-details-block club-mini-card">
 <p class="club-info-item">Est. 1919 · Liga Portugal 2 · Estádio do Restelo</p>
-<p class="club-info-item"><a href="/clubs/1051.html">View all 0 stickers from C.F. Os Belenenses →</a></p>
+<p class="club-info-item"><a href="/clubs/1051.html">View all 1 stickers from C.F. Os Belenenses →</a></p>
 </div>
                             <p class="sticker-detail-rating" id="sticker-rating" data-sticker-id="2293" data-club-id="1051" data-difficulty="3">
                                 <a href="/battle.html">Like Rate: <span id="rating-value">...</span> (<span id="rating-rank">#...</span>)</a>
@@ -533,6 +533,19 @@
                 })();
 
                 (function() {
+                    L.marker([42.2400583333333, -8.723275], {
+                        icon: L.icon({
+                            iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
+                            iconSize: [18, 30],
+                            iconAnchor: [9, 30],
+                            popupAnchor: [1, -25]
+                        }),
+                        opacity: 0.6
+                    }).addTo(map)
+                    .bindPopup('<div class="nearby-sticker-popup"><strong>RC Celta de Vigo</strong><a href="/stickers/2294.html" class="map-popup-link">View</a></div>');
+                })();
+
+                (function() {
                     L.marker([42.2363888888889, -8.72013611111111], {
                         icon: L.icon({
                             iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
@@ -556,19 +569,6 @@
                         opacity: 0.6
                     }).addTo(map)
                     .bindPopup('<div class="nearby-sticker-popup"><strong>AD Alcorcón</strong><a href="/stickers/2291.html" class="map-popup-link">View</a></div>');
-                })();
-
-                (function() {
-                    L.marker([42.2371972222222, -8.72024166666667], {
-                        icon: L.icon({
-                            iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
-                            iconSize: [18, 30],
-                            iconAnchor: [9, 30],
-                            popupAnchor: [1, -25]
-                        }),
-                        opacity: 0.6
-                    }).addTo(map)
-                    .bindPopup('<div class="nearby-sticker-popup"><strong>C.F. Os Belenenses</strong><a href="/stickers/2293.html" class="map-popup-link">View</a></div>');
                 })();
 
                 (function() {
@@ -703,9 +703,9 @@
                     [42.2349694444444, -8.71768333333333],
                     [42.2399361111111, -8.72637777777778],
                     [42.2399527777778, -8.72636111111111],
+                    [42.2400583333333, -8.723275],
                     [42.2363888888889, -8.72013611111111],
                     [42.2372444444444, -8.71815277777778],
-                    [42.2371972222222, -8.72024166666667],
                     [42.2363055555556, -8.72189166666667],
                     [42.2399527777778, -8.72635833333333],
                     [42.2386333333333, -8.72603055555556],

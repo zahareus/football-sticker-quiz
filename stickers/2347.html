@@ -168,7 +168,7 @@
                             </div>
 
                             <div class="club-details-block club-mini-card">
-<p class="club-info-item"><a href="/clubs/1057.html">View all 0 stickers from SC Berliner Amateure →</a></p>
+<p class="club-info-item"><a href="/clubs/1057.html">View all 1 stickers from SC Berliner Amateure →</a></p>
 </div>
                             <p class="sticker-detail-rating" id="sticker-rating" data-sticker-id="2347" data-club-id="1057" data-difficulty="1">
                                 <a href="/battle.html">Like Rate: <span id="rating-value">...</span> (<span id="rating-rank">#...</span>)</a>
@@ -558,6 +558,19 @@
                 })();
 
                 (function() {
+                    L.marker([50.0932416666667, 14.4480444444444], {
+                        icon: L.icon({
+                            iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
+                            iconSize: [18, 30],
+                            iconAnchor: [9, 30],
+                            popupAnchor: [1, -25]
+                        }),
+                        opacity: 0.6
+                    }).addTo(map)
+                    .bindPopup('<div class="nearby-sticker-popup"><strong>Eintracht Frankfurt</strong><a href="/stickers/2348.html" class="map-popup-link">View</a></div>');
+                })();
+
+                (function() {
                     L.marker([50.0857388888889, 14.4255166666667], {
                         icon: L.icon({
                             iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
@@ -922,19 +935,6 @@
                 })();
 
                 (function() {
-                    L.marker([50.0824055555556, 14.4263888888889], {
-                        icon: L.icon({
-                            iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
-                            iconSize: [18, 30],
-                            iconAnchor: [9, 30],
-                            popupAnchor: [1, -25]
-                        }),
-                        opacity: 0.6
-                    }).addTo(map)
-                    .bindPopup('<div class="nearby-sticker-popup"><strong>SC Berliner Amateure</strong><a href="/stickers/2347.html" class="map-popup-link">View</a></div>');
-                })();
-
-                (function() {
                     L.marker([50.0778083333333, 14.4178722222222], {
                         icon: L.icon({
                             iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
@@ -1120,6 +1120,7 @@
                     [50.0929194444444, 14.4464611111111],
                     [50.0917694444444, 14.4264055555556],
                     [50.0857388888889, 14.4255888888889],
+                    [50.0932416666667, 14.4480444444444],
                     [50.0857388888889, 14.4255166666667],
                     [50.0775861111111, 14.4205555555556],
                     [50.0777333333333, 14.4197055555556],
@@ -1143,8 +1144,7 @@
                     [50.0876777777778, 14.3910638888889],
                     [50.0845527777778, 14.4135583333333],
                     [50.0881888888889, 14.4477583333333],
-                    [50.0911972222222, 14.4271972222222],
-                    [50.0918833333333, 14.4263916666667]
+                    [50.0911972222222, 14.4271972222222]
                 ]);
                 map.fitBounds(bounds, { padding: [30, 30], maxZoom: 14 });
                 

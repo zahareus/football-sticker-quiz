@@ -169,7 +169,7 @@
 
                             <div class="club-details-block club-mini-card">
 <p class="club-info-item">Est. 1919 · Premier League · Elland Road</p>
-<p class="club-info-item"><a href="/clubs/1078.html">View all 0 stickers from 󠁧󠁢󠁥󠁮󠁧󠁿 Leeds United →</a></p>
+<p class="club-info-item"><a href="/clubs/1078.html">View all 1 stickers from 󠁧󠁢󠁥󠁮󠁧󠁿 Leeds United →</a></p>
 </div>
                             <p class="sticker-detail-rating" id="sticker-rating" data-sticker-id="2469" data-club-id="1078" data-difficulty="2">
                                 <a href="/battle.html">Like Rate: <span id="rating-value">...</span> (<span id="rating-rank">#...</span>)</a>
@@ -715,6 +715,19 @@
                 })();
 
                 (function() {
+                    L.marker([50.0845555555556, 14.4135694444444], {
+                        icon: L.icon({
+                            iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
+                            iconSize: [18, 30],
+                            iconAnchor: [9, 30],
+                            popupAnchor: [1, -25]
+                        }),
+                        opacity: 0.6
+                    }).addTo(map)
+                    .bindPopup('<div class="nearby-sticker-popup"><strong>Modena</strong><a href="/stickers/2470.html" class="map-popup-link">View</a></div>');
+                })();
+
+                (function() {
                     L.marker([50.0782361111111, 14.4191444444444], {
                         icon: L.icon({
                             iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
@@ -829,19 +842,6 @@
                         opacity: 0.6
                     }).addTo(map)
                     .bindPopup('<div class="nearby-sticker-popup"><strong>SK Sturm Graz</strong><a href="/stickers/2336.html" class="map-popup-link">View</a></div>');
-                })();
-
-                (function() {
-                    L.marker([50.0845527777778, 14.4135583333333], {
-                        icon: L.icon({
-                            iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
-                            iconSize: [18, 30],
-                            iconAnchor: [9, 30],
-                            popupAnchor: [1, -25]
-                        }),
-                        opacity: 0.6
-                    }).addTo(map)
-                    .bindPopup('<div class="nearby-sticker-popup"><strong>󠁧󠁢󠁥󠁮󠁧󠁿 Leeds United</strong><a href="/stickers/2469.html" class="map-popup-link">View</a></div>');
                 })();
 
                 (function() {
@@ -1133,6 +1133,7 @@
                     [50.0779305555556, 14.4195166666667],
                     [50.0774388888889, 14.4204083333333],
                     [50.0774611111111, 14.4258916666667],
+                    [50.0845555555556, 14.4135694444444],
                     [50.0782361111111, 14.4191444444444],
                     [50.0937388888889, 14.4552222222222],
                     [50.0845833333333, 14.4135444444444],
@@ -1142,7 +1143,6 @@
                     [50.0878305555556, 14.3914888888889],
                     [50.086375, 14.4268388888889],
                     [50.0876777777778, 14.3910638888889],
-                    [50.0845527777778, 14.4135583333333],
                     [50.0881888888889, 14.4477583333333],
                     [50.0911972222222, 14.4271972222222],
                     [50.0918833333333, 14.4263916666667]

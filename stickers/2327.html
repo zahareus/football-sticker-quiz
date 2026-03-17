@@ -169,7 +169,7 @@
 
                             <div class="club-details-block club-mini-card">
 <p class="club-info-item">Est. 1964 · Zealand Series · Brøndby Stadium</p>
-<p class="club-info-item"><a href="/clubs/560.html">View all 0 stickers from Brondby IF →</a></p>
+<p class="club-info-item"><a href="/clubs/560.html">View all 3 stickers from Brondby IF →</a></p>
 </div>
                             <p class="sticker-detail-rating" id="sticker-rating" data-sticker-id="2327" data-club-id="560" data-difficulty="2">
                                 <a href="/battle.html">Like Rate: <span id="rating-value">...</span> (<span id="rating-rank">#...</span>)</a>
@@ -182,7 +182,13 @@
                         </div>
                     </div>
                 </div>
-                
+                <div class="more-from-club">
+<h3>More from Brondby IF</h3>
+<div class="sticker-strip">
+<a href="/stickers/182.html" class="sticker-strip-item"><img src="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/stickers/Brondby_IF/IMG_8113_thumb.webp?" alt="Sticker #182" loading="lazy" decoding="async"></a>
+<a href="/stickers/2472.html" class="sticker-strip-item"><img src="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/club_560%2F1756552898192_IMG_6649_thumb.webp" alt="Sticker #2472" loading="lazy" decoding="async"></a>
+</div>
+</div>
                 
             <div class="sticker-map-section sticker-map-full-width">
                 <div id="sticker-map" class="sticker-map-container"></div>
@@ -325,6 +331,19 @@
                 })();
 
                 (function() {
+                    L.marker([50.0911638888889, 14.4272305555556], {
+                        icon: L.icon({
+                            iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
+                            iconSize: [18, 30],
+                            iconAnchor: [9, 30],
+                            popupAnchor: [1, -25]
+                        }),
+                        opacity: 0.6
+                    }).addTo(map)
+                    .bindPopup('<div class="nearby-sticker-popup"><strong>1 FC Magdeburg</strong><a href="/stickers/2328.html" class="map-popup-link">View</a></div>');
+                })();
+
+                (function() {
                     L.marker([50.0876777777778, 14.390175], {
                         icon: L.icon({
                             iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
@@ -426,19 +445,6 @@
                         opacity: 0.6
                     }).addTo(map)
                     .bindPopup('<div class="nearby-sticker-popup"><strong>Dynamo Dresden</strong><a href="/stickers/2326.html" class="map-popup-link">View</a></div>');
-                })();
-
-                (function() {
-                    L.marker([50.0895416666667, 14.4280472222222], {
-                        icon: L.icon({
-                            iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
-                            iconSize: [18, 30],
-                            iconAnchor: [9, 30],
-                            popupAnchor: [1, -25]
-                        }),
-                        opacity: 0.6
-                    }).addTo(map)
-                    .bindPopup('<div class="nearby-sticker-popup"><strong>Brondby IF</strong><a href="/stickers/2327.html" class="map-popup-link">View</a></div>');
                 })();
 
                 (function() {
@@ -1103,6 +1109,7 @@
                     [50.0709222222222, 14.4151722222222],
                     [50.0972583333333, 14.4636611111111],
                     [50.0887638888889, 14.4612861111111],
+                    [50.0911638888889, 14.4272305555556],
                     [50.0876777777778, 14.390175],
                     [50.0876805555556, 14.3912305555556],
                     [50.0916111111111, 14.4489305555556],
@@ -1111,7 +1118,6 @@
                     [50.0922777777778, 14.4268888888889],
                     [50.0881944444444, 14.4477888888889],
                     [50.0889166666667, 14.4279944444444],
-                    [50.0895416666667, 14.4280472222222],
                     [50.0930361111111, 14.4520611111111],
                     [50.0908138888889, 14.4597305555556],
                     [50.0885805555556, 14.4307083333333],

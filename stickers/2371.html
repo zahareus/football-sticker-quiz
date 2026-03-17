@@ -168,7 +168,7 @@
                             </div>
 
                             <div class="club-details-block club-mini-card">
-<p class="club-info-item"><a href="/clubs/1060.html">View all 0 stickers from TSV Unterschüpf 1902 →</a></p>
+<p class="club-info-item"><a href="/clubs/1060.html">View all 1 stickers from TSV Unterschüpf 1902 →</a></p>
 </div>
                             <p class="sticker-detail-rating" id="sticker-rating" data-sticker-id="2371" data-club-id="1060" data-difficulty="1">
                                 <a href="/battle.html">Like Rate: <span id="rating-value">...</span> (<span id="rating-rank">#...</span>)</a>
@@ -373,6 +373,19 @@
                         opacity: 0.6
                     }).addTo(map)
                     .bindPopup('<div class="nearby-sticker-popup"><strong>VfB Stuttgart</strong><a href="/stickers/2363.html" class="map-popup-link">View</a></div>');
+                })();
+
+                (function() {
+                    L.marker([48.7787472222222, 9.18011388888889], {
+                        icon: L.icon({
+                            iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
+                            iconSize: [18, 30],
+                            iconAnchor: [9, 30],
+                            popupAnchor: [1, -25]
+                        }),
+                        opacity: 0.6
+                    }).addTo(map)
+                    .bindPopup('<div class="nearby-sticker-popup"><strong>SSV Reutlingen 05</strong><a href="/stickers/2372.html" class="map-popup-link">View</a></div>');
                 })();
 
                 (function() {
@@ -1195,19 +1208,6 @@
                 })();
 
                 (function() {
-                    L.marker([48.7793194444444, 9.17919166666667], {
-                        icon: L.icon({
-                            iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
-                            iconSize: [18, 30],
-                            iconAnchor: [9, 30],
-                            popupAnchor: [1, -25]
-                        }),
-                        opacity: 0.6
-                    }).addTo(map)
-                    .bindPopup('<div class="nearby-sticker-popup"><strong>TSV Unterschüpf 1902</strong><a href="/stickers/2371.html" class="map-popup-link">View</a></div>');
-                })();
-
-                (function() {
                     L.marker([48.7955944444444, 9.22271944444445], {
                         icon: L.icon({
                             iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
@@ -1392,6 +1392,7 @@
                     [48.7795611111111, 9.17925],
                     [48.7774888888889, 9.17975555555556],
                     [48.7789166666667, 9.17915277777778],
+                    [48.7787472222222, 9.18011388888889],
                     [48.7795861111111, 9.17933333333333],
                     [48.7796027777778, 9.17931388888889],
                     [48.7763027777778, 9.17601944444444],
@@ -1429,8 +1430,7 @@
                     [48.782525, 9.18172222222222],
                     [48.7952527777778, 9.22306666666667],
                     [48.7982027777778, 9.21750833333333],
-                    [48.7807777777778, 9.17951944444444],
-                    [48.7806277777778, 9.18337777777778]
+                    [48.7807777777778, 9.17951944444444]
                 ]);
                 map.fitBounds(bounds, { padding: [30, 30], maxZoom: 14 });
                 

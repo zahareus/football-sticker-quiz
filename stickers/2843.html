@@ -169,7 +169,7 @@
 
                             <div class="club-details-block club-mini-card">
 <p class="club-info-item">Est. 1964 · Ekstraklasa · Stadion GKS Katowice</p>
-<p class="club-info-item"><a href="/clubs/1144.html">View all 0 stickers from GKS Katowice →</a></p>
+<p class="club-info-item"><a href="/clubs/1144.html">View all 1 stickers from GKS Katowice →</a></p>
 </div>
                             <p class="sticker-detail-rating" id="sticker-rating" data-sticker-id="2843" data-club-id="1144" data-difficulty="1">
                                 <a href="/battle.html">Like Rate: <span id="rating-value">...</span> (<span id="rating-rank">#...</span>)</a>
@@ -832,6 +832,19 @@
                 })();
 
                 (function() {
+                    L.marker([52.1121833, 4.2789167], {
+                        icon: L.icon({
+                            iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
+                            iconSize: [18, 30],
+                            iconAnchor: [9, 30],
+                            popupAnchor: [1, -25]
+                        }),
+                        opacity: 0.6
+                    }).addTo(map)
+                    .bindPopup('<div class="nearby-sticker-popup"><strong>ADO Den Haag</strong><a href="/stickers/2844.html" class="map-popup-link">View</a></div>');
+                })();
+
+                (function() {
                     L.marker([52.0798861, 4.309825], {
                         icon: L.icon({
                             iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
@@ -920,19 +933,6 @@
                         opacity: 0.6
                     }).addTo(map)
                     .bindPopup('<div class="nearby-sticker-popup"><strong>TV Rönkhausen 1892 eV</strong><a href="/stickers/2865.html" class="map-popup-link">View</a></div>');
-                })();
-
-                (function() {
-                    L.marker([52.1172361, 4.2801806], {
-                        icon: L.icon({
-                            iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
-                            iconSize: [18, 30],
-                            iconAnchor: [9, 30],
-                            popupAnchor: [1, -25]
-                        }),
-                        opacity: 0.6
-                    }).addTo(map)
-                    .bindPopup('<div class="nearby-sticker-popup"><strong>GKS Katowice</strong><a href="/stickers/2843.html" class="map-popup-link">View</a></div>');
                 })();
 
                 (function() {
@@ -1038,10 +1038,10 @@
                     [52.1119111, 4.2776194],
                     [52.0803083, 4.3076444],
                     [52.1163944, 4.2815944],
+                    [52.1121833, 4.2789167],
                     [52.0798861, 4.309825],
                     [52.0793139, 4.3109389],
-                    [52.0798861, 4.309825],
-                    [52.0840222, 4.3053417]
+                    [52.0798861, 4.309825]
                 ]);
                 map.fitBounds(bounds, { padding: [30, 30], maxZoom: 14 });
                 

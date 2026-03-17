@@ -169,7 +169,7 @@
 
                             <div class="club-details-block club-mini-card">
 <p class="club-info-item">Est. 1910 · Nemzeti Bajnokság I · DVTK Stadion</p>
-<p class="club-info-item"><a href="/clubs/1067.html">View all 0 stickers from Diósgyőri VTK →</a></p>
+<p class="club-info-item"><a href="/clubs/1067.html">View all 1 stickers from Diósgyőri VTK →</a></p>
 </div>
                             <p class="sticker-detail-rating" id="sticker-rating" data-sticker-id="2406" data-club-id="1067" data-difficulty="1">
                                 <a href="/battle.html">Like Rate: <span id="rating-value">...</span> (<span id="rating-rank">#...</span>)</a>
@@ -689,6 +689,19 @@
                 })();
 
                 (function() {
+                    L.marker([48.794675, 9.22460555555556], {
+                        icon: L.icon({
+                            iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
+                            iconSize: [18, 30],
+                            iconAnchor: [9, 30],
+                            popupAnchor: [1, -25]
+                        }),
+                        opacity: 0.6
+                    }).addTo(map)
+                    .bindPopup('<div class="nearby-sticker-popup"><strong>VfB Stuttgart</strong><a href="/stickers/2407.html" class="map-popup-link">View</a></div>');
+                })();
+
+                (function() {
                     L.marker([48.7946194444444, 9.22436666666667], {
                         icon: L.icon({
                             iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
@@ -777,19 +790,6 @@
                         opacity: 0.6
                     }).addTo(map)
                     .bindPopup('<div class="nearby-sticker-popup"><strong>VfB Stuttgart</strong><a href="/stickers/2417.html" class="map-popup-link">View</a></div>');
-                })();
-
-                (function() {
-                    L.marker([48.7952722222222, 9.22531111111111], {
-                        icon: L.icon({
-                            iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
-                            iconSize: [18, 30],
-                            iconAnchor: [9, 30],
-                            popupAnchor: [1, -25]
-                        }),
-                        opacity: 0.6
-                    }).addTo(map)
-                    .bindPopup('<div class="nearby-sticker-popup"><strong>Diósgyőri VTK</strong><a href="/stickers/2406.html" class="map-popup-link">View</a></div>');
                 })();
 
                 (function() {
@@ -1417,6 +1417,7 @@
                     [48.7958333333333, 9.22703888888889],
                     [48.7810138888889, 9.17995833333333],
                     [48.7613027777778, 9.17968333333333],
+                    [48.794675, 9.22460555555556],
                     [48.7946194444444, 9.22436666666667],
                     [48.7958111111111, 9.22701388888889],
                     [48.7827805555556, 9.18191944444444],
@@ -1424,7 +1425,6 @@
                     [48.7810027777778, 9.18294444444444],
                     [48.7946777777778, 9.22459722222222],
                     [48.7802916666667, 9.1787],
-                    [48.7952722222222, 9.22531111111111],
                     [48.7946472222222, 9.22444722222222],
                     [48.7946333333333, 9.22438611111111],
                     [48.782525, 9.18172222222222],

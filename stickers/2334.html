@@ -169,7 +169,7 @@
 
                             <div class="club-details-block club-mini-card">
 <p class="club-info-item">Est. 1966 · Regionalliga Nordost · Sportforum Hohenschönhausen</p>
-<p class="club-info-item"><a href="/clubs/1055.html">View all 0 stickers from BFC Dynamo Berlin →</a></p>
+<p class="club-info-item"><a href="/clubs/1055.html">View all 1 stickers from BFC Dynamo Berlin →</a></p>
 </div>
                             <p class="sticker-detail-rating" id="sticker-rating" data-sticker-id="2334" data-club-id="1055" data-difficulty="2">
                                 <a href="/battle.html">Like Rate: <span id="rating-value">...</span> (<span id="rating-rank">#...</span>)</a>
@@ -1001,6 +1001,19 @@
                 })();
 
                 (function() {
+                    L.marker([50.0873972222222, 14.3912833333333], {
+                        icon: L.icon({
+                            iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
+                            iconSize: [18, 30],
+                            iconAnchor: [9, 30],
+                            popupAnchor: [1, -25]
+                        }),
+                        opacity: 0.6
+                    }).addTo(map)
+                    .bindPopup('<div class="nearby-sticker-popup"><strong>Borussia Dortmund</strong><a href="/stickers/2335.html" class="map-popup-link">View</a></div>');
+                })();
+
+                (function() {
                     L.marker([50.0938416666667, 14.4502361111111], {
                         icon: L.icon({
                             iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
@@ -1050,19 +1063,6 @@
                         opacity: 0.6
                     }).addTo(map)
                     .bindPopup('<div class="nearby-sticker-popup"><strong>Bodo glimt</strong><a href="/stickers/2333.html" class="map-popup-link">View</a></div>');
-                })();
-
-                (function() {
-                    L.marker([50.0857916666667, 14.3918138888889], {
-                        icon: L.icon({
-                            iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
-                            iconSize: [18, 30],
-                            iconAnchor: [9, 30],
-                            popupAnchor: [1, -25]
-                        }),
-                        opacity: 0.6
-                    }).addTo(map)
-                    .bindPopup('<div class="nearby-sticker-popup"><strong>BFC Dynamo Berlin</strong><a href="/stickers/2334.html" class="map-popup-link">View</a></div>');
                 })();
 
                 (function() {

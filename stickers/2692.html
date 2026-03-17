@@ -169,7 +169,7 @@
 
                             <div class="club-details-block club-mini-card">
 <p class="club-info-item">Est. 1895 · League of Ireland Premier Division · Tolka Park</p>
-<p class="club-info-item"><a href="/clubs/1119.html">View all 0 stickers from Shelbourne F.C. →</a></p>
+<p class="club-info-item"><a href="/clubs/1119.html">View all 1 stickers from Shelbourne F.C. →</a></p>
 </div>
                             <p class="sticker-detail-rating" id="sticker-rating" data-sticker-id="2692" data-club-id="1119" data-difficulty="1">
                                 <a href="/battle.html">Like Rate: <span id="rating-value">...</span> (<span id="rating-rank">#...</span>)</a>
@@ -1716,6 +1716,19 @@
                 })();
 
                 (function() {
+                    L.marker([52.3763694, 4.8992972], {
+                        icon: L.icon({
+                            iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
+                            iconSize: [18, 30],
+                            iconAnchor: [9, 30],
+                            popupAnchor: [1, -25]
+                        }),
+                        opacity: 0.6
+                    }).addTo(map)
+                    .bindPopup('<div class="nearby-sticker-popup"><strong>NEC Nijmegen</strong><a href="/stickers/2693.html" class="map-popup-link">View</a></div>');
+                })();
+
+                (function() {
                     L.marker([52.3757833, 4.9005833], {
                         icon: L.icon({
                             iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
@@ -2298,19 +2311,6 @@
                         opacity: 0.6
                     }).addTo(map)
                     .bindPopup('<div class="nearby-sticker-popup"><strong>AFC Ajax</strong><a href="/stickers/2638.html" class="map-popup-link">View</a></div>');
-                })();
-
-                (function() {
-                    L.marker([52.3762361, 4.8995889], {
-                        icon: L.icon({
-                            iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
-                            iconSize: [18, 30],
-                            iconAnchor: [9, 30],
-                            popupAnchor: [1, -25]
-                        }),
-                        opacity: 0.6
-                    }).addTo(map)
-                    .bindPopup('<div class="nearby-sticker-popup"><strong>Shelbourne F.C.</strong><a href="/stickers/2692.html" class="map-popup-link">View</a></div>');
                 })();
 
                 (function() {

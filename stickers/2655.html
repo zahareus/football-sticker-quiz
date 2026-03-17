@@ -169,7 +169,7 @@
 
                             <div class="club-details-block club-mini-card">
 <p class="club-info-item">Est. 1907 · Liga Portugal 2 · Estádio do Mar</p>
-<p class="club-info-item"><a href="/clubs/1109.html">View all 0 stickers from Leixões SC →</a></p>
+<p class="club-info-item"><a href="/clubs/1109.html">View all 1 stickers from Leixões SC →</a></p>
 </div>
                             <p class="sticker-detail-rating" id="sticker-rating" data-sticker-id="2655" data-club-id="1109" data-difficulty="1">
                                 <a href="/battle.html">Like Rate: <span id="rating-value">...</span> (<span id="rating-rank">#...</span>)</a>
@@ -1300,6 +1300,19 @@
                 })();
 
                 (function() {
+                    L.marker([52.3134611111111, 4.94238333333333], {
+                        icon: L.icon({
+                            iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
+                            iconSize: [18, 30],
+                            iconAnchor: [9, 30],
+                            popupAnchor: [1, -25]
+                        }),
+                        opacity: 0.6
+                    }).addTo(map)
+                    .bindPopup('<div class="nearby-sticker-popup"><strong>CD Napolitana</strong><a href="/stickers/2656.html" class="map-popup-link">View</a></div>');
+                })();
+
+                (function() {
                     L.marker([52.3134389, 4.942375], {
                         icon: L.icon({
                             iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
@@ -2259,19 +2272,6 @@
                         opacity: 0.6
                     }).addTo(map)
                     .bindPopup('<div class="nearby-sticker-popup"><strong>AS Sambenedettese</strong><a href="/stickers/2723.html" class="map-popup-link">View</a></div>');
-                })();
-
-                (function() {
-                    L.marker([52.3135333333333, 4.94240555555556], {
-                        icon: L.icon({
-                            iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
-                            iconSize: [18, 30],
-                            iconAnchor: [9, 30],
-                            popupAnchor: [1, -25]
-                        }),
-                        opacity: 0.6
-                    }).addTo(map)
-                    .bindPopup('<div class="nearby-sticker-popup"><strong>Leixões SC</strong><a href="/stickers/2655.html" class="map-popup-link">View</a></div>');
                 })();
 
                 (function() {

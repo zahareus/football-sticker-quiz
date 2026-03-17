@@ -169,7 +169,7 @@
 
                             <div class="club-details-block club-mini-card">
 <p class="club-info-item">Est. 1911 · Primera Nacional · Estadio Nueva Chicago</p>
-<p class="club-info-item"><a href="/clubs/1123.html">View all 0 stickers from Club Atlético Nueva Chicago →</a></p>
+<p class="club-info-item"><a href="/clubs/1123.html">View all 1 stickers from Club Atlético Nueva Chicago →</a></p>
 </div>
                             <p class="sticker-detail-rating" id="sticker-rating" data-sticker-id="2710" data-club-id="1123" data-difficulty="2">
                                 <a href="/battle.html">Like Rate: <span id="rating-value">...</span> (<span id="rating-rank">#...</span>)</a>
@@ -1742,6 +1742,19 @@
                 })();
 
                 (function() {
+                    L.marker([52.3757833, 4.9005833], {
+                        icon: L.icon({
+                            iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
+                            iconSize: [18, 30],
+                            iconAnchor: [9, 30],
+                            popupAnchor: [1, -25]
+                        }),
+                        opacity: 0.6
+                    }).addTo(map)
+                    .bindPopup('<div class="nearby-sticker-popup"><strong>Quilmes Atlético Club</strong><a href="/stickers/2711.html" class="map-popup-link">View</a></div>');
+                })();
+
+                (function() {
                     L.marker([52.3726417, 4.8932], {
                         icon: L.icon({
                             iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
@@ -2363,19 +2376,6 @@
                         opacity: 0.6
                     }).addTo(map)
                     .bindPopup('<div class="nearby-sticker-popup"><strong>AFC Ajax</strong><a href="/stickers/2706.html" class="map-popup-link">View</a></div>');
-                })();
-
-                (function() {
-                    L.marker([52.3757833, 4.9005833], {
-                        icon: L.icon({
-                            iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
-                            iconSize: [18, 30],
-                            iconAnchor: [9, 30],
-                            popupAnchor: [1, -25]
-                        }),
-                        opacity: 0.6
-                    }).addTo(map)
-                    .bindPopup('<div class="nearby-sticker-popup"><strong>Club Atlético Nueva Chicago</strong><a href="/stickers/2710.html" class="map-popup-link">View</a></div>');
                 })();
 
                 (function() {

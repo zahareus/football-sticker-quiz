@@ -169,7 +169,7 @@
 
                             <div class="club-details-block club-mini-card">
 <p class="club-info-item">Est. 1857 · Northern Premier League</p>
-<p class="club-info-item"><a href="/clubs/1113.html">View all 0 stickers from 󠁧󠁢󠁥󠁮󠁧󠁿 Sheffield F.C. →</a></p>
+<p class="club-info-item"><a href="/clubs/1113.html">View all 1 stickers from 󠁧󠁢󠁥󠁮󠁧󠁿 Sheffield F.C. →</a></p>
 </div>
                             <p class="sticker-detail-rating" id="sticker-rating" data-sticker-id="2663" data-club-id="1113" data-difficulty="1">
                                 <a href="/battle.html">Like Rate: <span id="rating-value">...</span> (<span id="rating-rank">#...</span>)</a>
@@ -1261,6 +1261,19 @@
                 })();
 
                 (function() {
+                    L.marker([52.3134528, 4.9423722], {
+                        icon: L.icon({
+                            iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
+                            iconSize: [18, 30],
+                            iconAnchor: [9, 30],
+                            popupAnchor: [1, -25]
+                        }),
+                        opacity: 0.6
+                    }).addTo(map)
+                    .bindPopup('<div class="nearby-sticker-popup"><strong>Eintracht Frankfurt</strong><a href="/stickers/2664.html" class="map-popup-link">View</a></div>');
+                })();
+
+                (function() {
                     L.marker([52.3134472222222, 4.94240833333333], {
                         icon: L.icon({
                             iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
@@ -1297,19 +1310,6 @@
                         opacity: 0.6
                     }).addTo(map)
                     .bindPopup('<div class="nearby-sticker-popup"><strong>CD Napolitana</strong><a href="/stickers/2656.html" class="map-popup-link">View</a></div>');
-                })();
-
-                (function() {
-                    L.marker([52.3134389, 4.942375], {
-                        icon: L.icon({
-                            iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
-                            iconSize: [18, 30],
-                            iconAnchor: [9, 30],
-                            popupAnchor: [1, -25]
-                        }),
-                        opacity: 0.6
-                    }).addTo(map)
-                    .bindPopup('<div class="nearby-sticker-popup"><strong>󠁧󠁢󠁥󠁮󠁧󠁿 Sheffield F.C.</strong><a href="/stickers/2663.html" class="map-popup-link">View</a></div>');
                 })();
 
                 (function() {

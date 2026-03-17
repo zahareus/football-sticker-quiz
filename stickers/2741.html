@@ -169,7 +169,7 @@
 
                             <div class="club-details-block club-mini-card">
 <p class="club-info-item">Est. 1925 · Super League Greece · Theodoros Vardinogiannis Stadium</p>
-<p class="club-info-item"><a href="/clubs/1131.html">View all 0 stickers from OFI Crete F.C. →</a></p>
+<p class="club-info-item"><a href="/clubs/1131.html">View all 1 stickers from OFI Crete F.C. →</a></p>
 </div>
                             <p class="sticker-detail-rating" id="sticker-rating" data-sticker-id="2741" data-club-id="1131" data-difficulty="3">
                                 <a href="/battle.html">Like Rate: <span id="rating-value">...</span> (<span id="rating-rank">#...</span>)</a>
@@ -1781,6 +1781,19 @@
                 })();
 
                 (function() {
+                    L.marker([52.3720083, 4.895975], {
+                        icon: L.icon({
+                            iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
+                            iconSize: [18, 30],
+                            iconAnchor: [9, 30],
+                            popupAnchor: [1, -25]
+                        }),
+                        opacity: 0.6
+                    }).addTo(map)
+                    .bindPopup('<div class="nearby-sticker-popup"><strong>Athletic Club Bilbao</strong><a href="/stickers/2742.html" class="map-popup-link">View</a></div>');
+                })();
+
+                (function() {
                     L.marker([52.3757972, 4.8990222], {
                         icon: L.icon({
                             iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
@@ -2415,19 +2428,6 @@
                         opacity: 0.6
                     }).addTo(map)
                     .bindPopup('<div class="nearby-sticker-popup"><strong>Servette FC</strong><a href="/stickers/2608.html" class="map-popup-link">View</a></div>');
-                })();
-
-                (function() {
-                    L.marker([52.3720333, 4.8958611], {
-                        icon: L.icon({
-                            iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
-                            iconSize: [18, 30],
-                            iconAnchor: [9, 30],
-                            popupAnchor: [1, -25]
-                        }),
-                        opacity: 0.6
-                    }).addTo(map)
-                    .bindPopup('<div class="nearby-sticker-popup"><strong>OFI Crete F.C.</strong><a href="/stickers/2741.html" class="map-popup-link">View</a></div>');
                 })();
 
                 (function() {

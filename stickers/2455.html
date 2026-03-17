@@ -169,7 +169,7 @@
 
                             <div class="club-details-block club-mini-card">
 <p class="club-info-item">Est. 1894 · Allsvenskan · Gamla Ullevi</p>
-<p class="club-info-item"><a href="/clubs/1089.html">View all 0 stickers from GAIS →</a></p>
+<p class="club-info-item"><a href="/clubs/1089.html">View all 1 stickers from GAIS →</a></p>
 </div>
                             <p class="sticker-detail-rating" id="sticker-rating" data-sticker-id="2455" data-club-id="1089" data-difficulty="1">
                                 <a href="/battle.html">Like Rate: <span id="rating-value">...</span> (<span id="rating-rank">#...</span>)</a>
@@ -728,6 +728,19 @@
                 })();
 
                 (function() {
+                    L.marker([50.0782361111111, 14.4191444444444], {
+                        icon: L.icon({
+                            iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
+                            iconSize: [18, 30],
+                            iconAnchor: [9, 30],
+                            popupAnchor: [1, -25]
+                        }),
+                        opacity: 0.6
+                    }).addTo(map)
+                    .bindPopup('<div class="nearby-sticker-popup"><strong>Hercules</strong><a href="/stickers/2456.html" class="map-popup-link">View</a></div>');
+                })();
+
+                (function() {
                     L.marker([50.0937388888889, 14.4552222222222], {
                         icon: L.icon({
                             iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
@@ -936,19 +949,6 @@
                 })();
 
                 (function() {
-                    L.marker([50.0778083333333, 14.4178722222222], {
-                        icon: L.icon({
-                            iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
-                            iconSize: [18, 30],
-                            iconAnchor: [9, 30],
-                            popupAnchor: [1, -25]
-                        }),
-                        opacity: 0.6
-                    }).addTo(map)
-                    .bindPopup('<div class="nearby-sticker-popup"><strong>GAIS</strong><a href="/stickers/2455.html" class="map-popup-link">View</a></div>');
-                })();
-
-                (function() {
                     L.marker([50.0882027777778, 14.4477944444444], {
                         icon: L.icon({
                             iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
@@ -1134,6 +1134,7 @@
                     [50.0774388888889, 14.4204083333333],
                     [50.0774611111111, 14.4258916666667],
                     [50.0845555555556, 14.4135694444444],
+                    [50.0782361111111, 14.4191444444444],
                     [50.0937388888889, 14.4552222222222],
                     [50.0845833333333, 14.4135444444444],
                     [50.0907083333333, 14.4275138888889],
@@ -1144,8 +1145,7 @@
                     [50.0876777777778, 14.3910638888889],
                     [50.0845527777778, 14.4135583333333],
                     [50.0881888888889, 14.4477583333333],
-                    [50.0911972222222, 14.4271972222222],
-                    [50.0918833333333, 14.4263916666667]
+                    [50.0911972222222, 14.4271972222222]
                 ]);
                 map.fitBounds(bounds, { padding: [30, 30], maxZoom: 14 });
                 

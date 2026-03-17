@@ -169,7 +169,7 @@
 
                             <div class="club-details-block club-mini-card">
 <p class="club-info-item">Est. 1908 · Fußball-Regionalliga Südwest · Waldstadion Homburg</p>
-<p class="club-info-item"><a href="/clubs/1151.html">View all 0 stickers from FC 08 Homburg →</a></p>
+<p class="club-info-item"><a href="/clubs/1151.html">View all 1 stickers from FC 08 Homburg →</a></p>
 </div>
                             <p class="sticker-detail-rating" id="sticker-rating" data-sticker-id="2961" data-club-id="1151" data-difficulty="3">
                                 <a href="/battle.html">Like Rate: <span id="rating-value">...</span> (<span id="rating-rank">#...</span>)</a>
@@ -426,6 +426,19 @@
                         opacity: 0.6
                     }).addTo(map)
                     .bindPopup('<div class="nearby-sticker-popup"><strong>RSC Anderlecht</strong><a href="/stickers/2918.html" class="map-popup-link">View</a></div>');
+                })();
+
+                (function() {
+                    L.marker([50.8368027777778, 4.36256111111111], {
+                        icon: L.icon({
+                            iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
+                            iconSize: [18, 30],
+                            iconAnchor: [9, 30],
+                            popupAnchor: [1, -25]
+                        }),
+                        opacity: 0.6
+                    }).addTo(map)
+                    .bindPopup('<div class="nearby-sticker-popup"><strong>Aris Thessaloniki FC</strong><a href="/stickers/2962.html" class="map-popup-link">View</a></div>');
                 })();
 
                 (function() {
@@ -1066,19 +1079,6 @@
                 })();
 
                 (function() {
-                    L.marker([50.8405, 4.35975555555556], {
-                        icon: L.icon({
-                            iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
-                            iconSize: [18, 30],
-                            iconAnchor: [9, 30],
-                            popupAnchor: [1, -25]
-                        }),
-                        opacity: 0.6
-                    }).addTo(map)
-                    .bindPopup('<div class="nearby-sticker-popup"><strong>FC 08 Homburg</strong><a href="/stickers/2961.html" class="map-popup-link">View</a></div>');
-                })();
-
-                (function() {
                     L.marker([50.8378027777778, 4.36044722222222], {
                         icon: L.icon({
                             iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
@@ -1267,6 +1267,7 @@
                     [50.8444527777778, 4.35636111111111],
                     [50.8452805555556, 4.35029444444444],
                     [50.8462305555556, 4.35461944444444],
+                    [50.8368027777778, 4.36256111111111],
                     [50.8451944444444, 4.350325],
                     [50.8483666666667, 4.35267222222222],
                     [50.8483666666667, 4.35267222222222],
@@ -1300,8 +1301,7 @@
                     [50.8493, 4.35386388888889],
                     [50.8368083333333, 4.36259166666667],
                     [50.8350555555556, 4.35615277777778],
-                    [50.8345222222222, 4.35621388888889],
-                    [50.8350555555556, 4.35615277777778]
+                    [50.8345222222222, 4.35621388888889]
                 ]);
                 map.fitBounds(bounds, { padding: [30, 30], maxZoom: 14 });
                 

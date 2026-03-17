@@ -169,7 +169,7 @@
 
                             <div class="club-details-block club-mini-card">
 <p class="club-info-item">Est. 1953 · Divisiones Regionales de Fútbol in Asturias</p>
-<p class="club-info-item"><a href="/clubs/1161.html">View all 0 stickers from SD Lenense →</a></p>
+<p class="club-info-item"><a href="/clubs/1161.html">View all 1 stickers from SD Lenense →</a></p>
 </div>
                             <p class="sticker-detail-rating" id="sticker-rating" data-sticker-id="3036" data-club-id="1161" data-difficulty="3">
                                 <a href="/battle.html">Like Rate: <span id="rating-value">...</span> (<span id="rating-rank">#...</span>)</a>
@@ -572,6 +572,19 @@
                 })();
 
                 (function() {
+                    L.marker([37.9860388888889, -0.674897222222222], {
+                        icon: L.icon({
+                            iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
+                            iconSize: [18, 30],
+                            iconAnchor: [9, 30],
+                            popupAnchor: [1, -25]
+                        }),
+                        opacity: 0.6
+                    }).addTo(map)
+                    .bindPopup('<div class="nearby-sticker-popup"><strong>Arminia Bielefeld</strong><a href="/stickers/3037.html" class="map-popup-link">View</a></div>');
+                })();
+
+                (function() {
                     L.marker([37.9846277777778, -0.676347222222222], {
                         icon: L.icon({
                             iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
@@ -634,19 +647,6 @@
                         opacity: 0.6
                     }).addTo(map)
                     .bindPopup('<div class="nearby-sticker-popup"><strong>K.R.C. Genk</strong><a href="/stickers/3028.html" class="map-popup-link">View</a></div>');
-                })();
-
-                (function() {
-                    L.marker([37.9866222222222, -0.662633333333333], {
-                        icon: L.icon({
-                            iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
-                            iconSize: [18, 30],
-                            iconAnchor: [9, 30],
-                            popupAnchor: [1, -25]
-                        }),
-                        opacity: 0.6
-                    }).addTo(map)
-                    .bindPopup('<div class="nearby-sticker-popup"><strong>SD Lenense</strong><a href="/stickers/3036.html" class="map-popup-link">View</a></div>');
                 })();
 
                 (function() {
@@ -914,12 +914,12 @@
                     [37.9778861111111, -0.681269444444444],
                     [37.9772638888889, -0.682538888888889],
                     [37.9894666666667, -0.663688888888889],
+                    [37.9860388888889, -0.674897222222222],
                     [37.9846277777778, -0.676347222222222],
                     [37.976975, -0.687727777777778],
                     [37.9769388888889, -0.687777777777778],
                     [37.9844277777778, -0.658775],
                     [37.9785944444444, -0.677638888888889],
-                    [37.9866222222222, -0.662633333333333],
                     [37.9774444444444, -0.676444444444444],
                     [37.9860944444444, -0.677022222222222],
                     [37.9811138888889, -0.664788888888889],

@@ -169,7 +169,7 @@
 
                             <div class="club-details-block club-mini-card">
 <p class="club-info-item">Est. 1905 · Fußball-Regionalliga Südwest · Moselstadion</p>
-<p class="club-info-item"><a href="/clubs/1149.html">View all 0 stickers from SV Eintracht Trier 05 →</a></p>
+<p class="club-info-item"><a href="/clubs/1149.html">View all 1 stickers from SV Eintracht Trier 05 →</a></p>
 </div>
                             <p class="sticker-detail-rating" id="sticker-rating" data-sticker-id="2939" data-club-id="1149" data-difficulty="1">
                                 <a href="/battle.html">Like Rate: <span id="rating-value">...</span> (<span id="rating-rank">#...</span>)</a>
@@ -322,6 +322,19 @@
                         opacity: 0.6
                     }).addTo(map)
                     .bindPopup('<div class="nearby-sticker-popup"><strong>MVV Maastricht</strong><a href="/stickers/2938.html" class="map-popup-link">View</a></div>');
+                })();
+
+                (function() {
+                    L.marker([50.8494194444445, 5.69475555555556], {
+                        icon: L.icon({
+                            iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
+                            iconSize: [18, 30],
+                            iconAnchor: [9, 30],
+                            popupAnchor: [1, -25]
+                        }),
+                        opacity: 0.6
+                    }).addTo(map)
+                    .bindPopup('<div class="nearby-sticker-popup"><strong>KAA Gent</strong><a href="/stickers/2940.html" class="map-popup-link">View</a></div>');
                 })();
 
                 (function() {
@@ -780,19 +793,6 @@
                 })();
 
                 (function() {
-                    L.marker([50.8498277777778, 5.69476666666667], {
-                        icon: L.icon({
-                            iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
-                            iconSize: [18, 30],
-                            iconAnchor: [9, 30],
-                            popupAnchor: [1, -25]
-                        }),
-                        opacity: 0.6
-                    }).addTo(map)
-                    .bindPopup('<div class="nearby-sticker-popup"><strong>SV Eintracht Trier 05</strong><a href="/stickers/2939.html" class="map-popup-link">View</a></div>');
-                })();
-
-                (function() {
                     L.marker([50.8496444444444, 5.69991111111111], {
                         icon: L.icon({
                             iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
@@ -1051,6 +1051,7 @@
                     [50.8465916666667, 5.68858611111111],
                     [50.849525, 5.70018888888889],
                     [50.8493583333333, 5.69306666666667],
+                    [50.8494194444445, 5.69475555555556],
                     [50.8494416666667, 5.69726388888889],
                     [50.8495361111111, 5.69876111111111],
                     [50.8501694444444, 5.69415277777778],
@@ -1086,7 +1087,6 @@
                     [50.8493277777778, 5.69308333333333],
                     [50.8493305555556, 5.69307222222222],
                     [50.8493305555556, 5.69308333333333],
-                    [50.8498277777778, 5.69476666666667],
                     [50.8496444444444, 5.69991111111111],
                     [50.8467972222222, 5.69159166666667],
                     [50.8472555555556, 5.69346111111111],

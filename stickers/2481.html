@@ -169,7 +169,7 @@
 
                             <div class="club-details-block club-mini-card">
 <p class="club-info-item">Est. 1984 · Ligue 2 · Stade Gabriel Montpied</p>
-<p class="club-info-item"><a href="/clubs/1080.html">View all 0 stickers from Clermont Foot 63 →</a></p>
+<p class="club-info-item"><a href="/clubs/1080.html">View all 1 stickers from Clermont Foot 63 →</a></p>
 </div>
                             <p class="sticker-detail-rating" id="sticker-rating" data-sticker-id="2481" data-club-id="1080" data-difficulty="1">
                                 <a href="/battle.html">Like Rate: <span id="rating-value">...</span> (<span id="rating-rank">#...</span>)</a>
@@ -494,6 +494,19 @@
                 })();
 
                 (function() {
+                    L.marker([42.2773583333333, 18.8376972222222], {
+                        icon: L.icon({
+                            iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
+                            iconSize: [18, 30],
+                            iconAnchor: [9, 30],
+                            popupAnchor: [1, -25]
+                        }),
+                        opacity: 0.6
+                    }).addTo(map)
+                    .bindPopup('<div class="nearby-sticker-popup"><strong>SK Sturm Graz</strong><a href="/stickers/2482.html" class="map-popup-link">View</a></div>');
+                })();
+
+                (function() {
                     L.marker([42.2845916666667, 18.8435916666667], {
                         icon: L.icon({
                             iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
@@ -517,19 +530,6 @@
                         opacity: 0.6
                     }).addTo(map)
                     .bindPopup('<div class="nearby-sticker-popup"><strong>SV Werder Bremen</strong><a href="/stickers/2487.html" class="map-popup-link">View</a></div>');
-                })();
-
-                (function() {
-                    L.marker([42.2778194444444, 18.8381416666667], {
-                        icon: L.icon({
-                            iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
-                            iconSize: [18, 30],
-                            iconAnchor: [9, 30],
-                            popupAnchor: [1, -25]
-                        }),
-                        opacity: 0.6
-                    }).addTo(map)
-                    .bindPopup('<div class="nearby-sticker-popup"><strong>Clermont Foot 63</strong><a href="/stickers/2481.html" class="map-popup-link">View</a></div>');
                 })();
 
                 (function() {
@@ -583,9 +583,9 @@
                     [42.2787277777778, 18.838375],
                     [42.2844111111111, 18.8417694444444],
                     [42.2836222222222, 18.8370444444444],
+                    [42.2773583333333, 18.8376972222222],
                     [42.2845916666667, 18.8435916666667],
                     [42.2845527777778, 18.8434416666667],
-                    [42.2778194444444, 18.8381416666667],
                     [42.2798, 18.8366888888889]
                 ]);
                 map.fitBounds(bounds, { padding: [30, 30], maxZoom: 14 });

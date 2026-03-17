@@ -169,7 +169,7 @@
 
                             <div class="club-details-block club-mini-card">
 <p class="club-info-item">Est. 1952 · Segunda División B · Estadio do Couto</p>
-<p class="club-info-item"><a href="/clubs/1049.html">View all 0 stickers from CD Ourense →</a></p>
+<p class="club-info-item"><a href="/clubs/1049.html">View all 1 stickers from CD Ourense →</a></p>
 </div>
                             <p class="sticker-detail-rating" id="sticker-rating" data-sticker-id="2266" data-club-id="1049" data-difficulty="1">
                                 <a href="/battle.html">Like Rate: <span id="rating-value">...</span> (<span id="rating-rank">#...</span>)</a>
@@ -286,6 +286,19 @@
                 })();
 
                 (function() {
+                    L.marker([42.8729444444444, -8.54460555555556], {
+                        icon: L.icon({
+                            iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
+                            iconSize: [18, 30],
+                            iconAnchor: [9, 30],
+                            popupAnchor: [1, -25]
+                        }),
+                        opacity: 0.6
+                    }).addTo(map)
+                    .bindPopup('<div class="nearby-sticker-popup"><strong>RC Celta de Vigo</strong><a href="/stickers/2267.html" class="map-popup-link">View</a></div>');
+                })();
+
+                (function() {
                     L.marker([42.87815, -8.54173055555555], {
                         icon: L.icon({
                             iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
@@ -309,19 +322,6 @@
                         opacity: 0.6
                     }).addTo(map)
                     .bindPopup('<div class="nearby-sticker-popup"><strong>Real Betis</strong><a href="/stickers/2252.html" class="map-popup-link">View</a></div>');
-                })();
-
-                (function() {
-                    L.marker([42.8821361111111, -8.54208611111111], {
-                        icon: L.icon({
-                            iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
-                            iconSize: [18, 30],
-                            iconAnchor: [9, 30],
-                            popupAnchor: [1, -25]
-                        }),
-                        opacity: 0.6
-                    }).addTo(map)
-                    .bindPopup('<div class="nearby-sticker-popup"><strong>CD Ourense</strong><a href="/stickers/2266.html" class="map-popup-link">View</a></div>');
                 })();
 
                 (function() {
@@ -385,9 +385,9 @@
                     [42.8752472222222, -8.54422222222222],
                     [42.8802944444444, -8.54153333333333],
                     [42.8752361111111, -8.54423888888889],
+                    [42.8729444444444, -8.54460555555556],
                     [42.87815, -8.54173055555555],
                     [42.8806388888889, -8.54126666666667],
-                    [42.8821361111111, -8.54208611111111],
                     [42.8753611111111, -8.54411666666667],
                     [42.8753277777778, -8.54413055555556],
                     [42.8751305555556, -8.54438611111111]

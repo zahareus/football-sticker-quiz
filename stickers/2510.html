@@ -168,7 +168,7 @@
                             </div>
 
                             <div class="club-details-block club-mini-card">
-<p class="club-info-item"><a href="/clubs/1082.html">View all 0 stickers from Falubaz Zielona Góra →</a></p>
+<p class="club-info-item"><a href="/clubs/1082.html">View all 1 stickers from Falubaz Zielona Góra →</a></p>
 </div>
                             <p class="sticker-detail-rating" id="sticker-rating" data-sticker-id="2510" data-club-id="1082" data-difficulty="2">
                                 <a href="/battle.html">Like Rate: <span id="rating-value">...</span> (<span id="rating-rank">#...</span>)</a>
@@ -321,6 +321,19 @@
                         opacity: 0.6
                     }).addTo(map)
                     .bindPopup('<div class="nearby-sticker-popup"><strong>󠁧󠁢󠁥󠁮󠁧󠁿 Cambridge United F.C.</strong><a href="/stickers/2518.html" class="map-popup-link">View</a></div>');
+                })();
+
+                (function() {
+                    L.marker([36.5262361111111, 32.0511888888889], {
+                        icon: L.icon({
+                            iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
+                            iconSize: [18, 30],
+                            iconAnchor: [9, 30],
+                            popupAnchor: [1, -25]
+                        }),
+                        opacity: 0.6
+                    }).addTo(map)
+                    .bindPopup('<div class="nearby-sticker-popup"><strong>Górnik Zabrze</strong><a href="/stickers/2511.html" class="map-popup-link">View</a></div>');
                 })();
 
                 (function() {
@@ -479,19 +492,6 @@
                     .bindPopup('<div class="nearby-sticker-popup"><strong>FC Gaziantepspor</strong><a href="/stickers/2513.html" class="map-popup-link">View</a></div>');
                 })();
 
-                (function() {
-                    L.marker([36.5262111111111, 32.0511805555556], {
-                        icon: L.icon({
-                            iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
-                            iconSize: [18, 30],
-                            iconAnchor: [9, 30],
-                            popupAnchor: [1, -25]
-                        }),
-                        opacity: 0.6
-                    }).addTo(map)
-                    .bindPopup('<div class="nearby-sticker-popup"><strong>Falubaz Zielona Góra</strong><a href="/stickers/2510.html" class="map-popup-link">View</a></div>');
-                })();
-
                 // Current sticker — larger marker, opened popup
                 L.marker([36.5262111111111, 32.0511805555556], {
                     icon: L.icon({
@@ -517,6 +517,7 @@
                     [36.5311666666667, 32.0468166666667],
                     [36.5306194444444, 32.0453222222222],
                     [36.5272166666667, 32.0493666666667],
+                    [36.5262361111111, 32.0511888888889],
                     [36.527125, 32.0497805555556],
                     [36.5258111111111, 32.0540666666667],
                     [36.5273555555556, 32.046725],
@@ -528,8 +529,7 @@
                     [36.5296777777778, 32.0459888888889],
                     [36.526975, 32.0473444444444],
                     [36.5272861111111, 32.0471277777778],
-                    [36.5272444444444, 32.0490888888889],
-                    [36.5262111111111, 32.0511805555556]
+                    [36.5272444444444, 32.0490888888889]
                 ]);
                 map.fitBounds(bounds, { padding: [30, 30], maxZoom: 14 });
                 

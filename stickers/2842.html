@@ -169,7 +169,7 @@
 
                             <div class="club-details-block club-mini-card">
 <p class="club-info-item">Est. 1904 · BayArena</p>
-<p class="club-info-item"><a href="/clubs/900.html">View all 0 stickers from Bayer 04 Leverkusen →</a></p>
+<p class="club-info-item"><a href="/clubs/900.html">View all 11 stickers from Bayer 04 Leverkusen →</a></p>
 </div>
                             <p class="sticker-detail-rating" id="sticker-rating" data-sticker-id="2842" data-club-id="900" data-difficulty="1">
                                 <a href="/battle.html">Like Rate: <span id="rating-value">...</span> (<span id="rating-rank">#...</span>)</a>
@@ -182,7 +182,17 @@
                         </div>
                     </div>
                 </div>
-                
+                <div class="more-from-club">
+<h3>More from Bayer 04 Leverkusen</h3>
+<div class="sticker-strip">
+<a href="/stickers/1517.html" class="sticker-strip-item"><img src="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/stickers/Bayer_04_Leverkusen/IMG_9520_thumb.webp?" alt="Sticker #1517" loading="lazy" decoding="async"></a>
+<a href="/stickers/1518.html" class="sticker-strip-item"><img src="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/stickers/Bayer_04_Leverkusen/IMG_7912_thumb.webp?" alt="Sticker #1518" loading="lazy" decoding="async"></a>
+<a href="/stickers/1519.html" class="sticker-strip-item"><img src="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/stickers/Bayer_04_Leverkusen/IMG_0821_thumb.webp?" alt="Sticker #1519" loading="lazy" decoding="async"></a>
+<a href="/stickers/1520.html" class="sticker-strip-item"><img src="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/stickers/Bayer_04_Leverkusen/IMG_8667_thumb.webp?" alt="Sticker #1520" loading="lazy" decoding="async"></a>
+<a href="/stickers/2636.html" class="sticker-strip-item"><img src="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/club_900/1760042963437_IMG_7286_thumb.webp" alt="Sticker #2636" loading="lazy" decoding="async"></a>
+<a href="/stickers/2649.html" class="sticker-strip-item"><img src="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/club_900/1760044462352_IMG_7281_thumb.webp" alt="Sticker #2649" loading="lazy" decoding="async"></a>
+</div>
+</div>
                 
             <div class="sticker-map-section sticker-map-full-width">
                 <div id="sticker-map" class="sticker-map-container"></div>
@@ -936,6 +946,19 @@
                 })();
 
                 (function() {
+                    L.marker([52.1172361, 4.2801806], {
+                        icon: L.icon({
+                            iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
+                            iconSize: [18, 30],
+                            iconAnchor: [9, 30],
+                            popupAnchor: [1, -25]
+                        }),
+                        opacity: 0.6
+                    }).addTo(map)
+                    .bindPopup('<div class="nearby-sticker-popup"><strong>GKS Katowice</strong><a href="/stickers/2843.html" class="map-popup-link">View</a></div>');
+                })();
+
+                (function() {
                     L.marker([52.0811833, 4.3131278], {
                         icon: L.icon({
                             iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
@@ -946,19 +969,6 @@
                         opacity: 0.6
                     }).addTo(map)
                     .bindPopup('<div class="nearby-sticker-popup"><strong>RSC Anderlecht</strong><a href="/stickers/2866.html" class="map-popup-link">View</a></div>');
-                })();
-
-                (function() {
-                    L.marker([52.1127583, 4.2796444], {
-                        icon: L.icon({
-                            iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
-                            iconSize: [18, 30],
-                            iconAnchor: [9, 30],
-                            popupAnchor: [1, -25]
-                        }),
-                        opacity: 0.6
-                    }).addTo(map)
-                    .bindPopup('<div class="nearby-sticker-popup"><strong>Bayer 04 Leverkusen</strong><a href="/stickers/2842.html" class="map-popup-link">View</a></div>');
                 })();
 
                 (function() {

@@ -169,7 +169,7 @@
 
                             <div class="club-details-block club-mini-card">
 <p class="club-info-item">Est. 1909 · Campeonato Brasileiro Série B · Estádio Couto Pereira</p>
-<p class="club-info-item"><a href="/clubs/1166.html">View all 0 stickers from Coritiba Foot Ball Club →</a></p>
+<p class="club-info-item"><a href="/clubs/1166.html">View all 1 stickers from Coritiba Foot Ball Club →</a></p>
 </div>
                             <p class="sticker-detail-rating" id="sticker-rating" data-sticker-id="3130" data-club-id="1166" data-difficulty="2">
                                 <a href="/battle.html">Like Rate: <span id="rating-value">...</span> (<span id="rating-rank">#...</span>)</a>
@@ -572,6 +572,19 @@
                 })();
 
                 (function() {
+                    L.marker([37.4218138888889, -5.90089722222222], {
+                        icon: L.icon({
+                            iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
+                            iconSize: [18, 30],
+                            iconAnchor: [9, 30],
+                            popupAnchor: [1, -25]
+                        }),
+                        opacity: 0.6
+                    }).addTo(map)
+                    .bindPopup('<div class="nearby-sticker-popup"><strong>Real Betis</strong><a href="/stickers/3131.html" class="map-popup-link">View</a></div>');
+                })();
+
+                (function() {
                     L.marker([37.3960194444444, -5.9912], {
                         icon: L.icon({
                             iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
@@ -634,19 +647,6 @@
                         opacity: 0.6
                     }).addTo(map)
                     .bindPopup('<div class="nearby-sticker-popup"><strong>US Livorno 1915</strong><a href="/stickers/3114.html" class="map-popup-link">View</a></div>');
-                })();
-
-                (function() {
-                    L.marker([37.3928416666667, -5.99194444444444], {
-                        icon: L.icon({
-                            iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
-                            iconSize: [18, 30],
-                            iconAnchor: [9, 30],
-                            popupAnchor: [1, -25]
-                        }),
-                        opacity: 0.6
-                    }).addTo(map)
-                    .bindPopup('<div class="nearby-sticker-popup"><strong>Coritiba Foot Ball Club</strong><a href="/stickers/3130.html" class="map-popup-link">View</a></div>');
                 })();
 
                 (function() {
@@ -771,12 +771,12 @@
                     [37.3908583333333, -5.99239444444444],
                     [37.3888888888889, -5.99985277777778],
                     [37.3941388888889, -5.98918333333333],
+                    [37.4218138888889, -5.90089722222222],
                     [37.3960194444444, -5.9912],
                     [37.3960222222222, -5.99117222222222],
                     [37.3872222222222, -5.99243611111111],
                     [37.387275, -5.99244444444444],
                     [37.3841277777778, -5.99350833333333],
-                    [37.3928416666667, -5.99194444444444],
                     [37.4059333333333, -5.93443333333333],
                     [37.3872222222222, -5.99243611111111],
                     [37.3838388888889, -5.99406388888889],

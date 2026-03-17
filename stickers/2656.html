@@ -168,7 +168,7 @@
                             </div>
 
                             <div class="club-details-block club-mini-card">
-<p class="club-info-item"><a href="/clubs/1110.html">View all 0 stickers from CD Napolitana →</a></p>
+<p class="club-info-item"><a href="/clubs/1110.html">View all 1 stickers from CD Napolitana →</a></p>
 </div>
                             <p class="sticker-detail-rating" id="sticker-rating" data-sticker-id="2656" data-club-id="1110" data-difficulty="1">
                                 <a href="/battle.html">Like Rate: <span id="rating-value">...</span> (<span id="rating-rank">#...</span>)</a>
@@ -659,6 +659,19 @@
                         opacity: 0.6
                     }).addTo(map)
                     .bindPopup('<div class="nearby-sticker-popup"><strong>ADO Den Haag</strong><a href="/stickers/2597.html" class="map-popup-link">View</a></div>');
+                })();
+
+                (function() {
+                    L.marker([52.3134833333333, 4.94241666666667], {
+                        icon: L.icon({
+                            iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
+                            iconSize: [18, 30],
+                            iconAnchor: [9, 30],
+                            popupAnchor: [1, -25]
+                        }),
+                        opacity: 0.6
+                    }).addTo(map)
+                    .bindPopup('<div class="nearby-sticker-popup"><strong>LASK</strong><a href="/stickers/2657.html" class="map-popup-link">View</a></div>');
                 })();
 
                 (function() {
@@ -1283,19 +1296,6 @@
                         opacity: 0.6
                     }).addTo(map)
                     .bindPopup('<div class="nearby-sticker-popup"><strong>Bayer 04 Leverkusen</strong><a href="/stickers/2649.html" class="map-popup-link">View</a></div>');
-                })();
-
-                (function() {
-                    L.marker([52.3134611111111, 4.94238333333333], {
-                        icon: L.icon({
-                            iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
-                            iconSize: [18, 30],
-                            iconAnchor: [9, 30],
-                            popupAnchor: [1, -25]
-                        }),
-                        opacity: 0.6
-                    }).addTo(map)
-                    .bindPopup('<div class="nearby-sticker-popup"><strong>CD Napolitana</strong><a href="/stickers/2656.html" class="map-popup-link">View</a></div>');
                 })();
 
                 (function() {
@@ -2506,6 +2506,7 @@
                     [52.3719472, 4.8959639],
                     [52.3105972222222, 4.75916111111111],
                     [52.3105916666667, 4.75918055555556],
+                    [52.3134833333333, 4.94241666666667],
                     [52.3141638888889, 4.94012222222222],
                     [52.3134611, 4.9423917],
                     [52.3692694, 4.8926028],
@@ -2521,8 +2522,7 @@
                     [52.3142972222222, 4.94060833333333],
                     [52.3129666666667, 4.94031944444444],
                     [52.3141527777778, 4.940125],
-                    [52.3141638888889, 4.94010277777778],
-                    [52.3143166666667, 4.94066388888889]
+                    [52.3141638888889, 4.94010277777778]
                 ]);
                 map.fitBounds(bounds, { padding: [30, 30], maxZoom: 14 });
                 

@@ -168,7 +168,7 @@
                             </div>
 
                             <div class="club-details-block club-mini-card">
-<p class="club-info-item"><a href="/clubs/1069.html">View all 0 stickers from Tatabányai SC →</a></p>
+<p class="club-info-item"><a href="/clubs/1069.html">View all 1 stickers from Tatabányai SC →</a></p>
 </div>
                             <p class="sticker-detail-rating" id="sticker-rating" data-sticker-id="2414" data-club-id="1069" data-difficulty="2">
                                 <a href="/battle.html">Like Rate: <span id="rating-value">...</span> (<span id="rating-rank">#...</span>)</a>
@@ -740,6 +740,19 @@
                 })();
 
                 (function() {
+                    L.marker([48.78065, 9.17976944444444], {
+                        icon: L.icon({
+                            iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
+                            iconSize: [18, 30],
+                            iconAnchor: [9, 30],
+                            popupAnchor: [1, -25]
+                        }),
+                        opacity: 0.6
+                    }).addTo(map)
+                    .bindPopup('<div class="nearby-sticker-popup"><strong>Borussia Dortmund</strong><a href="/stickers/2415.html" class="map-popup-link">View</a></div>');
+                })();
+
+                (function() {
                     L.marker([48.7810027777778, 9.18294444444444], {
                         icon: L.icon({
                             iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
@@ -1247,19 +1260,6 @@
                 })();
 
                 (function() {
-                    L.marker([48.7985638888889, 9.21699166666667], {
-                        icon: L.icon({
-                            iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
-                            iconSize: [18, 30],
-                            iconAnchor: [9, 30],
-                            popupAnchor: [1, -25]
-                        }),
-                        opacity: 0.6
-                    }).addTo(map)
-                    .bindPopup('<div class="nearby-sticker-popup"><strong>Tatabányai SC</strong><a href="/stickers/2414.html" class="map-popup-link">View</a></div>');
-                })();
-
-                (function() {
                     L.marker([48.7801361111111, 9.18383333333333], {
                         icon: L.icon({
                             iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
@@ -1420,6 +1420,7 @@
                     [48.7946194444444, 9.22436666666667],
                     [48.7958111111111, 9.22701388888889],
                     [48.7827805555556, 9.18191944444444],
+                    [48.78065, 9.17976944444444],
                     [48.7810027777778, 9.18294444444444],
                     [48.7946777777778, 9.22459722222222],
                     [48.7802916666667, 9.1787],
@@ -1429,8 +1430,7 @@
                     [48.782525, 9.18172222222222],
                     [48.7952527777778, 9.22306666666667],
                     [48.7982027777778, 9.21750833333333],
-                    [48.7807777777778, 9.17951944444444],
-                    [48.7806277777778, 9.18337777777778]
+                    [48.7807777777778, 9.17951944444444]
                 ]);
                 map.fitBounds(bounds, { padding: [30, 30], maxZoom: 14 });
                 

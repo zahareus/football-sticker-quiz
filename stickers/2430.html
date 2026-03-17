@@ -169,7 +169,7 @@
 
                             <div class="club-details-block club-mini-card">
 <p class="club-info-item">Est. 1903 · Scottish Football League · Pittodrie Stadium</p>
-<p class="club-info-item"><a href="/clubs/1072.html">View all 0 stickers from 󠁧󠁢󠁳󠁣󠁴󠁿 Aberdeen F.C. →</a></p>
+<p class="club-info-item"><a href="/clubs/1072.html">View all 1 stickers from 󠁧󠁢󠁳󠁣󠁴󠁿 Aberdeen F.C. →</a></p>
 </div>
                             <p class="sticker-detail-rating" id="sticker-rating" data-sticker-id="2430" data-club-id="1072" data-difficulty="1">
                                 <a href="/battle.html">Like Rate: <span id="rating-value">...</span> (<span id="rating-rank">#...</span>)</a>
@@ -884,6 +884,19 @@
                 })();
 
                 (function() {
+                    L.marker([48.7806277777778, 9.18337777777778], {
+                        icon: L.icon({
+                            iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
+                            iconSize: [18, 30],
+                            iconAnchor: [9, 30],
+                            popupAnchor: [1, -25]
+                        }),
+                        opacity: 0.6
+                    }).addTo(map)
+                    .bindPopup('<div class="nearby-sticker-popup"><strong>PAOK</strong><a href="/stickers/2431.html" class="map-popup-link">View</a></div>');
+                })();
+
+                (function() {
                     L.marker([48.7801388888889, 9.18382777777778], {
                         icon: L.icon({
                             iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
@@ -985,19 +998,6 @@
                         opacity: 0.6
                     }).addTo(map)
                     .bindPopup('<div class="nearby-sticker-popup"><strong>SV Zeltingen-Rachtig</strong><a href="/stickers/2441.html" class="map-popup-link">View</a></div>');
-                })();
-
-                (function() {
-                    L.marker([48.7807, 9.18329722222222], {
-                        icon: L.icon({
-                            iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
-                            iconSize: [18, 30],
-                            iconAnchor: [9, 30],
-                            popupAnchor: [1, -25]
-                        }),
-                        opacity: 0.6
-                    }).addTo(map)
-                    .bindPopup('<div class="nearby-sticker-popup"><strong>󠁧󠁢󠁳󠁣󠁴󠁿 Aberdeen F.C.</strong><a href="/stickers/2430.html" class="map-popup-link">View</a></div>');
                 })();
 
                 (function() {

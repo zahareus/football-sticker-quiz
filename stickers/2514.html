@@ -168,7 +168,7 @@
                             </div>
 
                             <div class="club-details-block club-mini-card">
-<p class="club-info-item"><a href="/clubs/751.html">View all 0 stickers from Widzew Łódź →</a></p>
+<p class="club-info-item"><a href="/clubs/751.html">View all 6 stickers from Widzew Łódź →</a></p>
 </div>
                             <p class="sticker-detail-rating" id="sticker-rating" data-sticker-id="2514" data-club-id="751" data-difficulty="1">
                                 <a href="/battle.html">Like Rate: <span id="rating-value">...</span> (<span id="rating-rank">#...</span>)</a>
@@ -181,7 +181,16 @@
                         </div>
                     </div>
                 </div>
-                
+                <div class="more-from-club">
+<h3>More from Widzew Łódź</h3>
+<div class="sticker-strip">
+<a href="/stickers/879.html" class="sticker-strip-item"><img src="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/club_751%2F1746526868356_IMG_1960_thumb.webp" alt="Sticker #879" loading="lazy" decoding="async"></a>
+<a href="/stickers/880.html" class="sticker-strip-item"><img src="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/club_751%2F1746526885353_IMG_4209_thumb.webp" alt="Sticker #880" loading="lazy" decoding="async"></a>
+<a href="/stickers/2468.html" class="sticker-strip-item"><img src="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/club_751%2F1756041049281_IMG_6335_thumb.webp" alt="Sticker #2468" loading="lazy" decoding="async"></a>
+<a href="/stickers/2646.html" class="sticker-strip-item"><img src="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/club_751/1760044288207_IMG_7262_thumb.webp" alt="Sticker #2646" loading="lazy" decoding="async"></a>
+<a href="/stickers/3034.html" class="sticker-strip-item"><img src="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/club_751/1772989814852_IMG_8058_thumb.webp" alt="Sticker #3034" loading="lazy" decoding="async"></a>
+</div>
+</div>
                 
             <div class="sticker-map-section sticker-map-full-width">
                 <div id="sticker-map" class="sticker-map-container"></div>
@@ -350,6 +359,19 @@
                 })();
 
                 (function() {
+                    L.marker([36.5258111111111, 32.0540666666667], {
+                        icon: L.icon({
+                            iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
+                            iconSize: [18, 30],
+                            iconAnchor: [9, 30],
+                            popupAnchor: [1, -25]
+                        }),
+                        opacity: 0.6
+                    }).addTo(map)
+                    .bindPopup('<div class="nearby-sticker-popup"><strong>FC Kobenhavn</strong><a href="/stickers/2515.html" class="map-popup-link">View</a></div>');
+                })();
+
+                (function() {
                     L.marker([36.5273555555556, 32.046725], {
                         icon: L.icon({
                             iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
@@ -412,19 +434,6 @@
                         opacity: 0.6
                     }).addTo(map)
                     .bindPopup('<div class="nearby-sticker-popup"><strong>Dynamo Dresden</strong><a href="/stickers/2512.html" class="map-popup-link">View</a></div>');
-                })();
-
-                (function() {
-                    L.marker([36.527675, 32.0509833333333], {
-                        icon: L.icon({
-                            iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
-                            iconSize: [18, 30],
-                            iconAnchor: [9, 30],
-                            popupAnchor: [1, -25]
-                        }),
-                        opacity: 0.6
-                    }).addTo(map)
-                    .bindPopup('<div class="nearby-sticker-popup"><strong>Widzew Łódź</strong><a href="/stickers/2514.html" class="map-popup-link">View</a></div>');
                 })();
 
                 (function() {
@@ -519,12 +528,12 @@
                     [36.5272166666667, 32.0493666666667],
                     [36.5262361111111, 32.0511888888889],
                     [36.527125, 32.0497805555556],
+                    [36.5258111111111, 32.0540666666667],
                     [36.5273555555556, 32.046725],
                     [36.5281638888889, 32.0461416666667],
                     [36.5299333333333, 32.0447],
                     [36.5296944444444, 32.0447305555556],
                     [36.5260361111111, 32.0514194444444],
-                    [36.527675, 32.0509833333333],
                     [36.5296777777778, 32.0459888888889],
                     [36.526975, 32.0473444444444],
                     [36.5272861111111, 32.0471277777778],
