@@ -24,6 +24,7 @@
     background: #f9f9f9;
     border: 1px solid #e5e5e5;
     border-radius: 8px;
+    text-align: left;
 }
 
 .wiki-facts {
@@ -937,6 +938,7 @@ body.quiz-result .result-right-panel {
 .club-description-text {
     margin-bottom: calc(var(--spacing-unit) * 2);
     color: var(--color-text);
+    text-align: left;
 }
 
 .club-description-text p {
