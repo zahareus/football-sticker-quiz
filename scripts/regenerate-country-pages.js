@@ -120,10 +120,11 @@ async function generateCountryPage(countryCode, clubs, stickerCountsByClub) {
     const template = loadTemplate('country-page.html');
 
     const countryName = getCountryName(countryCode);
-    const pageTitle = `${countryName} - Sticker Catalogue`;
-    const metaDescription = `Browse ${clubs.length} football clubs from ${countryName} in our sticker database. Explore club stickers and discover the complete collection.`;
+    const totalStickers = clubs.reduce((sum, club) => sum + (stickerCountsByClub[club.id] || 0), 0);
+    const pageTitle = `${countryName} Football Stickers — ${clubs.length} Clubs | StickerHunt`;
+    const metaDescription = `Browse football stickers from ${clubs.length} clubs in ${countryName}. Identify stickers from ${countryName} clubs in our database of ${totalStickers}+ stickers.`;
     const canonicalUrl = `${BASE_URL}/countries/${countryCode.toUpperCase()}.html`;
-    const keywords = `football stickers, ${countryName}, panini catalogue, football clubs, sticker collection`;
+    const keywords = `${countryName} football stickers, ${countryName} clubs stickers, identify ${countryName} sticker, football sticker database`;
 
     const breadcrumbs = generateBreadcrumbs([
         { text: 'Catalogue', url: '/catalogue.html' },
@@ -157,7 +158,7 @@ async function generateCountryPage(countryCode, clubs, stickerCountsByClub) {
             { text: 'Catalogue', url: '/catalogue.html' },
             { text: countryName, url: `/countries/${countryCode.toUpperCase()}.html` }
         ]),
-        MAIN_HEADING: countryName,
+        MAIN_HEADING: `${countryName} Football Stickers`,
         CLUB_LIST: clubListHtml
     };
 

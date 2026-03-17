@@ -87,6 +87,10 @@ function getCountryName(code) {
     return COUNTRY_NAMES[code?.toUpperCase()] || code;
 }
 
+function cleanTrailingQuery(url) {
+    return url ? url.replace(/\?$/, '') : url;
+}
+
 function getOptimizedImageUrl(imageUrl, suffix = '_web') {
     if (!imageUrl || !imageUrl.includes('/storage/v1/object/')) return imageUrl;
     try {
@@ -214,7 +218,7 @@ async function generateStickerPage(sticker, club, prevStickerId, nextStickerId) 
         META_DESCRIPTION: metaDescription,
         META_KEYWORDS: keywords,
         CANONICAL_URL: canonicalUrl,
-        OG_IMAGE: sticker.image_url,
+        OG_IMAGE: cleanTrailingQuery(sticker.image_url),
         STICKER_NAME: `${club.name} Sticker #${sticker.id}`,
         IMAGE_URL: getDetailImageUrl(sticker.image_url),
         THUMBNAIL_URL: getThumbnailUrl(sticker.image_url),

@@ -96,6 +96,10 @@ function getCountryName(code) {
     return COUNTRY_NAMES[code?.toUpperCase()] || code;
 }
 
+function cleanTrailingQuery(url) {
+    return url ? url.replace(/\?$/, '') : url;
+}
+
 function loadTemplate(templateName) {
     const templatePath = join(PROJECT_ROOT, 'templates', templateName);
     if (!existsSync(templatePath)) {
@@ -273,8 +277,9 @@ async function generateClubPage(club, stickers) {
     const clubNameClean = stripEmoji(club.name);
     const stickerCount = stickers ? stickers.length : 0;
     const stickerWord = stickerCount !== 1 ? 'stickers' : 'sticker';
-    const pageTitle = `${clubNameClean} Stickers — ${stickerCount} Football ${stickerWord.charAt(0).toUpperCase() + stickerWord.slice(1)} | StickerHunt`;
-    const metaDescription = `Browse ${stickerCount} ${clubNameClean} football ${stickerWord} from ${countryName}${club.city ? ` (${club.city})` : ''}. Identify your ${clubNameClean} sticker in our database.`;
+    const pageTitle = `${clubNameClean} Stickers — ${stickerCount} ${stickerWord.charAt(0).toUpperCase() + stickerWord.slice(1)} | StickerHunt`;
+    const cityPart = club.city ? ` from ${club.city},` : ' from';
+    const metaDescription = `${clubNameClean} —${cityPart} ${countryName}. ${stickerCount} football ${stickerWord} found on streets. Can you identify them? Browse the collection at StickerHunt.`;
     const canonicalUrl = `${BASE_URL}/clubs/${club.id}.html`;
 
     let keywords = `${clubNameClean} stickers, ${clubNameClean} football stickers, identify ${clubNameClean} sticker, ${countryName} football stickers, panini sticker database`;
@@ -303,7 +308,7 @@ async function generateClubPage(club, stickers) {
         META_DESCRIPTION: metaDescription,
         META_KEYWORDS: keywords,
         CANONICAL_URL: canonicalUrl,
-        OG_IMAGE: ogImage,
+        OG_IMAGE: cleanTrailingQuery(ogImage),
         CLUB_ID: club.id,
         CLUB_NAME: club.name,
         CLUB_CITY: club.city || '',
@@ -315,8 +320,8 @@ async function generateClubPage(club, stickers) {
             { text: countryName, url: `/countries/${club.country.toUpperCase()}.html` },
             { text: club.name, url: `/clubs/${club.id}.html` }
         ]),
-        MAIN_HEADING: `${club.name} — ${stickerCount} Football ${stickerWord.charAt(0).toUpperCase() + stickerWord.slice(1)}`,
-        HEADING_SUFFIX: `${stickerCount} Football ${stickerWord.charAt(0).toUpperCase() + stickerWord.slice(1)}`,
+        MAIN_HEADING: `${club.name} — ${stickerCount} ${stickerWord.charAt(0).toUpperCase() + stickerWord.slice(1)}`,
+        HEADING_SUFFIX: `${stickerCount} ${stickerWord.charAt(0).toUpperCase() + stickerWord.slice(1)}`,
         CLUB_DESCRIPTION: generateClubDescription(club, stickerCount, countryName),
         CLUB_INFO: generateClubInfo(club),
         STICKER_GALLERY: generateStickerGallery(stickers, club.name),
@@ -371,7 +376,7 @@ async function generateCountryPage(countryCode, clubs, stickerCountsByClub) {
             { text: 'Catalogue', url: '/catalogue.html' },
             { text: countryName, url: `/countries/${countryCode.toUpperCase()}.html` }
         ]),
-        MAIN_HEADING: countryName,
+        MAIN_HEADING: `${countryName} Football Stickers`,
         CLUB_LIST: clubListHtml
     };
 
