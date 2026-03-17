@@ -46,10 +46,111 @@ const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
 // Load wiki cache
 let wikiCache = {};
+let wikiCacheDirty = false;
 try {
     wikiCache = JSON.parse(readFileSync(join(PROJECT_ROOT, 'scripts/wiki-cache.json'), 'utf-8'));
 } catch {
     // No cache available
+}
+
+/**
+ * Auto-fetch wiki data for a club if it has a wikipedia URL but is missing from cache
+ */
+async function ensureWikiData(club) {
+    const clubId = String(club.id);
+    if (wikiCache[clubId]) return; // already cached
+    if (!club.web || !club.web.includes('wikipedia.org')) return; // no wiki URL
+
+    console.log(`  📚 Fetching Wikipedia data for ${club.name}...`);
+    try {
+        const url = new URL(club.web);
+        const lang = url.hostname.split('.')[0];
+        const title = decodeURIComponent(url.pathname.replace('/wiki/', ''));
+        const ua = { headers: { 'User-Agent': 'StickerHuntBot/1.0 (https://stickerhunt.club)' }};
+
+        // Get QID via Wikipedia with redirects
+        const r1 = await fetch(`https://${lang}.wikipedia.org/w/api.php?action=query&titles=${encodeURIComponent(title)}&redirects=1&prop=pageprops&format=json`, ua);
+        const d1 = await r1.json();
+        const page = Object.values(d1.query?.pages || {})[0];
+        const qid = page?.pageprops?.wikibase_item;
+        if (!qid) { console.log('    ✗ No Wikidata QID found'); return; }
+
+        // Get Wikidata claims
+        const r2 = await fetch(`https://www.wikidata.org/w/api.php?action=wbgetentities&ids=${qid}&props=claims|sitelinks&format=json`, ua);
+        const d2 = await r2.json();
+        const entity = d2.entities[qid];
+        const claims = entity?.claims || {};
+
+        const resolveEntity = async (eid) => {
+            const r = await fetch(`https://www.wikidata.org/w/api.php?action=wbgetentities&ids=${eid}&props=labels&languages=en&format=json`, ua);
+            const d = await r.json();
+            return d.entities[eid]?.labels?.en?.value || null;
+        };
+
+        // Founded
+        let founded = null;
+        if (claims.P571) {
+            const t = claims.P571[0]?.mainsnak?.datavalue?.value?.time;
+            if (t) founded = t.split('-')[0].replace('+', '');
+        }
+
+        // League (current — no end date)
+        let league = null;
+        if (claims.P118) {
+            for (const c of claims.P118) {
+                if (!c.qualifiers?.P582) {
+                    const lid = c.mainsnak?.datavalue?.value?.id;
+                    if (lid) { league = await resolveEntity(lid); break; }
+                }
+            }
+        }
+
+        // Stadium (current — no end date, or latest)
+        let stadium = null, capacity = null;
+        if (claims.P115) {
+            let best = null;
+            for (const v of claims.P115) {
+                if (!v.qualifiers?.P582) { best = v.mainsnak?.datavalue?.value?.id; break; }
+            }
+            if (!best) best = claims.P115[claims.P115.length - 1]?.mainsnak?.datavalue?.value?.id;
+            if (best) {
+                stadium = await resolveEntity(best);
+                const sr = await fetch(`https://www.wikidata.org/w/api.php?action=wbgetentities&ids=${best}&props=claims&format=json`, ua);
+                const sd = await sr.json();
+                const cap = sd.entities[best]?.claims?.P1083?.[0]?.mainsnak?.datavalue?.value?.amount;
+                if (cap) capacity = parseInt(cap.replace('+', '')).toLocaleString();
+            }
+        }
+
+        // Website
+        let website = claims.P856?.[0]?.mainsnak?.datavalue?.value || null;
+
+        // English intro
+        let intro = null;
+        const enTitle = entity.sitelinks?.enwiki?.title;
+        const introLang = enTitle ? 'en' : lang;
+        const introTitle = enTitle || page.title;
+        const ir = await fetch(`https://${introLang}.wikipedia.org/w/api.php?action=query&titles=${encodeURIComponent(introTitle)}&redirects=1&prop=extracts&exintro=true&explaintext=true&format=json`, ua);
+        const id2 = await ir.json();
+        const ip = Object.values(id2.query?.pages || {})[0];
+        if (ip?.extract) {
+            const s = ip.extract.split('. ');
+            intro = s.slice(0, 2).join('. ') + '.';
+        }
+
+        wikiCache[clubId] = { wikiUrl: club.web, intro, founded, stadium, capacity, league, website };
+        wikiCacheDirty = true;
+        console.log(`    ✓ Cached: ${founded || '-'} | ${stadium || '-'} | ${league || '-'}`);
+    } catch (e) {
+        console.log(`    ✗ Error: ${e.message}`);
+    }
+}
+
+function saveWikiCacheIfDirty() {
+    if (wikiCacheDirty) {
+        writeFileSync(join(PROJECT_ROOT, 'scripts/wiki-cache.json'), JSON.stringify(wikiCache, null, 2));
+        console.log('  💾 Wiki cache updated');
+    }
 }
 
 // Country code mapping
@@ -871,6 +972,9 @@ async function generatePagesForSticker() {
 
         console.log(`  ✓ Found sticker #${stickerId} for club: ${club.name}`);
 
+        // 1b. Auto-fetch wiki data if club has wiki URL but not in cache
+        await ensureWikiData(club);
+
         // 2. Get prev/next sticker IDs for navigation
         const { data: prevSticker } = await supabase
             .from('stickers')
@@ -1050,6 +1154,9 @@ async function generatePagesForSticker() {
                 console.log(`  ✓ Updated: stickers/${prevStickerId}.html`);
             }
         }
+
+        // Save wiki cache if updated
+        saveWikiCacheIfDirty();
 
         // Summary
         console.log('\n✅ Generation complete!');

@@ -145,6 +145,16 @@ jobs:
 
           echo "image_optimization=success" >> $GITHUB_OUTPUT
 
+      - name: Regenerate city pages
+        if: steps.get-ids.outputs.sticker_ids != ''
+        working-directory: ./scripts
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
+        run: |
+          echo "Regenerating city pages..."
+          node generate-city-pages.js
+
       - name: Check for changes
         id: check-changes
         run: |
@@ -159,7 +169,7 @@ jobs:
         run: |
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
-          git add stickers/ clubs/ countries/
+          git add stickers/ clubs/ countries/ cities/ scripts/wiki-cache.json
 
           # Create commit message
           STICKER_IDS="${{ steps.get-ids.outputs.sticker_ids }}"
