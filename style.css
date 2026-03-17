@@ -942,9 +942,9 @@ body.quiz-result .result-right-panel {
 }
 
 .club-description-text p {
-    font-size: 1em;
+    font-size: 1.1em;
     line-height: 1.6;
-    color: #555;
+    color: var(--color-text);
 }
 
 .club-description-text a {

@@ -366,8 +366,10 @@ async function reverseGeocode(lat, lon) {
 
         if (data?.address) {
             const addr = data.address;
-            const city = addr.city || addr.town || addr.village || addr.hamlet ||
-                         addr.borough || addr.municipality || addr.county || '';
+            // Priority: city > town > municipality > village > county
+            // Skip borough (returns district names like "Ixelles" instead of "Brussels")
+            const city = addr.city || addr.town || addr.municipality ||
+                         addr.village || addr.hamlet || addr.county || '';
             const country = addr.country || '';
 
             if (city && country) return `${city}, ${country}`;

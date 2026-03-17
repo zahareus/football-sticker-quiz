@@ -203,6 +203,41 @@ function generateWikiSection(clubId) {
     return html;
 }
 
+function generateStickerStats(stickers) {
+    if (!stickers || stickers.length === 0) return '';
+
+    const items = [];
+
+    const withDates = stickers.filter(s => s.found).sort((a, b) => new Date(a.found) - new Date(b.found));
+    if (withDates.length > 0) {
+        const fmt = (d) => new Date(d).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
+        const first = withDates[0];
+        const latest = withDates[withDates.length - 1];
+        const firstLoc = first.location ? ` in ${first.location.split(',')[0]}` : '';
+        const latestLoc = latest.location ? ` in ${latest.location.split(',')[0]}` : '';
+        items.push(`<p class="club-info-item">📅 First found: ${fmt(first.found)}${firstLoc}</p>`);
+        if (withDates.length > 1) {
+            items.push(`<p class="club-info-item">📅 Latest find: ${fmt(latest.found)}${latestLoc}</p>`);
+        }
+    }
+
+    const cities = [...new Set(stickers.filter(s => s.location).map(s => s.location.split(',')[0].trim()))];
+    if (cities.length > 0) {
+        items.push(`<p class="club-info-item">📍 Found in: ${cities.join(', ')}</p>`);
+    }
+
+    const withDiff = stickers.filter(s => s.difficulty);
+    if (withDiff.length > 0) {
+        const avg = withDiff.reduce((sum, s) => sum + s.difficulty, 0) / withDiff.length;
+        const label = avg <= 1.3 ? 'Easy' : avg <= 2.3 ? 'Medium' : 'Hard';
+        const dots = avg <= 1.3 ? '🟢' : avg <= 2.3 ? '🟡🟡' : '🔴🔴🔴';
+        items.push(`<p class="club-info-item">🎯 Difficulty: ${dots} ${label}</p>`);
+    }
+
+    if (items.length === 0) return '';
+    return `<div class="club-info-section sticker-stats-section">\n${items.join('\n')}\n</div>`;
+}
+
 function generateClubDescription(club, countryName) {
     const clubName = stripEmoji(club.name);
     const city = club.city ? ` from ${club.city}` : '';
@@ -637,6 +672,7 @@ async function generateClubPage(club, stickers) {
         MAIN_HEADING: `${club.name} — ${stickerCount} ${stickerWord.charAt(0).toUpperCase() + stickerWord.slice(1)}`,
         HEADING_SUFFIX: `${stickerCount} ${stickerWord.charAt(0).toUpperCase() + stickerWord.slice(1)}`,
         WIKI_SECTION: generateWikiSection(club.id),
+        STICKER_STATS: generateStickerStats(stickers),
         CLUB_DESCRIPTION: generateClubDescription(club, countryName),
         CLUB_INFO: generateClubInfo(club),
         STICKER_GALLERY: generateStickerGallery(stickers, club.name),
