@@ -3,28 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nantes Football Stickers — 35 Stickers Found | StickerHunt</title>
+    <title>Nantes Football Stickers — 36 Stickers Found | StickerHunt</title>
     <link rel="icon" href="/favicon.ico" type="image/x-icon">
 
     <!-- SEO Meta Tags - Pre-rendered for better indexing -->
-    <meta name="description" content="35 football stickers from 6 clubs found on streets of Nantes, France. Browse the collection and see where they were found.">
+    <meta name="description" content="36 football stickers from 6 clubs found on streets of Nantes, France. Browse the collection and see where they were found.">
     <meta name="keywords" content="Nantes football stickers, Nantes street stickers, football stickers France, sticker locations Nantes">
     <link rel="canonical" href="https://stickerhunt.club/cities/nantes.html">
 
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://stickerhunt.club/cities/nantes.html">
-    <meta property="og:title" content="Nantes Football Stickers — 35 Stickers Found | StickerHunt">
-    <meta property="og:description" content="35 football stickers from 6 clubs found on streets of Nantes, France. Browse the collection and see where they were found.">
-    <meta property="og:image" content="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/club_292/1774787009968_IMG_8752.jpeg">
+    <meta property="og:title" content="Nantes Football Stickers — 36 Stickers Found | StickerHunt">
+    <meta property="og:description" content="36 football stickers from 6 clubs found on streets of Nantes, France. Browse the collection and see where they were found.">
+    <meta property="og:image" content="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/club_292/1774788387865_IMG_8748.jpeg">
     <meta property="og:site_name" content="StickerHunt">
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image">
     <meta property="twitter:url" content="https://stickerhunt.club/cities/nantes.html">
-    <meta property="twitter:title" content="Nantes Football Stickers — 35 Stickers Found | StickerHunt">
-    <meta property="twitter:description" content="35 football stickers from 6 clubs found on streets of Nantes, France. Browse the collection and see where they were found.">
-    <meta property="twitter:image" content="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/club_292/1774787009968_IMG_8752.jpeg">
+    <meta property="twitter:title" content="Nantes Football Stickers — 36 Stickers Found | StickerHunt">
+    <meta property="twitter:description" content="36 football stickers from 6 clubs found on streets of Nantes, France. Browse the collection and see where they were found.">
+    <meta property="twitter:image" content="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/club_292/1774788387865_IMG_8748.jpeg">
     <meta property="twitter:site" content="@StickerHunting">
     <meta property="twitter:creator" content="@StickerHunting">
 
@@ -50,8 +50,8 @@
     {
       "@context": "https://schema.org",
       "@type": "CollectionPage",
-      "name": "Nantes Football Stickers — 35 Stickers Found | StickerHunt",
-      "description": "35 football stickers from 6 clubs found on streets of Nantes, France. Browse the collection and see where they were found.",
+      "name": "Nantes Football Stickers — 36 Stickers Found | StickerHunt",
+      "description": "36 football stickers from 6 clubs found on streets of Nantes, France. Browse the collection and see where they were found.",
       "url": "https://stickerhunt.club/cities/nantes.html",
       "about": {
         "@type": "Place",
@@ -122,7 +122,7 @@
     <main class="container" id="catalogue-container">
         <div id="catalogue-breadcrumbs"><a href="/catalogue.html">Catalogue</a> &rarr; <a href="/cities/">Cities</a> &rarr; <a href="/cities/nantes.html">Nantes</a></div>
 
-        <h1 id="main-catalogue-heading">Nantes — 35 Football Stickers</h1>
+        <h1 id="main-catalogue-heading">Nantes — 36 Football Stickers</h1>
 
         <div id="catalogue-content">
             <div class="wiki-section">
@@ -142,6 +142,13 @@
             </div>
             <div class="sticker-gallery">
                 
+                <a href="/stickers/3190.html" class="sticker-preview-link">
+                    <img src="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/club_292/1774788387865_IMG_8748_thumb.webp"
+                         alt="SK Sturm Graz football sticker #3190 found in this city"
+                         class="sticker-preview-image"
+                         loading="lazy"
+                         decoding="async">
+                </a>
                 <a href="/stickers/3155.html" class="sticker-preview-link">
                     <img src="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/club_292/1774787009968_IMG_8752_thumb.webp"
                          alt="SK Sturm Graz football sticker #3155 found in this city"
@@ -425,11 +432,18 @@
         
         document.addEventListener('DOMContentLoaded', function() {
             if (typeof L !== 'undefined' && document.getElementById('club-map')) {
-                const cityMap = L.map('club-map').setView([47.24357984126986, -1.5368355555555555], 12);
+                const cityMap = L.map('club-map').setView([47.24261597222224, -1.5376707561728393], 12);
                 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                     attribution: '&copy; OpenStreetMap contributors'
                 }).addTo(cityMap);
                 
+                (function() {
+                    const marker = L.marker([47.2088805555556, -1.56690277777778]).addTo(cityMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>SK Sturm Graz</strong><a href="/stickers/3190.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
                 (function() {
                     const marker = L.marker([47.2087638888889, -1.566575]).addTo(cityMap);
                     marker.bindPopup('<div class="nearby-sticker-popup"><strong>SK Sturm Graz</strong><a href="/stickers/3155.html" class="map-popup-link">View</a></div>');
@@ -676,6 +690,7 @@
                 })();
                 
                 const bounds = L.latLngBounds([
+                    [47.2088805555556, -1.56690277777778],
                     [47.2087638888889, -1.566575],
                     [47.2070916666667, -1.57283888888889],
                     [47.2133416666667, -1.55883055555556],
