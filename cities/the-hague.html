@@ -127,7 +127,7 @@
         <div id="catalogue-content">
             <div class="wiki-section">
     <div class="wiki-facts">
-        <div class="wiki-fact"><span class="wiki-fact-label">Population</span><span class="wiki-fact-value">548 320</span></div>
+        <div class="wiki-fact"><span class="wiki-fact-label">Population</span><span class="wiki-fact-value">548,320</span></div>
     </div>
     <div class="wiki-intro">
         <p>The Hague is the capital city of the South Holland province of the Netherlands.  With a population of over half a million, it is the third-largest city in the Netherlands.</p>
@@ -324,6 +324,13 @@
                          loading="lazy"
                          decoding="async">
                 </a>
+                <a href="/stickers/2841.html" class="sticker-preview-link">
+                    <img src="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/club_893/1766229822206_IMG_7691_thumb.webp"
+                         alt="1 FC Lokomotive Leipzig football sticker #2841 found in this city"
+                         class="sticker-preview-image"
+                         loading="lazy"
+                         decoding="async">
+                </a>
                 <a href="/stickers/2823.html" class="sticker-preview-link">
                     <img src="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/club_1102/1766185418362_IMG_7610_thumb.webp"
                          alt="Arminia Bielefeld football sticker #2823 found in this city"
@@ -362,13 +369,6 @@
                 <a href="/stickers/2835.html" class="sticker-preview-link">
                     <img src="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/club_1095/1766229571768_IMG_7721_thumb.webp"
                          alt="ADO Den Haag football sticker #2835 found in this city"
-                         class="sticker-preview-image"
-                         loading="lazy"
-                         decoding="async">
-                </a>
-                <a href="/stickers/2841.html" class="sticker-preview-link">
-                    <img src="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/club_893/1766229822206_IMG_7691_thumb.webp"
-                         alt="1 FC Lokomotive Leipzig football sticker #2841 found in this city"
                          class="sticker-preview-image"
                          loading="lazy"
                          decoding="async">
@@ -586,7 +586,7 @@
         
         document.addEventListener('DOMContentLoaded', function() {
             if (typeof L !== 'undefined' && document.getElementById('club-map')) {
-                const cityMap = L.map('club-map').setView([52.101134427586196, 4.291963501724136], 12);
+                const cityMap = L.map('club-map').setView([52.101134427586196, 4.291963501724135], 12);
                 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                     attribution: '&copy; OpenStreetMap contributors'
                 }).addTo(cityMap);
@@ -774,6 +774,13 @@
                 })();
 
                 (function() {
+                    const marker = L.marker([52.0800694, 4.3095889]).addTo(cityMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>1 FC Lokomotive Leipzig</strong><a href="/stickers/2841.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
                     const marker = L.marker([52.1111111, 4.2804111]).addTo(cityMap);
                     marker.bindPopup('<div class="nearby-sticker-popup"><strong>Arminia Bielefeld</strong><a href="/stickers/2823.html" class="map-popup-link">View</a></div>');
                     marker.on('mouseover', function() { this.openPopup(); });
@@ -811,13 +818,6 @@
                 (function() {
                     const marker = L.marker([52.082325, 4.3059611]).addTo(cityMap);
                     marker.bindPopup('<div class="nearby-sticker-popup"><strong>ADO Den Haag</strong><a href="/stickers/2835.html" class="map-popup-link">View</a></div>');
-                    marker.on('mouseover', function() { this.openPopup(); });
-                    marker.on('click', function() { this.openPopup(); });
-                })();
-
-                (function() {
-                    const marker = L.marker([52.0800694, 4.3095889]).addTo(cityMap);
-                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>1 FC Lokomotive Leipzig</strong><a href="/stickers/2841.html" class="map-popup-link">View</a></div>');
                     marker.on('mouseover', function() { this.openPopup(); });
                     marker.on('click', function() { this.openPopup(); });
                 })();
@@ -1024,13 +1024,13 @@
                     [52.0781861, 4.3092417],
                     [52.1132278, 4.2803667],
                     [52.0810083, 4.3130944],
+                    [52.0800694, 4.3095889],
                     [52.1111111, 4.2804111],
                     [52.0781667, 4.3092361],
                     [52.1163972, 4.2815944],
                     [52.1142389, 4.28185],
                     [52.084525, 4.3063556],
                     [52.082325, 4.3059611],
-                    [52.0800694, 4.3095889],
                     [52.0810083, 4.3130944],
                     [52.0782389, 4.309225],
                     [52.1111667, 4.2804972],

@@ -127,7 +127,7 @@
         <div id="catalogue-content">
             <div class="wiki-section">
     <div class="wiki-facts">
-        <div class="wiki-fact"><span class="wiki-fact-label">Population</span><span class="wiki-fact-value">162 543</span></div>
+        <div class="wiki-fact"><span class="wiki-fact-label">Population</span><span class="wiki-fact-value">162,543</span></div>
     </div>
     <div class="wiki-intro">
         <p>Haarlem is a city and municipality in the Netherlands.  It is the capital of the province of North Holland.</p>
@@ -226,6 +226,13 @@
                          loading="lazy"
                          decoding="async">
                 </a>
+                <a href="/stickers/2781.html" class="sticker-preview-link">
+                    <img src="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/club_930/1763897732454_IMG_7490_thumb.webp"
+                         alt="Hamburger SV football sticker #2781 found in this city"
+                         class="sticker-preview-image"
+                         loading="lazy"
+                         decoding="async">
+                </a>
                 <a href="/stickers/2770.html" class="sticker-preview-link">
                     <img src="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/club_881/1763896173816_IMG_7496_thumb.webp"
                          alt="FC St Pauli football sticker #2770 found in this city"
@@ -236,13 +243,6 @@
                 <a href="/stickers/2778.html" class="sticker-preview-link">
                     <img src="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/club_729/1763897550674_IMG_7491_thumb.webp"
                          alt="AFC Ajax football sticker #2778 found in this city"
-                         class="sticker-preview-image"
-                         loading="lazy"
-                         decoding="async">
-                </a>
-                <a href="/stickers/2781.html" class="sticker-preview-link">
-                    <img src="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/club_930/1763897732454_IMG_7490_thumb.webp"
-                         alt="Hamburger SV football sticker #2781 found in this city"
                          class="sticker-preview-image"
                          loading="lazy"
                          decoding="async">
@@ -382,6 +382,13 @@
                 })();
 
                 (function() {
+                    const marker = L.marker([52.3793028, 4.6324472]).addTo(cityMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>Hamburger SV</strong><a href="/stickers/2781.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
                     const marker = L.marker([52.3844, 4.635925]).addTo(cityMap);
                     marker.bindPopup('<div class="nearby-sticker-popup"><strong>FC St Pauli</strong><a href="/stickers/2770.html" class="map-popup-link">View</a></div>');
                     marker.on('mouseover', function() { this.openPopup(); });
@@ -391,13 +398,6 @@
                 (function() {
                     const marker = L.marker([52.3795056, 4.6327194]).addTo(cityMap);
                     marker.bindPopup('<div class="nearby-sticker-popup"><strong>AFC Ajax</strong><a href="/stickers/2778.html" class="map-popup-link">View</a></div>');
-                    marker.on('mouseover', function() { this.openPopup(); });
-                    marker.on('click', function() { this.openPopup(); });
-                })();
-
-                (function() {
-                    const marker = L.marker([52.3793028, 4.6324472]).addTo(cityMap);
-                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>Hamburger SV</strong><a href="/stickers/2781.html" class="map-popup-link">View</a></div>');
                     marker.on('mouseover', function() { this.openPopup(); });
                     marker.on('click', function() { this.openPopup(); });
                 })();
@@ -422,9 +422,9 @@
                     [52.3802528, 4.6337139],
                     [52.3861777777778, 4.63908888888889],
                     [52.385075, 4.6360861],
+                    [52.3793028, 4.6324472],
                     [52.3844, 4.635925],
                     [52.3795056, 4.6327194],
-                    [52.3793028, 4.6324472],
                     [52.3802722, 4.6337111]
                 ]);
                 cityMap.fitBounds(bounds, { padding: [30, 30], maxZoom: 15 });

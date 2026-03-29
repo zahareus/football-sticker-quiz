@@ -197,13 +197,6 @@
                          loading="lazy"
                          decoding="async">
                 </a>
-                <a href="/stickers/3070.html" class="sticker-preview-link">
-                    <img src="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/club_856/1773520671655_IMG_8264_thumb.webp"
-                         alt="FC Bayern Munich football sticker #3070 found in this city"
-                         class="sticker-preview-image"
-                         loading="lazy"
-                         decoding="async">
-                </a>
                 <a href="/stickers/3056.html" class="sticker-preview-link">
                     <img src="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/club_637/1773005713687_IMG_8214_thumb.webp"
                          alt="Rapid Bucuresti football sticker #3056 found in this city"
@@ -337,6 +330,13 @@
                          loading="lazy"
                          decoding="async">
                 </a>
+                <a href="/stickers/3070.html" class="sticker-preview-link">
+                    <img src="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/club_856/1773520671655_IMG_8264_thumb.webp"
+                         alt="FC Bayern Munich football sticker #3070 found in this city"
+                         class="sticker-preview-image"
+                         loading="lazy"
+                         decoding="async">
+                </a>
                 <a href="/stickers/3073.html" class="sticker-preview-link">
                     <img src="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/club_666/1773520746777_IMG_8260_thumb.webp"
                          alt="Olympique de Marseille football sticker #3073 found in this city"
@@ -354,13 +354,6 @@
                 <a href="/stickers/3075.html" class="sticker-preview-link">
                     <img src="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/club_659/1773520784049_IMG_8257_thumb.webp"
                          alt="Montpellier HSC football sticker #3075 found in this city"
-                         class="sticker-preview-image"
-                         loading="lazy"
-                         decoding="async">
-                </a>
-                <a href="/stickers/3080.html" class="sticker-preview-link">
-                    <img src="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/club_1159/1773520963478_IMG_8248_thumb.webp"
-                         alt="Altonaer FC von 1893 football sticker #3080 found in this city"
                          class="sticker-preview-image"
                          loading="lazy"
                          decoding="async">
@@ -396,6 +389,13 @@
                 <a href="/stickers/3076.html" class="sticker-preview-link">
                     <img src="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/club_925/1773520815311_IMG_8255_thumb.webp"
                          alt="Eintracht Frankfurt football sticker #3076 found in this city"
+                         class="sticker-preview-image"
+                         loading="lazy"
+                         decoding="async">
+                </a>
+                <a href="/stickers/3080.html" class="sticker-preview-link">
+                    <img src="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/club_1159/1773520963478_IMG_8248_thumb.webp"
+                         alt="Altonaer FC von 1893 football sticker #3080 found in this city"
                          class="sticker-preview-image"
                          loading="lazy"
                          decoding="async">
@@ -452,7 +452,7 @@
         
         document.addEventListener('DOMContentLoaded', function() {
             if (typeof L !== 'undefined' && document.getElementById('club-map')) {
-                const cityMap = L.map('club-map').setView([37.60026652421652, -0.9849957264957265], 12);
+                const cityMap = L.map('club-map').setView([37.60026652421652, -0.9849957264957263], 12);
                 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                     attribution: '&copy; OpenStreetMap contributors'
                 }).addTo(cityMap);
@@ -509,13 +509,6 @@
                 (function() {
                     const marker = L.marker([37.5993416666667, -0.985013888888889]).addTo(cityMap);
                     marker.bindPopup('<div class="nearby-sticker-popup"><strong>TSV 1860 München</strong><a href="/stickers/3048.html" class="map-popup-link">View</a></div>');
-                    marker.on('mouseover', function() { this.openPopup(); });
-                    marker.on('click', function() { this.openPopup(); });
-                })();
-
-                (function() {
-                    const marker = L.marker([37.6010555555556, -0.984833333333333]).addTo(cityMap);
-                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>FC Bayern Munich</strong><a href="/stickers/3070.html" class="map-popup-link">View</a></div>');
                     marker.on('mouseover', function() { this.openPopup(); });
                     marker.on('click', function() { this.openPopup(); });
                 })();
@@ -654,6 +647,13 @@
                 })();
 
                 (function() {
+                    const marker = L.marker([37.6010555555556, -0.984833333333333]).addTo(cityMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>FC Bayern Munich</strong><a href="/stickers/3070.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
                     const marker = L.marker([37.5995777777778, -0.985322222222222]).addTo(cityMap);
                     marker.bindPopup('<div class="nearby-sticker-popup"><strong>Olympique de Marseille</strong><a href="/stickers/3073.html" class="map-popup-link">View</a></div>');
                     marker.on('mouseover', function() { this.openPopup(); });
@@ -670,13 +670,6 @@
                 (function() {
                     const marker = L.marker([37.5998833333333, -0.984883333333333]).addTo(cityMap);
                     marker.bindPopup('<div class="nearby-sticker-popup"><strong>Montpellier HSC</strong><a href="/stickers/3075.html" class="map-popup-link">View</a></div>');
-                    marker.on('mouseover', function() { this.openPopup(); });
-                    marker.on('click', function() { this.openPopup(); });
-                })();
-
-                (function() {
-                    const marker = L.marker([37.5997583333333, -0.983505555555556]).addTo(cityMap);
-                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>Altonaer FC von 1893</strong><a href="/stickers/3080.html" class="map-popup-link">View</a></div>');
                     marker.on('mouseover', function() { this.openPopup(); });
                     marker.on('click', function() { this.openPopup(); });
                 })();
@@ -717,6 +710,13 @@
                 })();
 
                 (function() {
+                    const marker = L.marker([37.5997583333333, -0.983505555555556]).addTo(cityMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>Altonaer FC von 1893</strong><a href="/stickers/3080.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
                     const marker = L.marker([37.5989, -0.985266666666667]).addTo(cityMap);
                     marker.bindPopup('<div class="nearby-sticker-popup"><strong>Villareal CF</strong><a href="/stickers/3050.html" class="map-popup-link">View</a></div>');
                     marker.on('mouseover', function() { this.openPopup(); });
@@ -739,7 +739,6 @@
                     [37.6043138888889, -0.986294444444444],
                     [37.6020611111111, -0.987327777777778],
                     [37.5993416666667, -0.985013888888889],
-                    [37.6010555555556, -0.984833333333333],
                     [37.5996333333333, -0.985847222222222],
                     [37.5983916666667, -0.98545],
                     [37.60215, -0.984769444444444],
@@ -759,15 +758,16 @@
                     [37.6044305555556, -0.980480555555556],
                     [37.5983916666667, -0.98545],
                     [37.5984722222222, -0.98445],
+                    [37.6010555555556, -0.984833333333333],
                     [37.5995777777778, -0.985322222222222],
                     [37.5995638888889, -0.985316666666667],
                     [37.5998833333333, -0.984883333333333],
-                    [37.5997583333333, -0.983505555555556],
                     [37.5995138888889, -0.983494444444444],
                     [37.5996638888889, -0.98355],
                     [37.5999611111111, -0.984183333333333],
                     [37.5995111111111, -0.983508333333333],
                     [37.6000138888889, -0.983786111111111],
+                    [37.5997583333333, -0.983505555555556],
                     [37.5989, -0.985266666666667],
                     [37.602475, -0.983961111111111]
                 ]);
