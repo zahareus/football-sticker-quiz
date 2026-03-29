@@ -4736,5 +4736,14 @@
     "capacity": "10,000",
     "league": "Algerian Ligue Professionnelle 2",
     "website": null
+  },
+  "1168": {
+    "wikiUrl": "https://en.wikipedia.org/wiki/Stade_de_Reims",
+    "intro": "Stade de Reims (French pronunciation: [stad də ʁɛ̃s]) is a French professional football club based in Reims. The club was formed in 1931 and plays in Ligue 2, the Second tier of football in France.",
+    "founded": "1931",
+    "stadium": "Stade Auguste Delaune",
+    "capacity": "21,684",
+    "league": "Ligue 2",
+    "website": "http://www.stade-de-reims.com"
   }
 }
