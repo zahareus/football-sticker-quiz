@@ -135,7 +135,7 @@
                                  loading="eager"
                                  fetchpriority="high">
                         </div>
-                        <div class="sticker-nav-buttons"><a href="/stickers/3147.html" class="btn btn-nav sticker-nav-btn">← #3147</a><span class="sticker-nav-placeholder"></span></div>
+                        <div class="sticker-nav-buttons"><a href="/stickers/3147.html" class="btn btn-nav sticker-nav-btn">← #3147</a><a href="/stickers/3149.html" class="btn btn-nav sticker-nav-btn">#3149 →</a></div>
                     </div>
 
                     <div class="sticker-detail-right-panel">
@@ -168,6 +168,7 @@
                             </div>
 
                             <div class="club-details-block club-mini-card">
+<p class="club-info-item">Est. 1942 · Algerian Ligue Professionnelle 2 · Mohamed Benhaddad Stadium</p>
 <p class="club-info-item"><a href="/clubs/1167.html">View all 1 stickers from RC Kouba →</a></p>
 </div>
                             <p class="sticker-detail-rating" id="sticker-rating" data-sticker-id="3148" data-club-id="1167" data-difficulty="2">
@@ -297,6 +298,19 @@
                     .bindPopup('<div class="nearby-sticker-popup"><strong>PFC Levski Sofia</strong><a href="/stickers/3147.html" class="map-popup-link">View</a></div>');
                 })();
 
+                (function() {
+                    L.marker([38.3395777777778, -0.490016666666667], {
+                        icon: L.icon({
+                            iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
+                            iconSize: [18, 30],
+                            iconAnchor: [9, 30],
+                            popupAnchor: [1, -25]
+                        }),
+                        opacity: 0.6
+                    }).addTo(map)
+                    .bindPopup('<div class="nearby-sticker-popup"><strong>Real Betis</strong><a href="/stickers/3149.html" class="map-popup-link">View</a></div>');
+                })();
+
                 // Current sticker — larger marker, opened popup
                 L.marker([38.3399777777778, -0.490411111111111], {
                     icon: L.icon({
@@ -319,7 +333,8 @@
                     [38.3383861111111, -0.491211111111111],
                     [38.3435444444444, -0.493094444444444],
                     [38.3433222222222, -0.493233333333333],
-                    [38.3424694444444, -0.492263888888889]
+                    [38.3424694444444, -0.492263888888889],
+                    [38.3395777777778, -0.490016666666667]
                 ]);
                 map.fitBounds(bounds, { padding: [30, 30], maxZoom: 14 });
                 
