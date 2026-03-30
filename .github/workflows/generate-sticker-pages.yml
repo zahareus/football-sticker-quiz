@@ -17,6 +17,11 @@ on:
 permissions:
   contents: write
 
+# Serialize runs to prevent git push race conditions
+concurrency:
+  group: generate-pages
+  cancel-in-progress: false
+
 jobs:
   generate-pages:
     runs-on: ubuntu-latest
@@ -190,7 +195,12 @@ jobs:
           else
             git commit -m "Auto-regenerate pages"
           fi
-          git push
+          # Retry push with rebase in case of concurrent updates
+          for i in 1 2 3; do
+            git push && break
+            echo "Push failed (attempt $i), pulling with rebase..."
+            git pull --rebase
+          done
 
       - name: Output result
         run: |
