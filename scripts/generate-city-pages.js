@@ -13,9 +13,14 @@ import { join, dirname } from 'path';
 import { fileURLToPath } from 'url';
 import dotenv from 'dotenv';
 
+import {
+    getOptimizedImageUrl as _getOptimizedImageUrl,
+    selectTopRatedStickers, generateMultilingualMeta
+} from './seo-helpers.js';
+
 // Load environment variables
-const PROJECT_ROOT_FOR_ENV = join(dirname(fileURLToPath(import.meta.url)), '..');
-dotenv.config({ path: join(PROJECT_ROOT_FOR_ENV, '.env') });
+const __scriptsDir = dirname(fileURLToPath(import.meta.url));
+dotenv.config({ path: join(__scriptsDir, '.env') });
 
 // Configuration
 const SUPABASE_URL = process.env.SUPABASE_URL || "https://rbmeslzlbsolkxnvesqb.supabase.co";
@@ -442,6 +447,9 @@ function generateCityIndexPage(cities) {
         META_KEYWORDS: keywords,
         CANONICAL_URL: canonicalUrl,
         OG_IMAGE: 'https://stickerhunt.club/metash.png',
+        MULTILINGUAL_META: '',
+        FEATURED_STICKERS: '',
+        SCHEMA_JSON_LD: '',
         COUNTRY_NAME: 'Cities',
         CLUB_COUNT: cities.length,
         BREADCRUMBS: breadcrumbs,
@@ -625,9 +633,18 @@ async function main() {
             s => s.latitude != null && s.longitude != null
         );
 
-        const ogImage = stickers.length > 0
-            ? stickers[0].image_url
+        const topCityStickers = selectTopRatedStickers(stickers, 1);
+        const ogImage = topCityStickers.length > 0
+            ? _getOptimizedImageUrl(topCityStickers[0].image_url)
             : 'https://stickerhunt.club/metash.png';
+
+        // Determine country code from first club for multilingual meta
+        const firstClub = Object.values(clubsMap)[0];
+        const cityCountryCode = firstClub?.country || null;
+        const multilingualMeta = generateMultilingualMeta({
+            type: 'city', countryCode: cityCountryCode,
+            vars: { city: cityName, count: stickerCount }
+        });
 
         const data = {
             PAGE_TITLE: pageTitle,
@@ -635,6 +652,7 @@ async function main() {
             META_KEYWORDS: keywords,
             CANONICAL_URL: canonicalUrl,
             OG_IMAGE: cleanTrailingQuery(ogImage),
+            MULTILINGUAL_META: multilingualMeta,
             CITY_NAME: cityName,
             BREADCRUMBS: breadcrumbs,
             BREADCRUMB_SCHEMA: generateBreadcrumbSchema([
