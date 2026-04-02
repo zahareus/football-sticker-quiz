@@ -251,7 +251,7 @@ export function generateDescriptiveAltText({ clubName, stickerId, context = 'sti
 export function generateFeaturedGallery(topStickers, clubsMap = {}, heading = 'Top Rated Stickers') {
     if (!topStickers || topStickers.length === 0) return '';
 
-    let html = `<div class="featured-stickers-section">\n<h3>${heading}</h3>\n<div class="featured-stickers-grid">`;
+    let html = `<div class="more-from-club">\n<h3>${heading}</h3>\n<div class="sticker-strip">`;
     topStickers.forEach(sticker => {
         const club = clubsMap[sticker.club_id];
         const clubName = club ? stripEmoji(club.name) : '';
@@ -263,11 +263,7 @@ export function generateFeaturedGallery(topStickers, clubsMap = {}, heading = 'T
             context: 'country',
             countryName: countryName
         });
-        html += `
-    <a href="/stickers/${sticker.id}.html" class="featured-sticker-link">
-        <img src="${thumbUrl}" alt="${altText}" class="featured-sticker-image" loading="lazy" decoding="async">
-        <span class="featured-sticker-label">${clubName}</span>
-    </a>`;
+        html += `\n<a href="/stickers/${sticker.id}.html" class="sticker-strip-item" title="${clubName}"><img src="${thumbUrl}" alt="${altText}" class="featured-sticker-image" loading="lazy" decoding="async"></a>`;
     });
     html += '\n</div>\n</div>';
     return html;
