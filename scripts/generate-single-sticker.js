@@ -816,11 +816,11 @@ async function generateClubPage(club, stickers, allClubsInCountry, stickerCounts
 /**
  * Generate a single country page
  */
-async function generateCountryPage(countryCode, clubs, stickerCountsByClub) {
+async function generateCountryPage(countryCode, clubs, stickerCountsByClub, countryStickers, allClubsMap) {
     const template = loadTemplate('country-page.html');
 
     const countryName = getCountryName(countryCode);
-    const totalStickers = Object.values(stickerCountsByClub).reduce((a, b) => a + b, 0);
+    const totalStickers = clubs.reduce((sum, club) => sum + (stickerCountsByClub[club.id] || 0), 0);
     const pageTitle = `${countryName} Football Stickers — ${clubs.length} Clubs | StickerHunt`;
     const metaDescription = `Browse football stickers from ${clubs.length} clubs in ${countryName}. Identify stickers from ${countryName} clubs in our database of ${totalStickers}+ stickers.`;
     const canonicalUrl = `${BASE_URL}/countries/${countryCode.toUpperCase()}.html`;
@@ -830,6 +830,18 @@ async function generateCountryPage(countryCode, clubs, stickerCountsByClub) {
         { text: 'Catalogue', url: '/catalogue.html' },
         { text: countryName, url: `/countries/${countryCode.toUpperCase()}.html` }
     ]);
+
+    // Top-rated stickers for OG image and featured gallery
+    const topStickers = selectTopRatedStickers(countryStickers || [], 6);
+    const ogImage = topStickers.length > 0
+        ? cleanTrailingQuery(getOptimizedImageUrl(topStickers[0].image_url))
+        : 'https://stickerhunt.club/metash.png';
+
+    const featuredHtml = generateFeaturedGallery(topStickers, allClubsMap || {}, `Top Rated Stickers from ${countryName}`);
+    const multilingualMeta = generateMultilingualMeta({
+        type: 'country', countryCode: countryCode,
+        vars: { country: countryName, clubCount: clubs.length, total: totalStickers }
+    });
 
     const clubsWithStickerCounts = clubs.map(club => ({
         ...club,
@@ -843,12 +855,31 @@ async function generateCountryPage(countryCode, clubs, stickerCountsByClub) {
         clubListHtml += `<li><a href="/clubs/${club.id}.html">${club.name} ${countText}</a></li>`;
     });
 
+    // Schema with ImageGallery
+    const schemaItems = clubs.map((club, i) => ({
+        "@type": "ListItem", "position": i + 1,
+        "name": stripEmoji(club.name), "url": `${BASE_URL}/clubs/${club.id}.html`
+    }));
+    const schema = {
+        "@context": "https://schema.org", "@type": "ItemList",
+        "name": `Football clubs from ${countryName}`, "description": metaDescription,
+        "url": canonicalUrl, "numberOfItems": clubs.length, "itemListElement": schemaItems
+    };
+    if (topStickers.length > 0) {
+        schema.image = topStickers.slice(0, 3).map(s => ({
+            "@type": "ImageObject",
+            "contentUrl": cleanTrailingQuery(getOptimizedImageUrl(s.image_url)),
+            "thumbnailUrl": cleanTrailingQuery(getThumbnailUrl(s.image_url))
+        }));
+    }
+    const schemaJsonLd = `<script type="application/ld+json">\n    ${JSON.stringify(schema, null, 2).split('\n').join('\n    ')}\n    </script>`;
+
     const data = {
         PAGE_TITLE: pageTitle,
         META_DESCRIPTION: metaDescription,
         META_KEYWORDS: keywords,
         CANONICAL_URL: canonicalUrl,
-        OG_IMAGE: 'https://stickerhunt.club/metash.png',
+        OG_IMAGE: ogImage,
         COUNTRY_NAME: countryName,
         CLUB_COUNT: clubs.length,
         BREADCRUMBS: breadcrumbs,
@@ -857,6 +888,9 @@ async function generateCountryPage(countryCode, clubs, stickerCountsByClub) {
             { text: countryName, url: `/countries/${countryCode.toUpperCase()}.html` }
         ]),
         MAIN_HEADING: `${countryName} Football Stickers`,
+        FEATURED_STICKERS: featuredHtml,
+        MULTILINGUAL_META: multilingualMeta,
+        SCHEMA_JSON_LD: schemaJsonLd,
         CLUB_LIST: clubListHtml
     };
 
@@ -986,45 +1020,21 @@ async function generatePagesForSticker() {
         console.log('\n🔨 Generating country page...');
         const countryCode = club.country.toUpperCase();
 
-        // countryClubs already fetched above, get full data for country page
-        const { data: countryClubsFull } = await supabase
-            .from('clubs')
-            .select('*')
-            .eq('country', club.country)
-            .order('name');
-
-        // Count stickers per club (with pagination - Supabase limits to 1000)
-        let allStickerCounts = [];
-        let offset = 0;
-        const PAGE_SIZE = 1000;
-        let hasMore = true;
-
-        while (hasMore) {
-            const { data, error } = await supabase
-                .from('stickers')
-                .select('club_id')
-                .range(offset, offset + PAGE_SIZE - 1);
-
-            if (error) {
-                console.error('Error fetching sticker counts:', error.message);
-                break;
-            }
-
-            if (data && data.length > 0) {
-                allStickerCounts = allStickerCounts.concat(data);
-                offset += PAGE_SIZE;
-                if (data.length < PAGE_SIZE) hasMore = false;
-            } else {
-                hasMore = false;
-            }
-        }
+        // Fetch stickers with rating data for country page (featured gallery + counts)
+        const allCountryStickers = await fetchAllPaginated(supabase, 'stickers', 'id, club_id, image_url, rating, games');
 
         const stickerCountsByClub = {};
-        allStickerCounts.forEach(s => {
+        allCountryStickers.forEach(s => {
             stickerCountsByClub[s.club_id] = (stickerCountsByClub[s.club_id] || 0) + 1;
         });
 
-        const countryPath = await generateCountryPage(countryCode, countryClubs || [], stickerCountsByClub);
+        // Build clubs map and filter stickers for this country
+        const allClubsMap = {};
+        (countryClubs || []).forEach(c => { allClubsMap[c.id] = c; });
+        const countryClubIds = new Set((countryClubs || []).map(c => c.id));
+        const countryStickers = allCountryStickers.filter(s => countryClubIds.has(s.club_id));
+
+        const countryPath = await generateCountryPage(countryCode, countryClubs || [], stickerCountsByClub, countryStickers, allClubsMap);
         console.log(`  ✓ Generated: ${countryPath}`);
 
         // 7. Update previous sticker's navigation (if exists)
