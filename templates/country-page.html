@@ -10,6 +10,7 @@
     <meta name="description" content="{{META_DESCRIPTION}}">
     <meta name="keywords" content="{{META_KEYWORDS}}">
     <link rel="canonical" href="{{CANONICAL_URL}}">
+    {{MULTILINGUAL_META}}
 
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
@@ -43,16 +44,7 @@
     </script>
 
     <!-- Structured data for SEO -->
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "ItemList",
-      "name": "Football clubs from {{COUNTRY_NAME}}",
-      "description": "{{META_DESCRIPTION}}",
-      "url": "{{CANONICAL_URL}}",
-      "numberOfItems": {{CLUB_COUNT}}
-    }
-    </script>
+    {{SCHEMA_JSON_LD}}
     {{BREADCRUMB_SCHEMA}}
 
 </head>
@@ -81,6 +73,8 @@
         <div id="catalogue-breadcrumbs">{{BREADCRUMBS}}</div>
 
         <h1 id="main-catalogue-heading">{{MAIN_HEADING}}</h1>
+
+        {{FEATURED_STICKERS}}
 
         <div id="catalogue-content">
             <ul class="club-list">

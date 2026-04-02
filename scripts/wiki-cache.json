@@ -203,6 +203,16 @@
     "league": "First Professional Football League",
     "intro": "PFC Levski Sofia (Bulgarian: ПФК Левски София) is a Bulgarian professional association football club based in Sofia, which competes in the First League, the top division of the Bulgarian football league system. The club was founded on 24 May 1914 by a group of high school students, and is named after Vasil Levski, a Bulgarian revolutionary renowned as the national hero of the country."
   },
+  "235": {
+    "source": "ai",
+    "intro": "DSG Celtic Salmannsdorf is an Austrian football club based in Salmannsdorf, a district of Vienna. The club competes in the Austrian football league system.",
+    "founded": null,
+    "league": null,
+    "stadium": null,
+    "capacity": null,
+    "website": null,
+    "wikiUrl": null
+  },
   "247": {
     "wikiUrl": "https://en.wikipedia.org/wiki/FC_Spartak_Varna",
     "founded": 1918,
@@ -536,6 +546,16 @@
     "capacity": 9781,
     "league": "Cypriot First Division",
     "intro": "Anorthosis Famagusta (Greek: Ανόρθωση Αμμοχώστου, romanized: Anorthosi Ammochostou) is a Cypriot football club, part of the Famagusta multi-sport club founded in 1911 in Varosha, Famagusta.\nAnorthosis was one of the founding clubs of the Cyprus Football Association in 1934."
+  },
+  "501": {
+    "source": "ai",
+    "intro": "OFK Beograd is a football club based in Belgrade, Serbia. The club competes in Serbian football league competitions.",
+    "founded": null,
+    "league": null,
+    "stadium": null,
+    "capacity": null,
+    "website": null,
+    "wikiUrl": null
   },
   "513": {
     "wikiUrl": "https://en.wikipedia.org/wiki/FC_Belshina_Bobruisk",
@@ -963,6 +983,16 @@
     "league": "Liga MX",
     "website": "https://pumas.mx/"
   },
+  "601": {
+    "source": "ai",
+    "intro": "FC VSS Košice is a professional football club based in Košice, Slovakia's second-largest city. The club competes in Slovak football's top division and has been a fixture in the country's football landscape for several decades.",
+    "founded": null,
+    "league": null,
+    "stadium": null,
+    "capacity": null,
+    "website": null,
+    "wikiUrl": null
+  },
   "602": {
     "wikiUrl": "https://en.wikipedia.org/wiki/S.C._Braga",
     "founded": 1921,
@@ -1292,6 +1322,16 @@
     "league": "TFF First League",
     "intro": "Adana Demirspor Kulübü is a multi-sports club based in Adana, Turkey. The football department is the most popular department which relegated to TFF 1."
   },
+  "639": {
+    "source": "ai",
+    "intro": "FK Zemun is a professional football club based in Zemun, a historic city in Serbia. The club competes in Serbian football and has been part of the country's football pyramid.",
+    "founded": null,
+    "league": null,
+    "stadium": null,
+    "capacity": null,
+    "website": null,
+    "wikiUrl": null
+  },
   "640": {
     "wikiUrl": "https://en.wikipedia.org/wiki/%C5%A0K_Slovan_Bratislava",
     "founded": 1919,
@@ -1327,6 +1367,16 @@
     "capacity": 32972,
     "intro": "Fotbal Club Politehnica Timișoara (Romanian pronunciation: [poliˈtehnika timiˈʃo̯ara]), commonly known as Politehnica Timișoara or simply Poli Timișoara, was a Romanian football club from Timișoara, Timiș County, established in 1921 and dissolved in 2012. During its existence, the team won two Cupa României trophies and was twice runner-up in the Liga I. It amassed 49 seasons in the latter competition."
   },
+  "644": {
+    "source": "ai",
+    "intro": "FK Kozmos is a football club based in Bratislava, Slovakia. The club competes in Slovak football and maintains an active presence through their official website.",
+    "founded": null,
+    "league": null,
+    "stadium": null,
+    "capacity": null,
+    "website": null,
+    "wikiUrl": null
+  },
   "645": {
     "wikiUrl": "https://en.wikipedia.org/wiki/FC_Skala_Stryi_(2004)",
     "founded": 2004,
@@ -1351,6 +1401,16 @@
     "capacity": "18 000",
     "league": "Ligue 1",
     "website": "https://www.angers-sco.fr/"
+  },
+  "648": {
+    "source": "ai",
+    "intro": "AC Vailate is a football club based in Vailate, a small municipality in the Lombardy region of Italy. The club competes in Italian football at the amateur or semi-professional level.",
+    "founded": null,
+    "league": null,
+    "stadium": null,
+    "capacity": null,
+    "website": null,
+    "wikiUrl": null
   },
   "649": {
     "wikiUrl": "https://en.wikipedia.org/wiki/U.C._Sampdoria",
@@ -1386,6 +1446,16 @@
     "league": "Serie C",
     "intro": "Potenza Calcio S.r.l., formerly A.S.D. Rossoblù Potenza F.C. or just Potenza F.C., is an Italian football club based in Potenza, Basilicata. It currently plays in the Serie C.\nPotenza Calcio was founded in June 2012 as F.C.D. Rossoblu Potenza, by a merger of two amateur teams Controsenso Potenza and Atella Monticchio."
   },
+  "653": {
+    "source": "ai",
+    "intro": "ASD Pieve Fosciana is a football club based in Pieve Fosciana, a municipality in Tuscany, Italy. The club competes in Italian amateur football at the regional level.",
+    "founded": null,
+    "league": "Prima Categoria",
+    "stadium": null,
+    "capacity": null,
+    "website": null,
+    "wikiUrl": null
+  },
   "654": {
     "wikiUrl": "https://fr.wikipedia.org/wiki/SC_Toulon",
     "founded": 1944,
@@ -1394,6 +1464,16 @@
     "capacity": 8200,
     "league": "Championnat National 2",
     "intro": "Sporting Club Toulon is a football club from Toulon, France, that plays in the Championnat National 2, the fourth tier of the French football league system. The club was founded in 1944 and played under that name until the 1999–2000 season when they were administratively reformed as Sporting Toulon Var."
+  },
+  "655": {
+    "source": "ai",
+    "intro": "Longobarda Fognano is an amateur football club based in Fognano, Italy. The club competes in Italian amateur football competitions, primarily within the regional structures of Emilia-Romagna.",
+    "founded": null,
+    "league": "UISP Girone A Calcio a 11 Parma",
+    "stadium": null,
+    "capacity": null,
+    "website": null,
+    "wikiUrl": null
   },
   "656": {
     "wikiUrl": "https://fr.wikipedia.org/wiki/Paris_FC",
@@ -1455,6 +1535,16 @@
     "capacity": 9768,
     "league": "Serie C2",
     "intro": "Rimini Football Club 1912 was an Italian association football club based in Rimini, Emilia-Romagna that last played in the third-tier Serie C.\nThe original club was founded in 1912.\nTheir former home ground is the 9786-seat Stadio Romeo Neri."
+  },
+  "663": {
+    "source": "ai",
+    "intro": "ASD Amatori calcio San Polo is a football club based in San Polo d'Enza, a small municipality in the Emilia-Romagna region of Italy. The club competes in Italian amateur football leagues.",
+    "founded": null,
+    "league": null,
+    "stadium": null,
+    "capacity": null,
+    "website": null,
+    "wikiUrl": null
   },
   "664": {
     "wikiUrl": "https://en.wikipedia.org/wiki/SSC_Napoli",
@@ -1622,6 +1712,16 @@
     "league": "Serie C",
     "website": null
   },
+  "684": {
+    "source": "ai",
+    "intro": "OC Blausasc is a football club based in Blausasc, a small commune in the Alpes-Maritimes department of southeastern France. The club competes in French football leagues at the regional or local level.",
+    "founded": null,
+    "league": null,
+    "stadium": null,
+    "capacity": null,
+    "website": null,
+    "wikiUrl": null
+  },
   "685": {
     "wikiUrl": "https://en.wikipedia.org/wiki/Inter_Milan",
     "founded": 1908,
@@ -1788,6 +1888,36 @@
     "capacity": 70634,
     "intro": "Società Sportiva Lazio (Italian pronunciation: [sotʃeˈta sporˈtiːva ˈlattsjo]; BIT: SSL; Lazio Sport Club) is an Italian professional sports club based in Rome, most known for its football activity. The society, founded in 1900, plays in the Serie A and have spent most of their history in the top tier of Italian football."
   },
+  "704": {
+    "source": "ai",
+    "intro": "US Spicchiese is a football club based in Spicchio, Italy. The club competes in Italian football and maintains an active presence through their Facebook community.",
+    "founded": null,
+    "league": null,
+    "stadium": null,
+    "capacity": null,
+    "website": null,
+    "wikiUrl": null
+  },
+  "705": {
+    "source": "ai",
+    "intro": "AC Pavia 1911 SSD is a professional football club based in Pavia, Italy, with roots tracing back to 1911. The club competes in Italian football and represents the Lombardy city with a long-standing tradition in the sport.",
+    "founded": 1911,
+    "league": null,
+    "stadium": null,
+    "capacity": null,
+    "website": null,
+    "wikiUrl": null
+  },
+  "706": {
+    "source": "ai",
+    "intro": "US Albenga is a football club based in Albenga, a city in Liguria, Italy. The club competes in Italian football at regional or lower league levels.",
+    "founded": null,
+    "league": null,
+    "stadium": null,
+    "capacity": null,
+    "website": null,
+    "wikiUrl": null
+  },
   "707": {
     "wikiUrl": "https://fr.wikipedia.org/wiki/Racing_Club_de_Strasbourg_Alsace",
     "founded": 1906,
@@ -1833,6 +1963,16 @@
     "stadium": "Arena Garibaldi – Stadio Romeo Anconetani",
     "capacity": 10442,
     "intro": "Pisa Sporting Club, commonly referred to as Pisa, is an Italian professional football club based in Pisa, Tuscany. The club currently competes in Serie A in the 2025–26 season."
+  },
+  "713": {
+    "source": "ai",
+    "intro": "Polisportiva Virtus Rifredi Calcio is a football club based in Florence, Italy, representing the Rifredi district of the city. The club competes in Italian football at the amateur or semi-professional level.",
+    "founded": null,
+    "league": null,
+    "stadium": null,
+    "capacity": null,
+    "website": null,
+    "wikiUrl": null
   },
   "714": {
     "wikiUrl": "https://fr.wikipedia.org/wiki/Toulouse_FC",
@@ -1934,6 +2074,16 @@
     "league": "Allsvenskan",
     "intro": "Halmstads Bollklubb, also known simply as Halmstad ([ˈhǎlmsta, -stɑːd]) or (especially locally) HBK or Bollklubben, is a Swedish professional football club located in Halmstad in the county of Halland. The club, formed 7 February 1914 and approved membership in the Swedish Sports Confederation on 6 March the same year."
   },
+  "727": {
+    "source": "ai",
+    "intro": "FC Dinxperlo is a football club based in Dinxperlo, a municipality in the eastern Netherlands near the German border. The club competes in Dutch amateur football leagues.",
+    "founded": null,
+    "league": null,
+    "stadium": null,
+    "capacity": null,
+    "website": null,
+    "wikiUrl": null
+  },
   "728": {
     "wikiUrl": "https://nl.wikipedia.org/wiki/De_Graafschap",
     "intro": "De Graafschap kan verwijzen naar:"
@@ -1971,6 +2121,16 @@
     "league": "Eredivisie",
     "intro": "Heracles Almelo (Dutch: [ɦeːˈraːkləs ˈɑlməloː]) is a Dutch professional football club based in Almelo, founded in 1903. The club has won the Dutch national title twice, in 1927 and 1941."
   },
+  "733": {
+    "source": "ai",
+    "intro": "De Tubanters 1897 is a football club based in Tubbergen, a municipality in the eastern Netherlands. Founded in 1897, the club competes in Dutch amateur football leagues.",
+    "founded": 1897,
+    "league": null,
+    "stadium": null,
+    "capacity": null,
+    "website": null,
+    "wikiUrl": null
+  },
   "734": {
     "wikiUrl": "https://pl.wikipedia.org/wiki/Podbeskidzie_Bielsko-Biała",
     "founded": 1907,
@@ -1997,6 +2157,26 @@
     "capacity": 6700,
     "league": "Eredivisie",
     "intro": "The Go Ahead Eagles are a Dutch professional football club from the city of Deventer in the province of Overijssel. They play in the Eredivisie, the top tier of Dutch football, having achieved promotion from the second tier Eerste Divisie in the 2020–21 season."
+  },
+  "737": {
+    "source": "ai",
+    "intro": "Vattnas SK is a football club based in Vattnäs, Sweden. The club is affiliated with the Swedish Football Association and competes in Swedish football leagues.",
+    "founded": null,
+    "league": null,
+    "stadium": null,
+    "capacity": null,
+    "website": null,
+    "wikiUrl": null
+  },
+  "738": {
+    "source": "ai",
+    "intro": "UD Weerselo is a football club based in Weerselo, a municipality in the eastern Netherlands. The club competes in Dutch amateur football leagues.",
+    "founded": null,
+    "league": null,
+    "stadium": null,
+    "capacity": null,
+    "website": null,
+    "wikiUrl": null
   },
   "739": {
     "wikiUrl": "https://pl.wikipedia.org/wiki/Cracovia",
@@ -2097,6 +2277,16 @@
     "founded": 1919,
     "intro": "Drwęca Nowe Miasto Lubawskie – polski klub sportowy, założony w 1919 roku z siedzibą w Nowym Mieście Lubawskim. Obecnie wielosekcyjny."
   },
+  "755": {
+    "source": "ai",
+    "intro": "LHD Via Nostra is a football club based in Leiden, Netherlands. The club competes in Dutch amateur football leagues.",
+    "founded": null,
+    "league": null,
+    "stadium": null,
+    "capacity": null,
+    "website": null,
+    "wikiUrl": null
+  },
   "756": {
     "wikiUrl": "https://pl.wikipedia.org/wiki/Zagłębie_Sosnowiec",
     "intro": "Zagłębie Sosnowiec – polski wielosekcyjny klub sportowy z Sosnowca. Klub posiada m.in."
@@ -2191,6 +2381,16 @@
     "league": "Allsvenskan",
     "website": "https://www.siriusfotboll.se/"
   },
+  "769": {
+    "source": "ai",
+    "intro": "KS Mazur Pisz is a football club based in Pisz, Poland. The club competes in Polish football leagues at various levels.",
+    "founded": null,
+    "league": null,
+    "stadium": null,
+    "capacity": null,
+    "website": null,
+    "wikiUrl": null
+  },
   "770": {
     "wikiUrl": "https://nl.wikipedia.org/wiki/VV_Kockengen",
     "intro": "VV Kockengen is een Nederlandse amateurvoetbalclub uit Kockengen in de provincie Utrecht, opgericht in 1959. Het eerste elftal van de club speelt in de Derde klasse zaterdag (seizoen 2020/21)."
@@ -2231,6 +2431,16 @@
     "league": "Eredivisie",
     "intro": "Football Club Utrecht (Dutch pronunciation: [ɛfˈseː ˈytrɛxt]) is a Dutch professional football club based in Utrecht. The club competes in the Eredivisie, the top tier of Dutch football, and plays its home matches at the Stadion Galgenwaard."
   },
+  "775": {
+    "source": "ai",
+    "intro": "Hossmo BK is a football club based in Hossmo, Sweden. The club competes in Swedish football and maintains an active presence in the local sporting community.",
+    "founded": null,
+    "league": null,
+    "stadium": null,
+    "capacity": null,
+    "website": null,
+    "wikiUrl": null
+  },
   "776": {
     "wikiUrl": "https://sv.wikipedia.org/wiki/Landskrona_BoIS",
     "founded": 1915,
@@ -2246,6 +2456,16 @@
     "website": "https://www.elanatorun.com/",
     "league": "I liga",
     "intro": "Elana Toruń is a Polish football club based in Toruń. It competes in group II of the III liga, fourth tier of the Polish football league system."
+  },
+  "778": {
+    "source": "ai",
+    "intro": "Lycurgus7 is a football club based in Groningen, Netherlands. The club competes in Dutch football and maintains an active presence on social media.",
+    "founded": null,
+    "league": null,
+    "stadium": null,
+    "capacity": null,
+    "website": null,
+    "wikiUrl": null
   },
   "779": {
     "wikiUrl": "https://nl.wikipedia.org/wiki/SC_Cambuur",
@@ -2615,6 +2835,16 @@
     "league": "Tercera División",
     "intro": "Club Deportivo Toledo, S.A.D. is a Spanish football team based in Toledo, in the autonomous community of Castile-La Mancha. Founded in 1928 it plays in Tercera Federación – Group 18, holding home games at Estadio Salto del Caballo, with a seating capacity of 5,500 spectators."
   },
+  "823": {
+    "source": "ai",
+    "intro": "AD Lopera is a football club based in Lopera, a municipality in the province of Jaén, Andalusia, Spain. The club competes in regional Spanish football leagues and represents its local community.",
+    "founded": null,
+    "league": null,
+    "stadium": null,
+    "capacity": null,
+    "website": null,
+    "wikiUrl": null
+  },
   "824": {
     "wikiUrl": "https://es.wikipedia.org/wiki/Real_Betis",
     "intro": "Real Betis Balompié, S.A.D., known as Real Betis (pronounced [reˈal ˈβetis]) is a Spanish professional football club based in Seville, Andalusia, Spain. It plays in La Liga, the top flight of Spanish football.",
@@ -2650,6 +2880,16 @@
     "capacity": "31 179",
     "league": "Primera Federación",
     "website": "https://www.realmurcia.es/"
+  },
+  "828": {
+    "source": "ai",
+    "intro": "Barcelona Sporting Catalunya is a football club based in Barcelona, Spain. The club competes in Spanish football and represents the Catalan sporting tradition.",
+    "founded": null,
+    "league": null,
+    "stadium": null,
+    "capacity": null,
+    "website": null,
+    "wikiUrl": null
   },
   "829": {
     "wikiUrl": "https://es.wikipedia.org/wiki/UE_Sant_Andreu",
@@ -2774,6 +3014,16 @@
     "league": "La Liga",
     "intro": "Real Sociedad de Fútbol, S.A.D., more commonly referred to as Real Sociedad (pronounced [reˈal soθjeˈðað] es ; Royal Society) in English, and Erreala or Reala in Basque, is a Spanish professional sports club in the city of Donostia / San Sebastián, Basque Country, founded on 7 September 1909. They play their home matches at the Anoeta Stadium."
   },
+  "843": {
+    "source": "ai",
+    "intro": "CD La Manjoya is a football club based in Oviedo, Spain. The club competes in Spanish regional football leagues.",
+    "founded": null,
+    "league": null,
+    "stadium": null,
+    "capacity": null,
+    "website": null,
+    "wikiUrl": null
+  },
   "844": {
     "wikiUrl": "https://en.wikipedia.org/wiki/FC_Barcelona",
     "intro": "Futbol Club Barcelona (Catalan pronunciation: [fudˈbɔl ˈklub bəɾsəˈlonə] ), commonly known as FC Barcelona and colloquially as Barça ([ˈbaɾsə]), is a professional football club based in Barcelona, Catalonia, Spain, that competes in La Liga, the top flight of Spanish football.\nFounded in 1899 by a group of Swiss, Catalan, German, and English footballers led by Joan Gamper, the club has become a symbol of Catalan culture and Catalanism, hence the motto \"Més que un club\" (\"More than a club\").",
@@ -2854,6 +3104,36 @@
     "league": null,
     "website": "https://www.fc-heidenheim.de/"
   },
+  "853": {
+    "source": "ai",
+    "intro": "SV Ebersbach is a football club based in Ebersbach, Germany. The club competes in German football leagues at the regional or local level.",
+    "founded": null,
+    "league": null,
+    "stadium": null,
+    "capacity": null,
+    "website": null,
+    "wikiUrl": null
+  },
+  "854": {
+    "source": "ai",
+    "intro": "SV Rot-Weiss Merzdorf is a football club based in Merzdorf, Germany. The club competes in German football and maintains an active presence through its social media channels.",
+    "founded": null,
+    "league": null,
+    "stadium": null,
+    "capacity": null,
+    "website": null,
+    "wikiUrl": null
+  },
+  "855": {
+    "source": "ai",
+    "intro": "TUS Hiltrup is a German football club based in Hiltrup, a district of Münster in North Rhine-Westphalia. The club competes in German football's lower league system.",
+    "founded": null,
+    "league": null,
+    "stadium": null,
+    "capacity": null,
+    "website": null,
+    "wikiUrl": null
+  },
   "856": {
     "wikiUrl": "https://en.wikipedia.org/wiki/FC_Bayern_Munich",
     "founded": 1900,
@@ -2861,6 +3141,26 @@
     "stadium": "Allianz Arena",
     "capacity": 75024,
     "intro": "Fußball-Club Bayern München e. V. (FCB, German pronunciation: [ˈfuːsbalˌklʊp ˈbaɪɐn ˈmʏnçn̩]), commonly known as Bayern Munich (German: Bayern München), FC Bayern (pronounced [ˌɛft͡seː ˈbaɪɐn] ) or simply Bayern, is a German professional sports club based in Munich, Bavaria."
+  },
+  "857": {
+    "source": "ai",
+    "intro": "SG Hettenhausen is a football club based in Hettenhausen, Germany. The club competes in German amateur football leagues.",
+    "founded": null,
+    "league": null,
+    "stadium": null,
+    "capacity": null,
+    "website": null,
+    "wikiUrl": null
+  },
+  "858": {
+    "source": "ai",
+    "intro": "SV Ballern is a football club based in Ballern, Germany. The club competes in German football and maintains an active presence through social media platforms.",
+    "founded": null,
+    "league": null,
+    "stadium": null,
+    "capacity": null,
+    "website": null,
+    "wikiUrl": null
   },
   "859": {
     "wikiUrl": "https://de.wikipedia.org/wiki/TuS_Pewsum",
@@ -2884,6 +3184,26 @@
     "capacity": 24000,
     "intro": "Sport-Club Freiburg e.V., commonly known as SC Freiburg (German pronunciation: [ʔɛs ˈtseː ˈfʁaɪbʊɐ̯k]), is a German professional football club, based in the city of Freiburg im Breisgau, Baden-Württemberg. It plays in the Bundesliga, having been promoted as champions from the 2."
   },
+  "862": {
+    "source": "ai",
+    "intro": "SV Krechting is a football club based in Krechting, Germany. The club competes in German football at the amateur or regional level.",
+    "founded": null,
+    "league": null,
+    "stadium": null,
+    "capacity": null,
+    "website": null,
+    "wikiUrl": null
+  },
+  "863": {
+    "source": "ai",
+    "intro": "SG Kirchen-Hausen is a football club based in Kirchen-Hausen, Germany. The club competes in German football leagues at the regional or local level.",
+    "founded": null,
+    "league": null,
+    "stadium": null,
+    "capacity": null,
+    "website": null,
+    "wikiUrl": null
+  },
   "864": {
     "wikiUrl": "https://de.wikipedia.org/wiki/1._FC_Saarbrücken",
     "founded": 1903,
@@ -2892,6 +3212,16 @@
     "capacity": 35303,
     "league": "3. Liga",
     "intro": "1. Fußball-Club Saarbrücken (German: 1."
+  },
+  "865": {
+    "source": "ai",
+    "intro": "SC Herten is a football club based in Herten, Germany. The club competes in German football and maintains an active presence through its official website and social media channels.",
+    "founded": null,
+    "league": null,
+    "stadium": null,
+    "capacity": null,
+    "website": null,
+    "wikiUrl": null
   },
   "866": {
     "wikiUrl": "https://de.wikipedia.org/wiki/Darmstadt_98",
@@ -2902,6 +3232,26 @@
     "league": "2. Bundesliga",
     "website": "https://www.sv98.de/"
   },
+  "867": {
+    "source": "ai",
+    "intro": "SV Kell is a football club based in Kell am See, a municipality in the Rhineland-Palatinate region of Germany. The club competes in German amateur football and maintains an active presence in local and regional competitions.",
+    "founded": null,
+    "league": null,
+    "stadium": null,
+    "capacity": null,
+    "website": null,
+    "wikiUrl": null
+  },
+  "868": {
+    "source": "ai",
+    "intro": "FV Kusel 1919 is a football club based in Kusel, Germany, with a history dating back to 1919. The club competes in German football and serves the local community in the Rhineland-Palatinate region.",
+    "founded": 1919,
+    "league": null,
+    "stadium": null,
+    "capacity": null,
+    "website": null,
+    "wikiUrl": null
+  },
   "869": {
     "wikiUrl": "https://de.wikipedia.org/wiki/FC_Energie_Cottbus",
     "intro": "FC Energie Cottbus (Lower Sorbian: Energija Chóśebuz) is a German football club based in Cottbus, Brandenburg. It was founded in 1963 as SC Cottbus in what was East Germany.",
@@ -2910,6 +3260,16 @@
     "capacity": "22 528",
     "league": "3. Liga",
     "website": "http://www.fcenergie.de/"
+  },
+  "870": {
+    "source": "ai",
+    "intro": "BV Segendorf is a football club based in Segendorf, Germany, with roots dating back to 1881. The club competes in German football at the amateur or regional level.",
+    "founded": 1881,
+    "league": null,
+    "stadium": null,
+    "capacity": null,
+    "website": null,
+    "wikiUrl": null
   },
   "871": {
     "wikiUrl": "https://de.wikipedia.org/wiki/Roter_Stern_Leipzig",
@@ -2929,6 +3289,36 @@
     "capacity": 10787,
     "intro": "SV Babelsberg 03 is a German association football club based in Potsdam-Babelsberg, on the outskirts of Berlin. The team was founded as Sport-Club Jugendkraft 1903 and again as SG Karl-Marx Babelsberg in 1948 as successor to the pre-war side SpVgg Potsdam 03."
   },
+  "874": {
+    "source": "ai",
+    "intro": "Joga Barnito is a football club based in Hannover, Germany. The club maintains an active presence through its social media channels and represents the local football community in the region.",
+    "founded": null,
+    "league": null,
+    "stadium": null,
+    "capacity": null,
+    "website": null,
+    "wikiUrl": null
+  },
+  "875": {
+    "source": "ai",
+    "intro": "TSV Dagersheim is a German sports club based in Dagersheim, Germany. The club competes in local and regional football competitions in the German football league system.",
+    "founded": null,
+    "league": null,
+    "stadium": null,
+    "capacity": null,
+    "website": null,
+    "wikiUrl": null
+  },
+  "876": {
+    "source": "ai",
+    "intro": "FC Schönheide is a football club based in Schönheide, a town in the Erzgebirgskreis district of Saxony, Germany. The club competes in regional German football leagues and represents its local community in the sport.",
+    "founded": null,
+    "league": null,
+    "stadium": null,
+    "capacity": null,
+    "website": null,
+    "wikiUrl": null
+  },
   "877": {
     "wikiUrl": "https://de.wikipedia.org/wiki/Hannover_96",
     "founded": 1896,
@@ -2937,6 +3327,16 @@
     "capacity": 49000,
     "league": "2. Bundesliga",
     "intro": "Hannoverscher Sportverein von 1896, commonly referred to as Hannover 96 (IPA: [haˈnoːfɐ ˌzɛksʔʊntˈnɔʏntsɪç]), is a German professional sports club based in Hanover, the capital of Lower Saxony. Its senior men's football team competes in the 2."
+  },
+  "878": {
+    "source": "ai",
+    "intro": "SV Zehdenick 1920 eV is a football club based in Zehdenick, Germany, founded in 1920. The club competes in German football leagues and serves the local community in Brandenburg.",
+    "founded": 1920,
+    "league": null,
+    "stadium": null,
+    "capacity": null,
+    "website": null,
+    "wikiUrl": null
   },
   "879": {
     "wikiUrl": "https://de.wikipedia.org/wiki/Dynamo_Dresden",
@@ -2964,6 +3364,36 @@
     "capacity": 29546,
     "intro": "Fußball-Club St. Pauli von 1910 e.V., commonly known as simply St."
   },
+  "882": {
+    "source": "ai",
+    "intro": "TV Rönkhausen 1892 eV is a German football club based in Rönkhausen, North Rhine-Westphalia, with roots dating back to 1892. The club competes in German football's regional league system.",
+    "founded": 1892,
+    "league": null,
+    "stadium": null,
+    "capacity": null,
+    "website": null,
+    "wikiUrl": null
+  },
+  "883": {
+    "source": "ai",
+    "intro": "SpVgg BISON is a football club based in Neuenkirchen, Germany. The club competes in German football at the regional or local league level.",
+    "founded": null,
+    "league": null,
+    "stadium": null,
+    "capacity": null,
+    "website": null,
+    "wikiUrl": null
+  },
+  "884": {
+    "source": "ai",
+    "intro": "1 FC Stern Mögglingen is a football club based in Mögglingen, Germany. The club competes in German football at the regional or lower league level.",
+    "founded": null,
+    "league": null,
+    "stadium": null,
+    "capacity": null,
+    "website": null,
+    "wikiUrl": null
+  },
   "885": {
     "wikiUrl": "https://de.wikipedia.org/wiki/ESV_1927_Regensburg",
     "founded": 1927,
@@ -2983,6 +3413,26 @@
     "wikiUrl": "https://de.wikipedia.org/wiki/Berliner_SC",
     "intro": "Der Begriff Berliner SC bezeichnet folgende Berliner Vereine:"
   },
+  "888": {
+    "source": "ai",
+    "intro": "FC Stella 1911 e V Bevergern is a German football club based in Bevergern, North Rhine-Westphalia. Founded in 1911, the club competes in regional German football leagues.",
+    "founded": 1911,
+    "league": null,
+    "stadium": null,
+    "capacity": null,
+    "website": null,
+    "wikiUrl": null
+  },
+  "889": {
+    "source": "ai",
+    "intro": "SG Peterberg is a football club based in Braunshausen, Germany. The club competes in German football and maintains an active presence through its social media channels.",
+    "founded": null,
+    "league": null,
+    "stadium": null,
+    "capacity": null,
+    "website": null,
+    "wikiUrl": null
+  },
   "890": {
     "wikiUrl": "https://de.wikipedia.org/wiki/SC_Paderborn_07",
     "founded": 1907,
@@ -2991,6 +3441,26 @@
     "capacity": 15000,
     "league": "2. Bundesliga",
     "intro": "Sport-Club Paderborn 07 e.V., commonly known as simply SC Paderborn 07 (pronounced [ʔɛs t͡seː paːdɐˈbɔʁn nʊl ziːbm̩]) or SC Paderborn, is a German association football club based in Paderborn, North Rhine-Westphalia. The club has enjoyed its greatest success since the turn of the millennium, becoming a mainstay in the 2."
+  },
+  "891": {
+    "source": "ai",
+    "intro": "1. FC Lauchhau-Lauchäcker 04 is a German football club based in Lauchhammer, located in Brandenburg. The club competes in regional German football leagues and serves the local community in the Lauchhammer area.",
+    "founded": 2004,
+    "league": null,
+    "stadium": null,
+    "capacity": null,
+    "website": null,
+    "wikiUrl": null
+  },
+  "892": {
+    "source": "ai",
+    "intro": "DJK Ottenhofen is a German football club based in Ottenhofen, Germany. The club is part of the DJK (Deutsche Jugendkraft) federation, a Catholic sports organization with a long tradition in German amateur football.",
+    "founded": null,
+    "league": null,
+    "stadium": null,
+    "capacity": null,
+    "website": null,
+    "wikiUrl": null
   },
   "893": {
     "wikiUrl": "https://de.wikipedia.org/wiki/1._FC_Lokomotive_Leipzig",
@@ -3010,6 +3480,16 @@
     "league": "3. Liga",
     "intro": "SV Waldhof Mannheim is a multi-sports club, located in Mannheim, Baden-Württemberg. It is most known for its association football team; however, there are also professional handball and table-tennis sides."
   },
+  "895": {
+    "source": "ai",
+    "intro": "FC Land Wursten is a football club based in Wurster Nordseeküste, a municipality in Lower Saxony, Germany. The club competes in regional German football leagues and represents the coastal region of Wursten.",
+    "founded": null,
+    "league": null,
+    "stadium": null,
+    "capacity": null,
+    "website": null,
+    "wikiUrl": null
+  },
   "896": {
     "wikiUrl": "https://de.wikipedia.org/wiki/TSV_1860_München",
     "founded": 1860,
@@ -3028,6 +3508,26 @@
     "league": "Regionalliga Nordost",
     "intro": "Fußballclub Carl Zeiss Jena e. V. ([kaʁl ˈtsaɪs ˈjeːna]) is a German football club based in Jena, Thuringia."
   },
+  "898": {
+    "source": "ai",
+    "intro": "SV Ochtendung is a football club based in Ochtendung, Germany. The club was founded in 1919 and competes in regional German football leagues.",
+    "founded": 1919,
+    "league": null,
+    "stadium": null,
+    "capacity": null,
+    "website": null,
+    "wikiUrl": null
+  },
+  "899": {
+    "source": "ai",
+    "intro": "SV St Stephan 1953 Griesheim eV is a German football club based in Griesheim, Hesse. Founded in 1953, the club competes in regional German football leagues.",
+    "founded": 1953,
+    "league": null,
+    "stadium": null,
+    "capacity": null,
+    "website": null,
+    "wikiUrl": null
+  },
   "900": {
     "wikiUrl": "https://en.wikipedia.org/wiki/Bayer_04_Leverkusen",
     "intro": "Bayer 04 Leverkusen, officially known as Bayer 04 Leverkusen Fußball GmbH (German: [ˌbaɪ̯ɐ ˈleːvɐˌkuːzn̩]) and commonly known as Bayer Leverkusen or simply Leverkusen, is a German professional football club based in Leverkusen, North Rhine-Westphalia. It competes in the Bundesliga, the top tier of German football, and plays its home matches at the BayArena.",
@@ -3036,6 +3536,16 @@
     "stadium": "BayArena",
     "capacity": "30 210",
     "website": "https://www.bayer04.de/"
+  },
+  "901": {
+    "source": "ai",
+    "intro": "SG Renchtal is a football club based in the Renchtal Valley region of Germany. The club competes in local German football leagues and maintains an active youth program.",
+    "founded": null,
+    "league": null,
+    "stadium": null,
+    "capacity": null,
+    "website": null,
+    "wikiUrl": null
   },
   "902": {
     "wikiUrl": "https://de.wikipedia.org/wiki/SV_Wehen_Wiesbaden",
@@ -3082,11 +3592,31 @@
     "league": "2. Bundesliga",
     "intro": "Karlsruher Sport-Club Mühlburg-Phönix e. V., better known as Karlsruher SC, is a German association football club, based in Karlsruhe, Baden-Württemberg that currently plays in the 2."
   },
+  "907": {
+    "source": "ai",
+    "intro": "VfL Borsum is a football club based in Borsum, Germany. The club competes in German football leagues and maintains an active presence through their social media channels.",
+    "founded": null,
+    "league": null,
+    "stadium": null,
+    "capacity": null,
+    "website": null,
+    "wikiUrl": null
+  },
   "908": {
     "wikiUrl": "https://de.wikipedia.org/wiki/1._FC_Rodewisch",
     "founded": 1908,
     "website": "http://www.fcrodewisch.de/home",
     "intro": "Der 1. FC Rodewisch ist ein deutscher Fußballverein aus Rodewisch im Vogtlandkreis."
+  },
+  "909": {
+    "source": "ai",
+    "intro": "TSV Schmölz is a football club based in Schmölln, Germany. The club competes in German football leagues under the auspices of the Bavarian Football Association (BFV).",
+    "founded": null,
+    "league": null,
+    "stadium": null,
+    "capacity": null,
+    "website": null,
+    "wikiUrl": null
   },
   "910": {
     "wikiUrl": "https://de.wikipedia.org/wiki/FC_Erzgebirge_Aue",
@@ -3118,6 +3648,16 @@
     "website": "http://www.fsv.soemmerda.de/joomla",
     "intro": "Der Fußballsportverein Sömmerda ist ein Sportverein in der nordwestthüringischen Stadt Sömmerda."
   },
+  "914": {
+    "source": "ai",
+    "intro": "JFG Leitenbachtal is a football club based in Leitenbachtal, Germany. The club operates within the German football system, serving its local community through youth and senior football programs.",
+    "founded": null,
+    "league": null,
+    "stadium": null,
+    "capacity": null,
+    "website": null,
+    "wikiUrl": null
+  },
   "915": {
     "wikiUrl": "https://de.wikipedia.org/wiki/BSG_Chemie_Leipzig_(1950)",
     "founded": 1950,
@@ -3134,6 +3674,26 @@
     "league": "Fußball-Regionalliga Südwest",
     "intro": "Stuttgarter Kickers is a German association football club that plays in Stuttgart, Baden-Württemberg, founded on 21 September 1899 as FC Stuttgarter Cickers. The club currently plays in the Regionalliga Südwest, the fourth tier of German football."
   },
+  "917": {
+    "source": "ai",
+    "intro": "SV Emmerke 1909 is a German football club based in Emmerke, Germany, with a history dating back to 1909. The club competes in local German football leagues and serves the community of Emmerke.",
+    "founded": 1909,
+    "league": null,
+    "stadium": null,
+    "capacity": null,
+    "website": null,
+    "wikiUrl": null
+  },
+  "918": {
+    "source": "ai",
+    "intro": "TSV Olympia Eisenbach is a football club based in Eisenbach, Germany. The club competes in German football and maintains sporting facilities in their hometown.",
+    "founded": null,
+    "league": null,
+    "stadium": null,
+    "capacity": null,
+    "website": null,
+    "wikiUrl": null
+  },
   "919": {
     "wikiUrl": "https://de.wikipedia.org/wiki/Alemannia_Aachen",
     "founded": 1900,
@@ -3142,6 +3702,16 @@
     "capacity": 32960,
     "league": "3. Liga",
     "intro": "Aachener Turn- und Sportverein Alemannia 1900 e. V., short Alemannia Aachen (German pronunciation: [aleˈmani̯aː ˈʔaːxn̩]), is a German football club from the western city of Aachen, North Rhine-Westphalia."
+  },
+  "920": {
+    "source": "ai",
+    "intro": "FC 1911 Horchheim is a German football club based in Horchheim, Germany, with roots tracing back to 1911. The club competes in regional German football leagues and maintains an active presence in the local Horchheim community.",
+    "founded": 1911,
+    "league": null,
+    "stadium": null,
+    "capacity": null,
+    "website": null,
+    "wikiUrl": null
   },
   "921": {
     "wikiUrl": "https://de.wikipedia.org/wiki/Holstein_Kiel",
@@ -3161,6 +3731,26 @@
     "league": "2. Bundesliga",
     "intro": "1. Fußball-Club Nürnberg Verein für Leibesübungen e."
   },
+  "923": {
+    "source": "ai",
+    "intro": "JFV2016 Grob-Umstadt is a football club based in Grob-Umstadt, Germany. The club operates as a youth football association (JFV) with a focus on developing young players.",
+    "founded": 2016,
+    "league": null,
+    "stadium": null,
+    "capacity": null,
+    "website": null,
+    "wikiUrl": null
+  },
+  "924": {
+    "source": "ai",
+    "intro": "FC Empor Weimar is a football club based in Weimar, Germany. The club competes in German football at the regional or lower league level.",
+    "founded": null,
+    "league": null,
+    "stadium": null,
+    "capacity": null,
+    "website": null,
+    "wikiUrl": null
+  },
   "925": {
     "wikiUrl": "https://en.wikipedia.org/wiki/Eintracht_Frankfurt",
     "intro": "Eintracht Frankfurt e.V. (German pronunciation: [ˈaɪntʁaxt ˈfʁaŋkfʊʁt] ) is a German professional sports club based in Frankfurt, Hesse. It is best known for its football club, which was founded on 8 March 1899.",
@@ -3169,6 +3759,16 @@
     "stadium": "Waldstadion",
     "capacity": "51 500",
     "website": "https://www.eintracht.de/"
+  },
+  "926": {
+    "source": "ai",
+    "intro": "FC Internationale Memmingen is a football club based in Memmingen, Germany. The club competes in German football leagues and maintains an active presence in the local football community.",
+    "founded": null,
+    "league": null,
+    "stadium": null,
+    "capacity": null,
+    "website": null,
+    "wikiUrl": null
   },
   "927": {
     "wikiUrl": "https://de.wikipedia.org/wiki/FC_Hansa_Rostock",
@@ -3187,6 +3787,16 @@
     "capacity": 30660,
     "intro": "Fußball-Club Augsburg 1907 e. V., commonly known as FC Augsburg (German pronunciation: [ɛfˌt͡seː ˈaʊ̯ksbʊʁk] ), is a German professional football club based in Augsburg, Bavaria."
   },
+  "929": {
+    "source": "ai",
+    "intro": "TuS Homburg-Bröltal is a German football club based in Nümbrecht, located in North Rhine-Westphalia. The club competes in regional German football leagues.",
+    "founded": null,
+    "league": null,
+    "stadium": null,
+    "capacity": null,
+    "website": null,
+    "wikiUrl": null
+  },
   "930": {
     "wikiUrl": "https://de.wikipedia.org/wiki/Hamburger_SV",
     "founded": 1887,
@@ -3203,6 +3813,16 @@
     "capacity": 30000,
     "intro": "Verein für Leibesübungen Wolfsburg e. V., commonly known as VfL Wolfsburg (pronounced [ˌfaʊ ʔɛf ʔɛl ˈvɔlfsbʊɐ̯k]), is a German professional sports club based in Wolfsburg, Lower Saxony."
   },
+  "932": {
+    "source": "ai",
+    "intro": "TSV Ottenstein is a football club based in Ottenstein, Germany. The club competes in German football leagues and maintains an active presence in local and regional competitions.",
+    "founded": null,
+    "league": null,
+    "stadium": null,
+    "capacity": null,
+    "website": null,
+    "wikiUrl": null
+  },
   "933": {
     "wikiUrl": "https://de.wikipedia.org/wiki/TuS_Koblenz",
     "founded": 1934,
@@ -3218,6 +3838,16 @@
     "website": "http://www.bsc-sued-05-fussball.de/",
     "league": "NOFV-Oberliga",
     "intro": "Brandenburger SC Süd is a German association football club from the town of Brandenburg, in the federal state of the same name. The footballers are part of a larger sports club that also has departments for bowling, canoeing, cycling, swimming, and volleyball."
+  },
+  "935": {
+    "source": "ai",
+    "intro": "FSV Alemannia 1911 e.V. is a football club based in Mainz-Laubenheim, a district of Mainz, Germany. Founded in 1911, the club competes in German football's lower league system.",
+    "founded": 1911,
+    "league": null,
+    "stadium": null,
+    "capacity": null,
+    "website": null,
+    "wikiUrl": null
   },
   "936": {
     "wikiUrl": "https://de.wikipedia.org/wiki/FC_Union_Tornesch",
@@ -3254,6 +3884,46 @@
     "website": "http://www.germania-wernigerode.de",
     "intro": "Germania Wernigerode ist ein deutscher Fußballverein aus Wernigerode im Landkreis Harz. Der Verein wurde am 20."
   },
+  "941": {
+    "source": "ai",
+    "intro": "SV Union Bestensee is a football club based in Bestensee, Germany. The club competes in German amateur football leagues.",
+    "founded": null,
+    "league": null,
+    "stadium": null,
+    "capacity": null,
+    "website": null,
+    "wikiUrl": null
+  },
+  "942": {
+    "source": "ai",
+    "intro": "FV Eintracht Niesky is a football club based in Niesky, Germany. The club competes in German football leagues and represents the community in the Saxony region.",
+    "founded": null,
+    "league": null,
+    "stadium": null,
+    "capacity": null,
+    "website": null,
+    "wikiUrl": null
+  },
+  "943": {
+    "source": "ai",
+    "intro": "ASV Harthausen is a football club based in Harthausen, Germany. The club competes in German football at the regional or local league level.",
+    "founded": null,
+    "league": null,
+    "stadium": null,
+    "capacity": null,
+    "website": null,
+    "wikiUrl": null
+  },
+  "944": {
+    "source": "ai",
+    "intro": "TSV Eschenbach is a football club based in Eschenbach in der Oberpfalz, a town in Bavaria, Germany. The club competes in German football leagues at the regional or local level.",
+    "founded": null,
+    "league": null,
+    "stadium": null,
+    "capacity": null,
+    "website": null,
+    "wikiUrl": null
+  },
   "945": {
     "wikiUrl": "https://de.wikipedia.org/wiki/1._FC_Union_Berlin",
     "founded": 1966,
@@ -3261,6 +3931,16 @@
     "stadium": "Stadion An der Alten Försterei",
     "capacity": 21704,
     "intro": "1. Fußballclub Union Berlin e."
+  },
+  "946": {
+    "source": "ai",
+    "intro": "SpVgg 07 Hochheim is a football club based in Hochheim am Main, Germany. The club competes in German football leagues and maintains an active presence in the local football community.",
+    "founded": 1907,
+    "league": null,
+    "stadium": null,
+    "capacity": null,
+    "website": null,
+    "wikiUrl": null
   },
   "947": {
     "wikiUrl": "https://de.wikipedia.org/wiki/VfB_Stuttgart",
@@ -3295,6 +3975,16 @@
     "capacity": 19500,
     "league": "3. Liga",
     "intro": "SSV Ulm 1846 FUSSBALL e.V., commonly known as SSV Ulm 1846 or SSV Ulm, is a German football club based in Ulm, Baden-Württemberg. SSV Ulm 1846 FUSSBALL was formed on 7 March 2009 as new independent club  through the separation of the football department from the present-day multi-sports club SSV Ulm 1846 e.V. After finishing in first place and earning promotion from 3."
+  },
+  "951": {
+    "source": "ai",
+    "intro": "SV St. Märgen eV is a football club based in St. Märgen, a municipality in the Black Forest region of Baden-Württemberg, Germany. The club competes in regional German football leagues and serves the local community.",
+    "founded": null,
+    "league": null,
+    "stadium": null,
+    "capacity": null,
+    "website": null,
+    "wikiUrl": null
   },
   "952": {
     "wikiUrl": "https://de.wikipedia.org/wiki/MSV_Duisburg",
@@ -3357,6 +4047,16 @@
     "capacity": 32000,
     "league": "Regionalliga",
     "intro": "VfB Oldenburg is a German association football club based in Oldenburg, Lower Saxony. In the 2022–23 season, they played in the 3."
+  },
+  "959": {
+    "source": "ai",
+    "intro": "FC Westharz is a football club based in Bad Grund, a town in the Harz region of Lower Saxony, Germany. The club competes in German football leagues at the regional or district level.",
+    "founded": null,
+    "league": null,
+    "stadium": null,
+    "capacity": null,
+    "website": null,
+    "wikiUrl": null
   },
   "960": {
     "wikiUrl": "https://en.wikipedia.org/wiki/HFC_Falke",
@@ -3421,6 +4121,36 @@
     "capacity": 16130,
     "league": "3. Liga",
     "intro": "VfL Osnabrück is a German multi-sport club in Osnabrück, Lower Saxony. It currently fields teams in basketball, gymnastics, swimming, table tennis, and tennis but is by far best known for its football section."
+  },
+  "969": {
+    "source": "ai",
+    "intro": "FC Dombühl eV is a football club based in Dombühl, Germany. The club competes in German football and is registered with the Bavarian Football Association (BFV).",
+    "founded": null,
+    "league": null,
+    "stadium": null,
+    "capacity": null,
+    "website": null,
+    "wikiUrl": null
+  },
+  "970": {
+    "source": "ai",
+    "intro": "VfB Oberndorf eV is a football club based in Oberndorf am Neckar, Germany. The club was founded in 1947 and competes in regional German football leagues.",
+    "founded": 1947,
+    "league": null,
+    "stadium": null,
+    "capacity": null,
+    "website": null,
+    "wikiUrl": null
+  },
+  "971": {
+    "source": "ai",
+    "intro": "Spvgg Haiderbach is a football club based in Haigerloch, Germany. The club competes in German football leagues at the regional or local level.",
+    "founded": null,
+    "league": null,
+    "stadium": null,
+    "capacity": null,
+    "website": null,
+    "wikiUrl": null
   },
   "972": {
     "wikiUrl": "https://de.wikipedia.org/wiki/1._FC_Kaiserslautern",
@@ -3521,6 +4251,16 @@
     "league": "Scottish Championship",
     "intro": "Inverness Caledonian Thistle Football Club, commonly known as Caley Thistle, Inverness CT or just Inverness, is a professional football club based in Inverness, Scotland. The team competes in Scottish League One, the third tier of the Scottish Professional Football League, and plays its home games at Caledonian Stadium."
   },
+  "983": {
+    "source": "ai",
+    "intro": "Vecher Pyatnitsy is a football club based in Moscow, Russia. The club competes in Russian football league competitions.",
+    "founded": null,
+    "league": null,
+    "stadium": null,
+    "capacity": null,
+    "website": null,
+    "wikiUrl": null
+  },
   "984": {
     "wikiUrl": "https://en.wikipedia.org/wiki/Bristol_City_F.C.",
     "founded": 1897,
@@ -3547,6 +4287,16 @@
     "capacity": 32261,
     "league": "EFL Championship",
     "intro": "Leicester City Football Club is a professional football club based in Leicester, East Midlands, England. The club competes in the Championship, the second tier of English football."
+  },
+  "987": {
+    "source": "ai",
+    "intro": "Meteor Volzhskiy is a football club based in Volzhskiy, Russia. The club competes in Russian football and maintains an active presence through social media platforms.",
+    "founded": null,
+    "league": null,
+    "stadium": null,
+    "capacity": null,
+    "website": null,
+    "wikiUrl": null
   },
   "988": {
     "wikiUrl": "https://en.wikipedia.org/wiki/Grimsby_Town_F.C.",
@@ -3959,6 +4709,26 @@
     "league": "Czech FNL",
     "intro": "FC Zbrojovka Brno is a professional football club based in the city of Brno, South Moravian Region, Czech Republic and named after Zbrojovka Brno, a firearms manufacturer. Founded in 1913 as SK Židenice, the club later became known as Zbrojovka Brno."
   },
+  "1038": {
+    "source": "ai",
+    "intro": "FK Baník Most is a football club based in Most, Czech Republic. The club competes in Czech football and represents the city of Most in the northern Bohemian region.",
+    "founded": null,
+    "league": null,
+    "stadium": null,
+    "capacity": null,
+    "website": null,
+    "wikiUrl": null
+  },
+  "1039": {
+    "source": "ai",
+    "intro": "FK Čáslav is a football club based in Čáslav, Czech Republic. The club competes in Czech football leagues and represents the town in regional and national competitions.",
+    "founded": null,
+    "league": null,
+    "stadium": null,
+    "capacity": null,
+    "website": null,
+    "wikiUrl": null
+  },
   "1040": {
     "wikiUrl": "https://en.wikipedia.org/wiki/FK_Jablonec",
     "founded": 1945,
@@ -3976,6 +4746,16 @@
     "capacity": 5037,
     "league": "Czech FNL",
     "intro": "FK Viktoria Žižkov is a Czech professional football club from the district of Žižkov in Prague. The club competes in the Czech National Football League, the second tier of football in the country."
+  },
+  "1042": {
+    "source": "ai",
+    "intro": "Hajduk Lipník is a football club based in Lipník nad Bečvou, Czech Republic. The club competes in Czech football and maintains an active presence in regional competitions.",
+    "founded": null,
+    "league": null,
+    "stadium": null,
+    "capacity": null,
+    "website": null,
+    "wikiUrl": null
   },
   "1043": {
     "wikiUrl": "https://en.wikipedia.org/wiki/FK_Mlad%C3%A1_Boleslav",
@@ -3995,6 +4775,16 @@
     "league": "Czech FNL",
     "intro": "Slezský FC Opava is a professional football club based in Opava, Czech Republic. The club plays in the Czech National Football League, the second of Czech football after being relegated from the Czech First League at the end of the 2020–21 season."
   },
+  "1045": {
+    "source": "ai",
+    "intro": "SK Chrast is a football club based in Chrast, Czech Republic. The club competes in Czech football and maintains an active presence through their social media channels.",
+    "founded": null,
+    "league": null,
+    "stadium": null,
+    "capacity": null,
+    "website": null,
+    "wikiUrl": null
+  },
   "1046": {
     "wikiUrl": "https://en.wikipedia.org/wiki/SK_Slavia_Prague",
     "founded": 1892,
@@ -4003,6 +4793,16 @@
     "capacity": 20800,
     "league": "Czech First League",
     "intro": "Sportovní klub Slavia Praha – fotbal (Sports Club Slavia Prague – Football, pronounced [ˈslaːvɪja ˈpraɦa]), commonly known as Slavia Praha or Slavia Prague, is a Czech professional football club in Prague. Founded in 1892 as a literary and cycling club, they are the second most successful club in the Czech Republic since its independence in 1993."
+  },
+  "1047": {
+    "source": "ai",
+    "intro": "Unió Esportiva Jorba is a football club based in Jorba, a municipality in Catalonia, Spain. The club competes in regional Spanish football leagues and serves the local community.",
+    "founded": null,
+    "league": null,
+    "stadium": null,
+    "capacity": null,
+    "website": null,
+    "wikiUrl": null
   },
   "1048": {
     "wikiUrl": "https://en.wikipedia.org/wiki/CE_Sabadell_FC",
@@ -4049,6 +4849,26 @@
     "league": "Eliteserien",
     "intro": "Rosenborg Ballklub, commonly referred to simply as Rosenborg (Urban East Norwegian: [ˈrùːsn̩bɔrɡ]) or RBK, is a Norwegian professional football club from Trondheim that plays in Eliteserien. The club has won a record 26 league titles, a shared record 12 Norwegian Football Cup titles and have played more UEFA matches than any other Norwegian team."
   },
+  "1053": {
+    "source": "ai",
+    "intro": "Stora Mellösa AIF is a football club based in Stora Mellösa, Sweden. The club competes in Swedish football and maintains an active presence through their official website.",
+    "founded": null,
+    "league": null,
+    "stadium": null,
+    "capacity": null,
+    "website": null,
+    "wikiUrl": null
+  },
+  "1054": {
+    "source": "ai",
+    "intro": "SV Bekond is a football club based in Bekond, Germany. The club competes in German football leagues and maintains an active presence through its official website.",
+    "founded": null,
+    "league": null,
+    "stadium": null,
+    "capacity": null,
+    "website": null,
+    "wikiUrl": null
+  },
   "1055": {
     "wikiUrl": "https://en.wikipedia.org/wiki/Berliner_FC_Dynamo",
     "founded": 1966,
@@ -4057,6 +4877,66 @@
     "capacity": 10000,
     "league": "Regionalliga Nordost",
     "intro": "Berliner Fussball Club Dynamo e. V., commonly abbreviated to BFC Dynamo (German pronunciation: [beːʔɛfˌt͡seː dyˈnaːmo] ) or BFC (German pronunciation: [beːʔɛfˈt͡seː] ), alternatively sometimes called Dynamo Berlin, is a German football club based in the locality of Alt-Hohenschönhausen of the borough of Lichtenberg of Berlin."
+  },
+  "1056": {
+    "source": "ai",
+    "intro": "SBV Vitesse is a professional football club based in Arnhem, Netherlands, with a long history in Dutch football. The club competes in the Eredivisie, the top tier of Dutch football.",
+    "founded": 1892,
+    "league": "Eredivisie",
+    "stadium": "GelreDome",
+    "capacity": null,
+    "website": null,
+    "wikiUrl": null
+  },
+  "1057": {
+    "source": "ai",
+    "intro": "SC Berliner Amateure is a football club based in Berlin, Germany, competing in the amateur football leagues. The club is part of Berlin's rich amateur football tradition and maintains an active presence in local competitions.",
+    "founded": null,
+    "league": null,
+    "stadium": null,
+    "capacity": null,
+    "website": null,
+    "wikiUrl": null
+  },
+  "1058": {
+    "source": "ai",
+    "intro": "Eibenstocker BC 1911 e.V. is a football club based in Eibenstock, Germany, with a history dating back to 1911. The club competes in German football at the regional or local league level.",
+    "founded": 1911,
+    "league": null,
+    "stadium": null,
+    "capacity": null,
+    "website": null,
+    "wikiUrl": null
+  },
+  "1059": {
+    "source": "ai",
+    "intro": "S.C. Hassbergen 1955 is a football club based in Hassbergen, Germany, founded in 1955. The club competes in German football at the regional level.",
+    "founded": 1955,
+    "league": null,
+    "stadium": null,
+    "capacity": null,
+    "website": null,
+    "wikiUrl": null
+  },
+  "1060": {
+    "source": "ai",
+    "intro": "TSV Unterschüpf 1902 is a German sports club based in Unterschüpf, a municipality in Baden-Württemberg. Founded in 1902, the club competes in regional football leagues and serves as a community-focused athletic organization.",
+    "founded": 1902,
+    "league": null,
+    "stadium": null,
+    "capacity": null,
+    "website": null,
+    "wikiUrl": null
+  },
+  "1061": {
+    "source": "ai",
+    "intro": "SSV Reutlingen 05 is a football club based in Reutlingen, Germany. The club competes in German football and maintains an active presence in the local and regional sports community.",
+    "founded": 2005,
+    "league": null,
+    "stadium": null,
+    "capacity": null,
+    "website": null,
+    "wikiUrl": null
   },
   "1062": {
     "wikiUrl": "https://en.wikipedia.org/wiki/NK_%C5%A0iroki_Brijeg",
@@ -4075,6 +4955,16 @@
     "league": "Nemzeti Bajnokság I",
     "intro": "Ferencvárosi Torna Club, commonly known as Ferencváros (Hungarian: [ˈfɛrɛnt͡svaːroʃ]), Fradi, FTC is a Hungarian professional football club based in Ferencváros, Budapest, that competes in the Nemzeti Bajnokság I, the top flight of Hungarian football. Ferencváros was founded in 1899 by Ferenc Springer and a group of local residents of Budapest's ninth district, Ferencváros."
   },
+  "1064": {
+    "source": "ai",
+    "intro": "Lewisham Borough F.C. is a football club based in London, England, competing in the lower divisions of English football. The club represents the Lewisham area of southeast London and competes in community-level football.",
+    "founded": null,
+    "league": null,
+    "stadium": null,
+    "capacity": null,
+    "website": null,
+    "wikiUrl": null
+  },
   "1065": {
     "wikiUrl": "https://en.wikipedia.org/wiki/B%C3%A9k%C3%A9scsaba_1912_El%C5%91re",
     "founded": 1912,
@@ -4083,6 +4973,16 @@
     "capacity": 10432,
     "league": "Nemzeti Bajnokság III",
     "intro": "Békéscsaba 1912 Előre is a Hungarian football club from Békéscsaba, Békés. The club was founded in 1912 as Előre Munkás Testedző Egyesület."
+  },
+  "1066": {
+    "source": "ai",
+    "intro": "FC Veszprém is a football club based in Veszprém, Hungary. The club competes in Hungarian football and represents the historic city in the country's football pyramid.",
+    "founded": null,
+    "league": null,
+    "stadium": null,
+    "capacity": null,
+    "website": null,
+    "wikiUrl": null
   },
   "1067": {
     "wikiUrl": "https://en.wikipedia.org/wiki/Di%C3%B3sgy%C5%91ri_VTK",
@@ -4101,6 +5001,26 @@
     "capacity": 10200,
     "league": "Nemzeti Bajnokság I",
     "intro": "Debreceni Vasutas Sport Club is a Hungarian professional football club based in Debrecen that competes in the Nemzeti Bajnokság I, the first tier of Hungarian football. They are best known internationally for reaching the group stages of the UEFA Champions League in the 2009–10 season."
+  },
+  "1069": {
+    "source": "ai",
+    "intro": "Tatabányai SC is a professional football club based in Tatabánya, Hungary. The club competes in Hungarian football and represents the industrial city located in the northwestern part of the country.",
+    "founded": null,
+    "league": null,
+    "stadium": null,
+    "capacity": null,
+    "website": null,
+    "wikiUrl": null
+  },
+  "1070": {
+    "source": "ai",
+    "intro": "TB Ruit 1892 e.V. is a football club based in Ostfildern, Germany, with roots dating back to 1892. The club competes in German football and maintains an active presence through its social media channels.",
+    "founded": 1892,
+    "league": null,
+    "stadium": null,
+    "capacity": null,
+    "website": null,
+    "wikiUrl": null
   },
   "1071": {
     "wikiUrl": "https://en.wikipedia.org/wiki/Middlesbrough_F.C.",
@@ -4129,6 +5049,46 @@
     "league": "Nemzeti Bajnokság II",
     "intro": "Kecskeméti Testedző Egyesület, commonly known as Kecskeméti TE or simply Kecskemét, is a sports club based in Kecskemét, Hungary. It is most famous for its football section which competes in the Nemzeti Bajnokság II from 2025–26, the second tier of Hungarian football after relegation from Nemzeti Bajnokság I in 2024–25."
   },
+  "1074": {
+    "source": "ai",
+    "intro": "SV Botan Köln 1988 is a football club based in Cologne, Germany, founded in 1988. The club competes in German football and maintains an active presence in the local Cologne football community.",
+    "founded": 1988,
+    "league": null,
+    "stadium": null,
+    "capacity": null,
+    "website": null,
+    "wikiUrl": null
+  },
+  "1075": {
+    "source": "ai",
+    "intro": "Kiskunmajsa FC is a Hungarian football club based in Kiskunmajsa, a town in the Bács-Kiskun County. The club competes in Hungarian football leagues and represents its local community.",
+    "founded": null,
+    "league": null,
+    "stadium": null,
+    "capacity": null,
+    "website": null,
+    "wikiUrl": null
+  },
+  "1076": {
+    "source": "ai",
+    "intro": "SV Zeltingen-Rachtig is a German football club based in Zeltingen-Rachtig, a municipality in the Moselle region of Rhineland-Palatinate. The club competes in regional-level football competitions in Germany.",
+    "founded": null,
+    "league": null,
+    "stadium": null,
+    "capacity": null,
+    "website": null,
+    "wikiUrl": null
+  },
+  "1077": {
+    "source": "ai",
+    "intro": "MTV Gamsen is a football club based in Gifhorn, Germany. The club competes in German football leagues at the regional level.",
+    "founded": null,
+    "league": null,
+    "stadium": null,
+    "capacity": null,
+    "website": null,
+    "wikiUrl": null
+  },
   "1078": {
     "wikiUrl": "https://en.wikipedia.org/wiki/Leeds_United_F.C.",
     "founded": 1919,
@@ -4137,6 +5097,16 @@
     "capacity": 37792,
     "league": "Premier League",
     "intro": "Leeds United Football Club is a professional football club based in Leeds, West Yorkshire, England. The club competes in the Premier League, the top tier of English football."
+  },
+  "1079": {
+    "source": "ai",
+    "intro": "RGU 1260 e. V. is a football club based in Germany. The club maintains an active presence through its social media channels and community engagement.",
+    "founded": null,
+    "league": null,
+    "stadium": null,
+    "capacity": null,
+    "website": null,
+    "wikiUrl": null
   },
   "1080": {
     "wikiUrl": "https://en.wikipedia.org/wiki/Clermont_Foot",
@@ -4155,6 +5125,16 @@
     "capacity": 10778,
     "league": "Eliteserien",
     "intro": "Aalesunds Fotballklubb, commonly known as Aalesund or AaFK, is a Norwegian professional football club from the town of Ålesund, that competes in the Eliteserien, the top tier of the Norwegian football league system. The club was founded on 25 June 1914."
+  },
+  "1082": {
+    "source": "ai",
+    "intro": "Falubaz Zielona Góra is a speedway racing club based in Zielona Góra, Poland. The club competes in Polish speedway leagues and is one of the notable motorsport organizations in the region.",
+    "founded": null,
+    "league": null,
+    "stadium": null,
+    "capacity": null,
+    "website": null,
+    "wikiUrl": null
   },
   "1083": {
     "wikiUrl": "https://en.wikipedia.org/wiki/Gaziantep_F.K.",
@@ -4395,6 +5375,26 @@
     "league": "Liga Portugal 2",
     "intro": "Leixões Sport Club (Portuguese pronunciation: [lɐjˈʃõjʃ]), commonly known as Leixões, is a Portuguese sports club from Matosinhos. It is organised into several departments for many sports, such as athletics, boxing, football, futsal, handball, karate, swimming, volleyball, water polo and billiards."
   },
+  "1110": {
+    "source": "ai",
+    "intro": "CD Napolitana is a football club based in Spain. The club maintains an active presence on social media and participates in Spanish football competitions.",
+    "founded": null,
+    "league": null,
+    "stadium": null,
+    "capacity": null,
+    "website": null,
+    "wikiUrl": null
+  },
+  "1111": {
+    "source": "ai",
+    "intro": "VV Oosterhout is a football club based in Oosterhout, in the Netherlands. The club competes in Dutch football and is part of the country's regional league system.",
+    "founded": null,
+    "league": null,
+    "stadium": null,
+    "capacity": null,
+    "website": null,
+    "wikiUrl": null
+  },
   "1112": {
     "wikiUrl": "https://en.wikipedia.org/wiki/Bohemian_F.C.",
     "founded": 1890,
@@ -4466,6 +5466,16 @@
     "capacity": 27244,
     "league": "EFL Championship",
     "intro": "Norwich City Football Club is a professional football club based in Norwich, Norfolk, England. The club competes in the Championship, the second tier of English football."
+  },
+  "1121": {
+    "source": "ai",
+    "intro": "KFV Wittbrietzen is a football club based in Beelitz, Germany. The club competes in German football at the amateur or regional level.",
+    "founded": null,
+    "league": null,
+    "stadium": null,
+    "capacity": null,
+    "website": null,
+    "wikiUrl": null
   },
   "1122": {
     "wikiUrl": "https://en.wikipedia.org/wiki/Toronto_FC",
@@ -4539,6 +5549,16 @@
     "league": "J1 League",
     "intro": "The Urawa Red Diamonds (浦和レッドダイヤモンズ, Urawa Reddo Daiyamonzu) or simply Urawa Reds (浦和レッズ, Urawa Rezzu), also known as Mitsubishi Urawa Football Club from April 1992 to January 1996, are a professional football club in the city of Saitama, part of the Greater Tokyo Area in Japan, who play in the J1 League, the top tier of Japanese football. \nThe club's name comes from the former city of Urawa, now part of Saitama, and pre-professional era parent company Mitsubishi, whose logo consists of three red diamonds, one of which remains within the current club badge."
   },
+  "1130": {
+    "source": "ai",
+    "intro": "VfB Zwenkau is a football club based in Zwenkau, Germany, located in the state of Saxony. The club competes in German football leagues at the regional level.",
+    "founded": null,
+    "league": null,
+    "stadium": null,
+    "capacity": null,
+    "website": null,
+    "wikiUrl": null
+  },
   "1131": {
     "wikiUrl": "https://en.wikipedia.org/wiki/OFI_Crete_F.C.",
     "founded": 1925,
@@ -4548,6 +5568,16 @@
     "league": "Super League Greece",
     "intro": "OFI Football Club (Greek: ΠΑΕ Όμιλος Φιλάθλων Ηρακλείου 1925, Heraklion Sportsmen Club 1925 FC), commonly referred to as OFI, is a Greek professional football club based in Heraklion, on the island of Crete. It is part of the OFI multi-sports club."
   },
+  "1132": {
+    "source": "ai",
+    "intro": "BSC Schevenhütte e.V. is a football club based in Stolberg, Germany. The club competes in German football leagues at the regional or local level.",
+    "founded": null,
+    "league": null,
+    "stadium": null,
+    "capacity": null,
+    "website": null,
+    "wikiUrl": null
+  },
   "1133": {
     "wikiUrl": "https://en.wikipedia.org/wiki/FC_Schaffhausen",
     "founded": 1896,
@@ -4556,6 +5586,46 @@
     "capacity": 7300,
     "league": "1. Liga Classic",
     "intro": "FC Schaffhausen is a Swiss football team from the town of Schaffhausen. The club currently play in the Promotion League, the third tier of Swiss football after relegation from Challenge League in 2024–25."
+  },
+  "1134": {
+    "source": "ai",
+    "intro": "Gladiator 1924 is a football club based in Santa Maria Capua Vetere, a city in the Campania region of southern Italy. Founded in 1924, the club competes in Italian football's lower divisions.",
+    "founded": 1924,
+    "league": null,
+    "stadium": null,
+    "capacity": null,
+    "website": null,
+    "wikiUrl": null
+  },
+  "1135": {
+    "source": "ai",
+    "intro": "TuS Köln rrh. is a football club based in Cologne, Germany. The club competes in German football and is part of the local sports community in North Rhine-Westphalia.",
+    "founded": null,
+    "league": null,
+    "stadium": null,
+    "capacity": null,
+    "website": null,
+    "wikiUrl": null
+  },
+  "1136": {
+    "source": "ai",
+    "intro": "FSV Löberitz is a football club based in Zörbig, Germany. The club competes in regional German football leagues.",
+    "founded": null,
+    "league": null,
+    "stadium": null,
+    "capacity": null,
+    "website": null,
+    "wikiUrl": null
+  },
+  "1137": {
+    "source": "ai",
+    "intro": "vv Ariston 80 is a football club based in Delft, Netherlands. The club competes in Dutch amateur football leagues.",
+    "founded": 1980,
+    "league": null,
+    "stadium": null,
+    "capacity": null,
+    "website": null,
+    "wikiUrl": null
   },
   "1138": {
     "wikiUrl": "https://en.wikipedia.org/wiki/GKS_G%C3%B3rnik_%C5%81%C4%99czna",
@@ -4593,6 +5663,16 @@
     "league": "Regionalliga",
     "intro": "SV Meppen is a German association football club playing in Meppen, Lower Saxony. The club was founded on 29 November 1912 as Amisia Meppen and joined Männer-Turnverein Meppen on 8 February 1920 to form TuS Meppen 1912."
   },
+  "1142": {
+    "source": "ai",
+    "intro": "AVV Alphen is a football club based in Alphen aan den Rijn, Netherlands. The club competes in Dutch amateur football leagues.",
+    "founded": null,
+    "league": null,
+    "stadium": null,
+    "capacity": null,
+    "website": null,
+    "wikiUrl": null
+  },
   "1143": {
     "wikiUrl": "https://en.wikipedia.org/wiki/HBS_Craeyenhout",
     "founded": 1893,
@@ -4607,6 +5687,16 @@
     "capacity": 6710,
     "league": "Ekstraklasa",
     "intro": "GKS Katowice (Polish pronunciation: [ɡʲɛ ka ˈɛs katɔˈvitsɛ]; GKS stands for Górniczy Klub Sportowy, lit. 'Miners Sporting Club') is a Polish men's professional football club based in Katowice. They currently compete in the Ekstraklasa in the 2024–25 season after gaining promotion from the I liga in 2024."
+  },
+  "1145": {
+    "source": "ai",
+    "intro": "FC Hajnówka is a football club based in Hajnówka, a town in northeastern Poland. The club competes in the Polish football league system.",
+    "founded": null,
+    "league": null,
+    "stadium": null,
+    "capacity": null,
+    "website": null,
+    "wikiUrl": null
   },
   "1146": {
     "wikiUrl": "https://en.wikipedia.org/wiki/FC_Luzern",
@@ -4658,6 +5748,16 @@
     "league": "Fußball-Regionalliga Südwest",
     "intro": "Fußball-Club 08 Homburg or simply FC Homburg is a German association football club based in Homburg, Saarland, that competes in the Regionalliga Südwest."
   },
+  "1152": {
+    "source": "ai",
+    "intro": "v.v. De Meeuwen is a football club based in Zoutelande, a small village in the Netherlands. The club competes in Dutch amateur football leagues and serves the local community.",
+    "founded": null,
+    "league": null,
+    "stadium": null,
+    "capacity": null,
+    "website": null,
+    "wikiUrl": null
+  },
   "1154": {
     "wikiUrl": "https://en.wikipedia.org/wiki/West_Bromwich_Albion_F.C.",
     "founded": 1878,
@@ -4685,6 +5785,16 @@
     "league": "Eredivisie",
     "intro": "Fortuna Sittard (Dutch pronunciation: [fɔrˈtynaː ˈsɪtɑrt]; Limburgish: Fortuna Zitterd [fɔʀˈtyːnaː ˈzɪtəʀt]) is a professional football club from the municipality of Sittard-Geleen, Netherlands. The club currently plays its football in the 12,500 capacity Fortuna Sittard Stadion and features in the Eredivisie."
   },
+  "1157": {
+    "source": "ai",
+    "intro": "ASV Dronten is a football club based in Dronten, a municipality in the Flevoland province of the Netherlands. The club competes in Dutch amateur football leagues and serves the local community in this region.",
+    "founded": null,
+    "league": null,
+    "stadium": null,
+    "capacity": null,
+    "website": null,
+    "wikiUrl": null
+  },
   "1158": {
     "wikiUrl": "https://en.wikipedia.org/wiki/Helmond_Sport",
     "founded": 1967,
@@ -4693,6 +5803,26 @@
     "capacity": 3600,
     "league": "Eerste Divisie",
     "intro": "Helmond Sport (Dutch pronunciation: [ˈɦɛlmɔnt ˈspɔrt]) is a Dutch professional football club based in Helmond, North Brabant.\nFounded in 1967 following the acquisition of the professional license of RKSV Helmondia '55, the club achieved promotion to the top-tier Eredivisie in 1982."
+  },
+  "1159": {
+    "source": "ai",
+    "intro": "Altonaer FC von 1893 is a German football club based in Hamburg, founded in 1893. The club competes in German football and has a long history in the Hamburg football scene.",
+    "founded": 1893,
+    "league": null,
+    "stadium": null,
+    "capacity": null,
+    "website": null,
+    "wikiUrl": null
+  },
+  "1160": {
+    "source": "ai",
+    "intro": "ASD Modica Calcio is a football club based in Modica, Sicily, Italy. The club competes in Italian football leagues at the regional or lower professional level.",
+    "founded": null,
+    "league": null,
+    "stadium": null,
+    "capacity": null,
+    "website": null,
+    "wikiUrl": null
   },
   "1161": {
     "wikiUrl": "https://en.wikipedia.org/wiki/SD_Lenense",
@@ -4709,6 +5839,26 @@
     "capacity": 10841,
     "league": "EFL League One",
     "intro": "Stockport County Football Club is a professional football club in Stockport, Greater Manchester, England, which competes in EFL League One, the third tier of the English football league system.\nFormed in 1883 as Heaton Norris Rovers, they were renamed Stockport County in 1890 after the County Borough of Stockport."
+  },
+  "1163": {
+    "source": "ai",
+    "intro": "Rendsburger Primaner Ruderclub is a sports club based in Rendsburg, Germany, with a primary focus on rowing. The club was established in 1880 and has a long tradition in competitive rowing within Germany.",
+    "founded": 1880,
+    "league": null,
+    "stadium": null,
+    "capacity": null,
+    "website": null,
+    "wikiUrl": null
+  },
+  "1164": {
+    "source": "ai",
+    "intro": "CD Manchego is a football club based in Ciudad Real, Spain. The club competes in Spanish football's lower divisions and represents the Castilla-La Mancha region.",
+    "founded": null,
+    "league": null,
+    "stadium": null,
+    "capacity": null,
+    "website": null,
+    "wikiUrl": null
   },
   "1165": {
     "wikiUrl": "https://en.wikipedia.org/wiki/Livorno_Calcio",

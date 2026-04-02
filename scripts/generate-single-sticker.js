@@ -15,9 +15,19 @@ import { join, dirname } from 'path';
 import { fileURLToPath } from 'url';
 import dotenv from 'dotenv';
 
-// Load environment variables from project root
-const PROJECT_ROOT_FOR_ENV = join(dirname(fileURLToPath(import.meta.url)), '..');
-dotenv.config({ path: join(PROJECT_ROOT_FOR_ENV, '.env') });
+import {
+    COUNTRY_NAMES, getCountryName as _getCountryName,
+    getOptimizedImageUrl as _getOptimizedImageUrl, getThumbnailUrl as _getThumbnailUrl,
+    getDetailImageUrl as _getDetailImageUrl, cleanTrailingQuery as _cleanTrailingQuery,
+    stripEmoji as _stripEmoji, loadTemplate as _loadTemplate, replacePlaceholders as _replacePlaceholders,
+    generateBreadcrumbs as _generateBreadcrumbs, generateBreadcrumbSchema as _generateBreadcrumbSchema,
+    selectTopRatedStickers, generateDescriptiveAltText, generateMultilingualMeta,
+    generateFeaturedGallery, fetchAllPaginated
+} from './seo-helpers.js';
+
+// Load environment variables from scripts dir
+const __scriptsDir = dirname(fileURLToPath(import.meta.url));
+dotenv.config({ path: join(__scriptsDir, '.env') });
 
 // Configuration
 const SUPABASE_URL = process.env.SUPABASE_URL || "https://rbmeslzlbsolkxnvesqb.supabase.co";
@@ -153,112 +163,24 @@ function saveWikiCacheIfDirty() {
     }
 }
 
-// Country code mapping
-const COUNTRY_NAMES = {
-    'AFG': 'Afghanistan', 'ALB': 'Albania', 'DZA': 'Algeria', 'AND': 'Andorra',
-    'AGO': 'Angola', 'ARG': 'Argentina', 'ARM': 'Armenia', 'AUS': 'Australia',
-    'AUT': 'Austria', 'AZE': 'Azerbaijan', 'BHS': 'Bahamas', 'BHR': 'Bahrain',
-    'BGD': 'Bangladesh', 'BLR': 'Belarus', 'BEL': 'Belgium', 'BLZ': 'Belize',
-    'BEN': 'Benin', 'BOL': 'Bolivia', 'BIH': 'Bosnia and Herzegovina',
-    'BWA': 'Botswana', 'BRA': 'Brazil', 'BGR': 'Bulgaria', 'BFA': 'Burkina Faso',
-    'KHM': 'Cambodia', 'CMR': 'Cameroon', 'CAN': 'Canada', 'CPV': 'Cape Verde',
-    'CAF': 'Central African Republic', 'TCD': 'Chad', 'CHL': 'Chile', 'CHN': 'China',
-    'COL': 'Colombia', 'COG': 'Congo', 'CRI': 'Costa Rica', 'HRV': 'Croatia',
-    'CUB': 'Cuba', 'CYP': 'Cyprus', 'CZE': 'Czech Republic', 'DNK': 'Denmark',
-    'DJI': 'Djibouti', 'DOM': 'Dominican Republic', 'ECU': 'Ecuador', 'EGY': 'Egypt',
-    'SLV': 'El Salvador', 'GNQ': 'Equatorial Guinea', 'EST': 'Estonia', 'ETH': 'Ethiopia',
-    'FJI': 'Fiji', 'FIN': 'Finland', 'FRA': 'France', 'GAB': 'Gabon', 'GMB': 'Gambia',
-    'GEO': 'Georgia', 'DEU': 'Germany', 'GHA': 'Ghana', 'GRC': 'Greece',
-    'GTM': 'Guatemala', 'GIN': 'Guinea', 'HTI': 'Haiti', 'HND': 'Honduras',
-    'HUN': 'Hungary', 'ISL': 'Iceland', 'IND': 'India', 'IDN': 'Indonesia',
-    'IRN': 'Iran', 'IRQ': 'Iraq', 'IRL': 'Ireland', 'ISR': 'Israel', 'ITA': 'Italy',
-    'CIV': 'Ivory Coast', 'JAM': 'Jamaica', 'JPN': 'Japan', 'JOR': 'Jordan',
-    'KAZ': 'Kazakhstan', 'KEN': 'Kenya', 'KWT': 'Kuwait', 'KGZ': 'Kyrgyzstan',
-    'LVA': 'Latvia', 'LBN': 'Lebanon', 'LBR': 'Liberia', 'LBY': 'Libya',
-    'LIE': 'Liechtenstein', 'LTU': 'Lithuania', 'LUX': 'Luxembourg',
-    'MKD': 'North Macedonia', 'MDG': 'Madagascar', 'MWI': 'Malawi', 'MYS': 'Malaysia',
-    'MLI': 'Mali', 'MLT': 'Malta', 'MRT': 'Mauritania', 'MEX': 'Mexico',
-    'MDA': 'Moldova', 'MCO': 'Monaco', 'MNG': 'Mongolia', 'MNE': 'Montenegro',
-    'MAR': 'Morocco', 'MOZ': 'Mozambique', 'NPL': 'Nepal', 'NLD': 'Netherlands',
-    'NZL': 'New Zealand', 'NIC': 'Nicaragua', 'NER': 'Niger', 'NGA': 'Nigeria',
-    'PRK': 'North Korea', 'NOR': 'Norway', 'OMN': 'Oman', 'PAK': 'Pakistan',
-    'PAN': 'Panama', 'PNG': 'Papua New Guinea', 'PRY': 'Paraguay', 'PER': 'Peru',
-    'PHL': 'Philippines', 'POL': 'Poland', 'PRT': 'Portugal', 'QAT': 'Qatar',
-    'ROU': 'Romania', 'RUS': 'Russia', 'RWA': 'Rwanda', 'SAU': 'Saudi Arabia',
-    'SEN': 'Senegal', 'SRB': 'Serbia', 'SLE': 'Sierra Leone', 'SGP': 'Singapore',
-    'SVK': 'Slovakia', 'SVN': 'Slovenia', 'SOM': 'Somalia', 'ZAF': 'South Africa',
-    'KOR': 'South Korea', 'ESP': 'Spain', 'LKA': 'Sri Lanka', 'SDN': 'Sudan',
-    'SWE': 'Sweden', 'CHE': 'Switzerland', 'SYR': 'Syria', 'TWN': 'Taiwan',
-    'TZA': 'Tanzania', 'THA': 'Thailand', 'TGO': 'Togo', 'TUN': 'Tunisia',
-    'TUR': 'Turkey', 'UGA': 'Uganda', 'UKR': 'Ukraine', 'ARE': 'United Arab Emirates',
-    'GBR': 'United Kingdom', 'USA': 'United States', 'URY': 'Uruguay',
-    'UZB': 'Uzbekistan', 'VEN': 'Venezuela', 'VNM': 'Vietnam', 'YEM': 'Yemen',
-    'ZMB': 'Zambia', 'ZWE': 'Zimbabwe',
-    'ENG': 'England', 'SCO': 'Scotland', 'WLS': 'Wales', 'NIR': 'Northern Ireland'
-};
-
-/**
- * Convert original image URL to optimized WebP version URL
- */
-function getOptimizedImageUrl(imageUrl, suffix = '_web') {
-    if (!imageUrl) return imageUrl;
-    if (!imageUrl.includes('/storage/v1/object/')) return imageUrl;
-
-    try {
-        const url = new URL(imageUrl);
-        const pathname = url.pathname;
-        const lastDotIndex = pathname.lastIndexOf('.');
-
-        if (lastDotIndex === -1) {
-            url.pathname = pathname + suffix + '.webp';
-        } else {
-            url.pathname = pathname.substring(0, lastDotIndex) + suffix + '.webp';
-        }
-        return url.toString();
-    } catch (e) {
-        return imageUrl;
-    }
-}
-
-function getDetailImageUrl(imageUrl) {
-    return getOptimizedImageUrl(imageUrl, '_web');
-}
-
-function getThumbnailUrl(imageUrl) {
-    return getOptimizedImageUrl(imageUrl, '_thumb');
-}
-
-function getCountryName(code) {
-    return COUNTRY_NAMES[code?.toUpperCase()] || code;
-}
-
-function cleanTrailingQuery(url) {
-    return url ? url.replace(/\?$/, '') : url;
-}
+// Use imported helpers as local names for compatibility
+const getOptimizedImageUrl = _getOptimizedImageUrl;
+const getDetailImageUrl = _getDetailImageUrl;
+const getThumbnailUrl = _getThumbnailUrl;
+const getCountryName = _getCountryName;
+const cleanTrailingQuery = _cleanTrailingQuery;
+const stripEmoji = _stripEmoji;
 
 function loadTemplate(templateName) {
-    const templatePath = join(PROJECT_ROOT, 'templates', templateName);
-    if (!existsSync(templatePath)) {
-        throw new Error(`Template not found: ${templatePath}`);
-    }
-    return readFileSync(templatePath, 'utf-8');
+    return _loadTemplate(templateName, PROJECT_ROOT);
 }
 
 function replacePlaceholders(template, data) {
-    let result = template;
-    for (const [key, value] of Object.entries(data)) {
-        const placeholder = `{{${key}}}`;
-        result = result.replaceAll(placeholder, value || '');
-    }
-    return result;
+    return _replacePlaceholders(template, data);
 }
 
 function generateBreadcrumbs(links) {
-    return links.map(link => `<a href="${link.url}">${link.text}</a>`).join(' → ');
-}
-
-function stripEmoji(str) {
-    return str.replace(/[\u{1F000}-\u{1FFFF}|\u{2600}-\u{27BF}|\u{FE00}-\u{FEFF}|\u{1F900}-\u{1F9FF}|⚽🏆🌍🎯🏅🥇🥈🥉]/gu, '').replace(/\s+/g, ' ').trim();
+    return _generateBreadcrumbs(links);
 }
 
 /**
@@ -390,23 +312,7 @@ function generateClubDescription(club, countryName) {
 }
 
 function generateBreadcrumbSchema(links) {
-    const items = [
-        { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://stickerhunt.club" }
-    ];
-    links.forEach((link, i) => {
-        items.push({
-            "@type": "ListItem",
-            "position": i + 2,
-            "name": link.text,
-            "item": `https://stickerhunt.club${link.url}`
-        });
-    });
-    const schema = {
-        "@context": "https://schema.org",
-        "@type": "BreadcrumbList",
-        "itemListElement": items
-    };
-    return `<script type="application/ld+json">\n    ${JSON.stringify(schema, null, 2)}\n    </script>`;
+    return _generateBreadcrumbSchema(links);
 }
 
 function generateStickerDate(sticker) {
@@ -654,18 +560,21 @@ function generateClubInfo(club) {
     return html;
 }
 
-function generateStickerGallery(stickers, clubName) {
+function generateStickerGallery(stickers, clubName, countryName) {
     if (!stickers || stickers.length === 0) {
         return '<p>No stickers found for this club.</p>';
     }
-
+    const club = stripEmoji(clubName);
     let html = '';
     stickers.forEach(sticker => {
         const thumbnailUrl = getThumbnailUrl(sticker.image_url);
+        const altText = generateDescriptiveAltText({
+            clubName: club, stickerId: sticker.id, context: 'club', countryName
+        });
         html += `
                 <a href="/stickers/${sticker.id}.html" class="sticker-preview-link">
                     <img src="${thumbnailUrl}"
-                         alt="Sticker ID ${sticker.id} for ${clubName}"
+                         alt="${altText}"
                          class="sticker-preview-image"
                          loading="lazy"
                          decoding="async">
@@ -764,12 +673,21 @@ async function generateStickerPage(sticker, club, prevStickerId, nextStickerId, 
         META_DESCRIPTION: metaDescription,
         META_KEYWORDS: keywords,
         CANONICAL_URL: canonicalUrl,
-        OG_IMAGE: cleanTrailingQuery(sticker.image_url),
+        OG_IMAGE: cleanTrailingQuery(getOptimizedImageUrl(sticker.image_url)),
         STICKER_NAME: `${club.name} Sticker #${sticker.id}`,
         IMAGE_URL: getDetailImageUrl(sticker.image_url),
         THUMBNAIL_URL: getThumbnailUrl(sticker.image_url),
         IMAGE_FULL_URL: sticker.image_url,
-        IMAGE_ALT: `${clubNameClean} football sticker #${sticker.id} — identify this sticker`,
+        IMAGE_ALT: generateDescriptiveAltText({
+            clubName: clubNameClean, stickerId: sticker.id, context: 'sticker',
+            countryName: countryName,
+            cityName: sticker.location ? sticker.location.split(',')[0].trim() : null,
+            league: wikiCache[club.id]?.league
+        }),
+        MULTILINGUAL_META: generateMultilingualMeta({
+            type: 'sticker', countryCode: club.country,
+            vars: { club: clubNameClean, id: sticker.id, country: countryName }
+        }),
         BREADCRUMBS: breadcrumbs,
         BREADCRUMB_SCHEMA: generateBreadcrumbSchema([
             { text: 'Catalogue', url: '/catalogue.html' },
@@ -840,16 +758,24 @@ async function generateClubPage(club, stickers, allClubsInCountry, stickerCounts
         s => s.latitude != null && s.longitude != null
     ) : [];
 
-    const ogImage = stickers && stickers.length > 0
-        ? stickers[0].image_url
+    // Top-rated sticker for OG image (optimized WebP)
+    const topStickers = selectTopRatedStickers(stickers, 3);
+    const ogImage = topStickers.length > 0
+        ? cleanTrailingQuery(getOptimizedImageUrl(topStickers[0].image_url))
         : 'https://stickerhunt.club/metash.png';
+
+    const multilingualMetaClub = generateMultilingualMeta({
+        type: 'club', countryCode: club.country,
+        vars: { club: clubNameClean, count: stickerCount, country: countryName }
+    });
 
     const data = {
         PAGE_TITLE: pageTitle,
         META_DESCRIPTION: metaDescription,
         META_KEYWORDS: keywords,
         CANONICAL_URL: canonicalUrl,
-        OG_IMAGE: cleanTrailingQuery(ogImage),
+        OG_IMAGE: ogImage,
+        MULTILINGUAL_META: multilingualMetaClub,
         CLUB_ID: club.id,
         CLUB_NAME: club.name,
         CLUB_CITY: club.city || '',
@@ -867,7 +793,7 @@ async function generateClubPage(club, stickers, allClubsInCountry, stickerCounts
         STICKER_STATS: generateStickerStats(stickers),
         CLUB_DESCRIPTION: generateClubDescription(club, countryName),
         CLUB_INFO: generateClubInfo(club),
-        STICKER_GALLERY: generateStickerGallery(stickers, club.name),
+        STICKER_GALLERY: generateStickerGallery(stickers, club.name, countryName),
         CLUB_MAP_SECTION: generateClubMapSection(stickersWithCoordinates),
         CLUB_MAP_INIT_SCRIPT: generateClubMapInitScript(stickersWithCoordinates, club.name),
         OTHER_CLUBS: generateOtherClubs(club.id, allClubsInCountry || [], stickerCountsByClub || {}, countryName),
