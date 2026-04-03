@@ -25,8 +25,9 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 const PROJECT_ROOT = join(__dirname, '..');
 
-// Check for test mode or LIMIT environment variable
+// Check for flags
 const isTestMode = process.argv.includes('--test');
+const isHomepageOnly = process.argv.includes('--homepage-only');
 const LIMIT = process.env.LIMIT ? parseInt(process.env.LIMIT) : (isTestMode ? 10 : null);
 
 // Load wiki cache
@@ -1239,6 +1240,22 @@ async function generateAllPages() {
         });
 
         console.log(`  ✓ Found ${Object.keys(clubsByCountry).length} countries`);
+
+        if (isHomepageOnly) {
+            console.log('\n⏭️  --homepage-only mode: skipping sticker/club/country pages');
+            // Jump straight to homepage + sitemaps
+            console.log('\n🏠 Generating index page...');
+            await generateIndexPage(stickers, clubs);
+            console.log('  ✓ Generated index.html with homepage sections');
+
+            console.log('\n📋 Generating sitemaps...');
+            await generateSitemaps(stickers, clubs, Object.keys(clubsByCountry));
+
+            console.log('\n✅ Homepage-only generation complete!');
+            console.log('   Generated files:');
+            console.log(`   ${join(PROJECT_ROOT, 'index.html')}`);
+            return;
+        }
 
         // Generate sticker pages (pass all stickers for nearby calculation)
         console.log();
