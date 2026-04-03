@@ -291,136 +291,54 @@ async function updateTotalCountriesCount() {
 }
 
 /**
- * Load last 10 stickers added to catalogue
- * @returns {string} - HTML string for last stickers section
+ * Load most collected clubs with their best-rated sticker thumbnail
+ * @returns {string} - HTML string for popular clubs strip
  */
-async function loadLastStickers() {
+async function loadMostCollectedClubs() {
     if (!supabaseClient) return '';
 
     try {
+        // Get all stickers with club info and rating
         const { data: stickers, error } = await supabaseClient
             .from('stickers')
-            .select(`
-                id,
-                created_at,
-                clubs (
-                    id,
-                    name,
-                    country
-                )
-            `)
-            .order('created_at', { ascending: false })
-            .limit(10);
+            .select('id, image_url, rating, club_id, clubs(id, name, country)')
+            .not('image_url', 'is', null);
 
-        if (error || !stickers || stickers.length === 0) {
-            return '';
-        }
+        if (error || !stickers || stickers.length === 0) return '';
 
-        // Build HTML in table format (same as Most rated)
-        let html = '<div class="last-stickers-section"><h3>Last stickers</h3>';
-        html += '<table class="last-stickers-table">';
-        html += '<tbody>';
-
-        stickers.forEach((sticker, index) => {
-            const clubName = sticker.clubs?.name || 'Unknown Club';
-            const clubNameDisplay = truncateText(clubName, 25);
-            const clubId = sticker.clubs?.id || null;
-
-            // Format date
-            let dateDisplay = '';
-            if (sticker.created_at) {
-                const dateObj = new Date(sticker.created_at);
-                dateDisplay = dateObj.toLocaleDateString('en-GB', {
-                    day: 'numeric',
-                    month: 'short'
-                });
+        // Count stickers per club and find best-rated sticker for each
+        const clubMap = {};
+        stickers.forEach(s => {
+            const clubId = s.club_id;
+            if (!clubId || !s.clubs) return;
+            if (!clubMap[clubId]) {
+                clubMap[clubId] = { club: s.clubs, count: 0, bestSticker: s };
             }
-
-            html += '<tr>';
-            html += `<td class="rank-cell">${index + 1}.</td>`;
-            html += `<td class="sticker-cell"><a href="/stickers/${sticker.id}.html">${sticker.id}</a></td>`;
-            html += '<td class="club-cell">';
-            if (clubId) {
-                html += `<a href="/clubs/${clubId}.html" title="${clubName}">${clubNameDisplay}</a>`;
-            } else {
-                html += `<span title="${clubName}">${clubNameDisplay}</span>`;
+            clubMap[clubId].count++;
+            if ((s.rating || 0) > (clubMap[clubId].bestSticker.rating || 0)) {
+                clubMap[clubId].bestSticker = s;
             }
-            html += '</td>';
-            html += `<td class="date-cell">${dateDisplay}</td>`;
-            html += '</tr>';
         });
 
-        html += '</tbody>';
-        html += '</table>';
-        html += '<a href="/stickerlog.html" class="view-full-log-link">View full stickerLog</a>';
-        html += '</div>';
+        // Sort by sticker count, take top 10
+        const topClubs = Object.values(clubMap)
+            .sort((a, b) => b.count - a.count)
+            .slice(0, 10);
+
+        let html = '';
+        topClubs.forEach(({ club, count, bestSticker }) => {
+            const thumbUrl = SharedUtils.getThumbnailUrl(bestSticker.image_url);
+            html += `
+                <a href="/clubs/${club.id}.html" class="cat-club-card">
+                    <img src="${thumbUrl}" alt="${club.name} sticker" loading="lazy" decoding="async">
+                    <span class="cat-club-label">${club.name}</span>
+                    <span class="cat-club-count">${count} sticker${count !== 1 ? 's' : ''}</span>
+                </a>`;
+        });
 
         return html;
     } catch (e) {
-        console.error('Error loading last stickers:', e);
-        return '';
-    }
-}
-
-/**
- * Load top 10 stickers by rating
- * @returns {string} - HTML string for most rated stickers section
- */
-async function loadMostRatedStickers() {
-    if (!supabaseClient) return '';
-
-    try {
-        const { data: stickers, error } = await supabaseClient
-            .from('stickers')
-            .select(`
-                id,
-                rating,
-                clubs (
-                    id,
-                    name,
-                    country
-                )
-            `)
-            .order('rating', { ascending: false })
-            .limit(10);
-
-        if (error || !stickers || stickers.length === 0) {
-            return '';
-        }
-
-        // Build HTML in table format
-        let html = '<div class="most-rated-section"><h3>Most rated stickers</h3>';
-        html += '<table class="most-rated-table">';
-        html += '<tbody>';
-
-        stickers.forEach((sticker, index) => {
-            const clubName = sticker.clubs?.name || 'Unknown Club';
-            const clubNameDisplay = truncateText(clubName, 25);
-            const clubId = sticker.clubs?.id || null;
-            const rating = sticker.rating || 1500;
-
-            html += '<tr>';
-            html += `<td class="rank-cell">${index + 1}.</td>`;
-            html += `<td class="sticker-cell"><a href="/stickers/${sticker.id}.html">${sticker.id}</a></td>`;
-            html += '<td class="club-cell">';
-            if (clubId) {
-                html += `<a href="/clubs/${clubId}.html" title="${clubName}">${clubNameDisplay}</a>`;
-            } else {
-                html += `<span title="${clubName}">${clubNameDisplay}</span>`;
-            }
-            html += '</td>';
-            html += `<td class="rating-cell">${rating}</td>`;
-            html += '</tr>';
-        });
-
-        html += '</tbody>';
-        html += '</table>';
-        html += '<a href="/rating.html" class="view-full-rating-link">View full rating</a>';
-        html += '</div>';
-
-        return html;
-    } catch (e) {
-        console.error('Error loading most rated stickers:', e);
+        console.error('Error loading most collected clubs:', e);
         return '';
     }
 }
@@ -486,149 +404,269 @@ function routeContent() {
 
     if (stickerId) {
         mainHeading.textContent = "Sticker Details";
+        mainHeading.style.display = '';
+        document.getElementById('catalogue-container').classList.add('container');
         loadStickerDetails(stickerId);
     } else if (clubId) {
         mainHeading.textContent = "Club Sticker Gallery";
+        mainHeading.style.display = '';
+        document.getElementById('catalogue-container').classList.add('container');
         loadClubDetails(clubId);
     } else if (countryCode) {
         const countryInfo = countryCodeToDetails_Generic[countryCode.toUpperCase()];
         const flagEmoji = countryCodeToFlagEmoji[countryCode.toUpperCase()] || '';
         mainHeading.textContent = countryInfo ? `${flagEmoji} ${countryInfo.name} - Clubs` : `${flagEmoji} Clubs from ${countryCode}`;
+        mainHeading.style.display = '';
+        document.getElementById('catalogue-container').classList.add('container');
         loadCountryDetails(countryCode.toUpperCase());
     } else {
-        mainHeading.textContent = "Sticker Catalogue";
+        // Main catalogue page - custom layout, no container class
+        mainHeading.style.display = 'none';
         loadContinentsAndCountries();
     }
 }
 
 async function loadContinentsAndCountries() {
     const contentDiv = document.getElementById('catalogue-content');
-    contentDiv.innerHTML = '<p>Loading data...</p>';
-    updateBreadcrumbs([]);
+    contentDiv.innerHTML = '<p style="text-align:center;padding:40px;">Loading catalogue...</p>';
+    updateBreadcrumbs([{ text: 'Home', link: '/' }]);
 
     // Set canonical and meta for main catalogue page
     updateCanonicalUrl('https://stickerhunt.club/catalogue.html');
-    document.title = 'Sticker Catalogue';
+    document.title = 'Football Sticker Catalogue -- Browse by Country | StickerHunt';
 
     if (!supabaseClient) {
-        contentDiv.innerHTML = '<p>Error: Supabase client not initialized. Cannot load data.</p>';
+        contentDiv.innerHTML = '<p>Error: Supabase client not initialized.</p>';
         return;
     }
     try {
-        const { data: clubs, error: clubsError } = await supabaseClient
-            .from('clubs')
-            .select('id, country');
+        // Fetch clubs and sticker counts per country in parallel
+        const [clubsResult, stickersResult, clubsStripHtml] = await Promise.all([
+            supabaseClient.from('clubs').select('id, country'),
+            supabaseClient.from('stickers').select('club_id'),
+            loadMostCollectedClubs()
+        ]);
 
-        if (clubsError) {
-            console.error('Error fetching clubs:', clubsError);
-            contentDiv.innerHTML = `<p>Could not load club data: ${clubsError.message}</p>`;
+        const clubs = clubsResult.data;
+        const clubsError = clubsResult.error;
+
+        if (clubsError || !clubs || clubs.length === 0) {
+            contentDiv.innerHTML = '<p>Could not load catalogue data.</p>';
             return;
         }
-        if (!clubs || clubs.length === 0) {
-            contentDiv.innerHTML = '<p>No clubs found in the catalogue.</p>';
-            return;
+
+        // Count stickers per club
+        const stickerCountByClub = {};
+        if (stickersResult.data) {
+            stickersResult.data.forEach(s => {
+                stickerCountByClub[s.club_id] = (stickerCountByClub[s.club_id] || 0) + 1;
+            });
         }
+        const totalStickers = stickersResult.data ? stickersResult.data.length : 0;
 
-        // Use hardcoded sticker count (same as index.html) - actual sticker pages count
-        const totalStickers = 2857;
+        updateMetaDescription(`Browse ${totalStickers.toLocaleString()} football stickers from ${clubs.length} clubs across ${totalCountriesInCatalogue} countries. Find any club, country, or city.`);
 
-        // Update meta description with actual counts
-        updateMetaDescription(`Browse ${totalStickers} football stickers from ${clubs.length} clubs across ${totalCountriesInCatalogue} countries. Explore by country and discover the complete collection.`);
-
-        const clubsByCountryCode = {};
+        // Group clubs by country with sticker counts
+        const countryData = {};
         clubs.forEach(club => {
-            if (club.country) {
-                const countryCodeNormalized = club.country.toUpperCase();
-                if (!clubsByCountryCode[countryCodeNormalized]) {
-                    clubsByCountryCode[countryCodeNormalized] = 0;
-                }
-                clubsByCountryCode[countryCodeNormalized]++;
+            if (!club.country) return;
+            const code = club.country.toUpperCase();
+            if (!countryData[code]) {
+                countryData[code] = { clubCount: 0, stickerCount: 0 };
             }
+            countryData[code].clubCount++;
+            countryData[code].stickerCount += stickerCountByClub[club.id] || 0;
         });
 
+        // Group by continent
         const continents = {};
-        for (const countryCode in clubsByCountryCode) {
-            const detail = countryCodeToDetails_Generic[countryCode];
-            let continentName, countryName;
-            if (detail) {
-                continentName = detail.continent;
-                countryName = detail.name;
-            } else {
-                continentName = "Other Countries / Unclassified";
-                countryName = countryCode;
-                console.warn(`Details for country code ${countryCode} not found in countryCodeToDetails_Generic map.`);
-            }
-            if (!continents[continentName]) {
-                continents[continentName] = [];
-            }
+        for (const code in countryData) {
+            const detail = countryCodeToDetails_Generic[code];
+            const continentName = detail ? detail.continent : 'Other';
+            const countryName = detail ? detail.name : code;
+            if (!continents[continentName]) continents[continentName] = [];
             continents[continentName].push({
-                code: countryCode,
-                name: countryName,
-                clubCount: clubsByCountryCode[countryCode]
+                code, name: countryName,
+                clubCount: countryData[code].clubCount,
+                stickerCount: countryData[code].stickerCount
             });
         }
 
-        // Add statistics and map preview row (two columns on desktop)
-        let statsMapRowHtml = `
-            <div class="catalogue-top-row">
-                <div class="catalogue-stats">
-                    <p><strong>Stickers:</strong> ${totalStickers}</p>
-                    <p><strong>Clubs:</strong> ${clubs.length}</p>
-                    <p><strong>Countries:</strong> ${totalCountriesInCatalogue}</p>
-                    <a href="/stickerstat.html" class="stats-more-link">View more stats</a>
-                </div>
-                <div class="catalogue-map-preview">
-                    <div id="catalogue-map-container" class="catalogue-map-container"></div>
-                    <a href="/map.html" class="map-more-link">View full map</a>
+        // --- Build page HTML ---
+
+        // Hero
+        let html = `
+            <div class="cat-hero">
+                <h1>Football Sticker Catalogue</h1>
+                <p>Browse ${totalStickers.toLocaleString()} stickers from ${clubs.length} clubs across ${totalCountriesInCatalogue} countries. Find any club, country, or city.</p>
+                <div class="cat-search">
+                    <input type="text" id="cat-search-input" placeholder="Search clubs, countries, or cities..." autocomplete="off">
+                    <div class="cat-search-results" id="cat-search-results"></div>
                 </div>
             </div>
         `;
 
-        // Fetch last 10 stickers and most rated stickers
-        const lastStickersHtml = await loadLastStickers();
-        const mostRatedHtml = await loadMostRatedStickers();
+        // Quick navigation links
+        html += `
+            <div class="cat-quick-nav">
+                <div class="cat-quick-links">
+                    <a href="/map.html" class="cat-quick-link"><span class="cat-quick-link-icon">&#x1f5fa;&#xfe0f;</span> Interactive Map</a>
+                    <a href="/rating.html" class="cat-quick-link"><span class="cat-quick-link-icon">&#x26a1;</span> Sticker Rating</a>
+                    <a href="/stickerlog.html" class="cat-quick-link"><span class="cat-quick-link-icon">&#x1f550;</span> Recently Added</a>
+                    <a href="/quiz.html" class="cat-quick-link"><span class="cat-quick-link-icon">&#x1f3af;</span> Play Quiz</a>
+                </div>
+            </div>
+            <hr class="cat-divider">
+        `;
 
-        // Wrap last stickers and most rated in a row (two columns on desktop)
-        let stickersRowHtml = '';
-        if (lastStickersHtml || mostRatedHtml) {
-            stickersRowHtml = `<div class="catalogue-stickers-row">${lastStickersHtml}${mostRatedHtml}</div>`;
+        // Most Collected Clubs strip
+        if (clubsStripHtml) {
+            html += `
+                <div class="cat-section">
+                    <div class="cat-section-header">
+                        <h2>Most Collected Clubs</h2>
+                        <a href="/clubs.html" class="cat-section-link">All ${clubs.length} Clubs &rarr;</a>
+                    </div>
+                    <div class="cat-clubs-strip">${clubsStripHtml}</div>
+                </div>
+                <hr class="cat-divider">
+            `;
         }
 
-        let listHtml = '<div class="catalogue-countries-grid">';
-        // Custom order: Europe, North America, Africa, South America, Asia, Oceania, Other
-        const continentOrder = ['Europe', 'North America', 'Africa', 'South America', 'Asia', 'Oceania', 'Other Countries / Unclassified'];
-        const sortedContinentNames = Object.keys(continents).sort((a, b) => {
-            const indexA = continentOrder.indexOf(a);
-            const indexB = continentOrder.indexOf(b);
-            if (indexA === -1 && indexB === -1) return a.localeCompare(b);
-            if (indexA === -1) return 1;
-            if (indexB === -1) return -1;
-            return indexA - indexB;
+        // Countries by continent
+        html += `
+            <div class="cat-section">
+                <div class="cat-section-header">
+                    <h2>Browse by Country</h2>
+                    <span class="cat-section-meta">${totalCountriesInCatalogue} countries</span>
+                </div>
+        `;
+
+        const continentOrder = ['Europe', 'South America', 'North America', 'Asia', 'Africa', 'Oceania', 'Other'];
+        const sortedContinents = Object.keys(continents).sort((a, b) => {
+            const ia = continentOrder.indexOf(a);
+            const ib = continentOrder.indexOf(b);
+            if (ia === -1 && ib === -1) return a.localeCompare(b);
+            if (ia === -1) return 1;
+            if (ib === -1) return -1;
+            return ia - ib;
         });
-        sortedContinentNames.forEach(continentName => {
-            listHtml += `<div class="continent-section">`;
-            listHtml += `<h3>${continentName}</h3>`;
-            listHtml += `<ul class="country-list">`;
-            const countriesInContinent = continents[continentName].sort((a, b) => a.name.localeCompare(b.name));
-            countriesInContinent.forEach(country => {
-                const flagEmoji = countryCodeToFlagEmoji[country.code.toUpperCase()] || '🏳️';
-                const clubWord = country.clubCount === 1 ? 'club' : 'clubs';
-                listHtml += `<li><a href="/countries/${country.code.toUpperCase()}.html"><span class="flag-emoji">${flagEmoji}</span> ${country.name} (${country.clubCount} ${clubWord})</a></li>`;
+
+        sortedContinents.forEach(continentName => {
+            const countries = continents[continentName].sort((a, b) => b.stickerCount - a.stickerCount);
+            html += `<div class="cat-continent"><h3>${continentName}</h3><div class="cat-country-grid">`;
+            countries.forEach(country => {
+                const flag = countryCodeToFlagEmoji[country.code] || '';
+                html += `
+                    <a href="/countries/${country.code}.html" class="cat-country-card">
+                        <span class="cat-country-flag">${flag}</span>
+                        <div class="cat-country-info">
+                            <span class="cat-country-name">${country.name}</span>
+                            <span class="cat-country-meta">${country.clubCount} club${country.clubCount !== 1 ? 's' : ''} &middot; ${country.stickerCount.toLocaleString()} sticker${country.stickerCount !== 1 ? 's' : ''}</span>
+                        </div>
+                    </a>`;
             });
-            listHtml += `</ul></div>`;
+            html += `</div></div>`;
         });
-        listHtml += '</div>';
 
-        if (sortedContinentNames.length === 0) {
-            contentDiv.innerHTML = '<p>No data to display. Check the maps and database entries.</p>';
-        } else {
-            contentDiv.innerHTML = statsMapRowHtml + stickersRowHtml + listHtml;
-            // Initialize the map preview after content is rendered
-            initializeCatalogueMapPreview();
-        }
+        html += `</div><hr class="cat-divider">`;
+
+        // Browse by City (static top cities from homepage data)
+        html += `
+            <div class="cat-section">
+                <div class="cat-section-header">
+                    <h2>Browse by City</h2>
+                    <a href="/cities/" class="cat-section-link">All Cities &rarr;</a>
+                </div>
+                <div class="cat-city-grid">
+                    <a href="/cities/amsterdam.html" class="cat-city-card"><span class="cat-city-name">Amsterdam</span><span class="cat-city-count">172 stickers</span></a>
+                    <a href="/cities/stuttgart.html" class="cat-city-card"><span class="cat-city-name">Stuttgart</span><span class="cat-city-count">88 stickers</span></a>
+                    <a href="/cities/brussels.html" class="cat-city-card"><span class="cat-city-name">Brussels</span><span class="cat-city-count">78 stickers</span></a>
+                    <a href="/cities/prague.html" class="cat-city-card"><span class="cat-city-name">Prague</span><span class="cat-city-count">71 stickers</span></a>
+                    <a href="/cities/torrevieja.html" class="cat-city-card"><span class="cat-city-name">Torrevieja</span><span class="cat-city-count">64 stickers</span></a>
+                    <a href="/cities/maastricht.html" class="cat-city-card"><span class="cat-city-name">Maastricht</span><span class="cat-city-count">62 stickers</span></a>
+                    <a href="/cities/the-hague.html" class="cat-city-card"><span class="cat-city-name">The Hague</span><span class="cat-city-count">58 stickers</span></a>
+                    <a href="/cities/delft.html" class="cat-city-card"><span class="cat-city-name">Delft</span><span class="cat-city-count">49 stickers</span></a>
+                    <a href="/cities/santiago-de-compostela.html" class="cat-city-card"><span class="cat-city-name">Santiago de Compostela</span><span class="cat-city-count">45 stickers</span></a>
+                    <a href="/cities/nantes.html" class="cat-city-card"><span class="cat-city-name">Nantes</span><span class="cat-city-count">41 stickers</span></a>
+                    <a href="/cities/cartagena.html" class="cat-city-card"><span class="cat-city-name">Cartagena</span><span class="cat-city-count">40 stickers</span></a>
+                    <a href="/cities/seville.html" class="cat-city-card"><span class="cat-city-name">Seville</span><span class="cat-city-count">39 stickers</span></a>
+                </div>
+            </div>
+            <hr class="cat-divider">
+        `;
+
+        // SEO content block
+        html += `
+            <div class="cat-seo-text">
+                <h2>About the Football Sticker Catalogue</h2>
+                <p>StickerHunt maintains the world's largest database of fan-spotted football stickers found on streets, walls, and lampposts. Our catalogue covers ${clubs.length} clubs from ${totalCountriesInCatalogue} countries, with Germany, Spain, and France leading the collection. Each sticker is geotagged and linked to its club, making StickerHunt a unique resource for football culture enthusiasts, sticker collectors, and ultras researchers. Browse by country, city, or use the search to find specific clubs.</p>
+            </div>
+        `;
+
+        contentDiv.innerHTML = html;
+
+        // Initialize search autocomplete
+        initCatalogueSearch();
+
     } catch (error) {
         console.error('An error occurred while loading countries:', error);
         contentDiv.innerHTML = `<p>An unexpected error occurred: ${error.message}</p>`;
+    }
+}
+
+/**
+ * Initialize search autocomplete on catalogue page
+ */
+function initCatalogueSearch() {
+    const input = document.getElementById('cat-search-input');
+    const results = document.getElementById('cat-search-results');
+    if (!input || !results) return;
+
+    let debounceTimer;
+
+    input.addEventListener('input', function() {
+        clearTimeout(debounceTimer);
+        const query = input.value.trim();
+        if (query.length < 2) { results.classList.remove('active'); results.innerHTML = ''; return; }
+
+        debounceTimer = setTimeout(async () => {
+            if (!supabaseClient) return;
+            try {
+                const { data: clubs } = await supabaseClient.from('clubs').select('id, name, country').ilike('name', '%' + query + '%').limit(6);
+                if (!clubs || clubs.length === 0) {
+                    results.innerHTML = '<div class="cat-search-item" style="color: var(--color-info-text); cursor: default;">No clubs found</div>';
+                    results.classList.add('active');
+                    return;
+                }
+                results.innerHTML = clubs.map(c =>
+                    '<a href="/clubs/' + c.id + '.html" class="cat-search-item">' +
+                    '<span class="cat-search-item-name">' + c.name + '</span>' +
+                    '<span class="cat-search-item-meta">' + (c.country || '') + '</span></a>'
+                ).join('');
+                results.classList.add('active');
+            } catch(e) { console.error('Search error:', e); }
+        }, 300);
+    });
+
+    input.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter') {
+            e.preventDefault();
+            const query = input.value.trim();
+            if (query) window.location.href = '/catalogue.html?search=' + encodeURIComponent(query);
+        }
+    });
+
+    document.addEventListener('click', function(e) {
+        if (!e.target.closest('.cat-search')) results.classList.remove('active');
+    });
+
+    // Handle ?search= parameter
+    const params = new URLSearchParams(window.location.search);
+    const searchQuery = params.get('search');
+    if (searchQuery) {
+        input.value = searchQuery;
+        input.dispatchEvent(new Event('input'));
     }
 }
 
