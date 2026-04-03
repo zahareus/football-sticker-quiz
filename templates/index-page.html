@@ -120,13 +120,13 @@
                 <div><span class="hp-stat-num">{{TOTAL_CLUBS}}</span> clubs</div>
                 <div><span class="hp-stat-num">54</span> countries</div>
             </div>
+            <p style="margin: -16px 0 20px; font-size: 0.85em;"><a href="/stickerstat.html" style="color: var(--color-link); text-decoration: none;">More Statistics &rarr;</a></p>
             <div class="hp-search-wrapper">
-                <input type="text" class="hp-search-input" placeholder="Search stickers, clubs, countries..." id="hp-search-input" autocomplete="off">
+                <input type="text" class="hp-search-input" placeholder="Search clubs..." id="hp-search-input" autocomplete="off">
                 <div class="hp-search-results" id="hp-search-results"></div>
             </div>
             <div class="hp-hero-ctas">
                 <a href="/catalogue.html" class="btn btn-primary btn-large">Explore Database</a>
-                <a href="/quiz.html" class="btn btn-secondary btn-large">Play Quiz</a>
                 <button id="home-auth-button" class="btn btn-secondary btn-large" style="display:none;">Sign In</button>
             </div>
         </div>
@@ -150,7 +150,7 @@
         <div class="hp-section">
             <div class="hp-section-header">
                 <h2>Recently Added</h2>
-                <div class="hp-section-links"><a href="/catalogue.html">View All Stickers &rarr;</a></div>
+                <div class="hp-section-links"><a href="/stickerlog.html">View All Recent &rarr;</a></div>
             </div>
             <div class="sticker-strip">
                 {{RECENT_STICKERS_HTML}}
@@ -193,7 +193,7 @@
             <div class="hp-map-section">
                 <h2>Explore the Map</h2>
                 <p>{{TOTAL_STICKERS}} stickers from {{TOTAL_CLUBS}} clubs across 54 countries, mapped worldwide</p>
-                <div class="hp-map-preview" id="hp-map-container"></div>
+                <div class="hp-map-preview" id="hp-map-container" style="height: 360px;"></div>
                 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
                 <script>
                 document.addEventListener('DOMContentLoaded', function() {
@@ -208,6 +208,9 @@
                         if (!el || typeof L === 'undefined') return;
                         var map = L.map(el, {zoomControl: false, attributionControl: false, dragging: false, scrollWheelZoom: false, doubleClickZoom: false, touchZoom: false}).setView([48, 10], 4);
                         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+                        var points = {{MAP_POINTS_JSON}};
+                        var icon = L.icon({iconUrl:'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',iconSize:[12,20],iconAnchor:[6,20]});
+                        points.forEach(function(p){L.marker([p[0],p[1]],{icon:icon,opacity:0.5}).addTo(map);});
                         el.style.cursor = 'pointer';
                         el.addEventListener('click', function() { window.location.href = '/map.html'; });
                     }

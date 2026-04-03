@@ -940,7 +940,7 @@ async function generateIndexPage(stickers, clubs) {
                 <a href="/stickers/${s.id}.html" class="hp-sticker-card">
                     <img src="${thumbUrl}" alt="${clubName} sticker -- rated ${s.rating || 1500}" loading="lazy" decoding="async">
                     <div class="hp-sticker-card-label">${clubName}</div>
-                    <div class="hp-sticker-card-rating">Rating: ${s.rating || 1500}</div>
+                    <div class="hp-sticker-card-rating">⚡ ${s.rating || 1500}</div>
                 </a>`;
     });
 
@@ -1001,13 +1001,24 @@ async function generateIndexPage(stickers, clubs) {
                 </a>`;
     });
 
+    // --- Map points (lat/lng for stickers with coordinates, sample max 200) ---
+    const withCoords = stickers.filter(s => s.latitude != null && s.longitude != null);
+    const mapSample = withCoords.length > 200
+        ? withCoords.sort(() => Math.random() - 0.5).slice(0, 200)
+        : withCoords;
+    const mapPointsJson = JSON.stringify(mapSample.map(s => [
+        Math.round(s.latitude * 1000) / 1000,
+        Math.round(s.longitude * 1000) / 1000
+    ]));
+
     const data = {
         TOTAL_STICKERS: TOTAL_STICKERS.toLocaleString(),
         TOTAL_CLUBS: TOTAL_CLUBS.toLocaleString(),
         TOP_RATED_HTML: topRatedHtml,
         RECENT_STICKERS_HTML: recentHtml,
         COUNTRIES_HTML: countriesHtml,
-        CITIES_HTML: citiesHtml
+        CITIES_HTML: citiesHtml,
+        MAP_POINTS_JSON: mapPointsJson
     };
 
     const html = replacePlaceholders(template, data);
