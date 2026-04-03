@@ -54,45 +54,44 @@ try {
 
 // ─── Wiki Section ────────────────────────────────────────────────────────────
 
-function generateWikiSection(clubId) {
+function generateWikiSection(clubId, club, countryName) {
     const wiki = wikiCache[clubId];
-    if (!wiki) return '';
 
-    const facts = [];
-    if (wiki.founded) {
-        facts.push(`<div class="wiki-fact"><span class="wiki-fact-label">Founded</span><span class="wiki-fact-value">${wiki.founded}</span></div>`);
+    // Meta bar: city, country, founded, stadium, league, website
+    const metaItems = [];
+    if (club.city) {
+        const countryLink = `<a href="/countries/${club.country.toUpperCase()}.html">${countryName}</a>`;
+        metaItems.push(`<span class="club-meta-item">${club.city}, ${countryLink}</span>`);
     }
-    if (wiki.stadium) {
-        const capacityStr = wiki.capacity ? ` (${wiki.capacity.toLocaleString()})` : '';
-        facts.push(`<div class="wiki-fact"><span class="wiki-fact-label">Stadium</span><span class="wiki-fact-value">${wiki.stadium}${capacityStr}</span></div>`);
+    if (wiki?.founded) metaItems.push(`<span class="club-meta-item">Founded <strong>${wiki.founded}</strong></span>`);
+    if (wiki?.stadium) {
+        const cap = wiki.capacity ? ` (${wiki.capacity.toLocaleString()})` : '';
+        metaItems.push(`<span class="club-meta-item">Stadium <strong>${wiki.stadium}</strong>${cap}</span>`);
     }
-    if (wiki.league) {
-        facts.push(`<div class="wiki-fact"><span class="wiki-fact-label">League</span><span class="wiki-fact-value">${wiki.league}</span></div>`);
-    }
-    if (wiki.website) {
+    if (wiki?.league) metaItems.push(`<span class="club-meta-item">League <strong>${wiki.league}</strong></span>`);
+    if (wiki?.website) {
         try {
             const domain = new URL(wiki.website).hostname.replace('www.', '');
-            facts.push(`<div class="wiki-fact"><span class="wiki-fact-label">Website</span><span class="wiki-fact-value"><a href="${wiki.website}" target="_blank" rel="noopener noreferrer">${domain}</a></span></div>`);
+            metaItems.push(`<span class="club-meta-item"><a href="${wiki.website}" target="_blank" rel="noopener noreferrer">${domain}</a></span>`);
         } catch {}
     }
 
-    const hasIntro = wiki.intro && wiki.intro.trim().length > 0;
-    if (facts.length === 0 && !hasIntro) return '';
+    let html = '';
+    if (metaItems.length > 0) {
+        html += `<div class="club-meta">\n    ${metaItems.join('\n    ')}\n</div>`;
+    }
 
-    let html = '<div class="wiki-section">';
-    if (facts.length > 0) {
-        html += `\n    <div class="wiki-facts">\n        ${facts.join('\n        ')}\n    </div>`;
-    }
-    if (hasIntro) {
-        html += `\n    <div class="wiki-intro">\n        <p>${wiki.intro}</p>`;
+    // Wiki intro as clean text
+    if (wiki?.intro && wiki.intro.trim().length > 0) {
+        html += `\n<div class="club-about">\n    <p>${wiki.intro}</p>`;
         if (wiki.wikiUrl) {
-            html += `\n        <p class="wiki-source">Source: <a href="${wiki.wikiUrl}" target="_blank" rel="noopener noreferrer">Wikipedia</a></p>`;
+            html += `\n    <p class="club-about-source">Source: <a href="${wiki.wikiUrl}" target="_blank" rel="noopener noreferrer">Wikipedia</a></p>`;
         } else if (wiki.source === 'ai') {
-            html += `\n        <p class="wiki-source">AI-generated description</p>`;
+            html += `\n    <p class="club-about-source">AI-generated description</p>`;
         }
-        html += `\n    </div>`;
+        html += `\n</div>`;
     }
-    html += '\n</div>';
+
     return html;
 }
 
@@ -100,18 +99,14 @@ function generateWikiSection(clubId) {
 
 function generateStickerStats(stickers) {
     if (!stickers || stickers.length === 0) return '';
-    const items = [];
+    const tags = [];
 
     const withDates = stickers.filter(s => s.found).sort((a, b) => new Date(a.found) - new Date(b.found));
     if (withDates.length > 0) {
         const fmt = (d) => new Date(d).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
-        const first = withDates[0];
-        const latest = withDates[withDates.length - 1];
-        const firstLoc = first.location ? ` in ${first.location.split(',')[0]}` : '';
-        const latestLoc = latest.location ? ` in ${latest.location.split(',')[0]}` : '';
-        items.push(`<p class="club-info-item">📅 First found: ${fmt(first.found)}${firstLoc}</p>`);
+        tags.push(`<span class="club-stat-tag">📅 First found: ${fmt(withDates[0].found)}</span>`);
         if (withDates.length > 1) {
-            items.push(`<p class="club-info-item">📅 Latest find: ${fmt(latest.found)}${latestLoc}</p>`);
+            tags.push(`<span class="club-stat-tag">📅 Latest: ${fmt(withDates[withDates.length - 1].found)}</span>`);
         }
     }
 
@@ -121,19 +116,11 @@ function generateStickerStats(stickers) {
             const slug = city.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/-+/g, '-').replace(/^-|-$/g, '');
             return `<a href="/cities/${slug}.html">${city}</a>`;
         });
-        items.push(`<p class="club-info-item">📍 Found in: ${cityLinks.join(', ')}</p>`);
+        tags.push(`<span class="club-stat-tag">📍 Found in: ${cityLinks.join(', ')}</span>`);
     }
 
-    const withDiff = stickers.filter(s => s.difficulty);
-    if (withDiff.length > 0) {
-        const avg = withDiff.reduce((sum, s) => sum + s.difficulty, 0) / withDiff.length;
-        const label = avg <= 1.3 ? 'Easy' : avg <= 2.3 ? 'Medium' : 'Hard';
-        const dots = avg <= 1.3 ? '🟢' : avg <= 2.3 ? '🟡🟡' : '🔴🔴🔴';
-        items.push(`<p class="club-info-item">🎯 Difficulty: ${dots} ${label}</p>`);
-    }
-
-    if (items.length === 0) return '';
-    return `<div class="sticker-stats-section">\n${items.join('\n')}\n</div>`;
+    if (tags.length === 0) return '';
+    return `<div class="club-stats">\n${tags.join('\n')}\n</div>`;
 }
 
 // ─── Other Clubs / Club Info / Description ───────────────────────────────────
@@ -171,15 +158,15 @@ function generateClubDescription(club, stickerCount, countryName) {
 }
 
 function generateClubInfo(club) {
-    let html = '';
-    if (club.city) html += `<p class="club-info-item">🌍 ${club.city}</p>`;
+    const items = [];
     if (club.web) {
         let safeUrl;
         try { safeUrl = encodeURI(decodeURI(club.web)); } catch { safeUrl = club.web; }
-        html += `<p class="club-info-item">🌐 <a href="${safeUrl}" target="_blank" rel="noopener noreferrer">${club.web}</a></p>`;
+        items.push(`<span class="club-stat-tag">🌐 <a href="${safeUrl}" target="_blank" rel="noopener noreferrer">${club.web}</a></span>`);
     }
-    if (club.media) html += `<p class="club-info-item">#️⃣ ${club.media}</p>`;
-    return html;
+    if (club.media) items.push(`<span class="club-stat-tag">#️⃣ ${club.media}</span>`);
+    if (items.length === 0) return '';
+    return `<div class="club-stats">${items.join('\n')}</div>`;
 }
 
 // ─── Sticker Gallery (with descriptive alt text) ─────────────────────────────
@@ -371,10 +358,10 @@ async function generateClubPage(club, stickers, allClubsInCountry = [], stickerC
         ]),
         MAIN_HEADING: `${club.name} — ${stickerCount} ${stickerWord.charAt(0).toUpperCase() + stickerWord.slice(1)}`,
         HEADING_SUFFIX: `${stickerCount} ${stickerWord.charAt(0).toUpperCase() + stickerWord.slice(1)}`,
-        WIKI_SECTION: generateWikiSection(club.id),
+        WIKI_SECTION: generateWikiSection(club.id, club, countryName),
+        CLUB_INFO: generateClubInfo(club),
         STICKER_STATS: generateStickerStats(stickers),
         CLUB_DESCRIPTION: generateClubDescription(club, stickerCount, countryName),
-        CLUB_INFO: generateClubInfo(club),
         STICKER_GALLERY: generateStickerGallery(stickers, club.name, countryName),
         CLUB_MAP_SECTION: generateClubMapSection(stickersWithCoordinates),
         CLUB_MAP_INIT_SCRIPT: generateClubMapInitScript(stickersWithCoordinates, club.name),
