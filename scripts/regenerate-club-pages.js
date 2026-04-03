@@ -98,29 +98,7 @@ function generateWikiSection(clubId, club, countryName) {
 // ─── Sticker Stats ───────────────────────────────────────────────────────────
 
 function generateStickerStats(stickers) {
-    if (!stickers || stickers.length === 0) return '';
-    const tags = [];
-
-    const withDates = stickers.filter(s => s.found).sort((a, b) => new Date(a.found) - new Date(b.found));
-    if (withDates.length > 0) {
-        const fmt = (d) => new Date(d).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
-        tags.push(`<span class="club-stat-tag">📅 First found: ${fmt(withDates[0].found)}</span>`);
-        if (withDates.length > 1) {
-            tags.push(`<span class="club-stat-tag">📅 Latest: ${fmt(withDates[withDates.length - 1].found)}</span>`);
-        }
-    }
-
-    const cities = [...new Set(stickers.filter(s => s.location).map(s => s.location.split(',')[0].trim()))];
-    if (cities.length > 0) {
-        const cityLinks = cities.map(city => {
-            const slug = city.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/-+/g, '-').replace(/^-|-$/g, '');
-            return `<a href="/cities/${slug}.html">${city}</a>`;
-        });
-        tags.push(`<span class="club-stat-tag">📍 Found in: ${cityLinks.join(', ')}</span>`);
-    }
-
-    if (tags.length === 0) return '';
-    return `<div class="club-stats">\n${tags.join('\n')}\n</div>`;
+    return '';
 }
 
 // ─── Other Clubs / Club Info / Description ───────────────────────────────────
