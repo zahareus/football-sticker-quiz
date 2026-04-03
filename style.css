@@ -3816,6 +3816,9 @@ body.daily-mode .game-info #timer {
 /* Club Page V2 — Clean Layout    */
 /* ------------------------------ */
 
+/* Club page: left-align heading */
+.club-page > h1, .club-page > #main-catalogue-heading { text-align: left !important; }
+
 .club-meta {
     display: flex; justify-content: flex-start; flex-wrap: wrap;
     gap: 4px 20px; padding: 12px 0;
