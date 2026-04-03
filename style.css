@@ -1707,26 +1707,35 @@ body.quiz-result .result-right-panel {
 
 /* Home page adjustments */
 body.home-page .app-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+    display: flex !important;
+    flex-direction: row !important;
+    justify-content: space-between !important;
+    align-items: center !important;
     margin-bottom: 0;
     max-width: 1100px;
-    padding: 16px 24px;
+    padding: 16px 24px !important;
+    gap: 16px !important;
 }
 
 body.home-page .logo-container {
     display: flex;
     align-items: center;
+    order: 0 !important;
+    width: auto !important;
 }
 
 body.home-page #app-logo {
-    height: 48px;
-    width: auto;
+    height: 48px !important;
+    width: auto !important;
+    max-height: none !important;
+    margin: 0 !important;
 }
 
 body.home-page #auth-section {
     white-space: nowrap;
+    order: 1 !important;
+    width: auto !important;
+    justify-content: flex-end !important;
 }
 
 .home-container {
