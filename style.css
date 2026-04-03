@@ -3825,12 +3825,13 @@ body.daily-mode .game-info #timer {
 .club-meta-item { white-space: nowrap; }
 .club-meta-item strong { color: var(--color-text); font-weight: 600; }
 .club-meta-item a { color: var(--color-text); text-decoration: none; font-weight: 600; }
-@media (hover: hover) { .club-meta-item a:hover { color: var(--color-link); } }
+@media (hover: hover) { .club-meta-item a:hover { color: var(--color-link); text-decoration: underline; } }
 
 .club-about { font-size: 0.92em; line-height: 1.65; color: #444; margin-bottom: 16px; }
 .club-about p { margin-bottom: 4px; }
 .club-about-source { font-size: 0.78em; color: #999; margin-top: 6px; }
-.club-about-source a { color: #999; }
+.club-about-source a { color: #999; text-decoration: none; }
+@media (hover: hover) { .club-about-source a:hover { color: var(--color-link); text-decoration: underline; } }
 
 .club-stats {
     display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 20px;
@@ -3841,7 +3842,7 @@ body.daily-mode .game-info #timer {
     border-radius: 20px; font-size: 0.82em; color: var(--color-info-text);
 }
 .club-stat-tag a { color: var(--color-info-text); text-decoration: none; }
-@media (hover: hover) { .club-stat-tag a:hover { color: var(--color-link); } }
+@media (hover: hover) { .club-stat-tag a:hover { color: var(--color-link); text-decoration: underline; } }
 
 @media (max-width: 600px) {
     .club-meta { flex-direction: column; gap: 4px; align-items: center; }
