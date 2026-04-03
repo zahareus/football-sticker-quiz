@@ -1707,20 +1707,29 @@ body.quiz-result .result-right-panel {
 
 /* Home page adjustments */
 body.home-page .app-header {
-    justify-content: space-between;
+    justify-content: center;
     margin-bottom: 0;
     max-width: 1100px;
-    padding: 12px 24px;
+    padding: 16px 24px;
+    position: relative;
 }
 
 body.home-page .logo-container {
     display: flex;
-    align-items: center;
+    justify-content: center;
+    width: 100%;
 }
 
 body.home-page #app-logo {
-    height: 32px;
+    height: 40px;
     width: auto;
+}
+
+body.home-page #auth-section {
+    position: absolute;
+    right: 24px;
+    top: 50%;
+    transform: translateY(-50%);
 }
 
 .home-container {
