@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Borussia Mönchengladbach Sticker #2855 — Identify This Football Sticker | StickerHunt</title>
-    <link rel="icon" href="/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="/favicon.ico?v=2" type="image/x-icon">
 
     <!-- SEO Meta Tags - Pre-rendered for better indexing -->
     <meta name="description" content="Football sticker #2855 from Borussia Mönchengladbach, Germany. Can you identify this Borussia Mönchengladbach sticker? Browse our collection.">
@@ -48,7 +48,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-    <link rel="stylesheet" href="/style.css">
+    <link rel="stylesheet" href="/style.css?v=4">
 
     <!-- Leaflet.js for OpenStreetMap -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
@@ -241,7 +241,7 @@
             <a href="/terms.html">Terms of Service</a> |
             <a href="/privacy.html">Privacy Policy</a>
         </p>
-        <p>StickerHunt &copy; 2026</p>
+        <div style="display:flex;align-items:center;justify-content:center;gap:6px;margin-top:4px;opacity:0.5;"><img src="/logo.png" alt="StickerHunt" style="height:14px;width:auto;"> <span>&copy; 2026</span></div>
     </footer>
 
     <!-- Scripts -->
@@ -650,19 +650,6 @@
                 })();
 
                 (function() {
-                    L.marker([52.1142389, 4.28185], {
-                        icon: L.icon({
-                            iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
-                            iconSize: [18, 30],
-                            iconAnchor: [9, 30],
-                            popupAnchor: [1, -25]
-                        }),
-                        opacity: 0.6
-                    }).addTo(map)
-                    .bindPopup('<div class="nearby-sticker-popup"><strong>FC Augsburg</strong><a href="/stickers/2824.html" class="map-popup-link">View</a></div>');
-                })();
-
-                (function() {
                     L.marker([52.084525, 4.3063556], {
                         icon: L.icon({
                             iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
@@ -1000,6 +987,19 @@
                     .bindPopup('<div class="nearby-sticker-popup"><strong>1 FC Magdeburg</strong><a href="/stickers/2806.html" class="map-popup-link">View</a></div>');
                 })();
 
+                (function() {
+                    L.marker([52.1142389, 4.28185], {
+                        icon: L.icon({
+                            iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
+                            iconSize: [18, 30],
+                            iconAnchor: [9, 30],
+                            popupAnchor: [1, -25]
+                        }),
+                        opacity: 0.6
+                    }).addTo(map)
+                    .bindPopup('<div class="nearby-sticker-popup"><strong>FC Augsburg</strong><a href="/stickers/2824.html" class="map-popup-link">View</a></div>');
+                })();
+
                 // Current sticker — larger marker, opened popup
                 L.marker([52.0798861, 4.309825], {
                     icon: L.icon({
@@ -1048,7 +1048,6 @@
                     [52.1111111, 4.2804111],
                     [52.0781667, 4.3092361],
                     [52.1163972, 4.2815944],
-                    [52.1142389, 4.28185],
                     [52.084525, 4.3063556],
                     [52.082325, 4.3059611],
                     [52.0810083, 4.3130944],
@@ -1067,7 +1066,8 @@
                     [52.1121833, 4.2789167],
                     [52.0793139, 4.3109389],
                     [52.0798861, 4.309825],
-                    [52.0840222, 4.3053417]
+                    [52.0840222, 4.3053417],
+                    [52.111375, 4.280675]
                 ]);
                 map.fitBounds(bounds, { padding: [30, 30], maxZoom: 14 });
                 

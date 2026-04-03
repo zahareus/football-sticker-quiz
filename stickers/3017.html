@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Royale Union Saint-Gilloise Sticker #3017 — Identify This Football Sticker | StickerHunt</title>
-    <link rel="icon" href="/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="/favicon.ico?v=2" type="image/x-icon">
 
     <!-- SEO Meta Tags - Pre-rendered for better indexing -->
     <meta name="description" content="Football sticker #3017 from Royale Union Saint-Gilloise, Belgium. Can you identify this Royale Union Saint-Gilloise sticker? Browse our collection.">
@@ -48,7 +48,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-    <link rel="stylesheet" href="/style.css">
+    <link rel="stylesheet" href="/style.css?v=4">
 
     <!-- Leaflet.js for OpenStreetMap -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
@@ -241,7 +241,7 @@
             <a href="/terms.html">Terms of Service</a> |
             <a href="/privacy.html">Privacy Policy</a>
         </p>
-        <p>StickerHunt &copy; 2026</p>
+        <div style="display:flex;align-items:center;justify-content:center;gap:6px;margin-top:4px;opacity:0.5;"><img src="/logo.png" alt="StickerHunt" style="height:14px;width:auto;"> <span>&copy; 2026</span></div>
     </footer>
 
     <!-- Scripts -->
@@ -689,19 +689,6 @@
                 })();
 
                 (function() {
-                    L.marker([50.843675, 4.35861944444444], {
-                        icon: L.icon({
-                            iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
-                            iconSize: [18, 30],
-                            iconAnchor: [9, 30],
-                            popupAnchor: [1, -25]
-                        }),
-                        opacity: 0.6
-                    }).addTo(map)
-                    .bindPopup('<div class="nearby-sticker-popup"><strong>Genoa CFC</strong><a href="/stickers/2889.html" class="map-popup-link">View</a></div>');
-                })();
-
-                (function() {
                     L.marker([50.8452333333333, 4.35693888888889], {
                         icon: L.icon({
                             iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
@@ -816,19 +803,6 @@
                         opacity: 0.6
                     }).addTo(map)
                     .bindPopup('<div class="nearby-sticker-popup"><strong>Aris Thessaloniki FC</strong><a href="/stickers/2969.html" class="map-popup-link">View</a></div>');
-                })();
-
-                (function() {
-                    L.marker([50.8382305555556, 4.36184722222222], {
-                        icon: L.icon({
-                            iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
-                            iconSize: [18, 30],
-                            iconAnchor: [9, 30],
-                            popupAnchor: [1, -25]
-                        }),
-                        opacity: 0.6
-                    }).addTo(map)
-                    .bindPopup('<div class="nearby-sticker-popup"><strong>Aris Thessaloniki FC</strong><a href="/stickers/2970.html" class="map-popup-link">View</a></div>');
                 })();
 
                 (function() {
@@ -975,6 +949,19 @@
                 })();
 
                 (function() {
+                    L.marker([50.843675, 4.35861944444444], {
+                        icon: L.icon({
+                            iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
+                            iconSize: [18, 30],
+                            iconAnchor: [9, 30],
+                            popupAnchor: [1, -25]
+                        }),
+                        opacity: 0.6
+                    }).addTo(map)
+                    .bindPopup('<div class="nearby-sticker-popup"><strong>Genoa CFC</strong><a href="/stickers/2889.html" class="map-popup-link">View</a></div>');
+                })();
+
+                (function() {
                     L.marker([50.8330777777778, 4.35782222222222], {
                         icon: L.icon({
                             iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
@@ -1011,6 +998,19 @@
                         opacity: 0.6
                     }).addTo(map)
                     .bindPopup('<div class="nearby-sticker-popup"><strong>Maccabi Tel Aviv FC</strong><a href="/stickers/2902.html" class="map-popup-link">View</a></div>');
+                })();
+
+                (function() {
+                    L.marker([50.8382305555556, 4.36184722222222], {
+                        icon: L.icon({
+                            iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
+                            iconSize: [18, 30],
+                            iconAnchor: [9, 30],
+                            popupAnchor: [1, -25]
+                        }),
+                        opacity: 0.6
+                    }).addTo(map)
+                    .bindPopup('<div class="nearby-sticker-popup"><strong>Aris Thessaloniki FC</strong><a href="/stickers/2970.html" class="map-popup-link">View</a></div>');
                 })();
 
                 (function() {
@@ -1311,7 +1311,6 @@
                     [50.8442611111111, 4.35064722222222],
                     [50.8535527777778, 4.35628611111111],
                     [50.8470611111111, 4.35676388888889],
-                    [50.843675, 4.35861944444444],
                     [50.8452333333333, 4.35693888888889],
                     [50.8457722222222, 4.35655],
                     [50.8436194444444, 4.35829722222222],
@@ -1321,13 +1320,14 @@
                     [50.837975, 4.36128333333333],
                     [50.8367888888889, 4.36263888888889],
                     [50.8352166666667, 4.36359166666667],
-                    [50.8382305555556, 4.36184722222222],
                     [50.8368027777778, 4.36253611111111],
                     [50.8357722222222, 4.36341111111111],
                     [50.8368083333333, 4.36259166666667],
                     [50.8350555555556, 4.35615277777778],
                     [50.8345222222222, 4.35621388888889],
-                    [50.8350555555556, 4.35615277777778]
+                    [50.8350555555556, 4.35615277777778],
+                    [50.8314277777778, 4.35461666666667],
+                    [50.8368694444444, 4.35310555555556]
                 ]);
                 map.fitBounds(bounds, { padding: [30, 30], maxZoom: 14 });
                 
