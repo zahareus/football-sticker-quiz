@@ -304,16 +304,13 @@ function generateCityWikiSection(wikiData) {
 // City page generation functions
 // ============================================================
 
-function generateCityDetails(cityData) {
+function generateCityDetails(cityData, clubsMap) {
     const items = [];
 
-    if (cityData.country) {
-        items.push(`<p class="club-info-item">${cityData.country}</p>`);
-    }
-
+    // Clubs represented
     const clubCount = cityData.clubs.length;
     const countriesCount = cityData.countriesRepresented.size;
-    items.push(`<p class="club-info-item">Clubs represented: ${clubCount} club${clubCount !== 1 ? 's' : ''} from ${countriesCount} ${countriesCount !== 1 ? 'countries' : 'country'}</p>`);
+    items.push(`<p class="club-info-item">📦 Clubs represented: ${clubCount} club${clubCount !== 1 ? 's' : ''} from ${countriesCount} ${countriesCount !== 1 ? 'countries' : 'country'}</p>`);
 
     // First and latest found
     const withDates = cityData.stickers.filter(s => s.found).sort((a, b) => new Date(a.found) - new Date(b.found));
@@ -322,18 +319,30 @@ function generateCityDetails(cityData) {
         const first = withDates[0];
         const latest = withDates[withDates.length - 1];
         if (withDates.length > 1) {
-            items.push(`<p class="club-info-item">First found: ${fmt(first.found)} | Latest: ${fmt(latest.found)}</p>`);
+            items.push(`<p class="club-info-item">📅 First found: ${fmt(first.found)} | Latest: ${fmt(latest.found)}</p>`);
         } else {
-            items.push(`<p class="club-info-item">Found: ${fmt(first.found)}</p>`);
+            items.push(`<p class="club-info-item">📅 Found: ${fmt(first.found)}</p>`);
         }
     }
 
-    // Link to country page if we can determine the country code
-    if (cityData.country) {
-        const code = getCountryCode(cityData.country);
-        if (code) {
-            items.push(`<p class="club-info-item"><a href="/countries/${code.toUpperCase()}.html">View ${cityData.country} clubs</a></p>`);
-        }
+    // Top countries by sticker count in this city
+    const countryStickers = {};
+    cityData.stickers.forEach(s => {
+        const club = clubsMap[s.club_id];
+        if (!club) return;
+        const cc = club.country?.toUpperCase();
+        if (cc) countryStickers[cc] = (countryStickers[cc] || 0) + 1;
+    });
+    const topCountries = Object.entries(countryStickers)
+        .sort((a, b) => b[1] - a[1])
+        .slice(0, 5);
+
+    if (topCountries.length > 0) {
+        const countryLinks = topCountries.map(([code, count]) => {
+            const name = getCountryName(code);
+            return `<a href="/countries/${code}.html">${name}</a> (${count})`;
+        });
+        items.push(`<p class="club-info-item">🌍 Most common: ${countryLinks.join(', ')}</p>`);
     }
 
     return items.join('\n');
@@ -660,9 +669,11 @@ async function main() {
                 { text: 'Cities', url: '/cities/' },
                 { text: cityName, url: `/cities/${slug}.html` }
             ]),
-            MAIN_HEADING: `${cityName} — ${stickerCount} Football ${stickerWord}`,
+            MAIN_HEADING: resolvedCountry
+                ? `${cityName}, <a href="/countries/${(getCountryCode(resolvedCountry) || '').toUpperCase()}.html">${resolvedCountry}</a> — ${stickerCount} Football ${stickerWord}`
+                : `${cityName} — ${stickerCount} Football ${stickerWord}`,
             WIKI_SECTION: generateCityWikiSection(wikiData),
-            CITY_DETAILS: generateCityDetails(cityData),
+            CITY_DETAILS: generateCityDetails(cityData, clubsMap),
             STICKER_GALLERY: generateCityStickerGallery(stickers, clubsMap),
             CITY_MAP_SECTION: generateCityMapSection(stickersWithCoordinates),
             CITY_MAP_INIT_SCRIPT: generateCityMapInitScript(stickersWithCoordinates, clubsMap)
