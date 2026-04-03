@@ -3834,9 +3834,13 @@ body.daily-mode .game-info #timer {
 .hp-section-header { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 16px; flex-wrap: wrap; gap: 8px; }
 .hp-section-header h2 { font-size: 1.25em; font-weight: 600; margin: 0; }
 .hp-section-links { display: flex; gap: 16px; font-size: 0.85em; }
-.hp-section-links a { color: var(--color-link); text-decoration: none; font-weight: 500; }
-.hp-section-links a:hover { text-decoration: underline; }
+.hp-section-links a { color: var(--color-info-text); text-decoration: none; font-weight: 500; }
+@media (hover: hover) { .hp-section-links a:hover { color: var(--color-link); text-decoration: underline; } }
 .hp-divider { border: none; border-top: 1px solid #f0f0f0; margin: 0; }
+
+/* Homepage text links -- match footer style (grey, hover blue) */
+.hp-text-link { color: var(--color-info-text); text-decoration: none; font-weight: 500; }
+@media (hover: hover) { .hp-text-link:hover { color: var(--color-link); text-decoration: underline; } }
 
 /* Daily Quiz banner */
 .hp-daily-quiz {
