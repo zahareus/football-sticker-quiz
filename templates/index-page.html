@@ -3,27 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>StickerHunt — Football Sticker Database & Quiz | 2,942+ Stickers</title>
+    <title>StickerHunt -- Football Sticker Database | Identify Clubs from Street Stickers</title>
     <link rel="icon" href="/favicon.ico" type="image/x-icon">
 
     <!-- SEO Meta Tags -->
-    <meta name="description" content="Browse 2,942+ football stickers from 661 clubs across 54 countries. Identify stickers, play the quiz, and compete on the global leaderboard.">
-    <meta name="keywords" content="football, stickers, panini, quiz, database, soccer, player identification, leaderboard">
+    <meta name="description" content="Identify football clubs from fan-spotted stickers worldwide. {{TOTAL_STICKERS}} stickers from {{TOTAL_CLUBS}} clubs across 54 countries. Play the quiz, explore the database, discover sticker culture in your city.">
+    <meta name="keywords" content="football sticker quiz, identify football club, guess football sticker, fan stickers database, ultras stickers, football club identification, street stickers, panini stickers">
     <link rel="canonical" href="https://stickerhunt.club/">
 
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://stickerhunt.club/">
-    <meta property="og:title" content="StickerHunt — Football Sticker Database & Quiz">
-    <meta property="og:description" content="Browse 2,942+ football stickers from 661 clubs across 54 countries. Identify stickers, play the quiz, and compete on the global leaderboard.">
+    <meta property="og:title" content="StickerHunt -- Football Sticker Database & Quiz">
+    <meta property="og:description" content="Identify football clubs from fan-spotted stickers. {{TOTAL_STICKERS}} stickers, {{TOTAL_CLUBS}} clubs, 54 countries. Play the quiz!">
     <meta property="og:image" content="https://stickerhunt.club/metash.png">
     <meta property="og:site_name" content="StickerHunt">
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image">
     <meta property="twitter:url" content="https://stickerhunt.club/">
-    <meta property="twitter:title" content="StickerHunt — Football Sticker Database & Quiz">
-    <meta property="twitter:description" content="Browse 2,942+ football stickers from 661 clubs across 54 countries. Identify stickers, play the quiz, and compete on the global leaderboard.">
+    <meta property="twitter:title" content="StickerHunt -- Football Sticker Database & Quiz">
+    <meta property="twitter:description" content="Identify football clubs from fan-spotted stickers. {{TOTAL_STICKERS}} stickers, {{TOTAL_CLUBS}} clubs, 54 countries.">
     <meta property="twitter:image" content="https://stickerhunt.club/metash.png">
     <meta property="twitter:site" content="@StickerHunting">
     <meta property="twitter:creator" content="@StickerHunting">
@@ -33,16 +33,13 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preconnect" href="https://rbmeslzlbsolkxnvesqb.supabase.co">
 
-    <!-- Preload the first featured sticker for instant display -->
-    <link rel="preload" href="{{FIRST_STICKER_URL}}" as="image" fetchpriority="high">
-
     <!-- Preload critical font weights only -->
-    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600&display=swap" as="style">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600&display=swap" rel="stylesheet">
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700&display=swap" as="style">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700&display=swap" rel="stylesheet">
 
     <link rel="stylesheet" href="/style.css">
 
-    <!-- Analytics - load after page content -->
+    <!-- Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-4Y0MJKGDZS"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
@@ -57,13 +54,38 @@
       "@context": "https://schema.org",
       "@type": "WebSite",
       "name": "StickerHunt",
-      "description": "Global Football Sticker Database",
+      "alternateName": "Football Sticker Database",
+      "description": "The world's football sticker database. Identify football clubs from fan-spotted stickers, play quizzes, explore sticker culture by city and country.",
       "url": "https://stickerhunt.club/",
       "potentialAction": {
         "@type": "SearchAction",
         "target": "https://stickerhunt.club/catalogue.html?search={search_term_string}",
         "query-input": "required name=search_term_string"
       }
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is StickerHunt?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "StickerHunt is the world's football sticker database. We catalog fan-spotted football stickers from streets worldwide. You can browse {{TOTAL_STICKERS}}+ stickers from {{TOTAL_CLUBS}} clubs across 54 countries, play identification quizzes, and rate stickers."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How does the football sticker quiz work?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "In the StickerHunt quiz, you see a photo of a football sticker found on the street and try to identify which club it belongs to. Choose from Classic mode (10 rounds), Time To Run (60 seconds), or the Daily Quiz challenge."
+          }
+        }
+      ]
     }
     </script>
 
@@ -89,24 +111,127 @@
          </div>
     </header>
 
-    <main class="container home-container">
-        <div id="game-area" style="display: block;">
-            <div id="sticker-container">
-                <a href="{{FIRST_STICKER_LINK}}" id="home-sticker-link">
-                    <img id="home-sticker-image" src="{{FIRST_STICKER_URL}}" alt="Featured Sticker" fetchpriority="high" decoding="async">
-                </a>
+    <main>
+        <!-- Hero -->
+        <div class="hp-hero">
+            <h1>The World's Football Sticker Database</h1>
+            <div class="hp-hero-stats">
+                <div><span class="hp-stat-num">{{TOTAL_STICKERS}}</span> stickers</div>
+                <div><span class="hp-stat-num">{{TOTAL_CLUBS}}</span> clubs</div>
+                <div><span class="hp-stat-num">54</span> countries</div>
             </div>
-            <div class="game-right-panel">
-                <div class="game-info">
-                    <div id="home-title">Football stickers. Total: <span id="total-stickers">{{TOTAL_STICKERS}}</span></div>
+            <div class="hp-search-wrapper">
+                <input type="text" class="hp-search-input" placeholder="Search stickers, clubs, countries..." id="hp-search-input" autocomplete="off">
+                <div class="hp-search-results" id="hp-search-results"></div>
+            </div>
+            <div class="hp-hero-ctas">
+                <a href="/catalogue.html" class="btn btn-primary btn-large">Explore Database</a>
+                <a href="/quiz.html" class="btn btn-secondary btn-large">Play Quiz</a>
+                <button id="home-auth-button" class="btn btn-secondary btn-large" style="display:none;">Sign In</button>
+            </div>
+        </div>
+
+        <hr class="hp-divider">
+
+        <!-- Daily Quiz -->
+        <div class="hp-section">
+            <div class="hp-daily-quiz">
+                <div>
+                    <h3>Daily Quiz</h3>
+                    <p>Can you identify today's mystery sticker? New challenge every day.</p>
                 </div>
-                <div id="options" class="button-group options-group">
-                    <a href="/catalogue.html" class="btn">View Catalogue</a>
-                    <a href="/map.html" class="btn">View Map</a>
-                    <a href="/battle.html" class="btn">Rate Stickers</a>
-                    <a href="/quiz.html" class="btn">Play Quiz</a>
-                    <button id="home-auth-button" class="btn">Sign In</button>
+                <a href="/quiz.html?mode=daily" class="btn btn-primary">Play Now</a>
+            </div>
+        </div>
+
+        <hr class="hp-divider">
+
+        <!-- Recently Added -->
+        <div class="hp-section">
+            <div class="hp-section-header">
+                <h2>Recently Added</h2>
+                <div class="hp-section-links"><a href="/catalogue.html">View All Stickers &rarr;</a></div>
+            </div>
+            <div class="sticker-strip">
+                {{RECENT_STICKERS_HTML}}
+            </div>
+        </div>
+
+        <hr class="hp-divider">
+
+        <!-- Discover by Country -->
+        <div class="hp-section">
+            <div class="hp-section-header">
+                <h2>Discover by Country</h2>
+                <div class="hp-section-links"><a href="/catalogue.html">All 54 Countries &rarr;</a></div>
+            </div>
+            <div class="hp-country-grid">
+                {{COUNTRIES_HTML}}
+            </div>
+        </div>
+
+        <hr class="hp-divider">
+
+        <!-- Top Rated Stickers -->
+        <div class="hp-section">
+            <div class="hp-section-header">
+                <h2>Top Rated Stickers</h2>
+                <div class="hp-section-links">
+                    <a href="/battle.html">Rate Stickers &rarr;</a>
+                    <a href="/rating.html">View Full Rating &rarr;</a>
                 </div>
+            </div>
+            <div class="sticker-strip">
+                {{TOP_RATED_HTML}}
+            </div>
+        </div>
+
+        <hr class="hp-divider">
+
+        <!-- Map -->
+        <div class="hp-section">
+            <div class="hp-map-section">
+                <h2>Explore the Map</h2>
+                <p>{{TOTAL_STICKERS}} stickers from {{TOTAL_CLUBS}} clubs across 54 countries, mapped worldwide</p>
+                <div class="hp-map-preview">🗺️</div>
+                <a href="/map.html" class="btn btn-primary">Open Interactive Map</a>
+            </div>
+        </div>
+
+        <hr class="hp-divider">
+
+        <!-- Browse by City -->
+        <div class="hp-section">
+            <div class="hp-section-header">
+                <h2>Browse by City</h2>
+                <div class="hp-section-links"><a href="/cities/">All Cities &rarr;</a></div>
+            </div>
+            <div class="hp-city-grid">
+                {{CITIES_HTML}}
+            </div>
+        </div>
+
+        <hr class="hp-divider">
+
+        <!-- Game Modes -->
+        <div class="hp-section">
+            <h2 style="font-size: 1.25em; font-weight: 600; margin-bottom: 16px;">Game Modes</h2>
+            <div class="hp-game-modes">
+                <a href="/quiz.html" class="hp-game-card">
+                    <div class="hp-game-card-icon">🎯</div>
+                    <h3>Classic Quiz</h3>
+                    <p>Identify the club from a sticker photo. 10 rounds, beat the clock.</p>
+                </a>
+                <a href="/quiz.html?mode=ttr" class="hp-game-card">
+                    <div class="hp-game-card-icon">⚡</div>
+                    <h3>Time To Run</h3>
+                    <p>Race against time. How many can you identify in 60 seconds?</p>
+                </a>
+                <a href="/battle.html" class="hp-game-card">
+                    <div class="hp-game-card-icon">⚔️</div>
+                    <h3>Sticker Battle</h3>
+                    <p>Vote for the best sticker. ELO rating system like chess.</p>
+                </a>
             </div>
         </div>
     </main>
@@ -114,36 +239,74 @@
     <footer class="app-footer">
         <p>
             <a href="/about.html">About</a> |
-            <a href="/terms.html">Terms of Service</a> |
-            <a href="/privacy.html">Privacy Policy</a>
+            <a href="/leaderboard.html">Leaderboard</a> |
+            <a href="/cities/">Cities</a> |
+            <a href="/terms.html">Terms</a> |
+            <a href="/privacy.html">Privacy</a>
         </p>
         <p>StickerHunt &copy; 2026</p>
     </footer>
-
-    <!-- Inline script for instant random sticker selection (no network calls) -->
-    <script>
-        // Pre-embedded random sticker URLs for instant loading
-        const featuredStickers = {{STICKER_POOL_JSON}};
-
-        // Pick a random sticker on page load
-        if (featuredStickers.length > 1) {
-            const randomIndex = Math.floor(Math.random() * featuredStickers.length);
-            const randomSticker = featuredStickers[randomIndex];
-            const img = document.getElementById('home-sticker-image');
-            const link = document.getElementById('home-sticker-link');
-            if (img && randomSticker.url) {
-                img.src = randomSticker.url;
-            }
-            if (link && randomSticker.id) {
-                link.href = '/stickers/' + randomSticker.id + '.html';
-            }
-        }
-    </script>
 
     <!-- Auth functionality (loads in background, non-blocking) -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="/shared.js"></script>
     <script src="/index-static.js"></script>
+
+    <!-- Homepage search autocomplete -->
+    <script>
+    (function() {
+        const input = document.getElementById('hp-search-input');
+        const results = document.getElementById('hp-search-results');
+        if (!input || !results) return;
+
+        let debounceTimer;
+        let supabaseClient;
+
+        function getClient() {
+            if (!supabaseClient && window.SharedUtils) {
+                supabaseClient = SharedUtils.initSupabaseClient();
+            }
+            return supabaseClient;
+        }
+
+        input.addEventListener('input', function() {
+            clearTimeout(debounceTimer);
+            const query = input.value.trim();
+            if (query.length < 2) { results.classList.remove('active'); results.innerHTML = ''; return; }
+
+            debounceTimer = setTimeout(async () => {
+                const client = getClient();
+                if (!client) return;
+                try {
+                    const { data: clubs } = await client.from('clubs').select('id, name, country').ilike('name', '%' + query + '%').limit(6);
+                    if (!clubs || clubs.length === 0) {
+                        results.innerHTML = '<div class="hp-search-item" style="color: var(--color-info-text); cursor: default;">No clubs found</div>';
+                        results.classList.add('active');
+                        return;
+                    }
+                    results.innerHTML = clubs.map(c =>
+                        '<a href="/clubs/' + c.id + '.html" class="hp-search-item">' +
+                        '<span class="hp-search-item-name">' + c.name + '</span>' +
+                        '<span class="hp-search-item-meta">' + (c.country || '') + '</span></a>'
+                    ).join('');
+                    results.classList.add('active');
+                } catch(e) { console.error('Search error:', e); }
+            }, 300);
+        });
+
+        input.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                const query = input.value.trim();
+                if (query) window.location.href = '/catalogue.html?search=' + encodeURIComponent(query);
+            }
+        });
+
+        document.addEventListener('click', function(e) {
+            if (!e.target.closest('.hp-search-wrapper')) results.classList.remove('active');
+        });
+    })();
+    </script>
 
     <!-- PostHog Analytics -->
     <script>

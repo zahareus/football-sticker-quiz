@@ -11,9 +11,9 @@ import { join, dirname } from 'path';
 import { fileURLToPath } from 'url';
 import dotenv from 'dotenv';
 
-// Load environment variables from project root
-const PROJECT_ROOT_FOR_ENV = join(dirname(fileURLToPath(import.meta.url)), '..');
-dotenv.config({ path: join(PROJECT_ROOT_FOR_ENV, '.env') });
+// Load environment variables from scripts dir
+const __scriptsDir = dirname(fileURLToPath(import.meta.url));
+dotenv.config({ path: join(__scriptsDir, '.env') });
 
 // Configuration
 const SUPABASE_URL = process.env.SUPABASE_URL || "https://rbmeslzlbsolkxnvesqb.supabase.co";
@@ -911,36 +911,106 @@ async function generateCountryPage(countryCode, clubs, stickerCountsByClub) {
 /**
  * Generate static index.html with pre-embedded random sticker pool
  */
-async function generateIndexPage(stickers) {
+// Country code to flag emoji
+const COUNTRY_FLAGS = {
+    'DEU': '🇩🇪', 'ESP': '🇪🇸', 'FRA': '🇫🇷', 'NLD': '🇳🇱', 'ITA': '🇮🇹',
+    'GBR': '🇬🇧', 'SWE': '🇸🇪', 'AUT': '🇦🇹', 'CZE': '🇨🇿', 'BEL': '🇧🇪',
+    'POL': '🇵🇱', 'CHE': '🇨🇭', 'PRT': '🇵🇹', 'TUR': '🇹🇷', 'HUN': '🇭🇺',
+    'DNK': '🇩🇰', 'NOR': '🇳🇴', 'ARG': '🇦🇷', 'BRA': '🇧🇷', 'HRV': '🇭🇷',
+    'SRB': '🇷🇸', 'GRC': '🇬🇷', 'ROU': '🇷🇴', 'IRL': '🇮🇪', 'BGR': '🇧🇬',
+    'SVK': '🇸🇰', 'ISR': '🇮🇱', 'COL': '🇨🇴', 'ENG': '🏴󠁧󠁢󠁥󠁮󠁧󠁿', 'SCO': '🏴󠁧󠁢󠁳󠁣󠁴󠁿',
+};
+
+async function generateIndexPage(stickers, clubs) {
     const template = loadTemplate('index-page.html');
 
-    // Select random stickers for the pool (50 stickers for variety)
-    const poolSize = Math.min(50, stickers.length);
-    const shuffled = [...stickers].sort(() => Math.random() - 0.5);
-    const selectedStickers = shuffled.slice(0, poolSize);
+    const TOTAL_STICKERS = stickers.length;
+    const TOTAL_CLUBS = clubs.length;
 
-    // Create sticker pool with optimized image URLs
-    const stickerPool = selectedStickers.map(sticker => ({
-        id: sticker.id,
-        url: getOptimizedImageUrl(sticker.image_url, '_web')
-    }));
+    // --- Top Rated (8 stickers, by ELO) ---
+    const topRated = [...stickers]
+        .sort((a, b) => (b.rating || 1500) - (a.rating || 1500) || (b.games || 0) - (a.games || 0) || b.id - a.id)
+        .slice(0, 8);
 
-    // First sticker for preload and initial display
-    const firstSticker = stickerPool[0];
+    let topRatedHtml = '';
+    topRated.forEach(s => {
+        const clubName = s.clubs ? stripEmoji(s.clubs.name) : '';
+        const thumbUrl = getOptimizedImageUrl(s.image_url, '_thumb');
+        topRatedHtml += `
+                <a href="/stickers/${s.id}.html" class="hp-sticker-card">
+                    <img src="${thumbUrl}" alt="${clubName} sticker -- rated ${s.rating || 1500}" loading="lazy" decoding="async">
+                    <div class="hp-sticker-card-label">${clubName}</div>
+                    <div class="hp-sticker-card-rating">Rating: ${s.rating || 1500}</div>
+                </a>`;
+    });
 
-    // Use actual count from fetched stickers (no hardcoding)
-    const TOTAL_ACTIVE_STICKERS = stickers.length;
+    // --- Recent (8 stickers, newest first) ---
+    const recent = [...stickers].sort((a, b) => b.id - a.id).slice(0, 8);
+    let recentHtml = '';
+    recent.forEach(s => {
+        const clubName = s.clubs ? stripEmoji(s.clubs.name) : '';
+        const thumbUrl = getOptimizedImageUrl(s.image_url, '_thumb');
+        recentHtml += `
+                <a href="/stickers/${s.id}.html" class="hp-sticker-card">
+                    <img src="${thumbUrl}" alt="${clubName} sticker -- recently added" loading="lazy" decoding="async">
+                    <div class="hp-sticker-card-label">${clubName}</div>
+                </a>`;
+    });
+
+    // --- Country stats (top 16 by sticker count) ---
+    const stickersByCountry = {};
+    stickers.forEach(s => {
+        const cc = s.clubs?.country?.toUpperCase();
+        if (cc) stickersByCountry[cc] = (stickersByCountry[cc] || 0) + 1;
+    });
+    const topCountries = Object.entries(stickersByCountry)
+        .sort((a, b) => b[1] - a[1])
+        .slice(0, 16);
+
+    let countriesHtml = '';
+    topCountries.forEach(([code, count]) => {
+        const flag = COUNTRY_FLAGS[code] || '🏳️';
+        const name = getCountryName(code);
+        const shortName = name.length > 12 ? name.replace('United Kingdom', 'UK').replace('Switzerland', 'Switzerland').replace('Czech Republic', 'Czechia') : name;
+        countriesHtml += `
+                <a href="/countries/${code}.html" class="hp-country-card">
+                    <span class="hp-country-flag">${flag}</span>
+                    <span class="hp-country-name">${shortName}</span>
+                    <span class="hp-country-count">${count.toLocaleString()}</span>
+                </a>`;
+    });
+
+    // --- City stats (top 12 by sticker count) ---
+    const stickersByCity = {};
+    stickers.forEach(s => {
+        if (!s.location) return;
+        const city = s.location.split(',')[0].trim();
+        if (city) stickersByCity[city] = (stickersByCity[city] || 0) + 1;
+    });
+    const topCities = Object.entries(stickersByCity)
+        .sort((a, b) => b[1] - a[1])
+        .slice(0, 12);
+
+    let citiesHtml = '';
+    topCities.forEach(([name, count]) => {
+        const slug = name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/-+/g, '-').replace(/^-|-$/g, '');
+        citiesHtml += `
+                <a href="/cities/${slug}.html" class="hp-city-card">
+                    <span class="hp-city-name">${name}</span>
+                    <span class="hp-city-count">${count} stickers</span>
+                </a>`;
+    });
 
     const data = {
-        TOTAL_STICKERS: TOTAL_ACTIVE_STICKERS,
-        FIRST_STICKER_URL: firstSticker.url,
-        FIRST_STICKER_LINK: `/stickers/${firstSticker.id}.html`,
-        STICKER_POOL_JSON: JSON.stringify(stickerPool)
+        TOTAL_STICKERS: TOTAL_STICKERS.toLocaleString(),
+        TOTAL_CLUBS: TOTAL_CLUBS.toLocaleString(),
+        TOP_RATED_HTML: topRatedHtml,
+        RECENT_STICKERS_HTML: recentHtml,
+        COUNTRIES_HTML: countriesHtml,
+        CITIES_HTML: citiesHtml
     };
 
     const html = replacePlaceholders(template, data);
-
-    // Save directly to project root as index.html
     const outputPath = join(PROJECT_ROOT, 'index.html');
     writeFileSync(outputPath, html, 'utf-8');
 
@@ -1231,8 +1301,8 @@ async function generateAllPages() {
         // Generate index page with pre-embedded random stickers
         console.log('\n🏠 Generating index page...');
         try {
-            await generateIndexPage(stickers);
-            console.log('  ✓ Generated index.html with random sticker pool');
+            await generateIndexPage(stickers, clubs);
+            console.log('  ✓ Generated index.html with homepage sections');
         } catch (error) {
             console.error('  ✗ Error generating index page:', error.message);
         }

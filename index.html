@@ -3,27 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>StickerHunt — Football Sticker Database & Quiz | 2,955+ Stickers</title>
+    <title>StickerHunt -- Football Sticker Database | Identify Clubs from Street Stickers</title>
     <link rel="icon" href="/favicon.ico" type="image/x-icon">
 
     <!-- SEO Meta Tags -->
-    <meta name="description" content="Browse 2,955+ football stickers from 661 clubs across 54 countries. Identify stickers, play the quiz, and compete on the global leaderboard.">
-    <meta name="keywords" content="football, stickers, panini, quiz, database, soccer, player identification, leaderboard">
+    <meta name="description" content="Identify football clubs from fan-spotted stickers worldwide. 3 156 stickers from 675 clubs across 54 countries. Play the quiz, explore the database, discover sticker culture in your city.">
+    <meta name="keywords" content="football sticker quiz, identify football club, guess football sticker, fan stickers database, ultras stickers, football club identification, street stickers, panini stickers">
     <link rel="canonical" href="https://stickerhunt.club/">
 
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://stickerhunt.club/">
-    <meta property="og:title" content="StickerHunt — Football Sticker Database & Quiz">
-    <meta property="og:description" content="Browse 2,955+ football stickers from 661 clubs across 54 countries. Identify stickers, play the quiz, and compete on the global leaderboard.">
+    <meta property="og:title" content="StickerHunt -- Football Sticker Database & Quiz">
+    <meta property="og:description" content="Identify football clubs from fan-spotted stickers. 3 156 stickers, 675 clubs, 54 countries. Play the quiz!">
     <meta property="og:image" content="https://stickerhunt.club/metash.png">
     <meta property="og:site_name" content="StickerHunt">
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image">
     <meta property="twitter:url" content="https://stickerhunt.club/">
-    <meta property="twitter:title" content="StickerHunt — Football Sticker Database & Quiz">
-    <meta property="twitter:description" content="Browse 2,955+ football stickers from 661 clubs across 54 countries. Identify stickers, play the quiz, and compete on the global leaderboard.">
+    <meta property="twitter:title" content="StickerHunt -- Football Sticker Database & Quiz">
+    <meta property="twitter:description" content="Identify football clubs from fan-spotted stickers. 3 156 stickers, 675 clubs, 54 countries.">
     <meta property="twitter:image" content="https://stickerhunt.club/metash.png">
     <meta property="twitter:site" content="@StickerHunting">
     <meta property="twitter:creator" content="@StickerHunting">
@@ -33,16 +33,13 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preconnect" href="https://rbmeslzlbsolkxnvesqb.supabase.co">
 
-    <!-- Preload the first featured sticker for instant display -->
-    <link rel="preload" href="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/stickers/Paris_Saint-Germain/IMG_7116_web.webp?" as="image" fetchpriority="high">
-
     <!-- Preload critical font weights only -->
-    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600&display=swap" as="style">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600&display=swap" rel="stylesheet">
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700&display=swap" as="style">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700&display=swap" rel="stylesheet">
 
     <link rel="stylesheet" href="/style.css">
 
-    <!-- Analytics - load after page content -->
+    <!-- Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-4Y0MJKGDZS"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
@@ -57,13 +54,38 @@
       "@context": "https://schema.org",
       "@type": "WebSite",
       "name": "StickerHunt",
-      "description": "Global Football Sticker Database",
+      "alternateName": "Football Sticker Database",
+      "description": "The world's football sticker database. Identify football clubs from fan-spotted stickers, play quizzes, explore sticker culture by city and country.",
       "url": "https://stickerhunt.club/",
       "potentialAction": {
         "@type": "SearchAction",
         "target": "https://stickerhunt.club/catalogue.html?search={search_term_string}",
         "query-input": "required name=search_term_string"
       }
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is StickerHunt?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "StickerHunt is the world's football sticker database. We catalog fan-spotted football stickers from streets worldwide. You can browse 3 156+ stickers from 675 clubs across 54 countries, play identification quizzes, and rate stickers."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How does the football sticker quiz work?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "In the StickerHunt quiz, you see a photo of a football sticker found on the street and try to identify which club it belongs to. Choose from Classic mode (10 rounds), Time To Run (60 seconds), or the Daily Quiz challenge."
+          }
+        }
+      ]
     }
     </script>
 
@@ -89,25 +111,327 @@
          </div>
     </header>
 
-    <main class="container home-container">
-        <h1 class="sr-only">StickerHunt — Football Sticker Database & Quiz</h1>
-        <div id="game-area" style="display: block;">
-            <div id="sticker-container">
-                <a href="/stickers/465.html" id="home-sticker-link">
-                    <img id="home-sticker-image" src="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/stickers/Paris_Saint-Germain/IMG_7116_web.webp?" alt="Featured Sticker" fetchpriority="high" decoding="async">
+    <main>
+        <!-- Hero -->
+        <div class="hp-hero">
+            <h1>The World's Football Sticker Database</h1>
+            <div class="hp-hero-stats">
+                <div><span class="hp-stat-num">3 156</span> stickers</div>
+                <div><span class="hp-stat-num">675</span> clubs</div>
+                <div><span class="hp-stat-num">54</span> countries</div>
+            </div>
+            <div class="hp-search-wrapper">
+                <input type="text" class="hp-search-input" placeholder="Search stickers, clubs, countries..." id="hp-search-input" autocomplete="off">
+                <div class="hp-search-results" id="hp-search-results"></div>
+            </div>
+            <div class="hp-hero-ctas">
+                <a href="/catalogue.html" class="btn btn-primary btn-large">Explore Database</a>
+                <a href="/quiz.html" class="btn btn-secondary btn-large">Play Quiz</a>
+                <button id="home-auth-button" class="btn btn-secondary btn-large" style="display:none;">Sign In</button>
+            </div>
+        </div>
+
+        <hr class="hp-divider">
+
+        <!-- Daily Quiz -->
+        <div class="hp-section">
+            <div class="hp-daily-quiz">
+                <div>
+                    <h3>Daily Quiz</h3>
+                    <p>Can you identify today's mystery sticker? New challenge every day.</p>
+                </div>
+                <a href="/quiz.html?mode=daily" class="btn btn-primary">Play Now</a>
+            </div>
+        </div>
+
+        <hr class="hp-divider">
+
+        <!-- Recently Added -->
+        <div class="hp-section">
+            <div class="hp-section-header">
+                <h2>Recently Added</h2>
+                <div class="hp-section-links"><a href="/catalogue.html">View All Stickers &rarr;</a></div>
+            </div>
+            <div class="sticker-strip">
+                
+                <a href="/stickers/3201.html" class="hp-sticker-card">
+                    <img src="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/club_695/1774860648782_IMG_8800_thumb.webp" alt="Racing Club de Lens sticker -- recently added" loading="lazy" decoding="async">
+                    <div class="hp-sticker-card-label">Racing Club de Lens</div>
+                </a>
+                <a href="/stickers/3200.html" class="hp-sticker-card">
+                    <img src="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/club_292/1774860593239_IMG_8731_thumb.webp" alt="SK Sturm Graz sticker -- recently added" loading="lazy" decoding="async">
+                    <div class="hp-sticker-card-label">SK Sturm Graz</div>
+                </a>
+                <a href="/stickers/3199.html" class="hp-sticker-card">
+                    <img src="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/club_666/1774860565636_IMG_8799_thumb.webp" alt="Olympique de Marseille sticker -- recently added" loading="lazy" decoding="async">
+                    <div class="hp-sticker-card-label">Olympique de Marseille</div>
+                </a>
+                <a href="/stickers/3198.html" class="hp-sticker-card">
+                    <img src="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/club_701/1774860547329_IMG_8694_thumb.webp" alt="Nantes sticker -- recently added" loading="lazy" decoding="async">
+                    <div class="hp-sticker-card-label">Nantes</div>
+                </a>
+                <a href="/stickers/3197.html" class="hp-sticker-card">
+                    <img src="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/club_647/1774860515228_IMG_8794_thumb.webp" alt="Angers SCO sticker -- recently added" loading="lazy" decoding="async">
+                    <div class="hp-sticker-card-label">Angers SCO</div>
+                </a>
+                <a href="/stickers/3196.html" class="hp-sticker-card">
+                    <img src="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/club_701/1774789098213_IMG_8703_thumb.webp" alt="Nantes sticker -- recently added" loading="lazy" decoding="async">
+                    <div class="hp-sticker-card-label">Nantes</div>
+                </a>
+                <a href="/stickers/3195.html" class="hp-sticker-card">
+                    <img src="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/club_666/1774789066873_IMG_86286_thumb.webp" alt="Olympique de Marseille sticker -- recently added" loading="lazy" decoding="async">
+                    <div class="hp-sticker-card-label">Olympique de Marseille</div>
+                </a>
+                <a href="/stickers/3194.html" class="hp-sticker-card">
+                    <img src="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/club_466/1774788996985_IMG_86261_thumb.webp" alt="FC Zurich sticker -- recently added" loading="lazy" decoding="async">
+                    <div class="hp-sticker-card-label">FC Zurich</div>
                 </a>
             </div>
-            <div class="game-right-panel">
-                <div class="game-info">
-                    <div id="home-title">Football stickers. Total: <span id="total-stickers">2955</span></div>
+        </div>
+
+        <hr class="hp-divider">
+
+        <!-- Discover by Country -->
+        <div class="hp-section">
+            <div class="hp-section-header">
+                <h2>Discover by Country</h2>
+                <div class="hp-section-links"><a href="/catalogue.html">All 54 Countries &rarr;</a></div>
+            </div>
+            <div class="hp-country-grid">
+                
+                <a href="/countries/DEU.html" class="hp-country-card">
+                    <span class="hp-country-flag">🇩🇪</span>
+                    <span class="hp-country-name">Germany</span>
+                    <span class="hp-country-count">1 046</span>
+                </a>
+                <a href="/countries/ESP.html" class="hp-country-card">
+                    <span class="hp-country-flag">🇪🇸</span>
+                    <span class="hp-country-name">Spain</span>
+                    <span class="hp-country-count">440</span>
+                </a>
+                <a href="/countries/FRA.html" class="hp-country-card">
+                    <span class="hp-country-flag">🇫🇷</span>
+                    <span class="hp-country-name">France</span>
+                    <span class="hp-country-count">207</span>
+                </a>
+                <a href="/countries/NLD.html" class="hp-country-card">
+                    <span class="hp-country-flag">🇳🇱</span>
+                    <span class="hp-country-name">Netherlands</span>
+                    <span class="hp-country-count">196</span>
+                </a>
+                <a href="/countries/ITA.html" class="hp-country-card">
+                    <span class="hp-country-flag">🇮🇹</span>
+                    <span class="hp-country-name">Italy</span>
+                    <span class="hp-country-count">179</span>
+                </a>
+                <a href="/countries/SWE.html" class="hp-country-card">
+                    <span class="hp-country-flag">🇸🇪</span>
+                    <span class="hp-country-name">Sweden</span>
+                    <span class="hp-country-count">111</span>
+                </a>
+                <a href="/countries/ENG.html" class="hp-country-card">
+                    <span class="hp-country-flag">🏴󠁧󠁢󠁥󠁮󠁧󠁿</span>
+                    <span class="hp-country-name">England</span>
+                    <span class="hp-country-count">102</span>
+                </a>
+                <a href="/countries/CZE.html" class="hp-country-card">
+                    <span class="hp-country-flag">🇨🇿</span>
+                    <span class="hp-country-name">Czechia</span>
+                    <span class="hp-country-count">87</span>
+                </a>
+                <a href="/countries/BEL.html" class="hp-country-card">
+                    <span class="hp-country-flag">🇧🇪</span>
+                    <span class="hp-country-name">Belgium</span>
+                    <span class="hp-country-count">84</span>
+                </a>
+                <a href="/countries/CHE.html" class="hp-country-card">
+                    <span class="hp-country-flag">🇨🇭</span>
+                    <span class="hp-country-name">Switzerland</span>
+                    <span class="hp-country-count">83</span>
+                </a>
+                <a href="/countries/POL.html" class="hp-country-card">
+                    <span class="hp-country-flag">🇵🇱</span>
+                    <span class="hp-country-name">Poland</span>
+                    <span class="hp-country-count">83</span>
+                </a>
+                <a href="/countries/AUT.html" class="hp-country-card">
+                    <span class="hp-country-flag">🇦🇹</span>
+                    <span class="hp-country-name">Austria</span>
+                    <span class="hp-country-count">66</span>
+                </a>
+                <a href="/countries/PRT.html" class="hp-country-card">
+                    <span class="hp-country-flag">🇵🇹</span>
+                    <span class="hp-country-name">Portugal</span>
+                    <span class="hp-country-count">41</span>
+                </a>
+                <a href="/countries/SCO.html" class="hp-country-card">
+                    <span class="hp-country-flag">🏴󠁧󠁢󠁳󠁣󠁴󠁿</span>
+                    <span class="hp-country-name">Scotland</span>
+                    <span class="hp-country-count">38</span>
+                </a>
+                <a href="/countries/SRB.html" class="hp-country-card">
+                    <span class="hp-country-flag">🇷🇸</span>
+                    <span class="hp-country-name">Serbia</span>
+                    <span class="hp-country-count">37</span>
+                </a>
+                <a href="/countries/HUN.html" class="hp-country-card">
+                    <span class="hp-country-flag">🇭🇺</span>
+                    <span class="hp-country-name">Hungary</span>
+                    <span class="hp-country-count">30</span>
+                </a>
+            </div>
+        </div>
+
+        <hr class="hp-divider">
+
+        <!-- Top Rated Stickers -->
+        <div class="hp-section">
+            <div class="hp-section-header">
+                <h2>Top Rated Stickers</h2>
+                <div class="hp-section-links">
+                    <a href="/battle.html">Rate Stickers &rarr;</a>
+                    <a href="/rating.html">View Full Rating &rarr;</a>
                 </div>
-                <div id="options" class="button-group options-group">
-                    <a href="/catalogue.html" class="btn">View Catalogue</a>
-                    <a href="/map.html" class="btn">View Map</a>
-                    <a href="/battle.html" class="btn">Rate Stickers</a>
-                    <a href="/quiz.html" class="btn">Play Quiz</a>
-                    <button id="home-auth-button" class="btn">Sign In</button>
-                </div>
+            </div>
+            <div class="sticker-strip">
+                
+                <a href="/stickers/1717.html" class="hp-sticker-card">
+                    <img src="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/stickers/FC_Augsburg/IMG_0914_thumb.webp?" alt="FC Augsburg sticker -- rated 1575" loading="lazy" decoding="async">
+                    <div class="hp-sticker-card-label">FC Augsburg</div>
+                    <div class="hp-sticker-card-rating">Rating: 1575</div>
+                </a>
+                <a href="/stickers/362.html" class="hp-sticker-card">
+                    <img src="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/stickers/Lyn_1896_FK/IMG_1372_thumb.webp?" alt="Lyn 1896 FK sticker -- rated 1574" loading="lazy" decoding="async">
+                    <div class="hp-sticker-card-label">Lyn 1896 FK</div>
+                    <div class="hp-sticker-card-rating">Rating: 1574</div>
+                </a>
+                <a href="/stickers/2871.html" class="hp-sticker-card">
+                    <img src="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/club_948/1767036555136_IMG_7767_thumb.webp" alt="Borussia Dortmund sticker -- rated 1557" loading="lazy" decoding="async">
+                    <div class="hp-sticker-card-label">Borussia Dortmund</div>
+                    <div class="hp-sticker-card-rating">Rating: 1557</div>
+                </a>
+                <a href="/stickers/2796.html" class="hp-sticker-card">
+                    <img src="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/club_759/1763899055256_IMG_7502_thumb.webp" alt="Feyenoord sticker -- rated 1557" loading="lazy" decoding="async">
+                    <div class="hp-sticker-card-label">Feyenoord</div>
+                    <div class="hp-sticker-card-rating">Rating: 1557</div>
+                </a>
+                <a href="/stickers/2757.html" class="hp-sticker-card">
+                    <img src="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/club_1133/1763817812926_IMG_7479_thumb.webp" alt="FC Schaffhausen sticker -- rated 1557" loading="lazy" decoding="async">
+                    <div class="hp-sticker-card-label">FC Schaffhausen</div>
+                    <div class="hp-sticker-card-rating">Rating: 1557</div>
+                </a>
+                <a href="/stickers/2362.html" class="hp-sticker-card">
+                    <img src="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/club_947%2F1751114262225_IMG_6075_thumb.webp" alt="VfB Stuttgart sticker -- rated 1557" loading="lazy" decoding="async">
+                    <div class="hp-sticker-card-label">VfB Stuttgart</div>
+                    <div class="hp-sticker-card-rating">Rating: 1557</div>
+                </a>
+                <a href="/stickers/2342.html" class="hp-sticker-card">
+                    <img src="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/club_749%2F1750597201286_IMG_6043_thumb.webp" alt="Djurgardens IF sticker -- rated 1557" loading="lazy" decoding="async">
+                    <div class="hp-sticker-card-label">Djurgardens IF</div>
+                    <div class="hp-sticker-card-rating">Rating: 1557</div>
+                </a>
+                <a href="/stickers/2207.html" class="hp-sticker-card">
+                    <img src="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/club_1046%2F1746792581076_IMG_3396_thumb.webp" alt="SK Slavia Prague sticker -- rated 1557" loading="lazy" decoding="async">
+                    <div class="hp-sticker-card-label">SK Slavia Prague</div>
+                    <div class="hp-sticker-card-rating">Rating: 1557</div>
+                </a>
+            </div>
+        </div>
+
+        <hr class="hp-divider">
+
+        <!-- Map -->
+        <div class="hp-section">
+            <div class="hp-map-section">
+                <h2>Explore the Map</h2>
+                <p>3 156 stickers from 675 clubs across 54 countries, mapped worldwide</p>
+                <div class="hp-map-preview">🗺️</div>
+                <a href="/map.html" class="btn btn-primary">Open Interactive Map</a>
+            </div>
+        </div>
+
+        <hr class="hp-divider">
+
+        <!-- Browse by City -->
+        <div class="hp-section">
+            <div class="hp-section-header">
+                <h2>Browse by City</h2>
+                <div class="hp-section-links"><a href="/cities/">All Cities &rarr;</a></div>
+            </div>
+            <div class="hp-city-grid">
+                
+                <a href="/cities/amsterdam.html" class="hp-city-card">
+                    <span class="hp-city-name">Amsterdam</span>
+                    <span class="hp-city-count">172 stickers</span>
+                </a>
+                <a href="/cities/stuttgart.html" class="hp-city-card">
+                    <span class="hp-city-name">Stuttgart</span>
+                    <span class="hp-city-count">88 stickers</span>
+                </a>
+                <a href="/cities/brussels.html" class="hp-city-card">
+                    <span class="hp-city-name">Brussels</span>
+                    <span class="hp-city-count">78 stickers</span>
+                </a>
+                <a href="/cities/prague.html" class="hp-city-card">
+                    <span class="hp-city-name">Prague</span>
+                    <span class="hp-city-count">71 stickers</span>
+                </a>
+                <a href="/cities/torrevieja.html" class="hp-city-card">
+                    <span class="hp-city-name">Torrevieja</span>
+                    <span class="hp-city-count">64 stickers</span>
+                </a>
+                <a href="/cities/maastricht.html" class="hp-city-card">
+                    <span class="hp-city-name">Maastricht</span>
+                    <span class="hp-city-count">62 stickers</span>
+                </a>
+                <a href="/cities/the-hague.html" class="hp-city-card">
+                    <span class="hp-city-name">The Hague</span>
+                    <span class="hp-city-count">58 stickers</span>
+                </a>
+                <a href="/cities/delft.html" class="hp-city-card">
+                    <span class="hp-city-name">Delft</span>
+                    <span class="hp-city-count">49 stickers</span>
+                </a>
+                <a href="/cities/santiago-de-compostela.html" class="hp-city-card">
+                    <span class="hp-city-name">Santiago de Compostela</span>
+                    <span class="hp-city-count">45 stickers</span>
+                </a>
+                <a href="/cities/nantes.html" class="hp-city-card">
+                    <span class="hp-city-name">Nantes</span>
+                    <span class="hp-city-count">41 stickers</span>
+                </a>
+                <a href="/cities/cartagena.html" class="hp-city-card">
+                    <span class="hp-city-name">Cartagena</span>
+                    <span class="hp-city-count">40 stickers</span>
+                </a>
+                <a href="/cities/seville.html" class="hp-city-card">
+                    <span class="hp-city-name">Seville</span>
+                    <span class="hp-city-count">39 stickers</span>
+                </a>
+            </div>
+        </div>
+
+        <hr class="hp-divider">
+
+        <!-- Game Modes -->
+        <div class="hp-section">
+            <h2 style="font-size: 1.25em; font-weight: 600; margin-bottom: 16px;">Game Modes</h2>
+            <div class="hp-game-modes">
+                <a href="/quiz.html" class="hp-game-card">
+                    <div class="hp-game-card-icon">🎯</div>
+                    <h3>Classic Quiz</h3>
+                    <p>Identify the club from a sticker photo. 10 rounds, beat the clock.</p>
+                </a>
+                <a href="/quiz.html?mode=ttr" class="hp-game-card">
+                    <div class="hp-game-card-icon">⚡</div>
+                    <h3>Time To Run</h3>
+                    <p>Race against time. How many can you identify in 60 seconds?</p>
+                </a>
+                <a href="/battle.html" class="hp-game-card">
+                    <div class="hp-game-card-icon">⚔️</div>
+                    <h3>Sticker Battle</h3>
+                    <p>Vote for the best sticker. ELO rating system like chess.</p>
+                </a>
             </div>
         </div>
     </main>
@@ -115,36 +439,75 @@
     <footer class="app-footer">
         <p>
             <a href="/about.html">About</a> |
-            <a href="/terms.html">Terms of Service</a> |
-            <a href="/privacy.html">Privacy Policy</a>
+            <a href="/leaderboard.html">Leaderboard</a> |
+            <a href="/cities/">Cities</a> |
+            <a href="/terms.html">Terms</a> |
+            <a href="/privacy.html">Privacy</a>
         </p>
         <p>StickerHunt &copy; 2026</p>
     </footer>
-
-    <!-- Inline script for instant random sticker selection (no network calls) -->
-    <script>
-        // Pre-embedded random sticker URLs for instant loading
-        const featuredStickers = [{"id":465,"url":"https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/stickers/Paris_Saint-Germain/IMG_7116_web.webp?"},{"id":1381,"url":"https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/stickers/Hertha_BSC/IMG_1066_web.webp?"},{"id":842,"url":"https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/stickers/Helsinborgs_IF/IMG_2234_web.webp?"},{"id":273,"url":"https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/stickers/Hapoel_Haifa_FC/IMG_9371_web.webp?"},{"id":1060,"url":"https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/stickers/Real_Betis/IMG_4499_web.webp?"},{"id":2688,"url":"https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/club_1118/1760190613301_IMG_7300_web.webp"},{"id":977,"url":"https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/stickers/Levante_UD/19DC4B03-C105-495C-81A3-EFA43D945018_1_105_c_web.webp?"},{"id":57,"url":"https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/AUT%20LASK/IMG_8081_web.webp"},{"id":906,"url":"https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/stickers/CE_Europa/IMG_8842_web.webp?"},{"id":815,"url":"https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/stickers/PSV_Eindhoven/IMG_0027_web.webp?"},{"id":19,"url":"https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/ARG%20Newells%20Old%20Boys/IMG_9593_(2)_web.webp"},{"id":530,"url":"https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/stickers/AC_Milan/IMG_4225_web.webp?"},{"id":897,"url":"https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/stickers/Hercules/IMG_7658_web.webp?"},{"id":173,"url":"https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/CHL%20Club%20Universidad%20de%20Chile/IMG_0738_web.webp"},{"id":7,"url":"https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/ARG%20Atletico%20Belgrano/IMG_8822_web.webp"},{"id":143,"url":"https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/CHE%20FC%20Basel%201893/IMG_8175_web.webp"},{"id":993,"url":"https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/stickers/Sevilla_FC/IMG_4518_web.webp?"},{"id":14,"url":"https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/ARG%20Newells%20Old%20Boys/IMG_0273_web.webp"},{"id":981,"url":"https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/club_810%2F1746573437220_CleanShot%202025-05-07%20at%2001.16.43%402x_web.webp"},{"id":807,"url":"https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/stickers/PSV_Eindhoven/IMG_4133_web.webp?"},{"id":4,"url":"https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/ARG%20Atletico%20Belgrano/IMG_5887_web.webp"},{"id":528,"url":"https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/stickers/Red_Star_FC/IMG_0397_web.webp?"},{"id":5,"url":"https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/ARG%20Atletico%20Belgrano/IMG_8199_web.webp"},{"id":994,"url":"https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/stickers/Sevilla_FC/IMG_4216_web.webp?"},{"id":561,"url":"https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/stickers/AC_Ancona/IMG_4140_web.webp?"},{"id":777,"url":"https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/stickers/Djurgardens_IF/IMG_3294_web.webp?"},{"id":161,"url":"https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/CHE%20Grasshopper%20Club%20Zurich/IMG_8668_web.webp"},{"id":934,"url":"https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/stickers/RCD_Espanyol/IMG_2442_web.webp?"},{"id":16,"url":"https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/ARG%20Newells%20Old%20Boys/IMG_1114_web.webp"},{"id":538,"url":"https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/stickers/Bologna_FC_1909/IMG_3510_web.webp?"},{"id":1014,"url":"https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/stickers/Sevilla_FC/IMG_4233_web.webp?"},{"id":961,"url":"https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/stickers/CD_Tenerife/IMG_8698_web.webp?"},{"id":383,"url":"https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/stickers/FC_Obolon_Kyiv/IMG_3860_web.webp?"},{"id":28,"url":"https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/AUT%20FC%20Blau-Weis%20Linz/IMG_0285_web.webp"},{"id":535,"url":"https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/stickers/Atalanta_BC/IMG_9703_web.webp?"},{"id":189,"url":"https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/stickers/PAOK/IMG_7028_web.webp?"},{"id":944,"url":"https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/stickers/RCD_Espanyol/IMG_2378_web.webp?"},{"id":839,"url":"https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/stickers/Kalmar_FF/IMG_7448_web.webp?"},{"id":752,"url":"https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/stickers/Hammarby/IMG_7068_web.webp?"},{"id":1079,"url":"https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/stickers/Real_Murcia/IMG_7908_web.webp?"},{"id":899,"url":"https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/stickers/Real_Valladolid/IMG_0060_web.webp?"},{"id":1132,"url":"https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/stickers/Real_Madrid_CF/IMG_4572_web.webp?"},{"id":163,"url":"https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/CHE%20Grasshopper%20Club%20Zurich/IMG_9753_(1)_web.webp"},{"id":175,"url":"https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/COL%20Atletico%20Nacional/IMG_7143_web.webp"},{"id":1071,"url":"https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/stickers/Racing_de_Santander/IMG_8393_web.webp?"},{"id":1078,"url":"https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/stickers/Real_Murcia/IMG_7174_web.webp?"},{"id":764,"url":"https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/stickers/Orgryte/IMG_7549_web.webp?"},{"id":564,"url":"https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/stickers/OC_Blausasc/IMG_4799_web.webp?"},{"id":598,"url":"https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/stickers/Latina_Calcio_1932/IMG_9686_web.webp?"},{"id":712,"url":"https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/stickers/Legia_Warsaw/IMG_9586_(3)_web.webp?"}];
-
-        // Pick a random sticker on page load
-        if (featuredStickers.length > 1) {
-            const randomIndex = Math.floor(Math.random() * featuredStickers.length);
-            const randomSticker = featuredStickers[randomIndex];
-            const img = document.getElementById('home-sticker-image');
-            const link = document.getElementById('home-sticker-link');
-            if (img && randomSticker.url) {
-                img.src = randomSticker.url;
-            }
-            if (link && randomSticker.id) {
-                link.href = '/stickers/' + randomSticker.id + '.html';
-            }
-        }
-    </script>
 
     <!-- Auth functionality (loads in background, non-blocking) -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="/shared.js"></script>
     <script src="/index-static.js"></script>
+
+    <!-- Homepage search autocomplete -->
+    <script>
+    (function() {
+        const input = document.getElementById('hp-search-input');
+        const results = document.getElementById('hp-search-results');
+        if (!input || !results) return;
+
+        let debounceTimer;
+        let supabaseClient;
+
+        function getClient() {
+            if (!supabaseClient && window.SharedUtils) {
+                supabaseClient = SharedUtils.initSupabaseClient();
+            }
+            return supabaseClient;
+        }
+
+        input.addEventListener('input', function() {
+            clearTimeout(debounceTimer);
+            const query = input.value.trim();
+            if (query.length < 2) { results.classList.remove('active'); results.innerHTML = ''; return; }
+
+            debounceTimer = setTimeout(async () => {
+                const client = getClient();
+                if (!client) return;
+                try {
+                    const { data: clubs } = await client.from('clubs').select('id, name, country').ilike('name', '%' + query + '%').limit(6);
+                    if (!clubs || clubs.length === 0) {
+                        results.innerHTML = '<div class="hp-search-item" style="color: var(--color-info-text); cursor: default;">No clubs found</div>';
+                        results.classList.add('active');
+                        return;
+                    }
+                    results.innerHTML = clubs.map(c =>
+                        '<a href="/clubs/' + c.id + '.html" class="hp-search-item">' +
+                        '<span class="hp-search-item-name">' + c.name + '</span>' +
+                        '<span class="hp-search-item-meta">' + (c.country || '') + '</span></a>'
+                    ).join('');
+                    results.classList.add('active');
+                } catch(e) { console.error('Search error:', e); }
+            }, 300);
+        });
+
+        input.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                const query = input.value.trim();
+                if (query) window.location.href = '/catalogue.html?search=' + encodeURIComponent(query);
+            }
+        });
+
+        document.addEventListener('click', function(e) {
+            if (!e.target.closest('.hp-search-wrapper')) results.classList.remove('active');
+        });
+    })();
+    </script>
+
     <!-- PostHog Analytics -->
     <script>
         !function(t,e){var o,n,p,r;e.__SV||(window.posthog=e,e._i=[],e.init=function(i,s,a){function g(t,e){var o=e.split(".");2==o.length&&(t=t[o[0]],e=o[1]),t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}}(p=t.createElement("script")).type="text/javascript",p.crossOrigin="anonymous",p.async=!0,p.src=s.api_host.replace(".i.posthog.com","-assets.i.posthog.com")+"/static/array.js",(r=t.getElementsByTagName("script")[0]).parentNode.insertBefore(p,r);var u=e;for(void 0!==a?u=e[a]=[]:a="posthog",u.people=u.people||[],u.toString=function(t){var e="posthog";return"posthog"!==a&&(e+="."+a),t||(e+=" (stub)"),e},u.people.toString=function(){return u.toString(1)+" (stub)"},o="init capture register register_once register_for_session unregister unregister_for_session getFeatureFlag getFeatureFlagPayload isFeatureFlagEnabled reloadFeatureFlags updateEarlyAccessFeatureEnrollment getEarlyAccessFeatures on onFeatureFlags onSessionId getSurveys getActiveMatchingSurveys renderSurvey canRenderSurvey identify alias setPersonProperties groupIdentify".split(" "),n=0;n<o.length;n++)g(u,o[n]);e._i.push([i,s,a])},e.__SV=1)}(document,window.posthog||[]);
