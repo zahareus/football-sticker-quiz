@@ -345,7 +345,26 @@
             <div class="hp-map-section">
                 <h2>Explore the Map</h2>
                 <p>3 156 stickers from 675 clubs across 54 countries, mapped worldwide</p>
-                <div class="hp-map-preview">🗺️</div>
+                <div class="hp-map-preview" id="hp-map-container"></div>
+                <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+                <script>
+                document.addEventListener('DOMContentLoaded', function() {
+                    if (typeof L === 'undefined') {
+                        var s = document.createElement('script');
+                        s.src = 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.js';
+                        s.onload = initHomeMap;
+                        document.head.appendChild(s);
+                    } else { initHomeMap(); }
+                    function initHomeMap() {
+                        var el = document.getElementById('hp-map-container');
+                        if (!el || typeof L === 'undefined') return;
+                        var map = L.map(el, {zoomControl: false, attributionControl: false, dragging: false, scrollWheelZoom: false, doubleClickZoom: false, touchZoom: false}).setView([48, 10], 4);
+                        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+                        el.style.cursor = 'pointer';
+                        el.addEventListener('click', function() { window.location.href = '/map.html'; });
+                    }
+                });
+                </script>
                 <a href="/map.html" class="btn btn-primary">Open Interactive Map</a>
             </div>
         </div>
