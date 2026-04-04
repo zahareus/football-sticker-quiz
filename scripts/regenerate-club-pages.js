@@ -450,9 +450,8 @@ async function generateCountryPage(countryCode, clubs, stickerCountsByClub, coun
     // Club cards grid (alphabetical)
     let clubCardsHtml = '';
     clubsEnriched.forEach(club => {
-        const city = extractCity(club.city);
         const countLabel = club.stickerCount === 1 ? '1 sticker' : `${club.stickerCount} stickers`;
-        const metaText = city ? `${city} &middot; ${countLabel}` : countLabel;
+        const metaText = countLabel;
 
         let thumbHtml = '';
         if (club.bestImg) {
@@ -463,7 +462,7 @@ async function generateCountryPage(countryCode, clubs, stickerCountsByClub, coun
         }
 
         clubCardsHtml += `
-                <a href="/clubs/${club.id}.html" class="cat-country-card">
+                <a href="/clubs/${club.id}.html" class="cat-country-card" title="${club.cleanName}">
                     ${thumbHtml}
                     <div class="cat-country-info">
                         <span class="cat-country-name">${club.name}</span>
@@ -474,7 +473,7 @@ async function generateCountryPage(countryCode, clubs, stickerCountsByClub, coun
 
     // SEO description
     const topClubNames = topClubs.slice(0, 5).map(c => c.cleanName).join(', ');
-    const seoDescription = `StickerHunt features ${totalStickers} stickers from ${clubs.length} clubs in ${countryName}. The most collected clubs include ${topClubNames}. Each club page shows all stickers found, their map locations, and community ratings. Browse the complete ${countryName} collection and discover fan-spotted stickers from across the country.`;
+    const seoDescription = `StickerHunt features stickers from clubs across ${countryName}. The most collected clubs include ${topClubNames}. Each club page shows all stickers found, their map locations, and community ratings. Browse the complete ${countryName} collection and discover fan-spotted stickers from across the country.`;
 
     // Schema
     const schemaItems = clubsEnriched.map((club, i) => ({
