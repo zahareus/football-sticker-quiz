@@ -755,11 +755,6 @@ body.quiz-result .result-right-panel {
 
 /* --- Breadcrumbs Styling --- */
 #catalogue-breadcrumbs {
-    max-width: var(--container-width);
-    margin-left: auto;
-    margin-right: auto;
-    padding-left: calc(var(--spacing-unit) * 2);
-    padding-right: calc(var(--spacing-unit) * 2);
     margin-bottom: calc(var(--spacing-unit) * 2.5); /* Ð’Ñ–Ð´ÑÑ‚ÑƒÐ¿ Ð¿Ñ–Ð´ breadcrumbs */
     text-align: left; /* Ð’Ð¸Ñ€Ñ–Ð²Ð½ÑŽÐ²Ð°Ð½Ð½Ñ Ð¿Ð¾ Ð»Ñ–Ð²Ð¾Ð¼Ñƒ ÐºÑ€Ð°ÑŽ */
     font-size: 0.9em;
