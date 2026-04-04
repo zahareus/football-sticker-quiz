@@ -355,12 +355,33 @@ async function generateClubPage(club, stickers, allClubsInCountry = [], stickerC
     return outputPath;
 }
 
+// Country code to flag emoji
+const COUNTRY_FLAGS = {
+    "DEU":"🇩🇪","ESP":"🇪🇸","FRA":"🇫🇷","NLD":"🇳🇱","ITA":"🇮🇹","SWE":"🇸🇪",
+    "ENG":"🏴󠁧󠁢󠁥󠁮󠁧󠁿","CZE":"🇨🇿","BEL":"🇧🇪","CHE":"🇨🇭","POL":"🇵🇱","AUT":"🇦🇹",
+    "PRT":"🇵🇹","SCO":"🏴󠁧󠁢󠁳󠁣󠁴󠁿","SRB":"🇷🇸","HUN":"🇭🇺","NOR":"🇳🇴","HRV":"🇭🇷",
+    "GRC":"🇬🇷","DNK":"🇩🇰","ROU":"🇷🇴","UKR":"🇺🇦","TUR":"🇹🇷","ISR":"🇮🇱",
+    "JPN":"🇯🇵","CYP":"🇨🇾","ARG":"🇦🇷","BRA":"🇧🇷","CHL":"🇨🇱","COL":"🇨🇴",
+    "URY":"🇺🇾","USA":"🇺🇸","MEX":"🇲🇽","CAN":"🇨🇦","MAR":"🇲🇦","EGY":"🇪🇬",
+    "ZAF":"🇿🇦","BIH":"🇧🇦","BGR":"🇧🇬","SVK":"🇸🇰","SVN":"🇸🇮","FIN":"🇫🇮",
+    "EST":"🇪🇪","LVA":"🇱🇻","LTU":"🇱🇹","IRL":"🇮🇪","WLS":"🏴󠁧󠁢󠁷󠁬󠁳󠁿","NIR":"🇬🇧",
+    "MNE":"🇲🇪","GEO":"🇬🇪","BLR":"🇧🇾","ARM":"🇦🇲","KAZ":"🇰🇿","LUX":"🇱🇺",
+    "MKD":"🇲🇰","MLT":"🇲🇹","ISL":"🇮🇸","AUS":"🇦🇺"
+};
+
+// Extract city name from "City, Country" format
+function extractCity(cityField) {
+    if (!cityField) return '';
+    return cityField.split(',')[0].trim();
+}
+
 async function generateCountryPage(countryCode, clubs, stickerCountsByClub, countryStickers, allClubsMap) {
     const template = loadTemplate('country-page.html', PROJECT_ROOT);
     const countryName = getCountryName(countryCode);
+    const countryFlag = COUNTRY_FLAGS[countryCode.toUpperCase()] || '';
     const totalStickers = clubs.reduce((sum, club) => sum + (stickerCountsByClub[club.id] || 0), 0);
-    const pageTitle = `${countryName} Football Stickers — ${clubs.length} Clubs | StickerHunt`;
-    const metaDescription = `Browse football stickers from ${clubs.length} clubs in ${countryName}. Identify stickers from ${countryName} clubs in our database of ${totalStickers}+ stickers.`;
+    const pageTitle = `${countryName} Football Stickers — ${clubs.length} Clubs, ${totalStickers} Stickers | StickerHunt`;
+    const metaDescription = `Browse ${totalStickers} football stickers from ${clubs.length} clubs in ${countryName}. Find stickers from ${countryName} clubs in the StickerHunt database.`;
     const canonicalUrl = `${BASE_URL}/countries/${countryCode.toUpperCase()}.html`;
     const keywords = `${countryName} football stickers, ${countryName} clubs stickers, identify ${countryName} sticker, football sticker database`;
 
@@ -369,56 +390,119 @@ async function generateCountryPage(countryCode, clubs, stickerCountsByClub, coun
         { text: countryName, url: `/countries/${countryCode.toUpperCase()}.html` }
     ]);
 
-    const topStickers = selectTopRatedStickers(countryStickers, 6);
-    const ogImage = topStickers.length > 0
-        ? cleanTrailingQuery(getOptimizedImageUrl(topStickers[0].image_url))
-        : 'https://stickerhunt.club/metash.png';
-
-    const featuredHtml = generateFeaturedGallery(topStickers, allClubsMap, `Top Rated Stickers from ${countryName}`);
     const multilingualMeta = generateMultilingualMeta({
         type: 'country',
         countryCode: countryCode,
         vars: { country: countryName, clubCount: clubs.length, total: totalStickers }
     });
 
-    const clubsWithStickerCounts = clubs.map(club => ({ ...club, stickerCount: stickerCountsByClub[club.id] || 0 }));
-    clubsWithStickerCounts.sort((a, b) => a.name.localeCompare(b.name));
-
-    let clubListHtml = '';
-    clubsWithStickerCounts.forEach(club => {
-        const countText = `(${club.stickerCount} sticker${club.stickerCount !== 1 ? 's' : ''})`;
-        clubListHtml += `<li><a href="/clubs/${club.id}.html">${club.name} ${countText}</a></li>`;
+    // Build club data with sticker counts and best-rated thumbnail
+    const clubsEnriched = clubs.map(club => {
+        const count = stickerCountsByClub[club.id] || 0;
+        // Find best-rated sticker for this club
+        const clubStickers = countryStickers.filter(s => s.club_id === club.id);
+        let bestImg = null;
+        let bestRating = 0;
+        clubStickers.forEach(s => {
+            if ((s.rating || 0) > bestRating) {
+                bestRating = s.rating || 0;
+                bestImg = s.image_url;
+            }
+        });
+        return { ...club, stickerCount: count, bestImg, cleanName: stripEmoji(club.name) };
     });
 
-    const schemaItems = clubs.map((club, i) => ({
+    // Sort alphabetically by clean name
+    clubsEnriched.sort((a, b) => a.cleanName.localeCompare(b.cleanName, 'en'));
+
+    // Most collected strip (top 8 by sticker count, only clubs with stickers)
+    const topClubs = [...clubsEnriched].filter(c => c.stickerCount > 0 && c.bestImg)
+        .sort((a, b) => b.stickerCount - a.stickerCount).slice(0, 8);
+
+    let mostCollectedHtml = '';
+    if (topClubs.length > 0) {
+        let stripCards = '';
+        topClubs.forEach(c => {
+            const thumbUrl = cleanTrailingQuery(getThumbnailUrl(c.bestImg));
+            stripCards += `
+                <a href="/clubs/${c.id}.html" class="cat-club-card">
+                    <img src="${thumbUrl}" alt="${c.cleanName} sticker" loading="lazy" decoding="async">
+                    <span class="cat-club-label">${c.cleanName}</span>
+                    <span class="cat-club-count">${c.stickerCount} sticker${c.stickerCount !== 1 ? 's' : ''}</span>
+                </a>`;
+        });
+        mostCollectedHtml = `
+        <div class="cat-section">
+            <div class="cat-section-header">
+                <h2>Most Collected</h2>
+                <span class="cat-section-meta">by number of stickers</span>
+            </div>
+            <div class="cat-clubs-strip">${stripCards}</div>
+        </div>
+        <hr class="cat-divider">`;
+    }
+
+    // OG image from top club
+    const ogImage = topClubs.length > 0 && topClubs[0].bestImg
+        ? cleanTrailingQuery(getOptimizedImageUrl(topClubs[0].bestImg))
+        : 'https://stickerhunt.club/metash.png';
+
+    // Club cards grid (alphabetical)
+    let clubCardsHtml = '';
+    clubsEnriched.forEach(club => {
+        const city = extractCity(club.city);
+        const countLabel = club.stickerCount === 1 ? '1 sticker' : `${club.stickerCount} stickers`;
+        const metaText = city ? `${city} &middot; ${countLabel}` : countLabel;
+
+        let thumbHtml = '';
+        if (club.bestImg) {
+            const thumbUrl = cleanTrailingQuery(getThumbnailUrl(club.bestImg));
+            thumbHtml = `<img src="${thumbUrl}" class="country-club-thumb" alt="" loading="lazy" decoding="async">`;
+        } else {
+            thumbHtml = '<span class="country-club-thumb-placeholder"></span>';
+        }
+
+        clubCardsHtml += `
+                <a href="/clubs/${club.id}.html" class="cat-country-card">
+                    ${thumbHtml}
+                    <div class="cat-country-info">
+                        <span class="cat-country-name">${club.name}</span>
+                        <span class="cat-country-meta">${metaText}</span>
+                    </div>
+                </a>`;
+    });
+
+    // SEO description
+    const topClubNames = topClubs.slice(0, 5).map(c => c.cleanName).join(', ');
+    const seoDescription = `StickerHunt features ${totalStickers} stickers from ${clubs.length} clubs in ${countryName}. The most collected clubs include ${topClubNames}. Each club page shows all stickers found, their map locations, and community ratings. Browse the complete ${countryName} collection and discover fan-spotted stickers from across the country.`;
+
+    // Schema
+    const schemaItems = clubsEnriched.map((club, i) => ({
         "@type": "ListItem", "position": i + 1,
-        "name": stripEmoji(club.name), "url": `${BASE_URL}/clubs/${club.id}.html`
+        "name": club.cleanName, "url": `${BASE_URL}/clubs/${club.id}.html`
     }));
     const schema = {
         "@context": "https://schema.org", "@type": "ItemList",
         "name": `Football clubs from ${countryName}`, "description": metaDescription,
         "url": canonicalUrl, "numberOfItems": clubs.length, "itemListElement": schemaItems
     };
-    if (topStickers.length > 0) {
-        schema.image = topStickers.slice(0, 3).map(s => ({
-            "@type": "ImageObject",
-            "contentUrl": cleanTrailingQuery(getOptimizedImageUrl(s.image_url)),
-            "thumbnailUrl": cleanTrailingQuery(getThumbnailUrl(s.image_url))
-        }));
-    }
     const schemaJsonLd = `<script type="application/ld+json">\n    ${JSON.stringify(schema, null, 2).split('\n').join('\n    ')}\n    </script>`;
 
     const data = {
         PAGE_TITLE: pageTitle, META_DESCRIPTION: metaDescription, META_KEYWORDS: keywords,
         CANONICAL_URL: canonicalUrl, OG_IMAGE: ogImage, COUNTRY_NAME: countryName,
-        CLUB_COUNT: clubs.length, BREADCRUMBS: breadcrumbs,
+        COUNTRY_FLAG: countryFlag,
+        CLUB_COUNT: clubs.length, TOTAL_STICKERS: totalStickers,
+        BREADCRUMBS: breadcrumbs,
         BREADCRUMB_SCHEMA: generateBreadcrumbSchema([
             { text: 'Catalogue', url: '/catalogue.html' },
             { text: countryName, url: `/countries/${countryCode.toUpperCase()}.html` }
         ]),
-        MAIN_HEADING: `${countryName} Football Stickers`,
-        FEATURED_STICKERS: featuredHtml, MULTILINGUAL_META: multilingualMeta,
-        SCHEMA_JSON_LD: schemaJsonLd, CLUB_LIST: clubListHtml
+        MOST_COLLECTED_SECTION: mostCollectedHtml,
+        CLUB_CARDS: clubCardsHtml,
+        SEO_DESCRIPTION: seoDescription,
+        MULTILINGUAL_META: multilingualMeta,
+        SCHEMA_JSON_LD: schemaJsonLd
     };
 
     const html = replacePlaceholders(template, data);

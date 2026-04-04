@@ -31,7 +31,7 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700&display=swap" rel="stylesheet">
 
     <link rel="stylesheet" href="/style.css?v=4">
 
@@ -69,32 +69,52 @@
          </div>
     </header>
 
-    <main class="container" id="catalogue-container">
-        <div id="catalogue-breadcrumbs">{{BREADCRUMBS}}</div>
+    <main>
+        <div id="catalogue-breadcrumbs" style="max-width:1100px;margin:0 auto;padding:12px 24px 0;">{{BREADCRUMBS}}</div>
 
-        <h1 id="main-catalogue-heading">{{MAIN_HEADING}}</h1>
-
-        {{FEATURED_STICKERS}}
-
-        <div id="catalogue-content">
-            <ul class="club-list">
-                {{CLUB_LIST}}
-            </ul>
+        <!-- Hero -->
+        <div class="cat-hero">
+            <h1>{{COUNTRY_FLAG}} {{COUNTRY_NAME}}</h1>
+            <p>Football stickers from {{COUNTRY_NAME}} clubs in the StickerHunt database</p>
+            <div class="hp-hero-stats">
+                <div><span class="hp-stat-num">{{CLUB_COUNT}}</span> clubs</div>
+                <div><span class="hp-stat-num">{{TOTAL_STICKERS}}</span> stickers</div>
+            </div>
         </div>
 
-        <nav class="site-nav">
-            <a href="/catalogue.html" class="btn btn-nav">Catalogue</a>
-            <a href="/map.html" class="btn btn-nav">Map</a>
-            <a href="/rating.html" class="btn btn-nav">Rating</a>
-            <a href="/quiz.html" class="btn btn-nav">Play Quiz</a>
-        </nav>
+        <hr class="cat-divider">
+
+        <!-- Most Collected -->
+        {{MOST_COLLECTED_SECTION}}
+
+        <!-- All Clubs -->
+        <div class="cat-section">
+            <div class="cat-section-header">
+                <h2>All Clubs</h2>
+                <span class="cat-section-meta">{{CLUB_COUNT}} clubs, alphabetical</span>
+            </div>
+            <div class="cat-country-grid">
+                {{CLUB_CARDS}}
+            </div>
+        </div>
+
+        <hr class="cat-divider">
+
+        <!-- SEO Description -->
+        <div class="cat-seo-text">
+            <h2>Football Stickers from {{COUNTRY_NAME}}</h2>
+            <p>{{SEO_DESCRIPTION}}</p>
+        </div>
     </main>
 
     <footer class="app-footer">
         <p>
             <a href="/about.html">About</a> |
-            <a href="/terms.html">Terms of Service</a> |
-            <a href="/privacy.html">Privacy Policy</a>
+            <a href="/catalogue.html">Catalogue</a> |
+            <a href="/clubs.html">All Clubs</a> |
+            <a href="/cities/">Cities</a> |
+            <a href="/terms.html">Terms</a> |
+            <a href="/privacy.html">Privacy</a>
         </p>
         <div style="display:flex;align-items:center;justify-content:center;gap:6px;margin-top:4px;opacity:0.5;"><img src="/logo.png" alt="StickerHunt" style="height:14px;width:auto;"> <span>&copy; 2026</span></div>
     </footer>

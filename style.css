@@ -3987,6 +3987,17 @@ body.daily-mode .game-info #timer {
 .cat-city-name { font-weight: 600; font-size: 0.9em; }
 .cat-city-count { font-size: 0.75em; color: var(--color-info-text); margin-top: 2px; }
 
+/* Country page club thumbnails */
+.country-club-thumb {
+    width: 44px; height: 44px; border-radius: 8px; object-fit: cover;
+    border: 1px solid #f0f0f0; flex-shrink: 0;
+}
+.country-club-thumb-placeholder { display: inline-block; width: 44px; height: 44px; flex-shrink: 0; }
+@media (max-width: 768px) {
+    .country-club-thumb { width: 36px; height: 36px; }
+    .country-club-thumb-placeholder { width: 36px; height: 36px; }
+}
+
 /* Catalogue SEO text block */
 .cat-seo-text { max-width: 680px; margin: 0 auto; padding: 40px 24px 40px; text-align: center; }
 .cat-seo-text p { font-size: 0.8em; line-height: 1.7; color: #999; margin: 0; }
