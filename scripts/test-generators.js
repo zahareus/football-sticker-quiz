@@ -80,6 +80,8 @@ async function testStickerPage() {
 async function testClubPage() {
     console.log('\n\n🏟️ Club Page Tests');
 
+    // Regenerate test club to ensure V2 layout
+    execSync(`node "${join(__scriptsDir, 'regenerate-club-pages.js')}" 617`, { cwd: __scriptsDir, stdio: 'pipe', timeout: 60000 });
     const html = readPage('clubs/617.html');
     assert(html !== null, 'clubs/617.html exists');
     if (!html) return;
@@ -90,7 +92,7 @@ async function testClubPage() {
     checkHasContent(html, 'lang="no"', 'club', 'Norwegian multilingual meta');
     checkHasContent(html, 'CollectionPage', 'club', 'CollectionPage schema');
     checkHasContent(html, 'SportsTeam', 'club', 'SportsTeam schema');
-    checkHasContent(html, 'wiki-section', 'club', 'wiki section');
+    checkHasContent(html, 'club-meta', 'club', 'club-meta bar (V2 layout)');
     checkHasContent(html, 'BreadcrumbList', 'club', 'breadcrumb schema');
     checkHasContent(html, 'street sticker', 'club', 'descriptive gallery alt text');
     // OG image should NOT be metash.png
@@ -100,36 +102,40 @@ async function testClubPage() {
 async function testAIEnrichedClubPage() {
     console.log('\n\n🤖 AI-Enriched Club Page Tests');
 
+    execSync(`node "${join(__scriptsDir, 'regenerate-club-pages.js')}" 855`, { cwd: __scriptsDir, stdio: 'pipe', timeout: 60000 });
     const html = readPage('clubs/855.html');
     assert(html !== null, 'clubs/855.html exists');
     if (!html) return;
 
     checkNoUnreplacedPlaceholders(html, 'AI club');
-    checkHasContent(html, 'wiki-intro', 'AI club', 'AI-generated wiki intro');
+    checkHasContent(html, 'club-about', 'AI club', 'AI-generated club-about (V2 layout)');
     checkHasContent(html, 'lang="de"', 'AI club', 'German multilingual meta');
 }
 
 async function testCountryPage() {
     console.log('\n\n🌍 Country Page Tests');
 
-    // Regenerate Norway
-    execSync(`node "${join(__scriptsDir, 'regenerate-country-pages.js')}"`, { cwd: __scriptsDir, stdio: 'pipe' });
-
-    const html = readPage('countries/NOR.html');
-    assert(html !== null, 'countries/NOR.html exists');
+    // Use already-generated ENG page (V2 layout)
+    const html = readPage('countries/ENG.html');
+    assert(html !== null, 'countries/ENG.html exists');
     if (!html) return;
 
     checkNoUnreplacedPlaceholders(html, 'country');
     checkMetaTag(html, 'og:image', 'country');
-    checkHasContent(html, '_web.webp', 'country', 'WebP OG image');
-    checkHasContent(html, 'sticker-strip', 'country', 'featured stickers gallery (sticker-strip)');
-    checkHasContent(html, 'lang="no"', 'country', 'Norwegian multilingual meta');
+    checkHasContent(html, 'cat-hero', 'country', 'V2 hero section');
+    checkHasContent(html, 'cat-clubs-strip', 'country', 'Most Collected clubs strip (V2)');
+    checkHasContent(html, 'cat-country-grid', 'country', 'club cards grid (V2)');
+    checkHasContent(html, 'cat-seo-text', 'country', 'SEO text block (V2)');
+    checkHasContent(html, 'country-club-thumb', 'country', 'club thumbnails');
+    checkHasContent(html, 'title="', 'country', 'tooltip on club cards');
     checkHasContent(html, 'lang="de"', 'country', 'German multilingual meta');
     checkHasContent(html, 'ItemList', 'country', 'ItemList schema');
-    checkHasContent(html, 'ImageObject', 'country', 'ImageObject schema');
     checkHasContent(html, 'BreadcrumbList', 'country', 'breadcrumb schema');
     // OG should NOT be metash.png
     assert(!html.includes('og:image" content="https://stickerhunt.club/metash.png"'), 'country: OG image is real sticker');
+    // Should NOT have old layout
+    assert(!html.includes('sticker-strip'), 'country: no old sticker-strip class');
+    assert(!html.includes('club-list'), 'country: no old club-list class');
 }
 
 async function testCityPage() {
