@@ -291,6 +291,37 @@ async function updateTotalCountriesCount() {
 }
 
 /**
+ * Fetch all rows from a table, paginating past Supabase 1000-row limit
+ * @param {string} table - Table name
+ * @param {string} selectStr - Select string
+ * @param {object} [filters] - Optional filters
+ * @returns {Promise<Array>} - All rows
+ */
+async function fetchAllRows(table, selectStr, filters) {
+    let allData = [];
+    let offset = 0;
+    const PAGE_SIZE = 1000;
+    while (true) {
+        let query = supabaseClient.from(table).select(selectStr).range(offset, offset + PAGE_SIZE - 1);
+        if (filters) {
+            for (const [key, value] of Object.entries(filters)) {
+                if (value === 'not.null') {
+                    query = query.not(key, 'is', null);
+                } else {
+                    query = query.eq(key, value);
+                }
+            }
+        }
+        const { data, error } = await query;
+        if (error || !data || data.length === 0) break;
+        allData = allData.concat(data);
+        if (data.length < PAGE_SIZE) break;
+        offset += PAGE_SIZE;
+    }
+    return allData;
+}
+
+/**
  * Load most collected clubs with their best-rated sticker thumbnail
  * @returns {string} - HTML string for popular clubs strip
  */
@@ -298,13 +329,10 @@ async function loadMostCollectedClubs() {
     if (!supabaseClient) return '';
 
     try {
-        // Get all stickers with club info and rating
-        const { data: stickers, error } = await supabaseClient
-            .from('stickers')
-            .select('id, image_url, rating, club_id, clubs(id, name, country)')
-            .not('image_url', 'is', null);
+        // Get ALL stickers with club info and rating (paginated past 1000 limit)
+        const stickers = await fetchAllRows('stickers', 'id, image_url, rating, club_id, clubs(id, name, country)', { image_url: 'not.null' });
 
-        if (error || !stickers || stickers.length === 0) return '';
+        if (!stickers || stickers.length === 0) return '';
 
         // Count stickers per club and find best-rated sticker for each
         const clubMap = {};
@@ -441,9 +469,10 @@ async function loadContinentsAndCountries() {
     }
     try {
         // Fetch clubs and sticker counts per country in parallel
-        const [clubsResult, stickersResult, clubsStripHtml] = await Promise.all([
+        // Use fetchAllRows for stickers to handle Supabase 1000-row limit
+        const [clubsResult, allStickers, clubsStripHtml] = await Promise.all([
             supabaseClient.from('clubs').select('id, country'),
-            supabaseClient.from('stickers').select('club_id'),
+            fetchAllRows('stickers', 'club_id'),
             loadMostCollectedClubs()
         ]);
 
@@ -455,14 +484,12 @@ async function loadContinentsAndCountries() {
             return;
         }
 
-        // Count stickers per club
+        // Count stickers per club (allStickers already paginated past 1000 limit)
         const stickerCountByClub = {};
-        if (stickersResult.data) {
-            stickersResult.data.forEach(s => {
-                stickerCountByClub[s.club_id] = (stickerCountByClub[s.club_id] || 0) + 1;
-            });
-        }
-        const totalStickers = stickersResult.data ? stickersResult.data.length : 0;
+        allStickers.forEach(s => {
+            stickerCountByClub[s.club_id] = (stickerCountByClub[s.club_id] || 0) + 1;
+        });
+        const totalStickers = allStickers.length;
 
         updateMetaDescription(`Browse ${totalStickers.toLocaleString()} football stickers from ${clubs.length} clubs across ${totalCountriesInCatalogue} countries. Find any club, country, or city.`);
 

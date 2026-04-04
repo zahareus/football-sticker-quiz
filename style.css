@@ -3990,7 +3990,7 @@ body.daily-mode .game-info #timer {
 /* Catalogue SEO text block */
 .cat-seo-text { max-width: 680px; margin: 0 auto; padding: 40px 24px 40px; text-align: center; }
 .cat-seo-text p { font-size: 0.8em; line-height: 1.7; color: #999; margin: 0; }
-.cat-seo-text h2 { font-size: 0.9em; font-weight: 600; margin-bottom: 10px; color: var(--color-info-text); }
+.cat-seo-text h2 { font-size: 0.9em; font-weight: 600; margin: 0 auto 10px; color: var(--color-info-text); text-align: center; }
 
 /* Catalogue responsive */
 @media (max-width: 768px) {
