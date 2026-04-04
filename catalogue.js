@@ -429,7 +429,7 @@ function routeContent() {
 async function loadContinentsAndCountries() {
     const contentDiv = document.getElementById('catalogue-content');
     contentDiv.innerHTML = '<p style="text-align:center;padding:40px;">Loading catalogue...</p>';
-    updateBreadcrumbs([{ text: 'Home', link: '/' }]);
+    updateBreadcrumbs([]);
 
     // Set canonical and meta for main catalogue page
     updateCanonicalUrl('https://stickerhunt.club/catalogue.html');
