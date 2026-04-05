@@ -199,7 +199,9 @@ jobs:
           for i in 1 2 3; do
             git push && break
             echo "Push failed (attempt $i), pulling with rebase..."
+            git stash --include-untracked || true
             git pull --rebase
+            git stash pop || true
           done
 
       - name: Output result
