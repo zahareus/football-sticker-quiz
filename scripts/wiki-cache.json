@@ -5904,5 +5904,14 @@
     "capacity": "6,009",
     "league": "Veikkausliiga",
     "website": "https://www.vepsu.fi/"
+  },
+  "1170": {
+    "wikiUrl": "https://en.wikipedia.org/wiki/Millwall_F.C.",
+    "intro": "Millwall Football Club () is a professional football club in Bermondsey, South East London, England. They compete in the EFL Championship, the second level of English football.",
+    "founded": "1885",
+    "stadium": "The Den",
+    "capacity": "20,146",
+    "league": "EFL Championship",
+    "website": "https://www.millwallfc.co.uk/"
   }
 }
