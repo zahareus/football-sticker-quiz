@@ -151,7 +151,7 @@
                                  loading="eager"
                                  fetchpriority="high">
                         </div>
-                        <div class="sticker-nav-buttons"><a href="/stickers/3221.html" class="btn btn-nav sticker-nav-btn">← #3221</a><span class="sticker-nav-placeholder"></span></div>
+                        <div class="sticker-nav-buttons"><a href="/stickers/3221.html" class="btn btn-nav sticker-nav-btn">← #3221</a><a href="/stickers/3223.html" class="btn btn-nav sticker-nav-btn">#3223 →</a></div>
                     </div>
 
                     <div class="sticker-detail-right-panel">
@@ -939,6 +939,19 @@
                 })();
 
                 (function() {
+                    L.marker([37.9839888888889, -0.661755555555556], {
+                        icon: L.icon({
+                            iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
+                            iconSize: [18, 30],
+                            iconAnchor: [9, 30],
+                            popupAnchor: [1, -25]
+                        }),
+                        opacity: 0.6
+                    }).addTo(map)
+                    .bindPopup('<div class="nearby-sticker-popup"><strong>Helsinborgs IF</strong><a href="/stickers/3232.html" class="map-popup-link">View</a></div>');
+                })();
+
+                (function() {
                     L.marker([37.9864527777778, -0.676008333333333], {
                         icon: L.icon({
                             iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
@@ -1157,6 +1170,19 @@
                         opacity: 0.6
                     }).addTo(map)
                     .bindPopup('<div class="nearby-sticker-popup"><strong>Real Sociedad</strong><a href="/stickers/3220.html" class="map-popup-link">View</a></div>');
+                })();
+
+                (function() {
+                    L.marker([37.9777361111111, -0.684972222222222], {
+                        icon: L.icon({
+                            iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
+                            iconSize: [18, 30],
+                            iconAnchor: [9, 30],
+                            popupAnchor: [1, -25]
+                        }),
+                        opacity: 0.6
+                    }).addTo(map)
+                    .bindPopup('<div class="nearby-sticker-popup"><strong>Malmö FF</strong><a href="/stickers/3223.html" class="map-popup-link">View</a></div>');
                 })();
 
                 (function() {

@@ -962,6 +962,19 @@
                 })();
 
                 (function() {
+                    L.marker([37.9839888888889, -0.661755555555556], {
+                        icon: L.icon({
+                            iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
+                            iconSize: [18, 30],
+                            iconAnchor: [9, 30],
+                            popupAnchor: [1, -25]
+                        }),
+                        opacity: 0.6
+                    }).addTo(map)
+                    .bindPopup('<div class="nearby-sticker-popup"><strong>Helsinborgs IF</strong><a href="/stickers/3232.html" class="map-popup-link">View</a></div>');
+                })();
+
+                (function() {
                     L.marker([37.9864527777778, -0.676008333333333], {
                         icon: L.icon({
                             iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
