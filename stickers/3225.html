@@ -151,7 +151,7 @@
                                  loading="eager"
                                  fetchpriority="high">
                         </div>
-                        <div class="sticker-nav-buttons"><a href="/stickers/3224.html" class="btn btn-nav sticker-nav-btn">← #3224</a><span class="sticker-nav-placeholder"></span></div>
+                        <div class="sticker-nav-buttons"><a href="/stickers/3224.html" class="btn btn-nav sticker-nav-btn">← #3224</a><a href="/stickers/3226.html" class="btn btn-nav sticker-nav-btn">#3226 →</a></div>
                     </div>
 
                     <div class="sticker-detail-right-panel">
@@ -219,8 +219,9 @@
 <a href="/stickers/3197.html" class="sticker-strip-item" title="🇫🇷 Angers SCO"><img src="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/club_647/1774860515228_IMG_8794_thumb.webp" alt="🇫🇷 Angers SCO" loading="lazy" decoding="async"></a>
 <a href="/stickers/3199.html" class="sticker-strip-item" title="🇫🇷 Olympique de Marseille"><img src="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/club_666/1774860565636_IMG_8799_thumb.webp" alt="🇫🇷 Olympique de Marseille" loading="lazy" decoding="async"></a>
 <a href="/stickers/3201.html" class="sticker-strip-item" title="🇫🇷 Racing Club de Lens"><img src="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/club_695/1774860648782_IMG_8800_thumb.webp" alt="🇫🇷 Racing Club de Lens" loading="lazy" decoding="async"></a>
-<a href="/stickers/3212.html" class="sticker-strip-item" title="🇫🇷 Angers SCO"><img src="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/club_647/1775418725405_IMG_8821_thumb.webp" alt="🇫🇷 Angers SCO" loading="lazy" decoding="async"></a>
-<a href="/stickers/3224.html" class="sticker-strip-item" title="🇫🇷 Angers SCO"><img src="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/club_647/1775419244955_IMG_8835_thumb.webp" alt="🇫🇷 Angers SCO" loading="lazy" decoding="async"></a>
+<a href="/stickers/3228.html" class="sticker-strip-item" title="🇫🇷 Paris Saint-Germain"><img src="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/club_657/1775419422997_IMG_8833_thumb.webp" alt="🇫🇷 Paris Saint-Germain" loading="lazy" decoding="async"></a>
+<a href="/stickers/3233.html" class="sticker-strip-item" title="🇫🇷 Angers SCO"><img src="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/club_647/1775419954965_IMG_8827_thumb.webp" alt="🇫🇷 Angers SCO" loading="lazy" decoding="async"></a>
+<a href="/stickers/3234.html" class="sticker-strip-item" title="🇫🇷 Angers SCO"><img src="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/club_647/1775419972230_IMG_8828_thumb.webp" alt="🇫🇷 Angers SCO" loading="lazy" decoding="async"></a>
 </div>
 </div>
             </div>
@@ -298,6 +299,45 @@
                 })();
 
                 (function() {
+                    L.marker([47.4730916666667, -0.54855], {
+                        icon: L.icon({
+                            iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
+                            iconSize: [18, 30],
+                            iconAnchor: [9, 30],
+                            popupAnchor: [1, -25]
+                        }),
+                        opacity: 0.6
+                    }).addTo(map)
+                    .bindPopup('<div class="nearby-sticker-popup"><strong>Paris Saint-Germain</strong><a href="/stickers/3228.html" class="map-popup-link">View</a></div>');
+                })();
+
+                (function() {
+                    L.marker([47.4711388888889, -0.552588888888889], {
+                        icon: L.icon({
+                            iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
+                            iconSize: [18, 30],
+                            iconAnchor: [9, 30],
+                            popupAnchor: [1, -25]
+                        }),
+                        opacity: 0.6
+                    }).addTo(map)
+                    .bindPopup('<div class="nearby-sticker-popup"><strong>Angers SCO</strong><a href="/stickers/3233.html" class="map-popup-link">View</a></div>');
+                })();
+
+                (function() {
+                    L.marker([47.4732805555556, -0.549525], {
+                        icon: L.icon({
+                            iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
+                            iconSize: [18, 30],
+                            iconAnchor: [9, 30],
+                            popupAnchor: [1, -25]
+                        }),
+                        opacity: 0.6
+                    }).addTo(map)
+                    .bindPopup('<div class="nearby-sticker-popup"><strong>Angers SCO</strong><a href="/stickers/3234.html" class="map-popup-link">View</a></div>');
+                })();
+
+                (function() {
                     L.marker([47.4725444444444, -0.553094444444444], {
                         icon: L.icon({
                             iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
@@ -344,6 +384,9 @@
                     [47.4665638888889, -0.556911111111111],
                     [47.4679083333333, -0.554994444444444],
                     [47.4679944444444, -0.554716666666667],
+                    [47.4730916666667, -0.54855],
+                    [47.4711388888889, -0.552588888888889],
+                    [47.4732805555556, -0.549525],
                     [47.4725444444444, -0.553094444444444],
                     [47.4730444444444, -0.550019444444445]
                 ]);

@@ -185,7 +185,7 @@
 
                             <div class="club-details-block club-mini-card">
 <p class="club-info-item">Est. 1943 · Ligue 1 · Stade de la Beaujoire</p>
-<p class="club-info-item"><a href="/clubs/701.html">View all 41 stickers from Nantes →</a></p>
+<p class="club-info-item"><a href="/clubs/701.html">View all 42 stickers from Nantes →</a></p>
 </div>
                             <p class="sticker-detail-rating" id="sticker-rating" data-sticker-id="3226" data-club-id="701" data-difficulty="2">
                                 <a href="/battle.html">Like Rate: <span id="rating-value">...</span> (<span id="rating-rank">#...</span>)</a>
@@ -805,6 +805,32 @@
                     .bindPopup('<div class="nearby-sticker-popup"><strong>Racing Club de Lens</strong><a href="/stickers/3189.html" class="map-popup-link">View</a></div>');
                 })();
 
+                (function() {
+                    L.marker([47.2150277777778, -1.54196944444444], {
+                        icon: L.icon({
+                            iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
+                            iconSize: [18, 30],
+                            iconAnchor: [9, 30],
+                            popupAnchor: [1, -25]
+                        }),
+                        opacity: 0.6
+                    }).addTo(map)
+                    .bindPopup('<div class="nearby-sticker-popup"><strong>AS Saint-Étienne</strong><a href="/stickers/3230.html" class="map-popup-link">View</a></div>');
+                })();
+
+                (function() {
+                    L.marker([47.2161722222222, -1.54191944444444], {
+                        icon: L.icon({
+                            iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
+                            iconSize: [18, 30],
+                            iconAnchor: [9, 30],
+                            popupAnchor: [1, -25]
+                        }),
+                        opacity: 0.6
+                    }).addTo(map)
+                    .bindPopup('<div class="nearby-sticker-popup"><strong>Nantes</strong><a href="/stickers/3231.html" class="map-popup-link">View</a></div>');
+                })();
+
                 // Current sticker — larger marker, opened popup
                 L.marker([47.2170361111111, -1.54552222222222], {
                     icon: L.icon({
@@ -864,7 +890,9 @@
                     [47.2566444444444, -1.526725],
                     [47.2584888888889, -1.52608055555556],
                     [47.2138666666667, -1.56025555555556],
-                    [47.2089277777778, -1.566575]
+                    [47.2089277777778, -1.566575],
+                    [47.2150277777778, -1.54196944444444],
+                    [47.2161722222222, -1.54191944444444]
                 ]);
                 map.fitBounds(bounds, { padding: [30, 30], maxZoom: 14 });
                 
