@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Alanya Football Stickers — 21 Stickers Found | StickerHunt</title>
-    <link rel="icon" href="/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="/favicon.ico?v=2" type="image/x-icon">
 
     <!-- SEO Meta Tags - Pre-rendered for better indexing -->
     <meta name="description" content="21 football stickers from 17 clubs found on streets of Alanya, Turkey. Browse the collection and see where they were found.">
@@ -48,7 +48,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-    <link rel="stylesheet" href="/style.css">
+    <link rel="stylesheet" href="/style.css?v=4">
 
     <!-- Leaflet.js for OpenStreetMap -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
@@ -143,7 +143,7 @@
         <div id="catalogue-content">
             <div class="wiki-section">
     <div class="wiki-facts">
-        <div class="wiki-fact"><span class="wiki-fact-label">Population</span><span class="wiki-fact-value">98 627</span></div>
+        <div class="wiki-fact"><span class="wiki-fact-label">Population</span><span class="wiki-fact-value">98,627</span></div>
     </div>
     <div class="wiki-intro">
         <p>Alanya, formerly Alaiye, is a beach resort city, a municipality and district of Antalya Province, Turkey.  It is on the southern coast of Turkey, in the country's Mediterranean Region, 133 kilometres (83 mi) east of the city of Antalya.</p>
@@ -227,13 +227,6 @@
                          loading="lazy"
                          decoding="async">
                 </a>
-                <a href="/stickers/2526.html" class="sticker-preview-link">
-                    <img src="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/club_469%2F1757194823179_IMG_6691_thumb.webp"
-                         alt="Galatasaray football sticker #2526 found in this city"
-                         class="sticker-preview-image"
-                         loading="lazy"
-                         decoding="async">
-                </a>
                 <a href="/stickers/2521.html" class="sticker-preview-link">
                     <img src="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/club_937%2F1757194647208_IMG_6692_thumb.webp"
                          alt="1 FC Köln football sticker #2521 found in this city"
@@ -297,6 +290,13 @@
                          loading="lazy"
                          decoding="async">
                 </a>
+                <a href="/stickers/2526.html" class="sticker-preview-link">
+                    <img src="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/club_469%2F1757194823179_IMG_6691_thumb.webp"
+                         alt="Galatasaray football sticker #2526 found in this city"
+                         class="sticker-preview-image"
+                         loading="lazy"
+                         decoding="async">
+                </a>
                 <a href="/stickers/2510.html" class="sticker-preview-link">
                     <img src="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/club_1082%2F1757194184172_IMG_6754_thumb.webp"
                          alt="Falubaz Zielona Góra football sticker #2510 found in this city"
@@ -331,7 +331,7 @@
             <a href="/terms.html">Terms of Service</a> |
             <a href="/privacy.html">Privacy Policy</a>
         </p>
-        <p>StickerHunt &copy; 2026</p>
+        <div style="display:flex;align-items:center;justify-content:center;gap:6px;margin-top:4px;opacity:0.5;"><img src="/logo.png" alt="StickerHunt" style="height:14px;width:auto;"> <span>&copy; 2026</span></div>
     </footer>
 
     <!-- Scripts -->
@@ -418,13 +418,6 @@
                 })();
 
                 (function() {
-                    const marker = L.marker([36.5273555555556, 32.046725]).addTo(cityMap);
-                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>Galatasaray</strong><a href="/stickers/2526.html" class="map-popup-link">View</a></div>');
-                    marker.on('mouseover', function() { this.openPopup(); });
-                    marker.on('click', function() { this.openPopup(); });
-                })();
-
-                (function() {
                     const marker = L.marker([36.5281638888889, 32.0461416666667]).addTo(cityMap);
                     marker.bindPopup('<div class="nearby-sticker-popup"><strong>1 FC Köln</strong><a href="/stickers/2521.html" class="map-popup-link">View</a></div>');
                     marker.on('mouseover', function() { this.openPopup(); });
@@ -488,6 +481,13 @@
                 })();
 
                 (function() {
+                    const marker = L.marker([36.5273555555556, 32.046725]).addTo(cityMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>Galatasaray</strong><a href="/stickers/2526.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
                     const marker = L.marker([36.5262111111111, 32.0511805555556]).addTo(cityMap);
                     marker.bindPopup('<div class="nearby-sticker-popup"><strong>Falubaz Zielona Góra</strong><a href="/stickers/2510.html" class="map-popup-link">View</a></div>');
                     marker.on('mouseover', function() { this.openPopup(); });
@@ -505,7 +505,6 @@
                     [36.5262361111111, 32.0511888888889],
                     [36.527125, 32.0497805555556],
                     [36.5258111111111, 32.0540666666667],
-                    [36.5273555555556, 32.046725],
                     [36.5281638888889, 32.0461416666667],
                     [36.5299333333333, 32.0447],
                     [36.5296944444444, 32.0447305555556],
@@ -515,6 +514,7 @@
                     [36.526975, 32.0473444444444],
                     [36.5272861111111, 32.0471277777778],
                     [36.5272444444444, 32.0490888888889],
+                    [36.5273555555556, 32.046725],
                     [36.5262111111111, 32.0511805555556]
                 ]);
                 cityMap.fitBounds(bounds, { padding: [30, 30], maxZoom: 15 });

@@ -4,10 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cities — Football Stickers Found Worldwide | StickerHunt</title>
-    <link rel="icon" href="/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="/favicon.ico?v=2" type="image/x-icon">
 
     <!-- SEO Meta Tags - Pre-rendered for better indexing -->
-    <meta name="description" content="Football stickers found in 25 cities worldwide. Browse 1008+ stickers by city location.">
+    <meta name="description" content="Football stickers found in 25 cities worldwide. Browse 1009+ stickers by city location.">
     <meta name="keywords" content="football stickers cities, sticker locations, street stickers map, football stickers worldwide">
     <link rel="canonical" href="https://stickerhunt.club/cities/">
     
@@ -16,7 +16,7 @@
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://stickerhunt.club/cities/">
     <meta property="og:title" content="Cities — Football Stickers Found Worldwide | StickerHunt">
-    <meta property="og:description" content="Football stickers found in 25 cities worldwide. Browse 1008+ stickers by city location.">
+    <meta property="og:description" content="Football stickers found in 25 cities worldwide. Browse 1009+ stickers by city location.">
     <meta property="og:image" content="https://stickerhunt.club/metash.png">
     <meta property="og:site_name" content="StickerHunt">
 
@@ -24,16 +24,16 @@
     <meta property="twitter:card" content="summary_large_image">
     <meta property="twitter:url" content="https://stickerhunt.club/cities/">
     <meta property="twitter:title" content="Cities — Football Stickers Found Worldwide | StickerHunt">
-    <meta property="twitter:description" content="Football stickers found in 25 cities worldwide. Browse 1008+ stickers by city location.">
+    <meta property="twitter:description" content="Football stickers found in 25 cities worldwide. Browse 1009+ stickers by city location.">
     <meta property="twitter:image" content="https://stickerhunt.club/metash.png">
     <meta property="twitter:site" content="@StickerHunting">
     <meta property="twitter:creator" content="@StickerHunting">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700&display=swap" rel="stylesheet">
 
-    <link rel="stylesheet" href="/style.css">
+    <link rel="stylesheet" href="/style.css?v=4">
 
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-4Y0MJKGDZS"></script>
     <script>
@@ -94,34 +94,54 @@
          </div>
     </header>
 
-    <main class="container" id="catalogue-container">
-        <div id="catalogue-breadcrumbs"><a href="/catalogue.html">Catalogue</a> &rarr; <a href="/cities/">Cities</a></div>
+    <main>
+        <div id="catalogue-breadcrumbs" style="max-width:1100px;margin:0 auto;padding:12px 24px 0;"><a href="/catalogue.html">Catalogue</a> &rarr; <a href="/cities/">Cities</a></div>
 
-        <h1 id="main-catalogue-heading">Cities — 1008 Football Stickers Found Worldwide</h1>
-
-        
-
-        <div id="catalogue-content">
-            <ul class="club-list">
-                <li><a href="/cities/amsterdam.html">Amsterdam, Netherlands (172 stickers)</a></li><li><a href="/cities/stuttgart.html">Stuttgart, Germany (88 stickers)</a></li><li><a href="/cities/brussels.html">Brussels, Belgium (78 stickers)</a></li><li><a href="/cities/prague.html">Prague, Czech Republic (71 stickers)</a></li><li><a href="/cities/torrevieja.html">Torrevieja, Spain (64 stickers)</a></li><li><a href="/cities/maastricht.html">Maastricht, Netherlands (62 stickers)</a></li><li><a href="/cities/the-hague.html">The Hague, Netherlands (58 stickers)</a></li><li><a href="/cities/delft.html">Delft, Netherlands (49 stickers)</a></li><li><a href="/cities/santiago-de-compostela.html">Santiago de Compostela, Spain (45 stickers)</a></li><li><a href="/cities/nantes.html">Nantes, France (41 stickers)</a></li><li><a href="/cities/cartagena.html">Cartagena, Spain (40 stickers)</a></li><li><a href="/cities/seville.html">Seville, Spain (39 stickers)</a></li><li><a href="/cities/vigo.html">Vigo, Spain (34 stickers)</a></li><li><a href="/cities/basel.html">Basel, Switzerland (34 stickers)</a></li><li><a href="/cities/a-coruna.html">A Coruna, Spain (25 stickers)</a></li><li><a href="/cities/budva.html">Budva, Montenegro (25 stickers)</a></li><li><a href="/cities/alanya.html">Alanya, Turkey (21 stickers)</a></li><li><a href="/cities/alicante.html">Alicante, Spain (17 stickers)</a></li><li><a href="/cities/haarlem.html">Haarlem, Netherlands (16 stickers)</a></li><li><a href="/cities/mulhouse.html">Mulhouse, France (12 stickers)</a></li><li><a href="/cities/lisbon.html">Lisbon, Portugal (5 stickers)</a></li><li><a href="/cities/bouguenais.html">Bouguenais, France (3 stickers)</a></li><li><a href="/cities/angers.html">Angers, France (3 stickers)</a></li><li><a href="/cities/elche.html">Elche, Spain (3 stickers)</a></li><li><a href="/cities/kammerstein.html">Kammerstein, Germany (3 stickers)</a></li>
-            </ul>
+        <!-- Hero -->
+        <div class="cat-hero">
+            <h1>{{COUNTRY_FLAG}} Cities</h1>
+            <p>Football stickers from Cities clubs in the StickerHunt database</p>
+            <div class="hp-hero-stats">
+                <div><span class="hp-stat-num">25</span> clubs</div>
+                <div><span class="hp-stat-num">{{TOTAL_STICKERS}}</span> stickers</div>
+            </div>
         </div>
 
-        <nav class="site-nav">
-            <a href="/catalogue.html" class="btn btn-nav">Catalogue</a>
-            <a href="/map.html" class="btn btn-nav">Map</a>
-            <a href="/rating.html" class="btn btn-nav">Rating</a>
-            <a href="/quiz.html" class="btn btn-nav">Play Quiz</a>
-        </nav>
+        <hr class="cat-divider">
+
+        <!-- Most Collected -->
+        {{MOST_COLLECTED_SECTION}}
+
+        <!-- All Clubs -->
+        <div class="cat-section">
+            <div class="cat-section-header">
+                <h2>All Clubs</h2>
+                <span class="cat-section-meta">25 clubs, alphabetical</span>
+            </div>
+            <div class="cat-country-grid">
+                {{CLUB_CARDS}}
+            </div>
+        </div>
+
+        <hr class="cat-divider">
+
+        <!-- SEO Description -->
+        <div class="cat-seo-text">
+            <h2>Football Stickers from Cities</h2>
+            <p>{{SEO_DESCRIPTION}}</p>
+        </div>
     </main>
 
     <footer class="app-footer">
         <p>
             <a href="/about.html">About</a> |
-            <a href="/terms.html">Terms of Service</a> |
-            <a href="/privacy.html">Privacy Policy</a>
+            <a href="/catalogue.html">Catalogue</a> |
+            <a href="/clubs.html">All Clubs</a> |
+            <a href="/cities/">Cities</a> |
+            <a href="/terms.html">Terms</a> |
+            <a href="/privacy.html">Privacy</a>
         </p>
-        <p>StickerHunt &copy; 2026</p>
+        <div style="display:flex;align-items:center;justify-content:center;gap:6px;margin-top:4px;opacity:0.5;"><img src="/logo.png" alt="StickerHunt" style="height:14px;width:auto;"> <span>&copy; 2026</span></div>
     </footer>
 
     <!-- Scripts -->

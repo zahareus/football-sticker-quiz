@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bouguenais Football Stickers — 3 Stickers Found | StickerHunt</title>
-    <link rel="icon" href="/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="/favicon.ico?v=2" type="image/x-icon">
 
     <!-- SEO Meta Tags - Pre-rendered for better indexing -->
     <meta name="description" content="3 football stickers from 2 clubs found on streets of Bouguenais, France. Browse the collection and see where they were found.">
@@ -48,7 +48,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-    <link rel="stylesheet" href="/style.css">
+    <link rel="stylesheet" href="/style.css?v=4">
 
     <!-- Leaflet.js for OpenStreetMap -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
@@ -143,7 +143,7 @@
         <div id="catalogue-content">
             <div class="wiki-section">
     <div class="wiki-facts">
-        <div class="wiki-fact"><span class="wiki-fact-label">Population</span><span class="wiki-fact-value">20 530</span></div>
+        <div class="wiki-fact"><span class="wiki-fact-label">Population</span><span class="wiki-fact-value">20,530</span></div>
     </div>
     <div class="wiki-intro">
         <p>Bouguenais is a commune in the Loire-Atlantique department in western France near Nantes.</p>
@@ -157,6 +157,13 @@
             </div>
             <div class="sticker-gallery">
                 
+                <a href="/stickers/3195.html" class="sticker-preview-link">
+                    <img src="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/club_666/1774789066873_IMG_86286_thumb.webp"
+                         alt="Olympique de Marseille football sticker #3195 found in this city"
+                         class="sticker-preview-image"
+                         loading="lazy"
+                         decoding="async">
+                </a>
                 <a href="/stickers/3191.html" class="sticker-preview-link">
                     <img src="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/club_666/1774788732464_IMG_86271_thumb.webp"
                          alt="Olympique de Marseille football sticker #3191 found in this city"
@@ -167,13 +174,6 @@
                 <a href="/stickers/3194.html" class="sticker-preview-link">
                     <img src="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/club_466/1774788996985_IMG_86261_thumb.webp"
                          alt="FC Zurich football sticker #3194 found in this city"
-                         class="sticker-preview-image"
-                         loading="lazy"
-                         decoding="async">
-                </a>
-                <a href="/stickers/3195.html" class="sticker-preview-link">
-                    <img src="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/club_666/1774789066873_IMG_86286_thumb.webp"
-                         alt="Olympique de Marseille football sticker #3195 found in this city"
                          class="sticker-preview-image"
                          loading="lazy"
                          decoding="async">
@@ -205,7 +205,7 @@
             <a href="/terms.html">Terms of Service</a> |
             <a href="/privacy.html">Privacy Policy</a>
         </p>
-        <p>StickerHunt &copy; 2026</p>
+        <div style="display:flex;align-items:center;justify-content:center;gap:6px;margin-top:4px;opacity:0.5;"><img src="/logo.png" alt="StickerHunt" style="height:14px;width:auto;"> <span>&copy; 2026</span></div>
     </footer>
 
     <!-- Scripts -->
@@ -216,11 +216,18 @@
         
         document.addEventListener('DOMContentLoaded', function() {
             if (typeof L !== 'undefined' && document.getElementById('club-map')) {
-                const cityMap = L.map('club-map').setView([47.157843518518526, -1.6009018518518499], 12);
+                const cityMap = L.map('club-map').setView([47.15784351851854, -1.6009018518518499], 12);
                 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                     attribution: '&copy; OpenStreetMap contributors'
                 }).addTo(cityMap);
                 
+                (function() {
+                    const marker = L.marker([47.1578361111111, -1.60094444444444]).addTo(cityMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>Olympique de Marseille</strong><a href="/stickers/3195.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
                 (function() {
                     const marker = L.marker([47.1578527777778, -1.60095833333333]).addTo(cityMap);
                     marker.bindPopup('<div class="nearby-sticker-popup"><strong>Olympique de Marseille</strong><a href="/stickers/3191.html" class="map-popup-link">View</a></div>');
@@ -234,18 +241,11 @@
                     marker.on('mouseover', function() { this.openPopup(); });
                     marker.on('click', function() { this.openPopup(); });
                 })();
-
-                (function() {
-                    const marker = L.marker([47.1578361111111, -1.60094444444444]).addTo(cityMap);
-                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>Olympique de Marseille</strong><a href="/stickers/3195.html" class="map-popup-link">View</a></div>');
-                    marker.on('mouseover', function() { this.openPopup(); });
-                    marker.on('click', function() { this.openPopup(); });
-                })();
                 
                 const bounds = L.latLngBounds([
+                    [47.1578361111111, -1.60094444444444],
                     [47.1578527777778, -1.60095833333333],
-                    [47.1578416666667, -1.60080277777778],
-                    [47.1578361111111, -1.60094444444444]
+                    [47.1578416666667, -1.60080277777778]
                 ]);
                 cityMap.fitBounds(bounds, { padding: [30, 30], maxZoom: 15 });
                 

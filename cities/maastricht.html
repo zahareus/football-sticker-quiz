@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Maastricht Football Stickers — 62 Stickers Found | StickerHunt</title>
-    <link rel="icon" href="/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="/favicon.ico?v=2" type="image/x-icon">
 
     <!-- SEO Meta Tags - Pre-rendered for better indexing -->
     <meta name="description" content="62 football stickers from 30 clubs found on streets of Maastricht, Netherlands. Browse the collection and see where they were found.">
@@ -48,7 +48,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-    <link rel="stylesheet" href="/style.css">
+    <link rel="stylesheet" href="/style.css?v=4">
 
     <!-- Leaflet.js for OpenStreetMap -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
@@ -143,7 +143,7 @@
         <div id="catalogue-content">
             <div class="wiki-section">
     <div class="wiki-facts">
-        <div class="wiki-fact"><span class="wiki-fact-label">Population</span><span class="wiki-fact-value">120 227</span></div>
+        <div class="wiki-fact"><span class="wiki-fact-label">Population</span><span class="wiki-fact-value">120,227</span></div>
     </div>
     <div class="wiki-intro">
         <p>Maastricht is a city and a municipality in the southeastern Netherlands.  It is the capital and largest city of the province of Limburg.</p>
@@ -230,13 +230,6 @@
                 <a href="/stickers/3007.html" class="sticker-preview-link">
                     <img src="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/club_761/1772970856138_IMG_7997_thumb.webp"
                          alt="PSV Eindhoven football sticker #3007 found in this city"
-                         class="sticker-preview-image"
-                         loading="lazy"
-                         decoding="async">
-                </a>
-                <a href="/stickers/3006.html" class="sticker-preview-link">
-                    <img src="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/club_1158/1772970815653_IMG_8001_thumb.webp"
-                         alt="Helmond Sport football sticker #3006 found in this city"
                          class="sticker-preview-image"
                          loading="lazy"
                          decoding="async">
@@ -465,6 +458,13 @@
                          loading="lazy"
                          decoding="async">
                 </a>
+                <a href="/stickers/3006.html" class="sticker-preview-link">
+                    <img src="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/club_1158/1772970815653_IMG_8001_thumb.webp"
+                         alt="Helmond Sport football sticker #3006 found in this city"
+                         class="sticker-preview-image"
+                         loading="lazy"
+                         decoding="async">
+                </a>
                 <a href="/stickers/2944.html" class="sticker-preview-link">
                     <img src="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/club_753/1769891242876_IMG_7908_thumb.webp"
                          alt="Hannover 96 football sticker #2944 found in this city"
@@ -618,7 +618,7 @@
             <a href="/terms.html">Terms of Service</a> |
             <a href="/privacy.html">Privacy Policy</a>
         </p>
-        <p>StickerHunt &copy; 2026</p>
+        <div style="display:flex;align-items:center;justify-content:center;gap:6px;margin-top:4px;opacity:0.5;"><img src="/logo.png" alt="StickerHunt" style="height:14px;width:auto;"> <span>&copy; 2026</span></div>
     </footer>
 
     <!-- Scripts -->
@@ -629,7 +629,7 @@
         
         document.addEventListener('DOMContentLoaded', function() {
             if (typeof L !== 'undefined' && document.getElementById('club-map')) {
-                const cityMap = L.map('club-map').setView([50.8491207437276, 5.695765860215055], 12);
+                const cityMap = L.map('club-map').setView([50.849120743727596, 5.6957658602150545], 12);
                 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                     attribution: '&copy; OpenStreetMap contributors'
                 }).addTo(cityMap);
@@ -707,13 +707,6 @@
                 (function() {
                     const marker = L.marker([50.8506555555556, 5.69126944444444]).addTo(cityMap);
                     marker.bindPopup('<div class="nearby-sticker-popup"><strong>PSV Eindhoven</strong><a href="/stickers/3007.html" class="map-popup-link">View</a></div>');
-                    marker.on('mouseover', function() { this.openPopup(); });
-                    marker.on('click', function() { this.openPopup(); });
-                })();
-
-                (function() {
-                    const marker = L.marker([50.8508638888889, 5.69388888888889]).addTo(cityMap);
-                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>Helmond Sport</strong><a href="/stickers/3006.html" class="map-popup-link">View</a></div>');
                     marker.on('mouseover', function() { this.openPopup(); });
                     marker.on('click', function() { this.openPopup(); });
                 })();
@@ -943,6 +936,13 @@
                 })();
 
                 (function() {
+                    const marker = L.marker([50.8508638888889, 5.69388888888889]).addTo(cityMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>Helmond Sport</strong><a href="/stickers/3006.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
                     const marker = L.marker([50.8496444444444, 5.69991111111111]).addTo(cityMap);
                     marker.bindPopup('<div class="nearby-sticker-popup"><strong>Hannover 96</strong><a href="/stickers/2944.html" class="map-popup-link">View</a></div>');
                     marker.on('mouseover', function() { this.openPopup(); });
@@ -1080,7 +1080,6 @@
                     [50.8494416666667, 5.69726388888889],
                     [50.8495361111111, 5.69876111111111],
                     [50.8506555555556, 5.69126944444444],
-                    [50.8508638888889, 5.69388888888889],
                     [50.8495638888889, 5.70005277777778],
                     [50.8469277777778, 5.69194166666667],
                     [50.8498611111111, 5.7036],
@@ -1113,6 +1112,7 @@
                     [50.8493305555556, 5.69308333333333],
                     [50.8498277777778, 5.69476666666667],
                     [50.8501694444444, 5.69415277777778],
+                    [50.8508638888889, 5.69388888888889],
                     [50.8496444444444, 5.69991111111111],
                     [50.8467972222222, 5.69159166666667],
                     [50.8472555555556, 5.69346111111111],
