@@ -5895,5 +5895,14 @@
     "capacity": "21,684",
     "league": "Ligue 2",
     "website": "http://www.stade-de-reims.com"
+  },
+  "1169": {
+    "wikiUrl": "https://en.wikipedia.org/wiki/Vaasan_Palloseura",
+    "intro": "Vaasan Palloseura, commonly known as VPS, is a Finnish football club, based in Vaasa. It currently plays in the first tier of Finnish football (Veikkausliiga).",
+    "founded": "1924",
+    "stadium": "Hietalahti Stadium",
+    "capacity": "6,009",
+    "league": "Veikkausliiga",
+    "website": "https://www.vepsu.fi/"
   }
 }
