@@ -151,7 +151,7 @@
                                  loading="eager"
                                  fetchpriority="high">
                         </div>
-                        <div class="sticker-nav-buttons"><a href="/stickers/3226.html" class="btn btn-nav sticker-nav-btn">← #3226</a><span class="sticker-nav-placeholder"></span></div>
+                        <div class="sticker-nav-buttons"><a href="/stickers/3226.html" class="btn btn-nav sticker-nav-btn">← #3226</a><a href="/stickers/3228.html" class="btn btn-nav sticker-nav-btn">#3228 →</a></div>
                     </div>
 
                     <div class="sticker-detail-right-panel">
@@ -185,7 +185,7 @@
 
                             <div class="club-details-block club-mini-card">
 <p class="club-info-item">Est. 1899 · Ligue 1 · Stade Vélodrome</p>
-<p class="club-info-item"><a href="/clubs/666.html">View all 23 stickers from Olympique de Marseille →</a></p>
+<p class="club-info-item"><a href="/clubs/666.html">View all 24 stickers from Olympique de Marseille →</a></p>
 </div>
                             <p class="sticker-detail-rating" id="sticker-rating" data-sticker-id="3227" data-club-id="666" data-difficulty="2">
                                 <a href="/battle.html">Like Rate: <span id="rating-value">...</span> (<span id="rating-rank">#...</span>)</a>
@@ -219,6 +219,7 @@
 <a href="/stickers/3195.html" class="sticker-strip-item" title="🇫🇷 Olympique de Marseille"><img src="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/club_666/1774789066873_IMG_86286_thumb.webp" alt="🇫🇷 Olympique de Marseille" loading="lazy" decoding="async"></a>
 <a href="/stickers/3191.html" class="sticker-strip-item" title="🇫🇷 Olympique de Marseille"><img src="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/club_666/1774788732464_IMG_86271_thumb.webp" alt="🇫🇷 Olympique de Marseille" loading="lazy" decoding="async"></a>
 <a href="/stickers/3194.html" class="sticker-strip-item" title="🇨🇭 FC Zurich"><img src="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/club_466/1774788996985_IMG_86261_thumb.webp" alt="🇨🇭 FC Zurich" loading="lazy" decoding="async"></a>
+<a href="/stickers/3229.html" class="sticker-strip-item" title="🇫🇷 Olympique de Marseille"><img src="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/club_666/1775419701880_IMG_8882_thumb.webp" alt="🇫🇷 Olympique de Marseille" loading="lazy" decoding="async"></a>
 </div>
 </div>
             </div>
@@ -295,6 +296,19 @@
                     .bindPopup('<div class="nearby-sticker-popup"><strong>FC Zurich</strong><a href="/stickers/3194.html" class="map-popup-link">View</a></div>');
                 })();
 
+                (function() {
+                    L.marker([47.1579861111111, -1.60199722222222], {
+                        icon: L.icon({
+                            iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
+                            iconSize: [18, 30],
+                            iconAnchor: [9, 30],
+                            popupAnchor: [1, -25]
+                        }),
+                        opacity: 0.6
+                    }).addTo(map)
+                    .bindPopup('<div class="nearby-sticker-popup"><strong>Olympique de Marseille</strong><a href="/stickers/3229.html" class="map-popup-link">View</a></div>');
+                })();
+
                 // Current sticker — larger marker, opened popup
                 L.marker([47.1578361111111, -1.60094444444444], {
                     icon: L.icon({
@@ -315,7 +329,8 @@
                     [47.1578361111111, -1.60094444444444],
                     [47.1578361111111, -1.60094444444444],
                     [47.1578527777778, -1.60095833333333],
-                    [47.1578416666667, -1.60080277777778]
+                    [47.1578416666667, -1.60080277777778],
+                    [47.1579861111111, -1.60199722222222]
                 ]);
                 map.fitBounds(bounds, { padding: [30, 30], maxZoom: 14 });
                 
