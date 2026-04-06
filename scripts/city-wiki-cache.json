@@ -130,5 +130,23 @@
     "population": 3071,
     "country": "Germany",
     "wikiUrl": "https://en.wikipedia.org/wiki/Kammerstein"
+  },
+  "Nantes": {
+    "intro": "Nantes is a city in the Loire-Atlantique department of France on the Loire, 50 km (31 mi) from the Atlantic coast.  The city is the sixth largest in France, with a population of 327,734 in Nantes proper (2023) and a metropolitan area of over 1 million inhabitants (2022).",
+    "population": 327734,
+    "country": "France",
+    "wikiUrl": "https://en.wikipedia.org/wiki/Nantes"
+  },
+  "Bouguenais": {
+    "intro": "Bouguenais is a commune in the Loire-Atlantique department in western France near Nantes.",
+    "population": 20530,
+    "country": "France",
+    "wikiUrl": "https://en.wikipedia.org/wiki/Bouguenais"
+  },
+  "Angers": {
+    "intro": "Angers is a city in western France, about 300 km (190 mi) southwest of Paris.  It is the prefecture of the Maine-et-Loire department and was the capital of the province of Anjou until the French Revolution.",
+    "population": 159022,
+    "country": "West Francia",
+    "wikiUrl": "https://en.wikipedia.org/wiki/Angers"
   }
 }

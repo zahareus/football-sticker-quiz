@@ -1305,6 +1305,26 @@ async function generateAllPages() {
         console.log(`   ${join(PROJECT_ROOT, 'clubs')}/*.html`);
         console.log(`   ${join(PROJECT_ROOT, 'countries')}/*.html`);
 
+        // Auto-update docs with current stats
+        try {
+            const docsArchPath = join(PROJECT_ROOT, 'docs', 'architecture.md');
+            if (existsSync(docsArchPath)) {
+                let docsContent = readFileSync(docsArchPath, 'utf-8');
+                const totalStickers = stickers.length;
+                const totalClubs = clubs.length;
+                const totalCountries = Object.keys(clubsByCountry).length;
+                const updatedBlock = `<!-- AUTO-UPDATED by generate-static-pages.js -->\n- **Stickers:** ${totalStickers}\n- **Clubs:** ${totalClubs}\n- **Countries:** ${totalCountries}\n- **Cities:** 22+\n<!-- /AUTO-UPDATED -->`;
+                docsContent = docsContent.replace(
+                    /<!-- AUTO-UPDATED by generate-static-pages\.js -->[\s\S]*?<!-- \/AUTO-UPDATED -->/,
+                    updatedBlock
+                );
+                writeFileSync(docsArchPath, docsContent);
+                console.log(`\n📝 Updated docs/architecture.md (${totalStickers} stickers, ${totalClubs} clubs, ${totalCountries} countries)`);
+            }
+        } catch (docErr) {
+            console.warn('  ⚠ Could not update docs:', docErr.message);
+        }
+
     } catch (error) {
         console.error('❌ Fatal error:', error);
         process.exit(1);
