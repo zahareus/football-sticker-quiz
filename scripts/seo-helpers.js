@@ -5,7 +5,28 @@
  */
 
 import { readFileSync, existsSync } from 'fs';
-import { join } from 'path';
+import { join, dirname } from 'path';
+import { fileURLToPath } from 'url';
+import { createClient } from '@supabase/supabase-js';
+import dotenv from 'dotenv';
+
+// Load .env from scripts directory
+const __seoHelpersDir = dirname(fileURLToPath(import.meta.url));
+dotenv.config({ path: join(__seoHelpersDir, '.env') });
+
+// ─── Supabase Client Factory ────────────────────────────────────────────────
+
+export function createSupabaseClient() {
+    const SUPABASE_URL = process.env.SUPABASE_URL || 'https://rbmeslzlbsolkxnvesqb.supabase.co';
+    const SUPABASE_ANON_KEY = process.env.SUPABASE_ANON_KEY;
+
+    if (!SUPABASE_ANON_KEY) {
+        console.error('SUPABASE_ANON_KEY not set. Create scripts/.env or set environment variable.');
+        process.exit(1);
+    }
+
+    return createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+}
 
 // ─── Country Names ───────────────────────────────────────────────────────────
 
@@ -144,6 +165,29 @@ export function stripEmoji(str) {
     return str.replace(/[\u{1F000}-\u{1FFFF}\u{2600}-\u{26FF}\u{2700}-\u{27BF}\u{1F900}-\u{1F9FF}\u{1FA00}-\u{1FAFF}\u{FE00}-\u{FE0F}\u{1F1E0}-\u{1F1FF}]/gu, '').trim();
 }
 
+export function escapeHtml(str) {
+    if (!str || typeof str !== 'string') return str ?? '';
+    return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+}
+
+export function parseMediaKeywords(mediaString) {
+    if (!mediaString) return [];
+    const hashtags = mediaString.match(/#\w+/g);
+    if (!hashtags) return [];
+    return hashtags.map(h => h.replace('#', ''));
+}
+
+export function buildClubKeywords(clubNameClean, countryName, mediaString) {
+    let keywords = `${clubNameClean} stickers, ${clubNameClean} football stickers, identify ${clubNameClean} sticker, ${countryName} football stickers, football sticker database`;
+    if (mediaString) {
+        const mediaKeywords = parseMediaKeywords(mediaString);
+        if (mediaKeywords.length > 0) {
+            keywords += ', ' + mediaKeywords.join(', ');
+        }
+    }
+    return keywords;
+}
+
 // ─── Template Utilities ──────────────────────────────────────────────────────
 
 export function loadTemplate(templateName, projectRoot) {
@@ -263,7 +307,7 @@ export function generateFeaturedGallery(topStickers, clubsMap = {}, heading = 'T
             context: 'country',
             countryName: countryName
         });
-        html += `\n<a href="/stickers/${sticker.id}.html" class="sticker-strip-item" title="${clubName}"><img src="${thumbUrl}" alt="${altText}" class="featured-sticker-image" loading="lazy" decoding="async"></a>`;
+        html += `\n<a href="/stickers/${sticker.id}.html" class="sticker-strip-item" title="${escapeHtml(clubName)}"><img src="${thumbUrl}" alt="${escapeHtml(altText)}" class="featured-sticker-image" loading="lazy" decoding="async"></a>`;
     });
     html += '\n</div>\n</div>';
     return html;
@@ -384,7 +428,7 @@ export function generateMultilingualMeta({ type, countryCode, vars }) {
         const templates = META_TEMPLATES[lang];
         if (!templates || !templates[type]) continue;
         const content = fillTemplate(templates[type], vars);
-        html += `\n    <meta name="description" lang="${lang}" content="${content.replace(/"/g, '&quot;')}">`;
+        html += `\n    <meta name="description" lang="${lang}" content="${escapeHtml(content)}">`;
     }
 
     // OG locale alternates

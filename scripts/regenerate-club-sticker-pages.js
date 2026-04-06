@@ -9,17 +9,13 @@
  * Example: node regenerate-club-sticker-pages.js 123
  */
 
-import { createClient } from '@supabase/supabase-js';
 import { execSync } from 'child_process';
 import { dirname, join } from 'path';
 import { fileURLToPath } from 'url';
-import dotenv from 'dotenv';
+
+import { createSupabaseClient } from './seo-helpers.js';
 
 const __scriptsDir = dirname(fileURLToPath(import.meta.url));
-dotenv.config({ path: join(__scriptsDir, '.env') });
-
-const SUPABASE_URL = process.env.SUPABASE_URL || "https://rbmeslzlbsolkxnvesqb.supabase.co";
-const SUPABASE_ANON_KEY = process.env.SUPABASE_ANON_KEY;
 
 const clubId = parseInt(process.argv[2] || process.env.CLUB_ID);
 
@@ -28,7 +24,7 @@ if (!clubId || isNaN(clubId)) {
     process.exit(0);
 }
 
-const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+const supabase = createSupabaseClient();
 
 async function main() {
     console.log(`🔄 Regenerating sticker pages for club ID: ${clubId}\n`);

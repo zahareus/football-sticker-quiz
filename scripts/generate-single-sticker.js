@@ -9,29 +9,23 @@
  * Environment: STICKER_ID can also be passed as env variable
  */
 
-import { createClient } from '@supabase/supabase-js';
 import { readFileSync, writeFileSync, mkdirSync, existsSync } from 'fs';
 import { join, dirname } from 'path';
 import { fileURLToPath } from 'url';
-import dotenv from 'dotenv';
 
 import {
+    createSupabaseClient,
     COUNTRY_NAMES, getCountryName as _getCountryName,
     getOptimizedImageUrl as _getOptimizedImageUrl, getThumbnailUrl as _getThumbnailUrl,
     getDetailImageUrl as _getDetailImageUrl, cleanTrailingQuery as _cleanTrailingQuery,
-    stripEmoji as _stripEmoji, loadTemplate as _loadTemplate, replacePlaceholders as _replacePlaceholders,
+    stripEmoji as _stripEmoji, escapeHtml, loadTemplate as _loadTemplate, replacePlaceholders as _replacePlaceholders,
     generateBreadcrumbs as _generateBreadcrumbs, generateBreadcrumbSchema as _generateBreadcrumbSchema,
     selectTopRatedStickers, generateDescriptiveAltText, generateMultilingualMeta,
-    generateFeaturedGallery, fetchAllPaginated
+    generateFeaturedGallery, fetchAllPaginated,
+    buildClubKeywords as _buildClubKeywords
 } from './seo-helpers.js';
 
-// Load environment variables from scripts dir
-const __scriptsDir = dirname(fileURLToPath(import.meta.url));
-dotenv.config({ path: join(__scriptsDir, '.env') });
-
 // Configuration
-const SUPABASE_URL = process.env.SUPABASE_URL || "https://rbmeslzlbsolkxnvesqb.supabase.co";
-const SUPABASE_ANON_KEY = process.env.SUPABASE_ANON_KEY || "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJibWVzbHpsYnNvbGt4bnZlc3FiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDUwODcxMzYsImV4cCI6MjA2MDY2MzEzNn0.cu-Qw0WoEslfKXXCiMocWFg6Uf1sK_cQYcyP2mT0-Nw";
 const BASE_URL = "https://stickerhunt.club";
 
 // Get script directory and project root
@@ -52,7 +46,7 @@ if (!stickerId || isNaN(stickerId)) {
 console.log(`🚀 Generating pages for sticker #${stickerId}...\n`);
 
 // Initialize Supabase client
-const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+const supabase = createSupabaseClient();
 
 // Load wiki cache
 let wikiCache = {};
@@ -170,6 +164,7 @@ const getThumbnailUrl = _getThumbnailUrl;
 const getCountryName = _getCountryName;
 const cleanTrailingQuery = _cleanTrailingQuery;
 const stripEmoji = _stripEmoji;
+const buildClubKeywords = _buildClubKeywords;
 
 function loadTemplate(templateName) {
     return _loadTemplate(templateName, PROJECT_ROOT);
@@ -193,18 +188,18 @@ function generateWikiSection(clubId, club, countryName) {
     const metaItems = [];
     if (club.city) {
         const countryLink = `<a href="/countries/${club.country.toUpperCase()}.html">${countryName}</a>`;
-        metaItems.push(`<span class="club-meta-item">${club.city}, ${countryLink}</span>`);
+        metaItems.push(`<span class="club-meta-item">${escapeHtml(club.city)}, ${countryLink}</span>`);
     }
-    if (wiki?.founded) metaItems.push(`<span class="club-meta-item">Founded <strong>${wiki.founded}</strong></span>`);
+    if (wiki?.founded) metaItems.push(`<span class="club-meta-item">Founded <strong>${escapeHtml(wiki.founded)}</strong></span>`);
     if (wiki?.stadium) {
-        const cap = wiki.capacity ? ` (${wiki.capacity.toLocaleString()})` : '';
-        metaItems.push(`<span class="club-meta-item">Stadium <strong>${wiki.stadium}</strong>${cap}</span>`);
+        const cap = wiki.capacity ? ` (${escapeHtml(String(wiki.capacity))})` : '';
+        metaItems.push(`<span class="club-meta-item">Stadium <strong>${escapeHtml(wiki.stadium)}</strong>${cap}</span>`);
     }
-    if (wiki?.league) metaItems.push(`<span class="club-meta-item">League <strong>${wiki.league}</strong></span>`);
+    if (wiki?.league) metaItems.push(`<span class="club-meta-item">League <strong>${escapeHtml(wiki.league)}</strong></span>`);
     if (wiki?.website) {
         try {
             const domain = new URL(wiki.website).hostname.replace('www.', '');
-            metaItems.push(`<span class="club-meta-item"><a href="${wiki.website}" target="_blank" rel="noopener noreferrer">${domain}</a></span>`);
+            metaItems.push(`<span class="club-meta-item"><a href="${wiki.website}" target="_blank" rel="noopener noreferrer">${escapeHtml(domain)}</a></span>`);
         } catch {}
     }
 
@@ -215,7 +210,7 @@ function generateWikiSection(clubId, club, countryName) {
 
     // Wiki intro as clean text
     if (wiki?.intro && wiki.intro.trim().length > 0) {
-        html += `\n<div class="club-about">\n    <p>${wiki.intro}</p>`;
+        html += `\n<div class="club-about">\n    <p>${escapeHtml(wiki.intro)}</p>`;
         if (wiki.wikiUrl) {
             html += `\n    <p class="club-about-source">Source: <a href="${wiki.wikiUrl}" target="_blank" rel="noopener noreferrer">Wikipedia</a></p>`;
         } else if (wiki.source === 'ai') {
@@ -301,8 +296,8 @@ function generateSchemaJsonLd(club, stickers, canonicalUrl, metaDescription, pag
 function generateClubDescription(club, stickerCount, countryName) {
     const clubNameClean = stripEmoji(club.name);
     const stickerWord = stickerCount !== 1 ? 'stickers' : 'sticker';
-    let desc = `<div class="club-description-text"><p>${clubNameClean} is a football club from ${countryName}`;
-    if (club.city) desc += `, based in ${club.city}`;
+    let desc = `<div class="club-description-text"><p>${escapeHtml(clubNameClean)} is a football club from ${escapeHtml(countryName)}`;
+    if (club.city) desc += `, based in ${escapeHtml(club.city)}`;
     desc += `. Our database contains <strong>${stickerCount} ${stickerWord}</strong> from ${clubNameClean}`;
     if (stickerCount > 0) {
         desc += `. Browse the full collection below or <a href="/quiz.html">play the quiz</a> to identify a specific sticker`;
@@ -338,9 +333,9 @@ function generateClubMiniCard(club, stickerCount) {
 
     if (wiki) {
         const facts = [];
-        if (wiki.founded) facts.push(`Est. ${wiki.founded}`);
-        if (wiki.league) facts.push(wiki.league);
-        if (wiki.stadium) facts.push(wiki.stadium);
+        if (wiki.founded) facts.push(`Est. ${escapeHtml(wiki.founded)}`);
+        if (wiki.league) facts.push(escapeHtml(wiki.league));
+        if (wiki.stadium) facts.push(escapeHtml(wiki.stadium));
         if (facts.length > 0) {
             items.push(`<p class="club-info-item">${facts.join(' · ')}</p>`);
         }
@@ -374,7 +369,7 @@ function generateNearbyStickers(currentSticker, nearbyStickers) {
     let html = '<div class="nearby-stickers-section">\n<h3>Also found in ' + city + '</h3>\n<div class="sticker-strip">';
     shown.forEach(s => {
         const thumbUrl = s.image_url ? getThumbnailUrl(s.image_url) : '';
-        html += `\n<a href="/stickers/${s.id}.html" class="sticker-strip-item" title="${s.clubName}"><img src="${thumbUrl}" alt="${s.clubName}" loading="lazy" decoding="async"></a>`;
+        html += `\n<a href="/stickers/${s.id}.html" class="sticker-strip-item" title="${escapeHtml(s.clubName)}"><img src="${thumbUrl}" alt="${escapeHtml(s.clubName)}" loading="lazy" decoding="async"></a>`;
     });
     html += '\n</div>\n</div>';
     return html;
@@ -543,9 +538,9 @@ function generateClubInfo(club) {
     if (club.web) {
         let safeUrl;
         try { safeUrl = encodeURI(decodeURI(club.web)); } catch { safeUrl = club.web; }
-        items.push(`<span class="club-stat-tag">🌐 <a href="${safeUrl}" target="_blank" rel="noopener noreferrer">${club.web}</a></span>`);
+        items.push(`<span class="club-stat-tag">🌐 <a href="${safeUrl}" target="_blank" rel="noopener noreferrer">${escapeHtml(club.web)}</a></span>`);
     }
-    if (club.media) items.push(`<span class="club-stat-tag">#️⃣ ${club.media}</span>`);
+    if (club.media) items.push(`<span class="club-stat-tag">#️⃣ ${escapeHtml(club.media)}</span>`);
     if (items.length === 0) return '';
     return `<div class="club-stats">${items.join('\n')}</div>`;
 }
@@ -564,7 +559,7 @@ function generateStickerGallery(stickers, clubName, countryName) {
         html += `
                 <a href="/stickers/${sticker.id}.html" class="sticker-preview-link">
                     <img src="${thumbnailUrl}"
-                         alt="${altText}"
+                         alt="${escapeHtml(altText)}"
                          class="sticker-preview-image"
                          loading="lazy"
                          decoding="async">
@@ -636,17 +631,11 @@ async function generateStickerPage(sticker, club, prevStickerId, nextStickerId, 
 
     const countryName = getCountryName(club.country);
     const clubNameClean = stripEmoji(club.name);
-    const pageTitle = `${clubNameClean} Sticker #${sticker.id} — Identify This Football Sticker | StickerHunt`;
-    const metaDescription = `Football sticker #${sticker.id} from ${clubNameClean}, ${countryName}. Can you identify this ${clubNameClean} sticker? Browse our collection.`;
+    const pageTitle = `${escapeHtml(clubNameClean)} Sticker #${sticker.id} — Identify This Football Sticker | StickerHunt`;
+    const metaDescription = `Football sticker #${sticker.id} from ${escapeHtml(clubNameClean)}, ${escapeHtml(countryName)}. Can you identify this ${escapeHtml(clubNameClean)} sticker? Browse our collection.`;
     const canonicalUrl = `${BASE_URL}/stickers/${sticker.id}.html`;
 
-    let keywords = `football stickers, ${club.name}, ${countryName}, panini, sticker collection`;
-    if (club.media) {
-        const cleanMedia = club.media.replace(/[#\uD800-\uDFFF]/g, '').trim();
-        if (cleanMedia) {
-            keywords += ', ' + cleanMedia;
-        }
-    }
+    const keywords = buildClubKeywords(clubNameClean, countryName, club.media);
 
     const breadcrumbs = generateBreadcrumbs([
         { text: 'Catalogue', url: '/catalogue.html' },
@@ -725,18 +714,12 @@ async function generateClubPage(club, stickers, allClubsInCountry, stickerCounts
     const clubNameClean = stripEmoji(club.name);
     const stickerCount = stickers ? stickers.length : 0;
     const stickerWord = stickerCount !== 1 ? 'stickers' : 'sticker';
-    const pageTitle = `${clubNameClean} Stickers — ${stickerCount} ${stickerWord.charAt(0).toUpperCase() + stickerWord.slice(1)} | StickerHunt`;
-    const cityPart = club.city ? ` from ${club.city},` : ' from';
-    const metaDescription = `${clubNameClean} —${cityPart} ${countryName}. ${stickerCount} football ${stickerWord} found on streets. Can you identify them? Browse the collection at StickerHunt.`;
+    const pageTitle = `${escapeHtml(clubNameClean)} Stickers — ${stickerCount} ${stickerWord.charAt(0).toUpperCase() + stickerWord.slice(1)} | StickerHunt`;
+    const cityPart = club.city ? ` from ${escapeHtml(club.city)},` : ' from';
+    const metaDescription = `${escapeHtml(clubNameClean)} —${cityPart} ${escapeHtml(countryName)}. ${stickerCount} football ${stickerWord} found on streets. Can you identify them? Browse the collection at StickerHunt.`;
     const canonicalUrl = `${BASE_URL}/clubs/${club.id}.html`;
 
-    let keywords = `football stickers, ${club.name}, ${countryName}, panini, sticker collection`;
-    if (club.media) {
-        const cleanMedia = club.media.replace(/[#\uD800-\uDFFF]/g, '').trim();
-        if (cleanMedia) {
-            keywords += ', ' + cleanMedia;
-        }
-    }
+    const keywords = buildClubKeywords(clubNameClean, countryName, club.media);
 
     const breadcrumbs = generateBreadcrumbs([
         { text: 'Catalogue', url: '/catalogue.html' },
@@ -825,10 +808,10 @@ async function generateCountryPage(countryCode, clubs, stickerCountsByClub, coun
     const countryName = getCountryName(countryCode);
     const countryFlag = COUNTRY_FLAGS[countryCode.toUpperCase()] || '';
     const totalStickers = clubs.reduce((sum, club) => sum + (stickerCountsByClub[club.id] || 0), 0);
-    const pageTitle = `${countryName} Football Stickers — ${clubs.length} Clubs, ${totalStickers} Stickers | StickerHunt`;
-    const metaDescription = `Browse ${totalStickers} football stickers from ${clubs.length} clubs in ${countryName}. Find stickers from ${countryName} clubs in the StickerHunt database.`;
+    const pageTitle = `${escapeHtml(countryName)} Football Stickers — ${clubs.length} Clubs, ${totalStickers} Stickers | StickerHunt`;
+    const metaDescription = `Browse ${totalStickers} football stickers from ${clubs.length} clubs in ${escapeHtml(countryName)}. Find stickers from ${escapeHtml(countryName)} clubs in the StickerHunt database.`;
     const canonicalUrl = `${BASE_URL}/countries/${countryCode.toUpperCase()}.html`;
-    const keywords = `${countryName} football stickers, ${countryName} clubs stickers, identify ${countryName} sticker, football sticker database`;
+    const keywords = `${escapeHtml(countryName)} football stickers, ${escapeHtml(countryName)} clubs stickers, identify ${escapeHtml(countryName)} sticker, football sticker database`;
 
     const breadcrumbs = generateBreadcrumbs([
         { text: 'Catalogue', url: '/catalogue.html' },
@@ -869,8 +852,8 @@ async function generateCountryPage(countryCode, clubs, stickerCountsByClub, coun
             const thumbUrl = cleanTrailingQuery(getThumbnailUrl(c.bestImg));
             stripCards += `
                 <a href="/clubs/${c.id}.html" class="cat-club-card">
-                    <img src="${thumbUrl}" alt="${c.cleanName} sticker" loading="lazy" decoding="async">
-                    <span class="cat-club-label">${c.cleanName}</span>
+                    <img src="${thumbUrl}" alt="${escapeHtml(c.cleanName)} sticker" loading="lazy" decoding="async">
+                    <span class="cat-club-label">${escapeHtml(c.cleanName)}</span>
                     <span class="cat-club-count">${c.stickerCount} sticker${c.stickerCount !== 1 ? 's' : ''}</span>
                 </a>`;
         });
@@ -901,18 +884,18 @@ async function generateCountryPage(countryCode, clubs, stickerCountsByClub, coun
             thumbHtml = '<span class="country-club-thumb-placeholder"></span>';
         }
         clubCardsHtml += `
-                <a href="/clubs/${club.id}.html" class="cat-country-card" title="${club.cleanName}">
+                <a href="/clubs/${club.id}.html" class="cat-country-card" title="${escapeHtml(club.cleanName)}">
                     ${thumbHtml}
                     <div class="cat-country-info">
-                        <span class="cat-country-name">${club.name}</span>
+                        <span class="cat-country-name">${escapeHtml(club.name)}</span>
                         <span class="cat-country-meta">${countLabel}</span>
                     </div>
                 </a>`;
     });
 
     // SEO description
-    const topClubNames = topClubs.slice(0, 5).map(c => c.cleanName).join(', ');
-    const seoDescription = `StickerHunt features stickers from clubs across ${countryName}. The most collected clubs include ${topClubNames}. Each club page shows all stickers found, their map locations, and community ratings. Browse the complete ${countryName} collection and discover fan-spotted stickers from across the country.`;
+    const topClubNames = topClubs.slice(0, 5).map(c => escapeHtml(c.cleanName)).join(', ');
+    const seoDescription = `StickerHunt features stickers from clubs across ${escapeHtml(countryName)}. The most collected clubs include ${topClubNames}. Each club page shows all stickers found, their map locations, and community ratings. Browse the complete ${escapeHtml(countryName)} collection and discover fan-spotted stickers from across the country.`;
 
     // Schema
     const schemaItems = clubsEnriched.map((club, i) => ({
@@ -1044,18 +1027,10 @@ async function generatePagesForSticker() {
             .eq('country', club.country)
             .order('name');
 
-        // Get sticker counts for other clubs section
-        let allStickerIds = [];
-        let scOffset = 0;
-        while (true) {
-            const { data: sc } = await supabase.from('stickers').select('club_id').range(scOffset, scOffset + 999);
-            if (!sc || sc.length === 0) break;
-            allStickerIds = allStickerIds.concat(sc);
-            scOffset += 1000;
-            if (sc.length < 1000) break;
-        }
+        // Fetch all stickers once (used for club page counts + country page gallery)
+        const allCountryStickers = await fetchAllPaginated(supabase, 'stickers', 'id, club_id, image_url, rating, games');
         const otherClubCounts = {};
-        allStickerIds.forEach(s => { otherClubCounts[s.club_id] = (otherClubCounts[s.club_id] || 0) + 1; });
+        allCountryStickers.forEach(s => { otherClubCounts[s.club_id] = (otherClubCounts[s.club_id] || 0) + 1; });
 
         const clubPath = await generateClubPage(club, clubStickers || [], countryClubs || [], otherClubCounts);
         console.log(`  ✓ Generated: ${clubPath}`);
@@ -1064,21 +1039,13 @@ async function generatePagesForSticker() {
         console.log('\n🔨 Generating country page...');
         const countryCode = club.country.toUpperCase();
 
-        // Fetch stickers with rating data for country page (featured gallery + counts)
-        const allCountryStickers = await fetchAllPaginated(supabase, 'stickers', 'id, club_id, image_url, rating, games');
-
-        const stickerCountsByClub = {};
-        allCountryStickers.forEach(s => {
-            stickerCountsByClub[s.club_id] = (stickerCountsByClub[s.club_id] || 0) + 1;
-        });
-
         // Build clubs map and filter stickers for this country
         const allClubsMap = {};
         (countryClubs || []).forEach(c => { allClubsMap[c.id] = c; });
         const countryClubIds = new Set((countryClubs || []).map(c => c.id));
         const countryStickers = allCountryStickers.filter(s => countryClubIds.has(s.club_id));
 
-        const countryPath = await generateCountryPage(countryCode, countryClubs || [], stickerCountsByClub, countryStickers, allClubsMap);
+        const countryPath = await generateCountryPage(countryCode, countryClubs || [], otherClubCounts, countryStickers, allClubsMap);
         console.log(`  ✓ Generated: ${countryPath}`);
 
         // 7. Update previous sticker's navigation (if exists)
