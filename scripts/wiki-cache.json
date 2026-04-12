@@ -5958,5 +5958,14 @@
     "capacity": "5,500",
     "league": "A Lyga",
     "website": "https://fkzalgiris.lt/"
+  },
+  "1177": {
+    "wikiUrl": "https://en.wikipedia.org/wiki/Stade_Brestois_29",
+    "intro": "Stade Brestois 29 (French: Stade brestois 29), commonly known as Stade Brestois or simply Brest, is a Breton professional football club based in Brest. It was founded in 1950 following the merger of five local patronages, including Armoricaine de Brest, founded in 1903.",
+    "founded": "1950",
+    "stadium": "Stade Francis-Le Blé",
+    "capacity": "15,097",
+    "league": "Ligue 1",
+    "website": "https://www.sb29.bzh"
   }
 }
