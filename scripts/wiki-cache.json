@@ -5940,5 +5940,14 @@
     "capacity": "5,300",
     "league": "Serie C",
     "website": "https://www.asgubbio1910.net/"
+  },
+  "1175": {
+    "wikiUrl": "https://en.wikipedia.org/wiki/Brighton_%26_Hove_Albion_F.C.",
+    "intro": "Brighton & Hove Albion Football Club, commonly referred to as Brighton, is a professional football club based in Brighton and Hove, East Sussex, England.  The club competes in the Premier League, the top tier of English football.",
+    "founded": "1901",
+    "stadium": "Brighton Community Stadium",
+    "capacity": "31,800",
+    "league": "Premier League",
+    "website": "https://www.brightonandhovealbion.com/"
   }
 }
