@@ -374,13 +374,6 @@
                          loading="lazy"
                          decoding="async">
                 </a>
-                <a href="/stickers/3112.html" class="sticker-preview-link">
-                    <img src="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/club_812/1773523802167_IMG_8376_thumb.webp"
-                         alt="Athletic Club Bilbao football sticker #3112 found in this city"
-                         class="sticker-preview-image"
-                         loading="lazy"
-                         decoding="async">
-                </a>
                 <a href="/stickers/3116.html" class="sticker-preview-link">
                     <img src="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/club_1071/1773523989407_IMG_8374_thumb.webp"
                          alt="󠁧󠁢󠁥󠁮󠁧󠁿 Middlesbrough F.C. football sticker #3116 found in this city"
@@ -419,6 +412,13 @@
                 <a href="/stickers/3130.html" class="sticker-preview-link">
                     <img src="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/club_1166/1773524969315_IMG_8430_thumb.webp"
                          alt="Coritiba Foot Ball Club football sticker #3130 found in this city"
+                         class="sticker-preview-image"
+                         loading="lazy"
+                         decoding="async">
+                </a>
+                <a href="/stickers/3112.html" class="sticker-preview-link">
+                    <img src="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/club_812/1773523802167_IMG_8376_thumb.webp"
+                         alt="Athletic Club Bilbao football sticker #3112 found in this city"
                          class="sticker-preview-image"
                          loading="lazy"
                          decoding="async">
@@ -691,13 +691,6 @@
                 })();
 
                 (function() {
-                    const marker = L.marker([37.3841444444444, -5.99350833333333]).addTo(cityMap);
-                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>Athletic Club Bilbao</strong><a href="/stickers/3112.html" class="map-popup-link">View</a></div>');
-                    marker.on('mouseover', function() { this.openPopup(); });
-                    marker.on('click', function() { this.openPopup(); });
-                })();
-
-                (function() {
                     const marker = L.marker([37.3872222222222, -5.99243611111111]).addTo(cityMap);
                     marker.bindPopup('<div class="nearby-sticker-popup"><strong>󠁧󠁢󠁥󠁮󠁧󠁿 Middlesbrough F.C.</strong><a href="/stickers/3116.html" class="map-popup-link">View</a></div>');
                     marker.on('mouseover', function() { this.openPopup(); });
@@ -735,6 +728,13 @@
                 (function() {
                     const marker = L.marker([37.3928416666667, -5.99194444444444]).addTo(cityMap);
                     marker.bindPopup('<div class="nearby-sticker-popup"><strong>Coritiba Foot Ball Club</strong><a href="/stickers/3130.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([37.3841444444444, -5.99350833333333]).addTo(cityMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>Athletic Club Bilbao</strong><a href="/stickers/3112.html" class="map-popup-link">View</a></div>');
                     marker.on('mouseover', function() { this.openPopup(); });
                     marker.on('click', function() { this.openPopup(); });
                 })();
@@ -778,13 +778,13 @@
                     [37.3841277777778, -5.99350833333333],
                     [37.3925805555556, -5.9907],
                     [37.4059333333333, -5.93443333333333],
-                    [37.3841444444444, -5.99350833333333],
                     [37.3872222222222, -5.99243611111111],
                     [37.3838388888889, -5.99406388888889],
                     [37.3895, -5.99250833333333],
                     [37.3896444444444, -5.99234722222222],
                     [37.3888888888889, -5.99985277777778],
                     [37.3928416666667, -5.99194444444444],
+                    [37.3841444444444, -5.99350833333333],
                     [37.3895861111111, -5.99233333333333]
                 ]);
                 cityMap.fitBounds(bounds, { padding: [30, 30], maxZoom: 15 });
