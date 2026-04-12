@@ -153,17 +153,10 @@
             <div class="club-details-block">
                 <p class="club-info-item">📦 Clubs represented: 3 clubs from 3 countries</p>
 <p class="club-info-item">📅 First found: 22 Jun 2024 | Latest: 19 Sept 2024</p>
-<p class="club-info-item">🌍 Most common: <a href="/countries/DEU.html">Germany</a> (1), <a href="/countries/BEL.html">Belgium</a> (1), <a href="/countries/ITA.html">Italy</a> (1)</p>
+<p class="club-info-item">🌍 Most common: <a href="/countries/BEL.html">Belgium</a> (1), <a href="/countries/ITA.html">Italy</a> (1), <a href="/countries/DEU.html">Germany</a> (1)</p>
             </div>
             <div class="sticker-gallery">
                 
-                <a href="/stickers/2323.html" class="sticker-preview-link">
-                    <img src="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/club_1054%2F1749911157460_IMG_5941_thumb.webp"
-                         alt="SV Bekond football sticker #2323 found in this city"
-                         class="sticker-preview-image"
-                         loading="lazy"
-                         decoding="async">
-                </a>
                 <a href="/stickers/3106.html" class="sticker-preview-link">
                     <img src="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/club_317/1773523430872_IMG_8459_thumb.webp"
                          alt="Standard Liège football sticker #3106 found in this city"
@@ -174,6 +167,13 @@
                 <a href="/stickers/3093.html" class="sticker-preview-link">
                     <img src="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/club_681/1773522946089_IMG_8460_thumb.webp"
                          alt="Juventus FC football sticker #3093 found in this city"
+                         class="sticker-preview-image"
+                         loading="lazy"
+                         decoding="async">
+                </a>
+                <a href="/stickers/2323.html" class="sticker-preview-link">
+                    <img src="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/club_1054%2F1749911157460_IMG_5941_thumb.webp"
+                         alt="SV Bekond football sticker #2323 found in this city"
                          class="sticker-preview-image"
                          loading="lazy"
                          decoding="async">
@@ -216,18 +216,11 @@
         
         document.addEventListener('DOMContentLoaded', function() {
             if (typeof L !== 'undefined' && document.getElementById('club-map')) {
-                const cityMap = L.map('club-map').setView([38.28732962962963, -0.5526620370370369], 12);
+                const cityMap = L.map('club-map').setView([38.28732962962963, -0.552662037037037], 12);
                 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                     attribution: '&copy; OpenStreetMap contributors'
                 }).addTo(cityMap);
                 
-                (function() {
-                    const marker = L.marker([38.2872416666667, -0.551436111111111]).addTo(cityMap);
-                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>SV Bekond</strong><a href="/stickers/2323.html" class="map-popup-link">View</a></div>');
-                    marker.on('mouseover', function() { this.openPopup(); });
-                    marker.on('click', function() { this.openPopup(); });
-                })();
-
                 (function() {
                     const marker = L.marker([38.2875111111111, -0.553241666666667]).addTo(cityMap);
                     marker.bindPopup('<div class="nearby-sticker-popup"><strong>Standard Liège</strong><a href="/stickers/3106.html" class="map-popup-link">View</a></div>');
@@ -241,11 +234,18 @@
                     marker.on('mouseover', function() { this.openPopup(); });
                     marker.on('click', function() { this.openPopup(); });
                 })();
+
+                (function() {
+                    const marker = L.marker([38.2872416666667, -0.551436111111111]).addTo(cityMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>SV Bekond</strong><a href="/stickers/2323.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
                 
                 const bounds = L.latLngBounds([
-                    [38.2872416666667, -0.551436111111111],
                     [38.2875111111111, -0.553241666666667],
-                    [38.2872361111111, -0.553308333333333]
+                    [38.2872361111111, -0.553308333333333],
+                    [38.2872416666667, -0.551436111111111]
                 ]);
                 cityMap.fitBounds(bounds, { padding: [30, 30], maxZoom: 15 });
                 

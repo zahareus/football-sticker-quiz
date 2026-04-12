@@ -213,13 +213,6 @@
                          loading="lazy"
                          decoding="async">
                 </a>
-                <a href="/stickers/3147.html" class="sticker-preview-link">
-                    <img src="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/club_187/1774785109373_IMG_8495_thumb.webp"
-                         alt="PFC Levski Sofia football sticker #3147 found in this city"
-                         class="sticker-preview-image"
-                         loading="lazy"
-                         decoding="async">
-                </a>
                 <a href="/stickers/2094.html" class="sticker-preview-link">
                     <img src="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/club_880%2F1746654767389_DC18C652-BC42-493D-A6E7-35BA2594FD28_1_105_c_thumb.webp"
                          alt="Hertha BSC football sticker #2094 found in this city"
@@ -265,6 +258,13 @@
                 <a href="/stickers/278.html" class="sticker-preview-link">
                     <img src="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/club_187%2F1746486598867_7D57A5DA-41B2-4964-9819-004466402A4E_1_105_c_thumb.webp"
                          alt="PFC Levski Sofia football sticker #278 found in this city"
+                         class="sticker-preview-image"
+                         loading="lazy"
+                         decoding="async">
+                </a>
+                <a href="/stickers/3147.html" class="sticker-preview-link">
+                    <img src="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/club_187/1774785109373_IMG_8495_thumb.webp"
+                         alt="PFC Levski Sofia football sticker #3147 found in this city"
                          class="sticker-preview-image"
                          loading="lazy"
                          decoding="async">
@@ -348,13 +348,6 @@
                 })();
 
                 (function() {
-                    const marker = L.marker([38.3424694444444, -0.492263888888889]).addTo(cityMap);
-                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>PFC Levski Sofia</strong><a href="/stickers/3147.html" class="map-popup-link">View</a></div>');
-                    marker.on('mouseover', function() { this.openPopup(); });
-                    marker.on('click', function() { this.openPopup(); });
-                })();
-
-                (function() {
                     const marker = L.marker([38.3395777777778, -0.490016666666667]).addTo(cityMap);
                     marker.bindPopup('<div class="nearby-sticker-popup"><strong>Real Betis</strong><a href="/stickers/3149.html" class="map-popup-link">View</a></div>');
                     marker.on('mouseover', function() { this.openPopup(); });
@@ -383,6 +376,13 @@
                 })();
 
                 (function() {
+                    const marker = L.marker([38.3424694444444, -0.492263888888889]).addTo(cityMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>PFC Levski Sofia</strong><a href="/stickers/3147.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
                     const marker = L.marker([38.3377388888889, -0.491188888888889]).addTo(cityMap);
                     marker.bindPopup('<div class="nearby-sticker-popup"><strong>AD Alcorcón</strong><a href="/stickers/3153.html" class="map-popup-link">View</a></div>');
                     marker.on('mouseover', function() { this.openPopup(); });
@@ -394,11 +394,11 @@
                     [38.3383861111111, -0.491211111111111],
                     [38.3435444444444, -0.493094444444444],
                     [38.3433222222222, -0.493233333333333],
-                    [38.3424694444444, -0.492263888888889],
                     [38.3395777777778, -0.490016666666667],
                     [38.3399777777778, -0.490411111111111],
                     [38.339625, -0.493397222222222],
                     [38.3412333333333, -0.494513888888889],
+                    [38.3424694444444, -0.492263888888889],
                     [38.3377388888889, -0.491188888888889]
                 ]);
                 cityMap.fitBounds(bounds, { padding: [30, 30], maxZoom: 15 });

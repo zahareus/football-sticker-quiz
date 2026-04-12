@@ -234,20 +234,6 @@
                          loading="lazy"
                          decoding="async">
                 </a>
-                <a href="/stickers/2758.html" class="sticker-preview-link">
-                    <img src="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/club_912/1763817928046_IMG_7482_thumb.webp"
-                         alt="Eintracht Braunschweig football sticker #2758 found in this city"
-                         class="sticker-preview-image"
-                         loading="lazy"
-                         decoding="async">
-                </a>
-                <a href="/stickers/2781.html" class="sticker-preview-link">
-                    <img src="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/club_930/1763897732454_IMG_7490_thumb.webp"
-                         alt="Hamburger SV football sticker #2781 found in this city"
-                         class="sticker-preview-image"
-                         loading="lazy"
-                         decoding="async">
-                </a>
                 <a href="/stickers/2770.html" class="sticker-preview-link">
                     <img src="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/club_881/1763896173816_IMG_7496_thumb.webp"
                          alt="FC St Pauli football sticker #2770 found in this city"
@@ -262,9 +248,23 @@
                          loading="lazy"
                          decoding="async">
                 </a>
+                <a href="/stickers/2758.html" class="sticker-preview-link">
+                    <img src="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/club_912/1763817928046_IMG_7482_thumb.webp"
+                         alt="Eintracht Braunschweig football sticker #2758 found in this city"
+                         class="sticker-preview-image"
+                         loading="lazy"
+                         decoding="async">
+                </a>
                 <a href="/stickers/2773.html" class="sticker-preview-link">
                     <img src="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/club_927/1763896361042_IMG_7493_thumb.webp"
                          alt="Hansa Rostock football sticker #2773 found in this city"
+                         class="sticker-preview-image"
+                         loading="lazy"
+                         decoding="async">
+                </a>
+                <a href="/stickers/2781.html" class="sticker-preview-link">
+                    <img src="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/club_930/1763897732454_IMG_7490_thumb.webp"
+                         alt="Hamburger SV football sticker #2781 found in this city"
                          class="sticker-preview-image"
                          loading="lazy"
                          decoding="async">
@@ -390,20 +390,6 @@
                 })();
 
                 (function() {
-                    const marker = L.marker([52.385075, 4.6360861]).addTo(cityMap);
-                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>Eintracht Braunschweig</strong><a href="/stickers/2758.html" class="map-popup-link">View</a></div>');
-                    marker.on('mouseover', function() { this.openPopup(); });
-                    marker.on('click', function() { this.openPopup(); });
-                })();
-
-                (function() {
-                    const marker = L.marker([52.3793028, 4.6324472]).addTo(cityMap);
-                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>Hamburger SV</strong><a href="/stickers/2781.html" class="map-popup-link">View</a></div>');
-                    marker.on('mouseover', function() { this.openPopup(); });
-                    marker.on('click', function() { this.openPopup(); });
-                })();
-
-                (function() {
                     const marker = L.marker([52.3844, 4.635925]).addTo(cityMap);
                     marker.bindPopup('<div class="nearby-sticker-popup"><strong>FC St Pauli</strong><a href="/stickers/2770.html" class="map-popup-link">View</a></div>');
                     marker.on('mouseover', function() { this.openPopup(); });
@@ -418,8 +404,22 @@
                 })();
 
                 (function() {
+                    const marker = L.marker([52.385075, 4.6360861]).addTo(cityMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>Eintracht Braunschweig</strong><a href="/stickers/2758.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
                     const marker = L.marker([52.3802722, 4.6337111]).addTo(cityMap);
                     marker.bindPopup('<div class="nearby-sticker-popup"><strong>Hansa Rostock</strong><a href="/stickers/2773.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([52.3793028, 4.6324472]).addTo(cityMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>Hamburger SV</strong><a href="/stickers/2781.html" class="map-popup-link">View</a></div>');
                     marker.on('mouseover', function() { this.openPopup(); });
                     marker.on('click', function() { this.openPopup(); });
                 })();
@@ -436,11 +436,11 @@
                     [52.3761555555556, 4.63524722222222],
                     [52.3802528, 4.6337139],
                     [52.3861777777778, 4.63908888888889],
-                    [52.385075, 4.6360861],
-                    [52.3793028, 4.6324472],
                     [52.3844, 4.635925],
                     [52.3795056, 4.6327194],
-                    [52.3802722, 4.6337111]
+                    [52.385075, 4.6360861],
+                    [52.3802722, 4.6337111],
+                    [52.3793028, 4.6324472]
                 ]);
                 cityMap.fitBounds(bounds, { padding: [30, 30], maxZoom: 15 });
                 
