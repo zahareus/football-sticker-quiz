@@ -5931,5 +5931,14 @@
     "capacity": "25,178",
     "league": "Ligue 1",
     "website": "https://hac.football"
+  },
+  "1173": {
+    "wikiUrl": "https://it.wikipedia.org/wiki/Associazione_Sportiva_Gubbio_1910",
+    "intro": "Associazione Sportiva Gubbio 1910 is an Italian association football club, based in Gubbio, Umbria. The club play in Serie C, the third tier of Italian football..",
+    "founded": "1913",
+    "stadium": "Stadio Pietro Barbetti",
+    "capacity": "5,300",
+    "league": "Serie C",
+    "website": "https://www.asgubbio1910.net/"
   }
 }
