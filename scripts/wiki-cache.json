@@ -5949,5 +5949,14 @@
     "capacity": "31,800",
     "league": "Premier League",
     "website": "https://www.brightonandhovealbion.com/"
+  },
+  "1176": {
+    "wikiUrl": "https://en.wikipedia.org/wiki/FK_%C5%BDalgiris",
+    "intro": "Futbolo klubas Žalgiris, commonly known as FK Žalgiris, Žalgiris Vilnius or simply Žalgiris, is a Lithuanian professional football club based in Vilnius. The club competes in the TOPLYGA, the top flight of Lithuanian football.",
+    "founded": "1947",
+    "stadium": "FK Žalgiris Home Stadium",
+    "capacity": "5,500",
+    "league": "A Lyga",
+    "website": "https://fkzalgiris.lt/"
   }
 }
