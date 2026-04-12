@@ -5913,5 +5913,14 @@
     "capacity": "20,146",
     "league": "EFL Championship",
     "website": "https://www.millwallfc.co.uk/"
+  },
+  "1171": {
+    "wikiUrl": "https://hr.wikipedia.org/wiki/HNK_Cibalia",
+    "intro": "Hrvatski nogometni klub Cibalia, commonly known as Cibalia Vinkovci or simply Cibalia, is a Croatian football club from the town of Vinkovci in eastern Croatia. Cibalia currently play in the Prva NL, Croatia's second-tier league.",
+    "founded": "1919",
+    "stadium": "Stadion HNK Cibalia",
+    "capacity": "10,000",
+    "league": null,
+    "website": "https://hnk-cibalia.hr/"
   }
 }
