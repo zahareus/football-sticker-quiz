@@ -77,6 +77,42 @@ export function getCountryName(code) {
     return COUNTRY_NAMES[code?.toUpperCase()] || code;
 }
 
+// ─── Country Flags (ISO 3166-1 alpha-3 → emoji) ──────────────────────────────
+
+export const COUNTRY_FLAGS = {
+    'AFG':'🇦🇫','ALB':'🇦🇱','DZA':'🇩🇿','AND':'🇦🇩','AGO':'🇦🇴','ARG':'🇦🇷',
+    'ARM':'🇦🇲','AUS':'🇦🇺','AUT':'🇦🇹','AZE':'🇦🇿','BHS':'🇧🇸','BHR':'🇧🇭',
+    'BGD':'🇧🇩','BLR':'🇧🇾','BEL':'🇧🇪','BLZ':'🇧🇿','BEN':'🇧🇯','BOL':'🇧🇴',
+    'BIH':'🇧🇦','BWA':'🇧🇼','BRA':'🇧🇷','BGR':'🇧🇬','BFA':'🇧🇫','KHM':'🇰🇭',
+    'CMR':'🇨🇲','CAN':'🇨🇦','CPV':'🇨🇻','CAF':'🇨🇫','TCD':'🇹🇩','CHL':'🇨🇱',
+    'CHN':'🇨🇳','COL':'🇨🇴','COG':'🇨🇬','CRI':'🇨🇷','HRV':'🇭🇷','CUB':'🇨🇺',
+    'CYP':'🇨🇾','CZE':'🇨🇿','DNK':'🇩🇰','DJI':'🇩🇯','DOM':'🇩🇴','ECU':'🇪🇨',
+    'EGY':'🇪🇬','SLV':'🇸🇻','GNQ':'🇬🇶','EST':'🇪🇪','ETH':'🇪🇹','FJI':'🇫🇯',
+    'FIN':'🇫🇮','FRA':'🇫🇷','GAB':'🇬🇦','GMB':'🇬🇲','GEO':'🇬🇪','DEU':'🇩🇪',
+    'GHA':'🇬🇭','GRC':'🇬🇷','GTM':'🇬🇹','GIN':'🇬🇳','HTI':'🇭🇹','HND':'🇭🇳',
+    'HUN':'🇭🇺','ISL':'🇮🇸','IND':'🇮🇳','IDN':'🇮🇩','IRN':'🇮🇷','IRQ':'🇮🇶',
+    'IRL':'🇮🇪','ISR':'🇮🇱','ITA':'🇮🇹','CIV':'🇨🇮','JAM':'🇯🇲','JPN':'🇯🇵',
+    'JOR':'🇯🇴','KAZ':'🇰🇿','KEN':'🇰🇪','KWT':'🇰🇼','KGZ':'🇰🇬','LVA':'🇱🇻',
+    'LBN':'🇱🇧','LBR':'🇱🇷','LBY':'🇱🇾','LIE':'🇱🇮','LTU':'🇱🇹','LUX':'🇱🇺',
+    'MKD':'🇲🇰','MDG':'🇲🇬','MWI':'🇲🇼','MYS':'🇲🇾','MLI':'🇲🇱','MLT':'🇲🇹',
+    'MRT':'🇲🇷','MEX':'🇲🇽','MDA':'🇲🇩','MCO':'🇲🇨','MNG':'🇲🇳','MNE':'🇲🇪',
+    'MAR':'🇲🇦','MOZ':'🇲🇿','NPL':'🇳🇵','NLD':'🇳🇱','NZL':'🇳🇿','NIC':'🇳🇮',
+    'NER':'🇳🇪','NGA':'🇳🇬','PRK':'🇰🇵','NOR':'🇳🇴','OMN':'🇴🇲','PAK':'🇵🇰',
+    'PAN':'🇵🇦','PNG':'🇵🇬','PRY':'🇵🇾','PER':'🇵🇪','PHL':'🇵🇭','POL':'🇵🇱',
+    'PRT':'🇵🇹','QAT':'🇶🇦','ROU':'🇷🇴','RUS':'🇷🇺','RWA':'🇷🇼','SAU':'🇸🇦',
+    'SEN':'🇸🇳','SRB':'🇷🇸','SLE':'🇸🇱','SGP':'🇸🇬','SVK':'🇸🇰','SVN':'🇸🇮',
+    'SOM':'🇸🇴','ZAF':'🇿🇦','KOR':'🇰🇷','ESP':'🇪🇸','LKA':'🇱🇰','SDN':'🇸🇩',
+    'SWE':'🇸🇪','CHE':'🇨🇭','SYR':'🇸🇾','TWN':'🇹🇼','TZA':'🇹🇿','THA':'🇹🇭',
+    'TGO':'🇹🇬','TUN':'🇹🇳','TUR':'🇹🇷','UGA':'🇺🇬','UKR':'🇺🇦','ARE':'🇦🇪',
+    'GBR':'🇬🇧','USA':'🇺🇸','URY':'🇺🇾','UZB':'🇺🇿','VEN':'🇻🇪','VNM':'🇻🇳',
+    'YEM':'🇾🇪','ZMB':'🇿🇲','ZWE':'🇿🇼',
+    'ENG':'🏴󠁧󠁢󠁥󠁮󠁧󠁿','SCO':'🏴󠁧󠁢󠁳󠁣󠁴󠁿','WLS':'🏴󠁧󠁢󠁷󠁬󠁳󠁿','NIR':'🇬🇧'
+};
+
+export function getCountryFlag(code) {
+    return COUNTRY_FLAGS[code?.toUpperCase()] || '';
+}
+
 // Reverse: country name -> code
 const COUNTRY_CODES = {};
 for (const [code, name] of Object.entries(COUNTRY_NAMES)) {

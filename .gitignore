@@ -3,6 +3,7 @@ node_modules/
 .DS_Store
 
 test-results/
+seo-reports/*.pdf
 
 # Generated static pages are now tracked in git for deployment
 # Run `node scripts/generate-static-pages.js` to regenerate

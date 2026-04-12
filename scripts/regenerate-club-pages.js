@@ -14,7 +14,7 @@ import { fileURLToPath } from 'url';
 
 import {
     createSupabaseClient,
-    COUNTRY_NAMES, getCountryName, getOptimizedImageUrl, getThumbnailUrl,
+    COUNTRY_NAMES, getCountryName, getCountryFlag, getOptimizedImageUrl, getThumbnailUrl,
     cleanTrailingQuery, stripEmoji, escapeHtml, loadTemplate, replacePlaceholders,
     generateBreadcrumbs, generateBreadcrumbSchema,
     selectTopRatedStickers, generateDescriptiveAltText, generateMultilingualMeta,
@@ -346,20 +346,6 @@ async function generateClubPage(club, stickers, allClubsInCountry = [], stickerC
     return outputPath;
 }
 
-// Country code to flag emoji
-const COUNTRY_FLAGS = {
-    "DEU":"🇩🇪","ESP":"🇪🇸","FRA":"🇫🇷","NLD":"🇳🇱","ITA":"🇮🇹","SWE":"🇸🇪",
-    "ENG":"🏴󠁧󠁢󠁥󠁮󠁧󠁿","CZE":"🇨🇿","BEL":"🇧🇪","CHE":"🇨🇭","POL":"🇵🇱","AUT":"🇦🇹",
-    "PRT":"🇵🇹","SCO":"🏴󠁧󠁢󠁳󠁣󠁴󠁿","SRB":"🇷🇸","HUN":"🇭🇺","NOR":"🇳🇴","HRV":"🇭🇷",
-    "GRC":"🇬🇷","DNK":"🇩🇰","ROU":"🇷🇴","UKR":"🇺🇦","TUR":"🇹🇷","ISR":"🇮🇱",
-    "JPN":"🇯🇵","CYP":"🇨🇾","ARG":"🇦🇷","BRA":"🇧🇷","CHL":"🇨🇱","COL":"🇨🇴",
-    "URY":"🇺🇾","USA":"🇺🇸","MEX":"🇲🇽","CAN":"🇨🇦","MAR":"🇲🇦","EGY":"🇪🇬",
-    "ZAF":"🇿🇦","BIH":"🇧🇦","BGR":"🇧🇬","SVK":"🇸🇰","SVN":"🇸🇮","FIN":"🇫🇮",
-    "EST":"🇪🇪","LVA":"🇱🇻","LTU":"🇱🇹","IRL":"🇮🇪","WLS":"🏴󠁧󠁢󠁷󠁬󠁳󠁿","NIR":"🇬🇧",
-    "MNE":"🇲🇪","GEO":"🇬🇪","BLR":"🇧🇾","ARM":"🇦🇲","KAZ":"🇰🇿","LUX":"🇱🇺",
-    "MKD":"🇲🇰","MLT":"🇲🇹","ISL":"🇮🇸","AUS":"🇦🇺"
-};
-
 // Extract city name from "City, Country" format
 function extractCity(cityField) {
     if (!cityField) return '';
@@ -369,7 +355,7 @@ function extractCity(cityField) {
 async function generateCountryPage(countryCode, clubs, stickerCountsByClub, countryStickers, allClubsMap) {
     const template = loadTemplate('country-page.html', PROJECT_ROOT);
     const countryName = getCountryName(countryCode);
-    const countryFlag = COUNTRY_FLAGS[countryCode.toUpperCase()] || '';
+    const countryFlag = getCountryFlag(countryCode);
     const totalStickers = clubs.reduce((sum, club) => sum + (stickerCountsByClub[club.id] || 0), 0);
     const pageTitle = `${escapeHtml(countryName)} Football Stickers — ${clubs.length} Clubs, ${totalStickers} Stickers | StickerHunt`;
     const metaDescription = `Browse ${totalStickers} football stickers from ${clubs.length} clubs in ${escapeHtml(countryName)}. Find stickers from ${escapeHtml(countryName)} clubs in the StickerHunt database.`;
