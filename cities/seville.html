@@ -248,13 +248,6 @@
                          loading="lazy"
                          decoding="async">
                 </a>
-                <a href="/stickers/3100.html" class="sticker-preview-link">
-                    <img src="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/club_949/1773523243520_IMG_8425_thumb.webp"
-                         alt="FC Schalke 04 football sticker #3100 found in this city"
-                         class="sticker-preview-image"
-                         loading="lazy"
-                         decoding="async">
-                </a>
                 <a href="/stickers/3107.html" class="sticker-preview-link">
                     <img src="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/club_695/1773523482346_IMG_8379_thumb.webp"
                          alt="Racing Club de Lens football sticker #3107 found in this city"
@@ -265,6 +258,13 @@
                 <a href="/stickers/3105.html" class="sticker-preview-link">
                     <img src="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/club_708/1773523401869_IMG_8380_thumb.webp"
                          alt="Genoa CFC football sticker #3105 found in this city"
+                         class="sticker-preview-image"
+                         loading="lazy"
+                         decoding="async">
+                </a>
+                <a href="/stickers/3100.html" class="sticker-preview-link">
+                    <img src="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/club_949/1773523243520_IMG_8425_thumb.webp"
+                         alt="FC Schalke 04 football sticker #3100 found in this city"
                          class="sticker-preview-image"
                          loading="lazy"
                          decoding="async">
@@ -565,13 +565,6 @@
                 })();
 
                 (function() {
-                    const marker = L.marker([37.3932944444444, -6.001675]).addTo(cityMap);
-                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>FC Schalke 04</strong><a href="/stickers/3100.html" class="map-popup-link">View</a></div>');
-                    marker.on('mouseover', function() { this.openPopup(); });
-                    marker.on('click', function() { this.openPopup(); });
-                })();
-
-                (function() {
                     const marker = L.marker([37.38305, -5.99567222222222]).addTo(cityMap);
                     marker.bindPopup('<div class="nearby-sticker-popup"><strong>Racing Club de Lens</strong><a href="/stickers/3107.html" class="map-popup-link">View</a></div>');
                     marker.on('mouseover', function() { this.openPopup(); });
@@ -581,6 +574,13 @@
                 (function() {
                     const marker = L.marker([37.3850888888889, -5.99838888888889]).addTo(cityMap);
                     marker.bindPopup('<div class="nearby-sticker-popup"><strong>Genoa CFC</strong><a href="/stickers/3105.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([37.3932944444444, -6.001675]).addTo(cityMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>FC Schalke 04</strong><a href="/stickers/3100.html" class="map-popup-link">View</a></div>');
                     marker.on('mouseover', function() { this.openPopup(); });
                     marker.on('click', function() { this.openPopup(); });
                 })();
@@ -760,9 +760,9 @@
                     [37.3931722222222, -5.99993055555556],
                     [37.3960194444444, -5.9912],
                     [37.3882722222222, -6.000475],
-                    [37.3932944444444, -6.001675],
                     [37.38305, -5.99567222222222],
                     [37.3850888888889, -5.99838888888889],
+                    [37.3932944444444, -6.001675],
                     [37.3836944444444, -5.99442777777778],
                     [37.3888555555556, -5.99238333333333],
                     [37.3873861111111, -5.99251666666667],
