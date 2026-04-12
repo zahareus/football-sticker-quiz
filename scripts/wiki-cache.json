@@ -5922,5 +5922,14 @@
     "capacity": "10,000",
     "league": null,
     "website": "https://hnk-cibalia.hr/"
+  },
+  "1172": {
+    "wikiUrl": "https://en.wikipedia.org/wiki/Le_Havre_AC",
+    "intro": "Le Havre Athletic Club (French pronunciation: [lə ɑvʁ]) is a French professional association football club based in Le Havre, Normandy. The football club was founded in 1894 as a section of the sports club of the same name, founded in 1884.",
+    "founded": "1884",
+    "stadium": "Stade Océane",
+    "capacity": "25,178",
+    "league": "Ligue 1",
+    "website": "https://hac.football"
   }
 }
