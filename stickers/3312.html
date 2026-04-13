@@ -335,6 +335,19 @@
                     .bindPopup('<div class="nearby-sticker-popup"><strong>FC Hengst Macke e.V.</strong><a href="/stickers/3313.html" class="map-popup-link">View</a></div>');
                 })();
 
+                (function() {
+                    L.marker([41.0327527777778, 28.9750166666667], {
+                        icon: L.icon({
+                            iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
+                            iconSize: [18, 30],
+                            iconAnchor: [9, 30],
+                            popupAnchor: [1, -25]
+                        }),
+                        opacity: 0.6
+                    }).addTo(map)
+                    .bindPopup('<div class="nearby-sticker-popup"><strong>Rot Weiss Ahlen e.V.</strong><a href="/stickers/3314.html" class="map-popup-link">View</a></div>');
+                })();
+
                 // Current sticker — larger marker, opened popup
                 L.marker([41.0320083333333, 28.9761805555556], {
                     icon: L.icon({
@@ -358,7 +371,8 @@
                     [41.0322388888889, 28.9762777777778],
                     [41.0280194444444, 28.9743527777778],
                     [41.0334166666667, 28.9753],
-                    [41.0339166666667, 28.9764194444444]
+                    [41.0339166666667, 28.9764194444444],
+                    [41.0327527777778, 28.9750166666667]
                 ]);
                 map.fitBounds(bounds, { padding: [30, 30], maxZoom: 14 });
                 
