@@ -381,13 +381,6 @@
                          loading="lazy"
                          decoding="async">
                 </a>
-                <a href="/stickers/3111.html" class="sticker-preview-link">
-                    <img src="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/club_925/1773523777104_IMG_8377_thumb.webp"
-                         alt="Eintracht Frankfurt football sticker #3111 found in this city"
-                         class="sticker-preview-image"
-                         loading="lazy"
-                         decoding="async">
-                </a>
                 <a href="/stickers/3119.html" class="sticker-preview-link">
                     <img src="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/club_710/1773524055217_IMG_8370_thumb.webp"
                          alt="AS Roma football sticker #3119 found in this city"
@@ -419,6 +412,13 @@
                 <a href="/stickers/3112.html" class="sticker-preview-link">
                     <img src="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/club_812/1773523802167_IMG_8376_thumb.webp"
                          alt="Athletic Club Bilbao football sticker #3112 found in this city"
+                         class="sticker-preview-image"
+                         loading="lazy"
+                         decoding="async">
+                </a>
+                <a href="/stickers/3111.html" class="sticker-preview-link">
+                    <img src="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/club_925/1773523777104_IMG_8377_thumb.webp"
+                         alt="Eintracht Frankfurt football sticker #3111 found in this city"
                          class="sticker-preview-image"
                          loading="lazy"
                          decoding="async">
@@ -698,13 +698,6 @@
                 })();
 
                 (function() {
-                    const marker = L.marker([37.3838388888889, -5.99406388888889]).addTo(cityMap);
-                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>Eintracht Frankfurt</strong><a href="/stickers/3111.html" class="map-popup-link">View</a></div>');
-                    marker.on('mouseover', function() { this.openPopup(); });
-                    marker.on('click', function() { this.openPopup(); });
-                })();
-
-                (function() {
                     const marker = L.marker([37.3895, -5.99250833333333]).addTo(cityMap);
                     marker.bindPopup('<div class="nearby-sticker-popup"><strong>AS Roma</strong><a href="/stickers/3119.html" class="map-popup-link">View</a></div>');
                     marker.on('mouseover', function() { this.openPopup(); });
@@ -735,6 +728,13 @@
                 (function() {
                     const marker = L.marker([37.3841444444444, -5.99350833333333]).addTo(cityMap);
                     marker.bindPopup('<div class="nearby-sticker-popup"><strong>Athletic Club Bilbao</strong><a href="/stickers/3112.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([37.3838388888889, -5.99406388888889]).addTo(cityMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>Eintracht Frankfurt</strong><a href="/stickers/3111.html" class="map-popup-link">View</a></div>');
                     marker.on('mouseover', function() { this.openPopup(); });
                     marker.on('click', function() { this.openPopup(); });
                 })();
@@ -779,12 +779,12 @@
                     [37.3925805555556, -5.9907],
                     [37.4059333333333, -5.93443333333333],
                     [37.3872222222222, -5.99243611111111],
-                    [37.3838388888889, -5.99406388888889],
                     [37.3895, -5.99250833333333],
                     [37.3896444444444, -5.99234722222222],
                     [37.3888888888889, -5.99985277777778],
                     [37.3928416666667, -5.99194444444444],
                     [37.3841444444444, -5.99350833333333],
+                    [37.3838388888889, -5.99406388888889],
                     [37.3895861111111, -5.99233333333333]
                 ]);
                 cityMap.fitBounds(bounds, { padding: [30, 30], maxZoom: 15 });
