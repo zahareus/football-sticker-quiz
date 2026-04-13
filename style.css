@@ -4161,14 +4161,118 @@ body.daily-mode .game-info #timer {
 /* Blizzard-style: serif display, warm paper, burgundy accent   */
 /* ============================================================ */
 
-/* Display typography — serif with character for headlines */
-.home-page h1,
-.home-page h2,
+/* ---------- GLOBAL (all pages) ---------- */
+
+/* Display typography — serif for all h1/h2 sitewide */
+h1, h2 {
+    font-family: var(--font-display);
+    font-feature-settings: "ss01", "tnum";
+    letter-spacing: -0.02em;
+    font-weight: 500;
+}
+h1 { line-height: 1.1; }
+h2 { line-height: 1.2; }
+
+/* Unified buttons — editorial refinement, sitewide */
+.btn {
+    border-radius: 2px;
+    letter-spacing: 0.04em;
+    font-weight: 500;
+    box-shadow: none;
+    transition: background-color 180ms ease-out, border-color 180ms ease-out, color 180ms ease-out;
+}
+.btn-primary {
+    background: var(--color-text);
+    color: var(--color-background);
+    border-color: var(--color-text);
+}
+.btn-primary:hover {
+    background: var(--color-accent);
+    border-color: var(--color-accent);
+    color: var(--color-accent-text);
+}
+.btn-secondary {
+    background: transparent;
+    color: var(--color-text);
+    border: 1px solid var(--color-text);
+}
+.btn-secondary:hover {
+    background: var(--color-text);
+    color: var(--color-background);
+}
+.btn-large { padding: 14px 28px; font-size: 1em; }
+
+/* Unified header — editorial masthead for every page */
+.app-header {
+    border-bottom: 1px solid var(--color-border);
+    padding-bottom: 12px;
+    margin-bottom: 24px;
+    max-width: 1100px;
+}
+#app-logo { max-height: 36px; height: auto; }
+body.logged-out #app-logo {
+    width: auto;
+    max-width: 200px;
+    max-height: 56px;
+    margin: 0 auto calc(var(--spacing-unit) * 2) auto;
+}
+
+/* Links — burgundy accent, no bright blue */
+a { color: var(--color-link); }
+a:hover { color: var(--color-link-hover); }
+
+/* Form inputs — editorial underline feel */
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="search"],
+textarea,
+select {
+    background: transparent;
+    border: 1px solid var(--color-border);
+    border-radius: 2px;
+    font-family: var(--font-family);
+}
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="password"]:focus,
+input[type="search"]:focus,
+textarea:focus,
+select:focus {
+    outline: none;
+    border-color: var(--color-accent);
+}
+
+/* Footer consistency */
+footer, .site-footer {
+    border-top: 1px solid var(--color-border);
+    padding: 24px 16px;
+    margin-top: 48px;
+    font-size: 0.85em;
+    color: var(--color-footer-text);
+    text-align: center;
+}
+
+/* Cards — sharpen corners sitewide (subtle) */
+.btn, input, select, textarea { border-radius: 2px; }
+
+/* Tabular numerals for any stat/count */
+.hp-stat-num,
+.hp-country-count,
+.hp-city-count,
+.leaderboard-stats span,
+[class*="-count"],
+[class*="-stat"] {
+    font-feature-settings: "tnum";
+}
+
+/* ---------- HOMEPAGE-ONLY ---------- */
+
+/* Homepage-specific display override for quiz heading + numerals */
 .home-page .hp-daily-quiz h3,
 .home-page .hp-stat-num,
 .home-page .hp-country-count {
     font-family: var(--font-display);
-    font-feature-settings: "ss01", "ss02", "tnum";
     letter-spacing: -0.015em;
 }
 

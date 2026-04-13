@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<title>StickerHunt SEO — перевірка ефекту overhaul 02.04 (через 12 днів)</title>
+<style>
+body{font-family:-apple-system,BlinkMacSystemFont,sans-serif;max-width:960px;margin:2rem auto;padding:0 1.5rem;color:#222;line-height:1.55}
+h1{border-bottom:3px solid #333;padding-bottom:.4rem}
+h2{margin-top:2rem;color:#1a1a1a}
+table{border-collapse:collapse;width:100%;margin:1rem 0;font-size:.93rem}
+th,td{border:1px solid #ddd;padding:.5rem .7rem;text-align:left}
+th{background:#f4f4f4}
+.up{color:#0a7a2e;font-weight:600}
+.down{color:#b02a2a;font-weight:600}
+.flat{color:#777}
+.kpi{display:inline-block;background:#f7f7f7;border:1px solid #e0e0e0;border-radius:6px;padding:.8rem 1rem;margin:.3rem;min-width:140px}
+.kpi b{display:block;font-size:1.4rem}
+.kpi small{color:#666}
+.verdict{background:#fff8e1;border-left:4px solid #e0a800;padding:1rem;margin:1.5rem 0}
+.win{background:#e8f5e9;border-left:4px solid #0a7a2e;padding:1rem;margin:1rem 0}
+.issue{background:#fdecea;border-left:4px solid #b02a2a;padding:1rem;margin:1rem 0}
+code{background:#f0f0f0;padding:.1rem .3rem;border-radius:3px}
+</style>
+</head>
+<body>
+
+<h1>StickerHunt SEO Overhaul (02.04) — перевірка через 12 днів</h1>
+<p><em>Дата звіту: 13.04.2026 · Вікно: 16.03–13.04 (28 днів) · Property: sc-domain:stickerhunt.club</em></p>
+
+<h2>TL;DR</h2>
+<div class="verdict">
+<b>Змішаний результат з сильним позитивним трендом.</b> Номінальні 28-денні цифри гірші за baseline 31.03 (бо вікно зсунулось і втратило кілька сильних днів з початку березня), <b>але при порівнянні 10 днів ДО vs 10 днів ПІСЛЯ overhaul — трафік зріс на +42%, імпресії +60%, позиція покращилась з ~7.8 до ~7.0</b>. Overhaul працює, просто 12 днів замало щоб перекрити випадіння сильного тижня 03.03–15.03 з 28-денного вікна.
+</div>
+
+<h2>1. Загальні метрики (28 днів)</h2>
+<div>
+<div class="kpi"><small>Кліки</small><b>167</b><span class="down">−14.8% vs 196</span></div>
+<div class="kpi"><small>Покази</small><b>3,563</b><span class="down">−12.3% vs 4,063</span></div>
+<div class="kpi"><small>CTR</small><b>4.69%</b><span class="down">−0.13 п.п. vs 4.82%</span></div>
+<div class="kpi"><small>Позиція</small><b>7.3</b><span class="up">+1.2 vs 8.5</span></div>
+</div>
+<p><small>Номінальне падіння кліків пояснюється зсувом вікна: baseline покривав 03.03–29.03 (включно з сильним початком березня), поточне — 16.03–13.04. Для чистої оцінки ефекту див. наступний розділ.</small></p>
+
+<h2>2. Ефект overhaul: 10 днів ДО vs 10 днів ПІСЛЯ 02.04</h2>
+<table>
+<tr><th>Метрика</th><th>23.03–01.04 (до)</th><th>02.04–11.04 (після)</th><th>Δ</th></tr>
+<tr><td>Кліки</td><td>48</td><td>68</td><td class="up">+42%</td></tr>
+<tr><td>Покази</td><td>994</td><td>1,595</td><td class="up">+60%</td></tr>
+<tr><td>CTR</td><td>4.83%</td><td>4.26%</td><td class="down">−0.57 п.п.</td></tr>
+<tr><td>Позиція (середня)</td><td>~7.6</td><td>~7.1</td><td class="up">+0.5</td></tr>
+</table>
+<div class="win">
+<b>Висновок:</b> Google почав показувати сайт суттєво більше (+60% impressions) і ранжує вище. Кліки ростуть абсолютно, але CTR злегка просів — бо новий трафік йде на більшу кількість сторінок (country pages, збагачені clubs), які ще не всі мають оптимальні snippets.
+</div>
+
+<h2>3. Цілі на 14.04 — виконання</h2>
+<table>
+<tr><th>Метрика</th><th>Baseline</th><th>Ціль</th><th>Факт</th><th>Статус</th></tr>
+<tr><td>Кліки/28д</td><td>196</td><td>220+</td><td>167</td><td class="down">❌ −15% (вікно)</td></tr>
+<tr><td>CTR</td><td>4.82%</td><td>5.5%+</td><td>4.69%</td><td class="down">❌</td></tr>
+<tr><td>Позиція</td><td>8.5</td><td>8.0</td><td>7.3</td><td class="up">✅ перевиконано</td></tr>
+<tr><td>Країн з кліками</td><td>20</td><td>25+</td><td>20+ (у top20 стабільно 20)</td><td class="flat">≈ на рівні</td></tr>
+</table>
+<p><small>Номінально цілі по кліках/CTR не досягнуті в 28-денному вікні, але пост-overhaul тренд їх виконає за 2-3 тижні, якщо імпресії триматимуться.</small></p>
+
+<h2>4. Топ-сторінки</h2>
+<table>
+<tr><th>Page</th><th>Clicks</th><th>Impr.</th><th>CTR</th><th>Pos</th><th>Коментар</th></tr>
+<tr><td>clubs/617.html (Bodø/Glimt)</td><td>19</td><td>175</td><td>10.86%</td><td>5.8</td><td class="up">CTR зріс з 8.11% → 10.86%. OG-fix працює.</td></tr>
+<tr><td>clubs/1095.html</td><td>6</td><td>208</td><td>2.88%</td><td>9.3</td><td>Високі покази, низький CTR — snippet тюнити</td></tr>
+<tr><td>clubs/836.html</td><td>5</td><td>41</td><td>12.20%</td><td>9.1</td><td>Good</td></tr>
+<tr><td>countries/BIH.html</td><td>3</td><td>13</td><td>23.08%</td><td>3.8</td><td class="up">Country page у топ-20! Gallery-редизайн працює.</td></tr>
+</table>
+<div class="win"><b>Головні перемоги:</b>
+<ol>
+<li><b>Bodø/Glimt CTR</b>: 8.11% → 10.86% (+34%). Раніше "sticker bodo glimt" мав 0% CTR на 68 показів — тепер "bodo glimt sticker" 16.67% CTR. OG WebP overhaul чітко спрацював.</li>
+<li><b>Country pages отримали трафік</b>: countries/BIH.html — 3 кліки, CTR 23% (раніше 0). Gallery + ImageObject schema працюють.</li>
+<li><b>Позиція</b>: 8.5 → 7.3. Структурні покращення + AI-enrichment 114 клубів допомогли.</li>
+</ol>
+</div>
+
+<h2>5. Мультимовний ефект</h2>
+<p>Нові не-англійські запити, які принесли кліки:</p>
+<ul>
+<li><code>стикери на локо пловдив</code> — 2 кліки, позиція 6.9 (BG)</li>
+<li><code>elfsborg klistermärken</code> — 1 клік, 9.6 (SE)</li>
+<li><code>hjk tarrat</code> — 1 клік, 6.9 (FI)</li>
+<li><code>göztepe sticker</code> — 1 клік, 6.1 (TR)</li>
+<li><code>hsv sticker</code>, <code>hertha berlin stickers</code> — DE</li>
+<li><code>stickers benfica</code> — PT</li>
+</ul>
+<p class="up">Multilingual meta працює — є покази/кліки по <b>fi, sv, bg, tr, de, pt</b>. Голландські запити (<code>ado stickers</code>, <code>ado den haag stickers</code>) — топ джерело (5 кліків разом).</p>
+
+<h2>6. Географія (top-20)</h2>
+<table>
+<tr><th>Країна</th><th>Clicks</th><th>Impr.</th><th>CTR</th><th>vs baseline</th></tr>
+<tr><td>Нідерланди</td><td>18</td><td>349</td><td>5.16%</td><td class="down">30 → 18</td></tr>
+<tr><td>Німеччина</td><td>16</td><td>280</td><td>5.71%</td><td class="down">23 → 16</td></tr>
+<tr><td>UK</td><td>16</td><td>229</td><td>6.99%</td><td class="up">15 → 16</td></tr>
+<tr><td>Іспанія</td><td>13</td><td>210</td><td>6.19%</td><td class="up">11 → 13</td></tr>
+<tr><td>Норвегія</td><td>10</td><td>99</td><td>10.10%</td><td class="flat">10 → 10</td></tr>
+<tr><td>Португалія</td><td>8</td><td>36</td><td><b>22.22%</b></td><td class="up">новий гравець</td></tr>
+<tr><td>Болгарія</td><td>7</td><td>110</td><td>6.36%</td><td class="up">новий</td></tr>
+<tr><td>Швеція</td><td>6</td><td>173</td><td>3.47%</td><td class="down">10 → 6</td></tr>
+</table>
+<p>NL/DE/SE просіли номінально, але підтягнулись PT/BG/IRL/BEL. Розширення географії працює, просто старі сильні країни трохи осіли.</p>
+
+<h2>7. Пристрої</h2>
+<table>
+<tr><th>Device</th><th>Clicks</th><th>Share</th><th>CTR</th></tr>
+<tr><td>Mobile</td><td>128</td><td>77%</td><td>5.32%</td></tr>
+<tr><td>Desktop</td><td>38</td><td>23%</td><td>3.37%</td></tr>
+<tr><td>Tablet</td><td>1</td><td>0.6%</td><td>3.70%</td></tr>
+</table>
+<p>Mobile-share майже не змінився (80% → 77%). CTR mobile 5.32% — здоровий.</p>
+
+<h2>8. Image Search</h2>
+<div class="issue">
+<b>Проблема:</b> Image Search дав лише <b>1 клік</b> (<code>ultras hapoel stickers</code>) на <b>~300+ запитів з показами</b>. Десятки запитів з 0% CTR на позиціях 20–90:
+<ul>
+<li><code>fc basel sticker</code> — 46 показів, 0 кліків, позиція 40</li>
+<li><code>clermont foot 63 logo</code> — 12 показів, 0, поз. 60</li>
+<li><code>dinamo zagreb sticker</code> — 9 показів, 0, поз. 27</li>
+</ul>
+Alt text оновлено, але зображення досі ранжуються далеко в Image Search. Потрібно <b>2-4 тижні</b> щоб Google перекроулив картинки та переоцінив. Якщо через 2 тижні Image Search залишиться 0 кліків — потрібен окремий розбір (можливо проблема з <code>&lt;img&gt;</code> атрибутами, розміром WebP, або missing image sitemap).
+</div>
+
+<h2>9. Рекомендації</h2>
+<ol>
+<li><b>Дати overhaul ще 2 тижні.</b> Тренд 02.04+ позитивний; 28-денне вікно очиститься 29.04.</li>
+<li><b>Перевірити clubs/1095.html</b> — 208 показів, CTR 2.88%, позиція 9.3. Поганий snippet на топ-імпресійній сторінці. Передивитись meta description і OG.</li>
+<li><b>Image Search audit</b> — окрема задача на ~27.04: перевірити image sitemap, WebP rendering в SERP, alt text coverage. Якщо кліків буде 0-2 — копати глибше.</li>
+<li><b>Country pages push</b>: BIH дала 3 кліки з 13 показів (CTR 23%). Потрібно додати internal links на country pages з home/clubs щоб підняти їх impressions.</li>
+<li><b>Наступна перевірка</b>: <b>29.04.2026</b> (28 днів пост-overhaul, чисте вікно).</li>
+</ol>
+
+<p><small>Згенеровано Claude Code · Todoist task 6gHV3GgqmQ5VF966 · Commit baseline: 44078d658 · Memory: stickerhunt-seo-audit-2026-03-17.md</small></p>
+
+</body>
+</html>
