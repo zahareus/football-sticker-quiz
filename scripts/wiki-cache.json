@@ -5976,5 +5976,14 @@
     "capacity": "41,500",
     "league": "Süper Lig",
     "website": "https://www.trabzonspor.org.tr/"
+  },
+  "1183": {
+    "wikiUrl": "https://de.wikipedia.org/wiki/Rot_Weiss_Ahlen",
+    "intro": "Rot Weiss Ahlen is a German football club based in Ahlen, North Rhine-Westphalia. Until 2006 the club was known as LR Ahlen for its major sponsor, but underwent a name change when the sponsor withdrew its support after the team was relegated to the Regionalliga (III) in that year..",
+    "founded": "1996",
+    "stadium": "Wersestadion",
+    "capacity": "15,000",
+    "league": "Oberliga Westfalen",
+    "website": "https://rwahlen.de/"
   }
 }
