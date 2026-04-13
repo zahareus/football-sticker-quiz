@@ -5967,5 +5967,14 @@
     "capacity": "15,097",
     "league": "Ligue 1",
     "website": "https://www.sb29.bzh"
+  },
+  "1181": {
+    "wikiUrl": "https://en.wikipedia.org/wiki/Trabzonspor",
+    "intro": "Trabzonspor Kulübü is a Turkish professional sports club located in the city of Trabzon, located in northeastern Turkey. Established in 1967 through the merger of several local clubs, Trabzonspor is one of the most prominent football clubs in Turkish history.",
+    "founded": "1967",
+    "stadium": "Papara Park",
+    "capacity": "41,500",
+    "league": "Süper Lig",
+    "website": "https://www.trabzonspor.org.tr/"
   }
 }
