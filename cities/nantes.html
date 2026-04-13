@@ -479,20 +479,6 @@
                          loading="lazy"
                          decoding="async">
                 </a>
-                <a href="/stickers/3276.html" class="sticker-preview-link">
-                    <img src="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/club_701/1775996795135_IMG_8876_thumb.webp"
-                         alt="Nantes football sticker #3276 found in this city"
-                         class="sticker-preview-image"
-                         loading="lazy"
-                         decoding="async">
-                </a>
-                <a href="/stickers/3251.html" class="sticker-preview-link">
-                    <img src="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/club_701/1775994766597_IMG_8669_thumb.webp"
-                         alt="Nantes football sticker #3251 found in this city"
-                         class="sticker-preview-image"
-                         loading="lazy"
-                         decoding="async">
-                </a>
                 <a href="/stickers/3286.html" class="sticker-preview-link">
                     <img src="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/club_701/1775998558132_IMG_8694_thumb.webp"
                          alt="Nantes football sticker #3286 found in this city"
@@ -507,9 +493,23 @@
                          loading="lazy"
                          decoding="async">
                 </a>
+                <a href="/stickers/3276.html" class="sticker-preview-link">
+                    <img src="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/club_701/1775996795135_IMG_8876_thumb.webp"
+                         alt="Nantes football sticker #3276 found in this city"
+                         class="sticker-preview-image"
+                         loading="lazy"
+                         decoding="async">
+                </a>
                 <a href="/stickers/3281.html" class="sticker-preview-link">
                     <img src="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/club_701/1775997246873_IMG_8687_thumb.webp"
                          alt="Nantes football sticker #3281 found in this city"
+                         class="sticker-preview-image"
+                         loading="lazy"
+                         decoding="async">
+                </a>
+                <a href="/stickers/3251.html" class="sticker-preview-link">
+                    <img src="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/club_701/1775994766597_IMG_8669_thumb.webp"
+                         alt="Nantes football sticker #3251 found in this city"
                          class="sticker-preview-image"
                          loading="lazy"
                          decoding="async">
@@ -887,20 +887,6 @@
                 })();
 
                 (function() {
-                    const marker = L.marker([47.2159944444444, -1.54196111111111]).addTo(cityMap);
-                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>Nantes</strong><a href="/stickers/3276.html" class="map-popup-link">View</a></div>');
-                    marker.on('mouseover', function() { this.openPopup(); });
-                    marker.on('click', function() { this.openPopup(); });
-                })();
-
-                (function() {
-                    const marker = L.marker([47.2155388888889, -1.55454166666667]).addTo(cityMap);
-                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>Nantes</strong><a href="/stickers/3251.html" class="map-popup-link">View</a></div>');
-                    marker.on('mouseover', function() { this.openPopup(); });
-                    marker.on('click', function() { this.openPopup(); });
-                })();
-
-                (function() {
                     const marker = L.marker([47.2576222222222, -1.52655277777778]).addTo(cityMap);
                     marker.bindPopup('<div class="nearby-sticker-popup"><strong>Nantes</strong><a href="/stickers/3286.html" class="map-popup-link">View</a></div>');
                     marker.on('mouseover', function() { this.openPopup(); });
@@ -915,8 +901,22 @@
                 })();
 
                 (function() {
+                    const marker = L.marker([47.2159944444444, -1.54196111111111]).addTo(cityMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>Nantes</strong><a href="/stickers/3276.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
                     const marker = L.marker([47.2580916666667, -1.52649166666667]).addTo(cityMap);
                     marker.bindPopup('<div class="nearby-sticker-popup"><strong>Nantes</strong><a href="/stickers/3281.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([47.2155388888889, -1.55454166666667]).addTo(cityMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>Nantes</strong><a href="/stickers/3251.html" class="map-popup-link">View</a></div>');
                     marker.on('mouseover', function() { this.openPopup(); });
                     marker.on('click', function() { this.openPopup(); });
                 })();
@@ -975,11 +975,11 @@
                     [47.2089277777778, -1.566575],
                     [47.2170361111111, -1.54552222222222],
                     [47.2569, -1.52669722222222],
-                    [47.2159944444444, -1.54196111111111],
-                    [47.2155388888889, -1.55454166666667],
                     [47.2576222222222, -1.52655277777778],
                     [47.2054722222222, -1.57409166666667],
+                    [47.2159944444444, -1.54196111111111],
                     [47.2580916666667, -1.52649166666667],
+                    [47.2155388888889, -1.55454166666667],
                     [47.2088666666667, -1.56680833333333]
                 ]);
                 cityMap.fitBounds(bounds, { padding: [30, 30], maxZoom: 15 });
