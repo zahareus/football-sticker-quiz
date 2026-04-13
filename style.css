@@ -90,26 +90,27 @@
 /* Variables & Basic Reset        */
 /* ------------------------------ */
 :root {
-    --font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-    --color-text: #212121;
-    --color-background: #FFFFFF;
-    --color-accent: #FFC107;
-    --color-accent-darker: #FFA000;
-    --color-accent-text: #212121;
-    --color-secondary-bg: #f8f9fa;
-    --color-secondary-bg-hover: #e9ecef;
-    --color-border: #E0E0E0;
-    --color-disabled-bg: #E0E0E0;
-    --color-disabled-text: #9E9E9E;
-    --color-success: #28a745;
-    --color-error: #dc3545;
-    --color-error-bg: #f8d7da;
-    --color-info-text: #555;
-    --color-rank: #757575;
-    --color-link: #007bff;
-    --color-link-hover: #0056b3;
-    --color-separator-text: #adb5bd;
-    --color-footer-text: #6c757d;
+    --font-family: 'Inter Tight', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    --font-display: 'Fraunces', Georgia, 'Times New Roman', serif;
+    --color-text: #1A1814;
+    --color-background: #F7F4EE;
+    --color-accent: #8B2332;
+    --color-accent-darker: #6F1C29;
+    --color-accent-text: #F7F4EE;
+    --color-secondary-bg: #EFEAE0;
+    --color-secondary-bg-hover: #E8E2D5;
+    --color-border: #D9D2C4;
+    --color-disabled-bg: #E8E2D5;
+    --color-disabled-text: #9E988B;
+    --color-success: #3C6E47;
+    --color-error: #8B2332;
+    --color-error-bg: #F1DDDF;
+    --color-info-text: #4A4740;
+    --color-rank: #6F6B62;
+    --color-link: #8B2332;
+    --color-link-hover: #6F1C29;
+    --color-separator-text: #9E988B;
+    --color-footer-text: #4A4740;
 
 
     --border-radius: 8px;
@@ -4153,4 +4154,214 @@ body.daily-mode .game-info #timer {
     .hp-sticker-card img { width: 120px; height: 120px; }
     .hp-section { padding: 24px 16px; }
     .hp-map-preview { height: 180px; }
+}
+
+/* ============================================================ */
+/* Modern Editorial Redesign (Impeccable pass — 2026-04-13)     */
+/* Blizzard-style: serif display, warm paper, burgundy accent   */
+/* ============================================================ */
+
+/* Display typography — serif with character for headlines */
+.home-page h1,
+.home-page h2,
+.home-page .hp-daily-quiz h3,
+.home-page .hp-stat-num,
+.home-page .hp-country-count {
+    font-family: var(--font-display);
+    font-feature-settings: "ss01", "ss02", "tnum";
+    letter-spacing: -0.015em;
+}
+
+/* Hero — editorial magazine opener */
+.home-page .hp-hero { padding: 72px 24px 48px; max-width: 860px; }
+.home-page .hp-hero h1 {
+    font-size: clamp(2.4rem, 5.5vw, 3.8rem);
+    font-weight: 500;
+    line-height: 1.05;
+    letter-spacing: -0.025em;
+    margin-bottom: 20px;
+    font-style: italic;
+    font-variation-settings: "SOFT" 30, "WONK" 0;
+}
+.home-page .hp-hero-stats {
+    gap: 48px;
+    margin-bottom: 32px;
+    font-size: 0.82em;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--color-info-text);
+}
+.home-page .hp-hero-stats .hp-stat-num {
+    font-size: 2.4em;
+    font-weight: 400;
+    font-feature-settings: "tnum";
+    color: var(--color-text);
+    line-height: 1;
+    margin-bottom: 2px;
+}
+
+/* Section headers — editorial kicker style */
+.home-page .hp-section-header h2 {
+    font-size: 1.9em;
+    font-weight: 500;
+    letter-spacing: -0.02em;
+}
+.home-page .hp-section-header {
+    border-bottom: 1px solid var(--color-border);
+    padding-bottom: 10px;
+    margin-bottom: 28px;
+    align-items: end;
+}
+.home-page .hp-section-links a {
+    text-transform: uppercase;
+    font-size: 0.72em;
+    letter-spacing: 0.1em;
+    font-weight: 500;
+}
+
+/* Kill visual <hr> dividers — use space instead */
+.home-page .hp-divider { display: none; }
+.home-page .hp-section { padding: 48px 24px 16px; }
+
+/* Search — editorial underline, not boxed */
+.home-page .hp-search-input {
+    background: transparent;
+    border: none;
+    border-bottom: 1.5px solid var(--color-text);
+    border-radius: 0;
+    padding: 12px 8px;
+    font-size: 1.05em;
+    font-family: var(--font-display);
+    font-style: italic;
+}
+.home-page .hp-search-input:focus {
+    outline: none;
+    border-bottom-color: var(--color-accent);
+    box-shadow: none;
+}
+
+/* Daily Quiz — pull-quote feel */
+.home-page .hp-daily-quiz {
+    background: var(--color-secondary-bg);
+    border: none;
+    border-left: 3px solid var(--color-accent);
+    padding: 28px 32px;
+    border-radius: 0;
+}
+.home-page .hp-daily-quiz h3 {
+    font-size: 1.6em;
+    font-weight: 500;
+    font-style: italic;
+    margin-bottom: 6px;
+}
+.home-page .hp-daily-quiz p {
+    font-size: 0.95em;
+    color: var(--color-info-text);
+    max-width: 48ch;
+}
+
+/* Sticker cards — paper-lift hover */
+.home-page .hp-sticker-card {
+    transition: transform 180ms ease-out;
+}
+.home-page .hp-sticker-card img {
+    border: 1px solid var(--color-border);
+    border-radius: 2px;
+    transition: box-shadow 220ms ease-out, border-color 180ms ease-out;
+}
+.home-page .hp-sticker-card:hover {
+    transform: rotate(-0.8deg) translateY(-3px);
+}
+.home-page .hp-sticker-card:hover img {
+    border-color: var(--color-text);
+    box-shadow: 0 6px 16px rgba(26, 24, 20, 0.12);
+}
+.home-page .hp-sticker-card-label {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: 0.88em;
+    margin-top: 10px;
+    color: var(--color-info-text);
+}
+
+/* Country grid — featured effect for top-3 */
+.home-page .hp-country-grid {
+    grid-template-columns: repeat(6, 1fr);
+    gap: 2px;
+    background: var(--color-border);
+    border: 1px solid var(--color-border);
+}
+.home-page .hp-country-card {
+    background: var(--color-background);
+    border: none;
+    border-radius: 0;
+    padding: 18px 8px;
+    transition: background 160ms ease-out;
+}
+.home-page .hp-country-card:hover {
+    background: var(--color-secondary-bg);
+    border: none;
+    transform: none;
+    box-shadow: none;
+}
+.home-page .hp-country-card:nth-child(-n+3) {
+    background: var(--color-secondary-bg);
+}
+.home-page .hp-country-card:nth-child(-n+3) .hp-country-flag { font-size: 2.4em; }
+.home-page .hp-country-card:nth-child(-n+3) .hp-country-count {
+    font-size: 1em;
+    font-weight: 500;
+    color: var(--color-accent);
+}
+.home-page .hp-country-flag { font-size: 1.6em; margin-bottom: 6px; }
+.home-page .hp-country-name {
+    font-size: 0.78em;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+}
+.home-page .hp-country-count {
+    font-family: var(--font-display);
+    font-size: 0.9em;
+    font-feature-settings: "tnum";
+    color: var(--color-rank);
+}
+
+/* Buttons — editorial refinement */
+.home-page .btn-primary {
+    background: var(--color-text);
+    color: var(--color-background);
+    border-color: var(--color-text);
+    box-shadow: none;
+    border-radius: 2px;
+    letter-spacing: 0.04em;
+    font-weight: 500;
+}
+.home-page .btn-primary:hover {
+    background: var(--color-accent);
+    border-color: var(--color-accent);
+}
+.home-page .btn-secondary {
+    background: transparent;
+    border: 1px solid var(--color-text);
+    border-radius: 2px;
+    letter-spacing: 0.04em;
+}
+.home-page .btn-large { padding: 14px 28px; font-size: 1em; }
+
+/* Header — minimal editorial masthead */
+.home-page .app-header {
+    border-bottom: 1px solid var(--color-border);
+    padding-bottom: 12px;
+    margin-bottom: 0;
+}
+
+/* Mobile tweaks */
+@media (max-width: 600px) {
+    .home-page .hp-hero { padding: 40px 16px 28px; }
+    .home-page .hp-hero-stats { gap: 24px; }
+    .home-page .hp-hero-stats .hp-stat-num { font-size: 1.9em; }
+    .home-page .hp-country-grid { grid-template-columns: repeat(3, 1fr); }
+    .home-page .hp-section-header h2 { font-size: 1.4em; }
+    .home-page .hp-daily-quiz { padding: 20px 20px; }
+    .home-page .hp-daily-quiz h3 { font-size: 1.25em; }
 }
