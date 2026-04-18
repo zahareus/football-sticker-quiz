@@ -150,6 +150,18 @@ jobs:
 
           echo "image_optimization=success" >> $GITHUB_OUTPUT
 
+      - name: Safety-net — optimize any missing recent images
+        if: always()
+        working-directory: ./scripts
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
+        continue-on-error: true
+        run: |
+          # Picks up stickers whose workflow run was cancelled by concurrency group
+          # (last 2 days, HEAD-checks _web.webp existence, optimizes only what's missing)
+          node optimize-images.js --missing-only --days=2
+
       - name: Regenerate city pages
         if: steps.get-ids.outputs.sticker_ids != ''
         working-directory: ./scripts
