@@ -27,8 +27,10 @@ dotenv.config();
 function parseArgs() {
     const args = {
         dryRun: process.argv.includes('--dry-run'),
+        missingOnly: process.argv.includes('--missing-only'),
         fromId: null,
-        onlyIds: null
+        onlyIds: null,
+        days: null
     };
 
     for (const arg of process.argv) {
@@ -37,6 +39,9 @@ function parseArgs() {
         }
         if (arg.startsWith('--only=')) {
             args.onlyIds = arg.split('=')[1].split(',').map(id => parseInt(id.trim(), 10));
+        }
+        if (arg.startsWith('--days=')) {
+            args.days = parseInt(arg.split('=')[1], 10);
         }
     }
 
@@ -79,7 +84,9 @@ const CONFIG = {
     // Command line options
     DRY_RUN: ARGS.dryRun,
     FROM_ID: ARGS.fromId,
-    ONLY_IDS: ARGS.onlyIds
+    ONLY_IDS: ARGS.onlyIds,
+    MISSING_ONLY: ARGS.missingOnly,
+    DAYS: ARGS.days
 };
 
 // Validate configuration
@@ -117,10 +124,16 @@ async function getAllStickers() {
         return data || [];
     }
 
-    // Otherwise fetch all (with optional --from filter)
+    // Otherwise fetch all (with optional --from and --days filter)
     const allStickers = [];
     let offset = 0;
     const limit = 1000;
+
+    let sinceIso = null;
+    if (CONFIG.DAYS) {
+        sinceIso = new Date(Date.now() - CONFIG.DAYS * 86400_000).toISOString();
+        console.log(`(limiting to stickers created since ${sinceIso})`);
+    }
 
     while (true) {
         let query = supabase
@@ -131,6 +144,10 @@ async function getAllStickers() {
         // Apply --from filter
         if (CONFIG.FROM_ID) {
             query = query.gte('id', CONFIG.FROM_ID);
+        }
+
+        if (sinceIso) {
+            query = query.gte('created_at', sinceIso);
         }
 
         query = query.range(offset, offset + limit - 1);
@@ -423,11 +440,33 @@ async function main() {
 
     try {
         // Get all stickers
-        const stickers = await getAllStickers();
+        let stickers = await getAllStickers();
 
         if (stickers.length === 0) {
             console.log('No stickers found in database.');
             return;
+        }
+
+        // --missing-only: pre-filter to stickers without _web.webp in Storage
+        if (CONFIG.MISSING_ONLY) {
+            console.log(`\nChecking _web.webp existence for ${stickers.length} stickers...`);
+            const CHECK_CONCURRENCY = 20;
+            const missing = [];
+            for (let i = 0; i < stickers.length; i += CHECK_CONCURRENCY) {
+                const batch = stickers.slice(i, i + CHECK_CONCURRENCY);
+                const flags = await Promise.all(batch.map(async (s) => {
+                    const p = extractStoragePath(s.image_url);
+                    if (!p) return false;
+                    return !(await optimizedVersionExists(p, CONFIG.WEB_SUFFIX));
+                }));
+                batch.forEach((s, idx) => { if (flags[idx]) missing.push(s); });
+            }
+            console.log(`Missing optimized versions: ${missing.length} of ${stickers.length}`);
+            stickers = missing;
+            if (stickers.length === 0) {
+                console.log('Nothing to do.');
+                return;
+            }
         }
 
         // Process
