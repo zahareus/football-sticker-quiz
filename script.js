@@ -643,6 +643,11 @@ async function displayQuestion(questionData) {
     // Now set the src - image should display instantly since it's decoded
     stickerImageElement.src = questionData.imageUrl;
     stickerImageElement.alt = "Club Sticker";
+    if (questionData.stickerId) {
+        stickerImageElement.dataset.stickerId = String(questionData.stickerId);
+    } else {
+        delete stickerImageElement.dataset.stickerId;
+    }
 
     // Use requestAnimationFrame for smooth fade-in
     requestAnimationFrame(() => {

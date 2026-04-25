@@ -149,7 +149,7 @@
                                  class="sticker-detail-image"
                                  decoding="async"
                                  loading="eager"
-                                 fetchpriority="high">
+                                 fetchpriority="high" data-sticker-id="7">
                         </div>
                         <div class="sticker-nav-buttons"><a href="/stickers/6.html" class="btn btn-nav sticker-nav-btn">← #6</a><a href="/stickers/8.html" class="btn btn-nav sticker-nav-btn">#8 →</a></div>
                     </div>
@@ -201,9 +201,9 @@
                 <div class="more-from-club">
 <h3>More from Atletico Belgrano</h3>
 <div class="sticker-strip">
-<a href="/stickers/4.html" class="sticker-strip-item"><img src="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/ARG%20Atletico%20Belgrano/IMG_5887_thumb.webp" alt="Sticker #4" loading="lazy" decoding="async"></a>
-<a href="/stickers/5.html" class="sticker-strip-item"><img src="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/ARG%20Atletico%20Belgrano/IMG_8199_thumb.webp" alt="Sticker #5" loading="lazy" decoding="async"></a>
-<a href="/stickers/6.html" class="sticker-strip-item"><img src="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/ARG%20Atletico%20Belgrano/IMG_8378_thumb.webp" alt="Sticker #6" loading="lazy" decoding="async"></a>
+<a href="/stickers/4.html" class="sticker-strip-item"><img src="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/ARG%20Atletico%20Belgrano/IMG_5887_thumb.webp" alt="Sticker #4" loading="lazy" decoding="async" data-sticker-id="4"></a>
+<a href="/stickers/5.html" class="sticker-strip-item"><img src="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/ARG%20Atletico%20Belgrano/IMG_8199_thumb.webp" alt="Sticker #5" loading="lazy" decoding="async" data-sticker-id="5"></a>
+<a href="/stickers/6.html" class="sticker-strip-item"><img src="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/ARG%20Atletico%20Belgrano/IMG_8378_thumb.webp" alt="Sticker #6" loading="lazy" decoding="async" data-sticker-id="6"></a>
 </div>
 </div>
                 
@@ -232,6 +232,7 @@
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
     <script src="/shared.js"></script>
+    <script defer src="/js/view-tracker.js"></script>
     <script>
         // Initialize map if map container exists
         

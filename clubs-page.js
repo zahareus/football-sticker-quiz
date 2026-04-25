@@ -86,11 +86,12 @@ async function loadAllClubs() {
         // Build stats per club
         const clubStats = {};
         allStickers.forEach(s => {
-            if (!clubStats[s.club_id]) clubStats[s.club_id] = { count: 0, bestRating: 0, bestImage: null };
+            if (!clubStats[s.club_id]) clubStats[s.club_id] = { count: 0, bestRating: 0, bestImage: null, bestStickerId: null };
             clubStats[s.club_id].count++;
             if ((s.rating || 0) > clubStats[s.club_id].bestRating) {
                 clubStats[s.club_id].bestRating = s.rating || 0;
                 clubStats[s.club_id].bestImage = s.image_url;
+                clubStats[s.club_id].bestStickerId = s.id;
             }
         });
 
@@ -103,6 +104,7 @@ async function loadAllClubs() {
             city: extractCity(c.city),
             count: clubStats[c.id] ? clubStats[c.id].count : 0,
             bestImage: clubStats[c.id] ? clubStats[c.id].bestImage : null,
+            bestStickerId: clubStats[c.id] ? clubStats[c.id].bestStickerId : null,
         })).sort((a, b) => a.cleanName.localeCompare(b.cleanName, 'en'));
 
         totalPages = Math.ceil(allClubsData.length / CLUBS_PER_PAGE);
@@ -162,7 +164,7 @@ function renderPage(totalClubs, totalCountries, totalStickers) {
         if (!thumbUrl) return;
         html += `
             <a href="/clubs/${c.id}.html" class="cat-club-card">
-                <img src="${thumbUrl}" alt="${c.cleanName} sticker" loading="lazy" decoding="async">
+                <img src="${thumbUrl}" alt="${c.cleanName} sticker" data-sticker-id="${c.bestStickerId}" loading="lazy" decoding="async">
                 <span class="cat-club-label">${c.cleanName}</span>
                 <span class="cat-club-count">${c.count} stickers</span>
             </a>`;
@@ -219,7 +221,7 @@ function renderTablePage(page) {
     pageClubs.forEach(c => {
         const thumbUrl = c.bestImage ? SharedUtils.getThumbnailUrl(c.bestImage) : '';
         const thumbHtml = thumbUrl
-            ? `<img src="${thumbUrl}" class="clubs-dir-thumb" alt="" loading="lazy" decoding="async">`
+            ? `<img src="${thumbUrl}" class="clubs-dir-thumb" alt="" data-sticker-id="${c.bestStickerId}" loading="lazy" decoding="async">`
             : '<span class="clubs-dir-thumb-placeholder"></span>';
         const countryName = getCountryName(c.country);
 

@@ -149,7 +149,7 @@
                                  class="sticker-detail-image"
                                  decoding="async"
                                  loading="eager"
-                                 fetchpriority="high">
+                                 fetchpriority="high" data-sticker-id="722">
                         </div>
                         <div class="sticker-nav-buttons"><a href="/stickers/721.html" class="btn btn-nav sticker-nav-btn">← #721</a><a href="/stickers/723.html" class="btn btn-nav sticker-nav-btn">#723 →</a></div>
                     </div>
@@ -201,12 +201,12 @@
                 <div class="more-from-club">
 <h3>More from AFC Ajax</h3>
 <div class="sticker-strip">
-<a href="/stickers/720.html" class="sticker-strip-item"><img src="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/stickers/AFC_Ajax/IMG_7070_thumb.webp?" alt="Sticker #720" loading="lazy" decoding="async"></a>
-<a href="/stickers/721.html" class="sticker-strip-item"><img src="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/stickers/AFC_Ajax/IMG_8572_(1)_thumb.webp?" alt="Sticker #721" loading="lazy" decoding="async"></a>
-<a href="/stickers/2288.html" class="sticker-strip-item"><img src="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/club_729%2F1748087794092_IMG_5494_thumb.webp" alt="Sticker #2288" loading="lazy" decoding="async"></a>
-<a href="/stickers/2580.html" class="sticker-strip-item"><img src="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/club_729/1759425113033_IMG_7065_thumb.webp" alt="Sticker #2580" loading="lazy" decoding="async"></a>
-<a href="/stickers/2587.html" class="sticker-strip-item"><img src="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/club_729/1759579052597_IMG_7117_thumb.webp" alt="Sticker #2587" loading="lazy" decoding="async"></a>
-<a href="/stickers/2588.html" class="sticker-strip-item"><img src="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/club_729/1759579173339_IMG_7116_thumb.webp" alt="Sticker #2588" loading="lazy" decoding="async"></a>
+<a href="/stickers/720.html" class="sticker-strip-item"><img src="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/stickers/AFC_Ajax/IMG_7070_thumb.webp?" alt="Sticker #720" loading="lazy" decoding="async" data-sticker-id="720"></a>
+<a href="/stickers/721.html" class="sticker-strip-item"><img src="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/stickers/AFC_Ajax/IMG_8572_(1)_thumb.webp?" alt="Sticker #721" loading="lazy" decoding="async" data-sticker-id="721"></a>
+<a href="/stickers/2288.html" class="sticker-strip-item"><img src="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/club_729%2F1748087794092_IMG_5494_thumb.webp" alt="Sticker #2288" loading="lazy" decoding="async" data-sticker-id="2288"></a>
+<a href="/stickers/2580.html" class="sticker-strip-item"><img src="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/club_729/1759425113033_IMG_7065_thumb.webp" alt="Sticker #2580" loading="lazy" decoding="async" data-sticker-id="2580"></a>
+<a href="/stickers/2587.html" class="sticker-strip-item"><img src="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/club_729/1759579052597_IMG_7117_thumb.webp" alt="Sticker #2587" loading="lazy" decoding="async" data-sticker-id="2587"></a>
+<a href="/stickers/2588.html" class="sticker-strip-item"><img src="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/club_729/1759579173339_IMG_7116_thumb.webp" alt="Sticker #2588" loading="lazy" decoding="async" data-sticker-id="2588"></a>
 </div>
 </div>
                 
@@ -235,6 +235,7 @@
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
     <script src="/shared.js"></script>
+    <script defer src="/js/view-tracker.js"></script>
     <script>
         // Initialize map if map container exists
         

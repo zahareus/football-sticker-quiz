@@ -94,6 +94,7 @@
                         <div class="sticker-detail-image-container" onclick="window.open('{{IMAGE_FULL_URL}}', '_blank')">
                             <img src="{{IMAGE_URL}}"
                                  alt="{{IMAGE_ALT}}"
+                                 data-sticker-id="{{STICKER_ID}}"
                                  class="sticker-detail-image"
                                  decoding="async"
                                  loading="eager"
@@ -170,6 +171,7 @@
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
     <script src="/shared.js"></script>
+    <script defer src="/js/view-tracker.js"></script>
     <script>
         // Initialize map if map container exists
         {{MAP_INIT_SCRIPT}}

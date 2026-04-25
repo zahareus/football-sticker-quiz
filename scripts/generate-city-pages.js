@@ -311,6 +311,7 @@ function generateCityStickerGallery(stickers, clubsMap) {
                 <a href="/stickers/${sticker.id}.html" class="sticker-preview-link">
                     <img src="${thumbnailUrl}"
                          alt="${clubName} football sticker #${sticker.id} found in this city"
+                         data-sticker-id="${sticker.id}"
                          class="sticker-preview-image"
                          loading="lazy"
                          decoding="async">
