@@ -6030,5 +6030,14 @@
     "capacity": "42,276",
     "league": "Süper Lig",
     "website": "http://www.konyaspor.org.tr/"
+  },
+  "1190": {
+    "wikiUrl": "https://tr.wikipedia.org/wiki/Manisaspor",
+    "intro": "Manisaspor is a Turkish professional football club located in the city of Manisa. Originally formed in 1931 as Sakaryaspor, the club changed its name to Manisaspor on 15 June 1965.",
+    "founded": "1965",
+    "stadium": "Manisa 19 Mayıs Stadium",
+    "capacity": "16,597",
+    "league": null,
+    "website": "https://www.manisaspor.org.tr/"
   }
 }
