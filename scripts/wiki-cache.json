@@ -5985,5 +5985,14 @@
     "capacity": "15,000",
     "league": "Oberliga Westfalen",
     "website": "https://rwahlen.de/"
+  },
+  "1185": {
+    "wikiUrl": "https://en.wikipedia.org/wiki/MC_Alger",
+    "intro": "Mouloudia Club d'Alger (Arabic: نادي مولودية الجزائر), referred to as MC Alger or MCA for short, is an Algerian football club based in Algiers. The club was founded in 1921 and its colours are green, red and gold.",
+    "founded": "1921",
+    "stadium": "Stade 5 Juillet 1962",
+    "capacity": "76,200",
+    "league": "Algerian Ligue Professionnelle 1",
+    "website": "https://mca.dz/"
   }
 }
