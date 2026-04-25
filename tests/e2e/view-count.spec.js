@@ -131,9 +131,10 @@ test('tracks views, renders badges, and excludes quiz and battle badges', async 
 
     const beforeCount = await getViewCount(page, CLUB_STICKER_ID);
 
+    // Club, country, city: tracking fires but badge must NOT render.
     await page.goto(CLUB_PAGE_URL);
     await page.waitForLoadState('domcontentloaded');
-    await expect(page.locator('.sticker-view-badge').first()).toBeVisible();
+    await expect(page.locator('.sticker-view-badge')).toHaveCount(0);
     await waitForTrackedImage(page, '.sticker-gallery img[data-sticker-id="20"]');
     await page.screenshot({ path: testInfo.outputPath('club-page.png'), fullPage: true });
 
@@ -144,14 +145,15 @@ test('tracks views, renders badges, and excludes quiz and battle badges', async 
 
     await page.goto(COUNTRY_PAGE_URL);
     await page.waitForLoadState('domcontentloaded');
-    await expect(page.locator('.cat-country-card .sticker-view-badge').first()).toBeVisible();
+    await expect(page.locator('.sticker-view-badge')).toHaveCount(0);
     await page.screenshot({ path: testInfo.outputPath('country-page.png'), fullPage: true });
 
     await page.goto(CITY_PAGE_URL);
     await page.waitForLoadState('domcontentloaded');
-    await expect(page.locator('.sticker-gallery .sticker-view-badge').first()).toBeVisible();
+    await expect(page.locator('.sticker-view-badge')).toHaveCount(0);
     await page.screenshot({ path: testInfo.outputPath('city-page.png'), fullPage: true });
 
+    // Sticker page: badge IS rendered.
     await page.goto(STICKER_PAGE_URL);
     await page.waitForLoadState('domcontentloaded');
     await expect(page.locator('.sticker-detail-image-container .sticker-view-badge')).toBeVisible();

@@ -28,17 +28,10 @@
         : null;
 
     function isBadgePage(path) {
-        if (/^\/(?:quiz|battle)\.html$/i.test(path)) {
-            return false;
-        }
-
-        return path === '/'
-            || path === '/index.html'
-            || path === '/catalogue.html'
-            || /^\/clubs\/\d+\.html$/i.test(path)
-            || /^\/countries\/[a-z]{3}\.html$/i.test(path)
-            || /^\/cities\/(?!index\.html$)[^/]+\.html$/i.test(path)
-            || /^\/stickers\/\d+\.html$/i.test(path);
+        // Badge is rendered only on the single sticker page. Tracking still
+        // fires everywhere else (catalogue, club, country, city, homepage,
+        // quiz, battle) — only the visual counter is scoped to /stickers/{id}.
+        return /^\/stickers\/\d+\.html$/i.test(path);
     }
 
     function loadSeenStickerIds() {
