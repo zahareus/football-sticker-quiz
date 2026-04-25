@@ -6066,5 +6066,14 @@
     "capacity": "20,400",
     "league": "Ligue 2",
     "website": "https://www.estac.fr/"
+  },
+  "1194": {
+    "wikiUrl": "https://en.wikipedia.org/wiki/FC_Wacker_Innsbruck_(2002)",
+    "intro": "FC Wacker Innsbruck is an Austrian association football club from Innsbruck. The club was formed in June 2002 as FC Wacker Tirol, and play their home games at Tivoli-Neu.",
+    "founded": "2002",
+    "stadium": "Tivoli Stadion Tirol",
+    "capacity": "17,400",
+    "league": "Austrian Football Second League",
+    "website": "https://fc-wacker-innsbruck.at/"
   }
 }
