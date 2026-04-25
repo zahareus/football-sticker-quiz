@@ -6012,5 +6012,14 @@
     "capacity": "10,100",
     "league": "Russian First League",
     "website": "http://fkdb.ru/"
+  },
+  "1188": {
+    "wikiUrl": "https://en.wikipedia.org/wiki/Zamalek_SC",
+    "intro": "Zamalek Sporting Club (Arabic: نادي الزمالك للألعاب الرياضية), commonly referred to as Zamalek, is an Egyptian Club based in Giza, Egypt. The club is best known for its professional men's football team, which plays in the Egyptian Premier League, the top tier of the Egyptian football league system.",
+    "founded": "1911",
+    "stadium": "Cairo International Stadium",
+    "capacity": "100,500",
+    "league": "Egyptian Premier League",
+    "website": "https://www.zamaleksc.com/"
   }
 }
