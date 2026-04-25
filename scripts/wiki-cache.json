@@ -6093,5 +6093,14 @@
     "capacity": "12,000",
     "league": "Russian Second League",
     "website": "https://fcsalyut.ru/"
+  },
+  "1197": {
+    "wikiUrl": "https://en.wikipedia.org/wiki/Adanaspor",
+    "intro": "Adanaspor Kulübü is a Turkish professional football club based in Adana; currently, they play in the TFF 2. Lig.\nThe club was founded in 1954 by middle-class merchants and artisans in response to their perceived alienation within the city's then most popular club, Adana Demirspor, who were supported by workers, financed by landowners, and governed by TCDD staff.",
+    "founded": "1954",
+    "stadium": "Adana 5 Ocak Stadium",
+    "capacity": "14,085",
+    "league": "TFF First League",
+    "website": "https://www.adanaspor.com.tr/"
   }
 }
