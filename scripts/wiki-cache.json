@@ -6057,5 +6057,14 @@
     "capacity": null,
     "league": "Nemzeti Bajnokság II",
     "website": "http://www.vasasfc.hu/"
+  },
+  "1193": {
+    "wikiUrl": "https://en.wikipedia.org/wiki/Troyes_AC",
+    "intro": "Espérance Sportive Troyes Aube Champagne (ESTAC), commonly known as Troyes, is a French professional association football club based in Troyes that competes in Ligue 2. It plays its home matches at the Stade de l'Aube.",
+    "founded": "1986",
+    "stadium": "Stade de l'Aube",
+    "capacity": "20,400",
+    "league": "Ligue 2",
+    "website": "https://www.estac.fr/"
   }
 }
