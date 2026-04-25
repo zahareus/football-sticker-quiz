@@ -151,7 +151,7 @@
                                  loading="eager"
                                  fetchpriority="high">
                         </div>
-                        <div class="sticker-nav-buttons"><a href="/stickers/3389.html" class="btn btn-nav sticker-nav-btn">← #3389</a><span class="sticker-nav-placeholder"></span></div>
+                        <div class="sticker-nav-buttons"><a href="/stickers/3389.html" class="btn btn-nav sticker-nav-btn">← #3389</a><a href="/stickers/3391.html" class="btn btn-nav sticker-nav-btn">#3391 →</a></div>
                     </div>
 
                     <div class="sticker-detail-right-panel">
@@ -1118,6 +1118,19 @@
                         opacity: 0.6
                     }).addTo(map)
                     .bindPopup('<div class="nearby-sticker-popup"><strong>Eintracht Frankfurt</strong><a href="/stickers/3389.html" class="map-popup-link">View</a></div>');
+                })();
+
+                (function() {
+                    L.marker([41.0340083333333, 28.9766777777778], {
+                        icon: L.icon({
+                            iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
+                            iconSize: [18, 30],
+                            iconAnchor: [9, 30],
+                            popupAnchor: [1, -25]
+                        }),
+                        opacity: 0.6
+                    }).addTo(map)
+                    .bindPopup('<div class="nearby-sticker-popup"><strong>󠁧󠁢󠁥󠁮󠁧󠁿 Manchester City</strong><a href="/stickers/3391.html" class="map-popup-link">View</a></div>');
                 })();
 
                 // Current sticker — larger marker, opened popup

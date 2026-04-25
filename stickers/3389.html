@@ -1130,6 +1130,19 @@
                     .bindPopup('<div class="nearby-sticker-popup"><strong>USM Alger</strong><a href="/stickers/3390.html" class="map-popup-link">View</a></div>');
                 })();
 
+                (function() {
+                    L.marker([41.0340083333333, 28.9766777777778], {
+                        icon: L.icon({
+                            iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
+                            iconSize: [18, 30],
+                            iconAnchor: [9, 30],
+                            popupAnchor: [1, -25]
+                        }),
+                        opacity: 0.6
+                    }).addTo(map)
+                    .bindPopup('<div class="nearby-sticker-popup"><strong>󠁧󠁢󠁥󠁮󠁧󠁿 Manchester City</strong><a href="/stickers/3391.html" class="map-popup-link">View</a></div>');
+                })();
+
                 // Current sticker — larger marker, opened popup
                 L.marker([41.0369444444444, 28.9828361111111], {
                     icon: L.icon({
