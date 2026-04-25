@@ -6048,5 +6048,14 @@
     "capacity": "17,000",
     "league": "Algerian Ligue Professionnelle 1",
     "website": null
+  },
+  "1192": {
+    "wikiUrl": "https://en.wikipedia.org/wiki/Vasas_SC",
+    "intro": "Vasas SC (Hungarian pronunciation: [ˈvɒʃɒʃ]) is a Hungarian sports club based in Budapest.\nMembers of the Hungarian Union of Iron Workers founded the club as Vas- és Fémmunkások Sport Clubja, the \"Sport Club of Iron and Metal Workers\", on 16 March 1911. The club colours are red and blue.",
+    "founded": "1911",
+    "stadium": "Stadion Rudolf Illovszky",
+    "capacity": null,
+    "league": "Nemzeti Bajnokság II",
+    "website": "http://www.vasasfc.hu/"
   }
 }
