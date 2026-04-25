@@ -119,8 +119,10 @@
     }
 
     function getBadgeHost(img) {
-        return img.closest('.sticker-detail-image-container, .sticker-preview-link, .hp-sticker-card, .cat-club-card, .cat-country-card')
-            || img.parentElement;
+        // Badge only on the hero sticker on /stickers/{id}.html — never on
+        // "More stickers" / related thumbnails. Returning null makes
+        // ensureBadge() bail without painting anything.
+        return img.closest('.sticker-detail-image-container');
     }
 
     function formatViewCount(value) {
