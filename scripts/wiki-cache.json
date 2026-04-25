@@ -6021,5 +6021,14 @@
     "capacity": "100,500",
     "league": "Egyptian Premier League",
     "website": "https://www.zamaleksc.com/"
+  },
+  "1189": {
+    "wikiUrl": "https://en.wikipedia.org/wiki/Konyaspor",
+    "intro": "Konyaspor Kulübü (Turkish pronunciation: [konjaspoɾ kulyby], Konya Sports Club), commonly referred to as Konyaspor, is a Turkish professional football club based in Konya, one of the largest cities in central Anatolia. Due to sponsorship agreements, the club is also officially known as TÜMOSAN Konyaspor.",
+    "founded": "1922",
+    "stadium": "Konya Büyükşehir Stadium",
+    "capacity": "42,276",
+    "league": "Süper Lig",
+    "website": "http://www.konyaspor.org.tr/"
   }
 }
