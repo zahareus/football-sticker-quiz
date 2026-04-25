@@ -153,10 +153,12 @@ test('tracks views, renders badges, and excludes quiz and battle badges', async 
     await expect(page.locator('.sticker-view-badge')).toHaveCount(0);
     await page.screenshot({ path: testInfo.outputPath('city-page.png'), fullPage: true });
 
-    // Sticker page: badge IS rendered.
+    // Sticker page: badge IS rendered, but ONLY on the hero image.
+    // "More stickers" / related thumbnails must stay clean.
     await page.goto(STICKER_PAGE_URL);
     await page.waitForLoadState('domcontentloaded');
     await expect(page.locator('.sticker-detail-image-container .sticker-view-badge')).toBeVisible();
+    await expect(page.locator('.sticker-view-badge')).toHaveCount(1);
     await page.screenshot({ path: testInfo.outputPath('sticker-page.png'), fullPage: true });
 
     const rpcCountBeforeQuiz = rpcPayloads.length;
