@@ -6039,5 +6039,14 @@
     "capacity": "16,597",
     "league": null,
     "website": "https://www.manisaspor.org.tr/"
+  },
+  "1191": {
+    "wikiUrl": "https://en.wikipedia.org/wiki/USM_Alger",
+    "intro": "Union Sportive de la Médina d'Alger (Arabic: الإتحاد الرياضي لمدينة الجزائر); known as USM Alger or simply USMA for short, is a football club based in the inner suburbs of Algiers. The club was founded in 1937 and its colours are red and black.",
+    "founded": "1937",
+    "stadium": "Omar Hamadi Stadium",
+    "capacity": "17,000",
+    "league": "Algerian Ligue Professionnelle 1",
+    "website": null
   }
 }
