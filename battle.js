@@ -202,6 +202,8 @@ function displayPair(pair) {
     // Set images
     imgA.src = getWebImageUrl(pair.sticker_a.image_url);
     imgB.src = getWebImageUrl(pair.sticker_b.image_url);
+    imgA.dataset.stickerId = pair.sticker_a.id;
+    imgB.dataset.stickerId = pair.sticker_b.id;
 
     imgA.alt = `Sticker #${pair.sticker_a.id}`;
     imgB.alt = `Sticker #${pair.sticker_b.id}`;

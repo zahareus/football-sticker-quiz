@@ -68,13 +68,15 @@ async function generateCountryPage(countryCode, clubs, stickerCountsByClub, coun
         const clubStickers = (countryStickers || []).filter(s => s.club_id === club.id);
         let bestImg = null;
         let bestRating = 0;
+        let bestStickerId = null;
         clubStickers.forEach(s => {
             if ((s.rating || 0) > bestRating) {
                 bestRating = s.rating || 0;
                 bestImg = s.image_url;
+                bestStickerId = s.id;
             }
         });
-        return { ...club, stickerCount: count, bestImg, cleanName: stripEmoji(club.name) };
+        return { ...club, stickerCount: count, bestImg, bestStickerId, cleanName: stripEmoji(club.name) };
     });
 
     clubsEnriched.sort((a, b) => a.cleanName.localeCompare(b.cleanName, 'en'));
@@ -90,7 +92,7 @@ async function generateCountryPage(countryCode, clubs, stickerCountsByClub, coun
             const thumbUrl = cleanTrailingQuery(getThumbnailUrl(c.bestImg));
             stripCards += `
                 <a href="/clubs/${c.id}.html" class="cat-club-card">
-                    <img src="${thumbUrl}" alt="${c.cleanName} sticker" loading="lazy" decoding="async">
+                    <img src="${thumbUrl}" alt="${c.cleanName} sticker" data-sticker-id="${c.bestStickerId}" loading="lazy" decoding="async">
                     <span class="cat-club-label">${c.cleanName}</span>
                     <span class="cat-club-count">${c.stickerCount} sticker${c.stickerCount !== 1 ? 's' : ''}</span>
                 </a>`;
@@ -117,7 +119,7 @@ async function generateCountryPage(countryCode, clubs, stickerCountsByClub, coun
         let thumbHtml = '';
         if (club.bestImg) {
             const thumbUrl = cleanTrailingQuery(getThumbnailUrl(club.bestImg));
-            thumbHtml = `<img src="${thumbUrl}" class="country-club-thumb" alt="" loading="lazy" decoding="async">`;
+            thumbHtml = `<img src="${thumbUrl}" class="country-club-thumb" alt="" data-sticker-id="${club.bestStickerId}" loading="lazy" decoding="async">`;
         } else {
             thumbHtml = '<span class="country-club-thumb-placeholder"></span>';
         }

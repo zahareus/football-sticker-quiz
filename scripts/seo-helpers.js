@@ -343,7 +343,7 @@ export function generateFeaturedGallery(topStickers, clubsMap = {}, heading = 'T
             context: 'country',
             countryName: countryName
         });
-        html += `\n<a href="/stickers/${sticker.id}.html" class="sticker-strip-item" title="${escapeHtml(clubName)}"><img src="${thumbUrl}" alt="${escapeHtml(altText)}" class="featured-sticker-image" loading="lazy" decoding="async"></a>`;
+        html += `\n<a href="/stickers/${sticker.id}.html" class="sticker-strip-item" title="${escapeHtml(clubName)}"><img src="${thumbUrl}" alt="${escapeHtml(altText)}" data-sticker-id="${sticker.id}" class="featured-sticker-image" loading="lazy" decoding="async"></a>`;
     });
     html += '\n</div>\n</div>';
     return html;

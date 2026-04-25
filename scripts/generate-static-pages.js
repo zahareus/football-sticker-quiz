@@ -559,6 +559,7 @@ function generateStickerGallery(stickers, clubName) {
                 <a href="/stickers/${sticker.id}.html" class="sticker-preview-link">
                     <img src="${thumbnailUrl}"
                          alt="${stripEmoji(clubName)} football sticker #${sticker.id} — identify this sticker"
+                         data-sticker-id="${sticker.id}"
                          class="sticker-preview-image"
                          loading="lazy"
                          decoding="async">
@@ -888,7 +889,7 @@ async function generateIndexPage(stickers, clubs) {
         const thumbUrl = getOptimizedImageUrl(s.image_url, '_thumb');
         topRatedHtml += `
                 <a href="/stickers/${s.id}.html" class="hp-sticker-card">
-                    <img src="${thumbUrl}" alt="${clubName} sticker -- rated ${s.rating || 1500}" loading="lazy" decoding="async">
+                    <img src="${thumbUrl}" alt="${clubName} sticker -- rated ${s.rating || 1500}" data-sticker-id="${s.id}" loading="lazy" decoding="async">
                     <div class="hp-sticker-card-label">${clubName}</div>
                     <div class="hp-sticker-card-rating">⚡ ${s.rating || 1500}</div>
                 </a>`;
@@ -902,7 +903,7 @@ async function generateIndexPage(stickers, clubs) {
         const thumbUrl = getOptimizedImageUrl(s.image_url, '_thumb');
         recentHtml += `
                 <a href="/stickers/${s.id}.html" class="hp-sticker-card">
-                    <img src="${thumbUrl}" alt="${clubName} sticker -- recently added" loading="lazy" decoding="async">
+                    <img src="${thumbUrl}" alt="${clubName} sticker -- recently added" data-sticker-id="${s.id}" loading="lazy" decoding="async">
                     <div class="hp-sticker-card-label">${clubName}</div>
                 </a>`;
     });

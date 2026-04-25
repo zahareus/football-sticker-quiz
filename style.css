@@ -831,6 +831,51 @@ body.quiz-result .result-right-panel {
     border-color: var(--color-accent);
 }
 
+.sticker-view-host {
+    position: relative;
+}
+
+.sticker-view-badge {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    z-index: 2;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 5px 8px;
+    border-radius: 999px;
+    background: rgba(20, 20, 20, 0.78);
+    color: #fff;
+    font-size: 0.72rem;
+    font-weight: 600;
+    line-height: 1;
+    pointer-events: none;
+    backdrop-filter: blur(6px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.18);
+}
+
+.sticker-view-badge-icon {
+    display: inline-flex;
+    width: 14px;
+    height: 14px;
+}
+
+.sticker-view-badge svg {
+    width: 100%;
+    height: 100%;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.75;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.sticker-detail-image-container .sticker-view-badge {
+    top: 12px;
+    right: 12px;
+}
+
 .sticker-preview-image {
     width: 100%;
     height: 100%;
@@ -4005,6 +4050,13 @@ body.daily-mode .game-info #timer {
 
 /* Catalogue responsive */
 @media (max-width: 768px) {
+    .sticker-view-badge {
+        top: 6px;
+        right: 6px;
+        padding: 4px 7px;
+        font-size: 0.68rem;
+    }
+
     .cat-hero { padding: 28px 16px 24px; }
     .cat-hero h1 { font-size: 1.4em; }
     .cat-country-grid { grid-template-columns: repeat(2, 1fr); gap: 8px; }

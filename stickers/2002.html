@@ -149,7 +149,7 @@
                                  class="sticker-detail-image"
                                  decoding="async"
                                  loading="eager"
-                                 fetchpriority="high">
+                                 fetchpriority="high" data-sticker-id="2002">
                         </div>
                         <div class="sticker-nav-buttons"><a href="/stickers/2001.html" class="btn btn-nav sticker-nav-btn">← #2001</a><a href="/stickers/2003.html" class="btn btn-nav sticker-nav-btn">#2003 →</a></div>
                     </div>
@@ -201,8 +201,8 @@
                 <div class="more-from-club">
 <h3>More from 󠁧󠁢󠁷󠁬󠁳󠁿 Wrexham AFC</h3>
 <div class="sticker-strip">
-<a href="/stickers/2001.html" class="sticker-strip-item"><img src="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/stickers/Wrexham_AFC/IMG_5064_thumb.webp?" alt="Sticker #2001" loading="lazy" decoding="async"></a>
-<a href="/stickers/3029.html" class="sticker-strip-item"><img src="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/club_990/1772989662068_IMG_8108_thumb.webp" alt="Sticker #3029" loading="lazy" decoding="async"></a>
+<a href="/stickers/2001.html" class="sticker-strip-item"><img src="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/stickers/Wrexham_AFC/IMG_5064_thumb.webp?" alt="Sticker #2001" loading="lazy" decoding="async" data-sticker-id="2001"></a>
+<a href="/stickers/3029.html" class="sticker-strip-item"><img src="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/club_990/1772989662068_IMG_8108_thumb.webp" alt="Sticker #3029" loading="lazy" decoding="async" data-sticker-id="3029"></a>
 </div>
 </div>
                 
@@ -231,6 +231,7 @@
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
     <script src="/shared.js"></script>
+    <script defer src="/js/view-tracker.js"></script>
     <script>
         // Initialize map if map container exists
         

@@ -358,7 +358,7 @@ async function loadMostCollectedClubs() {
             const thumbUrl = SharedUtils.getThumbnailUrl(bestSticker.image_url);
             html += `
                 <a href="/clubs/${club.id}.html" class="cat-club-card">
-                    <img src="${thumbUrl}" alt="${club.name} sticker" loading="lazy" decoding="async">
+                    <img src="${thumbUrl}" alt="${club.name} sticker" data-sticker-id="${bestSticker.id}" loading="lazy" decoding="async">
                     <span class="cat-club-label">${club.name}</span>
                     <span class="cat-club-count">${count} sticker${count !== 1 ? 's' : ''}</span>
                 </a>`;
@@ -870,6 +870,7 @@ async function loadClubDetails(clubId) {
                         <a href="/stickers/${sticker.id}.html" class="sticker-preview-link">
                             <img src="${thumbnailUrl}"
                                  alt="Sticker ID ${sticker.id} for ${clubData.name}"
+                                 data-sticker-id="${sticker.id}"
                                  class="sticker-preview-image"
                                  loading="lazy"
                                  decoding="async">
@@ -1083,6 +1084,7 @@ async function loadStickerDetails(stickerId) {
                         <div class="sticker-detail-image-container" onclick="window.open('${sticker.image_url}', '_blank')">
                             <img src="${detailImageUrl}"
                                  alt="Sticker ${sticker.id} ${sticker.clubs ? `- ${sticker.clubs.name}` : ''}"
+                                 data-sticker-id="${sticker.id}"
                                  class="sticker-detail-image"
                                  decoding="async">
                         </div>
