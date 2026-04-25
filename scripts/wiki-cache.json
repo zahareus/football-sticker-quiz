@@ -6084,5 +6084,14 @@
     "capacity": "5,083",
     "league": null,
     "website": "http://www.fckhimki.ru"
+  },
+  "1196": {
+    "wikiUrl": "https://en.wikipedia.org/wiki/FC_Salyut_Belgorod",
+    "intro": "FC Salyut Belgorod is a Russian association football club based in Belgorod. They play in the fourth-tier Russian Second League Division B..",
+    "founded": "1960",
+    "stadium": "Salyut Stadium",
+    "capacity": "12,000",
+    "league": "Russian Second League",
+    "website": "https://fcsalyut.ru/"
   }
 }
