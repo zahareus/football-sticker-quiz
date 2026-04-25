@@ -161,7 +161,9 @@ test('tracks views, renders badges, and excludes quiz and battle badges', async 
     await page.goto(QUIZ_PAGE_URL);
     await page.waitForLoadState('domcontentloaded');
     await expect(page.locator('.sticker-view-badge')).toHaveCount(0);
-    await expect(page.locator('#sticker-image')).toHaveAttribute('data-sticker-id', /\d+/);
+    // Quiz lands on a start screen — kick off Easy mode so a sticker actually loads.
+    await page.locator('#landing-play-easy-button').click();
+    await expect(page.locator('#sticker-image')).toHaveAttribute('data-sticker-id', /\d+/, { timeout: 15000 });
     await waitForTrackedImage(page, '#sticker-image');
 
     await expect.poll(() => rpcPayloads.length, { timeout: 15000 }).toBeGreaterThan(rpcCountBeforeQuiz);
@@ -171,7 +173,8 @@ test('tracks views, renders badges, and excludes quiz and battle badges', async 
     await page.goto(BATTLE_PAGE_URL);
     await page.waitForLoadState('domcontentloaded');
     await expect(page.locator('.sticker-view-badge')).toHaveCount(0);
-    await expect(page.locator('#sticker-a-img')).toHaveAttribute('data-sticker-id', /\d+/);
+    // Battle auto-loads pair on DOMContentLoaded async — give it time to populate dataset.
+    await expect(page.locator('#sticker-a-img')).toHaveAttribute('data-sticker-id', /\d+/, { timeout: 15000 });
     await waitForTrackedImage(page, '#sticker-a-img');
 
     await expect.poll(() => rpcPayloads.length, { timeout: 15000 }).toBeGreaterThan(rpcCountBeforeBattle);
