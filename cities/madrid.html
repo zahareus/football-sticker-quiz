@@ -153,17 +153,10 @@
             <div class="club-details-block">
                 <p class="club-info-item">📦 Clubs represented: 3 clubs from 3 countries</p>
 <p class="club-info-item">📅 First found: 30 Apr 2023 | Latest: 3 May 2023</p>
-<p class="club-info-item">🌍 Most common: <a href="/countries/AUT.html">Austria</a> (1), <a href="/countries/DEU.html">Germany</a> (1), <a href="/countries/CHE.html">Switzerland</a> (1)</p>
+<p class="club-info-item">🌍 Most common: <a href="/countries/DEU.html">Germany</a> (1), <a href="/countries/CHE.html">Switzerland</a> (1), <a href="/countries/AUT.html">Austria</a> (1)</p>
             </div>
             <div class="sticker-gallery">
                 
-                <a href="/stickers/3295.html" class="sticker-preview-link">
-                    <img src="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/club_539/1776003545739_IMG_8235_thumb.webp"
-                         alt="SK Rapid Wien football sticker #3295 found in this city"
-                         class="sticker-preview-image"
-                         loading="lazy"
-                         decoding="async">
-                </a>
                 <a href="/stickers/3294.html" class="sticker-preview-link">
                     <img src="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/club_900/1776003262459_IMG_8186_thumb.webp"
                          alt="Bayer 04 Leverkusen football sticker #3294 found in this city"
@@ -174,6 +167,13 @@
                 <a href="/stickers/3292.html" class="sticker-preview-link">
                     <img src="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/club_514/1776002254377_IMG_8129_thumb.webp"
                          alt="Servette FC football sticker #3292 found in this city"
+                         class="sticker-preview-image"
+                         loading="lazy"
+                         decoding="async">
+                </a>
+                <a href="/stickers/3295.html" class="sticker-preview-link">
+                    <img src="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/club_539/1776003545739_IMG_8235_thumb.webp"
+                         alt="SK Rapid Wien football sticker #3295 found in this city"
                          class="sticker-preview-image"
                          loading="lazy"
                          decoding="async">
@@ -222,13 +222,6 @@
                 }).addTo(cityMap);
                 
                 (function() {
-                    const marker = L.marker([40.414075, -3.70440833333333]).addTo(cityMap);
-                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>SK Rapid Wien</strong><a href="/stickers/3295.html" class="map-popup-link">View</a></div>');
-                    marker.on('mouseover', function() { this.openPopup(); });
-                    marker.on('click', function() { this.openPopup(); });
-                })();
-
-                (function() {
                     const marker = L.marker([40.4200333333333, -3.70350277777778]).addTo(cityMap);
                     marker.bindPopup('<div class="nearby-sticker-popup"><strong>Bayer 04 Leverkusen</strong><a href="/stickers/3294.html" class="map-popup-link">View</a></div>');
                     marker.on('mouseover', function() { this.openPopup(); });
@@ -241,11 +234,18 @@
                     marker.on('mouseover', function() { this.openPopup(); });
                     marker.on('click', function() { this.openPopup(); });
                 })();
+
+                (function() {
+                    const marker = L.marker([40.414075, -3.70440833333333]).addTo(cityMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>SK Rapid Wien</strong><a href="/stickers/3295.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
                 
                 const bounds = L.latLngBounds([
-                    [40.414075, -3.70440833333333],
                     [40.4200333333333, -3.70350277777778],
-                    [40.4168777777778, -3.70527777777778]
+                    [40.4168777777778, -3.70527777777778],
+                    [40.414075, -3.70440833333333]
                 ]);
                 cityMap.fitBounds(bounds, { padding: [30, 30], maxZoom: 15 });
                 
