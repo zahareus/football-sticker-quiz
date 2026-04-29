@@ -185,8 +185,9 @@ async function testCitySync() {
         .sort((a, b) => b[1] - a[1])
         .slice(0, 5);
 
+    const { cityToSlug } = await import('../seo-helpers.js');
     for (const [city, count] of top5) {
-        const slug = city.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/-+/g, '-').replace(/^-|-$/g, '');
+        const slug = cityToSlug(city);
         const path = join(PROJECT_ROOT, 'cities', `${slug}.html`);
         if (!existsSync(path)) {
             assert(false, `cities/${slug}.html exists (DB: ${count} stickers in "${city}")`);

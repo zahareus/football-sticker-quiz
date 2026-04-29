@@ -197,6 +197,25 @@ export function cleanTrailingQuery(url) {
 
 // ─── Text Utilities ──────────────────────────────────────────────────────────
 
+/**
+ * Convert a city/place name into a clean URL slug.
+ * NFD-normalize → strip combining marks (Düsseldorf → dusseldorf, Köln → koln, Mrčevac → mrcevac);
+ * map Turkish/Polish specials that NFD doesn't decompose; lowercase; non-[a-z0-9] → '-'.
+ * SOURCE OF TRUTH — all generators MUST import this. Inline copies caused production drift
+ * (Beyoğlu → 'beyo-lu' zombies, 29.04.2026).
+ */
+export function cityToSlug(cityName) {
+    if (!cityName) return '';
+    const SPECIAL_MAP = {
+        'ı': 'i', 'İ': 'i', 'ł': 'l', 'Ł': 'l',
+        'ß': 'ss', 'æ': 'ae', 'Æ': 'ae', 'ø': 'o', 'Ø': 'o', 'œ': 'oe', 'Œ': 'oe',
+        'đ': 'd', 'Đ': 'd', 'ð': 'd', 'Ð': 'd', 'þ': 'th', 'Þ': 'th'
+    };
+    let s = cityName.normalize('NFD').replace(/[̀-ͯ]/g, '');
+    s = s.split('').map(ch => SPECIAL_MAP[ch] !== undefined ? SPECIAL_MAP[ch] : ch).join('');
+    return s.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/-+/g, '-').replace(/^-|-$/g, '');
+}
+
 export function stripEmoji(str) {
     return str.replace(/[\u{1F000}-\u{1FFFF}\u{2600}-\u{26FF}\u{2700}-\u{27BF}\u{1F900}-\u{1F9FF}\u{1FA00}-\u{1FAFF}\u{FE00}-\u{FE0F}\u{1F1E0}-\u{1F1FF}]/gu, '').trim();
 }

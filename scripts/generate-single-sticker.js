@@ -22,7 +22,8 @@ import {
     generateBreadcrumbs as _generateBreadcrumbs, generateBreadcrumbSchema as _generateBreadcrumbSchema,
     selectTopRatedStickers, generateDescriptiveAltText, generateMultilingualMeta,
     generateFeaturedGallery, fetchAllPaginated,
-    buildClubKeywords as _buildClubKeywords
+    buildClubKeywords as _buildClubKeywords,
+    cityToSlug
 } from './seo-helpers.js';
 
 // Configuration
@@ -322,7 +323,7 @@ function generateStickerDate(sticker) {
 function generateStickerLocation(sticker) {
     if (!sticker.location || sticker.location.trim() === '') return '';
     const city = sticker.location.split(',')[0].trim();
-    const slug = city.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/-+/g, '-').replace(/^-|-$/g, '');
+    const slug = cityToSlug(city);
     return `<p class="sticker-detail-location"><a href="/cities/${slug}.html">${sticker.location}</a></p>`;
 }
 

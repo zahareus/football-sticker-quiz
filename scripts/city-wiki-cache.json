@@ -166,5 +166,29 @@
     "population": 1685209,
     "country": "Hungarian People's Republic",
     "wikiUrl": "https://en.wikipedia.org/wiki/Budapest"
+  },
+  "Mrčevac": {
+    "intro": "Mrčevac is a village in the municipality of Tivat, Montenegro.",
+    "population": null,
+    "country": "Montenegro",
+    "wikiUrl": "https://en.wikipedia.org/wiki/Mr%C4%8Devac"
+  },
+  "Dusseldorf": {
+    "intro": "Düsseldorf is the capital city of North Rhine-Westphalia, the most populous state of Germany.  It is the second-largest city in the state after Cologne and the sixth-largest city in Germany, with a 2024 population of 618,685.",
+    "population": null,
+    "country": null,
+    "wikiUrl": "https://en.wikipedia.org/wiki/D%C3%BCsseldorf"
+  },
+  "Leinfelden-Echterdingen": {
+    "intro": "Leinfelden-Echterdingen is a town in the district of Esslingen, in Baden-Württemberg, Germany.  It is located approximately 10 km south of Stuttgart, near the Stuttgart Airport and directly adjacent to the newly built Stuttgart Trade Fair.",
+    "population": 40526,
+    "country": "Germany",
+    "wikiUrl": "https://en.wikipedia.org/wiki/Leinfelden-Echterdingen"
+  },
+  "Valencia": {
+    "intro": "",
+    "population": 840792,
+    "country": "Crown of Aragon",
+    "wikiUrl": "https://en.wikipedia.org/wiki/Valencia"
   }
 }

@@ -15,7 +15,8 @@ import {
     COUNTRY_NAMES,
     createSupabaseClient,
     getOptimizedImageUrl as _getOptimizedImageUrl,
-    selectTopRatedStickers, generateMultilingualMeta
+    selectTopRatedStickers, generateMultilingualMeta,
+    cityToSlug
 } from './seo-helpers.js';
 
 // Configuration
@@ -25,7 +26,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 const PROJECT_ROOT = join(__dirname, '..');
 
-const MIN_STICKERS_PER_CITY = 3;
+const MIN_STICKERS_PER_CITY = 2;
 const WIKI_API_DELAY_MS = 500;
 
 // Initialize Supabase client
@@ -47,10 +48,6 @@ function getCountryCode(name) {
 
 function cleanTrailingQuery(url) {
     return url ? url.replace(/\?$/, '') : url;
-}
-
-function cityToSlug(cityName) {
-    return cityName.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/-+/g, '-').replace(/^-|-$/g, '');
 }
 
 function loadTemplate(templateName) {

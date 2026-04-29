@@ -9,7 +9,7 @@ import { readFileSync, writeFileSync, mkdirSync, existsSync } from 'fs';
 import { join, dirname } from 'path';
 import { fileURLToPath } from 'url';
 
-import { createSupabaseClient, COUNTRY_NAMES } from './seo-helpers.js';
+import { createSupabaseClient, COUNTRY_NAMES, cityToSlug } from './seo-helpers.js';
 
 // Configuration
 const BASE_URL = "https://stickerhunt.club";
@@ -111,7 +111,7 @@ function generateStickerStats(stickers) {
     const cities = [...new Set(stickers.filter(s => s.location).map(s => s.location.split(',')[0].trim()))];
     if (cities.length > 0) {
         const cityLinks = cities.map(city => {
-            const slug = city.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/-+/g, '-').replace(/^-|-$/g, '');
+            const slug = cityToSlug(city);
             return `<a href="/cities/${slug}.html">${city}</a>`;
         });
         items.push(`<p class="club-info-item">📍 Found in: ${cityLinks.join(', ')}</p>`);
@@ -944,7 +944,7 @@ async function generateIndexPage(stickers, clubs) {
 
     let citiesHtml = '';
     topCities.forEach(([name, count]) => {
-        const slug = name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/-+/g, '-').replace(/^-|-$/g, '');
+        const slug = cityToSlug(name);
         citiesHtml += `
                 <a href="/cities/${slug}.html" class="hp-city-card">
                     <span class="hp-city-name">${name}</span>

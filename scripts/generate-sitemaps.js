@@ -20,7 +20,7 @@ import { writeFileSync, readdirSync } from 'fs';
 import { join, dirname } from 'path';
 import { fileURLToPath } from 'url';
 
-import { createSupabaseClient } from './seo-helpers.js';
+import { createSupabaseClient, cityToSlug } from './seo-helpers.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -56,10 +56,6 @@ function xmlOpen() {
 
 function urlEntry(loc, lastmod, changefreq, priority) {
     return `<url><loc>${loc}</loc><lastmod>${lastmod}</lastmod><changefreq>${changefreq}</changefreq><priority>${priority}</priority></url>\n`;
-}
-
-function citySlug(name) {
-    return name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/-+/g, '-').replace(/^-|-$/g, '');
 }
 
 async function main() {
