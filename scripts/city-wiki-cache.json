@@ -148,5 +148,23 @@
     "population": 159022,
     "country": "West Francia",
     "wikiUrl": "https://en.wikipedia.org/wiki/Angers"
+  },
+  "Istanbul": {
+    "intro": "Istanbul is the largest city in Turkey, constituting the country's economic, cultural, and historical center.  With a population of over 15 million, it is home to 18% of the population of Turkey.",
+    "population": 14804116,
+    "country": "Roman Empire",
+    "wikiUrl": "https://en.wikipedia.org/wiki/Istanbul"
+  },
+  "Madrid": {
+    "intro": "Madrid is the capital and most populous city of Spain.  It had a population of over 3.",
+    "population": 3506730,
+    "country": "Spain",
+    "wikiUrl": "https://en.wikipedia.org/wiki/Madrid"
+  },
+  "Budapest": {
+    "intro": "Budapest is the capital and most populous city of Hungary.  It is Hungary's primate city with 1.",
+    "population": 1685209,
+    "country": "Hungarian People's Republic",
+    "wikiUrl": "https://en.wikipedia.org/wiki/Budapest"
   }
 }

@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<title>StickerHunt SEO — 29.04.2026 (overhaul +28d)</title>
+<style>
+body{font-family:-apple-system,Segoe UI,sans-serif;max-width:980px;margin:24px auto;padding:0 20px;color:#1a1a1a;line-height:1.55}
+h1{border-bottom:3px solid #c62828;padding-bottom:8px}
+h2{margin-top:32px;border-bottom:1px solid #ddd;padding-bottom:4px}
+.alert{background:#ffebee;border-left:5px solid #c62828;padding:14px 18px;margin:18px 0;border-radius:4px}
+.ok{background:#e8f5e9;border-left:5px solid #2e7d32;padding:10px 16px;border-radius:4px}
+.warn{background:#fff8e1;border-left:5px solid #f9a825;padding:10px 16px;border-radius:4px}
+table{border-collapse:collapse;width:100%;margin:12px 0;font-size:14px}
+th,td{border:1px solid #ddd;padding:8px 10px;text-align:left}
+th{background:#f5f5f5}
+.bad{color:#c62828;font-weight:600}
+.good{color:#2e7d32;font-weight:600}
+.mut{color:#666}
+code{background:#f0f0f0;padding:1px 6px;border-radius:3px;font-size:13px}
+.bigstat{display:inline-block;margin:6px 18px 6px 0;padding:10px 14px;background:#fafafa;border:1px solid #eee;border-radius:6px}
+.bigstat b{display:block;font-size:22px}
+</style>
+</head>
+<body>
+
+<h1>StickerHunt SEO — місячна перевірка overhaul (29.04.2026)</h1>
+<p class="mut">Вікно: <b>02.04 – 29.04.2026</b> (28 днів, перше «чисте» пост-overhaul). Baseline: 03.03–29.03. Snapshot: 16.03–13.04.</p>
+
+<div class="alert">
+<b>🚨 P0 — РЕДИЗАЙН ГОЛОВНОЇ 13–14.04 ЗБІГСЯ З ОБВАЛОМ ТРАФІКУ.</b><br>
+Знайдено в git:
+<ul>
+<li><code>67cd16699</code> — <b>13.04 23:16</b> «Modern Editorial redesign pass (impeccable)» — index.html + 251 рядок style.css.</li>
+<li><code>4bee1de28</code> — <b>14.04 00:06</b> «Design System v3 — clean start» — повністю переписані index.html (510→нова структура), quiz.html, новий style.css з нуля (~1100 рядків замість 4958), нова site-nav, font swap Poppins→Fraunces+Inter Tight.</li>
+</ul>
+Трафік починає падати рівно з <b>14.04</b>: 0 кліків / 19 показів того ж дня, далі 0–12/день з провалами до 1–3 показів. Гіпотеза Віктора підтверджена.<br><br>
+Що могло зламатися:
+<ol>
+<li><b>Internal linking</b> — нова site-nav замінила структуру; ймовірно зникли важливі контекстні посилання на клуби/країни з головної. Google переінтерпретував site authority.</li>
+<li><b>Sitemap lastmod</b> — index.html переписаний, але lastmod в sitemap.xml міг не оновитися; GSC sitemap не пересубміт.</li>
+<li><b>CWV</b> — два нові шрифти + повністю переписаний CSS можуть погіршити LCP/INP. Треба зміряти PageSpeed.</li>
+<li><b>H1/structure</b> — попри коментар «preserve SEO», нова DOM могла змінити relevance signals.</li>
+<li><b>Шаблонні сторінки</b> — clubs/stickers/countries генеруються своїми шаблонами і не зачеплені цим коммітом, але якщо style.css спільний — могли просісти візуально → погіршити пов&#x27;язані метрики.</li>
+</ol>
+Негайні кроки нижче в P0-блоці рекомендацій.
+</div>
+
+<h2>Підсумкові цифри (28d)</h2>
+<div>
+<span class="bigstat"><b>113</b>Кліки <span class="mut">(ціль 220+)</span></span>
+<span class="bigstat"><b>2 718</b>Покази</span>
+<span class="bigstat"><b>4.16%</b>CTR <span class="mut">(ціль 5.5%+)</span></span>
+<span class="bigstat"><b>7.4</b>Позиція <span class="mut">(ціль ≤7.5)</span></span>
+<span class="bigstat"><b>33</b>Країн з кліками <span class="mut">(ціль 25+)</span></span>
+<span class="bigstat"><b>0</b>Image Search кліки</span>
+</div>
+
+<h2>Три точки порівняння</h2>
+<table>
+<tr><th>Метрика</th><th>Baseline 31.03<br>(03.03–29.03)</th><th>Snapshot 13.04<br>(16.03–13.04)</th><th><b>Факт 29.04</b><br>(02.04–29.04)</th><th>Ціль 29.04</th><th>Статус</th></tr>
+<tr><td>Кліки</td><td>196</td><td>167</td><td class="bad">113</td><td>220+</td><td class="bad">❌ -42% від baseline</td></tr>
+<tr><td>Покази</td><td>4 063</td><td>3 563</td><td class="bad">2 718</td><td>—</td><td class="bad">❌ -33%</td></tr>
+<tr><td>CTR</td><td>4.82%</td><td>4.69%</td><td class="bad">4.16%</td><td>5.5%+</td><td class="bad">❌</td></tr>
+<tr><td>Середня позиція</td><td>8.5</td><td>7.3</td><td class="good">7.4</td><td>≤7.5</td><td class="good">✅ утримано</td></tr>
+<tr><td>Країн з кліками</td><td>20</td><td>—</td><td class="good">33</td><td>25+</td><td class="good">✅</td></tr>
+<tr><td>Image Search кліки</td><td>—</td><td>1</td><td class="bad">0</td><td>5+</td><td class="bad">❌</td></tr>
+<tr><td>Mobile частка</td><td>80%</td><td>—</td><td>76% (80/106)</td><td>—</td><td>≈</td></tr>
+</table>
+
+<h2>Динаміка по днях — обрив після 13.04</h2>
+<div class="alert"><b>02.04–13.04 (12 днів):</b> 77 кліків, ~6.4/день, покази 105–300/день.<br>
+<b>14.04–26.04 (13 днів):</b> 29 кліків, ~2.2/день, покази часто 1–36/день.<br>
+14.04: 19 показів. 16.04, 22.04: по 1–2 покази. 23–26.04: 3–15 показів, 0 кліків, позиції 8.8–22.</div>
+
+<table>
+<tr><th>Дата</th><th>Кліки</th><th>Покази</th><th>CTR</th><th>Позиція</th></tr>
+<tr><td>04/07 (пік)</td><td>12</td><td>181</td><td>6.63%</td><td>6.5</td></tr>
+<tr><td>04/13</td><td>2</td><td>193</td><td>1.04%</td><td>7.3</td></tr>
+<tr><td class="bad">04/14</td><td>0</td><td class="bad">19</td><td>0%</td><td>7.7</td></tr>
+<tr><td>04/18 (пік2)</td><td>12</td><td>184</td><td>6.52%</td><td>7.1</td></tr>
+<tr><td>04/19</td><td>9</td><td>203</td><td>4.43%</td><td>7.4</td></tr>
+<tr><td class="bad">04/20–04/26</td><td>1</td><td>74 разом</td><td>низький</td><td>8.8–22</td></tr>
+</table>
+
+<p>Двопіковий патерн (07.04, 18.04) і провали поряд (14, 20–26.04) — це більше схоже на проблему з доступністю або де-індексацією конкретних сторінок, ніж на органічну сезонність. Імовірні причини, які треба перевірити в порядку:</p>
+<ol>
+<li><b>Sitemap / lastmod</b> — чи не злетіли URL після 13.04? Перевірити <code>sitemap.xml</code> на сайті, GSC «Sitemaps» статус.</li>
+<li><b>Сторінки клубів</b> — clubs/617.html (Bodø/Glimt, флагман) впав з 24 → 7 кліків і позиції 5.7 → 7.8 (-2.1). Це на тлі того, що раніше CTR його був 10.86%.</li>
+<li><b>clubs/1095.html</b> — повністю зник: 7 → 0 кліків, позиція 8.6 → 10.5. Проблема, що тягнеться з 13.04.</li>
+<li><b>Image Search</b> — 0 кліків при середній позиції 27–84 у топ-запитах (fc basel sticker — 27 показів, поз. 38; dinamo zagreb — 8 показів, поз. 26). WebP не виходять у топ.</li>
+<li><b>Robots/headers/CDN</b> — перевірити, чи Cloudflare/Vercel не повертає 403/429 GoogleBot з 13.04.</li>
+</ol>
+
+<h2>Порівняння сторінок (P1: 03.03–29.03 vs P2: 02.04–29.04)</h2>
+<table>
+<tr><th>Сторінка</th><th>P1</th><th>P2</th><th>Δ</th><th>P1 поз</th><th>P2 поз</th><th>Коментар</th></tr>
+<tr><td>clubs/617.html (Bodø/Glimt)</td><td>24</td><td>7</td><td class="bad">-17 (-71%)</td><td>5.7</td><td>7.8</td><td>Флагман просів</td></tr>
+<tr><td>clubs/1095.html</td><td>7</td><td>0</td><td class="bad">-7</td><td>8.6</td><td>10.5</td><td>Hе зрушилось з 13.04</td></tr>
+<tr><td>clubs/1116.html</td><td>5</td><td>0</td><td class="bad">-5</td><td>8.5</td><td>—</td><td>Зник з топу</td></tr>
+<tr><td>clubs/277.html</td><td>5</td><td>0</td><td class="bad">-5</td><td>6.7</td><td>5.0</td><td>Позиція ↑, кліків нема</td></tr>
+<tr><td>clubs/468.html</td><td>0</td><td class="good">3</td><td class="good">+3</td><td>—</td><td>5.5</td><td>Новий ріст</td></tr>
+<tr><td>clubs/848.html</td><td>0</td><td class="good">3</td><td class="good">+3</td><td>11.4</td><td>7.5</td><td>Multilingual ефект?</td></tr>
+<tr><td>clubs/842.html</td><td>0</td><td class="good">3</td><td class="good">+3</td><td>6.9</td><td>6.9</td><td>Country gallery ефект?</td></tr>
+<tr><td>countries/NOR.html</td><td>0</td><td class="good">2</td><td class="good">+2</td><td>7.6</td><td>7.3</td><td class="good">Country page ожив ✅</td></tr>
+<tr><td>countries/BIH.html</td><td>0</td><td class="good">2</td><td class="good">+2</td><td>3.0</td><td>4.3</td><td class="good">Country page ✅ (CTR 20%)</td></tr>
+</table>
+
+<h2>Що працює (✅)</h2>
+<ul>
+<li><b>Country pages ожили</b> — NOR (CTR 10.5%), BIH (CTR 20%). До overhaul — 0 трафіку. Це підтверджує ефект featured gallery + ImageObject schema.</li>
+<li><b>Геогрфафічний розширення</b> — 33 країни з кліками (vs 20 baseline). Multilingual meta дає ефект: Норвегія, Болгарія, Швеція, Туреччина, Фінляндія, Сербія, Хорватія — всі мають кліки.</li>
+<li><b>Позиція утримана 7.4</b> — поліпшення з 8.5 baseline зберігається попри обвал кліків.</li>
+<li><b>Локальні запити</b>: <code>vålerenga klistremerker</code>, <code>hjk tarrat</code>, <code>стикери на локо пловдив</code> — всі дали кліки. Multilingual працює.</li>
+</ul>
+
+<h2>Що не працює (❌)</h2>
+<ul>
+<li><b>Image Search мертвий</b> — 0 кліків за 28 днів. fc basel sticker (27 показів, поз. 38), dinamo zagreb sticker (8 показів, поз. 26) — позиції 26–84, далеко від топу. WebP не ранжуються.</li>
+<li><b>clubs/1095.html</b> — попри 24 покази, 0 кліків, позиція 10.5. Snippet/title треба фіксити (борг з 13.04 не закрито).</li>
+<li><b>Bodø/Glimt просів</b> — флагманська сторінка втратила 71% кліків.</li>
+<li><b>Загальний обвал з 14.04</b> — головна знахідка, потребує діагностики.</li>
+</ul>
+
+<h2>Топ-сторінки 02.04–29.04</h2>
+<table>
+<tr><th>Сторінка</th><th>Кліки</th><th>CTR</th><th>Позиція</th></tr>
+<tr><td>clubs/617.html (Bodø/Glimt)</td><td>7</td><td>11.48%</td><td>7.8</td></tr>
+<tr><td>clubs/468.html</td><td>3</td><td>8.82%</td><td>5.5</td></tr>
+<tr><td>clubs/842.html</td><td>3</td><td>7.50%</td><td>6.9</td></tr>
+<tr><td>clubs/848.html</td><td>3</td><td>5.66%</td><td>7.5</td></tr>
+<tr><td>clubs/930.html</td><td>3</td><td>4.69%</td><td>7.7</td></tr>
+<tr><td>stickers/341.html</td><td>3</td><td>14.29%</td><td>8.8</td></tr>
+<tr><td>countries/BIH.html</td><td>2</td><td>20.00%</td><td>4.3</td></tr>
+<tr><td>countries/NOR.html</td><td>2</td><td>10.53%</td><td>7.3</td></tr>
+</table>
+
+<h2>Рекомендовані дії (за пріоритетом)</h2>
+<div class="alert">
+<b>P0 — обвал від редизайну 13–14.04</b>
+<ol>
+<li><b>URL Inspection</b> у GSC на <code>/</code> — порівняти rendered HTML з тим, що Google бачить, перевірити дату crawl.</li>
+<li><b>Sitemap</b>: оновити lastmod для <code>index.html</code> на 2026-04-14 і пересубмітнути sitemap у GSC.</li>
+<li><b>Internal linking аудит</b>: порівняти стару index.html (commit перед 67cd16699) з новою — які посилання на клуби/країни зникли. Відновити ключові (Bodø/Glimt, NOR, BIH, top clubs).</li>
+<li><b>PageSpeed/CWV</b>: зміряти LCP/INP/CLS на головній і шаблонних сторінках. Fraunces+Inter Tight через Google Fonts може блокувати LCP — додати <code>font-display: swap</code> + preload.</li>
+<li><b>Validate HTML/Schema</b>: переконатися, що breadcrumbs, WebSite schema, OG-теги збережені після переписки.</li>
+<li><b>Vercel logs 13–26.04</b>: чи нема сплеску 5xx від GoogleBot (CTO увімкнув 30d retention 21.04).</li>
+</ol>
+</div>
+<div class="warn">
+<b>P1 — закрити борги з 13.04</b>
+<ol>
+<li><b>clubs/1095.html snippet</b>: 24 покази / 0 кліків — переписати meta description і title. Можливо, OG title не співпадає з SERP.</li>
+<li><b>Image Search</b>: WebP стікери позиція 26–84. Перевірити image sitemap, додати в звичайний sitemap, перевірити <code>&lt;img&gt;</code> розміри і lazyload (не блокує індексацію).</li>
+<li><b>Bodø/Glimt</b>: відновити позицію — внутрішні посилання з головної + countries/NOR.</li>
+</ol>
+</div>
+<div class="ok">
+<b>P2 — масштабувати те, що працює</b>
+<ol>
+<li>Додати internal links з clubs → countries (NOR, BIH працюють — підкачати інші).</li>
+<li>Розширити multilingual meta на ще 5–7 мов з топ-країн (CHE, FRA, PRT, MAR).</li>
+<li>Country pages: featured gallery → перевірити решту 50+ країн.</li>
+</ol>
+</div>
+
+<h2>Технічні джерела</h2>
+<ul>
+<li>GSC: <code>sc-domain:stickerhunt.club</code></li>
+<li>Звіт baseline 31.03: <code>~/Claude Code/stickerhunt/seo-reports/2026-03-31_report.md</code></li>
+<li>Memory: <code>stickerhunt-seo-audit-2026-03-17.md</code></li>
+<li>Overhaul commits: 44078d658 + cf6b0131c + b3c62d73c</li>
+<li>Цей звіт: <code>~/Claude Code/stickerhunt/seo-reports/2026-04-29_overhaul_check.html</code></li>
+</ul>
+
+</body>
+</html>
