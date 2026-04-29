@@ -143,7 +143,7 @@
         <div id="catalogue-content">
             <div class="wiki-section">
     <div class="wiki-facts">
-        <div class="wiki-fact"><span class="wiki-fact-label">Population</span><span class="wiki-fact-value">1,685,209</span></div>
+        <div class="wiki-fact"><span class="wiki-fact-label">Population</span><span class="wiki-fact-value">1 685 209</span></div>
     </div>
     <div class="wiki-intro">
         <p>Budapest is the capital and most populous city of Hungary.  It is Hungary's primate city with 1.</p>
@@ -153,30 +153,33 @@
             <div class="club-details-block">
                 <p class="club-info-item">📦 Clubs represented: 3 clubs from 3 countries</p>
 <p class="club-info-item">📅 First found: 30 Dec 2024 | Latest: 30 Dec 2024</p>
-<p class="club-info-item">🌍 Most common: <a href="/countries/ENG.html">England</a> (1), <a href="/countries/FRA.html">France</a> (1), <a href="/countries/ROU.html">Romania</a> (1)</p>
+<p class="club-info-item">🌍 Most common: <a href="/countries/FRA.html">France</a> (1), <a href="/countries/ENG.html">England</a> (1), <a href="/countries/ROU.html">Romania</a> (1)</p>
             </div>
             <div class="sticker-gallery">
                 
-                <a href="/stickers/3304.html" class="sticker-preview-link">
-                    <img src="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/club_1009/1776078592613_IMG_9427_thumb.webp"
-                         alt="󠁧󠁢󠁥󠁮󠁧󠁿 Reading FC football sticker #3304 found in this city"
-                         class="sticker-preview-image"
-                         loading="lazy"
-                         decoding="async" data-sticker-id="3304">
-                </a>
                 <a href="/stickers/3305.html" class="sticker-preview-link">
                     <img src="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/club_666/1776078620235_IMG_9422_thumb.webp"
                          alt="Olympique de Marseille football sticker #3305 found in this city"
+                         data-sticker-id="3305"
                          class="sticker-preview-image"
                          loading="lazy"
-                         decoding="async" data-sticker-id="3305">
+                         decoding="async">
+                </a>
+                <a href="/stickers/3304.html" class="sticker-preview-link">
+                    <img src="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/club_1009/1776078592613_IMG_9427_thumb.webp"
+                         alt="󠁧󠁢󠁥󠁮󠁧󠁿 Reading FC football sticker #3304 found in this city"
+                         data-sticker-id="3304"
+                         class="sticker-preview-image"
+                         loading="lazy"
+                         decoding="async">
                 </a>
                 <a href="/stickers/3309.html" class="sticker-preview-link">
                     <img src="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/club_22/1776079014684_IMG_9428_thumb.webp"
                          alt="FC Corvinul Hunedoara football sticker #3309 found in this city"
+                         data-sticker-id="3309"
                          class="sticker-preview-image"
                          loading="lazy"
-                         decoding="async" data-sticker-id="3309">
+                         decoding="async">
                 </a>
             </div>
             
@@ -223,15 +226,15 @@
                 }).addTo(cityMap);
                 
                 (function() {
-                    const marker = L.marker([47.4321416666667, 19.2608916666667]).addTo(cityMap);
-                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>󠁧󠁢󠁥󠁮󠁧󠁿 Reading FC</strong><a href="/stickers/3304.html" class="map-popup-link">View</a></div>');
+                    const marker = L.marker([47.4332666666667, 19.2623666666667]).addTo(cityMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>Olympique de Marseille</strong><a href="/stickers/3305.html" class="map-popup-link">View</a></div>');
                     marker.on('mouseover', function() { this.openPopup(); });
                     marker.on('click', function() { this.openPopup(); });
                 })();
 
                 (function() {
-                    const marker = L.marker([47.4332666666667, 19.2623666666667]).addTo(cityMap);
-                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>Olympique de Marseille</strong><a href="/stickers/3305.html" class="map-popup-link">View</a></div>');
+                    const marker = L.marker([47.4321416666667, 19.2608916666667]).addTo(cityMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>󠁧󠁢󠁥󠁮󠁧󠁿 Reading FC</strong><a href="/stickers/3304.html" class="map-popup-link">View</a></div>');
                     marker.on('mouseover', function() { this.openPopup(); });
                     marker.on('click', function() { this.openPopup(); });
                 })();
@@ -244,8 +247,8 @@
                 })();
                 
                 const bounds = L.latLngBounds([
-                    [47.4321416666667, 19.2608916666667],
                     [47.4332666666667, 19.2623666666667],
+                    [47.4321416666667, 19.2608916666667],
                     [47.4309805555555, 19.2616833333333]
                 ]);
                 cityMap.fitBounds(bounds, { padding: [30, 30], maxZoom: 15 });
