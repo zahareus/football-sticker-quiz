@@ -1,0 +1,51 @@
+name: Backfill Missing Images (Deep Scan)
+
+# Catches stickers older than reconcile-images.yml's 7-day window.
+# Runs once per week (Sunday 03:00 UTC) with --days=90.
+# Manual trigger supports custom window.
+
+on:
+  schedule:
+    - cron: '0 3 * * 0'
+  workflow_dispatch:
+    inputs:
+      days:
+        description: 'Check stickers from last N days (default 90)'
+        required: false
+        default: '90'
+        type: string
+
+permissions:
+  contents: read
+
+concurrency:
+  group: backfill-images
+  cancel-in-progress: false
+
+jobs:
+  backfill:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        working-directory: ./scripts
+        run: npm install
+
+      - name: Optimize missing images (deep scan)
+        working-directory: ./scripts
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
+        run: |
+          DAYS="${{ github.event.inputs.days || '90' }}"
+          echo "Backfill --missing-only --days=$DAYS"
+          node optimize-images.js --missing-only --days=$DAYS

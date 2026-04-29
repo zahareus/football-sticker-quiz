@@ -172,6 +172,17 @@ jobs:
           echo "Regenerating city pages..."
           node generate-city-pages.js
 
+      - name: Regenerate sitemaps
+        if: always()
+        working-directory: ./scripts
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
+        continue-on-error: true
+        run: |
+          echo "Regenerating sitemaps (dynamic chunks + cities)..."
+          node generate-sitemaps.js
+
       - name: Check for changes
         id: check-changes
         run: |
@@ -186,7 +197,7 @@ jobs:
         run: |
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
-          git add stickers/ clubs/ countries/ cities/ scripts/wiki-cache.json
+          git add stickers/ clubs/ countries/ cities/ scripts/wiki-cache.json sitemap*.xml
 
           # Create commit message
           STICKER_IDS="${{ steps.get-ids.outputs.sticker_ids }}"

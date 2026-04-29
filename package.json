@@ -9,7 +9,9 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "test:e2e": "npx playwright test",
-    "test:generators": "cd scripts && node test-generators.js"
+    "test:generators": "cd scripts && node test-generators.js",
+    "test:integrity": "node scripts/tests/test-data-integrity.js",
+    "health": "node scripts/health.js"
   },
   "keywords": [],
   "author": "",
