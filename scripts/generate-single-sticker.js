@@ -356,7 +356,7 @@ function generateMoreFromClub(currentStickerId, clubStickers, clubName) {
     let html = '<div class="more-from-club">\n<h3>More from ' + stripEmoji(clubName) + '</h3>\n<div class="sticker-strip">';
     shown.forEach(s => {
         const thumbUrl = getThumbnailUrl(s.image_url);
-        html += `\n<a href="/stickers/${s.id}.html" class="sticker-strip-item"><img src="${thumbUrl}" alt="Sticker #${s.id}" data-sticker-id="${s.id}" loading="lazy" decoding="async"></a>`;
+        html += `\n<a href="/stickers/${s.id}.html" class="sticker-strip-item"><img src="${thumbUrl}" alt="Sticker #${s.id}" data-sticker-id="${s.id}" width="100" height="100" loading="lazy" decoding="async"></a>`;
     });
     html += '\n</div>\n</div>';
     return html;
@@ -370,7 +370,7 @@ function generateNearbyStickers(currentSticker, nearbyStickers) {
     let html = '<div class="nearby-stickers-section">\n<h3>Also found in ' + city + '</h3>\n<div class="sticker-strip">';
     shown.forEach(s => {
         const thumbUrl = s.image_url ? getThumbnailUrl(s.image_url) : '';
-        html += `\n<a href="/stickers/${s.id}.html" class="sticker-strip-item" title="${escapeHtml(s.clubName)}"><img src="${thumbUrl}" alt="${escapeHtml(s.clubName)}" data-sticker-id="${s.id}" loading="lazy" decoding="async"></a>`;
+        html += `\n<a href="/stickers/${s.id}.html" class="sticker-strip-item" title="${escapeHtml(s.clubName)}"><img src="${thumbUrl}" alt="${escapeHtml(s.clubName)}" data-sticker-id="${s.id}" width="100" height="100" loading="lazy" decoding="async"></a>`;
     });
     html += '\n</div>\n</div>';
     return html;
@@ -563,6 +563,7 @@ function generateStickerGallery(stickers, clubName, countryName) {
                          alt="${escapeHtml(altText)}"
                          data-sticker-id="${sticker.id}"
                          class="sticker-preview-image"
+                         width="200" height="200"
                          loading="lazy"
                          decoding="async">
                 </a>`;
@@ -843,7 +844,7 @@ async function generateCountryPage(countryCode, clubs, stickerCountsByClub, coun
             const thumbUrl = cleanTrailingQuery(getThumbnailUrl(c.bestImg));
             stripCards += `
                 <a href="/clubs/${c.id}.html" class="cat-club-card">
-                    <img src="${thumbUrl}" alt="${escapeHtml(c.cleanName)} sticker" data-sticker-id="${c.bestStickerId}" loading="lazy" decoding="async">
+                    <img src="${thumbUrl}" alt="${escapeHtml(c.cleanName)} sticker" data-sticker-id="${c.bestStickerId}" width="140" height="140" loading="lazy" decoding="async">
                     <span class="cat-club-label">${escapeHtml(c.cleanName)}</span>
                     <span class="cat-club-count">${c.stickerCount} sticker${c.stickerCount !== 1 ? 's' : ''}</span>
                 </a>`;
@@ -870,7 +871,7 @@ async function generateCountryPage(countryCode, clubs, stickerCountsByClub, coun
         let thumbHtml = '';
         if (club.bestImg) {
             const thumbUrl = cleanTrailingQuery(getThumbnailUrl(club.bestImg));
-            thumbHtml = `<img src="${thumbUrl}" class="country-club-thumb" alt="" data-sticker-id="${club.bestStickerId}" loading="lazy" decoding="async">`;
+            thumbHtml = `<img src="${thumbUrl}" class="country-club-thumb" alt="" data-sticker-id="${club.bestStickerId}" width="44" height="44" loading="lazy" decoding="async">`;
         } else {
             thumbHtml = '<span class="country-club-thumb-placeholder"></span>';
         }

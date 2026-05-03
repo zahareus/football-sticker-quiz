@@ -238,12 +238,27 @@ function cleanTrailingQuery(url) {
 /**
  * Load HTML template
  */
+let _criticalCssCache = null;
+function loadCriticalCss() {
+    if (_criticalCssCache !== null) return _criticalCssCache;
+    const p = join(PROJECT_ROOT, 'templates', '_critical', 'critical.css');
+    if (!existsSync(p)) {
+        throw new Error(`critical.css not found. Run: node scripts/build-critical-css.js`);
+    }
+    _criticalCssCache = readFileSync(p, 'utf-8');
+    return _criticalCssCache;
+}
+
 function loadTemplate(templateName) {
     const templatePath = join(PROJECT_ROOT, 'templates', templateName);
     if (!existsSync(templatePath)) {
         throw new Error(`Template not found: ${templatePath}`);
     }
-    return readFileSync(templatePath, 'utf-8');
+    let html = readFileSync(templatePath, 'utf-8');
+    if (html.includes('{{CRITICAL_CSS}}')) {
+        html = html.replaceAll('{{CRITICAL_CSS}}', loadCriticalCss());
+    }
+    return html;
 }
 
 /**
@@ -561,6 +576,7 @@ function generateStickerGallery(stickers, clubName) {
                          alt="${stripEmoji(clubName)} football sticker #${sticker.id} — identify this sticker"
                          data-sticker-id="${sticker.id}"
                          class="sticker-preview-image"
+                         width="200" height="200"
                          loading="lazy"
                          decoding="async">
                 </a>`;
@@ -889,7 +905,7 @@ async function generateIndexPage(stickers, clubs) {
         const thumbUrl = getOptimizedImageUrl(s.image_url, '_thumb');
         topRatedHtml += `
                 <a href="/stickers/${s.id}.html" class="hp-sticker-card">
-                    <img src="${thumbUrl}" alt="${clubName} sticker -- rated ${s.rating || 1500}" data-sticker-id="${s.id}" loading="lazy" decoding="async">
+                    <img src="${thumbUrl}" alt="${clubName} sticker -- rated ${s.rating || 1500}" data-sticker-id="${s.id}" width="140" height="140" loading="lazy" decoding="async">
                     <div class="hp-sticker-card-label">${clubName}</div>
                     <div class="hp-sticker-card-rating">⚡ ${s.rating || 1500}</div>
                 </a>`;
@@ -903,7 +919,7 @@ async function generateIndexPage(stickers, clubs) {
         const thumbUrl = getOptimizedImageUrl(s.image_url, '_thumb');
         recentHtml += `
                 <a href="/stickers/${s.id}.html" class="hp-sticker-card">
-                    <img src="${thumbUrl}" alt="${clubName} sticker -- recently added" data-sticker-id="${s.id}" loading="lazy" decoding="async">
+                    <img src="${thumbUrl}" alt="${clubName} sticker -- recently added" data-sticker-id="${s.id}" width="140" height="140" loading="lazy" decoding="async">
                     <div class="hp-sticker-card-label">${clubName}</div>
                 </a>`;
     });

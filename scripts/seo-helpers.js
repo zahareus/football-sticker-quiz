@@ -245,12 +245,28 @@ export function buildClubKeywords(clubNameClean, countryName, mediaString) {
 
 // ─── Template Utilities ──────────────────────────────────────────────────────
 
+let _criticalCssCache = null;
+function loadCriticalCss(projectRoot) {
+    if (_criticalCssCache !== null) return _criticalCssCache;
+    const p = join(projectRoot, 'templates', '_critical', 'critical.css');
+    if (!existsSync(p)) {
+        throw new Error(`critical.css not found at ${p}. Run: node scripts/build-critical-css.js`);
+    }
+    _criticalCssCache = readFileSync(p, 'utf-8');
+    return _criticalCssCache;
+}
+
 export function loadTemplate(templateName, projectRoot) {
     const templatePath = join(projectRoot, 'templates', templateName);
     if (!existsSync(templatePath)) {
         throw new Error(`Template not found: ${templatePath}`);
     }
-    return readFileSync(templatePath, 'utf-8');
+    let html = readFileSync(templatePath, 'utf-8');
+    // Auto-inject critical CSS so every generator gets it without per-call wiring.
+    if (html.includes('{{CRITICAL_CSS}}')) {
+        html = html.replaceAll('{{CRITICAL_CSS}}', loadCriticalCss(projectRoot));
+    }
+    return html;
 }
 
 export function replacePlaceholders(template, data) {

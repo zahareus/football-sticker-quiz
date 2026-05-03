@@ -38,7 +38,11 @@
     <!-- Preload LCP image (top sticker / OG) -->
     <link rel="preload" as="image" href="{{OG_IMAGE}}" fetchpriority="high">
 
-    <link rel="stylesheet" href="/style.css?v=4">
+    <!-- Inlined critical CSS (above-the-fold). Generated from style.css by scripts/build-critical-css.js -->
+    <style>{{CRITICAL_CSS}}</style>
+    <!-- Full stylesheet loaded async (non-blocking) -->
+    <link rel="preload" href="/style.css?v=5" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/style.css?v=5"></noscript>
 
     <!-- Leaflet CSS — async (non-blocking); only impacts the map at the bottom -->
     <link rel="preload" as="style" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" onload="this.onload=null;this.rel='stylesheet'">
@@ -60,7 +64,7 @@
 <body>
     <header class="app-header">
         <div class="logo-container">
-           <a href="/index.html"><img src="/logo.png" alt="StickerHunt Logo" id="app-logo"></a>
+           <a href="/index.html"><img src="/logo.webp" alt="StickerHunt Logo" id="app-logo" width="280" height="71" fetchpriority="high"></a>
         </div>
         <div id="auth-section">
              <button id="login-button" class="btn btn-primary google-login" style="display: none;">
@@ -138,13 +142,13 @@
             <a href="/terms.html">Terms of Service</a> |
             <a href="/privacy.html">Privacy Policy</a>
         </p>
-        <div style="display:flex;align-items:center;justify-content:center;gap:6px;margin-top:4px;opacity:0.5;"><img src="/logo.png" alt="StickerHunt" style="height:14px;width:auto;"> <span>&copy; 2026</span></div>
+        <div style="display:flex;align-items:center;justify-content:center;gap:6px;margin-top:4px;opacity:0.5;"><img src="/logo.webp" alt="StickerHunt" width="55" height="14" loading="lazy" decoding="async" style="height:14px;width:auto;"> <span>&copy; 2026</span></div>
     </footer>
 
     <!-- Scripts -->
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
-    <script src="/shared.js"></script>
+    <script defer src="/shared.js"></script>
     <script defer src="/js/view-tracker.js"></script>
     <script>
         // Initialize club map if map container exists

@@ -50,12 +50,27 @@ function cleanTrailingQuery(url) {
     return url ? url.replace(/\?$/, '') : url;
 }
 
+let _criticalCssCache = null;
+function loadCriticalCss() {
+    if (_criticalCssCache !== null) return _criticalCssCache;
+    const p = join(PROJECT_ROOT, 'templates', '_critical', 'critical.css');
+    if (!existsSync(p)) {
+        throw new Error(`critical.css not found. Run: node scripts/build-critical-css.js`);
+    }
+    _criticalCssCache = readFileSync(p, 'utf-8');
+    return _criticalCssCache;
+}
+
 function loadTemplate(templateName) {
     const templatePath = join(PROJECT_ROOT, 'templates', templateName);
     if (!existsSync(templatePath)) {
         throw new Error(`Template not found: ${templatePath}`);
     }
-    return readFileSync(templatePath, 'utf-8');
+    let html = readFileSync(templatePath, 'utf-8');
+    if (html.includes('{{CRITICAL_CSS}}')) {
+        html = html.replaceAll('{{CRITICAL_CSS}}', loadCriticalCss());
+    }
+    return html;
 }
 
 function replacePlaceholders(template, data) {
@@ -310,6 +325,7 @@ function generateCityStickerGallery(stickers, clubsMap) {
                          alt="${clubName} football sticker #${sticker.id} found in this city"
                          data-sticker-id="${sticker.id}"
                          class="sticker-preview-image"
+                         width="200" height="200"
                          loading="lazy"
                          decoding="async">
                 </a>`;

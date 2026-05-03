@@ -35,7 +35,11 @@
     <link rel="preload" href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
     <noscript><link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700&display=swap" rel="stylesheet"></noscript>
 
-    <link rel="stylesheet" href="/style.css?v=4">
+    <!-- Inlined critical CSS (above-the-fold). Generated from style.css by scripts/build-critical-css.js -->
+    <style>{{CRITICAL_CSS}}</style>
+    <!-- Full stylesheet loaded async (non-blocking) -->
+    <link rel="preload" href="/style.css?v=5" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/style.css?v=5"></noscript>
 
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-4Y0MJKGDZS"></script>
     <script>
@@ -53,7 +57,7 @@
 <body>
     <header class="app-header">
         <div class="logo-container">
-           <a href="/index.html"><img src="/logo.png" alt="StickerHunt Logo" id="app-logo"></a>
+           <a href="/index.html"><img src="/logo.webp" alt="StickerHunt Logo" id="app-logo" width="280" height="71" fetchpriority="high"></a>
         </div>
         <div id="auth-section">
              <button id="login-button" class="btn btn-primary google-login" style="display: none;">
@@ -118,12 +122,12 @@
             <a href="/terms.html">Terms</a> |
             <a href="/privacy.html">Privacy</a>
         </p>
-        <div style="display:flex;align-items:center;justify-content:center;gap:6px;margin-top:4px;opacity:0.5;"><img src="/logo.png" alt="StickerHunt" style="height:14px;width:auto;"> <span>&copy; 2026</span></div>
+        <div style="display:flex;align-items:center;justify-content:center;gap:6px;margin-top:4px;opacity:0.5;"><img src="/logo.webp" alt="StickerHunt" width="55" height="14" loading="lazy" decoding="async" style="height:14px;width:auto;"> <span>&copy; 2026</span></div>
     </footer>
 
     <!-- Scripts -->
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script src="/shared.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script defer src="/shared.js"></script>
     <script defer src="/js/view-tracker.js"></script>
 
     <!-- PostHog Analytics -->

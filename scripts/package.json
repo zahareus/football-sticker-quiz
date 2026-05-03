@@ -6,6 +6,9 @@
   "scripts": {
     "optimize": "node optimize-images.js",
     "optimize:dry": "node optimize-images.js --dry-run",
+    "build:critical": "node build-critical-css.js",
+    "prebuild:critical": "echo 'Building critical CSS from style.css'",
+    "pregenerate": "node build-critical-css.js",
     "generate": "node generate-static-pages.js",
     "generate:test": "node generate-static-pages.js --test",
     "regenerate:countries": "node regenerate-country-pages.js"
