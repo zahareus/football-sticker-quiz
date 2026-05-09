@@ -6129,5 +6129,14 @@
     "capacity": "26,671",
     "league": "Ligue 1",
     "website": "https://fcmetz.com"
+  },
+  "1201": {
+    "wikiUrl": "https://en.wikipedia.org/wiki/Cagliari_Calcio",
+    "intro": "Cagliari Calcio, commonly referred to as Cagliari (Italian: [ˈkaʎʎari] ), is a professional Italian football club based in Cagliari, Sardinia, that plays in Serie A, the first tier of Italian football. The club currently plays home matches at the 16,416-seat Unipol Domus.\nFounded in 1920, they won their first and only Scudetto in 1969–70, when they were led by the Italian national team's all-time leading scorer, Gigi Riva.",
+    "founded": "1920",
+    "stadium": "Unipol Domus",
+    "capacity": "16,416",
+    "league": null,
+    "website": "https://cagliaricalcio.com"
   }
 }
