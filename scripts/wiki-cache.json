@@ -6120,5 +6120,14 @@
     "capacity": "15,358",
     "league": "TFF First League",
     "website": "http://www.ksk.org.tr/"
+  },
+  "1200": {
+    "wikiUrl": "https://en.wikipedia.org/wiki/FC_Metz",
+    "intro": "Football Club de Metz (French pronunciation: [mɛs] ) is a French association football club based in Metz, Lorraine. The club was formed in 1932 and plays in Ligue 1, the highest division in the French football league system, for the 2025–26 season following their promotion from the second division in the 2024–2025 season.",
+    "founded": "1932",
+    "stadium": "Stade Saint-Symphorien",
+    "capacity": "26,671",
+    "league": "Ligue 1",
+    "website": "https://fcmetz.com"
   }
 }
