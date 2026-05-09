@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { readFileSync, existsSync } from 'fs';
+import { readFileSync, existsSync, readdirSync } from 'fs';
 import { join } from 'path';
 
 const ROOT = join(import.meta.dirname, '..');
@@ -47,6 +47,27 @@ describe('client sanity checks', () => {
     if (sharedIdx !== -1 && scriptIdx !== -1) {
       expect(sharedIdx).toBeLessThan(scriptIdx);
     }
+  });
+
+  // Regression guard for May 2026 LCP fix: if Supabase CDN <script> is `defer`
+  // but shared.js (or any sibling app script) is non-defer, the app script runs
+  // during parse before Supabase loads → "Supabase client library not loaded".
+  it('Supabase CDN and shared.js have consistent defer mode on every HTML page', () => {
+    const htmlFiles = readdirSync(ROOT).filter(f => f.endsWith('.html'));
+    const violations = [];
+    for (const f of htmlFiles) {
+      const html = readFileSync(join(ROOT, f), 'utf8');
+      const sb = html.match(/<script(\s+defer)?\s+src="https:\/\/cdn\.jsdelivr\.net\/npm\/@supabase\/supabase-js@2"[^>]*><\/script>/);
+      if (!sb) continue;
+      const sbDefer = !!sb[1];
+      const shared = html.match(/<script(\s+defer)?\s+src="\/?shared\.js[^"]*"[^>]*><\/script>/);
+      if (!shared) continue;
+      const sharedDefer = !!shared[1];
+      if (sbDefer && !sharedDefer) {
+        violations.push(`${f}: supabase is defer but shared.js is not — race on init`);
+      }
+    }
+    expect(violations, violations.join('\n')).toEqual([]);
   });
 
   it('CONFIG values are consistent between shared.js and lib/game-logic.js', () => {

@@ -3,18 +3,6 @@
 
 let supabaseClient;
 
-// Initialize Supabase Client
-if (typeof SharedUtils !== 'undefined') {
-    supabaseClient = SharedUtils.initSupabaseClient();
-    if (supabaseClient) {
-        if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', initializeAuth);
-        } else {
-            initializeAuth();
-        }
-    }
-}
-
 // Auth DOM Elements
 let loginButton;
 let logoutButton;
@@ -28,6 +16,20 @@ let homeAuthButton;
 // Auth State
 let currentUser = null;
 let currentUserProfile = null;
+
+// Initialize Supabase Client (must run AFTER let-declarations above to avoid TDZ
+// when initializeAuth() touches loginButton/etc. With <script defer> the document
+// is already parsed by the time this file executes, so readyState !== 'loading').
+if (typeof SharedUtils !== 'undefined') {
+    supabaseClient = SharedUtils.initSupabaseClient();
+    if (supabaseClient) {
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initializeAuth);
+        } else {
+            initializeAuth();
+        }
+    }
+}
 
 // Load user profile
 async function loadAndSetUserProfile(user) {

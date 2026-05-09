@@ -63,6 +63,7 @@ test.describe('StickerHunt Smoke Tests', () => {
     page.on('console', msg => {
       if (msg.type() === 'error') errors.push(msg.text());
     });
+    page.on('pageerror', err => errors.push('PAGEERR: ' + err.message));
 
     await page.goto(BASE_URL);
     await page.waitForLoadState('networkidle');
@@ -76,6 +77,28 @@ test.describe('StickerHunt Smoke Tests', () => {
     );
     expect(criticalErrors).toEqual([]);
   });
+
+  // Catches "Supabase client library not loaded" race when shared.js / page script
+  // is non-defer but supabase CDN tag has defer (regression from May 2026 LCP fix).
+  for (const path of ['/quiz.html', '/catalogue.html', '/leaderboard.html', '/profile.html']) {
+    test(`no pageerror or supabase init failure on ${path}`, async ({ page }) => {
+      const errors = [];
+      page.on('console', msg => { if (msg.type() === 'error') errors.push(msg.text()); });
+      page.on('pageerror', err => errors.push('PAGEERR: ' + err.message));
+
+      await page.goto(`${BASE_URL}${path}`);
+      await page.waitForLoadState('networkidle');
+
+      const critical = errors.filter(e =>
+        !e.includes('favicon') &&
+        !e.includes('ERR_BLOCKED') &&
+        !e.includes('posthog') &&
+        !e.includes('analytics') &&
+        !e.includes('google')
+      );
+      expect(critical, `console/page errors on ${path}:\n${critical.join('\n')}`).toEqual([]);
+    });
+  }
 
   test('CSS and JS resources load on quiz page', async ({ page }) => {
     const failedResources = [];
