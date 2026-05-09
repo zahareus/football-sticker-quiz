@@ -6138,5 +6138,14 @@
     "capacity": "16,416",
     "league": null,
     "website": "https://cagliaricalcio.com"
+  },
+  "1202": {
+    "wikiUrl": "https://en.wikipedia.org/wiki/CR_Belouizdad",
+    "intro": "Chabab Riadhi Belouizdad (Arabic: الشباب الرياضي لبلوزداد); known as CR Belouizdad or simply CRB for short, is an Algerian professional football club based in Algiers, Algeria, that plays in the Ligue Professionnelle 1, the top flight of Algerian football. The club has competed in the top division for a record 55 seasons.\nCRB was founded on 15 July 1962, ten days after the independence of Algeria, as Chabab Riadhi de Belcourt, by the merger of two clubs from the same district, the Widad Riadhi de Belcourt and the Club Athéltique de Belcourt, and has played at its current home ground, 20 August 1955 Stadium, ever since.",
+    "founded": "1962",
+    "stadium": "Stade 20 Août 1955",
+    "capacity": "15,000",
+    "league": "Algerian Ligue Professionnelle 1",
+    "website": "https://crb.dz/"
   }
 }

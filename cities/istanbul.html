@@ -608,6 +608,15 @@
                          loading="lazy"
                          decoding="async">
                 </a>
+                <a href="/stickers/3368.html" class="sticker-preview-link">
+                    <img src="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/club_1185/1777110028425_IMG_9598_thumb.webp"
+                         alt="MC Alger football sticker #3368 found in this city"
+                         data-sticker-id="3368"
+                         class="sticker-preview-image"
+                         width="200" height="200"
+                         loading="lazy"
+                         decoding="async">
+                </a>
                 <a href="/stickers/3378.html" class="sticker-preview-link">
                     <img src="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/club_614/1777110800517_IMG_9613_thumb.webp"
                          alt="FCSB football sticker #3378 found in this city"
@@ -639,15 +648,6 @@
                     <img src="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/club_1187/1777110988571_IMG_9602_thumb.webp"
                          alt="FC Dynamo Bryansk football sticker #3379 found in this city"
                          data-sticker-id="3379"
-                         class="sticker-preview-image"
-                         width="200" height="200"
-                         loading="lazy"
-                         decoding="async">
-                </a>
-                <a href="/stickers/3368.html" class="sticker-preview-link">
-                    <img src="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/club_1185/1777110028425_IMG_9598_thumb.webp"
-                         alt="MC Alger football sticker #3368 found in this city"
-                         data-sticker-id="3368"
                          class="sticker-preview-image"
                          width="200" height="200"
                          loading="lazy"
@@ -1455,6 +1455,13 @@
                 })();
 
                 (function() {
+                    const marker = L.marker([41.0207972222222, 28.9738472222222]).addTo(cityMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>MC Alger</strong><a href="/stickers/3368.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
                     const marker = L.marker([40.9885111111111, 29.0286666666667]).addTo(cityMap);
                     marker.bindPopup('<div class="nearby-sticker-popup"><strong>FCSB</strong><a href="/stickers/3378.html" class="map-popup-link">View</a></div>');
                     marker.on('mouseover', function() { this.openPopup(); });
@@ -1478,13 +1485,6 @@
                 (function() {
                     const marker = L.marker([41.0180638888889, 28.9720333333333]).addTo(cityMap);
                     marker.bindPopup('<div class="nearby-sticker-popup"><strong>FC Dynamo Bryansk</strong><a href="/stickers/3379.html" class="map-popup-link">View</a></div>');
-                    marker.on('mouseover', function() { this.openPopup(); });
-                    marker.on('click', function() { this.openPopup(); });
-                })();
-
-                (function() {
-                    const marker = L.marker([41.0207972222222, 28.9738472222222]).addTo(cityMap);
-                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>MC Alger</strong><a href="/stickers/3368.html" class="map-popup-link">View</a></div>');
                     marker.on('mouseover', function() { this.openPopup(); });
                     marker.on('click', function() { this.openPopup(); });
                 })();
@@ -1861,11 +1861,11 @@
                     [40.9890972222222, 29.0287361111111],
                     [40.9873111111111, 29.0286027777778],
                     [40.9901194444444, 29.0242361111111],
+                    [41.0207972222222, 28.9738472222222],
                     [40.9885111111111, 29.0286666666667],
                     [41.0204694444444, 28.97345],
                     [40.9903, 29.0237555555556],
                     [41.0180638888889, 28.9720333333333],
-                    [41.0207972222222, 28.9738472222222],
                     [41.0204694444444, 28.97345],
                     [41.0172416666667, 28.9751333333333],
                     [41.0354638888889, 28.9819944444444],
