@@ -198,7 +198,7 @@
 
                             <div class="club-details-block club-mini-card">
 <p class="club-info-item">Est. 1907 · Süper Lig · Şükrü Saracoğlu Stadium</p>
-<p class="club-info-item"><a href="/clubs/622.html">View all 19 stickers from Fenerbahçe SK →</a></p>
+<p class="club-info-item"><a href="/clubs/622.html">View all 24 stickers from Fenerbahçe SK →</a></p>
 </div>
                             <p class="sticker-detail-rating" id="sticker-rating" data-sticker-id="3406" data-club-id="622" data-difficulty="3">
                                 <a href="/battle.html">Like Rate: <span id="rating-value">...</span> (<span id="rating-rank">#...</span>)</a>
@@ -911,6 +911,19 @@
                 })();
 
                 (function() {
+                    L.marker([41.0207972222222, 28.9738472222222], {
+                        icon: L.icon({
+                            iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
+                            iconSize: [18, 30],
+                            iconAnchor: [9, 30],
+                            popupAnchor: [1, -25]
+                        }),
+                        opacity: 0.6
+                    }).addTo(map)
+                    .bindPopup('<div class="nearby-sticker-popup"><strong>MC Alger</strong><a href="/stickers/3368.html" class="map-popup-link">View</a></div>');
+                })();
+
+                (function() {
                     L.marker([40.9885111111111, 29.0286666666667], {
                         icon: L.icon({
                             iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
@@ -960,19 +973,6 @@
                         opacity: 0.6
                     }).addTo(map)
                     .bindPopup('<div class="nearby-sticker-popup"><strong>FC Dynamo Bryansk</strong><a href="/stickers/3379.html" class="map-popup-link">View</a></div>');
-                })();
-
-                (function() {
-                    L.marker([41.0207972222222, 28.9738472222222], {
-                        icon: L.icon({
-                            iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
-                            iconSize: [18, 30],
-                            iconAnchor: [9, 30],
-                            popupAnchor: [1, -25]
-                        }),
-                        opacity: 0.6
-                    }).addTo(map)
-                    .bindPopup('<div class="nearby-sticker-popup"><strong>MC Alger</strong><a href="/stickers/3368.html" class="map-popup-link">View</a></div>');
                 })();
 
                 (function() {
@@ -1627,7 +1627,7 @@
                     [40.9890972222222, 29.0287361111111],
                     [40.9873111111111, 29.0286027777778],
                     [40.9901194444444, 29.0242361111111],
-                    [40.9885111111111, 29.0286666666667]
+                    [41.0207972222222, 28.9738472222222]
                 ]);
                 map.fitBounds(bounds, { padding: [30, 30], maxZoom: 14 });
                 
