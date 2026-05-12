@@ -852,19 +852,6 @@
                 })();
 
                 (function() {
-                    L.marker([50.0881888888889, 14.4477583333333], {
-                        icon: L.icon({
-                            iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
-                            iconSize: [18, 30],
-                            iconAnchor: [9, 30],
-                            popupAnchor: [1, -25]
-                        }),
-                        opacity: 0.6
-                    }).addTo(map)
-                    .bindPopup('<div class="nearby-sticker-popup"><strong>1 FC Union Berlin</strong><a href="/stickers/2316.html" class="map-popup-link">View</a></div>');
-                })();
-
-                (function() {
                     L.marker([50.0911972222222, 14.4271972222222], {
                         icon: L.icon({
                             iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
@@ -1111,6 +1098,19 @@
                     .bindPopup('<div class="nearby-sticker-popup"><strong>Nantes</strong><a href="/stickers/2318.html" class="map-popup-link">View</a></div>');
                 })();
 
+                (function() {
+                    L.marker([50.0881888888889, 14.4477583333333], {
+                        icon: L.icon({
+                            iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
+                            iconSize: [18, 30],
+                            iconAnchor: [9, 30],
+                            popupAnchor: [1, -25]
+                        }),
+                        opacity: 0.6
+                    }).addTo(map)
+                    .bindPopup('<div class="nearby-sticker-popup"><strong>1 FC Union Berlin</strong><a href="/stickers/2316.html" class="map-popup-link">View</a></div>');
+                })();
+
                 // Current sticker — larger marker, opened popup
                 L.marker([50.0877, 14.3901138888889], {
                     icon: L.icon({
@@ -1174,11 +1174,11 @@
                     [50.0876777777778, 14.3910638888889],
                     [50.0845527777778, 14.4135583333333],
                     [50.0857388888889, 14.4255166666667],
-                    [50.0881888888889, 14.4477583333333],
                     [50.0911972222222, 14.4271972222222],
                     [50.0903166666667, 14.45905],
                     [50.0918833333333, 14.4263916666667],
-                    [50.078025, 14.4178972222222]
+                    [50.078025, 14.4178972222222],
+                    [50.0801083333333, 14.4279111111111]
                 ]);
                 map.fitBounds(bounds, { padding: [30, 30], maxZoom: 14 });
                 
