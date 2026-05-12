@@ -29,8 +29,9 @@ test.describe('StickerHunt Smoke Tests', () => {
     await page.goto(`${BASE_URL}/battle.html`);
     await page.waitForLoadState('domcontentloaded');
 
-    const battleArea = page.locator('#battle-content, #battle-loading, .battle-container').first();
-    await expect(battleArea).toBeVisible({ timeout: 10000 });
+    // Wait for content to render (loader flips display:none → content display:flex once first pair loads)
+    const battleContent = page.locator('#battle-content');
+    await expect(battleContent).toBeVisible({ timeout: 15000 });
   });
 
   test('catalogue page loads', async ({ page }) => {
@@ -94,7 +95,9 @@ test.describe('StickerHunt Smoke Tests', () => {
         !e.includes('ERR_BLOCKED') &&
         !e.includes('posthog') &&
         !e.includes('analytics') &&
-        !e.includes('google')
+        !e.includes('google') &&
+        // profile.html без ?id= валідно показує UI-помилку через console.error
+        !e.includes('No player ID specified')
       );
       expect(critical, `console/page errors on ${path}:\n${critical.join('\n')}`).toEqual([]);
     });
