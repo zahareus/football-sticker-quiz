@@ -6165,5 +6165,14 @@
     "capacity": "42,640",
     "league": "Premier League",
     "website": "https://www.avfc.co.uk/"
+  },
+  "1206": {
+    "wikiUrl": "https://pl.wikipedia.org/wiki/Stal_Rzesz%C3%B3w_(pi%C5%82ka_no%C5%BCna)",
+    "intro": "Stal Rzeszów, commonly referred to as Stal, is a Polish football club based in Rzeszów in the southeastern Podkarpackie voivodeship, competing in the I liga, the second tier of Polish league football, since their promotion in 2022. Formed in 1944 by aviation factory workers, the club has spent a majority of its history playing in the lower leagues of Polish football.",
+    "founded": "1944",
+    "stadium": null,
+    "capacity": null,
+    "league": "II liga",
+    "website": "https://stalrzeszow.pl/"
   }
 }
