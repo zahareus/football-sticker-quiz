@@ -6147,5 +6147,14 @@
     "capacity": "15,000",
     "league": "Algerian Ligue Professionnelle 1",
     "website": "https://crb.dz/"
+  },
+  "1203": {
+    "wikiUrl": "https://en.wikipedia.org/wiki/Plymouth_Argyle_F.C.",
+    "intro": "Plymouth Argyle Football Club is a professional association football club based in the city of Plymouth, Devon, England.  The team currently competes in EFL League One, the third level of the English football league system.",
+    "founded": "1886",
+    "stadium": "Home Park",
+    "capacity": "17,900",
+    "league": "EFL League One",
+    "website": "https://www.pafc.co.uk/"
   }
 }
