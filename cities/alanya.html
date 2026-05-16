@@ -257,6 +257,15 @@
                          loading="lazy"
                          decoding="async">
                 </a>
+                <a href="/stickers/2517.html" class="sticker-preview-link">
+                    <img src="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/club_877%2F1757194479784_IMG_6699_thumb.webp"
+                         alt="Hannover 96 football sticker #2517 found in this city"
+                         data-sticker-id="2517"
+                         class="sticker-preview-image"
+                         width="200" height="200"
+                         loading="lazy"
+                         decoding="async">
+                </a>
                 <a href="/stickers/2515.html" class="sticker-preview-link">
                     <img src="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/club_564%2F1757194408619_IMG_6713_thumb.webp"
                          alt="FC Kobenhavn football sticker #2515 found in this city"
@@ -279,15 +288,6 @@
                     <img src="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/club_751%2F1757194357244_IMG_6727_thumb.webp"
                          alt="Widzew Łódź football sticker #2514 found in this city"
                          data-sticker-id="2514"
-                         class="sticker-preview-image"
-                         width="200" height="200"
-                         loading="lazy"
-                         decoding="async">
-                </a>
-                <a href="/stickers/2517.html" class="sticker-preview-link">
-                    <img src="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/club_877%2F1757194479784_IMG_6699_thumb.webp"
-                         alt="Hannover 96 football sticker #2517 found in this city"
-                         data-sticker-id="2517"
                          class="sticker-preview-image"
                          width="200" height="200"
                          loading="lazy"
@@ -471,6 +471,13 @@
                 })();
 
                 (function() {
+                    const marker = L.marker([36.5311666666667, 32.0468166666667]).addTo(cityMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>Hannover 96</strong><a href="/stickers/2517.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
                     const marker = L.marker([36.5258111111111, 32.0540666666667]).addTo(cityMap);
                     marker.bindPopup('<div class="nearby-sticker-popup"><strong>FC Kobenhavn</strong><a href="/stickers/2515.html" class="map-popup-link">View</a></div>');
                     marker.on('mouseover', function() { this.openPopup(); });
@@ -487,13 +494,6 @@
                 (function() {
                     const marker = L.marker([36.527675, 32.0509833333333]).addTo(cityMap);
                     marker.bindPopup('<div class="nearby-sticker-popup"><strong>Widzew Łódź</strong><a href="/stickers/2514.html" class="map-popup-link">View</a></div>');
-                    marker.on('mouseover', function() { this.openPopup(); });
-                    marker.on('click', function() { this.openPopup(); });
-                })();
-
-                (function() {
-                    const marker = L.marker([36.5311666666667, 32.0468166666667]).addTo(cityMap);
-                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>Hannover 96</strong><a href="/stickers/2517.html" class="map-popup-link">View</a></div>');
                     marker.on('mouseover', function() { this.openPopup(); });
                     marker.on('click', function() { this.openPopup(); });
                 })();
@@ -558,10 +558,10 @@
                     [36.5262361111111, 32.0511888888889],
                     [36.527125, 32.0497805555556],
                     [36.5281638888889, 32.0461416666667],
+                    [36.5311666666667, 32.0468166666667],
                     [36.5258111111111, 32.0540666666667],
                     [36.5296944444444, 32.0447305555556],
                     [36.527675, 32.0509833333333],
-                    [36.5311666666667, 32.0468166666667],
                     [36.5260361111111, 32.0514194444444],
                     [36.526975, 32.0473444444444],
                     [36.5305972222222, 32.04715],
