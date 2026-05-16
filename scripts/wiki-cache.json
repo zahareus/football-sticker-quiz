@@ -6156,5 +6156,14 @@
     "capacity": "17,900",
     "league": "EFL League One",
     "website": "https://www.pafc.co.uk/"
+  },
+  "1204": {
+    "wikiUrl": "https://en.wikipedia.org/wiki/Aston_Villa_F.C.",
+    "intro": "Aston Villa Football Club is a professional football club based in Aston, Birmingham, England. It was founded in 1874.",
+    "founded": "1874",
+    "stadium": "Villa Park",
+    "capacity": "42,640",
+    "league": "Premier League",
+    "website": "https://www.avfc.co.uk/"
   }
 }
