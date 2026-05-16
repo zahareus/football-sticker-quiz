@@ -176,15 +176,6 @@
                          loading="lazy"
                          decoding="async">
                 </a>
-                <a href="/stickers/2484.html" class="sticker-preview-link">
-                    <img src="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/club_780%2F1756553280694_IMG_6618_thumb.webp"
-                         alt="LKS Lodz football sticker #2484 found in this city"
-                         data-sticker-id="2484"
-                         class="sticker-preview-image"
-                         width="200" height="200"
-                         loading="lazy"
-                         decoding="async">
-                </a>
                 <a href="/stickers/2501.html" class="sticker-preview-link">
                     <img src="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/club_631%2F1756560141751_IMG_6551_thumb.webp"
                          alt="FK Crvena zvezda football sticker #2501 found in this city"
@@ -198,6 +189,15 @@
                     <img src="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/club_879%2F1756553267310_IMG_6575_thumb.webp"
                          alt="Dynamo Dresden football sticker #2483 found in this city"
                          data-sticker-id="2483"
+                         class="sticker-preview-image"
+                         width="200" height="200"
+                         loading="lazy"
+                         decoding="async">
+                </a>
+                <a href="/stickers/2484.html" class="sticker-preview-link">
+                    <img src="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/club_780%2F1756553280694_IMG_6618_thumb.webp"
+                         alt="LKS Lodz football sticker #2484 found in this city"
+                         data-sticker-id="2484"
                          class="sticker-preview-image"
                          width="200" height="200"
                          loading="lazy"
@@ -444,13 +444,6 @@
                 })();
 
                 (function() {
-                    const marker = L.marker([42.2836527777778, 18.8371416666667]).addTo(cityMap);
-                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>LKS Lodz</strong><a href="/stickers/2484.html" class="map-popup-link">View</a></div>');
-                    marker.on('mouseover', function() { this.openPopup(); });
-                    marker.on('click', function() { this.openPopup(); });
-                })();
-
-                (function() {
                     const marker = L.marker([42.2781111111111, 18.8373555555556]).addTo(cityMap);
                     marker.bindPopup('<div class="nearby-sticker-popup"><strong>FK Crvena zvezda</strong><a href="/stickers/2501.html" class="map-popup-link">View</a></div>');
                     marker.on('mouseover', function() { this.openPopup(); });
@@ -460,6 +453,13 @@
                 (function() {
                     const marker = L.marker([42.2777972222222, 18.8377833333333]).addTo(cityMap);
                     marker.bindPopup('<div class="nearby-sticker-popup"><strong>Dynamo Dresden</strong><a href="/stickers/2483.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([42.2836527777778, 18.8371416666667]).addTo(cityMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>LKS Lodz</strong><a href="/stickers/2484.html" class="map-popup-link">View</a></div>');
                     marker.on('mouseover', function() { this.openPopup(); });
                     marker.on('click', function() { this.openPopup(); });
                 })();
@@ -613,9 +613,9 @@
                 
                 const bounds = L.latLngBounds([
                     [42.2791833333333, 18.8376805555556],
-                    [42.2836527777778, 18.8371416666667],
                     [42.2781111111111, 18.8373555555556],
                     [42.2777972222222, 18.8377833333333],
+                    [42.2836527777778, 18.8371416666667],
                     [42.2789222222222, 18.8367611111111],
                     [42.2835166666667, 18.83715],
                     [42.2826583333333, 18.8392916666667],

@@ -257,15 +257,6 @@
                          loading="lazy"
                          decoding="async">
                 </a>
-                <a href="/stickers/3475.html" class="sticker-preview-link">
-                    <img src="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/club_746/1778935642066_IMG_9932_thumb.webp"
-                         alt="Pogoń Szczecin football sticker #3475 found in this city"
-                         data-sticker-id="3475"
-                         class="sticker-preview-image"
-                         width="200" height="200"
-                         loading="lazy"
-                         decoding="async">
-                </a>
                 <a href="/stickers/3477.html" class="sticker-preview-link">
                     <img src="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/club_848/1778935679564_IMG_9928_thumb.webp"
                          alt="Atlético Madrid football sticker #3477 found in this city"
@@ -279,6 +270,15 @@
                     <img src="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/club_626/1778935731863_IMG_9919_thumb.webp"
                          alt="Vålerenga Fotball football sticker #3479 found in this city"
                          data-sticker-id="3479"
+                         class="sticker-preview-image"
+                         width="200" height="200"
+                         loading="lazy"
+                         decoding="async">
+                </a>
+                <a href="/stickers/3475.html" class="sticker-preview-link">
+                    <img src="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/club_746/1778935642066_IMG_9932_thumb.webp"
+                         alt="Pogoń Szczecin football sticker #3475 found in this city"
+                         data-sticker-id="3475"
                          class="sticker-preview-image"
                          width="200" height="200"
                          loading="lazy"
@@ -1281,13 +1281,6 @@
                 })();
 
                 (function() {
-                    const marker = L.marker([37.9740055555556, -0.678363888888889]).addTo(cityMap);
-                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>Pogoń Szczecin</strong><a href="/stickers/3475.html" class="map-popup-link">View</a></div>');
-                    marker.on('mouseover', function() { this.openPopup(); });
-                    marker.on('click', function() { this.openPopup(); });
-                })();
-
-                (function() {
                     const marker = L.marker([37.9758416666667, -0.672611111111111]).addTo(cityMap);
                     marker.bindPopup('<div class="nearby-sticker-popup"><strong>Atlético Madrid</strong><a href="/stickers/3477.html" class="map-popup-link">View</a></div>');
                     marker.on('mouseover', function() { this.openPopup(); });
@@ -1297,6 +1290,13 @@
                 (function() {
                     const marker = L.marker([37.9767777777778, -0.671258333333333]).addTo(cityMap);
                     marker.bindPopup('<div class="nearby-sticker-popup"><strong>Vålerenga Fotball</strong><a href="/stickers/3479.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([37.9740055555556, -0.678363888888889]).addTo(cityMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>Pogoń Szczecin</strong><a href="/stickers/3475.html" class="map-popup-link">View</a></div>');
                     marker.on('mouseover', function() { this.openPopup(); });
                     marker.on('click', function() { this.openPopup(); });
                 })();
@@ -1977,9 +1977,9 @@
                     [37.9758416666667, -0.672611111111111],
                     [37.9763916666667, -0.671330555555556],
                     [37.9731833333333, -0.678616666666667],
-                    [37.9740055555556, -0.678363888888889],
                     [37.9758416666667, -0.672611111111111],
                     [37.9767777777778, -0.671258333333333],
+                    [37.9740055555556, -0.678363888888889],
                     [37.9736916666667, -0.678469444444444],
                     [37.9788777777778, -0.669352777777778],
                     [37.9767305555556, -0.683886111111111],
