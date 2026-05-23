@@ -163,7 +163,7 @@
             <div class="club-details-block">
                 <p class="club-info-item">📦 Clubs represented: 40 clubs from 7 countries</p>
 <p class="club-info-item">📅 First found: 5 Aug 2024 | Latest: 5 Aug 2024</p>
-<p class="club-info-item">🌍 Most common: <a href="/countries/DEU.html">Germany</a> (34), <a href="/countries/NLD.html">Netherlands</a> (14), <a href="/countries/POL.html">Poland</a> (5), <a href="/countries/BEL.html">Belgium</a> (2), <a href="/countries/TUR.html">Turkey</a> (1)</p>
+<p class="club-info-item">🌍 Most common: <a href="/countries/DEU.html">Germany</a> (34), <a href="/countries/NLD.html">Netherlands</a> (14), <a href="/countries/POL.html">Poland</a> (5), <a href="/countries/BEL.html">Belgium</a> (2), <a href="/countries/ITA.html">Italy</a> (1)</p>
             </div>
             <div class="sticker-gallery">
                 
@@ -257,6 +257,15 @@
                          loading="lazy"
                          decoding="async">
                 </a>
+                <a href="/stickers/2809.html" class="sticker-preview-link">
+                    <img src="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/club_886/1766183389704_IMG_7630_thumb.webp"
+                         alt="MSV Duisburg football sticker #2809 found in this city"
+                         data-sticker-id="2809"
+                         class="sticker-preview-image"
+                         width="200" height="200"
+                         loading="lazy"
+                         decoding="async">
+                </a>
                 <a href="/stickers/2815.html" class="sticker-preview-link">
                     <img src="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/club_1117/1766183950126_IMG_7628_thumb.webp"
                          alt="Motor Lublin football sticker #2815 found in this city"
@@ -275,6 +284,15 @@
                          loading="lazy"
                          decoding="async">
                 </a>
+                <a href="/stickers/2803.html" class="sticker-preview-link">
+                    <img src="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/club_685/1766183104397_IMG_76301_thumb.webp"
+                         alt="Inter Milan football sticker #2803 found in this city"
+                         data-sticker-id="2803"
+                         class="sticker-preview-image"
+                         width="200" height="200"
+                         loading="lazy"
+                         decoding="async">
+                </a>
                 <a href="/stickers/2811.html" class="sticker-preview-link">
                     <img src="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/club_1141/1766183741223_IMG_7618_thumb.webp"
                          alt="SV Meppen football sticker #2811 found in this city"
@@ -288,15 +306,6 @@
                     <img src="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/club_469/1765281144911_IMG_7611_thumb.webp"
                          alt="Galatasaray football sticker #2798 found in this city"
                          data-sticker-id="2798"
-                         class="sticker-preview-image"
-                         width="200" height="200"
-                         loading="lazy"
-                         decoding="async">
-                </a>
-                <a href="/stickers/2809.html" class="sticker-preview-link">
-                    <img src="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/club_886/1766183389704_IMG_7630_thumb.webp"
-                         alt="MSV Duisburg football sticker #2809 found in this city"
-                         data-sticker-id="2809"
                          class="sticker-preview-image"
                          width="200" height="200"
                          loading="lazy"
@@ -342,15 +351,6 @@
                     <img src="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/club_1090/1766183481028_IMG_7625_thumb.webp"
                          alt="FC Den Bosch football sticker #2810 found in this city"
                          data-sticker-id="2810"
-                         class="sticker-preview-image"
-                         width="200" height="200"
-                         loading="lazy"
-                         decoding="async">
-                </a>
-                <a href="/stickers/2803.html" class="sticker-preview-link">
-                    <img src="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/club_685/1766183104397_IMG_76301_thumb.webp"
-                         alt="Inter Milan football sticker #2803 found in this city"
-                         data-sticker-id="2803"
                          class="sticker-preview-image"
                          width="200" height="200"
                          loading="lazy"
@@ -728,7 +728,7 @@
         
         document.addEventListener('DOMContentLoaded', function() {
             if (typeof L !== 'undefined' && document.getElementById('club-map')) {
-                const cityMap = L.map('club-map').setView([52.10113442758621, 4.291963501724136], 12);
+                const cityMap = L.map('club-map').setView([52.10113442758622, 4.291963501724136], 12);
                 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                     attribution: '&copy; OpenStreetMap contributors'
                 }).addTo(cityMap);
@@ -804,6 +804,13 @@
                 })();
 
                 (function() {
+                    const marker = L.marker([52.1155806, 4.2829889]).addTo(cityMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>MSV Duisburg</strong><a href="/stickers/2809.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
                     const marker = L.marker([52.115325, 4.283025]).addTo(cityMap);
                     marker.bindPopup('<div class="nearby-sticker-popup"><strong>Motor Lublin</strong><a href="/stickers/2815.html" class="map-popup-link">View</a></div>');
                     marker.on('mouseover', function() { this.openPopup(); });
@@ -818,6 +825,13 @@
                 })();
 
                 (function() {
+                    const marker = L.marker([52.1155806, 4.2829889]).addTo(cityMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>Inter Milan</strong><a href="/stickers/2803.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
                     const marker = L.marker([52.1147778, 4.2828444]).addTo(cityMap);
                     marker.bindPopup('<div class="nearby-sticker-popup"><strong>SV Meppen</strong><a href="/stickers/2811.html" class="map-popup-link">View</a></div>');
                     marker.on('mouseover', function() { this.openPopup(); });
@@ -827,13 +841,6 @@
                 (function() {
                     const marker = L.marker([52.1115083, 4.2798222]).addTo(cityMap);
                     marker.bindPopup('<div class="nearby-sticker-popup"><strong>Galatasaray</strong><a href="/stickers/2798.html" class="map-popup-link">View</a></div>');
-                    marker.on('mouseover', function() { this.openPopup(); });
-                    marker.on('click', function() { this.openPopup(); });
-                })();
-
-                (function() {
-                    const marker = L.marker([52.1155806, 4.2829889]).addTo(cityMap);
-                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>MSV Duisburg</strong><a href="/stickers/2809.html" class="map-popup-link">View</a></div>');
                     marker.on('mouseover', function() { this.openPopup(); });
                     marker.on('click', function() { this.openPopup(); });
                 })();
@@ -869,13 +876,6 @@
                 (function() {
                     const marker = L.marker([52.1152806, 4.2830389]).addTo(cityMap);
                     marker.bindPopup('<div class="nearby-sticker-popup"><strong>FC Den Bosch</strong><a href="/stickers/2810.html" class="map-popup-link">View</a></div>');
-                    marker.on('mouseover', function() { this.openPopup(); });
-                    marker.on('click', function() { this.openPopup(); });
-                })();
-
-                (function() {
-                    const marker = L.marker([52.1155806, 4.2829889]).addTo(cityMap);
-                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>Inter Milan</strong><a href="/stickers/2803.html" class="map-popup-link">View</a></div>');
                     marker.on('mouseover', function() { this.openPopup(); });
                     marker.on('click', function() { this.openPopup(); });
                 })();
@@ -1150,17 +1150,17 @@
                     [52.11555, 4.2831444],
                     [52.112525, 4.2794],
                     [52.1149444, 4.28275],
+                    [52.1155806, 4.2829889],
                     [52.115325, 4.283025],
                     [52.1160389, 4.28235],
+                    [52.1155806, 4.2829889],
                     [52.1147778, 4.2828444],
                     [52.1115083, 4.2798222],
-                    [52.1155806, 4.2829889],
                     [52.1160361, 4.2822972],
                     [52.1152917, 4.2830222],
                     [52.1114778, 4.2794639],
                     [52.1117361, 4.2789167],
                     [52.1152806, 4.2830389],
-                    [52.1155806, 4.2829889],
                     [52.0782389, 4.309225],
                     [52.082325, 4.3059611],
                     [52.1163972, 4.2815944],

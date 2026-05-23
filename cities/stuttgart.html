@@ -257,6 +257,15 @@
                          loading="lazy"
                          decoding="async">
                 </a>
+                <a href="/stickers/2369.html" class="sticker-preview-link">
+                    <img src="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/club_949%2F1751114946649_IMG_6066_thumb.webp"
+                         alt="FC Schalke 04 football sticker #2369 found in this city"
+                         data-sticker-id="2369"
+                         class="sticker-preview-image"
+                         width="200" height="200"
+                         loading="lazy"
+                         decoding="async">
+                </a>
                 <a href="/stickers/2364.html" class="sticker-preview-link">
                     <img src="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/club_700%2F1751114401685_IMG_6067_thumb.webp"
                          alt="FC Sochaux-Montbéliard football sticker #2364 found in this city"
@@ -288,15 +297,6 @@
                     <img src="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/club_1061%2F1751115504847_IMG_6080_thumb.webp"
                          alt="SSV Reutlingen 05 football sticker #2372 found in this city"
                          data-sticker-id="2372"
-                         class="sticker-preview-image"
-                         width="200" height="200"
-                         loading="lazy"
-                         decoding="async">
-                </a>
-                <a href="/stickers/2369.html" class="sticker-preview-link">
-                    <img src="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/club_949%2F1751114946649_IMG_6066_thumb.webp"
-                         alt="FC Schalke 04 football sticker #2369 found in this city"
-                         data-sticker-id="2369"
                          class="sticker-preview-image"
                          width="200" height="200"
                          loading="lazy"
@@ -1074,6 +1074,13 @@
                 })();
 
                 (function() {
+                    const marker = L.marker([48.7796527777778, 9.179375]).addTo(cityMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>FC Schalke 04</strong><a href="/stickers/2369.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
                     const marker = L.marker([48.7795861111111, 9.17933333333333]).addTo(cityMap);
                     marker.bindPopup('<div class="nearby-sticker-popup"><strong>FC Sochaux-Montbéliard</strong><a href="/stickers/2364.html" class="map-popup-link">View</a></div>');
                     marker.on('mouseover', function() { this.openPopup(); });
@@ -1097,13 +1104,6 @@
                 (function() {
                     const marker = L.marker([48.7787472222222, 9.18011388888889]).addTo(cityMap);
                     marker.bindPopup('<div class="nearby-sticker-popup"><strong>SSV Reutlingen 05</strong><a href="/stickers/2372.html" class="map-popup-link">View</a></div>');
-                    marker.on('mouseover', function() { this.openPopup(); });
-                    marker.on('click', function() { this.openPopup(); });
-                })();
-
-                (function() {
-                    const marker = L.marker([48.7796527777778, 9.179375]).addTo(cityMap);
-                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>FC Schalke 04</strong><a href="/stickers/2369.html" class="map-popup-link">View</a></div>');
                     marker.on('mouseover', function() { this.openPopup(); });
                     marker.on('click', function() { this.openPopup(); });
                 })();
@@ -1630,11 +1630,11 @@
                     [48.7789, 9.18530277777778],
                     [48.7801777777778, 9.18383888888889],
                     [48.7946194444444, 9.22436666666667],
+                    [48.7796527777778, 9.179375],
                     [48.7795861111111, 9.17933333333333],
                     [48.7831833333333, 9.18055555555556],
                     [48.7774888888889, 9.17975555555556],
                     [48.7787472222222, 9.18011388888889],
-                    [48.7796527777778, 9.179375],
                     [48.7795611111111, 9.17925],
                     [48.7766333333333, 9.17779722222222],
                     [48.7818138888889, 9.18029444444444],

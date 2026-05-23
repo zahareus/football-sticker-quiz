@@ -151,7 +151,15 @@
         <h1 id="main-catalogue-heading">Beşiktaş, <a href="/countries/TUR.html">Turkey</a> — 24 Football Stickers</h1>
 
         <div id="catalogue-content">
-            
+            <div class="wiki-section">
+    <div class="wiki-facts">
+        <div class="wiki-fact"><span class="wiki-fact-label">Population</span><span class="wiki-fact-value">175,190</span></div>
+    </div>
+    <div class="wiki-intro">
+        <p>Beşiktaş is a district and municipality of Istanbul, Turkey.  Its area is 18 km2 and its population is 175,190 (2022).</p>
+        <p class="wiki-source">Source: <a href="https://en.wikipedia.org/wiki/Be%C5%9Fikta%C5%9F" target="_blank" rel="noopener noreferrer">Wikipedia</a></p>
+    </div>
+</div>
             <div class="club-details-block">
                 <p class="club-info-item">📦 Clubs represented: 7 clubs from 6 countries</p>
 <p class="club-info-item">📅 First found: 3 Jan 2025 | Latest: 3 Jan 2025</p>
@@ -240,6 +248,15 @@
                          loading="lazy"
                          decoding="async">
                 </a>
+                <a href="/stickers/3463.html" class="sticker-preview-link">
+                    <img src="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/club_538/1778339372106_IMG_9678_thumb.webp"
+                         alt="Besiktas JK football sticker #3463 found in this city"
+                         data-sticker-id="3463"
+                         class="sticker-preview-image"
+                         width="200" height="200"
+                         loading="lazy"
+                         decoding="async">
+                </a>
                 <a href="/stickers/3440.html" class="sticker-preview-link">
                     <img src="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/club_696/1778337908855_IMG_9673_thumb.webp"
                          alt="Olympique Lyonnais football sticker #3440 found in this city"
@@ -289,15 +306,6 @@
                     <img src="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/club_633/1778338637601_IMG_96931_thumb.webp"
                          alt="CS Universitatea Craiova football sticker #3456 found in this city"
                          data-sticker-id="3456"
-                         class="sticker-preview-image"
-                         width="200" height="200"
-                         loading="lazy"
-                         decoding="async">
-                </a>
-                <a href="/stickers/3463.html" class="sticker-preview-link">
-                    <img src="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/club_538/1778339372106_IMG_9678_thumb.webp"
-                         alt="Besiktas JK football sticker #3463 found in this city"
-                         data-sticker-id="3463"
                          class="sticker-preview-image"
                          width="200" height="200"
                          loading="lazy"
@@ -483,6 +491,13 @@
                 })();
 
                 (function() {
+                    const marker = L.marker([41.0393611111111, 28.9957083333333]).addTo(cityMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>Besiktas JK</strong><a href="/stickers/3463.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
                     const marker = L.marker([41.0401305555556, 28.9951472222222]).addTo(cityMap);
                     marker.bindPopup('<div class="nearby-sticker-popup"><strong>Olympique Lyonnais</strong><a href="/stickers/3440.html" class="map-popup-link">View</a></div>');
                     marker.on('mouseover', function() { this.openPopup(); });
@@ -520,13 +535,6 @@
                 (function() {
                     const marker = L.marker([41.03745, 28.9953944444444]).addTo(cityMap);
                     marker.bindPopup('<div class="nearby-sticker-popup"><strong>CS Universitatea Craiova</strong><a href="/stickers/3456.html" class="map-popup-link">View</a></div>');
-                    marker.on('mouseover', function() { this.openPopup(); });
-                    marker.on('click', function() { this.openPopup(); });
-                })();
-
-                (function() {
-                    const marker = L.marker([41.0393611111111, 28.9957083333333]).addTo(cityMap);
-                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>Besiktas JK</strong><a href="/stickers/3463.html" class="map-popup-link">View</a></div>');
                     marker.on('mouseover', function() { this.openPopup(); });
                     marker.on('click', function() { this.openPopup(); });
                 })();
@@ -597,13 +605,13 @@
                     [41.0396805555556, 28.99545],
                     [41.0419833333333, 28.9945694444444],
                     [41.0419611111111, 28.9946305555556],
+                    [41.0393611111111, 28.9957083333333],
                     [41.0401305555556, 28.9951472222222],
                     [41.04165, 28.9941972222222],
                     [41.0414277777778, 28.9941722222222],
                     [41.0374555555556, 28.9953944444444],
                     [41.0374111111111, 28.9955361111111],
                     [41.03745, 28.9953944444444],
-                    [41.0393611111111, 28.9957083333333],
                     [41.0374361111111, 28.9955333333333],
                     [41.0403861111111, 28.99455],
                     [41.0403722222222, 28.9946583333333],

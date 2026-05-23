@@ -185,19 +185,19 @@
                          loading="lazy"
                          decoding="async">
                 </a>
-                <a href="/stickers/3194.html" class="sticker-preview-link">
-                    <img src="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/club_466/1774788996985_IMG_86261_thumb.webp"
-                         alt="FC Zurich football sticker #3194 found in this city"
-                         data-sticker-id="3194"
+                <a href="/stickers/3227.html" class="sticker-preview-link">
+                    <img src="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/club_666/1775419379286_IMG_86285_thumb.webp"
+                         alt="Olympique de Marseille football sticker #3227 found in this city"
+                         data-sticker-id="3227"
                          class="sticker-preview-image"
                          width="200" height="200"
                          loading="lazy"
                          decoding="async">
                 </a>
-                <a href="/stickers/3227.html" class="sticker-preview-link">
-                    <img src="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/club_666/1775419379286_IMG_86285_thumb.webp"
-                         alt="Olympique de Marseille football sticker #3227 found in this city"
-                         data-sticker-id="3227"
+                <a href="/stickers/3194.html" class="sticker-preview-link">
+                    <img src="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/club_466/1774788996985_IMG_86261_thumb.webp"
+                         alt="FC Zurich football sticker #3194 found in this city"
+                         data-sticker-id="3194"
                          class="sticker-preview-image"
                          width="200" height="200"
                          loading="lazy"
@@ -251,7 +251,7 @@
         
         document.addEventListener('DOMContentLoaded', function() {
             if (typeof L !== 'undefined' && document.getElementById('club-map')) {
-                const cityMap = L.map('club-map').setView([47.15787055555556, -1.601129444444442], 12);
+                const cityMap = L.map('club-map').setView([47.157870555555554, -1.601129444444442], 12);
                 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                     attribution: '&copy; OpenStreetMap contributors'
                 }).addTo(cityMap);
@@ -271,15 +271,15 @@
                 })();
 
                 (function() {
-                    const marker = L.marker([47.1578416666667, -1.60080277777778]).addTo(cityMap);
-                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>FC Zurich</strong><a href="/stickers/3194.html" class="map-popup-link">View</a></div>');
+                    const marker = L.marker([47.1578361111111, -1.60094444444444]).addTo(cityMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>Olympique de Marseille</strong><a href="/stickers/3227.html" class="map-popup-link">View</a></div>');
                     marker.on('mouseover', function() { this.openPopup(); });
                     marker.on('click', function() { this.openPopup(); });
                 })();
 
                 (function() {
-                    const marker = L.marker([47.1578361111111, -1.60094444444444]).addTo(cityMap);
-                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>Olympique de Marseille</strong><a href="/stickers/3227.html" class="map-popup-link">View</a></div>');
+                    const marker = L.marker([47.1578416666667, -1.60080277777778]).addTo(cityMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>FC Zurich</strong><a href="/stickers/3194.html" class="map-popup-link">View</a></div>');
                     marker.on('mouseover', function() { this.openPopup(); });
                     marker.on('click', function() { this.openPopup(); });
                 })();
@@ -294,8 +294,8 @@
                 const bounds = L.latLngBounds([
                     [47.1578361111111, -1.60094444444444],
                     [47.1578527777778, -1.60095833333333],
-                    [47.1578416666667, -1.60080277777778],
                     [47.1578361111111, -1.60094444444444],
+                    [47.1578416666667, -1.60080277777778],
                     [47.1579861111111, -1.60199722222222]
                 ]);
                 cityMap.fitBounds(bounds, { padding: [30, 30], maxZoom: 15 });
