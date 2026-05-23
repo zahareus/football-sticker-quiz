@@ -6174,5 +6174,14 @@
     "capacity": null,
     "league": "II liga",
     "website": "https://stalrzeszow.pl/"
+  },
+  "1208": {
+    "wikiUrl": "https://en.wikipedia.org/wiki/Club_Bol%C3%ADvar",
+    "intro": "Club Bolívar (Spanish pronunciation: [kluβ boˈliβaɾ]) is a Bolivian professional football club that currently plays in the Bolivian Primera División. Founded in 1925 in honor of military leader Simón Bolívar, the club has used light blue kits throughout its history,  which is why it is nicknamed \"Los Celestes\" (The Sky Blues).\nThe club has two stadiums; Estadio Libertador Simón Bolívar, which has a capacity for 5,000 people and is located in the Tembladerani neighborhood of La Paz, is only used for training sessions and friendly matches.",
+    "founded": "1925",
+    "stadium": "Estadio Libertador Simón Bolívar",
+    "capacity": "25,000",
+    "league": "Primera División de Bolivia",
+    "website": "https://clubbolivar.com/"
   }
 }
