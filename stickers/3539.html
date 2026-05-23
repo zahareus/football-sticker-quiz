@@ -635,6 +635,19 @@
                     .bindPopup('<div class="nearby-sticker-popup"><strong>Strasbourg</strong><a href="/stickers/3540.html" class="map-popup-link">View</a></div>');
                 })();
 
+                (function() {
+                    L.marker([48.5827416666667, 7.739325], {
+                        icon: L.icon({
+                            iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
+                            iconSize: [18, 30],
+                            iconAnchor: [9, 30],
+                            popupAnchor: [1, -25]
+                        }),
+                        opacity: 0.6
+                    }).addTo(map)
+                    .bindPopup('<div class="nearby-sticker-popup"><strong>FC Basel 1893</strong><a href="/stickers/3541.html" class="map-popup-link">View</a></div>');
+                })();
+
                 // Current sticker — larger marker, opened popup
                 L.marker([48.5827555555556, 7.73931111111111], {
                     icon: L.icon({
@@ -680,7 +693,8 @@
                     [48.5807583333333, 7.73881388888889],
                     [48.5807555555556, 7.73878333333333],
                     [48.58275, 7.73921111111111],
-                    [48.582575, 7.74585277777778]
+                    [48.582575, 7.74585277777778],
+                    [48.5827416666667, 7.739325]
                 ]);
                 map.fitBounds(bounds, { padding: [30, 30], maxZoom: 14 });
                 
