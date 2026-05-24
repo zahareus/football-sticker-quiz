@@ -190,5 +190,29 @@
     "population": 840792,
     "country": "Crown of Aragon",
     "wikiUrl": "https://en.wikipedia.org/wiki/Valencia"
+  },
+  "Strasbourg": {
+    "intro": "Strasbourg is a prefecture and commune, and the largest city of the Grand Est region of northeastern France, in the historic region of Alsace.  It is the prefecture of the Bas-Rhin department and the official seat of the European Parliament.",
+    "population": 293771,
+    "country": "Holy Roman Empire",
+    "wikiUrl": "https://en.wikipedia.org/wiki/Strasbourg"
+  },
+  "A Coruña": {
+    "intro": "A Coruña is a city and municipality in Galicia, Spain.  With a population of 249,255, it is the 2nd-largest city in Galicia behind Vigo.",
+    "population": 251543,
+    "country": "Spain",
+    "wikiUrl": "https://en.wikipedia.org/wiki/A%20Coru%C3%B1a"
+  },
+  "Antalya": {
+    "intro": "Antalya is one of the largest cities in Turkey and the capital of Antalya Province, the fifth-most populous province.  Recognized as the \"capital of tourism\" in Turkey and a pivotal part of the Turkish Riviera, Antalya sits on Anatolia's southwest coast, flanked by the Taurus Mountains.",
+    "population": 1073794,
+    "country": "Turkey",
+    "wikiUrl": "https://en.wikipedia.org/wiki/Antalya"
+  },
+  "Düsseldorf": {
+    "intro": "Düsseldorf is the capital city of North Rhine-Westphalia, the most populous state of Germany.  It is the second-largest city in the state after Cologne and the sixth-largest city in Germany, with a 2024 population of 618,685.",
+    "population": 631217,
+    "country": "Germany",
+    "wikiUrl": "https://en.wikipedia.org/wiki/D%C3%BCsseldorf"
   }
 }
