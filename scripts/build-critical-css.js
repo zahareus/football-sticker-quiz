@@ -84,6 +84,14 @@ const ALLOW = [
     /^#rating-value\b/,
     /^#rating-rank\b/,
     /^#answer-rate-value\b/,
+    // sticker detail: image container needs intrinsic size before async style.css loads,
+    // otherwise the image determines its own height on mobile and shifts everything when
+    // the deferred stylesheet snaps the container back to a square.
+    /^\.sticker-detail-image-container\b/,
+    /^\.sticker-detail-image\b/,
+    /^\.sticker-detail-two-column\b/,
+    /^\.sticker-detail-left-column\b/,
+    /^\.sticker-detail-right-panel\b/,
 ];
 
 // Whole @media blocks are kept if any selector inside matches the allowlist
