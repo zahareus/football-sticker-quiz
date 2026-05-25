@@ -99,9 +99,14 @@ jobs:
 
       - name: Commit and push
         if: steps.check.outputs.has_changes == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
+          # Survive rebase: actions/checkout's http.extraheader gets dropped by
+          # `git rebase --autostash`. Embedding token in URL avoids that.
+          git remote set-url origin "https://x-access-token:${GH_TOKEN}@github.com/${{ github.repository }}.git"
           git add stickers/ clubs/ countries/ cities/ scripts/wiki-cache.json sitemap*.xml || true
           git commit -m "Auto-reconcile: regenerate orphaned sticker pages"
 
