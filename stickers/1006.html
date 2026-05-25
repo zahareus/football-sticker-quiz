@@ -47,8 +47,8 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <!-- Async font load (non-blocking) -->
-    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
-    <noscript><link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet"></noscript>
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=optional" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=optional" rel="stylesheet"></noscript>
 
     <!-- Preload LCP image (sticker detail) — local proxy for aggressive caching -->
     <link rel="preload" as="image" href="/img/stickers/Sevilla_FC/IMG_4118_web.webp" fetchpriority="high">
@@ -126,7 +126,7 @@
 <body>
     <header class="app-header">
         <div class="logo-container">
-           <a href="/index.html"><img src="/logo.webp" alt="StickerHunt Logo" id="app-logo" width="280" height="71" fetchpriority="high"></a>
+           <a href="/index.html"><img src="/logo.webp" alt="StickerHunt Logo" id="app-logo" width="126" height="32" fetchpriority="high"></a>
         </div>
         <div id="auth-section">
              <button id="login-button" class="btn btn-primary google-login" style="display: none;">
