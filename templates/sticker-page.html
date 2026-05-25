@@ -35,8 +35,8 @@
     <link rel="preload" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
     <noscript><link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet"></noscript>
 
-    <!-- Preload LCP image (sticker detail) -->
-    <link rel="preload" as="image" href="{{IMAGE_URL}}" fetchpriority="high">
+    <!-- Preload LCP image (sticker detail) — local proxy for aggressive caching -->
+    <link rel="preload" as="image" href="{{IMAGE_URL_LOCAL}}" fetchpriority="high">
 
     <!-- Inlined critical CSS (above-the-fold). Generated from style.css by scripts/build-critical-css.js -->
     <style>{{CRITICAL_CSS}}</style>
@@ -102,7 +102,7 @@
                 <div class="sticker-detail-view sticker-detail-two-column">
                     <div class="sticker-detail-left-column">
                         <div class="sticker-detail-image-container" onclick="window.open('{{IMAGE_FULL_URL}}', '_blank')">
-                            <img src="{{IMAGE_URL}}"
+                            <img src="{{IMAGE_URL_LOCAL}}"
                                  alt="{{IMAGE_ALT}}"
                                  data-sticker-id="{{STICKER_ID}}"
                                  class="sticker-detail-image"

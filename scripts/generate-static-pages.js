@@ -235,6 +235,17 @@ function cleanTrailingQuery(url) {
     return url ? url.replace(/\?$/, '') : url;
 }
 
+const SUPABASE_STICKERS_PREFIX = 'https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/';
+
+function toLocalImg(url) {
+    if (!url) return url;
+    const cleaned = cleanTrailingQuery(url);
+    if (cleaned.startsWith(SUPABASE_STICKERS_PREFIX)) {
+        return '/img/' + cleaned.slice(SUPABASE_STICKERS_PREFIX.length);
+    }
+    return cleaned;
+}
+
 /**
  * Load HTML template
  */
@@ -689,7 +700,9 @@ async function generateStickerPage(sticker, club, prevStickerId, nextStickerId, 
         OG_IMAGE: cleanTrailingQuery(sticker.image_url),
         STICKER_NAME: `${club.name} Sticker #${sticker.id}`,
         IMAGE_URL: getDetailImageUrl(sticker.image_url),
+        IMAGE_URL_LOCAL: toLocalImg(getDetailImageUrl(sticker.image_url)),
         THUMBNAIL_URL: getThumbnailUrl(sticker.image_url),
+        THUMBNAIL_URL_LOCAL: toLocalImg(getThumbnailUrl(sticker.image_url)),
         IMAGE_FULL_URL: sticker.image_url,
         IMAGE_ALT: `${clubNameClean} football sticker #${sticker.id} — identify this sticker`,
         BREADCRUMBS: breadcrumbs,

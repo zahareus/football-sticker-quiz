@@ -269,6 +269,7 @@ async function uploadOptimized(buffer, originalPath, suffix) {
         .from(CONFIG.BUCKET_NAME)
         .upload(optimizedPath, buffer, {
             contentType: 'image/webp',
+            cacheControl: '31536000',
             upsert: true
         });
 

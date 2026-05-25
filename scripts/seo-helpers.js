@@ -195,6 +195,17 @@ export function cleanTrailingQuery(url) {
     return url ? url.replace(/\?$/, '') : url;
 }
 
+const SUPABASE_STICKERS_PREFIX = 'https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/';
+
+export function toLocalImg(url) {
+    if (!url) return url;
+    const cleaned = cleanTrailingQuery(url);
+    if (cleaned.startsWith(SUPABASE_STICKERS_PREFIX)) {
+        return '/img/' + cleaned.slice(SUPABASE_STICKERS_PREFIX.length);
+    }
+    return cleaned;
+}
+
 // ─── Text Utilities ──────────────────────────────────────────────────────────
 
 /**
