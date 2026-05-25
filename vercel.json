@@ -2,7 +2,7 @@
   "rewrites": [
     {
       "source": "/img/:path*",
-      "destination": "/api/img/:path*"
+      "destination": "/api/img-proxy?path=:path*"
     }
   ],
   "redirects": [

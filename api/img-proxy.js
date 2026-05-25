@@ -4,8 +4,8 @@ const SUPABASE_BASE = 'https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/objec
 
 export default async function handler(req) {
     const url = new URL(req.url);
-    const path = url.pathname.replace(/^\/(api\/)?img\//, '');
-    if (!path) return new Response('Not found', { status: 404 });
+    const path = url.searchParams.get('path');
+    if (!path) return new Response('Missing path', { status: 400 });
 
     const upstream = await fetch(SUPABASE_BASE + path, {
         headers: { 'User-Agent': 'stickerhunt-img-proxy/1.0' },
