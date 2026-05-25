@@ -79,6 +79,11 @@ const ALLOW = [
     // catalogue/sticker hero (above-fold on those templates)
     /^\.cat-hero\b/,
     /^\.sticker-page\b/,
+    // sticker detail: reserve space to prevent CLS from JS-loaded rating/answer rate
+    /^\.sticker-detail-info-block\b/,
+    /^#rating-value\b/,
+    /^#rating-rank\b/,
+    /^#answer-rate-value\b/,
 ];
 
 // Whole @media blocks are kept if any selector inside matches the allowlist

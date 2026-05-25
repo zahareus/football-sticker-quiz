@@ -193,7 +193,7 @@ button:disabled, .btn:disabled { cursor: not-allowed !important; background-colo
 .button-group { display: flex; flex-wrap: wrap; justify-content: center; gap: calc(var(--spacing-unit) * 1.5); margin-top: calc(var(--spacing-unit) * 2); }
 
 /* --- Authentication Section --- */
-#auth-section { font-size: 0.9em; text-align: right; display: flex; align-items: center; gap: var(--spacing-unit); flex-wrap: wrap; }
+#auth-section { font-size: 0.9em; text-align: right; display: flex; align-items: center; gap: var(--spacing-unit); flex-wrap: wrap; min-height: 40px; }
 #user-status { display: flex; align-items: center; gap: calc(var(--spacing-unit) * 1.5); flex-wrap: nowrap; }
 #user-nickname { font-weight: 400; cursor: pointer; color: var(--color-info-text); text-decoration: none; display: inline-block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 120px; vertical-align: middle; }
 #user-status > *:not(:last-child)::after { content: '|'; margin-left: calc(var(--spacing-unit) * 1.5); color: var(--color-border); font-weight: 300; }
@@ -1282,6 +1282,9 @@ body.quiz-result .result-right-panel {
 
 .sticker-detail-info-block {
     text-align: left;
+    /* Reserve vertical space to prevent CLS from JS-loaded rating/answer rate.
+       Right panel grows from ~180px when dynamic values fill in; pre-reserve it. */
+    min-height: 200px;
 }
 
 .sticker-detail-club-name {
@@ -3350,6 +3353,16 @@ body.daily-mode .game-info #timer {
         width: min(280px, 85vw);
         height: min(280px, 85vw);
     }
+}
+
+/* Reserve width for dynamic values to prevent CLS when JS fills them */
+#rating-value,
+#rating-rank,
+#answer-rate-value {
+    display: inline-block;
+    min-width: 4ch;
+    font-variant-numeric: tabular-nums;
+    text-align: left;
 }
 
 /* Sticker rating display on sticker detail pages */
