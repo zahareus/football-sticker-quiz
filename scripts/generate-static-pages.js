@@ -940,15 +940,16 @@ async function generateIndexPage(stickers, clubs) {
                 </a>`;
     });
 
-    // --- Country stats (top 16 by sticker count) ---
+    // --- Country stats (ALL countries with stickers — gives every country
+    // page a high-authority incoming link from the homepage. Was previously
+    // capped at top 16 which left 40+ countries orphaned for crawl-budget.) ---
     const stickersByCountry = {};
     stickers.forEach(s => {
         const cc = s.clubs?.country?.toUpperCase();
         if (cc) stickersByCountry[cc] = (stickersByCountry[cc] || 0) + 1;
     });
     const topCountries = Object.entries(stickersByCountry)
-        .sort((a, b) => b[1] - a[1])
-        .slice(0, 16);
+        .sort((a, b) => b[1] - a[1]);
 
     let countriesHtml = '';
     topCountries.forEach(([code, count]) => {
@@ -1088,6 +1089,114 @@ async function fetchAllClubs() {
     }
 
     return allClubs;
+}
+
+/**
+ * Inject static SSR content into the hand-maintained catalogue.html so the
+ * raw HTML response carries direct links to every country and every club.
+ *
+ * Before this, catalogue.html was just `<p>Loading catalogue...</p>` — all
+ * content was rendered by catalogue.js after JS execution. Googlebot does
+ * run JS, but JS-rendered links flow PageRank weakly compared to static
+ * <a> tags, and the catalogue page is the highest-authority hub on the
+ * site for the link graph. The internal-links-audit on 2026-05-26 found
+ * 100% of sticker pages and 59% of club pages "isolated" (<3 incoming
+ * HA links) — direct consequence of an empty catalogue.
+ *
+ * We replace the loading placeholder with a static section containing:
+ * - all N countries with sticker count
+ * - all N clubs grouped by country
+ * The interactive UI (search, filter) keeps working — catalogue.js can
+ * either hydrate over this DOM or rebuild; either way the pre-paint
+ * link graph is now rich.
+ */
+async function generateCataloguePage(stickers, clubs) {
+    const catalogueHtmlPath = join(PROJECT_ROOT, 'catalogue.html');
+    if (!existsSync(catalogueHtmlPath)) {
+        console.log('  ⚠️  catalogue.html not found, skipping');
+        return;
+    }
+    const orig = readFileSync(catalogueHtmlPath, 'utf-8');
+
+    // Sticker counts per club + per country
+    const stickerCountByClub = new Map();
+    const stickerCountByCountry = new Map();
+    for (const s of stickers) {
+        stickerCountByClub.set(s.club_id, (stickerCountByClub.get(s.club_id) || 0) + 1);
+        const cc = s.clubs?.country?.toUpperCase();
+        if (cc) stickerCountByCountry.set(cc, (stickerCountByCountry.get(cc) || 0) + 1);
+    }
+
+    // Group clubs by country
+    const clubsByCountry = new Map();
+    for (const c of clubs) {
+        const cc = c.country?.toUpperCase();
+        if (!cc) continue;
+        if (!clubsByCountry.has(cc)) clubsByCountry.set(cc, []);
+        clubsByCountry.get(cc).push(c);
+    }
+    // Sort clubs alphabetically per country
+    for (const [cc, list] of clubsByCountry) {
+        list.sort((a, b) => stripEmoji(a.name).localeCompare(stripEmoji(b.name)));
+    }
+    // Sort countries by sticker count desc
+    const countriesSorted = Array.from(clubsByCountry.keys()).sort((a, b) => {
+        return (stickerCountByCountry.get(b) || 0) - (stickerCountByCountry.get(a) || 0);
+    });
+
+    // Build country grid HTML
+    let countryGridHtml = '<div class="cat-countries-grid">';
+    for (const cc of countriesSorted) {
+        const flag = COUNTRY_FLAGS[cc] || '🏳️';
+        const name = getCountryName(cc);
+        const clubCount = clubsByCountry.get(cc).length;
+        const stickerCount = stickerCountByCountry.get(cc) || 0;
+        countryGridHtml += `<a href="/countries/${cc}.html" class="cat-country-card"><span class="cat-country-flag">${flag}</span><span class="cat-country-name">${name}</span><span class="cat-country-meta">${clubCount} clubs · ${stickerCount} stickers</span></a>`;
+    }
+    countryGridHtml += '</div>';
+
+    // Build clubs grid per country (collapsible via <details>)
+    let clubsHtml = '';
+    for (const cc of countriesSorted) {
+        const flag = COUNTRY_FLAGS[cc] || '🏳️';
+        const name = getCountryName(cc);
+        const list = clubsByCountry.get(cc);
+        clubsHtml += `<details class="cat-country-group"><summary><a href="/countries/${cc}.html">${flag} ${name}</a> <span class="cat-group-count">${list.length} clubs</span></summary><ul class="cat-clubs-list">`;
+        for (const club of list) {
+            const cleanName = stripEmoji(club.name);
+            const count = stickerCountByClub.get(club.id) || 0;
+            clubsHtml += `<li><a href="/clubs/${club.id}.html">${cleanName}</a> <span class="cat-club-count">${count}</span></li>`;
+        }
+        clubsHtml += '</ul></details>';
+    }
+
+    const ssrBlock = `
+        <div id="catalogue-content">
+            <section class="cat-hero" id="cat-hero-static">
+                <h2>Browse by country</h2>
+                <p>${countriesSorted.length} countries · ${clubs.length} clubs · ${stickers.length} stickers</p>
+            </section>
+            <section class="cat-section" id="cat-countries-section">
+                ${countryGridHtml}
+            </section>
+            <section class="cat-section" id="cat-clubs-section">
+                <h2>All clubs by country</h2>
+                ${clubsHtml}
+            </section>
+        </div>`;
+
+    // Replace existing #catalogue-content block with the SSR version.
+    const newHtml = orig.replace(
+        /<div id="catalogue-content">[\s\S]*?<\/div>\s*<\/main>/,
+        `${ssrBlock}\n    </main>`
+    );
+
+    if (newHtml === orig) {
+        console.log('  ⚠️  catalogue.html: #catalogue-content block not found, skipping injection');
+        return;
+    }
+    writeFileSync(catalogueHtmlPath, newHtml, 'utf-8');
+    console.log(`  ✓ catalogue.html updated with ${countriesSorted.length} country + ${clubs.length} club static links`);
 }
 
 /**
@@ -1248,10 +1357,13 @@ async function generateAllPages() {
 
         if (isHomepageOnly) {
             console.log('\n⏭️  --homepage-only mode: skipping sticker/club/country pages');
-            // Jump straight to homepage + sitemaps
+            // Jump straight to homepage + catalogue + sitemaps
             console.log('\n🏠 Generating index page...');
             await generateIndexPage(stickers, clubs);
             console.log('  ✓ Generated index.html with homepage sections');
+
+            console.log('\n📚 Generating catalogue page (static SSR)...');
+            await generateCataloguePage(stickers, clubs);
 
             console.log('\n📋 Generating sitemaps...');
             await generateSitemaps(stickers, clubs, Object.keys(clubsByCountry));
@@ -1259,6 +1371,7 @@ async function generateAllPages() {
             console.log('\n✅ Homepage-only generation complete!');
             console.log('   Generated files:');
             console.log(`   ${join(PROJECT_ROOT, 'index.html')}`);
+            console.log(`   ${join(PROJECT_ROOT, 'catalogue.html')}`);
             return;
         }
 
@@ -1338,6 +1451,14 @@ async function generateAllPages() {
             console.log('  ✓ Generated index.html with homepage sections');
         } catch (error) {
             console.error('  ✗ Error generating index page:', error.message);
+        }
+
+        // Generate catalogue page with static SSR (all country + club links)
+        console.log('\n📚 Generating catalogue page (static SSR)...');
+        try {
+            await generateCataloguePage(stickers, clubs);
+        } catch (error) {
+            console.error('  ✗ Error generating catalogue page:', error.message);
         }
 
         // Generate sitemaps
