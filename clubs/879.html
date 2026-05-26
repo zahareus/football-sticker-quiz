@@ -50,20 +50,16 @@
     <link rel="preload" as="font" type="font/woff2" href="/fonts/poppins-600.woff2" crossorigin>
     <link rel="preload" as="font" type="font/woff2" href="/fonts/poppins-700.woff2" crossorigin>
     <style>
-        @font-face { font-family: 'Poppins'; font-style: normal; font-weight: 400; font-display: swap; src: url('/fonts/poppins-400.woff2') format('woff2'); }
-        @font-face { font-family: 'Poppins'; font-style: normal; font-weight: 500; font-display: swap; src: url('/fonts/poppins-500.woff2') format('woff2'); }
-        @font-face { font-family: 'Poppins'; font-style: normal; font-weight: 600; font-display: swap; src: url('/fonts/poppins-600.woff2') format('woff2'); }
-        @font-face { font-family: 'Poppins'; font-style: normal; font-weight: 700; font-display: swap; src: url('/fonts/poppins-700.woff2') format('woff2'); }
+        @font-face { font-family: 'Poppins'; font-style: normal; font-weight: 400; font-display: block; src: url('/fonts/poppins-400.woff2') format('woff2'); }
+        @font-face { font-family: 'Poppins'; font-style: normal; font-weight: 500; font-display: block; src: url('/fonts/poppins-500.woff2') format('woff2'); }
+        @font-face { font-family: 'Poppins'; font-style: normal; font-weight: 600; font-display: block; src: url('/fonts/poppins-600.woff2') format('woff2'); }
+        @font-face { font-family: 'Poppins'; font-style: normal; font-weight: 700; font-display: block; src: url('/fonts/poppins-700.woff2') format('woff2'); }
     </style>
 
     <!-- Preload LCP image (top sticker / OG) -->
-    <link rel="preload" as="image" href="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/stickers/Dynamo_Dresden/IMG_1866_web.webp" fetchpriority="high">
-
-    <!-- Inlined critical CSS (above-the-fold). Generated from style.css by scripts/build-critical-css.js -->
-    <style>:root{--font-family:'Poppins',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;--color-text:#212121;--color-background:#FFFFFF;--color-accent:#FFC107;--color-accent-darker:#FFA000;--color-accent-text:#212121;--color-secondary-bg:#f8f9fa;--color-secondary-bg-hover:#e9ecef;--color-border:#E0E0E0;--color-disabled-bg:#E0E0E0;--color-disabled-text:#9E9E9E;--color-success:#28a745;--color-error:#dc3545;--color-error-bg:#f8d7da;--color-info-text:#555;--color-rank:#757575;--color-link:#007bff;--color-link-hover:#0056b3;--color-separator-text:#adb5bd;--color-footer-text:#6c757d;--border-radius:8px;--container-width:1000px;--spacing-unit:8px;--header-height:60px}body{font-family:var(--font-family);line-height:1.6;background-color:var(--color-background);color:var(--color-text);padding:0 var(--spacing-unit);display:flex;flex-direction:column;min-height:100vh}h1,h2,h3,h4,h5,h6{color:var(--color-text)}h1{font-weight:600;margin-bottom:calc(var(--spacing-unit) * 3);text-align:center}h2{font-weight:500;margin-bottom:calc(var(--spacing-unit) * 2)}p{margin-bottom:calc(var(--spacing-unit) * 2)}img{max-width:100%;display:block}button{font-family:inherit;cursor:pointer;background:none;border:none;padding:0;color:inherit}input[type="text"]{font-family:inherit;padding:var(--spacing-unit) calc(var(--spacing-unit) * 1.5);border:1px solid var(--color-border);border-radius:var(--border-radius);font-size:1em;margin-right:var(--spacing-unit)}.app-header{display:flex;justify-content:space-between;align-items:center;padding:0 calc(var(--spacing-unit) * 2);min-height:var(--header-height);max-width:1100px;margin:0 auto;position:relative}body:not(.logged-out) .app-header{margin-bottom:calc(var(--spacing-unit) * 2)}body.logged-out .app-header{justify-content:center;height:auto;margin-bottom:0;padding-top:calc(var(--spacing-unit) * 3);padding-bottom:calc(var(--spacing-unit) * 2)}body.logged-out #auth-section{display:none !important}.logo-container{display:flex;align-items:center;margin-left:0;margin-right:0}#app-logo{height:calc(var(--header-height) * 0.5);width:auto;max-height:32px;transition:all 0.3s ease;display:block}body.logged-out #app-logo{height:auto;width:45%;max-width:280px;max-height:none;margin:0 auto calc(var(--spacing-unit) * 3) auto}.btn{display:inline-block;padding:calc(var(--spacing-unit) * 1.25) calc(var(--spacing-unit) * 2.5);font-size:1em;font-weight:500;border:1px solid transparent;border-radius:var(--border-radius);text-align:center;text-decoration:none;transition:background-color 0.2s ease,border-color 0.2s ease,color 0.2s ease,box-shadow 0.2s ease;margin:calc(var(--spacing-unit)/2);vertical-align:middle;cursor:pointer}.btn-primary{background-color:var(--color-accent);color:var(--color-accent-text);border-color:var(--color-accent);box-shadow:0 2px 5px rgba(0,0,0,0.1)}.btn-secondary{background-color:var(--color-background);color:var(--color-text);border:1px solid var(--color-border)}.btn-small{padding:calc(var(--spacing-unit) * 0.75) calc(var(--spacing-unit) * 1.5);font-size:0.9em}.btn-large{padding:calc(var(--spacing-unit) * 1.5) calc(var(--spacing-unit) * 3);font-size:1.1em}.btn-nav,.home-actions .btn,.stats-actions .btn,.leaderboard-actions .btn{background-color:var(--color-background);color:var(--color-text);border:1px solid var(--color-border);box-shadow:none}@media (hover:hover){.btn-nav:hover:not(:disabled),.home-actions .btn:hover:not(:disabled),.stats-actions .btn:hover:not(:disabled),.leaderboard-actions .btn:hover:not(:disabled){background-color:var(--color-accent);border-color:var(--color-accent);color:var(--color-accent-text)}}.btn-icon{background:none;border:none;padding:0 calc(var(--spacing-unit) * 0.5);font-size:1.1em;vertical-align:middle;margin-left:var(--spacing-unit);color:var(--color-text);opacity:0.7;cursor:pointer}.btn-filter{padding:calc(var(--spacing-unit) * 0.5) calc(var(--spacing-unit) * 1.5);font-size:0.9em;background-color:transparent;color:var(--color-text);border:1px solid transparent;margin:0 calc(var(--spacing-unit) * 0.5);opacity:0.8;cursor:pointer;border-radius:var(--border-radius)}.btn-filter.active{font-weight:600;background-color:var(--color-accent);color:var(--color-accent-text);opacity:1}button:disabled,.btn:disabled{cursor:not-allowed !important;background-color:var(--color-disabled-bg) !important;color:var(--color-disabled-text) !important;border-color:var(--color-disabled-bg) !important;box-shadow:none !important;opacity:1 !important}.btn-filter:disabled{background-color:var(--color-accent) !important;color:var(--color-accent-text) !important;opacity:0.7 !important;cursor:not-allowed !important}.btn-link{background:none;border:none;color:var(--color-info-text);text-decoration:none;padding:0;font-size:1em;font-weight:400;vertical-align:middle;cursor:pointer;margin:0;line-height:1}#auth-section{font-size:0.9em;text-align:right;display:flex;align-items:center;gap:var(--spacing-unit);flex-wrap:wrap;min-height:40px}#user-status{display:flex;align-items:center;gap:calc(var(--spacing-unit) * 1.5);flex-wrap:nowrap}#user-nickname{font-weight:400;cursor:pointer;color:var(--color-info-text);text-decoration:none;display:inline-block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:120px;vertical-align:middle}#user-status > *:not(:last-child)::after{content:'|';margin-left:calc(var(--spacing-unit) * 1.5);color:var(--color-border);font-weight:300}body.quiz-result .game-right-panel{display:none !important}body.quiz-result .result-right-panel{display:flex !important;flex-direction:column;align-items:center;gap:calc(var(--spacing-unit) * 2)}@media (min-width:1000px){body.quiz-result .result-right-panel{display:flex !important;flex-direction:column;align-items:center;gap:calc(var(--spacing-unit) * 2);flex-shrink:0}}@media (hover:hover){.btn-primary:hover:not(:disabled){background-color:var(--color-accent-darker);border-color:var(--color-accent-darker);box-shadow:0 4px 8px rgba(0,0,0,0.15)}.btn-secondary:hover:not(:disabled){background-color:var(--color-secondary-bg-hover)}.btn-link:hover{color:var(--color-link);text-decoration:underline}#user-nickname:hover{color:var(--color-link);text-decoration:underline}.btn-icon:hover:not(:disabled){opacity:1}.btn-filter:hover:not(:disabled){background-color:var(--color-secondary-bg-hover);opacity:1}}@media (max-width:999px){body.quiz-active .app-header,body.quiz-active .app-footer,body.quiz-result .app-header,body.quiz-result .app-footer{display:none !important}}.sticker-detail-image-container .sticker-view-badge{top:12px;right:12px}@media (min-width:1000px){.sticker-detail-two-column{display:flex;flex-direction:row;align-items:flex-start;justify-content:center;gap:calc(var(--spacing-unit) * 4);width:calc(100vw - var(--spacing-unit) * 4);max-width:1000px;margin-left:auto;margin-right:auto;position:relative;left:50%;transform:translateX(-50%)}.sticker-detail-image-container{width:min(600px,calc(100vh - 300px));height:min(600px,calc(100vh - 300px));min-width:450px;min-height:450px}}.sticker-detail-two-column{display:flex;flex-direction:row;align-items:flex-start;justify-content:center;gap:calc(var(--spacing-unit) * 4);width:100%;max-width:var(--container-width);margin:0 auto}.sticker-detail-left-column{flex-shrink:0}.sticker-detail-image-container{width:300px;height:300px;background-color:var(--color-secondary-bg);border:1px solid var(--color-border);border-radius:var(--border-radius);overflow:hidden;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:box-shadow 0.2s ease,border-color 0.2s ease;position:relative}.sticker-detail-image-container:hover{box-shadow:0 4px 12px rgba(0,0,0,0.15);border-color:var(--color-accent)}.sticker-detail-image-container::after{content:'View in full size';position:absolute;bottom:10px;left:50%;transform:translateX(-50%);background-color:rgba(0,0,0,0.7);color:white;padding:6px 12px;border-radius:4px;font-size:0.85em;opacity:0;transition:opacity 0.2s ease;pointer-events:none}.sticker-detail-image-container:hover::after{opacity:1}.sticker-detail-image{width:100%;height:100%;object-fit:contain;pointer-events:none}.sticker-detail-right-panel{display:flex;flex-direction:column;align-items:flex-start;gap:calc(var(--spacing-unit) * 2);padding-top:calc(var(--spacing-unit) * 2)}.sticker-detail-info-block{text-align:left;min-height:200px}@media (max-width:700px){.sticker-detail-two-column{flex-direction:column;align-items:center;gap:calc(var(--spacing-unit) * 2)}.sticker-detail-image-container{width:280px;height:280px}.sticker-detail-right-panel{align-items:center;text-align:center;padding-top:0}.sticker-detail-info-block{text-align:center}}.sticker-page-container{}.sticker-page-content-wrapper{width:100%;max-width:var(--container-width);margin:0 auto;padding:0 calc(var(--spacing-unit) * 2);box-sizing:border-box}@media (min-width:1000px){.sticker-page-content-wrapper{max-width:var(--container-width)}.sticker-page-container .sticker-detail-two-column{width:100%;max-width:none;position:static;left:auto;transform:none;justify-content:flex-start}.sticker-page-container .sticker-detail-left-column{width:500px;flex-shrink:0}.sticker-page-container .sticker-detail-image-container{width:500px;height:500px;min-width:500px;min-height:500px}.sticker-page-container .sticker-detail-right-panel{width:400px;flex-shrink:0}}@media (min-width:701px) and (max-width:999px){.sticker-page-content-wrapper{max-width:var(--container-width)}.sticker-page-container .sticker-detail-two-column{width:100%;max-width:none;justify-content:flex-start}.sticker-page-container .sticker-detail-left-column{width:350px;flex-shrink:0}.sticker-page-container .sticker-detail-image-container{width:350px;height:350px}.sticker-page-container .sticker-detail-right-panel{flex:1;min-width:200px}}@media (max-width:700px){.sticker-page-content-wrapper{max-width:100%;padding:0 calc(var(--spacing-unit) * 1.5)}.sticker-page-container .sticker-detail-two-column{justify-content:center}}@media (max-width:768px){.app-header{flex-direction:column;height:auto;padding:var(--spacing-unit);gap:var(--spacing-unit);margin-bottom:var(--spacing-unit)}#auth-section{order:2;width:100%;justify-content:center}#user-status{width:auto;justify-content:center;flex-wrap:wrap}#user-status > *{font-size:0.9em;margin:0 4px}#user-nickname{max-width:150px}.logo-container{order:1}body:not(.logged-out) #app-logo{margin-left:auto;margin-right:auto;margin-bottom:var(--spacing-unit);height:calc(var(--header-height) * 0.65);width:auto;max-height:40px}}@media (max-width:600px){body{padding:0}.btn-filter{margin:2px}body.logged-out #app-logo{width:60%;max-width:200px}}body.home-page .app-header{display:flex !important;flex-direction:row !important;justify-content:space-between !important;align-items:center !important;margin-bottom:0;max-width:1100px;padding:16px 24px !important;gap:16px !important}body.home-page .logo-container{display:flex;align-items:center;order:0 !important;width:auto !important}body.home-page #app-logo{height:48px !important;width:auto !important;max-height:none !important;margin:0 !important}body.home-page #auth-section{white-space:nowrap;order:1 !important;width:auto !important;justify-content:flex-end !important}body.home-page #game-area{margin-top:0}body.home-page #sticker-container a{display:block;width:100%;height:100%}body.home-page #home-sticker-image{width:100%;height:100%;object-fit:contain}body.home-page .options-group{grid-template-columns:1fr;max-width:300px}body.home-page .game-info{width:100%;max-width:300px;margin:0 auto calc(var(--spacing-unit) * 2) auto;justify-content:center;text-align:center}body.home-page #home-title{font-size:1.1em;color:var(--color-text);font-weight:500}body.home-page #home-title #total-stickers{font-weight:600}@media (min-width:1000px){body.home-page #game-area{display:flex !important;flex-direction:row;align-items:flex-start;justify-content:center;gap:calc(var(--spacing-unit) * 4);margin-top:0;width:calc(100vw - var(--spacing-unit) * 4);max-width:1000px;margin-left:auto;margin-right:auto;position:relative;left:50%;transform:translateX(-50%)}body.home-page #sticker-container{width:min(600px,calc(100vh - 300px));height:min(600px,calc(100vh - 300px));min-width:450px;min-height:450px;margin:0;flex-shrink:0}body.home-page .game-right-panel{display:flex !important;flex-direction:column;align-items:center;gap:calc(var(--spacing-unit) * 2);flex-shrink:0}body.home-page .game-info{width:300px;margin:0 0 calc(var(--spacing-unit) * 1) 0;text-align:left}body.home-page #game-area .options-group{grid-template-columns:1fr;gap:calc(var(--spacing-unit) * 1.5)}}@media (max-width:700px){body.home-page #app-logo{width:auto;height:28px;max-width:180px}body.home-page .app-header{margin-bottom:0}}@media (max-width:600px){body.home-page #app-logo{width:auto;height:24px;max-width:160px}}body.ttr-mode .game-info #timer,body.daily-mode .game-info #timer{color:var(--color-text)}@media (max-width:600px){body.ttr-mode .game-info,body.daily-mode .game-info{width:100%;max-width:300px;justify-content:space-between;gap:0}body.ttr-mode .game-info #timer,body.ttr-mode .game-info #lives,body.ttr-mode .game-info #score,body.daily-mode .game-info #timer,body.daily-mode .game-info #lives,body.daily-mode .game-info #score{font-size:0.75em;flex:1;text-align:center;min-width:0}body.ttr-mode .game-info #timer,body.daily-mode .game-info #timer{text-align:left}body.ttr-mode .game-info #score,body.daily-mode .game-info #score{text-align:right}body.ttr-mode .game-info #time-left,body.ttr-mode .game-info #current-score,body.daily-mode .game-info #time-left,body.daily-mode .game-info #current-score{font-size:1em}}#rating-value,#rating-rank,#answer-rate-value{display:inline-block;min-width:4ch;font-variant-numeric:tabular-nums;text-align:left}.btn-save{background-color:#22c55e;color:white;border:none;padding:calc(var(--spacing-unit) * 1) calc(var(--spacing-unit) * 2);border-radius:var(--border-radius);font-weight:500;cursor:pointer}.btn-save:hover:not(:disabled){background-color:#16a34a}.btn-save:disabled{background-color:#86efac;cursor:not-allowed}.btn-cancel{background-color:#ef4444;color:white;border:none;padding:calc(var(--spacing-unit) * 1) calc(var(--spacing-unit) * 2);border-radius:var(--border-radius);font-weight:500;cursor:pointer}.btn-cancel:hover{background-color:#dc2626}.cat-hero{text-align:center;padding:40px 24px 32px;max-width:800px;margin:0 auto}.cat-hero h1{font-size:1.8em;font-weight:700;margin-bottom:6px;letter-spacing:-0.5px}.cat-hero p{color:var(--color-info-text);font-size:0.92em;margin-bottom:24px}@media (max-width:768px){.cat-hero{padding:28px 16px 24px}.cat-hero h1{font-size:1.4em}}.hp-hero{text-align:center;padding:48px 24px 40px;max-width:800px;margin:0 auto}.hp-hero h1{font-size:2em;font-weight:700;margin-bottom:8px;letter-spacing:-0.5px}.hp-hero-stats{display:flex;justify-content:center;gap:32px;margin-bottom:24px;font-size:0.95em;color:var(--color-info-text)}.hp-hero-stats .hp-stat-num{font-weight:700;color:var(--color-text);font-size:1.3em;display:block}.hp-hero-ctas{display:flex;justify-content:center;gap:12px;flex-wrap:wrap}.hp-search-wrapper{position:relative;max-width:560px;margin:0 auto 28px}.hp-search-input{width:100%;padding:14px 24px;border:2px solid var(--color-border);border-radius:40px;font-family:inherit;font-size:1.05em;outline:none;transition:border-color 0.2s}.hp-search-input:focus{border-color:var(--color-accent);box-shadow:0 0 0 3px rgba(255,193,7,0.15)}.hp-section{max-width:1100px;margin:0 auto;padding:32px 24px}.hp-section-header{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:16px;flex-wrap:wrap;gap:8px}.hp-section-header h2{font-size:1.25em;font-weight:600;margin:0}.hp-section-links{display:flex;gap:16px;font-size:0.85em}.hp-section-links a{color:var(--color-info-text);text-decoration:none;font-weight:500}@media (hover:hover){.hp-section-links a:hover{color:var(--color-link);text-decoration:underline}}.hp-divider{border:none;border-top:1px solid #f0f0f0;margin:0}.hp-text-link{color:var(--color-info-text);text-decoration:none;font-weight:500}@media (hover:hover){.hp-text-link:hover{color:var(--color-link);text-decoration:underline}}@media (max-width:768px){.hp-hero{padding:32px 16px 28px}.hp-hero h1{font-size:1.5em}.hp-hero-stats{gap:20px;font-size:0.85em}.hp-hero-stats .hp-stat-num{font-size:1.15em}.hp-hero-ctas{flex-direction:column;align-items:center}.hp-hero-ctas .btn-primary,.hp-hero-ctas .btn-secondary{width:100%;max-width:300px;text-align:center}.hp-section{padding:24px 16px}}</style>
+    <link rel="preload" as="image" href="/img/stickers/Dynamo_Dresden/IMG_1866_web.webp" fetchpriority="high">
     <!-- Full stylesheet loaded async (non-blocking) -->
-    <link rel="preload" href="/style.css?v=5" as="style" onload="this.onload=null;this.rel='stylesheet'">
-    <noscript><link rel="stylesheet" href="/style.css?v=5"></noscript>
+    <link rel="stylesheet" href="/style.css?v=5">
 
     <!-- Leaflet CSS — async (non-blocking); only impacts the map at the bottom -->
     <link rel="preload" as="style" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" onload="this.onload=null;this.rel='stylesheet'">
@@ -110,17 +106,17 @@
         {
           "@type": "ImageObject",
           "contentUrl": "https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/stickers/Dynamo_Dresden/IMG_1866_web.webp",
-          "thumbnailUrl": "https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/stickers/Dynamo_Dresden/IMG_1866_thumb.webp"
+          "thumbnailUrl": "/img/stickers/Dynamo_Dresden/IMG_1866_thumb.webp"
         },
         {
           "@type": "ImageObject",
           "contentUrl": "https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/stickers/Dynamo_Dresden/IMG_1837_web.webp",
-          "thumbnailUrl": "https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/stickers/Dynamo_Dresden/IMG_1837_thumb.webp"
+          "thumbnailUrl": "/img/stickers/Dynamo_Dresden/IMG_1837_thumb.webp"
         },
         {
           "@type": "ImageObject",
           "contentUrl": "https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/stickers/Dynamo_Dresden/IMG_1856_web.webp",
-          "thumbnailUrl": "https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/stickers/Dynamo_Dresden/IMG_1856_thumb.webp"
+          "thumbnailUrl": "/img/stickers/Dynamo_Dresden/IMG_1856_thumb.webp"
         }
       ]
     }
@@ -184,7 +180,7 @@
         <div id="catalogue-breadcrumbs"><a href="/catalogue.html">Catalogue</a> → <a href="/countries/DEU.html">Germany</a> → <a href="/clubs/879.html">🇩🇪 Dynamo Dresden</a></div>
 
         <h1 id="main-catalogue-heading">
-            <span id="club-name-display">🇩🇪 Dynamo Dresden</span> — <span class="heading-suffix">60 Stickers</span>
+            <span id="club-name-display">Dynamo Dresden</span> — <span class="heading-suffix">60 Stickers</span>
             <a href="#" id="edit-club-btn" class="edit-link" style="display: none;">edit</a>
         </h1>
 
@@ -192,7 +188,7 @@
         <div id="club-edit-form" class="club-edit-form" style="display: none;">
             <div class="edit-field">
                 <label for="edit-club-name">Club Name:</label>
-                <input type="text" id="edit-club-name" class="edit-input" value="🇩🇪 Dynamo Dresden">
+                <input type="text" id="edit-club-name" class="edit-input" value="Dynamo Dresden">
             </div>
             <div class="edit-field">
                 <label for="edit-club-city">City:</label>
@@ -229,7 +225,7 @@
             <div class="sticker-gallery">
                 
                 <a href="/stickers/1318.html" class="sticker-preview-link">
-                    <img src="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/stickers/Dynamo_Dresden/IMG_1673_thumb.webp?"
+                    <img src="/img/stickers/Dynamo_Dresden/IMG_1673_thumb.webp"
                          alt="Dynamo Dresden street sticker #1318 -- Germany football"
                          data-sticker-id="1318"
                          class="sticker-preview-image"
@@ -238,7 +234,7 @@
                          decoding="async">
                 </a>
                 <a href="/stickers/1319.html" class="sticker-preview-link">
-                    <img src="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/stickers/Dynamo_Dresden/IMG_1833_thumb.webp?"
+                    <img src="/img/stickers/Dynamo_Dresden/IMG_1833_thumb.webp"
                          alt="Dynamo Dresden street sticker #1319 -- Germany football"
                          data-sticker-id="1319"
                          class="sticker-preview-image"
@@ -247,7 +243,7 @@
                          decoding="async">
                 </a>
                 <a href="/stickers/1320.html" class="sticker-preview-link">
-                    <img src="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/stickers/Dynamo_Dresden/IMG_1868_(1)_thumb.webp?"
+                    <img src="/img/stickers/Dynamo_Dresden/IMG_1868_(1)_thumb.webp"
                          alt="Dynamo Dresden street sticker #1320 -- Germany football"
                          data-sticker-id="1320"
                          class="sticker-preview-image"
@@ -256,7 +252,7 @@
                          decoding="async">
                 </a>
                 <a href="/stickers/1321.html" class="sticker-preview-link">
-                    <img src="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/stickers/Dynamo_Dresden/IMG_1864_thumb.webp?"
+                    <img src="/img/stickers/Dynamo_Dresden/IMG_1864_thumb.webp"
                          alt="Dynamo Dresden street sticker #1321 -- Germany football"
                          data-sticker-id="1321"
                          class="sticker-preview-image"
@@ -265,7 +261,7 @@
                          decoding="async">
                 </a>
                 <a href="/stickers/1322.html" class="sticker-preview-link">
-                    <img src="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/stickers/Dynamo_Dresden/IMG_1825_thumb.webp?"
+                    <img src="/img/stickers/Dynamo_Dresden/IMG_1825_thumb.webp"
                          alt="Dynamo Dresden street sticker #1322 -- Germany football"
                          data-sticker-id="1322"
                          class="sticker-preview-image"
@@ -274,7 +270,7 @@
                          decoding="async">
                 </a>
                 <a href="/stickers/1323.html" class="sticker-preview-link">
-                    <img src="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/stickers/Dynamo_Dresden/IMG_1917_thumb.webp?"
+                    <img src="/img/stickers/Dynamo_Dresden/IMG_1917_thumb.webp"
                          alt="Dynamo Dresden street sticker #1323 -- Germany football"
                          data-sticker-id="1323"
                          class="sticker-preview-image"
@@ -283,7 +279,7 @@
                          decoding="async">
                 </a>
                 <a href="/stickers/1324.html" class="sticker-preview-link">
-                    <img src="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/stickers/Dynamo_Dresden/IMG_1868_thumb.webp?"
+                    <img src="/img/stickers/Dynamo_Dresden/IMG_1868_thumb.webp"
                          alt="Dynamo Dresden street sticker #1324 -- Germany football"
                          data-sticker-id="1324"
                          class="sticker-preview-image"
@@ -292,7 +288,7 @@
                          decoding="async">
                 </a>
                 <a href="/stickers/1325.html" class="sticker-preview-link">
-                    <img src="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/stickers/Dynamo_Dresden/IMG_1829_thumb.webp?"
+                    <img src="/img/stickers/Dynamo_Dresden/IMG_1829_thumb.webp"
                          alt="Dynamo Dresden street sticker #1325 -- Germany football"
                          data-sticker-id="1325"
                          class="sticker-preview-image"
@@ -301,7 +297,7 @@
                          decoding="async">
                 </a>
                 <a href="/stickers/1326.html" class="sticker-preview-link">
-                    <img src="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/stickers/Dynamo_Dresden/IMG_1828_thumb.webp?"
+                    <img src="/img/stickers/Dynamo_Dresden/IMG_1828_thumb.webp"
                          alt="Dynamo Dresden street sticker #1326 -- Germany football"
                          data-sticker-id="1326"
                          class="sticker-preview-image"
@@ -310,7 +306,7 @@
                          decoding="async">
                 </a>
                 <a href="/stickers/1327.html" class="sticker-preview-link">
-                    <img src="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/stickers/Dynamo_Dresden/IMG_1869_thumb.webp?"
+                    <img src="/img/stickers/Dynamo_Dresden/IMG_1869_thumb.webp"
                          alt="Dynamo Dresden street sticker #1327 -- Germany football"
                          data-sticker-id="1327"
                          class="sticker-preview-image"
@@ -319,7 +315,7 @@
                          decoding="async">
                 </a>
                 <a href="/stickers/1328.html" class="sticker-preview-link">
-                    <img src="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/stickers/Dynamo_Dresden/IMG_0757_thumb.webp?"
+                    <img src="/img/stickers/Dynamo_Dresden/IMG_0757_thumb.webp"
                          alt="Dynamo Dresden street sticker #1328 -- Germany football"
                          data-sticker-id="1328"
                          class="sticker-preview-image"
@@ -328,7 +324,7 @@
                          decoding="async">
                 </a>
                 <a href="/stickers/1329.html" class="sticker-preview-link">
-                    <img src="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/stickers/Dynamo_Dresden/IMG_1836_(1)_thumb.webp?"
+                    <img src="/img/stickers/Dynamo_Dresden/IMG_1836_(1)_thumb.webp"
                          alt="Dynamo Dresden street sticker #1329 -- Germany football"
                          data-sticker-id="1329"
                          class="sticker-preview-image"
@@ -337,7 +333,7 @@
                          decoding="async">
                 </a>
                 <a href="/stickers/1330.html" class="sticker-preview-link">
-                    <img src="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/stickers/Dynamo_Dresden/IMG_1824_thumb.webp?"
+                    <img src="/img/stickers/Dynamo_Dresden/IMG_1824_thumb.webp"
                          alt="Dynamo Dresden street sticker #1330 -- Germany football"
                          data-sticker-id="1330"
                          class="sticker-preview-image"
@@ -346,7 +342,7 @@
                          decoding="async">
                 </a>
                 <a href="/stickers/1331.html" class="sticker-preview-link">
-                    <img src="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/stickers/Dynamo_Dresden/IMG_1865_thumb.webp?"
+                    <img src="/img/stickers/Dynamo_Dresden/IMG_1865_thumb.webp"
                          alt="Dynamo Dresden street sticker #1331 -- Germany football"
                          data-sticker-id="1331"
                          class="sticker-preview-image"
@@ -355,7 +351,7 @@
                          decoding="async">
                 </a>
                 <a href="/stickers/1332.html" class="sticker-preview-link">
-                    <img src="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/stickers/Dynamo_Dresden/IMG_1832_thumb.webp?"
+                    <img src="/img/stickers/Dynamo_Dresden/IMG_1832_thumb.webp"
                          alt="Dynamo Dresden street sticker #1332 -- Germany football"
                          data-sticker-id="1332"
                          class="sticker-preview-image"
@@ -364,7 +360,7 @@
                          decoding="async">
                 </a>
                 <a href="/stickers/1333.html" class="sticker-preview-link">
-                    <img src="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/stickers/Dynamo_Dresden/IMG_1839_thumb.webp?"
+                    <img src="/img/stickers/Dynamo_Dresden/IMG_1839_thumb.webp"
                          alt="Dynamo Dresden street sticker #1333 -- Germany football"
                          data-sticker-id="1333"
                          class="sticker-preview-image"
@@ -373,7 +369,7 @@
                          decoding="async">
                 </a>
                 <a href="/stickers/1334.html" class="sticker-preview-link">
-                    <img src="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/stickers/Dynamo_Dresden/IMG_1858_thumb.webp?"
+                    <img src="/img/stickers/Dynamo_Dresden/IMG_1858_thumb.webp"
                          alt="Dynamo Dresden street sticker #1334 -- Germany football"
                          data-sticker-id="1334"
                          class="sticker-preview-image"
@@ -382,7 +378,7 @@
                          decoding="async">
                 </a>
                 <a href="/stickers/1335.html" class="sticker-preview-link">
-                    <img src="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/stickers/Dynamo_Dresden/IMG_1835_thumb.webp?"
+                    <img src="/img/stickers/Dynamo_Dresden/IMG_1835_thumb.webp"
                          alt="Dynamo Dresden street sticker #1335 -- Germany football"
                          data-sticker-id="1335"
                          class="sticker-preview-image"
@@ -391,7 +387,7 @@
                          decoding="async">
                 </a>
                 <a href="/stickers/1336.html" class="sticker-preview-link">
-                    <img src="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/stickers/Dynamo_Dresden/IMG_1874_thumb.webp?"
+                    <img src="/img/stickers/Dynamo_Dresden/IMG_1874_thumb.webp"
                          alt="Dynamo Dresden street sticker #1336 -- Germany football"
                          data-sticker-id="1336"
                          class="sticker-preview-image"
@@ -400,7 +396,7 @@
                          decoding="async">
                 </a>
                 <a href="/stickers/1337.html" class="sticker-preview-link">
-                    <img src="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/stickers/Dynamo_Dresden/IMG_1823_thumb.webp?"
+                    <img src="/img/stickers/Dynamo_Dresden/IMG_1823_thumb.webp"
                          alt="Dynamo Dresden street sticker #1337 -- Germany football"
                          data-sticker-id="1337"
                          class="sticker-preview-image"
@@ -409,7 +405,7 @@
                          decoding="async">
                 </a>
                 <a href="/stickers/1338.html" class="sticker-preview-link">
-                    <img src="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/stickers/Dynamo_Dresden/IMG_3486_(1)_thumb.webp?"
+                    <img src="/img/stickers/Dynamo_Dresden/IMG_3486_(1)_thumb.webp"
                          alt="Dynamo Dresden street sticker #1338 -- Germany football"
                          data-sticker-id="1338"
                          class="sticker-preview-image"
@@ -418,7 +414,7 @@
                          decoding="async">
                 </a>
                 <a href="/stickers/1339.html" class="sticker-preview-link">
-                    <img src="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/stickers/Dynamo_Dresden/IMG_1834_thumb.webp?"
+                    <img src="/img/stickers/Dynamo_Dresden/IMG_1834_thumb.webp"
                          alt="Dynamo Dresden street sticker #1339 -- Germany football"
                          data-sticker-id="1339"
                          class="sticker-preview-image"
@@ -427,7 +423,7 @@
                          decoding="async">
                 </a>
                 <a href="/stickers/1340.html" class="sticker-preview-link">
-                    <img src="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/stickers/Dynamo_Dresden/IMG_1859_thumb.webp?"
+                    <img src="/img/stickers/Dynamo_Dresden/IMG_1859_thumb.webp"
                          alt="Dynamo Dresden street sticker #1340 -- Germany football"
                          data-sticker-id="1340"
                          class="sticker-preview-image"
@@ -436,7 +432,7 @@
                          decoding="async">
                 </a>
                 <a href="/stickers/1341.html" class="sticker-preview-link">
-                    <img src="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/stickers/Dynamo_Dresden/IMG_1855_thumb.webp?"
+                    <img src="/img/stickers/Dynamo_Dresden/IMG_1855_thumb.webp"
                          alt="Dynamo Dresden street sticker #1341 -- Germany football"
                          data-sticker-id="1341"
                          class="sticker-preview-image"
@@ -445,7 +441,7 @@
                          decoding="async">
                 </a>
                 <a href="/stickers/1342.html" class="sticker-preview-link">
-                    <img src="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/stickers/Dynamo_Dresden/IMG_1840_thumb.webp?"
+                    <img src="/img/stickers/Dynamo_Dresden/IMG_1840_thumb.webp"
                          alt="Dynamo Dresden street sticker #1342 -- Germany football"
                          data-sticker-id="1342"
                          class="sticker-preview-image"
@@ -454,7 +450,7 @@
                          decoding="async">
                 </a>
                 <a href="/stickers/1343.html" class="sticker-preview-link">
-                    <img src="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/stickers/Dynamo_Dresden/IMG_0986_thumb.webp?"
+                    <img src="/img/stickers/Dynamo_Dresden/IMG_0986_thumb.webp"
                          alt="Dynamo Dresden street sticker #1343 -- Germany football"
                          data-sticker-id="1343"
                          class="sticker-preview-image"
@@ -463,7 +459,7 @@
                          decoding="async">
                 </a>
                 <a href="/stickers/1344.html" class="sticker-preview-link">
-                    <img src="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/stickers/Dynamo_Dresden/IMG_1856_thumb.webp?"
+                    <img src="/img/stickers/Dynamo_Dresden/IMG_1856_thumb.webp"
                          alt="Dynamo Dresden street sticker #1344 -- Germany football"
                          data-sticker-id="1344"
                          class="sticker-preview-image"
@@ -472,7 +468,7 @@
                          decoding="async">
                 </a>
                 <a href="/stickers/1345.html" class="sticker-preview-link">
-                    <img src="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/stickers/Dynamo_Dresden/IMG_9359_thumb.webp?"
+                    <img src="/img/stickers/Dynamo_Dresden/IMG_9359_thumb.webp"
                          alt="Dynamo Dresden street sticker #1345 -- Germany football"
                          data-sticker-id="1345"
                          class="sticker-preview-image"
@@ -481,7 +477,7 @@
                          decoding="async">
                 </a>
                 <a href="/stickers/1346.html" class="sticker-preview-link">
-                    <img src="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/stickers/Dynamo_Dresden/IMG_1821_thumb.webp?"
+                    <img src="/img/stickers/Dynamo_Dresden/IMG_1821_thumb.webp"
                          alt="Dynamo Dresden street sticker #1346 -- Germany football"
                          data-sticker-id="1346"
                          class="sticker-preview-image"
@@ -490,7 +486,7 @@
                          decoding="async">
                 </a>
                 <a href="/stickers/1347.html" class="sticker-preview-link">
-                    <img src="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/stickers/Dynamo_Dresden/IMG_1876_thumb.webp?"
+                    <img src="/img/stickers/Dynamo_Dresden/IMG_1876_thumb.webp"
                          alt="Dynamo Dresden street sticker #1347 -- Germany football"
                          data-sticker-id="1347"
                          class="sticker-preview-image"
@@ -499,7 +495,7 @@
                          decoding="async">
                 </a>
                 <a href="/stickers/1348.html" class="sticker-preview-link">
-                    <img src="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/stickers/Dynamo_Dresden/IMG_1860_thumb.webp?"
+                    <img src="/img/stickers/Dynamo_Dresden/IMG_1860_thumb.webp"
                          alt="Dynamo Dresden street sticker #1348 -- Germany football"
                          data-sticker-id="1348"
                          class="sticker-preview-image"
@@ -508,7 +504,7 @@
                          decoding="async">
                 </a>
                 <a href="/stickers/1349.html" class="sticker-preview-link">
-                    <img src="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/stickers/Dynamo_Dresden/IMG_1837_thumb.webp?"
+                    <img src="/img/stickers/Dynamo_Dresden/IMG_1837_thumb.webp"
                          alt="Dynamo Dresden street sticker #1349 -- Germany football"
                          data-sticker-id="1349"
                          class="sticker-preview-image"
@@ -517,7 +513,7 @@
                          decoding="async">
                 </a>
                 <a href="/stickers/1350.html" class="sticker-preview-link">
-                    <img src="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/stickers/Dynamo_Dresden/IMG_8695_thumb.webp?"
+                    <img src="/img/stickers/Dynamo_Dresden/IMG_8695_thumb.webp"
                          alt="Dynamo Dresden street sticker #1350 -- Germany football"
                          data-sticker-id="1350"
                          class="sticker-preview-image"
@@ -526,7 +522,7 @@
                          decoding="async">
                 </a>
                 <a href="/stickers/1351.html" class="sticker-preview-link">
-                    <img src="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/stickers/Dynamo_Dresden/IMG_1836_thumb.webp?"
+                    <img src="/img/stickers/Dynamo_Dresden/IMG_1836_thumb.webp"
                          alt="Dynamo Dresden street sticker #1351 -- Germany football"
                          data-sticker-id="1351"
                          class="sticker-preview-image"
@@ -535,7 +531,7 @@
                          decoding="async">
                 </a>
                 <a href="/stickers/1352.html" class="sticker-preview-link">
-                    <img src="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/club_879%2F1746572935828_CleanShot%202025-05-07%20at%2001.08.21%402x_thumb.webp"
+                    <img src="/img/club_879%2F1746572935828_CleanShot%202025-05-07%20at%2001.08.21%402x_thumb.webp"
                          alt="Dynamo Dresden street sticker #1352 -- Germany football"
                          data-sticker-id="1352"
                          class="sticker-preview-image"
@@ -544,7 +540,7 @@
                          decoding="async">
                 </a>
                 <a href="/stickers/1353.html" class="sticker-preview-link">
-                    <img src="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/stickers/Dynamo_Dresden/IMG_1898_thumb.webp?"
+                    <img src="/img/stickers/Dynamo_Dresden/IMG_1898_thumb.webp"
                          alt="Dynamo Dresden street sticker #1353 -- Germany football"
                          data-sticker-id="1353"
                          class="sticker-preview-image"
@@ -553,7 +549,7 @@
                          decoding="async">
                 </a>
                 <a href="/stickers/1354.html" class="sticker-preview-link">
-                    <img src="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/stickers/Dynamo_Dresden/IMG_9728_thumb.webp?"
+                    <img src="/img/stickers/Dynamo_Dresden/IMG_9728_thumb.webp"
                          alt="Dynamo Dresden street sticker #1354 -- Germany football"
                          data-sticker-id="1354"
                          class="sticker-preview-image"
@@ -562,7 +558,7 @@
                          decoding="async">
                 </a>
                 <a href="/stickers/1355.html" class="sticker-preview-link">
-                    <img src="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/stickers/Dynamo_Dresden/IMG_2001_thumb.webp?"
+                    <img src="/img/stickers/Dynamo_Dresden/IMG_2001_thumb.webp"
                          alt="Dynamo Dresden street sticker #1355 -- Germany football"
                          data-sticker-id="1355"
                          class="sticker-preview-image"
@@ -571,7 +567,7 @@
                          decoding="async">
                 </a>
                 <a href="/stickers/1356.html" class="sticker-preview-link">
-                    <img src="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/stickers/Dynamo_Dresden/IMG_1857_thumb.webp?"
+                    <img src="/img/stickers/Dynamo_Dresden/IMG_1857_thumb.webp"
                          alt="Dynamo Dresden street sticker #1356 -- Germany football"
                          data-sticker-id="1356"
                          class="sticker-preview-image"
@@ -580,7 +576,7 @@
                          decoding="async">
                 </a>
                 <a href="/stickers/1357.html" class="sticker-preview-link">
-                    <img src="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/stickers/Dynamo_Dresden/IMG_0704_thumb.webp?"
+                    <img src="/img/stickers/Dynamo_Dresden/IMG_0704_thumb.webp"
                          alt="Dynamo Dresden street sticker #1357 -- Germany football"
                          data-sticker-id="1357"
                          class="sticker-preview-image"
@@ -589,7 +585,7 @@
                          decoding="async">
                 </a>
                 <a href="/stickers/1358.html" class="sticker-preview-link">
-                    <img src="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/stickers/Dynamo_Dresden/IMG_0378_thumb.webp?"
+                    <img src="/img/stickers/Dynamo_Dresden/IMG_0378_thumb.webp"
                          alt="Dynamo Dresden street sticker #1358 -- Germany football"
                          data-sticker-id="1358"
                          class="sticker-preview-image"
@@ -598,7 +594,7 @@
                          decoding="async">
                 </a>
                 <a href="/stickers/1359.html" class="sticker-preview-link">
-                    <img src="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/stickers/Dynamo_Dresden/IMG_1894_thumb.webp?"
+                    <img src="/img/stickers/Dynamo_Dresden/IMG_1894_thumb.webp"
                          alt="Dynamo Dresden street sticker #1359 -- Germany football"
                          data-sticker-id="1359"
                          class="sticker-preview-image"
@@ -607,7 +603,7 @@
                          decoding="async">
                 </a>
                 <a href="/stickers/1360.html" class="sticker-preview-link">
-                    <img src="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/stickers/Dynamo_Dresden/IMG_1827_thumb.webp?"
+                    <img src="/img/stickers/Dynamo_Dresden/IMG_1827_thumb.webp"
                          alt="Dynamo Dresden street sticker #1360 -- Germany football"
                          data-sticker-id="1360"
                          class="sticker-preview-image"
@@ -616,7 +612,7 @@
                          decoding="async">
                 </a>
                 <a href="/stickers/1361.html" class="sticker-preview-link">
-                    <img src="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/stickers/Dynamo_Dresden/IMG_1870_thumb.webp?"
+                    <img src="/img/stickers/Dynamo_Dresden/IMG_1870_thumb.webp"
                          alt="Dynamo Dresden street sticker #1361 -- Germany football"
                          data-sticker-id="1361"
                          class="sticker-preview-image"
@@ -625,7 +621,7 @@
                          decoding="async">
                 </a>
                 <a href="/stickers/1362.html" class="sticker-preview-link">
-                    <img src="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/stickers/Dynamo_Dresden/IMG_1866_thumb.webp?"
+                    <img src="/img/stickers/Dynamo_Dresden/IMG_1866_thumb.webp"
                          alt="Dynamo Dresden street sticker #1362 -- Germany football"
                          data-sticker-id="1362"
                          class="sticker-preview-image"
@@ -634,7 +630,7 @@
                          decoding="async">
                 </a>
                 <a href="/stickers/1363.html" class="sticker-preview-link">
-                    <img src="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/stickers/Dynamo_Dresden/IMG_1831_thumb.webp?"
+                    <img src="/img/stickers/Dynamo_Dresden/IMG_1831_thumb.webp"
                          alt="Dynamo Dresden street sticker #1363 -- Germany football"
                          data-sticker-id="1363"
                          class="sticker-preview-image"
@@ -643,7 +639,7 @@
                          decoding="async">
                 </a>
                 <a href="/stickers/1364.html" class="sticker-preview-link">
-                    <img src="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/stickers/Dynamo_Dresden/IMG_1903_thumb.webp?"
+                    <img src="/img/stickers/Dynamo_Dresden/IMG_1903_thumb.webp"
                          alt="Dynamo Dresden street sticker #1364 -- Germany football"
                          data-sticker-id="1364"
                          class="sticker-preview-image"
@@ -652,7 +648,7 @@
                          decoding="async">
                 </a>
                 <a href="/stickers/1365.html" class="sticker-preview-link">
-                    <img src="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/stickers/Dynamo_Dresden/IMG_5296_thumb.webp?"
+                    <img src="/img/stickers/Dynamo_Dresden/IMG_5296_thumb.webp"
                          alt="Dynamo Dresden street sticker #1365 -- Germany football"
                          data-sticker-id="1365"
                          class="sticker-preview-image"
@@ -661,7 +657,7 @@
                          decoding="async">
                 </a>
                 <a href="/stickers/1366.html" class="sticker-preview-link">
-                    <img src="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/stickers/Dynamo_Dresden/IMG_1839_(1)_thumb.webp?"
+                    <img src="/img/stickers/Dynamo_Dresden/IMG_1839_(1)_thumb.webp"
                          alt="Dynamo Dresden street sticker #1366 -- Germany football"
                          data-sticker-id="1366"
                          class="sticker-preview-image"
@@ -670,7 +666,7 @@
                          decoding="async">
                 </a>
                 <a href="/stickers/1367.html" class="sticker-preview-link">
-                    <img src="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/stickers/Dynamo_Dresden/IMG_1830_thumb.webp?"
+                    <img src="/img/stickers/Dynamo_Dresden/IMG_1830_thumb.webp"
                          alt="Dynamo Dresden street sticker #1367 -- Germany football"
                          data-sticker-id="1367"
                          class="sticker-preview-image"
@@ -679,7 +675,7 @@
                          decoding="async">
                 </a>
                 <a href="/stickers/1368.html" class="sticker-preview-link">
-                    <img src="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/stickers/Dynamo_Dresden/IMG_1867_thumb.webp?"
+                    <img src="/img/stickers/Dynamo_Dresden/IMG_1867_thumb.webp"
                          alt="Dynamo Dresden street sticker #1368 -- Germany football"
                          data-sticker-id="1368"
                          class="sticker-preview-image"
@@ -688,7 +684,7 @@
                          decoding="async">
                 </a>
                 <a href="/stickers/1369.html" class="sticker-preview-link">
-                    <img src="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/stickers/Dynamo_Dresden/IMG_1871_thumb.webp?"
+                    <img src="/img/stickers/Dynamo_Dresden/IMG_1871_thumb.webp"
                          alt="Dynamo Dresden street sticker #1369 -- Germany football"
                          data-sticker-id="1369"
                          class="sticker-preview-image"
@@ -697,7 +693,7 @@
                          decoding="async">
                 </a>
                 <a href="/stickers/2326.html" class="sticker-preview-link">
-                    <img src="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/club_879%2F1749912101219_IMG_6013_thumb.webp"
+                    <img src="/img/club_879%2F1749912101219_IMG_6013_thumb.webp"
                          alt="Dynamo Dresden street sticker #2326 -- Germany football"
                          data-sticker-id="2326"
                          class="sticker-preview-image"
@@ -706,7 +702,7 @@
                          decoding="async">
                 </a>
                 <a href="/stickers/2483.html" class="sticker-preview-link">
-                    <img src="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/club_879%2F1756553267310_IMG_6575_thumb.webp"
+                    <img src="/img/club_879%2F1756553267310_IMG_6575_thumb.webp"
                          alt="Dynamo Dresden street sticker #2483 -- Germany football"
                          data-sticker-id="2483"
                          class="sticker-preview-image"
@@ -715,7 +711,7 @@
                          decoding="async">
                 </a>
                 <a href="/stickers/2512.html" class="sticker-preview-link">
-                    <img src="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/club_879%2F1757194222471_IMG_6752_thumb.webp"
+                    <img src="/img/club_879%2F1757194222471_IMG_6752_thumb.webp"
                          alt="Dynamo Dresden street sticker #2512 -- Germany football"
                          data-sticker-id="2512"
                          class="sticker-preview-image"
@@ -724,7 +720,7 @@
                          decoding="async">
                 </a>
                 <a href="/stickers/2525.html" class="sticker-preview-link">
-                    <img src="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/club_879%2F1757194807014_IMG_6664_thumb.webp"
+                    <img src="/img/club_879%2F1757194807014_IMG_6664_thumb.webp"
                          alt="Dynamo Dresden street sticker #2525 -- Germany football"
                          data-sticker-id="2525"
                          class="sticker-preview-image"
@@ -733,7 +729,7 @@
                          decoding="async">
                 </a>
                 <a href="/stickers/2785.html" class="sticker-preview-link">
-                    <img src="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/club_879/1763898572524_IMG_7602_thumb.webp"
+                    <img src="/img/club_879/1763898572524_IMG_7602_thumb.webp"
                          alt="Dynamo Dresden street sticker #2785 -- Germany football"
                          data-sticker-id="2785"
                          class="sticker-preview-image"
@@ -742,7 +738,7 @@
                          decoding="async">
                 </a>
                 <a href="/stickers/2845.html" class="sticker-preview-link">
-                    <img src="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/club_879/1766230076881_IMG_7681_thumb.webp"
+                    <img src="/img/club_879/1766230076881_IMG_7681_thumb.webp"
                          alt="Dynamo Dresden street sticker #2845 -- Germany football"
                          data-sticker-id="2845"
                          class="sticker-preview-image"
@@ -751,7 +747,7 @@
                          decoding="async">
                 </a>
                 <a href="/stickers/3261.html" class="sticker-preview-link">
-                    <img src="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/club_879/1775995693022_IMG_9162_thumb.webp"
+                    <img src="/img/club_879/1775995693022_IMG_9162_thumb.webp"
                          alt="Dynamo Dresden street sticker #3261 -- Germany football"
                          data-sticker-id="3261"
                          class="sticker-preview-image"
@@ -760,7 +756,7 @@
                          decoding="async">
                 </a>
                 <a href="/stickers/3517.html" class="sticker-preview-link">
-                    <img src="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/club_879/1779532761662_IMG_0253_thumb.webp"
+                    <img src="/img/club_879/1779532761662_IMG_0253_thumb.webp"
                          alt="Dynamo Dresden street sticker #3517 -- Germany football"
                          data-sticker-id="3517"
                          class="sticker-preview-image"
