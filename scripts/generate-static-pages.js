@@ -5,7 +5,7 @@
  * This script fetches data from Supabase and generates SEO-optimized static pages
  */
 
-import { readFileSync, writeFileSync, mkdirSync, existsSync } from 'fs';
+import { readFileSync, writeFileSync, mkdirSync, existsSync, readdirSync, unlinkSync } from 'fs';
 import { join, dirname } from 'path';
 import { fileURLToPath } from 'url';
 
@@ -1096,13 +1096,36 @@ async function fetchAllClubs() {
 async function generateSitemaps(stickers, clubs, countries) {
     const today = new Date().toISOString().split('T')[0];
 
+    // Dynamic chunking — split stickers into ~1500-per-file shards (well under
+    // Google's 50K URL limit). Number of files scales with the catalog.
+    const STICKERS_PER_SITEMAP = 1500;
+    const numChunks = Math.max(1, Math.ceil(stickers.length / STICKERS_PER_SITEMAP));
+
+    // Sub-sitemaps the index always references (cities sheet is hand-shipped
+    // from generate-city-pages.js; main and stickers come from this script).
+    const subSitemaps = ['sitemap-main.xml', 'sitemap-cities.xml'];
+    for (let i = 1; i <= numChunks; i++) subSitemaps.push(`sitemap-stickers-${i}.xml`);
+
+    // Clean up any stale sticker shards left from when the catalog was larger.
+    try {
+        const files = readdirSync(PROJECT_ROOT);
+        for (const f of files) {
+            const m = f.match(/^sitemap-stickers-(\d+)\.xml$/);
+            if (m && parseInt(m[1], 10) > numChunks) {
+                try {
+                    unlinkSync(join(PROJECT_ROOT, f));
+                    console.log(`  🧹 removed stale ${f}`);
+                } catch {}
+            }
+        }
+    } catch {}
+
     // Create sitemap index
     let indexXml = '<?xml version="1.0" encoding="UTF-8"?>\n';
     indexXml += '<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n';
-    indexXml += '<sitemap><loc>https://stickerhunt.club/sitemap-main.xml</loc></sitemap>\n';
-    indexXml += '<sitemap><loc>https://stickerhunt.club/sitemap-stickers-1.xml</loc></sitemap>\n';
-    indexXml += '<sitemap><loc>https://stickerhunt.club/sitemap-stickers-2.xml</loc></sitemap>\n';
-    indexXml += '<sitemap><loc>https://stickerhunt.club/sitemap-stickers-3.xml</loc></sitemap>\n';
+    for (const sub of subSitemaps) {
+        indexXml += `<sitemap><loc>https://stickerhunt.club/${sub}</loc></sitemap>\n`;
+    }
     indexXml += '</sitemapindex>';
     writeFileSync(join(PROJECT_ROOT, 'sitemap.xml'), indexXml, 'utf-8');
 
@@ -1142,14 +1165,14 @@ async function generateSitemaps(stickers, clubs, countries) {
     mainXml += '</urlset>';
     writeFileSync(join(PROJECT_ROOT, 'sitemap-main.xml'), mainXml, 'utf-8');
 
-    // Create sticker sitemaps (split into 3 parts)
-    const stickerChunks = [[], [], []];
+    // Create sticker sitemaps using the dynamic numChunks computed above.
+    const stickerChunks = Array.from({ length: numChunks }, () => []);
     stickers.forEach((sticker, index) => {
-        const chunkIndex = index < 1000 ? 0 : (index < 2000 ? 1 : 2);
+        const chunkIndex = Math.min(numChunks - 1, Math.floor(index / STICKERS_PER_SITEMAP));
         stickerChunks[chunkIndex].push(sticker);
     });
 
-    for (let i = 0; i < 3; i++) {
+    for (let i = 0; i < numChunks; i++) {
         let stickerXml = '<?xml version="1.0" encoding="UTF-8"?>\n';
         stickerXml += '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n';
 
