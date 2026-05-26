@@ -172,7 +172,7 @@
                     <div class="sticker-detail-right-panel">
                         <div class="sticker-detail-info-block">
                             <h2 class="sticker-detail-club-name">
-                                <span id="club-name-display">🇳🇴 Bodo glimt</span>
+                                <span id="club-name-display">Bodo glimt</span>
                                 <a href="#" id="edit-sticker-btn" class="edit-link" style="display: none;">edit</a>
                             </h2>
 
@@ -440,19 +440,6 @@
                 })();
 
                 (function() {
-                    L.marker([50.0889166666667, 14.4279944444444], {
-                        icon: L.icon({
-                            iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
-                            iconSize: [18, 30],
-                            iconAnchor: [9, 30],
-                            popupAnchor: [1, -25]
-                        }),
-                        opacity: 0.6
-                    }).addTo(map)
-                    .bindPopup('<div class="nearby-sticker-popup"><strong>Dynamo Dresden</strong><a href="/stickers/2326.html" class="map-popup-link">View</a></div>');
-                })();
-
-                (function() {
                     L.marker([50.0895416666667, 14.4280472222222], {
                         icon: L.icon({
                             iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
@@ -567,6 +554,19 @@
                         opacity: 0.6
                     }).addTo(map)
                     .bindPopup('<div class="nearby-sticker-popup"><strong>SK Rapid Wien</strong><a href="/stickers/2355.html" class="map-popup-link">View</a></div>');
+                })();
+
+                (function() {
+                    L.marker([50.0889166666667, 14.4279944444444], {
+                        icon: L.icon({
+                            iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
+                            iconSize: [18, 30],
+                            iconAnchor: [9, 30],
+                            popupAnchor: [1, -25]
+                        }),
+                        opacity: 0.6
+                    }).addTo(map)
+                    .bindPopup('<div class="nearby-sticker-popup"><strong>Dynamo Dresden</strong><a href="/stickers/2326.html" class="map-popup-link">View</a></div>');
                 })();
 
                 (function() {
@@ -1146,7 +1146,6 @@
                     [50.0774222222222, 14.4211694444444],
                     [50.0922777777778, 14.4268888888889],
                     [50.0881944444444, 14.4477888888889],
-                    [50.0889166666667, 14.4279944444444],
                     [50.0895416666667, 14.4280472222222],
                     [50.0930361111111, 14.4520611111111],
                     [50.0775305555556, 14.4151361111111],
@@ -1156,6 +1155,7 @@
                     [50.0939861111111, 14.4509055555556],
                     [50.0823472222222, 14.4264111111111],
                     [50.0929194444444, 14.4464611111111],
+                    [50.0889166666667, 14.4279944444444],
                     [50.0917694444444, 14.4264055555556],
                     [50.0857388888889, 14.4255888888889],
                     [50.0775861111111, 14.4205555555556],
