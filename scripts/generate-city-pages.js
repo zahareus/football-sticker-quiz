@@ -124,8 +124,19 @@ function getOptimizedImageUrl(imageUrl, suffix = '_web') {
     }
 }
 
+const SUPABASE_STICKERS_PREFIX = 'https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/';
+
+function toLocalImg(url) {
+    if (!url) return url;
+    const cleaned = cleanTrailingQuery(url);
+    if (cleaned.startsWith(SUPABASE_STICKERS_PREFIX)) {
+        return '/img/' + cleaned.slice(SUPABASE_STICKERS_PREFIX.length);
+    }
+    return cleaned;
+}
+
 function getThumbnailUrl(imageUrl) {
-    return getOptimizedImageUrl(imageUrl, '_thumb');
+    return toLocalImg(getOptimizedImageUrl(imageUrl, '_thumb'));
 }
 
 function stripEmoji(str) {
@@ -625,6 +636,7 @@ async function main() {
             META_KEYWORDS: keywords,
             CANONICAL_URL: canonicalUrl,
             OG_IMAGE: cleanTrailingQuery(ogImage),
+            OG_IMAGE_LOCAL: toLocalImg(cleanTrailingQuery(ogImage)),
             MULTILINGUAL_META: multilingualMeta,
             CITY_NAME: cityName,
             BREADCRUMBS: breadcrumbs,

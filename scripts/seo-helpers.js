@@ -187,8 +187,12 @@ export function getDetailImageUrl(imageUrl) {
     return getOptimizedImageUrl(imageUrl, '_web');
 }
 
+// getThumbnailUrl returns a /img/* proxy URL (not raw Supabase) so that <img>
+// tags on club/country/city/index pages hit the cached Edge Function. Use
+// getOptimizedImageUrl directly when you need the absolute URL (og:image,
+// schema.org contentUrl).
 export function getThumbnailUrl(imageUrl) {
-    return getOptimizedImageUrl(imageUrl, '_thumb');
+    return toLocalImg(getOptimizedImageUrl(imageUrl, '_thumb'));
 }
 
 export function cleanTrailingQuery(url) {

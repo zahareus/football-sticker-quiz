@@ -15,7 +15,7 @@ import { fileURLToPath } from 'url';
 import {
     createSupabaseClient,
     COUNTRY_NAMES, getCountryName, getCountryFlag, getOptimizedImageUrl, getThumbnailUrl,
-    cleanTrailingQuery, stripEmoji, escapeHtml, loadTemplate, replacePlaceholders,
+    cleanTrailingQuery, toLocalImg, stripEmoji, escapeHtml, loadTemplate, replacePlaceholders,
     generateBreadcrumbs, generateBreadcrumbSchema,
     selectTopRatedStickers, generateDescriptiveAltText, generateMultilingualMeta,
     generateFeaturedGallery, fetchAllPaginated,
@@ -315,6 +315,7 @@ async function generateClubPage(club, stickers, allClubsInCountry = [], stickerC
         META_KEYWORDS: keywords,
         CANONICAL_URL: canonicalUrl,
         OG_IMAGE: ogImage,
+        OG_IMAGE_LOCAL: toLocalImg(ogImage),
         MULTILINGUAL_META: multilingualMeta,
         CLUB_ID: club.id,
         CLUB_NAME: club.name,

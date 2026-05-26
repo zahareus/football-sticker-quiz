@@ -754,6 +754,7 @@ async function generateClubPage(club, stickers, allClubsInCountry, stickerCounts
         META_KEYWORDS: keywords,
         CANONICAL_URL: canonicalUrl,
         OG_IMAGE: ogImage,
+        OG_IMAGE_LOCAL: toLocalImg(ogImage),
         MULTILINGUAL_META: multilingualMetaClub,
         CLUB_ID: club.id,
         CLUB_NAME: club.name,

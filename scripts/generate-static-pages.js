@@ -218,10 +218,12 @@ function getDetailImageUrl(imageUrl) {
 }
 
 /**
- * Get thumbnail URL (150x150 WebP)
+ * Get thumbnail URL via /img/* edge-proxy so <img> tags hit the cached
+ * Edge Function. Use getOptimizedImageUrl directly for absolute URLs
+ * (og:image, schema.org contentUrl).
  */
 function getThumbnailUrl(imageUrl) {
-    return getOptimizedImageUrl(imageUrl, '_thumb');
+    return toLocalImg(getOptimizedImageUrl(imageUrl, '_thumb'));
 }
 
 /**
@@ -786,6 +788,7 @@ async function generateClubPage(club, stickers, allClubsInCountry, stickerCounts
         META_KEYWORDS: keywords,
         CANONICAL_URL: canonicalUrl,
         OG_IMAGE: cleanTrailingQuery(ogImage),
+        OG_IMAGE_LOCAL: toLocalImg(cleanTrailingQuery(ogImage)),
         CLUB_ID: club.id,
         CLUB_NAME: club.name,
         CLUB_CITY: club.city || '',
@@ -915,7 +918,7 @@ async function generateIndexPage(stickers, clubs) {
     let topRatedHtml = '';
     topRated.forEach(s => {
         const clubName = s.clubs ? stripEmoji(s.clubs.name) : '';
-        const thumbUrl = getOptimizedImageUrl(s.image_url, '_thumb');
+        const thumbUrl = getThumbnailUrl(s.image_url);
         topRatedHtml += `
                 <a href="/stickers/${s.id}.html" class="hp-sticker-card">
                     <img src="${thumbUrl}" alt="${clubName} sticker -- rated ${s.rating || 1500}" data-sticker-id="${s.id}" width="140" height="140" loading="lazy" decoding="async">
@@ -929,7 +932,7 @@ async function generateIndexPage(stickers, clubs) {
     let recentHtml = '';
     recent.forEach(s => {
         const clubName = s.clubs ? stripEmoji(s.clubs.name) : '';
-        const thumbUrl = getOptimizedImageUrl(s.image_url, '_thumb');
+        const thumbUrl = getThumbnailUrl(s.image_url);
         recentHtml += `
                 <a href="/stickers/${s.id}.html" class="hp-sticker-card">
                     <img src="${thumbUrl}" alt="${clubName} sticker -- recently added" data-sticker-id="${s.id}" width="140" height="140" loading="lazy" decoding="async">
