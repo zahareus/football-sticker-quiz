@@ -318,7 +318,7 @@ async function generateClubPage(club, stickers, allClubsInCountry = [], stickerC
         OG_IMAGE_LOCAL: toLocalImg(ogImage),
         MULTILINGUAL_META: multilingualMeta,
         CLUB_ID: club.id,
-        CLUB_NAME: club.name,
+        CLUB_NAME: stripEmoji(club.name),
         CLUB_CITY: club.city || '',
         CLUB_WEB: club.web || '',
         CLUB_MEDIA: club.media || '',
