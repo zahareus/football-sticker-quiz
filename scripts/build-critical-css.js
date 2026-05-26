@@ -78,12 +78,17 @@ const ALLOW = [
     /^\.hp-section\b/,
     // catalogue/sticker hero (above-fold on those templates)
     /^\.cat-/,
-    /^\.sticker-page\b/,
+    /^\.sticker-/,
     // country / club / city / homepage grid layouts — without these in critical CSS the
     // grid lays out as a vertical stack on first paint, then snaps into columns when
     // style.css arrives, causing a massive CLS spike on those page types.
     /^\.club-/,
     /^\.hp-/,
+    /^\.other-/,
+    /^\.catalogue-/,
+    /^\.country-/,
+    /^\.clubs-/,
+    /^\.wiki-/,
     // sticker detail: reserve space to prevent CLS from JS-loaded rating/answer rate
     /^\.sticker-detail-info-block\b/,
     /^#rating-value\b/,
