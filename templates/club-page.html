@@ -43,12 +43,8 @@
 
     <!-- Preload LCP image (top sticker / OG) -->
     <link rel="preload" as="image" href="{{OG_IMAGE_LOCAL}}" fetchpriority="high">
-
-    <!-- Inlined critical CSS (above-the-fold). Generated from style.css by scripts/build-critical-css.js -->
-    <style>{{CRITICAL_CSS}}</style>
     <!-- Full stylesheet loaded async (non-blocking) -->
-    <link rel="preload" href="/style.css?v=5" as="style" onload="this.onload=null;this.rel='stylesheet'">
-    <noscript><link rel="stylesheet" href="/style.css?v=5"></noscript>
+    <link rel="stylesheet" href="/style.css?v=5">
 
     <!-- Leaflet CSS — async (non-blocking); only impacts the map at the bottom -->
     <link rel="preload" as="style" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" onload="this.onload=null;this.rel='stylesheet'">
