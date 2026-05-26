@@ -120,7 +120,7 @@
 
 /* --- Reset Styles --- */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-body { font-family: var(--font-family); line-height: 1.6; background-color: var(--color-background); color: var(--color-text); padding: 0 var(--spacing-unit); display: flex; flex-direction: column; min-height: 100vh;}
+body { margin: 0; font-family: var(--font-family); line-height: 1.6; background-color: var(--color-background); color: var(--color-text); padding: 0 var(--spacing-unit); display: flex; flex-direction: column; min-height: 100vh;}
 h1, h2, h3, h4, h5, h6 { color: var(--color-text); } /* General heading color */
 h1 { font-weight: 600; margin-bottom: calc(var(--spacing-unit) * 3); text-align: center; } /* Default H1, will be overridden by #catalogue-container > h1 for catalogue page */
 h2 { font-weight: 500; margin-bottom: calc(var(--spacing-unit) * 2); }
