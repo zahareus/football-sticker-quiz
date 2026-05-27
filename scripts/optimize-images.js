@@ -28,6 +28,7 @@ function parseArgs() {
     const args = {
         dryRun: process.argv.includes('--dry-run'),
         missingOnly: process.argv.includes('--missing-only'),
+        force: process.argv.includes('--force'),
         fromId: null,
         onlyIds: null,
         days: null
@@ -92,6 +93,7 @@ const CONFIG = {
     FROM_ID: ARGS.fromId,
     ONLY_IDS: ARGS.onlyIds,
     MISSING_ONLY: ARGS.missingOnly,
+    FORCE: ARGS.force,
     DAYS: ARGS.days
 };
 
@@ -297,11 +299,12 @@ async function processSticker(sticker) {
     }
 
     try {
-        // Check if already optimized
+        // Check if already optimized. --force re-encodes anyway (used when
+        // changing target dimensions/quality, e.g. 600→1200 upscale).
         const webExists = await optimizedVersionExists(storagePath, CONFIG.WEB_SUFFIX);
         const thumbExists = await optimizedVersionExists(storagePath, CONFIG.THUMB_SUFFIX);
 
-        if (webExists && thumbExists) {
+        if (webExists && thumbExists && !CONFIG.FORCE) {
             return { id: sticker.id, status: 'exists', path: storagePath };
         }
 
@@ -320,8 +323,8 @@ async function processSticker(sticker) {
 
         const results = { id: sticker.id, status: 'optimized', path: storagePath };
 
-        // Create web version
-        if (!webExists) {
+        // Create web version (re-encode when --force regardless of existence)
+        if (!webExists || CONFIG.FORCE) {
             const webBuffer = await optimizeImage(originalBuffer, CONFIG.WEB_IMAGE);
             const webPath = await uploadOptimized(webBuffer, storagePath, CONFIG.WEB_SUFFIX);
             results.web = {
@@ -332,8 +335,8 @@ async function processSticker(sticker) {
             };
         }
 
-        // Create thumbnail
-        if (!thumbExists) {
+        // Create thumbnail (re-encode on --force)
+        if (!thumbExists || CONFIG.FORCE) {
             const thumbBuffer = await optimizeImage(originalBuffer, CONFIG.THUMBNAIL);
             const thumbPath = await uploadOptimized(thumbBuffer, storagePath, CONFIG.THUMB_SUFFIX);
             results.thumb = {

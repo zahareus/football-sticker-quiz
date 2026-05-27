@@ -201,6 +201,13 @@ export function cleanTrailingQuery(url) {
 
 const SUPABASE_STICKERS_PREFIX = 'https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/';
 
+// Cache-bust version for /img/* URLs. Bump this when image bytes change at
+// the same path (e.g. re-encode to higher resolution). Browsers and Cloudflare
+// cache /img/* with immutable; without a query change they keep serving the
+// old bytes for up to a year. The Edge Function ignores the query string when
+// fetching upstream from Supabase — it only matters for the client cache key.
+const IMG_VERSION = '2026-05-27';
+
 /**
  * Convert a Supabase storage URL into a /img/* proxy path. Also normalizes
  * three URL bugs found in audit 2026-05-27:
@@ -209,7 +216,8 @@ const SUPABASE_STICKERS_PREFIX = 'https://rbmeslzlbsolkxnvesqb.supabase.co/stora
  *      across two URLs for the same asset)
  *   3. doubled `stickers/stickers/` prefix from earlier uploads that wrote
  *      the bucket name into the filename
- * After this, every image has a single canonical /img/ URL.
+ * After this, every image has a single canonical /img/ URL with the current
+ * IMG_VERSION query string for cache-busting.
  */
 export function toLocalImg(url) {
     if (!url) return url;
@@ -218,11 +226,10 @@ export function toLocalImg(url) {
         cleaned = '/img/' + cleaned.slice(SUPABASE_STICKERS_PREFIX.length);
     }
     if (!cleaned.startsWith('/img/')) return cleaned;
-    // Normalize %2F (URL-encoded slash) inside the path — keeps spaces (%20)
-    // and other true %-escapes intact.
     cleaned = cleaned.replace(/%2F/gi, '/');
-    // Collapse doubled bucket prefix /img/stickers/stickers/ → /img/stickers/
     cleaned = cleaned.replace(/^\/img\/stickers\/stickers\//, '/img/stickers/');
+    // Append version query for cache-bust
+    cleaned += (cleaned.includes('?') ? '&' : '?') + 'v=' + IMG_VERSION;
     return cleaned;
 }
 

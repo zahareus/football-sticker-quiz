@@ -239,6 +239,8 @@ function cleanTrailingQuery(url) {
 
 const SUPABASE_STICKERS_PREFIX = 'https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/';
 
+const IMG_VERSION = '2026-05-27';
+
 function toLocalImg(url) {
     if (!url) return url;
     let cleaned = cleanTrailingQuery(url);
@@ -246,9 +248,9 @@ function toLocalImg(url) {
         cleaned = '/img/' + cleaned.slice(SUPABASE_STICKERS_PREFIX.length);
     }
     if (!cleaned.startsWith('/img/')) return cleaned;
-    // Normalize %2F (URL-encoded slash) inside path; collapse /img/stickers/stickers/
     cleaned = cleaned.replace(/%2F/gi, '/');
     cleaned = cleaned.replace(/^\/img\/stickers\/stickers\//, '/img/stickers/');
+    cleaned += (cleaned.includes('?') ? '&' : '?') + 'v=' + IMG_VERSION;
     return cleaned;
 }
 
