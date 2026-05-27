@@ -250,7 +250,9 @@ function toLocalImg(url) {
     if (!cleaned.startsWith('/img/')) return cleaned;
     cleaned = cleaned.replace(/%2F/gi, '/');
     cleaned = cleaned.replace(/^\/img\/stickers\/stickers\//, '/img/stickers/');
-    cleaned += (cleaned.includes('?') ? '&' : '?') + 'v=' + IMG_VERSION;
+    if (!/[?&]v=/.test(cleaned)) {
+        cleaned += (cleaned.includes('?') ? '&' : '?') + 'v=' + IMG_VERSION;
+    }
     return cleaned;
 }
 

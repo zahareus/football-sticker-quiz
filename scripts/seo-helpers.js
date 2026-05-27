@@ -228,8 +228,12 @@ export function toLocalImg(url) {
     if (!cleaned.startsWith('/img/')) return cleaned;
     cleaned = cleaned.replace(/%2F/gi, '/');
     cleaned = cleaned.replace(/^\/img\/stickers\/stickers\//, '/img/stickers/');
-    // Append version query for cache-bust
-    cleaned += (cleaned.includes('?') ? '&' : '?') + 'v=' + IMG_VERSION;
+    // Append version query for cache-bust. Idempotent — when toLocalImg is
+    // called on its own output (e.g. toLocalImgAbs(toLocalImg(x))), don't
+    // stack `?v=...&v=...&v=...`.
+    if (!/[?&]v=/.test(cleaned)) {
+        cleaned += (cleaned.includes('?') ? '&' : '?') + 'v=' + IMG_VERSION;
+    }
     return cleaned;
 }
 
