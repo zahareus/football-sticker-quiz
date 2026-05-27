@@ -868,6 +868,39 @@ async function generateCountryPage(countryCode, clubs, stickerCountsByClub, coun
         ? cleanTrailingQuery(getOptimizedImageUrl(topClubs[0].bestImg))
         : 'https://stickerhunt.club/metash.png';
 
+    // FEATURED STICKERS — top 12 stickers by rating, each linking to /stickers/X.html.
+    // Closes the sticker-isolation gap: top stickers per country get a high-authority
+    // incoming link from the country page (in addition to their own club page).
+    const clubByIdFS = new Map(clubs.map(c => [c.id, c]));
+    const featuredStickers = [...(countryStickers || [])]
+        .filter(s => s.image_url)
+        .sort((a, b) => (b.rating || 1500) - (a.rating || 1500) || (b.games || 0) - (a.games || 0))
+        .slice(0, 12);
+    let featuredStickersHtml = '';
+    if (featuredStickers.length > 0) {
+        let cards = '';
+        featuredStickers.forEach(s => {
+            const thumbUrl = cleanTrailingQuery(getThumbnailUrl(s.image_url));
+            const club = clubByIdFS.get(s.club_id);
+            const clubName = club ? stripEmoji(club.name) : '';
+            cards += `
+                <a href="/stickers/${s.id}.html" class="cat-club-card">
+                    <img src="${thumbUrl}" alt="${escapeHtml(clubName)} sticker -- rated ${s.rating || 1500}" data-sticker-id="${s.id}" width="140" height="140" loading="lazy" decoding="async">
+                    <span class="cat-club-label">${escapeHtml(clubName)}</span>
+                    <span class="cat-club-count">⚡ ${s.rating || 1500}</span>
+                </a>`;
+        });
+        featuredStickersHtml = `
+        <div class="cat-section">
+            <div class="cat-section-header">
+                <h2>Featured Stickers</h2>
+                <span class="cat-section-meta">top ${featuredStickers.length} by rating</span>
+            </div>
+            <div class="cat-clubs-strip">${cards}</div>
+        </div>
+        <hr class="cat-divider">`;
+    }
+
     // Club cards grid
     let clubCardsHtml = '';
     clubsEnriched.forEach(club => {
@@ -916,6 +949,7 @@ async function generateCountryPage(countryCode, clubs, stickerCountsByClub, coun
             { text: countryName, url: `/countries/${countryCode.toUpperCase()}.html` }
         ]),
         MOST_COLLECTED_SECTION: mostCollectedHtml,
+        FEATURED_STICKERS_SECTION: featuredStickersHtml,
         CLUB_CARDS: clubCardsHtml,
         SEO_DESCRIPTION: seoDescription,
         MULTILINGUAL_META: multilingualMeta,

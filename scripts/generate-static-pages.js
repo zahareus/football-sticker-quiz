@@ -9,7 +9,7 @@ import { readFileSync, writeFileSync, mkdirSync, existsSync, readdirSync, unlink
 import { join, dirname } from 'path';
 import { fileURLToPath } from 'url';
 
-import { createSupabaseClient, COUNTRY_NAMES, cityToSlug } from './seo-helpers.js';
+import { createSupabaseClient, COUNTRY_NAMES, cityToSlug, generateMultilingualMeta } from './seo-helpers.js';
 
 // Configuration
 const BASE_URL = "https://stickerhunt.club";
@@ -830,61 +830,177 @@ async function generateClubPage(club, stickers, allClubsInCountry, stickerCounts
 /**
  * Generate a single country page
  */
-async function generateCountryPage(countryCode, clubs, stickerCountsByClub) {
+async function generateCountryPage(countryCode, clubs, stickerCountsByClub, allStickers = []) {
     const template = loadTemplate('country-page.html');
 
     const countryName = getCountryName(countryCode);
+    const countryFlag = COUNTRY_FLAGS[countryCode.toUpperCase()] || '🏳️';
     const totalStickers = Object.values(stickerCountsByClub).reduce((sum, n) => sum + n, 0);
-    const pageTitle = `${countryName} Football Stickers — ${clubs.length} Clubs | StickerHunt`;
-    const metaDescription = `Browse football stickers from ${clubs.length} clubs in ${countryName}. Identify stickers from ${countryName} clubs in our database of ${totalStickers}+ stickers.`;
+    const pageTitle = `${countryName} Football Stickers — ${clubs.length} Clubs, ${totalStickers} Stickers | StickerHunt`;
+    const metaDescription = `Browse ${totalStickers} football stickers from ${clubs.length} clubs in ${countryName}. Find stickers from ${countryName} clubs in the StickerHunt database.`;
     const canonicalUrl = `${BASE_URL}/countries/${countryCode.toUpperCase()}.html`;
     const keywords = `${countryName} football stickers, ${countryName} clubs stickers, identify ${countryName} sticker, football sticker database`;
 
-    // Generate breadcrumbs
     const breadcrumbs = generateBreadcrumbs([
         { text: 'Catalogue', url: '/catalogue.html' },
         { text: countryName, url: `/countries/${countryCode.toUpperCase()}.html` }
     ]);
 
-    // Add sticker counts to clubs and sort
-    const clubsWithStickerCounts = clubs.map(club => ({
-        ...club,
-        stickerCount: stickerCountsByClub[club.id] || 0
-    }));
-    clubsWithStickerCounts.sort((a, b) => a.name.localeCompare(b.name));
+    // Filter stickers for this country (by club_id)
+    const clubIds = new Set(clubs.map(c => c.id));
+    const countryStickers = allStickers.filter(s => clubIds.has(s.club_id));
+    const clubById = new Map(clubs.map(c => [c.id, c]));
 
-    // Generate club list HTML
-    let clubListHtml = '';
-    clubsWithStickerCounts.forEach(club => {
-        const countText = `(${club.stickerCount} sticker${club.stickerCount !== 1 ? 's' : ''})`;
-        clubListHtml += `<li><a href="/clubs/${club.id}.html">${club.name} ${countText}</a></li>`;
+    // Enrich clubs with best sticker for thumbnail
+    const clubsEnriched = clubs.map(club => {
+        const count = stickerCountsByClub[club.id] || 0;
+        const clubStickers = countryStickers.filter(s => s.club_id === club.id);
+        let bestImg = null, bestRating = 0, bestStickerId = null;
+        clubStickers.forEach(s => {
+            if ((s.rating || 0) > bestRating) {
+                bestRating = s.rating || 0;
+                bestImg = s.image_url;
+                bestStickerId = s.id;
+            }
+        });
+        return { ...club, stickerCount: count, bestImg, bestStickerId, cleanName: stripEmoji(club.name) };
     });
+    clubsEnriched.sort((a, b) => a.cleanName.localeCompare(b.cleanName, 'en'));
+
+    // Most Collected — top 8 clubs by sticker count
+    const topClubs = [...clubsEnriched].filter(c => c.stickerCount > 0 && c.bestImg)
+        .sort((a, b) => b.stickerCount - a.stickerCount).slice(0, 8);
+    let mostCollectedHtml = '';
+    if (topClubs.length > 0) {
+        let stripCards = '';
+        topClubs.forEach(c => {
+            const thumbUrl = cleanTrailingQuery(getThumbnailUrl(c.bestImg));
+            stripCards += `
+                <a href="/clubs/${c.id}.html" class="cat-club-card">
+                    <img src="${thumbUrl}" alt="${c.cleanName} sticker" data-sticker-id="${c.bestStickerId}" width="140" height="140" loading="lazy" decoding="async">
+                    <span class="cat-club-label">${c.cleanName}</span>
+                    <span class="cat-club-count">${c.stickerCount} sticker${c.stickerCount !== 1 ? 's' : ''}</span>
+                </a>`;
+        });
+        mostCollectedHtml = `
+        <div class="cat-section">
+            <div class="cat-section-header">
+                <h2>Most Collected</h2>
+                <span class="cat-section-meta">by number of stickers</span>
+            </div>
+            <div class="cat-clubs-strip">${stripCards}</div>
+        </div>
+        <hr class="cat-divider">`;
+    }
+
+    // FEATURED STICKERS — top 12 stickers by rating, each linking to /stickers/X.html.
+    // This is the new section closing the sticker-isolation gap: every featured
+    // sticker gets a high-authority incoming link from the country page.
+    const featuredStickers = [...countryStickers]
+        .filter(s => s.image_url)
+        .sort((a, b) => (b.rating || 1500) - (a.rating || 1500) || (b.games || 0) - (a.games || 0))
+        .slice(0, 12);
+    let featuredStickersHtml = '';
+    if (featuredStickers.length > 0) {
+        let cards = '';
+        featuredStickers.forEach(s => {
+            const thumbUrl = cleanTrailingQuery(getThumbnailUrl(s.image_url));
+            const club = clubById.get(s.club_id);
+            const clubName = club ? stripEmoji(club.name) : '';
+            cards += `
+                <a href="/stickers/${s.id}.html" class="cat-club-card">
+                    <img src="${thumbUrl}" alt="${clubName} sticker -- rated ${s.rating || 1500}" data-sticker-id="${s.id}" width="140" height="140" loading="lazy" decoding="async">
+                    <span class="cat-club-label">${clubName}</span>
+                    <span class="cat-club-count">⚡ ${s.rating || 1500}</span>
+                </a>`;
+        });
+        featuredStickersHtml = `
+        <div class="cat-section">
+            <div class="cat-section-header">
+                <h2>Featured Stickers</h2>
+                <span class="cat-section-meta">top ${featuredStickers.length} by rating</span>
+            </div>
+            <div class="cat-clubs-strip">${cards}</div>
+        </div>
+        <hr class="cat-divider">`;
+    }
+
+    // OG image — pick best sticker overall
+    const ogImage = topClubs.length > 0 && topClubs[0].bestImg
+        ? cleanTrailingQuery(getOptimizedImageUrl(topClubs[0].bestImg))
+        : 'https://stickerhunt.club/metash.png';
+
+    // Club cards grid (with thumbnails when available)
+    let clubCardsHtml = '';
+    clubsEnriched.forEach(club => {
+        const countLabel = club.stickerCount === 1 ? '1 sticker' : `${club.stickerCount} stickers`;
+        let thumbHtml = '';
+        if (club.bestImg) {
+            const thumbUrl = cleanTrailingQuery(getThumbnailUrl(club.bestImg));
+            thumbHtml = `<img src="${thumbUrl}" class="country-club-thumb" alt="" data-sticker-id="${club.bestStickerId}" width="44" height="44" loading="lazy" decoding="async">`;
+        } else {
+            thumbHtml = '<span class="country-club-thumb-placeholder"></span>';
+        }
+        clubCardsHtml += `
+                <a href="/clubs/${club.id}.html" class="cat-country-card" title="${club.cleanName}">
+                    ${thumbHtml}
+                    <div class="cat-country-info">
+                        <span class="cat-country-name">${club.name}</span>
+                        <span class="cat-country-meta">${countLabel}</span>
+                    </div>
+                </a>`;
+    });
+
+    const topClubNames = topClubs.slice(0, 5).map(c => c.cleanName).join(', ');
+    const seoDescription = `StickerHunt features stickers from clubs across ${countryName}. The most collected clubs include ${topClubNames}. Each club page shows all stickers found, their map locations, and community ratings. Browse the complete ${countryName} collection and discover fan-spotted stickers from across the country.`;
+
+    const multilingualMeta = generateMultilingualMeta({
+        type: 'country',
+        countryCode: countryCode,
+        vars: { country: countryName, clubCount: clubs.length, total: totalStickers }
+    });
+
+    // ItemList schema for clubs
+    const schemaItems = clubsEnriched.map((club, i) => ({
+        "@type": "ListItem", "position": i + 1,
+        "name": club.cleanName, "url": `${BASE_URL}/clubs/${club.id}.html`
+    }));
+    const schema = {
+        "@context": "https://schema.org", "@type": "ItemList",
+        "name": `Football clubs from ${countryName}`, "description": metaDescription,
+        "url": canonicalUrl, "numberOfItems": clubs.length, "itemListElement": schemaItems
+    };
+    const schemaJsonLd = `<script type="application/ld+json">\n    ${JSON.stringify(schema, null, 2).split('\n').join('\n    ')}\n    </script>`;
 
     const data = {
         PAGE_TITLE: pageTitle,
         META_DESCRIPTION: metaDescription,
         META_KEYWORDS: keywords,
         CANONICAL_URL: canonicalUrl,
-        OG_IMAGE: 'https://stickerhunt.club/metash.png',
+        OG_IMAGE: ogImage,
         COUNTRY_NAME: countryName,
+        COUNTRY_FLAG: countryFlag,
         CLUB_COUNT: clubs.length,
+        TOTAL_STICKERS: totalStickers,
         BREADCRUMBS: breadcrumbs,
         BREADCRUMB_SCHEMA: generateBreadcrumbSchema([
             { text: 'Catalogue', url: '/catalogue.html' },
             { text: countryName, url: `/countries/${countryCode.toUpperCase()}.html` }
         ]),
         MAIN_HEADING: `${countryName} Football Stickers`,
-        CLUB_LIST: clubListHtml
+        MOST_COLLECTED_SECTION: mostCollectedHtml,
+        FEATURED_STICKERS_SECTION: featuredStickersHtml,
+        CLUB_CARDS: clubCardsHtml,
+        CLUB_LIST: clubCardsHtml,
+        SEO_DESCRIPTION: seoDescription,
+        MULTILINGUAL_META: multilingualMeta,
+        SCHEMA_JSON_LD: schemaJsonLd,
     };
 
     const html = replacePlaceholders(template, data);
 
-    // Save to file
     const outputDir = join(PROJECT_ROOT, 'countries');
-    if (!existsSync(outputDir)) {
-        mkdirSync(outputDir, { recursive: true });
-    }
-
+    if (!existsSync(outputDir)) mkdirSync(outputDir, { recursive: true });
     const outputPath = join(outputDir, `${countryCode.toUpperCase()}.html`);
     writeFileSync(outputPath, html, 'utf-8');
 
@@ -1144,6 +1260,23 @@ async function generateCataloguePage(stickers, clubs) {
         return (stickerCountByCountry.get(b) || 0) - (stickerCountByCountry.get(a) || 0);
     });
 
+    // Top stickers — top 100 by rating × games (closes the long-tail sticker
+    // isolation gap by giving 100 popular stickers one more high-authority
+    // incoming link from the catalogue hub page).
+    const topStickers = [...stickers]
+        .filter(s => s.image_url)
+        .sort((a, b) => (b.rating || 1500) - (a.rating || 1500) || (b.games || 0) - (a.games || 0))
+        .slice(0, 100);
+    const clubByIdForCat = new Map(clubs.map(c => [c.id, c]));
+    let topStickersHtml = '<div class="cat-clubs-strip">';
+    topStickers.forEach(s => {
+        const thumbUrl = cleanTrailingQuery(getThumbnailUrl(s.image_url));
+        const club = clubByIdForCat.get(s.club_id);
+        const clubName = club ? stripEmoji(club.name) : '';
+        topStickersHtml += `<a href="/stickers/${s.id}.html" class="cat-club-card"><img src="${thumbUrl}" alt="${clubName} sticker -- rated ${s.rating || 1500}" data-sticker-id="${s.id}" width="140" height="140" loading="lazy" decoding="async"><span class="cat-club-label">${clubName}</span><span class="cat-club-count">⚡ ${s.rating || 1500}</span></a>`;
+    });
+    topStickersHtml += '</div>';
+
     // Build country grid HTML
     let countryGridHtml = '<div class="cat-countries-grid">';
     for (const cc of countriesSorted) {
@@ -1175,6 +1308,13 @@ async function generateCataloguePage(stickers, clubs) {
             <section class="cat-hero" id="cat-hero-static">
                 <h2>Browse by country</h2>
                 <p>${countriesSorted.length} countries · ${clubs.length} clubs · ${stickers.length} stickers</p>
+            </section>
+            <section class="cat-section" id="cat-top-stickers-section">
+                <div class="cat-section-header">
+                    <h2>Top 100 stickers</h2>
+                    <span class="cat-section-meta">by community rating</span>
+                </div>
+                ${topStickersHtml}
             </section>
             <section class="cat-section" id="cat-countries-section">
                 ${countryGridHtml}
@@ -1435,7 +1575,7 @@ async function generateAllPages() {
 
         for (const [countryCode, countryClubs] of Object.entries(clubsByCountry)) {
             try {
-                await generateCountryPage(countryCode, countryClubs, stickerCountsByClub);
+                await generateCountryPage(countryCode, countryClubs, stickerCountsByClub, stickers);
                 countrySuccess++;
                 console.log(`  ✓ Generated page for ${getCountryName(countryCode)}`);
             } catch (error) {

@@ -17,7 +17,7 @@ re-visits.
 
 ## Headline
 - **Isolated clubs:** 0 / 715 (0.0%)
-- **Isolated stickers:** 3523 / 3539 (99.5%)
+- **Isolated stickers:** 0 / 3539 (0.0%)
 - Threshold: fewer than 2 incoming links from home/catalogue/country/club pages
 
 ## High-authority outgoing-link counts
@@ -25,16 +25,16 @@ Most-orphan pages root cause is that few HA pages link to them. Below — outbou
 
 | Page | Internal links |
 |---|---|
-| catalogue.html | 779 |
-| clubs/1000.html | 21 |
-| clubs/1001.html | 22 |
-| clubs/1002.html | 26 |
-| clubs/1003.html | 21 |
-| clubs/1004.html | 21 |
-| clubs/1005.html | 24 |
-| clubs/1006.html | 21 |
-| clubs/1007.html | 24 |
-| clubs/1008.html | 22 |
+| catalogue.html | 879 |
+| clubs/1000.html | 11 |
+| clubs/1001.html | 12 |
+| clubs/1002.html | 16 |
+| clubs/1003.html | 11 |
+| clubs/1004.html | 13 |
+| clubs/1005.html | 17 |
+| clubs/1006.html | 13 |
+| clubs/1007.html | 17 |
+| clubs/1008.html | 13 |
 
 ## Top isolated club pages (worst first)
 
@@ -46,40 +46,11 @@ Most-orphan pages root cause is that few HA pages link to them. Below — outbou
 
 | Page | HA in | Total in | HA samples |
 |---|---|---|---|
-| stickers/10.html | 1 | 3 | clubs/304.html |
-| stickers/1000.html | 1 | 3 | clubs/813.html |
-| stickers/1001.html | 1 | 3 | clubs/813.html |
-| stickers/1002.html | 1 | 3 | clubs/813.html |
-| stickers/1003.html | 1 | 3 | clubs/813.html |
-| stickers/1004.html | 1 | 3 | clubs/813.html |
-| stickers/1005.html | 1 | 3 | clubs/813.html |
-| stickers/1006.html | 1 | 3 | clubs/813.html |
-| stickers/1007.html | 1 | 3 | clubs/813.html |
-| stickers/1008.html | 1 | 3 | clubs/813.html |
-| stickers/1009.html | 1 | 3 | clubs/813.html |
-| stickers/1010.html | 1 | 3 | clubs/813.html |
-| stickers/1011.html | 1 | 3 | clubs/813.html |
-| stickers/1012.html | 1 | 3 | clubs/813.html |
-| stickers/1013.html | 1 | 3 | clubs/813.html |
-| stickers/1014.html | 1 | 3 | clubs/813.html |
-| stickers/1015.html | 1 | 3 | clubs/813.html |
-| stickers/1016.html | 1 | 3 | clubs/813.html |
-| stickers/1017.html | 1 | 3 | clubs/813.html |
-| stickers/102.html | 1 | 3 | clubs/403.html |
-| stickers/1025.html | 1 | 3 | clubs/814.html |
-| stickers/1026.html | 1 | 3 | clubs/814.html |
-| stickers/1027.html | 1 | 3 | clubs/814.html |
-| stickers/1028.html | 1 | 3 | clubs/814.html |
-| stickers/1029.html | 1 | 3 | clubs/814.html |
-| stickers/103.html | 1 | 3 | clubs/403.html |
-| stickers/1030.html | 1 | 3 | clubs/814.html |
-| stickers/1031.html | 1 | 3 | clubs/815.html |
-| stickers/1032.html | 1 | 3 | clubs/815.html |
-| stickers/1035.html | 1 | 3 | clubs/817.html |
+
 
 ## Recommendations
 
-1. **catalogue.html** — currently has 779 internal links. The catalogue page must link to every club + every country. Today it links to nothing — that's the single biggest structural orphan-generator.
+1. **catalogue.html** — currently has 879 internal links. The catalogue page must link to every club + every country. Today it links to nothing — that's the single biggest structural orphan-generator.
 2. **index.html** — currently has 99 internal links. Add a "Featured clubs" rotating block (random 10-20 with weekly rotation) so different clubs accumulate link juice over time.
 3. **clubs/X.html template** — add "More clubs from {country}" section (5-10 random clubs from the same country) to crosslink intra-country.
 4. **Bump sitemap lastmod** for the top-30 isolated pages so Google re-crawls them after the new links are live.

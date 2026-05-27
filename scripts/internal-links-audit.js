@@ -150,18 +150,25 @@ const pages = files.map(f => {
     };
 });
 
-// Isolated definition: <2 incoming from high-authority pages.
-// Realistic baseline — most clubs should get at least 2 (catalogue + their
-// own country page); most stickers should get at least 2 (their club page
-// + sticker-from-nearby-sticker nav from prev/next on the same club).
-// Threshold was 3 originally but 2 catches the actual orphans without
-// flagging the 80% of pages that simply don't appear on every hub.
-const ISO_HA_THRESHOLD = 2;
+// Isolated thresholds by page type. Different page types have different
+// realistic floors:
+//   - hub pages (clubs, countries) must have ≥2 HA incoming because hubs
+//     are first-class destinations and should be discoverable from multiple
+//     parent hubs (catalogue + own country, country + index, etc).
+//   - leaf pages (stickers) are long-tail content with 3539+ instances —
+//     each sticker has exactly one canonical hub (its club page). One HA
+//     incoming is the structural floor; ≥2 is a "boost" indicator showing
+//     extra hub mentions (featured strips on country/catalogue pages).
+const ISO_HA_THRESHOLD = 2;            // for clubs/countries
+const ISO_HA_THRESHOLD_LEAF = 1;       // for stickers (leaf content)
 
 const isolatedClubs = pages.filter(p => p.type === 'club' && p.incomingHA < ISO_HA_THRESHOLD)
     .sort((a, b) => a.incomingHA - b.incomingHA || a.incomingTotal - b.incomingTotal);
-const isolatedStickers = pages.filter(p => p.type === 'sticker' && p.incomingHA < ISO_HA_THRESHOLD)
+const isolatedStickers = pages.filter(p => p.type === 'sticker' && p.incomingHA < ISO_HA_THRESHOLD_LEAF)
     .sort((a, b) => a.incomingHA - b.incomingHA || a.incomingTotal - b.incomingTotal);
+// Boosted stickers — have ≥2 HA incoming (featured on country or catalogue
+// in addition to their club page). Tracked as a positive signal, not isolation.
+const boostedStickers = pages.filter(p => p.type === 'sticker' && p.incomingHA >= 2);
 
 const totalClubs = pages.filter(p => p.type === 'club').length;
 const totalStickers = pages.filter(p => p.type === 'sticker').length;
@@ -178,9 +185,9 @@ const summary = {
         other: pages.filter(p => p.type === 'other').length,
     },
     isolated: {
-        clubs: { total: isolatedClubs.length, percentOf: ((isolatedClubs.length / totalClubs) * 100).toFixed(1) },
-        stickers: { total: isolatedStickers.length, percentOf: ((isolatedStickers.length / totalStickers) * 100).toFixed(1) },
-        threshold: `< ${ISO_HA_THRESHOLD} HA incoming`,
+        clubs: { total: isolatedClubs.length, percentOf: ((isolatedClubs.length / totalClubs) * 100).toFixed(1), threshold: `< ${ISO_HA_THRESHOLD} HA` },
+        stickers: { total: isolatedStickers.length, percentOf: ((isolatedStickers.length / totalStickers) * 100).toFixed(1), threshold: `< ${ISO_HA_THRESHOLD_LEAF} HA` },
+        boosted_stickers: { total: boostedStickers.length, percentOf: ((boostedStickers.length / totalStickers) * 100).toFixed(1), note: '≥2 HA — featured on country/catalogue hub' },
     },
 };
 
