@@ -398,6 +398,71 @@ export function generateDescriptiveAltText({ clubName, stickerId, context = 'sti
     }
 }
 
+// Multilingual alt — appends DE/SV/NO sticker-keyword tail when the country
+// is German/Swedish/Norwegian-speaking. GSC 28d showed AUT/DEU/SWE as our
+// top image-search countries; previous alt was EN-only and missed the
+// native query terms (Aufkleber, klistermärken, klistremerker).
+const ALT_LANG_TAILS = {
+    DEU: 'Fußball Aufkleber',
+    AUT: 'Fußball Aufkleber',
+    CHE: 'Fußball Aufkleber',
+    SWE: 'fotboll klistermärken',
+    NOR: 'fotball klistremerker',
+    DNK: 'fodbold klistermærker',
+    NLD: 'voetbal stickers',
+    BEL: 'voetbal stickers',
+    FRA: 'autocollants football',
+    ESP: 'pegatinas de fútbol',
+    ITA: 'adesivi calcio',
+    PRT: 'autocolantes futebol',
+    POL: 'piłka nożna naklejki',
+};
+
+export function generateMultilingualAltText({ clubName, stickerId, countryCode, countryName, cityName, league }) {
+    const baseAlt = generateDescriptiveAltText({
+        clubName, stickerId, context: 'sticker', countryName, cityName, league,
+    });
+    const tail = ALT_LANG_TAILS[(countryCode || '').toUpperCase()];
+    if (!tail) return baseAlt;
+    const club = stripEmoji(clubName || '');
+    return `${baseAlt} -- ${club} ${tail} #${stickerId}`;
+}
+
+// Build a 100-150 word contextual paragraph for the sticker page. Surrounding
+// text density is a known Google Image Search signal — audit showed only
+// 82 words around the LCP image, mostly UI scaffolding. This adds semantic
+// context using DB fields (no AI generation): club, country, city, league,
+// founded year. Stays unique-per-page through variable substitution.
+export function generateStickerContextParagraph({ clubName, stickerId, countryName, cityName, league, founded, stickerNumber }) {
+    const club = stripEmoji(clubName || '');
+    if (!club) return '';
+    const sentences = [];
+    // Lead
+    let lead = `Sticker #${stickerId} from ${club}`;
+    if (countryName) lead += `, a football club from ${countryName}`;
+    if (cityName) lead += `, based in ${cityName}`;
+    lead += '.';
+    sentences.push(lead);
+    // Club background
+    if (founded || league) {
+        let bg = `${club}`;
+        if (founded) bg += ` was founded in ${founded}`;
+        if (league) bg += `${founded ? ' and' : ''} competes in ${league}`;
+        bg += '.';
+        sentences.push(bg);
+    }
+    // Sticker description
+    let desc = `This fan sticker is part of the StickerHunt database of football street stickers collected by fans worldwide`;
+    if (cityName) desc += `, this one specifically found in ${cityName}`;
+    desc += '.';
+    sentences.push(desc);
+    // CTA + keyword density
+    const stickerWord = countryName ? `${countryName} football sticker` : 'football sticker';
+    sentences.push(`Browse more ${stickerWord}s from ${club} or explore all clubs from ${countryName || 'around the world'} in our catalogue.`);
+    sentences.push(`Each sticker has a rating, location, and difficulty — collected from real fan submissions, not stock imagery.`);
+    return `<p class="sticker-context-paragraph">${sentences.join(' ')}</p>`;
+}
+
 // ─── Featured Stickers Gallery ───────────────────────────────────────────────
 
 /**

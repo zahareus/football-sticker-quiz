@@ -71,8 +71,8 @@
       "description": "{{META_DESCRIPTION}}",
       "contentUrl": "{{IMAGE_URL_ABS}}",
       "thumbnailUrl": "{{THUMBNAIL_URL_ABS}}",
-      "width": 600,
-      "height": 600,
+      "width": 1200,
+      "height": 1200,
       "encodingFormat": "image/webp",
       "url": "{{CANONICAL_URL}}",
       "datePublished": "{{ADDED_DATE_ISO}}",
@@ -118,15 +118,20 @@
                 <div class="sticker-detail-view sticker-detail-two-column">
                     <div class="sticker-detail-left-column">
                         <div class="sticker-detail-image-container" onclick="window.open('{{IMAGE_URL_LOCAL}}', '_blank')">
-                            <img src="{{IMAGE_URL_LOCAL}}"
-                                 alt="{{IMAGE_ALT}}"
-                                 data-sticker-id="{{STICKER_ID}}"
-                                 class="sticker-detail-image"
-                                 width="500"
-                                 height="500"
-                                 decoding="async"
-                                 loading="eager"
-                                 fetchpriority="high">
+                            <picture>
+                                <!-- Smaller thumb for mobile screens (saves bandwidth, ~30 KB vs ~120 KB);
+                                     full-size web variant for desktop. Both routed through /img/* proxy. -->
+                                <source media="(max-width: 600px)" srcset="{{THUMBNAIL_URL_LOCAL}}" type="image/webp">
+                                <img src="{{IMAGE_URL_LOCAL}}"
+                                     alt="{{IMAGE_ALT}}"
+                                     data-sticker-id="{{STICKER_ID}}"
+                                     class="sticker-detail-image"
+                                     width="1200"
+                                     height="1200"
+                                     decoding="async"
+                                     loading="eager"
+                                     fetchpriority="high">
+                            </picture>
                         </div>
                         {{NAVIGATION_BUTTONS}}
                     </div>
@@ -169,10 +174,15 @@
                             {{ADDED_DATE}}
                             {{STICKER_DATE}}
                             {{STICKER_LOCATION}}
+                            <!-- Descriptive context paragraph: 100-150 words covering club founding, league, country, city.
+                                 Google Image Search uses surrounding text density as a relevance signal — previously 82 words
+                                 of UI scaffolding, now augmented with semantic context. -->
+                            {{STICKER_CONTEXT_PARAGRAPH}}
                         </div>
                     </div>
                 </div>
                 {{MORE_FROM_CLUB}}
+                {{SIMILAR_FROM_COUNTRY}}
                 {{MAP_SECTION}}
                 {{NEARBY_STICKERS}}
             </div>

@@ -9,7 +9,7 @@ import { readFileSync, writeFileSync, mkdirSync, existsSync, readdirSync, unlink
 import { join, dirname } from 'path';
 import { fileURLToPath } from 'url';
 
-import { createSupabaseClient, COUNTRY_NAMES, cityToSlug, generateMultilingualMeta } from './seo-helpers.js';
+import { createSupabaseClient, COUNTRY_NAMES, cityToSlug, generateMultilingualMeta, generateMultilingualAltText, generateStickerContextParagraph } from './seo-helpers.js';
 
 // Configuration
 const BASE_URL = "https://stickerhunt.club";
@@ -676,6 +676,49 @@ function generateClubMapInitScript(stickersWithCoordinates, clubName) {
 /**
  * Generate a single sticker page
  */
+// Batch generators for sticker-to-sticker link sections (used inside
+// generateStickerPage). Sourced from allStickers list to avoid extra
+// DB roundtrips during full-site regen.
+function generateMoreFromClubBatch(currentSticker, allStickers, club) {
+    if (!allStickers || allStickers.length === 0) return '';
+    const others = allStickers.filter(s => s.club_id === club.id && s.id !== currentSticker.id && s.image_url).slice(0, 6);
+    if (others.length === 0) return '';
+    let html = `<div class="more-from-club">\n<h3>More from ${stripEmoji(club.name)}</h3>\n<div class="sticker-strip">`;
+    others.forEach(s => {
+        const thumbUrl = getThumbnailUrl(s.image_url);
+        html += `\n<a href="/stickers/${s.id}.html" class="sticker-strip-item"><img src="${thumbUrl}" alt="Sticker #${s.id}" data-sticker-id="${s.id}" width="100" height="100" loading="lazy" decoding="async"></a>`;
+    });
+    html += '\n</div>\n</div>';
+    return html;
+}
+
+function generateSimilarFromCountryBatch(currentSticker, allStickers, club, countryName) {
+    if (!allStickers || allStickers.length === 0) return '';
+    const cc = club.country?.toUpperCase();
+    if (!cc) return '';
+    const others = allStickers
+        .filter(s => s.id !== currentSticker.id && s.image_url && s.club_id !== club.id && s.clubs?.country?.toUpperCase() === cc)
+        .sort((a, b) => (b.rating || 1500) - (a.rating || 1500));
+    if (others.length === 0) return '';
+    const shown = [];
+    const seenClubs = new Set();
+    for (const s of others) {
+        if (shown.length >= 6) break;
+        if (seenClubs.has(s.club_id)) continue;
+        shown.push(s);
+        seenClubs.add(s.club_id);
+    }
+    if (shown.length === 0) return '';
+    let html = `<div class="similar-from-country">\n<h3>More football stickers from ${stripEmoji(countryName || 'around')}</h3>\n<div class="sticker-strip">`;
+    shown.forEach(s => {
+        const thumbUrl = getThumbnailUrl(s.image_url);
+        const clubName = s.clubs ? stripEmoji(s.clubs.name) : `Sticker #${s.id}`;
+        html += `\n<a href="/stickers/${s.id}.html" class="sticker-strip-item" title="${clubName}"><img src="${thumbUrl}" alt="${clubName} sticker #${s.id}" data-sticker-id="${s.id}" width="100" height="100" loading="lazy" decoding="async"></a>`;
+    });
+    html += '\n</div>\n</div>';
+    return html;
+}
+
 async function generateStickerPage(sticker, club, prevStickerId, nextStickerId, allStickers = []) {
     const template = loadTemplate('sticker-page.html');
 
@@ -720,7 +763,20 @@ async function generateStickerPage(sticker, club, prevStickerId, nextStickerId, 
         THUMBNAIL_URL_ABS: toLocalImgAbs(getThumbnailUrl(sticker.image_url)),
         IMAGE_FULL_URL: sticker.image_url,
         ADDED_DATE_ISO: sticker.added_at ? new Date(sticker.added_at).toISOString().slice(0, 10) : (sticker.created_at ? new Date(sticker.created_at).toISOString().slice(0, 10) : ''),
-        IMAGE_ALT: `${clubNameClean} football sticker #${sticker.id} — identify this sticker`,
+        IMAGE_ALT: generateMultilingualAltText({
+            clubName: clubNameClean, stickerId: sticker.id,
+            countryCode: club.country,
+            countryName,
+            cityName: sticker.location ? sticker.location.split(',')[0].trim() : null,
+            league: wikiCache[club.id]?.league,
+        }),
+        STICKER_CONTEXT_PARAGRAPH: generateStickerContextParagraph({
+            clubName: clubNameClean, stickerId: sticker.id,
+            countryName,
+            cityName: sticker.location ? sticker.location.split(',')[0].trim() : null,
+            league: wikiCache[club.id]?.league,
+            founded: wikiCache[club.id]?.founded,
+        }),
         BREADCRUMBS: breadcrumbs,
         BREADCRUMB_SCHEMA: generateBreadcrumbSchema([
             { text: 'Catalogue', url: '/catalogue.html' },
@@ -739,7 +795,10 @@ async function generateStickerPage(sticker, club, prevStickerId, nextStickerId, 
         STICKER_LOCATION: generateStickerLocation(sticker),
         NAVIGATION_BUTTONS: generateNavigationButtons(prevStickerId, nextStickerId),
         MAP_SECTION: generateMapSection(sticker),
-        MAP_INIT_SCRIPT: generateMapInitScript(sticker, club.name, nearbyStickers)
+        MAP_INIT_SCRIPT: generateMapInitScript(sticker, club.name, nearbyStickers),
+        MORE_FROM_CLUB: generateMoreFromClubBatch(sticker, allStickers, club),
+        SIMILAR_FROM_COUNTRY: generateSimilarFromCountryBatch(sticker, allStickers, club, countryName),
+        NEARBY_STICKERS: '',
     };
 
     const html = replacePlaceholders(template, data);

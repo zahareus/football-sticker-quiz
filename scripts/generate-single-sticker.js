@@ -21,7 +21,7 @@ import {
     toLocalImg, toLocalImgAbs,
     stripEmoji as _stripEmoji, escapeHtml, loadTemplate as _loadTemplate, replacePlaceholders as _replacePlaceholders,
     generateBreadcrumbs as _generateBreadcrumbs, generateBreadcrumbSchema as _generateBreadcrumbSchema,
-    selectTopRatedStickers, generateDescriptiveAltText, generateMultilingualMeta,
+    selectTopRatedStickers, generateDescriptiveAltText, generateMultilingualAltText, generateStickerContextParagraph, generateMultilingualMeta,
     generateFeaturedGallery, fetchAllPaginated,
     buildClubKeywords as _buildClubKeywords,
     cityToSlug
@@ -363,6 +363,38 @@ function generateMoreFromClub(currentStickerId, clubStickers, clubName) {
     return html;
 }
 
+// "Similar from country" — 6 stickers from the same country but different clubs.
+// Adds 6 sticker→sticker HA links per page; closes the long-tail sticker
+// isolation gap (previously 99.5% of stickers had only 1 HA incoming from
+// their own club page).
+function generateSimilarFromCountry(currentSticker, countryStickers, currentClubId, countryName) {
+    if (!countryStickers || countryStickers.length === 0) return '';
+    // Different clubs, prefer high-rated
+    const others = countryStickers
+        .filter(s => s.id !== currentSticker.id && s.club_id !== currentClubId && s.image_url)
+        .sort((a, b) => (b.rating || 1500) - (a.rating || 1500));
+    if (others.length === 0) return '';
+    // Pick 6 with club diversity (one per club preferred)
+    const shown = [];
+    const seenClubs = new Set();
+    for (const s of others) {
+        if (shown.length >= 6) break;
+        if (seenClubs.has(s.club_id)) continue;
+        shown.push(s);
+        seenClubs.add(s.club_id);
+    }
+    if (shown.length === 0) return '';
+
+    let html = `<div class="similar-from-country">\n<h3>More football stickers from ${stripEmoji(countryName || 'around')}</h3>\n<div class="sticker-strip">`;
+    shown.forEach(s => {
+        const thumbUrl = getThumbnailUrl(s.image_url);
+        const clubName = s.clubs ? stripEmoji(s.clubs.name) : `Sticker #${s.id}`;
+        html += `\n<a href="/stickers/${s.id}.html" class="sticker-strip-item" title="${escapeHtml(clubName)}"><img src="${thumbUrl}" alt="${escapeHtml(clubName)} sticker #${s.id}" data-sticker-id="${s.id}" width="100" height="100" loading="lazy" decoding="async"></a>`;
+    });
+    html += '\n</div>\n</div>';
+    return html;
+}
+
 function generateNearbyStickers(currentSticker, nearbyStickers) {
     if (!nearbyStickers || nearbyStickers.length === 0) return '';
 
@@ -630,7 +662,7 @@ function generateClubMapInitScript(stickersWithCoordinates, clubName) {
 /**
  * Generate a single sticker page
  */
-async function generateStickerPage(sticker, club, prevStickerId, nextStickerId, allStickers = [], clubStickers = []) {
+async function generateStickerPage(sticker, club, prevStickerId, nextStickerId, allStickers = [], clubStickers = [], countryStickers = []) {
     const template = loadTemplate('sticker-page.html');
 
     const countryName = getCountryName(club.country);
@@ -666,11 +698,19 @@ async function generateStickerPage(sticker, club, prevStickerId, nextStickerId, 
         THUMBNAIL_URL_ABS: toLocalImgAbs(getThumbnailUrl(sticker.image_url)),
         IMAGE_FULL_URL: sticker.image_url,
         ADDED_DATE_ISO: sticker.added_at ? new Date(sticker.added_at).toISOString().slice(0, 10) : (sticker.created_at ? new Date(sticker.created_at).toISOString().slice(0, 10) : ''),
-        IMAGE_ALT: generateDescriptiveAltText({
-            clubName: clubNameClean, stickerId: sticker.id, context: 'sticker',
+        IMAGE_ALT: generateMultilingualAltText({
+            clubName: clubNameClean, stickerId: sticker.id,
+            countryCode: club.country,
             countryName: countryName,
             cityName: sticker.location ? sticker.location.split(',')[0].trim() : null,
             league: wikiCache[club.id]?.league
+        }),
+        STICKER_CONTEXT_PARAGRAPH: generateStickerContextParagraph({
+            clubName: clubNameClean, stickerId: sticker.id,
+            countryName: countryName,
+            cityName: sticker.location ? sticker.location.split(',')[0].trim() : null,
+            league: wikiCache[club.id]?.league,
+            founded: wikiCache[club.id]?.founded,
         }),
         MULTILINGUAL_META: generateMultilingualMeta({
             type: 'sticker', countryCode: club.country,
@@ -697,6 +737,7 @@ async function generateStickerPage(sticker, club, prevStickerId, nextStickerId, 
         MAP_INIT_SCRIPT: generateMapInitScript(sticker, club.name, nearbyStickers),
         CLUB_MINI_CARD: generateClubMiniCard(club, clubStickers.length),
         MORE_FROM_CLUB: generateMoreFromClub(sticker.id, clubStickers, club.name),
+        SIMILAR_FROM_COUNTRY: generateSimilarFromCountry(sticker, countryStickers, club.id, countryName),
         NEARBY_STICKERS: generateNearbyStickers(sticker, nearbyStickers)
     };
 
@@ -1045,25 +1086,29 @@ async function generatePagesForSticker() {
             .eq('club_id', club.id)
             .order('id', { ascending: true });
 
-        // 5. Generate sticker page
-        console.log('\n🔨 Generating sticker page...');
-        const stickerPath = await generateStickerPage(sticker, club, prevStickerId, nextStickerId, nearbyStickers, clubStickers || []);
-        console.log(`  ✓ Generated: ${stickerPath}`);
-
-        // 6. Generate club page
-        console.log('\n🔨 Generating club page...');
-
-        // Get all clubs for this country (needed for "Other clubs" section + country page)
+        // Pre-fetch data used by sticker + club + country pages (moved up so
+        // sticker page can render "Similar from country" without an extra
+        // DB roundtrip later).
         const { data: countryClubs } = await supabase
             .from('clubs')
             .select('id, name, country, city, web, media')
             .eq('country', club.country)
             .order('name');
-
-        // Fetch all stickers once (used for club page counts + country page gallery)
         const allCountryStickers = await fetchAllPaginated(supabase, 'stickers', 'id, club_id, image_url, rating, games');
         const otherClubCounts = {};
         allCountryStickers.forEach(s => { otherClubCounts[s.club_id] = (otherClubCounts[s.club_id] || 0) + 1; });
+        const countryClubIdsSet = new Set((countryClubs || []).map(c => c.id));
+        const countryClubByIdMap = new Map((countryClubs || []).map(c => [c.id, c]));
+        const countryStickersForSimilar = (allCountryStickers || []).filter(s => countryClubIdsSet.has(s.club_id));
+        countryStickersForSimilar.forEach(s => { if (!s.clubs && countryClubByIdMap.has(s.club_id)) s.clubs = countryClubByIdMap.get(s.club_id); });
+
+        // 5. Generate sticker page
+        console.log('\n🔨 Generating sticker page...');
+        const stickerPath = await generateStickerPage(sticker, club, prevStickerId, nextStickerId, nearbyStickers, clubStickers || [], countryStickersForSimilar);
+        console.log(`  ✓ Generated: ${stickerPath}`);
+
+        // 6. Generate club page
+        console.log('\n🔨 Generating club page...');
 
         const clubPath = await generateClubPage(club, clubStickers || [], countryClubs || [], otherClubCounts);
         console.log(`  ✓ Generated: ${clubPath}`);

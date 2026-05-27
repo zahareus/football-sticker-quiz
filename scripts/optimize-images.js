@@ -58,17 +58,23 @@ const CONFIG = {
     // Storage bucket name
     BUCKET_NAME: 'stickers',
 
-    // Optimization settings
+    // Optimization settings. Bumped from 600 → 1200 (Image SEO audit
+    // 2026-05-27): Google Image Search ranking strongly prefers ≥1200px on
+    // the longest side; 600px disqualified us from Discover carousels and
+    // pushed Image Search ranking to position 45 despite OK web ranking.
+    // 1200×1200 WebP at quality 82 keeps file size around 80-150 KB.
     WEB_IMAGE: {
-        width: 600,           // Max width
-        height: 600,          // Max height
-        quality: 80,          // WebP quality (0-100)
-        format: 'webp'        // Output format
+        width: 1200,
+        height: 1200,
+        quality: 82,
+        format: 'webp'
     },
 
+    // Thumbnail bumped 150 → 300 — also serves <picture>/srcset for mobile
+    // where loading the full 1200 is wasteful.
     THUMBNAIL: {
-        width: 150,
-        height: 150,
+        width: 300,
+        height: 300,
         quality: 75,
         format: 'webp'
     },
