@@ -23,6 +23,11 @@ export default async function handler(req) {
     const etag = upstream.headers.get('etag');
     if (etag) headers.set('etag', etag);
     headers.set('cache-control', 'public, max-age=31536000, immutable');
+    // Opt our images into Google Image Search's large-preview rendering (default
+    // is "standard" which suppresses big thumbnails). Has to be set here, not in
+    // vercel.json, because the Edge Function owns the response Headers object
+    // and would otherwise overwrite any platform-level header config.
+    headers.set('x-robots-tag', 'max-image-preview:large');
 
     return new Response(upstream.body, { status: upstream.status, headers });
 }

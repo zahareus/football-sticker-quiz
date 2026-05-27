@@ -15,9 +15,8 @@
     },
     {
       "source": "/img/:path*",
-      "headers": [
-        { "key": "X-Robots-Tag", "value": "max-image-preview:large" }
-      ]
+      "_comment": "X-Robots-Tag is set inside api/img-proxy.js because Edge Function response headers override any platform-level header here. Kept the source block in case we add headers Edge Function does not need to own.",
+      "headers": []
     }
   ],
   "redirects": [
