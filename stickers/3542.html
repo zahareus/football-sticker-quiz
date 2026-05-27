@@ -71,8 +71,8 @@
       "description": "Football sticker #3542 from Club Bolívar (Bolivia). Browse our database to identify this sticker and explore the full Club Bolívar sticker collection.",
       "contentUrl": "https://stickerhunt.club/img/club_1208/1779533930935_IMG_0184_web.webp",
       "thumbnailUrl": "https://stickerhunt.club/img/club_1208/1779533930935_IMG_0184_thumb.webp",
-      "width": 600,
-      "height": 600,
+      "width": 1200,
+      "height": 1200,
       "encodingFormat": "image/webp",
       "url": "https://stickerhunt.club/stickers/3542.html",
       "datePublished": "2026-05-23",
@@ -80,7 +80,7 @@
       "acquireLicensePage": "https://stickerhunt.club/about.html",
       "creator": { "@type": "Organization", "name": "StickerHunt", "url": "https://stickerhunt.club" },
       "copyrightHolder": { "@type": "Organization", "name": "StickerHunt" },
-      "caption": "Club Bolívar football sticker #3542 — identify this sticker",
+      "caption": "Club Bolívar football sticker -- from Strasbourg, Bolivia -- Primera División de Bolivia club -- #3542",
       "representativeOfPage": true
     }
     </script>
@@ -155,15 +155,20 @@
                 <div class="sticker-detail-view sticker-detail-two-column">
                     <div class="sticker-detail-left-column">
                         <div class="sticker-detail-image-container" onclick="window.open('/img/club_1208/1779533930935_IMG_0184_web.webp', '_blank')">
-                            <img src="/img/club_1208/1779533930935_IMG_0184_web.webp"
-                                 alt="Club Bolívar football sticker #3542 — identify this sticker"
-                                 data-sticker-id="3542"
-                                 class="sticker-detail-image"
-                                 width="500"
-                                 height="500"
-                                 decoding="async"
-                                 loading="eager"
-                                 fetchpriority="high">
+                            <picture>
+                                <!-- Smaller thumb for mobile screens (saves bandwidth, ~30 KB vs ~120 KB);
+                                     full-size web variant for desktop. Both routed through /img/* proxy. -->
+                                <source media="(max-width: 600px)" srcset="/img/club_1208/1779533930935_IMG_0184_thumb.webp" type="image/webp">
+                                <img src="/img/club_1208/1779533930935_IMG_0184_web.webp"
+                                     alt="Club Bolívar football sticker -- from Strasbourg, Bolivia -- Primera División de Bolivia club -- #3542"
+                                     data-sticker-id="3542"
+                                     class="sticker-detail-image"
+                                     width="1200"
+                                     height="1200"
+                                     decoding="async"
+                                     loading="eager"
+                                     fetchpriority="high">
+                            </picture>
                         </div>
                         <div class="sticker-nav-buttons"><a href="/stickers/3541.html" class="btn btn-nav sticker-nav-btn">← #3541</a><a href="/stickers/3543.html" class="btn btn-nav sticker-nav-btn">#3543 →</a></div>
                     </div>
@@ -206,10 +211,15 @@
                             <p class="sticker-detail-added">Added on 23 May 2026</p>
                             <p class="sticker-detail-date">Hunted on 27 January 2025</p>
                             <p class="sticker-detail-location">Strasbourg, France</p>
+                            <!-- Descriptive context paragraph: 100-150 words covering club founding, league, country, city.
+                                 Google Image Search uses surrounding text density as a relevance signal — previously 82 words
+                                 of UI scaffolding, now augmented with semantic context. -->
+                            <p class="sticker-context-paragraph">Sticker #3542 from Club Bolívar, a football club from Bolivia, based in Strasbourg. Club Bolívar was founded in 1925 and competes in Primera División de Bolivia. This fan sticker is part of the StickerHunt database of football street stickers collected by fans worldwide, this one specifically found in Strasbourg. Browse more Bolivia football stickers from Club Bolívar or explore all clubs from Bolivia in our catalogue. Each sticker has a rating, location, and difficulty — collected from real fan submissions, not stock imagery.</p>
                         </div>
                     </div>
                 </div>
-                {{MORE_FROM_CLUB}}
+                
+                
                 
             <div class="sticker-map-section sticker-map-full-width">
                 <div id="sticker-map" class="sticker-map-container"></div>
@@ -222,7 +232,7 @@
                 <a href="/quiz.html" class="btn btn-nav">Play Quiz</a>
             </nav>
         
-                {{NEARBY_STICKERS}}
+                
             </div>
 
             <nav class="site-nav">

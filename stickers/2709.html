@@ -71,8 +71,8 @@
       "description": "Football sticker #2709 from Toronto FC (Canada). Browse our database to identify this sticker and explore the full Toronto FC sticker collection.",
       "contentUrl": "https://stickerhunt.club/img/club_1122/1760872405485_IMG_7339_web.webp",
       "thumbnailUrl": "https://stickerhunt.club/img/club_1122/1760872405485_IMG_7339_thumb.webp",
-      "width": 600,
-      "height": 600,
+      "width": 1200,
+      "height": 1200,
       "encodingFormat": "image/webp",
       "url": "https://stickerhunt.club/stickers/2709.html",
       "datePublished": "2025-10-19",
@@ -80,7 +80,7 @@
       "acquireLicensePage": "https://stickerhunt.club/about.html",
       "creator": { "@type": "Organization", "name": "StickerHunt", "url": "https://stickerhunt.club" },
       "copyrightHolder": { "@type": "Organization", "name": "StickerHunt" },
-      "caption": "Toronto FC football sticker #2709 — identify this sticker",
+      "caption": "Toronto FC football sticker -- from Amsterdam, Canada -- Major League Soccer club -- #2709",
       "representativeOfPage": true
     }
     </script>
@@ -155,15 +155,20 @@
                 <div class="sticker-detail-view sticker-detail-two-column">
                     <div class="sticker-detail-left-column">
                         <div class="sticker-detail-image-container" onclick="window.open('/img/club_1122/1760872405485_IMG_7339_web.webp', '_blank')">
-                            <img src="/img/club_1122/1760872405485_IMG_7339_web.webp"
-                                 alt="Toronto FC football sticker #2709 — identify this sticker"
-                                 data-sticker-id="2709"
-                                 class="sticker-detail-image"
-                                 width="500"
-                                 height="500"
-                                 decoding="async"
-                                 loading="eager"
-                                 fetchpriority="high">
+                            <picture>
+                                <!-- Smaller thumb for mobile screens (saves bandwidth, ~30 KB vs ~120 KB);
+                                     full-size web variant for desktop. Both routed through /img/* proxy. -->
+                                <source media="(max-width: 600px)" srcset="/img/club_1122/1760872405485_IMG_7339_thumb.webp" type="image/webp">
+                                <img src="/img/club_1122/1760872405485_IMG_7339_web.webp"
+                                     alt="Toronto FC football sticker -- from Amsterdam, Canada -- Major League Soccer club -- #2709"
+                                     data-sticker-id="2709"
+                                     class="sticker-detail-image"
+                                     width="1200"
+                                     height="1200"
+                                     decoding="async"
+                                     loading="eager"
+                                     fetchpriority="high">
+                            </picture>
                         </div>
                         <div class="sticker-nav-buttons"><a href="/stickers/2708.html" class="btn btn-nav sticker-nav-btn">← #2708</a><a href="/stickers/2710.html" class="btn btn-nav sticker-nav-btn">#2710 →</a></div>
                     </div>
@@ -206,10 +211,15 @@
                             <p class="sticker-detail-added">Added on 19 October 2025</p>
                             <p class="sticker-detail-date">Hunted on 2 August 2024</p>
                             <p class="sticker-detail-location">Amsterdam, Netherlands</p>
+                            <!-- Descriptive context paragraph: 100-150 words covering club founding, league, country, city.
+                                 Google Image Search uses surrounding text density as a relevance signal — previously 82 words
+                                 of UI scaffolding, now augmented with semantic context. -->
+                            <p class="sticker-context-paragraph">Sticker #2709 from Toronto FC, a football club from Canada, based in Amsterdam. Toronto FC was founded in 2006 and competes in Major League Soccer. This fan sticker is part of the StickerHunt database of football street stickers collected by fans worldwide, this one specifically found in Amsterdam. Browse more Canada football stickers from Toronto FC or explore all clubs from Canada in our catalogue. Each sticker has a rating, location, and difficulty — collected from real fan submissions, not stock imagery.</p>
                         </div>
                     </div>
                 </div>
-                {{MORE_FROM_CLUB}}
+                
+                
                 
             <div class="sticker-map-section sticker-map-full-width">
                 <div id="sticker-map" class="sticker-map-container"></div>
@@ -222,7 +232,7 @@
                 <a href="/quiz.html" class="btn btn-nav">Play Quiz</a>
             </nav>
         
-                {{NEARBY_STICKERS}}
+                
             </div>
 
             <nav class="site-nav">

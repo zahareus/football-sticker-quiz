@@ -71,8 +71,8 @@
       "description": "Football sticker #202 from Aarhus (Denmark). Browse our database to identify this sticker and explore the full Aarhus sticker collection.",
       "contentUrl": "https://stickerhunt.club/img/stickers/Aarhus/IMG_0270_web.webp",
       "thumbnailUrl": "https://stickerhunt.club/img/stickers/Aarhus/IMG_0270_thumb.webp",
-      "width": 600,
-      "height": 600,
+      "width": 1200,
+      "height": 1200,
       "encodingFormat": "image/webp",
       "url": "https://stickerhunt.club/stickers/202.html",
       "datePublished": "2025-05-05",
@@ -80,7 +80,7 @@
       "acquireLicensePage": "https://stickerhunt.club/about.html",
       "creator": { "@type": "Organization", "name": "StickerHunt", "url": "https://stickerhunt.club" },
       "copyrightHolder": { "@type": "Organization", "name": "StickerHunt" },
-      "caption": "Aarhus football sticker #202 — identify this sticker",
+      "caption": "Aarhus football sticker -- from Denmark -- #202 -- Aarhus fodbold klistermærker #202",
       "representativeOfPage": true
     }
     </script>
@@ -155,15 +155,20 @@
                 <div class="sticker-detail-view sticker-detail-two-column">
                     <div class="sticker-detail-left-column">
                         <div class="sticker-detail-image-container" onclick="window.open('/img/stickers/Aarhus/IMG_0270_web.webp', '_blank')">
-                            <img src="/img/stickers/Aarhus/IMG_0270_web.webp"
-                                 alt="Aarhus football sticker #202 — identify this sticker"
-                                 data-sticker-id="202"
-                                 class="sticker-detail-image"
-                                 width="500"
-                                 height="500"
-                                 decoding="async"
-                                 loading="eager"
-                                 fetchpriority="high">
+                            <picture>
+                                <!-- Smaller thumb for mobile screens (saves bandwidth, ~30 KB vs ~120 KB);
+                                     full-size web variant for desktop. Both routed through /img/* proxy. -->
+                                <source media="(max-width: 600px)" srcset="/img/stickers/Aarhus/IMG_0270_thumb.webp" type="image/webp">
+                                <img src="/img/stickers/Aarhus/IMG_0270_web.webp"
+                                     alt="Aarhus football sticker -- from Denmark -- #202 -- Aarhus fodbold klistermærker #202"
+                                     data-sticker-id="202"
+                                     class="sticker-detail-image"
+                                     width="1200"
+                                     height="1200"
+                                     decoding="async"
+                                     loading="eager"
+                                     fetchpriority="high">
+                            </picture>
                         </div>
                         <div class="sticker-nav-buttons"><a href="/stickers/201.html" class="btn btn-nav sticker-nav-btn">← #201</a><a href="/stickers/203.html" class="btn btn-nav sticker-nav-btn">#203 →</a></div>
                     </div>
@@ -206,10 +211,23 @@
                             <p class="sticker-detail-added">Added on 5 May 2025</p>
                             
                             
+                            <!-- Descriptive context paragraph: 100-150 words covering club founding, league, country, city.
+                                 Google Image Search uses surrounding text density as a relevance signal — previously 82 words
+                                 of UI scaffolding, now augmented with semantic context. -->
+                            <p class="sticker-context-paragraph">Sticker #202 from Aarhus, a football club from Denmark. Aarhus was founded in 1880. This fan sticker is part of the StickerHunt database of football street stickers collected by fans worldwide. Browse more Denmark football stickers from Aarhus or explore all clubs from Denmark in our catalogue. Each sticker has a rating, location, and difficulty — collected from real fan submissions, not stock imagery.</p>
                         </div>
                     </div>
                 </div>
-                {{MORE_FROM_CLUB}}
+                
+                <div class="similar-from-country">
+<h3>More football stickers from Denmark</h3>
+<div class="sticker-strip">
+<a href="/stickers/3410.html" class="sticker-strip-item" title="FC Kobenhavn"><img src="/img/club_564/1778336772274_IMG_9731_thumb.webp" alt="FC Kobenhavn sticker #3410" data-sticker-id="3410" width="100" height="100" loading="lazy" decoding="async"></a>
+<a href="/stickers/2379.html" class="sticker-strip-item" title="Odense"><img src="/img/club_567/1755807256676_IMG_6111_thumb.webp" alt="Odense sticker #2379" data-sticker-id="2379" width="100" height="100" loading="lazy" decoding="async"></a>
+<a href="/stickers/182.html" class="sticker-strip-item" title="Brondby IF"><img src="/img/stickers/Brondby_IF/IMG_8113_thumb.webp" alt="Brondby IF sticker #182" data-sticker-id="182" width="100" height="100" loading="lazy" decoding="async"></a>
+<a href="/stickers/218.html" class="sticker-strip-item" title="Randers"><img src="/img/stickers/Randers/IMG_5734_thumb.webp" alt="Randers sticker #218" data-sticker-id="218" width="100" height="100" loading="lazy" decoding="async"></a>
+</div>
+</div>
                 
             <nav class="site-nav">
                 <a href="/catalogue.html" class="btn btn-nav">Catalogue</a>
@@ -218,7 +236,7 @@
                 <a href="/quiz.html" class="btn btn-nav">Play Quiz</a>
             </nav>
         
-                {{NEARBY_STICKERS}}
+                
             </div>
 
             <nav class="site-nav">

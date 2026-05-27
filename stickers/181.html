@@ -71,8 +71,8 @@
       "description": "Football sticker #181 from Anortosis (Cyprus). Browse our database to identify this sticker and explore the full Anortosis sticker collection.",
       "contentUrl": "https://stickerhunt.club/img/CYP%20Anortosis/IMG_5758_web.webp",
       "thumbnailUrl": "https://stickerhunt.club/img/CYP%20Anortosis/IMG_5758_thumb.webp",
-      "width": 600,
-      "height": 600,
+      "width": 1200,
+      "height": 1200,
       "encodingFormat": "image/webp",
       "url": "https://stickerhunt.club/stickers/181.html",
       "datePublished": "2025-04-23",
@@ -80,7 +80,7 @@
       "acquireLicensePage": "https://stickerhunt.club/about.html",
       "creator": { "@type": "Organization", "name": "StickerHunt", "url": "https://stickerhunt.club" },
       "copyrightHolder": { "@type": "Organization", "name": "StickerHunt" },
-      "caption": "Anortosis football sticker #181 — identify this sticker",
+      "caption": "Anortosis football sticker -- from Cyprus -- Cypriot First Division club -- #181",
       "representativeOfPage": true
     }
     </script>
@@ -155,15 +155,20 @@
                 <div class="sticker-detail-view sticker-detail-two-column">
                     <div class="sticker-detail-left-column">
                         <div class="sticker-detail-image-container" onclick="window.open('/img/CYP%20Anortosis/IMG_5758_web.webp', '_blank')">
-                            <img src="/img/CYP%20Anortosis/IMG_5758_web.webp"
-                                 alt="Anortosis football sticker #181 — identify this sticker"
-                                 data-sticker-id="181"
-                                 class="sticker-detail-image"
-                                 width="500"
-                                 height="500"
-                                 decoding="async"
-                                 loading="eager"
-                                 fetchpriority="high">
+                            <picture>
+                                <!-- Smaller thumb for mobile screens (saves bandwidth, ~30 KB vs ~120 KB);
+                                     full-size web variant for desktop. Both routed through /img/* proxy. -->
+                                <source media="(max-width: 600px)" srcset="/img/CYP%20Anortosis/IMG_5758_thumb.webp" type="image/webp">
+                                <img src="/img/CYP%20Anortosis/IMG_5758_web.webp"
+                                     alt="Anortosis football sticker -- from Cyprus -- Cypriot First Division club -- #181"
+                                     data-sticker-id="181"
+                                     class="sticker-detail-image"
+                                     width="1200"
+                                     height="1200"
+                                     decoding="async"
+                                     loading="eager"
+                                     fetchpriority="high">
+                            </picture>
                         </div>
                         <div class="sticker-nav-buttons"><a href="/stickers/180.html" class="btn btn-nav sticker-nav-btn">← #180</a><a href="/stickers/182.html" class="btn btn-nav sticker-nav-btn">#182 →</a></div>
                     </div>
@@ -206,10 +211,15 @@
                             <p class="sticker-detail-added">Added on 23 April 2025</p>
                             
                             
+                            <!-- Descriptive context paragraph: 100-150 words covering club founding, league, country, city.
+                                 Google Image Search uses surrounding text density as a relevance signal — previously 82 words
+                                 of UI scaffolding, now augmented with semantic context. -->
+                            <p class="sticker-context-paragraph">Sticker #181 from Anortosis, a football club from Cyprus. Anortosis was founded in 1911 and competes in Cypriot First Division. This fan sticker is part of the StickerHunt database of football street stickers collected by fans worldwide. Browse more Cyprus football stickers from Anortosis or explore all clubs from Cyprus in our catalogue. Each sticker has a rating, location, and difficulty — collected from real fan submissions, not stock imagery.</p>
                         </div>
                     </div>
                 </div>
-                {{MORE_FROM_CLUB}}
+                
+                
                 
             <nav class="site-nav">
                 <a href="/catalogue.html" class="btn btn-nav">Catalogue</a>
@@ -218,7 +228,7 @@
                 <a href="/quiz.html" class="btn btn-nav">Play Quiz</a>
             </nav>
         
-                {{NEARBY_STICKERS}}
+                
             </div>
 
             <nav class="site-nav">
