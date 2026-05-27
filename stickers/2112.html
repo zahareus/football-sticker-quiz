@@ -42,7 +42,7 @@
     </style>
 
     <!-- Preload LCP image (sticker detail) — local proxy for aggressive caching -->
-    <link rel="preload" as="image" href="/img/club_1028%2F1746721830304_IMG_5212_web.webp" fetchpriority="high">
+    <link rel="preload" as="image" href="/img/club_1028/1746721830304_IMG_5212_web.webp" fetchpriority="high">
     <!-- Full stylesheet loaded async (non-blocking) -->
     <link rel="stylesheet" href="/style.css?v=5">
 
@@ -58,16 +58,30 @@
       gtag('config', 'G-4Y0MJKGDZS');
     </script>
 
-    <!-- Structured data for SEO -->
+    <!-- Structured data for SEO. ImageObject signals to Google Image Search.
+         contentUrl + thumbnailUrl are absolute and route through /img/* proxy
+         (same URL as the inline <img src>) so Google sees one canonical asset
+         per sticker, not two. width/height/license/creator/datePublished are
+         required for richer Image Search snippets. -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
       "@type": "ImageObject",
       "name": "🇪🇸 SD Compostela Sticker #2112",
       "description": "Football sticker #2112 from SD Compostela (Spain). Browse our database to identify this sticker and explore the full SD Compostela sticker collection.",
-      "contentUrl": "https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/club_1028%2F1746721830304_IMG_5212_web.webp",
-      "thumbnailUrl": "/img/club_1028%2F1746721830304_IMG_5212_thumb.webp",
-      "url": "https://stickerhunt.club/stickers/2112.html"
+      "contentUrl": "https://stickerhunt.club/img/club_1028/1746721830304_IMG_5212_web.webp",
+      "thumbnailUrl": "https://stickerhunt.club/img/club_1028/1746721830304_IMG_5212_thumb.webp",
+      "width": 600,
+      "height": 600,
+      "encodingFormat": "image/webp",
+      "url": "https://stickerhunt.club/stickers/2112.html",
+      "datePublished": "2025-05-08",
+      "license": "https://stickerhunt.club/terms.html",
+      "acquireLicensePage": "https://stickerhunt.club/about.html",
+      "creator": { "@type": "Organization", "name": "StickerHunt", "url": "https://stickerhunt.club" },
+      "copyrightHolder": { "@type": "Organization", "name": "StickerHunt" },
+      "caption": "SD Compostela football sticker #2112 — identify this sticker",
+      "representativeOfPage": true
     }
     </script>
     <script type="application/ld+json">
@@ -140,8 +154,8 @@
             <div id="catalogue-content">
                 <div class="sticker-detail-view sticker-detail-two-column">
                     <div class="sticker-detail-left-column">
-                        <div class="sticker-detail-image-container" onclick="window.open('https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/club_1028%2F1746721830304_IMG_5212.jpeg', '_blank')">
-                            <img src="/img/club_1028%2F1746721830304_IMG_5212_web.webp"
+                        <div class="sticker-detail-image-container" onclick="window.open('/img/club_1028/1746721830304_IMG_5212_web.webp', '_blank')">
+                            <img src="/img/club_1028/1746721830304_IMG_5212_web.webp"
                                  alt="SD Compostela football sticker #2112 — identify this sticker"
                                  data-sticker-id="2112"
                                  class="sticker-detail-image"

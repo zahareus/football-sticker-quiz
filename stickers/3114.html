@@ -58,16 +58,30 @@
       gtag('config', 'G-4Y0MJKGDZS');
     </script>
 
-    <!-- Structured data for SEO -->
+    <!-- Structured data for SEO. ImageObject signals to Google Image Search.
+         contentUrl + thumbnailUrl are absolute and route through /img/* proxy
+         (same URL as the inline <img src>) so Google sees one canonical asset
+         per sticker, not two. width/height/license/creator/datePublished are
+         required for richer Image Search snippets. -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
       "@type": "ImageObject",
       "name": "🇮🇹 US Livorno 1915 Sticker #3114",
       "description": "Football sticker #3114 from US Livorno 1915 (Italy). Browse our database to identify this sticker and explore the full US Livorno 1915 sticker collection.",
-      "contentUrl": "https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/club_1165/1773523925670_IMG_8375_web.webp",
-      "thumbnailUrl": "/img/club_1165/1773523925670_IMG_8375_thumb.webp",
-      "url": "https://stickerhunt.club/stickers/3114.html"
+      "contentUrl": "https://stickerhunt.club/img/club_1165/1773523925670_IMG_8375_web.webp",
+      "thumbnailUrl": "https://stickerhunt.club/img/club_1165/1773523925670_IMG_8375_thumb.webp",
+      "width": 600,
+      "height": 600,
+      "encodingFormat": "image/webp",
+      "url": "https://stickerhunt.club/stickers/3114.html",
+      "datePublished": "2026-03-14",
+      "license": "https://stickerhunt.club/terms.html",
+      "acquireLicensePage": "https://stickerhunt.club/about.html",
+      "creator": { "@type": "Organization", "name": "StickerHunt", "url": "https://stickerhunt.club" },
+      "copyrightHolder": { "@type": "Organization", "name": "StickerHunt" },
+      "caption": "US Livorno 1915 football sticker #3114 — identify this sticker",
+      "representativeOfPage": true
     }
     </script>
     <script type="application/ld+json">
@@ -140,7 +154,7 @@
             <div id="catalogue-content">
                 <div class="sticker-detail-view sticker-detail-two-column">
                     <div class="sticker-detail-left-column">
-                        <div class="sticker-detail-image-container" onclick="window.open('https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/club_1165/1773523925670_IMG_8375.jpeg', '_blank')">
+                        <div class="sticker-detail-image-container" onclick="window.open('/img/club_1165/1773523925670_IMG_8375_web.webp', '_blank')">
                             <img src="/img/club_1165/1773523925670_IMG_8375_web.webp"
                                  alt="US Livorno 1915 football sticker #3114 — identify this sticker"
                                  data-sticker-id="3114"

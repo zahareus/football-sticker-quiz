@@ -42,7 +42,7 @@
     </style>
 
     <!-- Preload LCP image (sticker detail) — local proxy for aggressive caching -->
-    <link rel="preload" as="image" href="/img/club_836%2F1747675550708_IMG_5420_web.webp" fetchpriority="high">
+    <link rel="preload" as="image" href="/img/club_836/1747675550708_IMG_5420_web.webp" fetchpriority="high">
     <!-- Full stylesheet loaded async (non-blocking) -->
     <link rel="stylesheet" href="/style.css?v=5">
 
@@ -58,16 +58,30 @@
       gtag('config', 'G-4Y0MJKGDZS');
     </script>
 
-    <!-- Structured data for SEO -->
+    <!-- Structured data for SEO. ImageObject signals to Google Image Search.
+         contentUrl + thumbnailUrl are absolute and route through /img/* proxy
+         (same URL as the inline <img src>) so Google sees one canonical asset
+         per sticker, not two. width/height/license/creator/datePublished are
+         required for richer Image Search snippets. -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
       "@type": "ImageObject",
       "name": "🇪🇸 RC Celta de Vigo Sticker #2253",
       "description": "Football sticker #2253 from RC Celta de Vigo (Spain). Browse our database to identify this sticker and explore the full RC Celta de Vigo sticker collection.",
-      "contentUrl": "https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/club_836%2F1747675550708_IMG_5420_web.webp",
-      "thumbnailUrl": "/img/club_836%2F1747675550708_IMG_5420_thumb.webp",
-      "url": "https://stickerhunt.club/stickers/2253.html"
+      "contentUrl": "https://stickerhunt.club/img/club_836/1747675550708_IMG_5420_web.webp",
+      "thumbnailUrl": "https://stickerhunt.club/img/club_836/1747675550708_IMG_5420_thumb.webp",
+      "width": 600,
+      "height": 600,
+      "encodingFormat": "image/webp",
+      "url": "https://stickerhunt.club/stickers/2253.html",
+      "datePublished": "2025-05-19",
+      "license": "https://stickerhunt.club/terms.html",
+      "acquireLicensePage": "https://stickerhunt.club/about.html",
+      "creator": { "@type": "Organization", "name": "StickerHunt", "url": "https://stickerhunt.club" },
+      "copyrightHolder": { "@type": "Organization", "name": "StickerHunt" },
+      "caption": "RC Celta de Vigo football sticker #2253 — identify this sticker",
+      "representativeOfPage": true
     }
     </script>
     <script type="application/ld+json">
@@ -140,8 +154,8 @@
             <div id="catalogue-content">
                 <div class="sticker-detail-view sticker-detail-two-column">
                     <div class="sticker-detail-left-column">
-                        <div class="sticker-detail-image-container" onclick="window.open('https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/club_836%2F1747675550708_IMG_5420.jpeg', '_blank')">
-                            <img src="/img/club_836%2F1747675550708_IMG_5420_web.webp"
+                        <div class="sticker-detail-image-container" onclick="window.open('/img/club_836/1747675550708_IMG_5420_web.webp', '_blank')">
+                            <img src="/img/club_836/1747675550708_IMG_5420_web.webp"
                                  alt="RC Celta de Vigo football sticker #2253 — identify this sticker"
                                  data-sticker-id="2253"
                                  class="sticker-detail-image"

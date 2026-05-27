@@ -58,16 +58,30 @@
       gtag('config', 'G-4Y0MJKGDZS');
     </script>
 
-    <!-- Structured data for SEO -->
+    <!-- Structured data for SEO. ImageObject signals to Google Image Search.
+         contentUrl + thumbnailUrl are absolute and route through /img/* proxy
+         (same URL as the inline <img src>) so Google sees one canonical asset
+         per sticker, not two. width/height/license/creator/datePublished are
+         required for richer Image Search snippets. -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
       "@type": "ImageObject",
       "name": "🇩🇪 Borussia Mönchengladbach Sticker #2863",
       "description": "Football sticker #2863 from Borussia Mönchengladbach (Germany). Browse our database to identify this sticker and explore the full Borussia Mönchengladbach sticker collection.",
-      "contentUrl": "https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/club_961/1766232729396_IMG_7716_web.webp",
-      "thumbnailUrl": "/img/club_961/1766232729396_IMG_7716_thumb.webp",
-      "url": "https://stickerhunt.club/stickers/2863.html"
+      "contentUrl": "https://stickerhunt.club/img/club_961/1766232729396_IMG_7716_web.webp",
+      "thumbnailUrl": "https://stickerhunt.club/img/club_961/1766232729396_IMG_7716_thumb.webp",
+      "width": 600,
+      "height": 600,
+      "encodingFormat": "image/webp",
+      "url": "https://stickerhunt.club/stickers/2863.html",
+      "datePublished": "2025-12-20",
+      "license": "https://stickerhunt.club/terms.html",
+      "acquireLicensePage": "https://stickerhunt.club/about.html",
+      "creator": { "@type": "Organization", "name": "StickerHunt", "url": "https://stickerhunt.club" },
+      "copyrightHolder": { "@type": "Organization", "name": "StickerHunt" },
+      "caption": "Borussia Mönchengladbach football sticker #2863 — identify this sticker",
+      "representativeOfPage": true
     }
     </script>
     <script type="application/ld+json">
@@ -140,7 +154,7 @@
             <div id="catalogue-content">
                 <div class="sticker-detail-view sticker-detail-two-column">
                     <div class="sticker-detail-left-column">
-                        <div class="sticker-detail-image-container" onclick="window.open('https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/club_961/1766232729396_IMG_7716.jpeg', '_blank')">
+                        <div class="sticker-detail-image-container" onclick="window.open('/img/club_961/1766232729396_IMG_7716_web.webp', '_blank')">
                             <img src="/img/club_961/1766232729396_IMG_7716_web.webp"
                                  alt="Borussia Mönchengladbach football sticker #2863 — identify this sticker"
                                  data-sticker-id="2863"

@@ -58,16 +58,30 @@
       gtag('config', 'G-4Y0MJKGDZS');
     </script>
 
-    <!-- Structured data for SEO -->
+    <!-- Structured data for SEO. ImageObject signals to Google Image Search.
+         contentUrl + thumbnailUrl are absolute and route through /img/* proxy
+         (same URL as the inline <img src>) so Google sees one canonical asset
+         per sticker, not two. width/height/license/creator/datePublished are
+         required for richer Image Search snippets. -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
       "@type": "ImageObject",
       "name": "🇦🇹 LASK Sticker #54",
       "description": "Football sticker #54 from LASK (Austria). Browse our database to identify this sticker and explore the full LASK sticker collection.",
-      "contentUrl": "https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/AUT%20LASK/IMG_7664_web.webp",
-      "thumbnailUrl": "/img/AUT%20LASK/IMG_7664_thumb.webp",
-      "url": "https://stickerhunt.club/stickers/54.html"
+      "contentUrl": "https://stickerhunt.club/img/AUT%20LASK/IMG_7664_web.webp",
+      "thumbnailUrl": "https://stickerhunt.club/img/AUT%20LASK/IMG_7664_thumb.webp",
+      "width": 600,
+      "height": 600,
+      "encodingFormat": "image/webp",
+      "url": "https://stickerhunt.club/stickers/54.html",
+      "datePublished": "2025-04-19",
+      "license": "https://stickerhunt.club/terms.html",
+      "acquireLicensePage": "https://stickerhunt.club/about.html",
+      "creator": { "@type": "Organization", "name": "StickerHunt", "url": "https://stickerhunt.club" },
+      "copyrightHolder": { "@type": "Organization", "name": "StickerHunt" },
+      "caption": "LASK football sticker #54 — identify this sticker",
+      "representativeOfPage": true
     }
     </script>
     <script type="application/ld+json">
@@ -140,7 +154,7 @@
             <div id="catalogue-content">
                 <div class="sticker-detail-view sticker-detail-two-column">
                     <div class="sticker-detail-left-column">
-                        <div class="sticker-detail-image-container" onclick="window.open('https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/AUT%20LASK/IMG_7664.jpeg', '_blank')">
+                        <div class="sticker-detail-image-container" onclick="window.open('/img/AUT%20LASK/IMG_7664_web.webp', '_blank')">
                             <img src="/img/AUT%20LASK/IMG_7664_web.webp"
                                  alt="LASK football sticker #54 — identify this sticker"
                                  data-sticker-id="54"

@@ -42,7 +42,7 @@
     </style>
 
     <!-- Preload LCP image (sticker detail) — local proxy for aggressive caching -->
-    <link rel="preload" as="image" href="/img/club_806%2F1746796971304_IMG_5326_web.webp" fetchpriority="high">
+    <link rel="preload" as="image" href="/img/club_806/1746796971304_IMG_5326_web.webp" fetchpriority="high">
     <!-- Full stylesheet loaded async (non-blocking) -->
     <link rel="stylesheet" href="/style.css?v=5">
 
@@ -58,16 +58,30 @@
       gtag('config', 'G-4Y0MJKGDZS');
     </script>
 
-    <!-- Structured data for SEO -->
+    <!-- Structured data for SEO. ImageObject signals to Google Image Search.
+         contentUrl + thumbnailUrl are absolute and route through /img/* proxy
+         (same URL as the inline <img src>) so Google sees one canonical asset
+         per sticker, not two. width/height/license/creator/datePublished are
+         required for richer Image Search snippets. -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
       "@type": "ImageObject",
       "name": "🇪🇸 Unionistas de Salamanca CF Sticker #2231",
       "description": "Football sticker #2231 from Unionistas de Salamanca CF (Spain). Browse our database to identify this sticker and explore the full Unionistas de Salamanca CF sticker collection.",
-      "contentUrl": "https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/club_806%2F1746796971304_IMG_5326_web.webp",
-      "thumbnailUrl": "/img/club_806%2F1746796971304_IMG_5326_thumb.webp",
-      "url": "https://stickerhunt.club/stickers/2231.html"
+      "contentUrl": "https://stickerhunt.club/img/club_806/1746796971304_IMG_5326_web.webp",
+      "thumbnailUrl": "https://stickerhunt.club/img/club_806/1746796971304_IMG_5326_thumb.webp",
+      "width": 600,
+      "height": 600,
+      "encodingFormat": "image/webp",
+      "url": "https://stickerhunt.club/stickers/2231.html",
+      "datePublished": "2025-05-09",
+      "license": "https://stickerhunt.club/terms.html",
+      "acquireLicensePage": "https://stickerhunt.club/about.html",
+      "creator": { "@type": "Organization", "name": "StickerHunt", "url": "https://stickerhunt.club" },
+      "copyrightHolder": { "@type": "Organization", "name": "StickerHunt" },
+      "caption": "Unionistas de Salamanca CF football sticker #2231 — identify this sticker",
+      "representativeOfPage": true
     }
     </script>
     <script type="application/ld+json">
@@ -140,8 +154,8 @@
             <div id="catalogue-content">
                 <div class="sticker-detail-view sticker-detail-two-column">
                     <div class="sticker-detail-left-column">
-                        <div class="sticker-detail-image-container" onclick="window.open('https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/club_806%2F1746796971304_IMG_5326.jpeg', '_blank')">
-                            <img src="/img/club_806%2F1746796971304_IMG_5326_web.webp"
+                        <div class="sticker-detail-image-container" onclick="window.open('/img/club_806/1746796971304_IMG_5326_web.webp', '_blank')">
+                            <img src="/img/club_806/1746796971304_IMG_5326_web.webp"
                                  alt="Unionistas de Salamanca CF football sticker #2231 — identify this sticker"
                                  data-sticker-id="2231"
                                  class="sticker-detail-image"

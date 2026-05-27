@@ -58,16 +58,30 @@
       gtag('config', 'G-4Y0MJKGDZS');
     </script>
 
-    <!-- Structured data for SEO -->
+    <!-- Structured data for SEO. ImageObject signals to Google Image Search.
+         contentUrl + thumbnailUrl are absolute and route through /img/* proxy
+         (same URL as the inline <img src>) so Google sees one canonical asset
+         per sticker, not two. width/height/license/creator/datePublished are
+         required for richer Image Search snippets. -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
       "@type": "ImageObject",
       "name": "🇪🇪 JK Jalgpallihaigla Sticker #217",
       "description": "Football sticker #217 from JK Jalgpallihaigla (Estonia). Browse our database to identify this sticker and explore the full JK Jalgpallihaigla sticker collection.",
-      "contentUrl": "https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/stickers/JK_Jalgpallihaigla/IMG_9511_web.webp?",
-      "thumbnailUrl": "/img/stickers/JK_Jalgpallihaigla/IMG_9511_thumb.webp",
-      "url": "https://stickerhunt.club/stickers/217.html"
+      "contentUrl": "https://stickerhunt.club/img/stickers/JK_Jalgpallihaigla/IMG_9511_web.webp",
+      "thumbnailUrl": "https://stickerhunt.club/img/stickers/JK_Jalgpallihaigla/IMG_9511_thumb.webp",
+      "width": 600,
+      "height": 600,
+      "encodingFormat": "image/webp",
+      "url": "https://stickerhunt.club/stickers/217.html",
+      "datePublished": "2025-05-05",
+      "license": "https://stickerhunt.club/terms.html",
+      "acquireLicensePage": "https://stickerhunt.club/about.html",
+      "creator": { "@type": "Organization", "name": "StickerHunt", "url": "https://stickerhunt.club" },
+      "copyrightHolder": { "@type": "Organization", "name": "StickerHunt" },
+      "caption": "JK Jalgpallihaigla football sticker #217 — identify this sticker",
+      "representativeOfPage": true
     }
     </script>
     <script type="application/ld+json">
@@ -140,7 +154,7 @@
             <div id="catalogue-content">
                 <div class="sticker-detail-view sticker-detail-two-column">
                     <div class="sticker-detail-left-column">
-                        <div class="sticker-detail-image-container" onclick="window.open('https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/stickers/JK_Jalgpallihaigla/IMG_9511.jpeg?', '_blank')">
+                        <div class="sticker-detail-image-container" onclick="window.open('/img/stickers/JK_Jalgpallihaigla/IMG_9511_web.webp', '_blank')">
                             <img src="/img/stickers/JK_Jalgpallihaigla/IMG_9511_web.webp"
                                  alt="JK Jalgpallihaigla football sticker #217 — identify this sticker"
                                  data-sticker-id="217"

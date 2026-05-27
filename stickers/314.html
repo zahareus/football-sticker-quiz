@@ -58,16 +58,30 @@
       gtag('config', 'G-4Y0MJKGDZS');
     </script>
 
-    <!-- Structured data for SEO -->
+    <!-- Structured data for SEO. ImageObject signals to Google Image Search.
+         contentUrl + thumbnailUrl are absolute and route through /img/* proxy
+         (same URL as the inline <img src>) so Google sees one canonical asset
+         per sticker, not two. width/height/license/creator/datePublished are
+         required for richer Image Search snippets. -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
       "@type": "ImageObject",
       "name": "🇹🇷 Fethiyespor Sticker #314",
       "description": "Football sticker #314 from Fethiyespor (Turkey). Browse our database to identify this sticker and explore the full Fethiyespor sticker collection.",
-      "contentUrl": "https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/stickers/Fethiyespor/3FF68AFB-BD44-4132-889F-C8F3CA318AC4_web.webp?",
-      "thumbnailUrl": "/img/stickers/Fethiyespor/3FF68AFB-BD44-4132-889F-C8F3CA318AC4_thumb.webp",
-      "url": "https://stickerhunt.club/stickers/314.html"
+      "contentUrl": "https://stickerhunt.club/img/stickers/Fethiyespor/3FF68AFB-BD44-4132-889F-C8F3CA318AC4_web.webp",
+      "thumbnailUrl": "https://stickerhunt.club/img/stickers/Fethiyespor/3FF68AFB-BD44-4132-889F-C8F3CA318AC4_thumb.webp",
+      "width": 600,
+      "height": 600,
+      "encodingFormat": "image/webp",
+      "url": "https://stickerhunt.club/stickers/314.html",
+      "datePublished": "2025-05-06",
+      "license": "https://stickerhunt.club/terms.html",
+      "acquireLicensePage": "https://stickerhunt.club/about.html",
+      "creator": { "@type": "Organization", "name": "StickerHunt", "url": "https://stickerhunt.club" },
+      "copyrightHolder": { "@type": "Organization", "name": "StickerHunt" },
+      "caption": "Fethiyespor football sticker #314 — identify this sticker",
+      "representativeOfPage": true
     }
     </script>
     <script type="application/ld+json">
@@ -140,7 +154,7 @@
             <div id="catalogue-content">
                 <div class="sticker-detail-view sticker-detail-two-column">
                     <div class="sticker-detail-left-column">
-                        <div class="sticker-detail-image-container" onclick="window.open('https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/stickers/Fethiyespor/3FF68AFB-BD44-4132-889F-C8F3CA318AC4.jpeg?', '_blank')">
+                        <div class="sticker-detail-image-container" onclick="window.open('/img/stickers/Fethiyespor/3FF68AFB-BD44-4132-889F-C8F3CA318AC4_web.webp', '_blank')">
                             <img src="/img/stickers/Fethiyespor/3FF68AFB-BD44-4132-889F-C8F3CA318AC4_web.webp"
                                  alt="Fethiyespor football sticker #314 — identify this sticker"
                                  data-sticker-id="314"

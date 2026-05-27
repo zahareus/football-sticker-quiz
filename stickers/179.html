@@ -58,16 +58,30 @@
       gtag('config', 'G-4Y0MJKGDZS');
     </script>
 
-    <!-- Structured data for SEO -->
+    <!-- Structured data for SEO. ImageObject signals to Google Image Search.
+         contentUrl + thumbnailUrl are absolute and route through /img/* proxy
+         (same URL as the inline <img src>) so Google sees one canonical asset
+         per sticker, not two. width/height/license/creator/datePublished are
+         required for richer Image Search snippets. -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
       "@type": "ImageObject",
       "name": "🇨🇴 Millonarios F.C. Sticker #179",
       "description": "Football sticker #179 from Millonarios F.C. (Colombia). Browse our database to identify this sticker and explore the full Millonarios F.C. sticker collection.",
-      "contentUrl": "https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/COL%20Millonarios%20FC/IMG_8427_web.webp",
-      "thumbnailUrl": "/img/COL%20Millonarios%20FC/IMG_8427_thumb.webp",
-      "url": "https://stickerhunt.club/stickers/179.html"
+      "contentUrl": "https://stickerhunt.club/img/COL%20Millonarios%20FC/IMG_8427_web.webp",
+      "thumbnailUrl": "https://stickerhunt.club/img/COL%20Millonarios%20FC/IMG_8427_thumb.webp",
+      "width": 600,
+      "height": 600,
+      "encodingFormat": "image/webp",
+      "url": "https://stickerhunt.club/stickers/179.html",
+      "datePublished": "2025-04-23",
+      "license": "https://stickerhunt.club/terms.html",
+      "acquireLicensePage": "https://stickerhunt.club/about.html",
+      "creator": { "@type": "Organization", "name": "StickerHunt", "url": "https://stickerhunt.club" },
+      "copyrightHolder": { "@type": "Organization", "name": "StickerHunt" },
+      "caption": "Millonarios F.C. football sticker #179 — identify this sticker",
+      "representativeOfPage": true
     }
     </script>
     <script type="application/ld+json">
@@ -140,7 +154,7 @@
             <div id="catalogue-content">
                 <div class="sticker-detail-view sticker-detail-two-column">
                     <div class="sticker-detail-left-column">
-                        <div class="sticker-detail-image-container" onclick="window.open('https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/COL%20Millonarios%20FC/IMG_8427.jpeg', '_blank')">
+                        <div class="sticker-detail-image-container" onclick="window.open('/img/COL%20Millonarios%20FC/IMG_8427_web.webp', '_blank')">
                             <img src="/img/COL%20Millonarios%20FC/IMG_8427_web.webp"
                                  alt="Millonarios F.C. football sticker #179 — identify this sticker"
                                  data-sticker-id="179"

@@ -73,16 +73,30 @@
       gtag('config', 'G-4Y0MJKGDZS');
     </script>
 
-    <!-- Structured data for SEO -->
+    <!-- Structured data for SEO. ImageObject signals to Google Image Search.
+         contentUrl + thumbnailUrl are absolute and route through /img/* proxy
+         (same URL as the inline <img src>) so Google sees one canonical asset
+         per sticker, not two. width/height/license/creator/datePublished are
+         required for richer Image Search snippets. -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
       "@type": "ImageObject",
       "name": "🇳🇴 Bodo glimt Sticker #311",
       "description": "Football sticker #311 from Bodo glimt, Norway. Can you identify this Bodo glimt sticker? Browse our collection.",
-      "contentUrl": "https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/stickers/Bodo_glimt/IMG_5675_web.webp?",
-      "thumbnailUrl": "/img/stickers/Bodo_glimt/IMG_5675_thumb.webp",
-      "url": "https://stickerhunt.club/stickers/311.html"
+      "contentUrl": "https://stickerhunt.club/img/stickers/Bodo_glimt/IMG_5675_web.webp",
+      "thumbnailUrl": "https://stickerhunt.club/img/stickers/Bodo_glimt/IMG_5675_thumb.webp",
+      "width": 600,
+      "height": 600,
+      "encodingFormat": "image/webp",
+      "url": "https://stickerhunt.club/stickers/311.html",
+      "datePublished": "2025-05-06",
+      "license": "https://stickerhunt.club/terms.html",
+      "acquireLicensePage": "https://stickerhunt.club/about.html",
+      "creator": { "@type": "Organization", "name": "StickerHunt", "url": "https://stickerhunt.club" },
+      "copyrightHolder": { "@type": "Organization", "name": "StickerHunt" },
+      "caption": "Bodo glimt football sticker -- from Norway -- Eliteserien club -- #311",
+      "representativeOfPage": true
     }
     </script>
     <script type="application/ld+json">
@@ -155,7 +169,7 @@
             <div id="catalogue-content">
                 <div class="sticker-detail-view sticker-detail-two-column">
                     <div class="sticker-detail-left-column">
-                        <div class="sticker-detail-image-container" onclick="window.open('https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/stickers/Bodo_glimt/IMG_5675.jpeg?', '_blank')">
+                        <div class="sticker-detail-image-container" onclick="window.open('/img/stickers/Bodo_glimt/IMG_5675_web.webp', '_blank')">
                             <img src="/img/stickers/Bodo_glimt/IMG_5675_web.webp"
                                  alt="Bodo glimt football sticker -- from Norway -- Eliteserien club -- #311"
                                  data-sticker-id="311"
@@ -216,7 +230,7 @@
                 <div class="more-from-club">
 <h3>More from Bodo glimt</h3>
 <div class="sticker-strip">
-<a href="/stickers/2333.html" class="sticker-strip-item"><img src="/img/club_617%2F1749912267389_IMG_5996_thumb.webp" alt="Sticker #2333" data-sticker-id="2333" width="100" height="100" loading="lazy" decoding="async"></a>
+<a href="/stickers/2333.html" class="sticker-strip-item"><img src="/img/club_617/1749912267389_IMG_5996_thumb.webp" alt="Sticker #2333" data-sticker-id="2333" width="100" height="100" loading="lazy" decoding="async"></a>
 </div>
 </div>
                 

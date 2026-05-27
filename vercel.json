@@ -12,6 +12,12 @@
         { "key": "Cache-Control", "value": "public, max-age=31536000, immutable" },
         { "key": "Access-Control-Allow-Origin", "value": "*" }
       ]
+    },
+    {
+      "source": "/img/:path*",
+      "headers": [
+        { "key": "X-Robots-Tag", "value": "max-image-preview:large" }
+      ]
     }
   ],
   "redirects": [

@@ -58,16 +58,30 @@
       gtag('config', 'G-4Y0MJKGDZS');
     </script>
 
-    <!-- Structured data for SEO -->
+    <!-- Structured data for SEO. ImageObject signals to Google Image Search.
+         contentUrl + thumbnailUrl are absolute and route through /img/* proxy
+         (same URL as the inline <img src>) so Google sees one canonical asset
+         per sticker, not two. width/height/license/creator/datePublished are
+         required for richer Image Search snippets. -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
       "@type": "ImageObject",
       "name": "🇪🇸 AD Alcorcón Sticker #3139",
       "description": "Football sticker #3139 from AD Alcorcón (Spain). Browse our database to identify this sticker and explore the full AD Alcorcón sticker collection.",
-      "contentUrl": "https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/club_792/1774784904082_IMG_8534_web.webp",
-      "thumbnailUrl": "/img/club_792/1774784904082_IMG_8534_thumb.webp",
-      "url": "https://stickerhunt.club/stickers/3139.html"
+      "contentUrl": "https://stickerhunt.club/img/club_792/1774784904082_IMG_8534_web.webp",
+      "thumbnailUrl": "https://stickerhunt.club/img/club_792/1774784904082_IMG_8534_thumb.webp",
+      "width": 600,
+      "height": 600,
+      "encodingFormat": "image/webp",
+      "url": "https://stickerhunt.club/stickers/3139.html",
+      "datePublished": "2026-03-29",
+      "license": "https://stickerhunt.club/terms.html",
+      "acquireLicensePage": "https://stickerhunt.club/about.html",
+      "creator": { "@type": "Organization", "name": "StickerHunt", "url": "https://stickerhunt.club" },
+      "copyrightHolder": { "@type": "Organization", "name": "StickerHunt" },
+      "caption": "AD Alcorcón football sticker #3139 — identify this sticker",
+      "representativeOfPage": true
     }
     </script>
     <script type="application/ld+json">
@@ -140,7 +154,7 @@
             <div id="catalogue-content">
                 <div class="sticker-detail-view sticker-detail-two-column">
                     <div class="sticker-detail-left-column">
-                        <div class="sticker-detail-image-container" onclick="window.open('https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/club_792/1774784904082_IMG_8534.jpeg', '_blank')">
+                        <div class="sticker-detail-image-container" onclick="window.open('/img/club_792/1774784904082_IMG_8534_web.webp', '_blank')">
                             <img src="/img/club_792/1774784904082_IMG_8534_web.webp"
                                  alt="AD Alcorcón football sticker #3139 — identify this sticker"
                                  data-sticker-id="3139"

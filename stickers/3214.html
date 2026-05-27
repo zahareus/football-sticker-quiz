@@ -58,16 +58,30 @@
       gtag('config', 'G-4Y0MJKGDZS');
     </script>
 
-    <!-- Structured data for SEO -->
+    <!-- Structured data for SEO. ImageObject signals to Google Image Search.
+         contentUrl + thumbnailUrl are absolute and route through /img/* proxy
+         (same URL as the inline <img src>) so Google sees one canonical asset
+         per sticker, not two. width/height/license/creator/datePublished are
+         required for richer Image Search snippets. -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
       "@type": "ImageObject",
       "name": "🇩🇪 Karlsruher SC Sticker #3214",
       "description": "Football sticker #3214 from Karlsruher SC (Germany). Browse our database to identify this sticker and explore the full Karlsruher SC sticker collection.",
-      "contentUrl": "https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/club_906/1775418767761_IMG_9050_web.webp",
-      "thumbnailUrl": "/img/club_906/1775418767761_IMG_9050_thumb.webp",
-      "url": "https://stickerhunt.club/stickers/3214.html"
+      "contentUrl": "https://stickerhunt.club/img/club_906/1775418767761_IMG_9050_web.webp",
+      "thumbnailUrl": "https://stickerhunt.club/img/club_906/1775418767761_IMG_9050_thumb.webp",
+      "width": 600,
+      "height": 600,
+      "encodingFormat": "image/webp",
+      "url": "https://stickerhunt.club/stickers/3214.html",
+      "datePublished": "2026-04-05",
+      "license": "https://stickerhunt.club/terms.html",
+      "acquireLicensePage": "https://stickerhunt.club/about.html",
+      "creator": { "@type": "Organization", "name": "StickerHunt", "url": "https://stickerhunt.club" },
+      "copyrightHolder": { "@type": "Organization", "name": "StickerHunt" },
+      "caption": "Karlsruher SC football sticker #3214 — identify this sticker",
+      "representativeOfPage": true
     }
     </script>
     <script type="application/ld+json">
@@ -140,7 +154,7 @@
             <div id="catalogue-content">
                 <div class="sticker-detail-view sticker-detail-two-column">
                     <div class="sticker-detail-left-column">
-                        <div class="sticker-detail-image-container" onclick="window.open('https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/club_906/1775418767761_IMG_9050.jpeg', '_blank')">
+                        <div class="sticker-detail-image-container" onclick="window.open('/img/club_906/1775418767761_IMG_9050_web.webp', '_blank')">
                             <img src="/img/club_906/1775418767761_IMG_9050_web.webp"
                                  alt="Karlsruher SC football sticker #3214 — identify this sticker"
                                  data-sticker-id="3214"

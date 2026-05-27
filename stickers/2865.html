@@ -58,16 +58,30 @@
       gtag('config', 'G-4Y0MJKGDZS');
     </script>
 
-    <!-- Structured data for SEO -->
+    <!-- Structured data for SEO. ImageObject signals to Google Image Search.
+         contentUrl + thumbnailUrl are absolute and route through /img/* proxy
+         (same URL as the inline <img src>) so Google sees one canonical asset
+         per sticker, not two. width/height/license/creator/datePublished are
+         required for richer Image Search snippets. -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
       "@type": "ImageObject",
       "name": "🇩🇪 TV Rönkhausen 1892 eV Sticker #2865",
       "description": "Football sticker #2865 from TV Rönkhausen 1892 eV (Germany). Browse our database to identify this sticker and explore the full TV Rönkhausen 1892 eV sticker collection.",
-      "contentUrl": "https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/club_882/1766232850083_IMG_7683_web.webp",
-      "thumbnailUrl": "/img/club_882/1766232850083_IMG_7683_thumb.webp",
-      "url": "https://stickerhunt.club/stickers/2865.html"
+      "contentUrl": "https://stickerhunt.club/img/club_882/1766232850083_IMG_7683_web.webp",
+      "thumbnailUrl": "https://stickerhunt.club/img/club_882/1766232850083_IMG_7683_thumb.webp",
+      "width": 600,
+      "height": 600,
+      "encodingFormat": "image/webp",
+      "url": "https://stickerhunt.club/stickers/2865.html",
+      "datePublished": "2025-12-20",
+      "license": "https://stickerhunt.club/terms.html",
+      "acquireLicensePage": "https://stickerhunt.club/about.html",
+      "creator": { "@type": "Organization", "name": "StickerHunt", "url": "https://stickerhunt.club" },
+      "copyrightHolder": { "@type": "Organization", "name": "StickerHunt" },
+      "caption": "TV Rönkhausen 1892 eV football sticker #2865 — identify this sticker",
+      "representativeOfPage": true
     }
     </script>
     <script type="application/ld+json">
@@ -140,7 +154,7 @@
             <div id="catalogue-content">
                 <div class="sticker-detail-view sticker-detail-two-column">
                     <div class="sticker-detail-left-column">
-                        <div class="sticker-detail-image-container" onclick="window.open('https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/club_882/1766232850083_IMG_7683.jpeg', '_blank')">
+                        <div class="sticker-detail-image-container" onclick="window.open('/img/club_882/1766232850083_IMG_7683_web.webp', '_blank')">
                             <img src="/img/club_882/1766232850083_IMG_7683_web.webp"
                                  alt="TV Rönkhausen 1892 eV football sticker #2865 — identify this sticker"
                                  data-sticker-id="2865"

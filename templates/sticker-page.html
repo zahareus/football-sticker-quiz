@@ -58,16 +58,30 @@
       gtag('config', 'G-4Y0MJKGDZS');
     </script>
 
-    <!-- Structured data for SEO -->
+    <!-- Structured data for SEO. ImageObject signals to Google Image Search.
+         contentUrl + thumbnailUrl are absolute and route through /img/* proxy
+         (same URL as the inline <img src>) so Google sees one canonical asset
+         per sticker, not two. width/height/license/creator/datePublished are
+         required for richer Image Search snippets. -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
       "@type": "ImageObject",
       "name": "{{STICKER_NAME}}",
       "description": "{{META_DESCRIPTION}}",
-      "contentUrl": "{{IMAGE_URL}}",
-      "thumbnailUrl": "{{THUMBNAIL_URL}}",
-      "url": "{{CANONICAL_URL}}"
+      "contentUrl": "{{IMAGE_URL_ABS}}",
+      "thumbnailUrl": "{{THUMBNAIL_URL_ABS}}",
+      "width": 600,
+      "height": 600,
+      "encodingFormat": "image/webp",
+      "url": "{{CANONICAL_URL}}",
+      "datePublished": "{{ADDED_DATE_ISO}}",
+      "license": "https://stickerhunt.club/terms.html",
+      "acquireLicensePage": "https://stickerhunt.club/about.html",
+      "creator": { "@type": "Organization", "name": "StickerHunt", "url": "https://stickerhunt.club" },
+      "copyrightHolder": { "@type": "Organization", "name": "StickerHunt" },
+      "caption": "{{IMAGE_ALT}}",
+      "representativeOfPage": true
     }
     </script>
     {{BREADCRUMB_SCHEMA}}
@@ -103,7 +117,7 @@
             <div id="catalogue-content">
                 <div class="sticker-detail-view sticker-detail-two-column">
                     <div class="sticker-detail-left-column">
-                        <div class="sticker-detail-image-container" onclick="window.open('{{IMAGE_FULL_URL}}', '_blank')">
+                        <div class="sticker-detail-image-container" onclick="window.open('{{IMAGE_URL_LOCAL}}', '_blank')">
                             <img src="{{IMAGE_URL_LOCAL}}"
                                  alt="{{IMAGE_ALT}}"
                                  data-sticker-id="{{STICKER_ID}}"

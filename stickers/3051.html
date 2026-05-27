@@ -58,16 +58,30 @@
       gtag('config', 'G-4Y0MJKGDZS');
     </script>
 
-    <!-- Structured data for SEO -->
+    <!-- Structured data for SEO. ImageObject signals to Google Image Search.
+         contentUrl + thumbnailUrl are absolute and route through /img/* proxy
+         (same URL as the inline <img src>) so Google sees one canonical asset
+         per sticker, not two. width/height/license/creator/datePublished are
+         required for richer Image Search snippets. -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
       "@type": "ImageObject",
       "name": "🇪🇸 Cartagena Sticker #3051",
       "description": "Football sticker #3051 from Cartagena (Spain). Browse our database to identify this sticker and explore the full Cartagena sticker collection.",
-      "contentUrl": "https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/club_804/1773005488886_IMG_8220_web.webp",
-      "thumbnailUrl": "/img/club_804/1773005488886_IMG_8220_thumb.webp",
-      "url": "https://stickerhunt.club/stickers/3051.html"
+      "contentUrl": "https://stickerhunt.club/img/club_804/1773005488886_IMG_8220_web.webp",
+      "thumbnailUrl": "https://stickerhunt.club/img/club_804/1773005488886_IMG_8220_thumb.webp",
+      "width": 600,
+      "height": 600,
+      "encodingFormat": "image/webp",
+      "url": "https://stickerhunt.club/stickers/3051.html",
+      "datePublished": "2026-03-08",
+      "license": "https://stickerhunt.club/terms.html",
+      "acquireLicensePage": "https://stickerhunt.club/about.html",
+      "creator": { "@type": "Organization", "name": "StickerHunt", "url": "https://stickerhunt.club" },
+      "copyrightHolder": { "@type": "Organization", "name": "StickerHunt" },
+      "caption": "Cartagena football sticker #3051 — identify this sticker",
+      "representativeOfPage": true
     }
     </script>
     <script type="application/ld+json">
@@ -140,7 +154,7 @@
             <div id="catalogue-content">
                 <div class="sticker-detail-view sticker-detail-two-column">
                     <div class="sticker-detail-left-column">
-                        <div class="sticker-detail-image-container" onclick="window.open('https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/club_804/1773005488886_IMG_8220.jpeg', '_blank')">
+                        <div class="sticker-detail-image-container" onclick="window.open('/img/club_804/1773005488886_IMG_8220_web.webp', '_blank')">
                             <img src="/img/club_804/1773005488886_IMG_8220_web.webp"
                                  alt="Cartagena football sticker #3051 — identify this sticker"
                                  data-sticker-id="3051"

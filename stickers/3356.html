@@ -58,16 +58,30 @@
       gtag('config', 'G-4Y0MJKGDZS');
     </script>
 
-    <!-- Structured data for SEO -->
+    <!-- Structured data for SEO. ImageObject signals to Google Image Search.
+         contentUrl + thumbnailUrl are absolute and route through /img/* proxy
+         (same URL as the inline <img src>) so Google sees one canonical asset
+         per sticker, not two. width/height/license/creator/datePublished are
+         required for richer Image Search snippets. -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
       "@type": "ImageObject",
       "name": "🇷🇸 FK Crvena zvezda Sticker #3356",
       "description": "Football sticker #3356 from FK Crvena zvezda (Serbia). Browse our database to identify this sticker and explore the full FK Crvena zvezda sticker collection.",
-      "contentUrl": "https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/club_631/1777109447243_IMG_9609_web.webp",
-      "thumbnailUrl": "/img/club_631/1777109447243_IMG_9609_thumb.webp",
-      "url": "https://stickerhunt.club/stickers/3356.html"
+      "contentUrl": "https://stickerhunt.club/img/club_631/1777109447243_IMG_9609_web.webp",
+      "thumbnailUrl": "https://stickerhunt.club/img/club_631/1777109447243_IMG_9609_thumb.webp",
+      "width": 600,
+      "height": 600,
+      "encodingFormat": "image/webp",
+      "url": "https://stickerhunt.club/stickers/3356.html",
+      "datePublished": "2026-04-25",
+      "license": "https://stickerhunt.club/terms.html",
+      "acquireLicensePage": "https://stickerhunt.club/about.html",
+      "creator": { "@type": "Organization", "name": "StickerHunt", "url": "https://stickerhunt.club" },
+      "copyrightHolder": { "@type": "Organization", "name": "StickerHunt" },
+      "caption": "FK Crvena zvezda football sticker #3356 — identify this sticker",
+      "representativeOfPage": true
     }
     </script>
     <script type="application/ld+json">
@@ -140,7 +154,7 @@
             <div id="catalogue-content">
                 <div class="sticker-detail-view sticker-detail-two-column">
                     <div class="sticker-detail-left-column">
-                        <div class="sticker-detail-image-container" onclick="window.open('https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/club_631/1777109447243_IMG_9609.jpeg', '_blank')">
+                        <div class="sticker-detail-image-container" onclick="window.open('/img/club_631/1777109447243_IMG_9609_web.webp', '_blank')">
                             <img src="/img/club_631/1777109447243_IMG_9609_web.webp"
                                  alt="FK Crvena zvezda football sticker #3356 — identify this sticker"
                                  data-sticker-id="3356"

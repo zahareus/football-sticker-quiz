@@ -58,16 +58,30 @@
       gtag('config', 'G-4Y0MJKGDZS');
     </script>
 
-    <!-- Structured data for SEO -->
+    <!-- Structured data for SEO. ImageObject signals to Google Image Search.
+         contentUrl + thumbnailUrl are absolute and route through /img/* proxy
+         (same URL as the inline <img src>) so Google sees one canonical asset
+         per sticker, not two. width/height/license/creator/datePublished are
+         required for richer Image Search snippets. -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
       "@type": "ImageObject",
       "name": "🇩🇪 1 FC Nürnberg Sticker #1596",
       "description": "Football sticker #1596 from 1 FC Nürnberg (Germany). Browse our database to identify this sticker and explore the full 1 FC Nürnberg sticker collection.",
-      "contentUrl": "https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/stickers/1_FC_Nurnberg/IMG_1691_web.webp?",
-      "thumbnailUrl": "/img/stickers/1_FC_Nurnberg/IMG_1691_thumb.webp",
-      "url": "https://stickerhunt.club/stickers/1596.html"
+      "contentUrl": "https://stickerhunt.club/img/stickers/1_FC_Nurnberg/IMG_1691_web.webp",
+      "thumbnailUrl": "https://stickerhunt.club/img/stickers/1_FC_Nurnberg/IMG_1691_thumb.webp",
+      "width": 600,
+      "height": 600,
+      "encodingFormat": "image/webp",
+      "url": "https://stickerhunt.club/stickers/1596.html",
+      "datePublished": "2025-05-06",
+      "license": "https://stickerhunt.club/terms.html",
+      "acquireLicensePage": "https://stickerhunt.club/about.html",
+      "creator": { "@type": "Organization", "name": "StickerHunt", "url": "https://stickerhunt.club" },
+      "copyrightHolder": { "@type": "Organization", "name": "StickerHunt" },
+      "caption": "1 FC Nürnberg football sticker #1596 — identify this sticker",
+      "representativeOfPage": true
     }
     </script>
     <script type="application/ld+json">
@@ -140,7 +154,7 @@
             <div id="catalogue-content">
                 <div class="sticker-detail-view sticker-detail-two-column">
                     <div class="sticker-detail-left-column">
-                        <div class="sticker-detail-image-container" onclick="window.open('https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/stickers/1_FC_Nurnberg/IMG_1691.jpeg?', '_blank')">
+                        <div class="sticker-detail-image-container" onclick="window.open('/img/stickers/1_FC_Nurnberg/IMG_1691_web.webp', '_blank')">
                             <img src="/img/stickers/1_FC_Nurnberg/IMG_1691_web.webp"
                                  alt="1 FC Nürnberg football sticker #1596 — identify this sticker"
                                  data-sticker-id="1596"

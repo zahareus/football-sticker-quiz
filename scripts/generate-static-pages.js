@@ -234,18 +234,29 @@ function getCountryName(code) {
 }
 
 function cleanTrailingQuery(url) {
-    return url ? url.replace(/\?$/, '') : url;
+    return url ? url.replace(/\?+$/, '') : url;
 }
 
 const SUPABASE_STICKERS_PREFIX = 'https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/';
 
 function toLocalImg(url) {
     if (!url) return url;
-    const cleaned = cleanTrailingQuery(url);
+    let cleaned = cleanTrailingQuery(url);
     if (cleaned.startsWith(SUPABASE_STICKERS_PREFIX)) {
-        return '/img/' + cleaned.slice(SUPABASE_STICKERS_PREFIX.length);
+        cleaned = '/img/' + cleaned.slice(SUPABASE_STICKERS_PREFIX.length);
     }
+    if (!cleaned.startsWith('/img/')) return cleaned;
+    // Normalize %2F (URL-encoded slash) inside path; collapse /img/stickers/stickers/
+    cleaned = cleaned.replace(/%2F/gi, '/');
+    cleaned = cleaned.replace(/^\/img\/stickers\/stickers\//, '/img/stickers/');
     return cleaned;
+}
+
+function toLocalImgAbs(url) {
+    const local = toLocalImg(url);
+    if (!local) return local;
+    if (local.startsWith('http')) return local;
+    return 'https://stickerhunt.club' + local;
 }
 
 /**
@@ -703,9 +714,12 @@ async function generateStickerPage(sticker, club, prevStickerId, nextStickerId, 
         STICKER_NAME: `${club.name} Sticker #${sticker.id}`,
         IMAGE_URL: getDetailImageUrl(sticker.image_url),
         IMAGE_URL_LOCAL: toLocalImg(getDetailImageUrl(sticker.image_url)),
+        IMAGE_URL_ABS: toLocalImgAbs(getDetailImageUrl(sticker.image_url)),
         THUMBNAIL_URL: getThumbnailUrl(sticker.image_url),
         THUMBNAIL_URL_LOCAL: toLocalImg(getThumbnailUrl(sticker.image_url)),
+        THUMBNAIL_URL_ABS: toLocalImgAbs(getThumbnailUrl(sticker.image_url)),
         IMAGE_FULL_URL: sticker.image_url,
+        ADDED_DATE_ISO: sticker.added_at ? new Date(sticker.added_at).toISOString().slice(0, 10) : (sticker.created_at ? new Date(sticker.created_at).toISOString().slice(0, 10) : ''),
         IMAGE_ALT: `${clubNameClean} football sticker #${sticker.id} — identify this sticker`,
         BREADCRUMBS: breadcrumbs,
         BREADCRUMB_SCHEMA: generateBreadcrumbSchema([
@@ -1421,12 +1435,41 @@ async function generateSitemaps(stickers, clubs, countries) {
         stickerChunks[chunkIndex].push(sticker);
     });
 
+    // Build clubId → club lookup for image:title generation
+    const clubByIdForSitemap = new Map(clubs.map(c => [c.id, c]));
+
+    function xmlEsc(s) {
+        if (s == null) return '';
+        return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&apos;');
+    }
+
     for (let i = 0; i < numChunks; i++) {
         let stickerXml = '<?xml version="1.0" encoding="UTF-8"?>\n';
-        stickerXml += '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n';
+        // image: namespace required for <image:image> children — Google Image
+        // Search uses these as the primary discovery signal.
+        stickerXml += '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">\n';
 
         for (const sticker of stickerChunks[i]) {
-            stickerXml += `<url><loc>https://stickerhunt.club/stickers/${sticker.id}.html</loc><lastmod>${today}</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>\n`;
+            const pageUrl = `https://stickerhunt.club/stickers/${sticker.id}.html`;
+            const club = clubByIdForSitemap.get(sticker.club_id);
+            const clubName = club ? stripEmoji(club.name) : '';
+            const countryName = club ? getCountryName(club.country) : '';
+            const cityName = sticker.location ? sticker.location.split(',')[0].trim() : '';
+            const imgAbs = toLocalImgAbs(getDetailImageUrl(sticker.image_url));
+            const title = `${clubName} football sticker #${sticker.id}${countryName ? ' — ' + countryName : ''}`;
+            const caption = `${clubName} football fan sticker${cityName ? ', found in ' + cityName : ''}${countryName ? ', ' + countryName : ''}.`;
+            const geoLoc = (cityName && countryName) ? `${cityName}, ${countryName}` : (countryName || '');
+
+            stickerXml += `<url><loc>${pageUrl}</loc><lastmod>${today}</lastmod><changefreq>monthly</changefreq><priority>0.6</priority>`;
+            if (imgAbs) {
+                stickerXml += `<image:image><image:loc>${xmlEsc(imgAbs)}</image:loc>`;
+                stickerXml += `<image:title>${xmlEsc(title)}</image:title>`;
+                stickerXml += `<image:caption>${xmlEsc(caption)}</image:caption>`;
+                if (geoLoc) stickerXml += `<image:geo_location>${xmlEsc(geoLoc)}</image:geo_location>`;
+                stickerXml += `<image:license>https://stickerhunt.club/terms.html</image:license>`;
+                stickerXml += `</image:image>`;
+            }
+            stickerXml += `</url>\n`;
         }
 
         stickerXml += '</urlset>';

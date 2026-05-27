@@ -196,18 +196,46 @@ export function getThumbnailUrl(imageUrl) {
 }
 
 export function cleanTrailingQuery(url) {
-    return url ? url.replace(/\?$/, '') : url;
+    return url ? url.replace(/\?+$/, '') : url;
 }
 
 const SUPABASE_STICKERS_PREFIX = 'https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/';
 
+/**
+ * Convert a Supabase storage URL into a /img/* proxy path. Also normalizes
+ * three URL bugs found in audit 2026-05-27:
+ *   1. trailing `?` (cleanTrailingQuery)
+ *   2. `%2F` literal in path → real `/` (otherwise we split image identity
+ *      across two URLs for the same asset)
+ *   3. doubled `stickers/stickers/` prefix from earlier uploads that wrote
+ *      the bucket name into the filename
+ * After this, every image has a single canonical /img/ URL.
+ */
 export function toLocalImg(url) {
     if (!url) return url;
-    const cleaned = cleanTrailingQuery(url);
+    let cleaned = cleanTrailingQuery(url);
     if (cleaned.startsWith(SUPABASE_STICKERS_PREFIX)) {
-        return '/img/' + cleaned.slice(SUPABASE_STICKERS_PREFIX.length);
+        cleaned = '/img/' + cleaned.slice(SUPABASE_STICKERS_PREFIX.length);
     }
+    if (!cleaned.startsWith('/img/')) return cleaned;
+    // Normalize %2F (URL-encoded slash) inside the path — keeps spaces (%20)
+    // and other true %-escapes intact.
+    cleaned = cleaned.replace(/%2F/gi, '/');
+    // Collapse doubled bucket prefix /img/stickers/stickers/ → /img/stickers/
+    cleaned = cleaned.replace(/^\/img\/stickers\/stickers\//, '/img/stickers/');
     return cleaned;
+}
+
+/**
+ * Returns an absolute https://stickerhunt.club/img/... URL — required by
+ * schema.org ImageObject and Google Image Search sitemaps (relative URLs
+ * get rejected or partly trusted).
+ */
+export function toLocalImgAbs(url) {
+    const local = toLocalImg(url);
+    if (!local) return local;
+    if (local.startsWith('http')) return local;
+    return 'https://stickerhunt.club' + local;
 }
 
 // ─── Text Utilities ──────────────────────────────────────────────────────────

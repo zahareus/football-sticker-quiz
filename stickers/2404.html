@@ -42,7 +42,7 @@
     </style>
 
     <!-- Preload LCP image (sticker detail) — local proxy for aggressive caching -->
-    <link rel="preload" as="image" href="/img/club_1066%2F1755809728743_IMG_6244_web.webp" fetchpriority="high">
+    <link rel="preload" as="image" href="/img/club_1066/1755809728743_IMG_6244_web.webp" fetchpriority="high">
     <!-- Full stylesheet loaded async (non-blocking) -->
     <link rel="stylesheet" href="/style.css?v=5">
 
@@ -58,16 +58,30 @@
       gtag('config', 'G-4Y0MJKGDZS');
     </script>
 
-    <!-- Structured data for SEO -->
+    <!-- Structured data for SEO. ImageObject signals to Google Image Search.
+         contentUrl + thumbnailUrl are absolute and route through /img/* proxy
+         (same URL as the inline <img src>) so Google sees one canonical asset
+         per sticker, not two. width/height/license/creator/datePublished are
+         required for richer Image Search snippets. -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
       "@type": "ImageObject",
       "name": "🇭🇺 FC Veszprém Sticker #2404",
       "description": "Football sticker #2404 from FC Veszprém (Hungary). Browse our database to identify this sticker and explore the full FC Veszprém sticker collection.",
-      "contentUrl": "https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/club_1066%2F1755809728743_IMG_6244_web.webp",
-      "thumbnailUrl": "/img/club_1066%2F1755809728743_IMG_6244_thumb.webp",
-      "url": "https://stickerhunt.club/stickers/2404.html"
+      "contentUrl": "https://stickerhunt.club/img/club_1066/1755809728743_IMG_6244_web.webp",
+      "thumbnailUrl": "https://stickerhunt.club/img/club_1066/1755809728743_IMG_6244_thumb.webp",
+      "width": 600,
+      "height": 600,
+      "encodingFormat": "image/webp",
+      "url": "https://stickerhunt.club/stickers/2404.html",
+      "datePublished": "2025-08-21",
+      "license": "https://stickerhunt.club/terms.html",
+      "acquireLicensePage": "https://stickerhunt.club/about.html",
+      "creator": { "@type": "Organization", "name": "StickerHunt", "url": "https://stickerhunt.club" },
+      "copyrightHolder": { "@type": "Organization", "name": "StickerHunt" },
+      "caption": "FC Veszprém football sticker #2404 — identify this sticker",
+      "representativeOfPage": true
     }
     </script>
     <script type="application/ld+json">
@@ -140,8 +154,8 @@
             <div id="catalogue-content">
                 <div class="sticker-detail-view sticker-detail-two-column">
                     <div class="sticker-detail-left-column">
-                        <div class="sticker-detail-image-container" onclick="window.open('https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/club_1066%2F1755809728743_IMG_6244.jpeg', '_blank')">
-                            <img src="/img/club_1066%2F1755809728743_IMG_6244_web.webp"
+                        <div class="sticker-detail-image-container" onclick="window.open('/img/club_1066/1755809728743_IMG_6244_web.webp', '_blank')">
+                            <img src="/img/club_1066/1755809728743_IMG_6244_web.webp"
                                  alt="FC Veszprém football sticker #2404 — identify this sticker"
                                  data-sticker-id="2404"
                                  class="sticker-detail-image"

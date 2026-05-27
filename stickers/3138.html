@@ -58,16 +58,30 @@
       gtag('config', 'G-4Y0MJKGDZS');
     </script>
 
-    <!-- Structured data for SEO -->
+    <!-- Structured data for SEO. ImageObject signals to Google Image Search.
+         contentUrl + thumbnailUrl are absolute and route through /img/* proxy
+         (same URL as the inline <img src>) so Google sees one canonical asset
+         per sticker, not two. width/height/license/creator/datePublished are
+         required for richer Image Search snippets. -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
       "@type": "ImageObject",
       "name": "🏴󠁧󠁢󠁥󠁮󠁧󠁿 Ipswich Town F.C. Sticker #3138",
       "description": "Football sticker #3138 from 󠁧󠁢󠁥󠁮󠁧󠁿 Ipswich Town F.C. (England). Browse our database to identify this sticker and explore the full 󠁧󠁢󠁥󠁮󠁧󠁿 Ipswich Town F.C. sticker collection.",
-      "contentUrl": "https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/club_1091/1774784880220_IMG_8535_web.webp",
-      "thumbnailUrl": "/img/club_1091/1774784880220_IMG_8535_thumb.webp",
-      "url": "https://stickerhunt.club/stickers/3138.html"
+      "contentUrl": "https://stickerhunt.club/img/club_1091/1774784880220_IMG_8535_web.webp",
+      "thumbnailUrl": "https://stickerhunt.club/img/club_1091/1774784880220_IMG_8535_thumb.webp",
+      "width": 600,
+      "height": 600,
+      "encodingFormat": "image/webp",
+      "url": "https://stickerhunt.club/stickers/3138.html",
+      "datePublished": "2026-03-29",
+      "license": "https://stickerhunt.club/terms.html",
+      "acquireLicensePage": "https://stickerhunt.club/about.html",
+      "creator": { "@type": "Organization", "name": "StickerHunt", "url": "https://stickerhunt.club" },
+      "copyrightHolder": { "@type": "Organization", "name": "StickerHunt" },
+      "caption": "󠁧󠁢󠁥󠁮󠁧󠁿 Ipswich Town F.C. football sticker #3138 — identify this sticker",
+      "representativeOfPage": true
     }
     </script>
     <script type="application/ld+json">
@@ -140,7 +154,7 @@
             <div id="catalogue-content">
                 <div class="sticker-detail-view sticker-detail-two-column">
                     <div class="sticker-detail-left-column">
-                        <div class="sticker-detail-image-container" onclick="window.open('https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/club_1091/1774784880220_IMG_8535.jpeg', '_blank')">
+                        <div class="sticker-detail-image-container" onclick="window.open('/img/club_1091/1774784880220_IMG_8535_web.webp', '_blank')">
                             <img src="/img/club_1091/1774784880220_IMG_8535_web.webp"
                                  alt="󠁧󠁢󠁥󠁮󠁧󠁿 Ipswich Town F.C. football sticker #3138 — identify this sticker"
                                  data-sticker-id="3138"
