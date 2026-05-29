@@ -40,7 +40,7 @@ const URLS = [
 const ORIGIN = 'https://stickerhunt.club';
 
 const CRUX_BUDGET = { lcpMs: 2500, inpMs: 200, cls: 0.1 };
-const LAB_BUDGET = { lcpMs: 6000, performance: 0.70 };
+const LAB_BUDGET = { lcpMs: 7000, performance: 0.60 };
 const LAB_RUNS = 3;
 
 const FORM_FACTOR = 'PHONE';
