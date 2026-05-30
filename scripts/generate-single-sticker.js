@@ -1107,6 +1107,15 @@ async function generatePagesForSticker() {
         const stickerPath = await generateStickerPage(sticker, club, prevStickerId, nextStickerId, nearbyStickers, clubStickers || [], countryStickersForSimilar);
         console.log(`  ✓ Generated: ${stickerPath}`);
 
+        const countryCode = club.country.toUpperCase();
+
+        // Related-page regeneration (club page, country page, previous-sticker
+        // nav, wiki cache) is skipped in STICKER_PAGE_ONLY mode so a full
+        // sticker regen can run in parallel without racing on shared files
+        // (clubs/*.html, countries/*.html, wiki-cache.json). Clubs and
+        // countries are regenerated separately by their own single-process
+        // generators (regenerate-club-pages.js / regenerate-country-pages.js).
+        if (!process.env.STICKER_PAGE_ONLY) {
         // 6. Generate club page
         console.log('\n🔨 Generating club page...');
 
@@ -1115,7 +1124,6 @@ async function generatePagesForSticker() {
 
         // 6. Generate country page
         console.log('\n🔨 Generating country page...');
-        const countryCode = club.country.toUpperCase();
 
         // Build clubs map and filter stickers for this country
         const allClubsMap = {};
@@ -1182,6 +1190,7 @@ async function generatePagesForSticker() {
 
         // Save wiki cache if updated
         saveWikiCacheIfDirty();
+        } // end !STICKER_PAGE_ONLY
 
         // Summary
         console.log('\n✅ Generation complete!');

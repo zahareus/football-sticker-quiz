@@ -35,6 +35,8 @@ jobs:
         env:
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
           SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
+      - name: No raw placeholders across corpus
+        run: npm run test:placeholders
 
   integrity-tests:
     runs-on: ubuntu-latest

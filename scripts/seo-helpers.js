@@ -329,6 +329,15 @@ export function replacePlaceholders(template, data) {
         const placeholder = `{{${key}}}`;
         result = result.replaceAll(placeholder, value ?? '');
     }
+    // Fail-fast: any {{PLACEHOLDER}} left means the data object is missing a
+    // key the template requires. Shipping it raw is the exact bug that put
+    // {{MULTILINGUAL_META}}/{{CLUB_MINI_CARD}} on thousands of live pages.
+    // Throw at generation time instead of silently writing broken HTML.
+    const residual = result.match(/\{\{[A-Z0-9_]+\}\}/g);
+    if (residual) {
+        const unique = [...new Set(residual)];
+        throw new Error(`replacePlaceholders: unsubstituted placeholder(s) — missing data keys: ${unique.join(', ')}`);
+    }
     return result;
 }
 

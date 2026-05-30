@@ -12,7 +12,7 @@ import { fileURLToPath } from 'url';
 
 import {
     createSupabaseClient,
-    COUNTRY_NAMES, getCountryName, getOptimizedImageUrl, getThumbnailUrl,
+    COUNTRY_NAMES, COUNTRY_FLAGS, getCountryName, getOptimizedImageUrl, getThumbnailUrl,
     cleanTrailingQuery, stripEmoji, loadTemplate, replacePlaceholders,
     generateBreadcrumbs, generateBreadcrumbSchema,
     generateMultilingualMeta,
@@ -28,19 +28,6 @@ const PROJECT_ROOT = join(__dirname, '..');
 const supabase = createSupabaseClient();
 
 // Country code to flag emoji
-const COUNTRY_FLAGS = {
-    "DEU":"🇩🇪","ESP":"🇪🇸","FRA":"🇫🇷","NLD":"🇳🇱","ITA":"🇮🇹","SWE":"🇸🇪",
-    "ENG":"🏴󠁧󠁢󠁥󠁮󠁧󠁿","CZE":"🇨🇿","BEL":"🇧🇪","CHE":"🇨🇭","POL":"🇵🇱","AUT":"🇦🇹",
-    "PRT":"🇵🇹","SCO":"🏴󠁧󠁢󠁳󠁣󠁴󠁿","SRB":"🇷🇸","HUN":"🇭🇺","NOR":"🇳🇴","HRV":"🇭🇷",
-    "GRC":"🇬🇷","DNK":"🇩🇰","ROU":"🇷🇴","UKR":"🇺🇦","TUR":"🇹🇷","ISR":"🇮🇱",
-    "JPN":"🇯🇵","CYP":"🇨🇾","ARG":"🇦🇷","BRA":"🇧🇷","CHL":"🇨🇱","COL":"🇨🇴",
-    "URY":"🇺🇾","USA":"🇺🇸","MEX":"🇲🇽","CAN":"🇨🇦","MAR":"🇲🇦","EGY":"🇪🇬",
-    "ZAF":"🇿🇦","BIH":"🇧🇦","BGR":"🇧🇬","SVK":"🇸🇰","SVN":"🇸🇮","FIN":"🇫🇮",
-    "EST":"🇪🇪","LVA":"🇱🇻","LTU":"🇱🇹","IRL":"🇮🇪","WLS":"🏴󠁧󠁢󠁷󠁬󠁳󠁿","NIR":"🇬🇧",
-    "MNE":"🇲🇪","GEO":"🇬🇪","BLR":"🇧🇾","ARM":"🇦🇲","KAZ":"🇰🇿","LUX":"🇱🇺",
-    "MKD":"🇲🇰","MLT":"🇲🇹","ISL":"🇮🇸","AUS":"🇦🇺"
-};
-
 async function generateCountryPage(countryCode, clubs, stickerCountsByClub, countryStickers, allClubsMap) {
     const template = loadTemplate('country-page.html', PROJECT_ROOT);
     const countryName = getCountryName(countryCode);
@@ -149,6 +136,38 @@ async function generateCountryPage(countryCode, clubs, stickerCountsByClub, coun
     };
     const schemaJsonLd = `<script type="application/ld+json">\n    ${JSON.stringify(schema, null, 2).split('\n').join('\n    ')}\n    </script>`;
 
+    // Featured stickers — top 12 by rating (mirrors generate-static-pages.js
+    // generateCountryPage so the country-page.html {{FEATURED_STICKERS_SECTION}}
+    // placeholder is always filled; omitting it left raw tokens on DEU.html).
+    const clubNameById = new Map(clubsEnriched.map(c => [c.id, c.cleanName]));
+    const featuredStickers = [...(countryStickers || [])]
+        .filter(s => s.image_url)
+        .sort((a, b) => (b.rating || 1500) - (a.rating || 1500) || (b.games || 0) - (a.games || 0))
+        .slice(0, 12);
+    let featuredStickersHtml = '';
+    if (featuredStickers.length > 0) {
+        let cards = '';
+        featuredStickers.forEach(s => {
+            const thumbUrl = cleanTrailingQuery(getThumbnailUrl(s.image_url));
+            const clubName = clubNameById.get(s.club_id) || '';
+            cards += `
+                <a href="/stickers/${s.id}.html" class="cat-club-card">
+                    <img src="${thumbUrl}" alt="${clubName} sticker -- rated ${s.rating || 1500}" data-sticker-id="${s.id}" width="140" height="140" loading="lazy" decoding="async">
+                    <span class="cat-club-label">${clubName}</span>
+                    <span class="cat-club-count">⚡ ${s.rating || 1500}</span>
+                </a>`;
+        });
+        featuredStickersHtml = `
+        <div class="cat-section">
+            <div class="cat-section-header">
+                <h2>Featured Stickers</h2>
+                <span class="cat-section-meta">top ${featuredStickers.length} by rating</span>
+            </div>
+            <div class="cat-clubs-strip">${cards}</div>
+        </div>
+        <hr class="cat-divider">`;
+    }
+
     const data = {
         PAGE_TITLE: pageTitle, META_DESCRIPTION: metaDescription, META_KEYWORDS: keywords,
         CANONICAL_URL: canonicalUrl, OG_IMAGE: ogImage, COUNTRY_NAME: countryName,
@@ -160,6 +179,7 @@ async function generateCountryPage(countryCode, clubs, stickerCountsByClub, coun
             { text: countryName, url: `/countries/${countryCode.toUpperCase()}.html` }
         ]),
         MOST_COLLECTED_SECTION: mostCollectedHtml,
+        FEATURED_STICKERS_SECTION: featuredStickersHtml,
         CLUB_CARDS: clubCardsHtml,
         SEO_DESCRIPTION: seoDescription,
         MULTILINGUAL_META: multilingualMeta,

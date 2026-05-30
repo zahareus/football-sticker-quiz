@@ -79,6 +79,12 @@ function replacePlaceholders(template, data) {
         const placeholder = `{{${key}}}`;
         result = result.replaceAll(placeholder, value || '');
     }
+    // Fail-fast on unsubstituted placeholders (see seo-helpers.js for rationale).
+    const residual = result.match(/\{\{[A-Z0-9_]+\}\}/g);
+    if (residual) {
+        const unique = [...new Set(residual)];
+        throw new Error(`replacePlaceholders: unsubstituted placeholder(s) — missing data keys: ${unique.join(', ')}`);
+    }
     return result;
 }
 
@@ -418,12 +424,25 @@ function generateCityIndexPage(cities) {
     // Sort by sticker count descending
     const sorted = [...cities].sort((a, b) => b.stickerCount - a.stickerCount);
 
-    let clubListHtml = '';
+    // City cards in the country-page.html CLUB_CARDS grid format (the template
+    // renders {{CLUB_CARDS}}, not the old {{CLUB_LIST}}; the <li> list was
+    // silently dropped because no such placeholder exists).
+    let clubCardsHtml = '';
     sorted.forEach(city => {
-        const countText = `(${city.stickerCount} sticker${city.stickerCount !== 1 ? 's' : ''})`;
-        const countryLabel = city.country ? `, ${city.country}` : '';
-        clubListHtml += `<li><a href="/cities/${city.slug}.html">${city.name}${countryLabel} ${countText}</a></li>`;
+        const countLabel = city.stickerCount === 1 ? '1 sticker' : `${city.stickerCount} stickers`;
+        const countryLabel = city.country ? `${city.country} · ` : '';
+        clubCardsHtml += `
+                <a href="/cities/${city.slug}.html" class="cat-country-card" title="${city.name}">
+                    <span class="country-club-thumb-placeholder"></span>
+                    <div class="cat-country-info">
+                        <span class="cat-country-name">${city.name}</span>
+                        <span class="cat-country-meta">${countryLabel}${countLabel}</span>
+                    </div>
+                </a>`;
     });
+
+    const topCityNames = sorted.slice(0, 5).map(c => c.name).join(', ');
+    const seoDescription = `Football stickers spotted across ${cities.length} cities worldwide, ${totalStickers} in total. The most active cities include ${topCityNames}. Browse stickers by city to see what fans have found on the streets near you.`;
 
     const data = {
         PAGE_TITLE: pageTitle,
@@ -432,17 +451,20 @@ function generateCityIndexPage(cities) {
         CANONICAL_URL: canonicalUrl,
         OG_IMAGE: 'https://stickerhunt.club/metash.png',
         MULTILINGUAL_META: '',
-        FEATURED_STICKERS: '',
-        SCHEMA_JSON_LD: '',
         COUNTRY_NAME: 'Cities',
+        COUNTRY_FLAG: '🌍',
         CLUB_COUNT: cities.length,
+        TOTAL_STICKERS: totalStickers,
         BREADCRUMBS: breadcrumbs,
         BREADCRUMB_SCHEMA: generateBreadcrumbSchema([
             { text: 'Catalogue', url: '/catalogue.html' },
             { text: 'Cities', url: '/cities/' }
         ]),
-        MAIN_HEADING: `Cities — ${totalStickers} Football Stickers Found Worldwide`,
-        CLUB_LIST: clubListHtml
+        MOST_COLLECTED_SECTION: '',
+        FEATURED_STICKERS_SECTION: '',
+        CLUB_CARDS: clubCardsHtml,
+        SEO_DESCRIPTION: seoDescription,
+        SCHEMA_JSON_LD: ''
     };
 
     const html = replacePlaceholders(template, data);

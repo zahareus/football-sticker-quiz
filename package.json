@@ -10,6 +10,7 @@
     "test:watch": "vitest",
     "test:e2e": "npx playwright test",
     "test:generators": "cd scripts && node test-generators.js",
+    "test:placeholders": "node scripts/tests/test-no-raw-placeholders.js",
     "test:integrity": "node scripts/tests/test-data-integrity.js",
     "health": "node scripts/health.js",
     "cleanup:orphans": "node scripts/cleanup-orphans.js",

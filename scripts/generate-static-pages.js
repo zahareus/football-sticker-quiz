@@ -9,7 +9,7 @@ import { readFileSync, writeFileSync, mkdirSync, existsSync, readdirSync, unlink
 import { join, dirname } from 'path';
 import { fileURLToPath } from 'url';
 
-import { createSupabaseClient, COUNTRY_NAMES, cityToSlug, generateMultilingualMeta, generateMultilingualAltText, generateStickerContextParagraph } from './seo-helpers.js';
+import { createSupabaseClient, COUNTRY_NAMES, COUNTRY_FLAGS, cityToSlug, generateMultilingualMeta, generateMultilingualAltText, generateStickerContextParagraph } from './seo-helpers.js';
 
 // Configuration
 const BASE_URL = "https://stickerhunt.club";
@@ -297,6 +297,12 @@ function replacePlaceholders(template, data) {
     for (const [key, value] of Object.entries(data)) {
         const placeholder = `{{${key}}}`;
         result = result.replaceAll(placeholder, value || '');
+    }
+    // Fail-fast on unsubstituted placeholders (see seo-helpers.js for rationale).
+    const residual = result.match(/\{\{[A-Z0-9_]+\}\}/g);
+    if (residual) {
+        const unique = [...new Set(residual)];
+        throw new Error(`replacePlaceholders: unsubstituted placeholder(s) — missing data keys: ${unique.join(', ')}`);
     }
     return result;
 }
@@ -1087,15 +1093,9 @@ async function generateCountryPage(countryCode, clubs, stickerCountsByClub, allS
 /**
  * Generate static index.html with pre-embedded random sticker pool
  */
-// Country code to flag emoji
-const COUNTRY_FLAGS = {
-    'DEU': '🇩🇪', 'ESP': '🇪🇸', 'FRA': '🇫🇷', 'NLD': '🇳🇱', 'ITA': '🇮🇹',
-    'GBR': '🇬🇧', 'SWE': '🇸🇪', 'AUT': '🇦🇹', 'CZE': '🇨🇿', 'BEL': '🇧🇪',
-    'POL': '🇵🇱', 'CHE': '🇨🇭', 'PRT': '🇵🇹', 'TUR': '🇹🇷', 'HUN': '🇭🇺',
-    'DNK': '🇩🇰', 'NOR': '🇳🇴', 'ARG': '🇦🇷', 'BRA': '🇧🇷', 'HRV': '🇭🇷',
-    'SRB': '🇷🇸', 'GRC': '🇬🇷', 'ROU': '🇷🇴', 'IRL': '🇮🇪', 'BGR': '🇧🇬',
-    'SVK': '🇸🇰', 'ISR': '🇮🇱', 'COL': '🇨🇴', 'ENG': '🏴󠁧󠁢󠁥󠁮󠁧󠁿', 'SCO': '🏴󠁧󠁢󠁳󠁣󠁴󠁿',
-};
+// Country code to flag emoji — uses the canonical COUNTRY_FLAGS map imported
+// from seo-helpers.js (all ISO3 codes). A local stub here previously shadowed
+// it with only ~29 countries, leaving ~25 countries with white-flag fallback.
 
 async function generateIndexPage(stickers, clubs) {
     const template = loadTemplate('index-page.html');
