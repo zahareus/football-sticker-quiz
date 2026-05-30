@@ -154,6 +154,7 @@ function buildMockData(countryCode, clubs, stickers) {
         CLUB_COUNT: String(clubs.length),
         TOTAL_STICKERS: String(totalStickers),
         MOST_COLLECTED_SECTION: mostCollectedHtml,
+        FEATURED_STICKERS_SECTION: '', // added to country-page.html (05-27 featured-per-country); empty render is valid
         CLUB_CARDS: clubCardsHtml,
         SEO_DESCRIPTION: seoDescription,
     };
