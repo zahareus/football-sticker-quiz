@@ -689,6 +689,19 @@
                     .bindPopup('<div class="nearby-sticker-popup"><strong>SC Freiburg</strong><a href="/stickers/3616.html" class="map-popup-link">View</a></div>');
                 })();
 
+                (function() {
+                    L.marker([48.4761416666667, 7.94547222222222], {
+                        icon: L.icon({
+                            iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
+                            iconSize: [18, 30],
+                            iconAnchor: [9, 30],
+                            popupAnchor: [1, -25]
+                        }),
+                        opacity: 0.6
+                    }).addTo(map)
+                    .bindPopup('<div class="nearby-sticker-popup"><strong>SC Freiburg</strong><a href="/stickers/3617.html" class="map-popup-link">View</a></div>');
+                })();
+
                 // Current sticker — larger marker, opened popup
                 L.marker([48.4737694444444, 7.94402777777778], {
                     icon: L.icon({
@@ -736,7 +749,8 @@
                     [48.4730083333333, 7.94374722222222],
                     [48.4739277777778, 7.94401388888889],
                     [48.4763777777778, 7.9456],
-                    [48.4759, 7.94543888888889]
+                    [48.4759, 7.94543888888889],
+                    [48.4761416666667, 7.94547222222222]
                 ]);
                 map.fitBounds(bounds, { padding: [30, 30], maxZoom: 14 });
                 
