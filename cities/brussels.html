@@ -155,7 +155,7 @@
         <div id="catalogue-content">
             <div class="wiki-section">
     <div class="wiki-facts">
-        <div class="wiki-fact"><span class="wiki-fact-label">Population</span><span class="wiki-fact-value">1 255 795</span></div>
+        <div class="wiki-fact"><span class="wiki-fact-label">Population</span><span class="wiki-fact-value">1,255,795</span></div>
     </div>
     <div class="wiki-intro">
         <p>Brussels, officially the Brussels-Capital Region, is a region of Belgium comprising 19 municipalities, including the City of Brussels, which is the capital of Belgium.  The Brussels-Capital Region is located in the central portion of the country.</p>
@@ -700,6 +700,15 @@
                          loading="lazy"
                          decoding="async">
                 </a>
+                <a href="/stickers/2871.html" class="sticker-preview-link">
+                    <img src="/img/club_948/1767036555136_IMG_7767_thumb.webp"
+                         alt="Borussia Dortmund football sticker #2871 found in this city"
+                         data-sticker-id="2871"
+                         class="sticker-preview-image"
+                         width="200" height="200"
+                         loading="lazy"
+                         decoding="async">
+                </a>
                 <a href="/stickers/2870.html" class="sticker-preview-link">
                     <img src="/img/club_1007/1767036373388_IMG_7766_thumb.webp"
                          alt="󠁧󠁢󠁳󠁣󠁴󠁿 Hibernian football sticker #2870 found in this city"
@@ -713,15 +722,6 @@
                     <img src="/img/club_563/1767181529731_IMG_7798_thumb.webp"
                          alt="PAOK football sticker #2877 found in this city"
                          data-sticker-id="2877"
-                         class="sticker-preview-image"
-                         width="200" height="200"
-                         loading="lazy"
-                         decoding="async">
-                </a>
-                <a href="/stickers/2871.html" class="sticker-preview-link">
-                    <img src="/img/club_948/1767036555136_IMG_7767_thumb.webp"
-                         alt="Borussia Dortmund football sticker #2871 found in this city"
-                         data-sticker-id="2871"
                          class="sticker-preview-image"
                          width="200" height="200"
                          loading="lazy"
@@ -1329,6 +1329,13 @@
                 })();
 
                 (function() {
+                    const marker = L.marker([50.8616611111111, 4.35760555555555]).addTo(cityMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>Borussia Dortmund</strong><a href="/stickers/2871.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
                     const marker = L.marker([50.8616861111111, 4.35759166666667]).addTo(cityMap);
                     marker.bindPopup('<div class="nearby-sticker-popup"><strong>󠁧󠁢󠁳󠁣󠁴󠁿 Hibernian</strong><a href="/stickers/2870.html" class="map-popup-link">View</a></div>');
                     marker.on('mouseover', function() { this.openPopup(); });
@@ -1338,13 +1345,6 @@
                 (function() {
                     const marker = L.marker([50.8455694444444, 4.35064166666667]).addTo(cityMap);
                     marker.bindPopup('<div class="nearby-sticker-popup"><strong>PAOK</strong><a href="/stickers/2877.html" class="map-popup-link">View</a></div>');
-                    marker.on('mouseover', function() { this.openPopup(); });
-                    marker.on('click', function() { this.openPopup(); });
-                })();
-
-                (function() {
-                    const marker = L.marker([50.8616611111111, 4.35760555555555]).addTo(cityMap);
-                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>Borussia Dortmund</strong><a href="/stickers/2871.html" class="map-popup-link">View</a></div>');
                     marker.on('mouseover', function() { this.openPopup(); });
                     marker.on('click', function() { this.openPopup(); });
                 })();
@@ -1521,9 +1521,9 @@
                     [50.8397111111111, 4.36056388888889],
                     [50.8489388888889, 4.355125],
                     [50.8440138888889, 4.35113055555555],
+                    [50.8616611111111, 4.35760555555555],
                     [50.8616861111111, 4.35759166666667],
                     [50.8455694444444, 4.35064166666667],
-                    [50.8616611111111, 4.35760555555555],
                     [50.8318028, 4.3589333],
                     [50.8454277777778, 4.35055277777778],
                     [50.8405, 4.35975555555556],

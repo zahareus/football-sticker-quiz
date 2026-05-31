@@ -206,6 +206,15 @@
                          loading="lazy"
                          decoding="async">
                 </a>
+                <a href="/stickers/3072.html" class="sticker-preview-link">
+                    <img src="/img/club_801/1773520708799_IMG_8261_thumb.webp"
+                         alt="Real Zaragoza football sticker #3072 found in this city"
+                         data-sticker-id="3072"
+                         class="sticker-preview-image"
+                         width="200" height="200"
+                         loading="lazy"
+                         decoding="async">
+                </a>
                 <a href="/stickers/3059.html" class="sticker-preview-link">
                     <img src="/img/club_804/1773005808306_IMG_8218_thumb.webp"
                          alt="Cartagena football sticker #3059 found in this city"
@@ -228,15 +237,6 @@
                     <img src="/img/club_637/1773005713687_IMG_8214_thumb.webp"
                          alt="Rapid Bucuresti football sticker #3056 found in this city"
                          data-sticker-id="3056"
-                         class="sticker-preview-image"
-                         width="200" height="200"
-                         loading="lazy"
-                         decoding="async">
-                </a>
-                <a href="/stickers/3072.html" class="sticker-preview-link">
-                    <img src="/img/club_801/1773520708799_IMG_8261_thumb.webp"
-                         alt="Real Zaragoza football sticker #3072 found in this city"
-                         data-sticker-id="3072"
                          class="sticker-preview-image"
                          width="200" height="200"
                          loading="lazy"
@@ -305,6 +305,15 @@
                          loading="lazy"
                          decoding="async">
                 </a>
+                <a href="/stickers/3080.html" class="sticker-preview-link">
+                    <img src="/img/club_1159/1773520963478_IMG_8248_thumb.webp"
+                         alt="Altonaer FC von 1893 football sticker #3080 found in this city"
+                         data-sticker-id="3080"
+                         class="sticker-preview-image"
+                         width="200" height="200"
+                         loading="lazy"
+                         decoding="async">
+                </a>
                 <a href="/stickers/3081.html" class="sticker-preview-link">
                     <img src="/img/club_927/1773520982141_IMG_8245_thumb.webp"
                          alt="Hansa Rostock football sticker #3081 found in this city"
@@ -318,15 +327,6 @@
                     <img src="/img/club_630/1773520927891_IMG_8249_thumb.webp"
                          alt="Sporting CP football sticker #3079 found in this city"
                          data-sticker-id="3079"
-                         class="sticker-preview-image"
-                         width="200" height="200"
-                         loading="lazy"
-                         decoding="async">
-                </a>
-                <a href="/stickers/3080.html" class="sticker-preview-link">
-                    <img src="/img/club_1159/1773520963478_IMG_8248_thumb.webp"
-                         alt="Altonaer FC von 1893 football sticker #3080 found in this city"
-                         data-sticker-id="3080"
                          class="sticker-preview-image"
                          width="200" height="200"
                          loading="lazy"
@@ -560,7 +560,7 @@
         
         document.addEventListener('DOMContentLoaded', function() {
             if (typeof L !== 'undefined' && document.getElementById('club-map')) {
-                const cityMap = L.map('club-map').setView([37.600266524216515, -0.9849957264957265], 12);
+                const cityMap = L.map('club-map').setView([37.600266524216515, -0.9849957264957266], 12);
                 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                     attribution: '&copy; OpenStreetMap contributors'
                 }).addTo(cityMap);
@@ -601,6 +601,13 @@
                 })();
 
                 (function() {
+                    const marker = L.marker([37.6004444444444, -0.986288888888889]).addTo(cityMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>Real Zaragoza</strong><a href="/stickers/3072.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
                     const marker = L.marker([37.5983888888889, -0.985433333333333]).addTo(cityMap);
                     marker.bindPopup('<div class="nearby-sticker-popup"><strong>Cartagena</strong><a href="/stickers/3059.html" class="map-popup-link">View</a></div>');
                     marker.on('mouseover', function() { this.openPopup(); });
@@ -617,13 +624,6 @@
                 (function() {
                     const marker = L.marker([37.5996333333333, -0.985847222222222]).addTo(cityMap);
                     marker.bindPopup('<div class="nearby-sticker-popup"><strong>Rapid Bucuresti</strong><a href="/stickers/3056.html" class="map-popup-link">View</a></div>');
-                    marker.on('mouseover', function() { this.openPopup(); });
-                    marker.on('click', function() { this.openPopup(); });
-                })();
-
-                (function() {
-                    const marker = L.marker([37.6004444444444, -0.986288888888889]).addTo(cityMap);
-                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>Real Zaragoza</strong><a href="/stickers/3072.html" class="map-popup-link">View</a></div>');
                     marker.on('mouseover', function() { this.openPopup(); });
                     marker.on('click', function() { this.openPopup(); });
                 })();
@@ -678,6 +678,13 @@
                 })();
 
                 (function() {
+                    const marker = L.marker([37.5997583333333, -0.983505555555556]).addTo(cityMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>Altonaer FC von 1893</strong><a href="/stickers/3080.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
                     const marker = L.marker([37.5999611111111, -0.984183333333333]).addTo(cityMap);
                     marker.bindPopup('<div class="nearby-sticker-popup"><strong>Hansa Rostock</strong><a href="/stickers/3081.html" class="map-popup-link">View</a></div>');
                     marker.on('mouseover', function() { this.openPopup(); });
@@ -687,13 +694,6 @@
                 (function() {
                     const marker = L.marker([37.5996638888889, -0.98355]).addTo(cityMap);
                     marker.bindPopup('<div class="nearby-sticker-popup"><strong>Sporting CP</strong><a href="/stickers/3079.html" class="map-popup-link">View</a></div>');
-                    marker.on('mouseover', function() { this.openPopup(); });
-                    marker.on('click', function() { this.openPopup(); });
-                })();
-
-                (function() {
-                    const marker = L.marker([37.5997583333333, -0.983505555555556]).addTo(cityMap);
-                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>Altonaer FC von 1893</strong><a href="/stickers/3080.html" class="map-popup-link">View</a></div>');
                     marker.on('mouseover', function() { this.openPopup(); });
                     marker.on('click', function() { this.openPopup(); });
                 })();
@@ -844,10 +844,10 @@
                     [37.603375, -0.988494444444444],
                     [37.5993333333333, -0.985030555555556],
                     [37.5983916666667, -0.98545],
+                    [37.6004444444444, -0.986288888888889],
                     [37.5983888888889, -0.985433333333333],
                     [37.6010555555556, -0.984833333333333],
                     [37.5996333333333, -0.985847222222222],
-                    [37.6004444444444, -0.986288888888889],
                     [37.5996388888889, -0.985852777777778],
                     [37.6020611111111, -0.987327777777778],
                     [37.5983916666667, -0.98545],
@@ -855,9 +855,9 @@
                     [37.6024777777778, -0.981427777777778],
                     [37.6004444444444, -0.984358333333333],
                     [37.5998833333333, -0.984883333333333],
+                    [37.5997583333333, -0.983505555555556],
                     [37.5999611111111, -0.984183333333333],
                     [37.5996638888889, -0.98355],
-                    [37.5997583333333, -0.983505555555556],
                     [37.5995111111111, -0.983508333333333],
                     [37.5998833333333, -0.984866666666667],
                     [37.6044305555556, -0.980480555555556],

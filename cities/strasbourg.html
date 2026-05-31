@@ -155,7 +155,7 @@
         <div id="catalogue-content">
             <div class="wiki-section">
     <div class="wiki-facts">
-        <div class="wiki-fact"><span class="wiki-fact-label">Population</span><span class="wiki-fact-value">293 771</span></div>
+        <div class="wiki-fact"><span class="wiki-fact-label">Population</span><span class="wiki-fact-value">293,771</span></div>
     </div>
     <div class="wiki-intro">
         <p>Strasbourg is a prefecture and commune, and the largest city of the Grand Est region of northeastern France, in the historic region of Alsace.  It is the prefecture of the Bas-Rhin department and the official seat of the European Parliament.</p>
@@ -493,6 +493,15 @@
                          loading="lazy"
                          decoding="async">
                 </a>
+                <a href="/stickers/3549.html" class="sticker-preview-link">
+                    <img src="/img/club_707/1779534189743_IMG_0180_thumb.webp"
+                         alt="Strasbourg football sticker #3549 found in this city"
+                         data-sticker-id="3549"
+                         class="sticker-preview-image"
+                         width="200" height="200"
+                         loading="lazy"
+                         decoding="async">
+                </a>
                 <a href="/stickers/3548.html" class="sticker-preview-link">
                     <img src="/img/club_666/1779534168135_IMG_0182_thumb.webp"
                          alt="Olympique de Marseille football sticker #3548 found in this city"
@@ -506,15 +515,6 @@
                     <img src="/img/club_707/1779534207476_IMG_0178_thumb.webp"
                          alt="Strasbourg football sticker #3550 found in this city"
                          data-sticker-id="3550"
-                         class="sticker-preview-image"
-                         width="200" height="200"
-                         loading="lazy"
-                         decoding="async">
-                </a>
-                <a href="/stickers/3549.html" class="sticker-preview-link">
-                    <img src="/img/club_707/1779534189743_IMG_0180_thumb.webp"
-                         alt="Strasbourg football sticker #3549 found in this city"
-                         data-sticker-id="3549"
                          class="sticker-preview-image"
                          width="200" height="200"
                          loading="lazy"
@@ -1114,6 +1114,13 @@
                 })();
 
                 (function() {
+                    const marker = L.marker([48.5837944444445, 7.73753333333333]).addTo(cityMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>Strasbourg</strong><a href="/stickers/3549.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
                     const marker = L.marker([48.5835666666667, 7.73818888888889]).addTo(cityMap);
                     marker.bindPopup('<div class="nearby-sticker-popup"><strong>Olympique de Marseille</strong><a href="/stickers/3548.html" class="map-popup-link">View</a></div>');
                     marker.on('mouseover', function() { this.openPopup(); });
@@ -1123,13 +1130,6 @@
                 (function() {
                     const marker = L.marker([48.5837888888889, 7.73746944444444]).addTo(cityMap);
                     marker.bindPopup('<div class="nearby-sticker-popup"><strong>Strasbourg</strong><a href="/stickers/3550.html" class="map-popup-link">View</a></div>');
-                    marker.on('mouseover', function() { this.openPopup(); });
-                    marker.on('click', function() { this.openPopup(); });
-                })();
-
-                (function() {
-                    const marker = L.marker([48.5837944444445, 7.73753333333333]).addTo(cityMap);
-                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>Strasbourg</strong><a href="/stickers/3549.html" class="map-popup-link">View</a></div>');
                     marker.on('mouseover', function() { this.openPopup(); });
                     marker.on('click', function() { this.openPopup(); });
                 })();
@@ -1402,9 +1402,9 @@
                     [48.5832194444444, 7.73899166666667],
                     [48.5800305555556, 7.74447222222222],
                     [48.5807222222222, 7.73883888888889],
+                    [48.5837944444445, 7.73753333333333],
                     [48.5835666666667, 7.73818888888889],
                     [48.5837888888889, 7.73746944444444],
-                    [48.5837944444445, 7.73753333333333],
                     [48.5820777777778, 7.74933611111111],
                     [48.5837916666667, 7.73751944444444],
                     [48.5838083333333, 7.73736944444444],

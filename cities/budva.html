@@ -155,7 +155,7 @@
         <div id="catalogue-content">
             <div class="wiki-section">
     <div class="wiki-facts">
-        <div class="wiki-fact"><span class="wiki-fact-label">Population</span><span class="wiki-fact-value">10 918</span></div>
+        <div class="wiki-fact"><span class="wiki-fact-label">Population</span><span class="wiki-fact-value">10,918</span></div>
     </div>
     <div class="wiki-intro">
         <p>Budva is a town in the Coastal region of Montenegro.  It had 17,479 inhabitants as of 2023, and is the centre of Budva Municipality.</p>
@@ -187,15 +187,6 @@
                          loading="lazy"
                          decoding="async">
                 </a>
-                <a href="/stickers/2486.html" class="sticker-preview-link">
-                    <img src="/img/club_893%2F1756553315226_IMG_6570_thumb.webp"
-                         alt="1 FC Lokomotive Leipzig football sticker #2486 found in this city"
-                         data-sticker-id="2486"
-                         class="sticker-preview-image"
-                         width="200" height="200"
-                         loading="lazy"
-                         decoding="async">
-                </a>
                 <a href="/stickers/2494.html" class="sticker-preview-link">
                     <img src="/img/club_949%2F1756559836070_IMG_6543_thumb.webp"
                          alt="FC Schalke 04 football sticker #2494 found in this city"
@@ -205,10 +196,10 @@
                          loading="lazy"
                          decoding="async">
                 </a>
-                <a href="/stickers/2484.html" class="sticker-preview-link">
-                    <img src="/img/club_780%2F1756553280694_IMG_6618_thumb.webp"
-                         alt="LKS Lodz football sticker #2484 found in this city"
-                         data-sticker-id="2484"
+                <a href="/stickers/2486.html" class="sticker-preview-link">
+                    <img src="/img/club_893%2F1756553315226_IMG_6570_thumb.webp"
+                         alt="1 FC Lokomotive Leipzig football sticker #2486 found in this city"
+                         data-sticker-id="2486"
                          class="sticker-preview-image"
                          width="200" height="200"
                          loading="lazy"
@@ -227,6 +218,15 @@
                     <img src="/img/club_631%2F1756560141751_IMG_6551_thumb.webp"
                          alt="FK Crvena zvezda football sticker #2501 found in this city"
                          data-sticker-id="2501"
+                         class="sticker-preview-image"
+                         width="200" height="200"
+                         loading="lazy"
+                         decoding="async">
+                </a>
+                <a href="/stickers/2484.html" class="sticker-preview-link">
+                    <img src="/img/club_780%2F1756553280694_IMG_6618_thumb.webp"
+                         alt="LKS Lodz football sticker #2484 found in this city"
+                         data-sticker-id="2484"
                          class="sticker-preview-image"
                          width="200" height="200"
                          loading="lazy"
@@ -471,13 +471,6 @@
                 })();
 
                 (function() {
-                    const marker = L.marker([42.2789222222222, 18.8367611111111]).addTo(cityMap);
-                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>1 FC Lokomotive Leipzig</strong><a href="/stickers/2486.html" class="map-popup-link">View</a></div>');
-                    marker.on('mouseover', function() { this.openPopup(); });
-                    marker.on('click', function() { this.openPopup(); });
-                })();
-
-                (function() {
                     const marker = L.marker([42.2791833333333, 18.8376805555556]).addTo(cityMap);
                     marker.bindPopup('<div class="nearby-sticker-popup"><strong>FC Schalke 04</strong><a href="/stickers/2494.html" class="map-popup-link">View</a></div>');
                     marker.on('mouseover', function() { this.openPopup(); });
@@ -485,8 +478,8 @@
                 })();
 
                 (function() {
-                    const marker = L.marker([42.2836527777778, 18.8371416666667]).addTo(cityMap);
-                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>LKS Lodz</strong><a href="/stickers/2484.html" class="map-popup-link">View</a></div>');
+                    const marker = L.marker([42.2789222222222, 18.8367611111111]).addTo(cityMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>1 FC Lokomotive Leipzig</strong><a href="/stickers/2486.html" class="map-popup-link">View</a></div>');
                     marker.on('mouseover', function() { this.openPopup(); });
                     marker.on('click', function() { this.openPopup(); });
                 })();
@@ -501,6 +494,13 @@
                 (function() {
                     const marker = L.marker([42.2781111111111, 18.8373555555556]).addTo(cityMap);
                     marker.bindPopup('<div class="nearby-sticker-popup"><strong>FK Crvena zvezda</strong><a href="/stickers/2501.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([42.2836527777778, 18.8371416666667]).addTo(cityMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>LKS Lodz</strong><a href="/stickers/2484.html" class="map-popup-link">View</a></div>');
                     marker.on('mouseover', function() { this.openPopup(); });
                     marker.on('click', function() { this.openPopup(); });
                 })();
@@ -648,11 +648,11 @@
                 const bounds = L.latLngBounds([
                     [42.4122805555556, 18.7179611111111],
                     [42.2777972222222, 18.8377833333333],
-                    [42.2789222222222, 18.8367611111111],
                     [42.2791833333333, 18.8376805555556],
-                    [42.2836527777778, 18.8371416666667],
+                    [42.2789222222222, 18.8367611111111],
                     [42.2835166666667, 18.83715],
                     [42.2781111111111, 18.8373555555556],
+                    [42.2836527777778, 18.8371416666667],
                     [42.2826583333333, 18.8392916666667],
                     [42.2787277777778, 18.838375],
                     [42.2845527777778, 18.8434416666667],
