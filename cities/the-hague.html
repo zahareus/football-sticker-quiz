@@ -394,6 +394,15 @@
                          loading="lazy"
                          decoding="async">
                 </a>
+                <a href="/stickers/2830.html" class="sticker-preview-link">
+                    <img src="/img/club_1056/1766229346124_IMG_7729_thumb.webp"
+                         alt="Vitesse Arnhem football sticker #2830 found in this city"
+                         data-sticker-id="2830"
+                         class="sticker-preview-image"
+                         width="200" height="200"
+                         loading="lazy"
+                         decoding="async">
+                </a>
                 <a href="/stickers/2848.html" class="sticker-preview-link">
                     <img src="/img/club_1095/1766230172913_IMG_7680_thumb.webp"
                          alt="ADO Den Haag football sticker #2848 found in this city"
@@ -425,15 +434,6 @@
                     <img src="/img/club_930/1766229266500_IMG_7737_thumb.webp"
                          alt="Hamburger SV football sticker #2828 found in this city"
                          data-sticker-id="2828"
-                         class="sticker-preview-image"
-                         width="200" height="200"
-                         loading="lazy"
-                         decoding="async">
-                </a>
-                <a href="/stickers/2830.html" class="sticker-preview-link">
-                    <img src="/img/club_1056/1766229346124_IMG_7729_thumb.webp"
-                         alt="Vitesse Arnhem football sticker #2830 found in this city"
-                         data-sticker-id="2830"
                          class="sticker-preview-image"
                          width="200" height="200"
                          loading="lazy"
@@ -911,6 +911,13 @@
                 })();
 
                 (function() {
+                    const marker = L.marker([52.0788167, 4.3086306]).addTo(cityMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>Vitesse Arnhem</strong><a href="/stickers/2830.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
                     const marker = L.marker([52.1112861, 4.2799583]).addTo(cityMap);
                     marker.bindPopup('<div class="nearby-sticker-popup"><strong>ADO Den Haag</strong><a href="/stickers/2848.html" class="map-popup-link">View</a></div>');
                     marker.on('mouseover', function() { this.openPopup(); });
@@ -934,13 +941,6 @@
                 (function() {
                     const marker = L.marker([52.0781861, 4.3092417]).addTo(cityMap);
                     marker.bindPopup('<div class="nearby-sticker-popup"><strong>Hamburger SV</strong><a href="/stickers/2828.html" class="map-popup-link">View</a></div>');
-                    marker.on('mouseover', function() { this.openPopup(); });
-                    marker.on('click', function() { this.openPopup(); });
-                })();
-
-                (function() {
-                    const marker = L.marker([52.0788167, 4.3086306]).addTo(cityMap);
-                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>Vitesse Arnhem</strong><a href="/stickers/2830.html" class="map-popup-link">View</a></div>');
                     marker.on('mouseover', function() { this.openPopup(); });
                     marker.on('click', function() { this.openPopup(); });
                 })();
@@ -1167,11 +1167,11 @@
                     [52.1163972, 4.2815944],
                     [52.1121833, 4.2789167],
                     [52.1111667, 4.2804972],
+                    [52.0788167, 4.3086306],
                     [52.1112861, 4.2799583],
                     [52.0781667, 4.3092361],
                     [52.1163972, 4.2815944],
                     [52.0781861, 4.3092417],
-                    [52.0788167, 4.3086306],
                     [52.1163944, 4.2815944],
                     [52.0800694, 4.3095889],
                     [52.1156083, 4.2829639],

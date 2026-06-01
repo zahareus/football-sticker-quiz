@@ -367,15 +367,6 @@
                          loading="lazy"
                          decoding="async">
                 </a>
-                <a href="/stickers/3009.html" class="sticker-preview-link">
-                    <img src="/img/club_1159/1772971077138_IMG_7991_thumb.webp"
-                         alt="Altonaer FC von 1893 football sticker #3009 found in this city"
-                         data-sticker-id="3009"
-                         class="sticker-preview-image"
-                         width="200" height="200"
-                         loading="lazy"
-                         decoding="async">
-                </a>
                 <a href="/stickers/2959.html" class="sticker-preview-link">
                     <img src="/img/club_1148/1769892768309_IMG_7915_thumb.webp"
                          alt="MVV Maastricht football sticker #2959 found in this city"
@@ -398,6 +389,15 @@
                     <img src="/img/club_1148/1769893067890_IMG_7900_thumb.webp"
                          alt="MVV Maastricht football sticker #2963 found in this city"
                          data-sticker-id="2963"
+                         class="sticker-preview-image"
+                         width="200" height="200"
+                         loading="lazy"
+                         decoding="async">
+                </a>
+                <a href="/stickers/3009.html" class="sticker-preview-link">
+                    <img src="/img/club_1159/1772971077138_IMG_7991_thumb.webp"
+                         alt="Altonaer FC von 1893 football sticker #3009 found in this city"
+                         data-sticker-id="3009"
                          class="sticker-preview-image"
                          width="200" height="200"
                          loading="lazy"
@@ -926,13 +926,6 @@
                 })();
 
                 (function() {
-                    const marker = L.marker([50.8502083333333, 5.69138611111111]).addTo(cityMap);
-                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>Altonaer FC von 1893</strong><a href="/stickers/3009.html" class="map-popup-link">View</a></div>');
-                    marker.on('mouseover', function() { this.openPopup(); });
-                    marker.on('click', function() { this.openPopup(); });
-                })();
-
-                (function() {
                     const marker = L.marker([50.8494, 5.695225]).addTo(cityMap);
                     marker.bindPopup('<div class="nearby-sticker-popup"><strong>MVV Maastricht</strong><a href="/stickers/2959.html" class="map-popup-link">View</a></div>');
                     marker.on('mouseover', function() { this.openPopup(); });
@@ -949,6 +942,13 @@
                 (function() {
                     const marker = L.marker([50.8497805555556, 5.70271666666667]).addTo(cityMap);
                     marker.bindPopup('<div class="nearby-sticker-popup"><strong>MVV Maastricht</strong><a href="/stickers/2963.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([50.8502083333333, 5.69138611111111]).addTo(cityMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>Altonaer FC von 1893</strong><a href="/stickers/3009.html" class="map-popup-link">View</a></div>');
                     marker.on('mouseover', function() { this.openPopup(); });
                     marker.on('click', function() { this.openPopup(); });
                 })();
@@ -1228,10 +1228,10 @@
                     [50.8497611111111, 5.705125],
                     [50.8468555555556, 5.70386388888889],
                     [50.8495611111111, 5.70401111111111],
-                    [50.8502083333333, 5.69138611111111],
                     [50.8494, 5.695225],
                     [50.8502527777778, 5.69160555555556],
                     [50.8497805555556, 5.70271666666667],
+                    [50.8502083333333, 5.69138611111111],
                     [50.8498305555556, 5.6948],
                     [50.8486055555556, 5.69276388888889],
                     [50.8496888888889, 5.70220833333333],

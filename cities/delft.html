@@ -205,6 +205,15 @@
                          loading="lazy"
                          decoding="async">
                 </a>
+                <a href="/stickers/2795.html" class="sticker-preview-link">
+                    <img src="/img/club_947/1763899021898_IMG_7570_thumb.webp"
+                         alt="VfB Stuttgart football sticker #2795 found in this city"
+                         data-sticker-id="2795"
+                         class="sticker-preview-image"
+                         width="200" height="200"
+                         loading="lazy"
+                         decoding="async">
+                </a>
                 <a href="/stickers/2933.html" class="sticker-preview-link">
                     <img src="/img/club_759/1768769020748_IMG_7751_thumb.webp"
                          alt="Feyenoord football sticker #2933 found in this city"
@@ -448,19 +457,19 @@
                          loading="lazy"
                          decoding="async">
                 </a>
-                <a href="/stickers/2791.html" class="sticker-preview-link">
-                    <img src="/img/club_661/1763898850903_IMG_7549_thumb.webp"
-                         alt="ACF Fiorentina football sticker #2791 found in this city"
-                         data-sticker-id="2791"
+                <a href="/stickers/2787.html" class="sticker-preview-link">
+                    <img src="/img/club_957/1763898632978_IMG_7578_thumb.webp"
+                         alt="1 FC Magdeburg football sticker #2787 found in this city"
+                         data-sticker-id="2787"
                          class="sticker-preview-image"
                          width="200" height="200"
                          loading="lazy"
                          decoding="async">
                 </a>
-                <a href="/stickers/2787.html" class="sticker-preview-link">
-                    <img src="/img/club_957/1763898632978_IMG_7578_thumb.webp"
-                         alt="1 FC Magdeburg football sticker #2787 found in this city"
-                         data-sticker-id="2787"
+                <a href="/stickers/2791.html" class="sticker-preview-link">
+                    <img src="/img/club_661/1763898850903_IMG_7549_thumb.webp"
+                         alt="ACF Fiorentina football sticker #2791 found in this city"
+                         data-sticker-id="2791"
                          class="sticker-preview-image"
                          width="200" height="200"
                          loading="lazy"
@@ -574,15 +583,6 @@
                          loading="lazy"
                          decoding="async">
                 </a>
-                <a href="/stickers/2794.html" class="sticker-preview-link">
-                    <img src="/img/club_953/1763898961826_IMG_7563_thumb.webp"
-                         alt="1 FSV Mainz 05 football sticker #2794 found in this city"
-                         data-sticker-id="2794"
-                         class="sticker-preview-image"
-                         width="200" height="200"
-                         loading="lazy"
-                         decoding="async">
-                </a>
                 <a href="/stickers/2784.html" class="sticker-preview-link">
                     <img src="/img/club_759/1763898220585_IMG_7508_thumb.webp"
                          alt="Feyenoord football sticker #2784 found in this city"
@@ -592,10 +592,10 @@
                          loading="lazy"
                          decoding="async">
                 </a>
-                <a href="/stickers/2795.html" class="sticker-preview-link">
-                    <img src="/img/club_947/1763899021898_IMG_7570_thumb.webp"
-                         alt="VfB Stuttgart football sticker #2795 found in this city"
-                         data-sticker-id="2795"
+                <a href="/stickers/2794.html" class="sticker-preview-link">
+                    <img src="/img/club_953/1763898961826_IMG_7563_thumb.webp"
+                         alt="1 FSV Mainz 05 football sticker #2794 found in this city"
+                         data-sticker-id="2794"
                          class="sticker-preview-image"
                          width="200" height="200"
                          loading="lazy"
@@ -649,7 +649,7 @@
         
         document.addEventListener('DOMContentLoaded', function() {
             if (typeof L !== 'undefined' && document.getElementById('club-map')) {
-                const cityMap = L.map('club-map').setView([52.01092851496598, 4.361075057142859], 12);
+                const cityMap = L.map('club-map').setView([52.01092851496597, 4.361075057142859], 12);
                 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                     attribution: '&copy; OpenStreetMap contributors'
                 }).addTo(cityMap);
@@ -678,6 +678,13 @@
                 (function() {
                     const marker = L.marker([52.0078667, 4.3568972]).addTo(cityMap);
                     marker.bindPopup('<div class="nearby-sticker-popup"><strong>Feyenoord</strong><a href="/stickers/2796.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([52.0124694, 4.3568361]).addTo(cityMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>VfB Stuttgart</strong><a href="/stickers/2795.html" class="map-popup-link">View</a></div>');
                     marker.on('mouseover', function() { this.openPopup(); });
                     marker.on('click', function() { this.openPopup(); });
                 })();
@@ -872,15 +879,15 @@
                 })();
 
                 (function() {
-                    const marker = L.marker([52.0116806, 4.3648611]).addTo(cityMap);
-                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>ACF Fiorentina</strong><a href="/stickers/2791.html" class="map-popup-link">View</a></div>');
+                    const marker = L.marker([52.01365, 4.3516222]).addTo(cityMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>1 FC Magdeburg</strong><a href="/stickers/2787.html" class="map-popup-link">View</a></div>');
                     marker.on('mouseover', function() { this.openPopup(); });
                     marker.on('click', function() { this.openPopup(); });
                 })();
 
                 (function() {
-                    const marker = L.marker([52.01365, 4.3516222]).addTo(cityMap);
-                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>1 FC Magdeburg</strong><a href="/stickers/2787.html" class="map-popup-link">View</a></div>');
+                    const marker = L.marker([52.0116806, 4.3648611]).addTo(cityMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>ACF Fiorentina</strong><a href="/stickers/2791.html" class="map-popup-link">View</a></div>');
                     marker.on('mouseover', function() { this.openPopup(); });
                     marker.on('click', function() { this.openPopup(); });
                 })();
@@ -970,13 +977,6 @@
                 })();
 
                 (function() {
-                    const marker = L.marker([52.0134722, 4.3644111]).addTo(cityMap);
-                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>1 FSV Mainz 05</strong><a href="/stickers/2794.html" class="map-popup-link">View</a></div>');
-                    marker.on('mouseover', function() { this.openPopup(); });
-                    marker.on('click', function() { this.openPopup(); });
-                })();
-
-                (function() {
                     const marker = L.marker([52.0103861, 4.3577556]).addTo(cityMap);
                     marker.bindPopup('<div class="nearby-sticker-popup"><strong>Feyenoord</strong><a href="/stickers/2784.html" class="map-popup-link">View</a></div>');
                     marker.on('mouseover', function() { this.openPopup(); });
@@ -984,8 +984,8 @@
                 })();
 
                 (function() {
-                    const marker = L.marker([52.0124694, 4.3568361]).addTo(cityMap);
-                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>VfB Stuttgart</strong><a href="/stickers/2795.html" class="map-popup-link">View</a></div>');
+                    const marker = L.marker([52.0134722, 4.3644111]).addTo(cityMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>1 FSV Mainz 05</strong><a href="/stickers/2794.html" class="map-popup-link">View</a></div>');
                     marker.on('mouseover', function() { this.openPopup(); });
                     marker.on('click', function() { this.openPopup(); });
                 })();
@@ -1002,6 +1002,7 @@
                     [52.0109055555556, 4.36964166666667],
                     [52.011925, 4.35865],
                     [52.0078667, 4.3568972],
+                    [52.0124694, 4.3568361],
                     [52.0107083333333, 4.35826388888889],
                     [52.01275, 4.36718611111111],
                     [52.0113222222222, 4.36590555555556],
@@ -1029,8 +1030,8 @@
                     [52.0116889, 4.3586917],
                     [52.0107528, 4.3602583],
                     [52.0133472, 4.3657889],
-                    [52.0116806, 4.3648611],
                     [52.01365, 4.3516222],
+                    [52.0116806, 4.3648611],
                     [52.0078806, 4.3567917],
                     [52.0128528, 4.3607722],
                     [52.0069361, 4.3608556],
@@ -1043,9 +1044,8 @@
                     [52.0116472222222, 4.36487777777778],
                     [52.0135778, 4.35145],
                     [52.0090361, 4.3638889],
-                    [52.0134722, 4.3644111],
                     [52.0103861, 4.3577556],
-                    [52.0124694, 4.3568361],
+                    [52.0134722, 4.3644111],
                     [52.0078778, 4.3567528]
                 ]);
                 cityMap.fitBounds(bounds, { padding: [30, 30], maxZoom: 15 });
