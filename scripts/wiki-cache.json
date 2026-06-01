@@ -6183,5 +6183,14 @@
     "capacity": "25,000",
     "league": "Primera División de Bolivia",
     "website": "https://clubbolivar.com/"
+  },
+  "1209": {
+    "wikiUrl": "https://en.wikipedia.org/wiki/NK_%C4%8Celik_Zenica",
+    "intro": "Nogometni klub Čelik Zenica (English: Football Club Čelik Zenica) is a professional football club based in Zenica, Bosnia and Herzegovina. The name Čelik means Steel in Bosnian, and it symbolizes the strength and power of the club in an industrial city well known for steel production.",
+    "founded": "1945",
+    "stadium": "Bilino Polje Stadium",
+    "capacity": "15,600",
+    "league": null,
+    "website": "https://nkcelik.ba/"
   }
 }
