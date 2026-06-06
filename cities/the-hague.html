@@ -241,6 +241,15 @@
                          loading="lazy"
                          decoding="async">
                 </a>
+                <a href="/stickers/2802.html" class="sticker-preview-link">
+                    <img src="/img/club_1140/1766182665106_IMG_7632_thumb.webp"
+                         alt="KSV Hessen Kassel football sticker #2802 found in this city"
+                         data-sticker-id="2802"
+                         class="sticker-preview-image"
+                         width="200" height="200"
+                         loading="lazy"
+                         decoding="async">
+                </a>
                 <a href="/stickers/2805.html" class="sticker-preview-link">
                     <img src="/img/club_877/1766183182352_IMG_7622_thumb.webp"
                          alt="Hannover 96 football sticker #2805 found in this city"
@@ -299,15 +308,6 @@
                     <img src="/img/club_1117/1766183950126_IMG_7628_thumb.webp"
                          alt="Motor Lublin football sticker #2815 found in this city"
                          data-sticker-id="2815"
-                         class="sticker-preview-image"
-                         width="200" height="200"
-                         loading="lazy"
-                         decoding="async">
-                </a>
-                <a href="/stickers/2802.html" class="sticker-preview-link">
-                    <img src="/img/club_1140/1766182665106_IMG_7632_thumb.webp"
-                         alt="KSV Hessen Kassel football sticker #2802 found in this city"
-                         data-sticker-id="2802"
                          class="sticker-preview-image"
                          width="200" height="200"
                          loading="lazy"
@@ -430,19 +430,19 @@
                          loading="lazy"
                          decoding="async">
                 </a>
-                <a href="/stickers/2828.html" class="sticker-preview-link">
-                    <img src="/img/club_930/1766229266500_IMG_7737_thumb.webp"
-                         alt="Hamburger SV football sticker #2828 found in this city"
-                         data-sticker-id="2828"
+                <a href="/stickers/2853.html" class="sticker-preview-link">
+                    <img src="/img/club_1095/1766230886982_IMG_7738_thumb.webp"
+                         alt="ADO Den Haag football sticker #2853 found in this city"
+                         data-sticker-id="2853"
                          class="sticker-preview-image"
                          width="200" height="200"
                          loading="lazy"
                          decoding="async">
                 </a>
-                <a href="/stickers/2853.html" class="sticker-preview-link">
-                    <img src="/img/club_1095/1766230886982_IMG_7738_thumb.webp"
-                         alt="ADO Den Haag football sticker #2853 found in this city"
-                         data-sticker-id="2853"
+                <a href="/stickers/2828.html" class="sticker-preview-link">
+                    <img src="/img/club_930/1766229266500_IMG_7737_thumb.webp"
+                         alt="Hamburger SV football sticker #2828 found in this city"
+                         data-sticker-id="2828"
                          class="sticker-preview-image"
                          width="200" height="200"
                          loading="lazy"
@@ -792,6 +792,13 @@
                 })();
 
                 (function() {
+                    const marker = L.marker([52.1160361, 4.2822972]).addTo(cityMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>KSV Hessen Kassel</strong><a href="/stickers/2802.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
                     const marker = L.marker([52.1149444, 4.28275]).addTo(cityMap);
                     marker.bindPopup('<div class="nearby-sticker-popup"><strong>Hannover 96</strong><a href="/stickers/2805.html" class="map-popup-link">View</a></div>');
                     marker.on('mouseover', function() { this.openPopup(); });
@@ -836,13 +843,6 @@
                 (function() {
                     const marker = L.marker([52.115325, 4.283025]).addTo(cityMap);
                     marker.bindPopup('<div class="nearby-sticker-popup"><strong>Motor Lublin</strong><a href="/stickers/2815.html" class="map-popup-link">View</a></div>');
-                    marker.on('mouseover', function() { this.openPopup(); });
-                    marker.on('click', function() { this.openPopup(); });
-                })();
-
-                (function() {
-                    const marker = L.marker([52.1160361, 4.2822972]).addTo(cityMap);
-                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>KSV Hessen Kassel</strong><a href="/stickers/2802.html" class="map-popup-link">View</a></div>');
                     marker.on('mouseover', function() { this.openPopup(); });
                     marker.on('click', function() { this.openPopup(); });
                 })();
@@ -939,15 +939,15 @@
                 })();
 
                 (function() {
-                    const marker = L.marker([52.0781861, 4.3092417]).addTo(cityMap);
-                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>Hamburger SV</strong><a href="/stickers/2828.html" class="map-popup-link">View</a></div>');
+                    const marker = L.marker([52.0781667, 4.3092361]).addTo(cityMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>ADO Den Haag</strong><a href="/stickers/2853.html" class="map-popup-link">View</a></div>');
                     marker.on('mouseover', function() { this.openPopup(); });
                     marker.on('click', function() { this.openPopup(); });
                 })();
 
                 (function() {
-                    const marker = L.marker([52.0781667, 4.3092361]).addTo(cityMap);
-                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>ADO Den Haag</strong><a href="/stickers/2853.html" class="map-popup-link">View</a></div>');
+                    const marker = L.marker([52.0781861, 4.3092417]).addTo(cityMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>Hamburger SV</strong><a href="/stickers/2828.html" class="map-popup-link">View</a></div>');
                     marker.on('mouseover', function() { this.openPopup(); });
                     marker.on('click', function() { this.openPopup(); });
                 })();
@@ -1150,6 +1150,7 @@
                     [52.1163944, 4.2815944],
                     [52.0797111, 4.3106806],
                     [52.0781667, 4.3092361],
+                    [52.1160361, 4.2822972],
                     [52.1149444, 4.28275],
                     [52.112525, 4.2794],
                     [52.1155806, 4.2829889],
@@ -1157,7 +1158,6 @@
                     [52.1155806, 4.2829889],
                     [52.1147778, 4.2828444],
                     [52.115325, 4.283025],
-                    [52.1160361, 4.2822972],
                     [52.1114778, 4.2794639],
                     [52.11555, 4.2831444],
                     [52.1152917, 4.2830222],
@@ -1171,8 +1171,8 @@
                     [52.1112861, 4.2799583],
                     [52.0810083, 4.3130944],
                     [52.1163972, 4.2815944],
-                    [52.0781861, 4.3092417],
                     [52.0781667, 4.3092361],
+                    [52.0781861, 4.3092417],
                     [52.1163944, 4.2815944],
                     [52.0800694, 4.3095889],
                     [52.1156083, 4.2829639],

@@ -6192,5 +6192,14 @@
     "capacity": "15,600",
     "league": null,
     "website": "https://nkcelik.ba/"
+  },
+  "1210": {
+    "wikiUrl": "https://en.wikipedia.org/wiki/IFK_Norrk%C3%B6ping",
+    "intro": "Idrottsföreningen Kamraterna Norrköping, more commonly known as IFK Norrköping or simply Norrköping, is a Swedish professional football club based in Norrköping. The club is affiliated to Östergötlands Fotbollförbund and play their home games at PlatinumCars Arena.",
+    "founded": "1897",
+    "stadium": null,
+    "capacity": null,
+    "league": "Superettan",
+    "website": "https://ifknorrkoping.se/"
   }
 }

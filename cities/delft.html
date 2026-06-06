@@ -439,15 +439,6 @@
                          loading="lazy"
                          decoding="async">
                 </a>
-                <a href="/stickers/2789.html" class="sticker-preview-link">
-                    <img src="/img/club_912/1763898717748_IMG_7534_thumb.webp"
-                         alt="Eintracht Braunschweig football sticker #2789 found in this city"
-                         data-sticker-id="2789"
-                         class="sticker-preview-image"
-                         width="200" height="200"
-                         loading="lazy"
-                         decoding="async">
-                </a>
                 <a href="/stickers/2793.html" class="sticker-preview-link">
                     <img src="/img/club_649/1763898927165_IMG_7560_thumb.webp"
                          alt="UC Sampdoria football sticker #2793 found in this city"
@@ -488,6 +479,15 @@
                     <img src="/img/club_856/1763899362019_IMG_7541_thumb.webp"
                          alt="FC Bayern Munich football sticker #2797 found in this city"
                          data-sticker-id="2797"
+                         class="sticker-preview-image"
+                         width="200" height="200"
+                         loading="lazy"
+                         decoding="async">
+                </a>
+                <a href="/stickers/2789.html" class="sticker-preview-link">
+                    <img src="/img/club_912/1763898717748_IMG_7534_thumb.webp"
+                         alt="Eintracht Braunschweig football sticker #2789 found in this city"
+                         data-sticker-id="2789"
                          class="sticker-preview-image"
                          width="200" height="200"
                          loading="lazy"
@@ -865,13 +865,6 @@
                 })();
 
                 (function() {
-                    const marker = L.marker([52.0107528, 4.3602583]).addTo(cityMap);
-                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>Eintracht Braunschweig</strong><a href="/stickers/2789.html" class="map-popup-link">View</a></div>');
-                    marker.on('mouseover', function() { this.openPopup(); });
-                    marker.on('click', function() { this.openPopup(); });
-                })();
-
-                (function() {
                     const marker = L.marker([52.0133472, 4.3657889]).addTo(cityMap);
                     marker.bindPopup('<div class="nearby-sticker-popup"><strong>UC Sampdoria</strong><a href="/stickers/2793.html" class="map-popup-link">View</a></div>');
                     marker.on('mouseover', function() { this.openPopup(); });
@@ -902,6 +895,13 @@
                 (function() {
                     const marker = L.marker([52.0128528, 4.3607722]).addTo(cityMap);
                     marker.bindPopup('<div class="nearby-sticker-popup"><strong>FC Bayern Munich</strong><a href="/stickers/2797.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([52.0107528, 4.3602583]).addTo(cityMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>Eintracht Braunschweig</strong><a href="/stickers/2789.html" class="map-popup-link">View</a></div>');
                     marker.on('mouseover', function() { this.openPopup(); });
                     marker.on('click', function() { this.openPopup(); });
                 })();
@@ -1028,12 +1028,12 @@
                     [52.0107583, 4.3601306],
                     [52.00945, 4.3643111],
                     [52.0116889, 4.3586917],
-                    [52.0107528, 4.3602583],
                     [52.0133472, 4.3657889],
                     [52.01365, 4.3516222],
                     [52.0116806, 4.3648611],
                     [52.0078806, 4.3567917],
                     [52.0128528, 4.3607722],
+                    [52.0107528, 4.3602583],
                     [52.0069361, 4.3608556],
                     [52.0122861, 4.3632417],
                     [52.0134361, 4.3516556],
