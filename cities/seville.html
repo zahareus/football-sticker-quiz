@@ -421,15 +421,6 @@
                          loading="lazy"
                          decoding="async">
                 </a>
-                <a href="/stickers/3129.html" class="sticker-preview-link">
-                    <img src="/img/club_450/1773524597352_IMG_8446_thumb.webp"
-                         alt="Atlético Nacional football sticker #3129 found in this city"
-                         data-sticker-id="3129"
-                         class="sticker-preview-image"
-                         width="200" height="200"
-                         loading="lazy"
-                         decoding="async">
-                </a>
                 <a href="/stickers/3133.html" class="sticker-preview-link">
                     <img src="/img/club_719/1773525159489_IMG_8372_thumb.webp"
                          alt="AIK Stockholm football sticker #3133 found in this city"
@@ -452,6 +443,15 @@
                     <img src="/img/club_824/1773524228949_IMG_8356_thumb.webp"
                          alt="Real Betis football sticker #3124 found in this city"
                          data-sticker-id="3124"
+                         class="sticker-preview-image"
+                         width="200" height="200"
+                         loading="lazy"
+                         decoding="async">
+                </a>
+                <a href="/stickers/3129.html" class="sticker-preview-link">
+                    <img src="/img/club_450/1773524597352_IMG_8446_thumb.webp"
+                         alt="Atlético Nacional football sticker #3129 found in this city"
+                         data-sticker-id="3129"
                          class="sticker-preview-image"
                          width="200" height="200"
                          loading="lazy"
@@ -761,13 +761,6 @@
                 })();
 
                 (function() {
-                    const marker = L.marker([37.4059333333333, -5.93443333333333]).addTo(cityMap);
-                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>Atlético Nacional</strong><a href="/stickers/3129.html" class="map-popup-link">View</a></div>');
-                    marker.on('mouseover', function() { this.openPopup(); });
-                    marker.on('click', function() { this.openPopup(); });
-                })();
-
-                (function() {
                     const marker = L.marker([37.3873861111111, -5.99251666666667]).addTo(cityMap);
                     marker.bindPopup('<div class="nearby-sticker-popup"><strong>AIK Stockholm</strong><a href="/stickers/3133.html" class="map-popup-link">View</a></div>');
                     marker.on('mouseover', function() { this.openPopup(); });
@@ -784,6 +777,13 @@
                 (function() {
                     const marker = L.marker([37.4228333333333, -5.90113888888889]).addTo(cityMap);
                     marker.bindPopup('<div class="nearby-sticker-popup"><strong>Real Betis</strong><a href="/stickers/3124.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([37.4059333333333, -5.93443333333333]).addTo(cityMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>Atlético Nacional</strong><a href="/stickers/3129.html" class="map-popup-link">View</a></div>');
                     marker.on('mouseover', function() { this.openPopup(); });
                     marker.on('click', function() { this.openPopup(); });
                 })();
@@ -866,10 +866,10 @@
                     [37.4218138888889, -5.90089722222222],
                     [37.3925805555556, -5.9907],
                     [37.3941388888889, -5.98918333333333],
-                    [37.4059333333333, -5.93443333333333],
                     [37.3873861111111, -5.99251666666667],
                     [37.3960222222222, -5.99117222222222],
                     [37.4228333333333, -5.90113888888889],
+                    [37.4059333333333, -5.93443333333333],
                     [37.3928416666667, -5.99194444444444],
                     [37.3872222222222, -5.99243611111111],
                     [37.3895861111111, -5.99233333333333],

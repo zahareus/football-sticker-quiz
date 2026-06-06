@@ -395,15 +395,6 @@
                          loading="lazy"
                          decoding="async">
                 </a>
-                <a href="/stickers/3058.html" class="sticker-preview-link">
-                    <img src="/img/club_703/1773005786901_IMG_8211_thumb.webp"
-                         alt="SS Lazio football sticker #3058 found in this city"
-                         data-sticker-id="3058"
-                         class="sticker-preview-image"
-                         width="200" height="200"
-                         loading="lazy"
-                         decoding="async">
-                </a>
                 <a href="/stickers/3042.html" class="sticker-preview-link">
                     <img src="/img/club_813/1773005239423_IMG_8242_thumb.webp"
                          alt="Sevilla FC football sticker #3042 found in this city"
@@ -426,6 +417,15 @@
                     <img src="/img/club_714/1773005352006_IMG_8236_thumb.webp"
                          alt="Toulouse FC football sticker #3047 found in this city"
                          data-sticker-id="3047"
+                         class="sticker-preview-image"
+                         width="200" height="200"
+                         loading="lazy"
+                         decoding="async">
+                </a>
+                <a href="/stickers/3058.html" class="sticker-preview-link">
+                    <img src="/img/club_703/1773005786901_IMG_8211_thumb.webp"
+                         alt="SS Lazio football sticker #3058 found in this city"
+                         data-sticker-id="3058"
                          class="sticker-preview-image"
                          width="200" height="200"
                          loading="lazy"
@@ -560,7 +560,7 @@
         
         document.addEventListener('DOMContentLoaded', function() {
             if (typeof L !== 'undefined' && document.getElementById('club-map')) {
-                const cityMap = L.map('club-map').setView([37.600266524216515, -0.9849957264957269], 12);
+                const cityMap = L.map('club-map').setView([37.60026652421652, -0.9849957264957269], 12);
                 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                     attribution: '&copy; OpenStreetMap contributors'
                 }).addTo(cityMap);
@@ -741,13 +741,6 @@
                 })();
 
                 (function() {
-                    const marker = L.marker([37.6043138888889, -0.986294444444444]).addTo(cityMap);
-                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>SS Lazio</strong><a href="/stickers/3058.html" class="map-popup-link">View</a></div>');
-                    marker.on('mouseover', function() { this.openPopup(); });
-                    marker.on('click', function() { this.openPopup(); });
-                })();
-
-                (function() {
                     const marker = L.marker([37.5999305555556, -0.984744444444444]).addTo(cityMap);
                     marker.bindPopup('<div class="nearby-sticker-popup"><strong>Sevilla FC</strong><a href="/stickers/3042.html" class="map-popup-link">View</a></div>');
                     marker.on('mouseover', function() { this.openPopup(); });
@@ -764,6 +757,13 @@
                 (function() {
                     const marker = L.marker([37.5994444444444, -0.984541666666667]).addTo(cityMap);
                     marker.bindPopup('<div class="nearby-sticker-popup"><strong>Toulouse FC</strong><a href="/stickers/3047.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([37.6043138888889, -0.986294444444444]).addTo(cityMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>SS Lazio</strong><a href="/stickers/3058.html" class="map-popup-link">View</a></div>');
                     marker.on('mouseover', function() { this.openPopup(); });
                     marker.on('click', function() { this.openPopup(); });
                 })();
@@ -864,10 +864,10 @@
                     [37.5993416666667, -0.985013888888889],
                     [37.5998166666667, -0.984969444444444],
                     [37.6003194444444, -0.986358333333333],
-                    [37.6043138888889, -0.986294444444444],
                     [37.5999305555556, -0.984744444444444],
                     [37.5993777777778, -0.984836111111111],
                     [37.5994444444444, -0.984541666666667],
+                    [37.6043138888889, -0.986294444444444],
                     [37.5995777777778, -0.985322222222222],
                     [37.6029777777778, -0.989780555555556],
                     [37.5995638888889, -0.985316666666667],
