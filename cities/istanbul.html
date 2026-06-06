@@ -1060,6 +1060,15 @@
                          loading="lazy"
                          decoding="async">
                 </a>
+                <a href="/stickers/3406.html" class="sticker-preview-link">
+                    <img src="/img/club_622/1777114072940_IMG_9606_thumb.webp"
+                         alt="Fenerbahçe SK football sticker #3406 found in this city"
+                         data-sticker-id="3406"
+                         class="sticker-preview-image"
+                         width="200" height="200"
+                         loading="lazy"
+                         decoding="async">
+                </a>
                 <a href="/stickers/3322.html" class="sticker-preview-link">
                     <img src="/img/club_469/1776526928959_IMG_9529_(4)_thumb.webp"
                          alt="Galatasaray football sticker #3322 found in this city"
@@ -1082,15 +1091,6 @@
                     <img src="/img/club_622/1777113605097_IMG_9610_thumb.webp"
                          alt="Fenerbahçe SK football sticker #3401 found in this city"
                          data-sticker-id="3401"
-                         class="sticker-preview-image"
-                         width="200" height="200"
-                         loading="lazy"
-                         decoding="async">
-                </a>
-                <a href="/stickers/3406.html" class="sticker-preview-link">
-                    <img src="/img/club_622/1777114072940_IMG_9606_thumb.webp"
-                         alt="Fenerbahçe SK football sticker #3406 found in this city"
-                         data-sticker-id="3406"
                          class="sticker-preview-image"
                          width="200" height="200"
                          loading="lazy"
@@ -1294,15 +1294,6 @@
                          loading="lazy"
                          decoding="async">
                 </a>
-                <a href="/stickers/3386.html" class="sticker-preview-link">
-                    <img src="/img/club_1189/1777111986335_IMG_9550_thumb.webp"
-                         alt="Konyaspor football sticker #3386 found in this city"
-                         data-sticker-id="3386"
-                         class="sticker-preview-image"
-                         width="200" height="200"
-                         loading="lazy"
-                         decoding="async">
-                </a>
                 <a href="/stickers/3392.html" class="sticker-preview-link">
                     <img src="/img/club_996/1777112516282_IMG_9540_thumb.webp"
                          alt="CSKA Moscow football sticker #3392 found in this city"
@@ -1379,6 +1370,15 @@
                     <img src="/img/club_165/1777111128993_IMG_9587_thumb.webp"
                          alt="FC St. Gallen football sticker #3381 found in this city"
                          data-sticker-id="3381"
+                         class="sticker-preview-image"
+                         width="200" height="200"
+                         loading="lazy"
+                         decoding="async">
+                </a>
+                <a href="/stickers/3386.html" class="sticker-preview-link">
+                    <img src="/img/club_1189/1777111986335_IMG_9550_thumb.webp"
+                         alt="Konyaspor football sticker #3386 found in this city"
+                         data-sticker-id="3386"
                          class="sticker-preview-image"
                          width="200" height="200"
                          loading="lazy"
@@ -1657,7 +1657,7 @@
         
         document.addEventListener('DOMContentLoaded', function() {
             if (typeof L !== 'undefined' && document.getElementById('club-map')) {
-                const cityMap = L.map('club-map').setView([41.02884668737057, 28.986302001380263], 12);
+                const cityMap = L.map('club-map').setView([41.028846687370574, 28.986302001380263], 12);
                 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                     attribution: '&copy; OpenStreetMap contributors'
                 }).addTo(cityMap);
@@ -2356,6 +2356,13 @@
                 })();
 
                 (function() {
+                    const marker = L.marker([40.9903361111111, 29.0237555555556]).addTo(cityMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>Fenerbahçe SK</strong><a href="/stickers/3406.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
                     const marker = L.marker([41.0354638888889, 28.9819944444444]).addTo(cityMap);
                     marker.bindPopup('<div class="nearby-sticker-popup"><strong>Galatasaray</strong><a href="/stickers/3322.html" class="map-popup-link">View</a></div>');
                     marker.on('mouseover', function() { this.openPopup(); });
@@ -2372,13 +2379,6 @@
                 (function() {
                     const marker = L.marker([40.9900166666667, 29.0254305555556]).addTo(cityMap);
                     marker.bindPopup('<div class="nearby-sticker-popup"><strong>Fenerbahçe SK</strong><a href="/stickers/3401.html" class="map-popup-link">View</a></div>');
-                    marker.on('mouseover', function() { this.openPopup(); });
-                    marker.on('click', function() { this.openPopup(); });
-                })();
-
-                (function() {
-                    const marker = L.marker([40.9903361111111, 29.0237555555556]).addTo(cityMap);
-                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>Fenerbahçe SK</strong><a href="/stickers/3406.html" class="map-popup-link">View</a></div>');
                     marker.on('mouseover', function() { this.openPopup(); });
                     marker.on('click', function() { this.openPopup(); });
                 })();
@@ -2538,13 +2538,6 @@
                 })();
 
                 (function() {
-                    const marker = L.marker([41.0367861111111, 28.9852722222222]).addTo(cityMap);
-                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>Konyaspor</strong><a href="/stickers/3386.html" class="map-popup-link">View</a></div>');
-                    marker.on('mouseover', function() { this.openPopup(); });
-                    marker.on('click', function() { this.openPopup(); });
-                })();
-
-                (function() {
                     const marker = L.marker([41.0365527777778, 28.9847638888889]).addTo(cityMap);
                     marker.bindPopup('<div class="nearby-sticker-popup"><strong>CSKA Moscow</strong><a href="/stickers/3392.html" class="map-popup-link">View</a></div>');
                     marker.on('mouseover', function() { this.openPopup(); });
@@ -2603,6 +2596,13 @@
                 (function() {
                     const marker = L.marker([41.0278388888889, 28.9744416666667]).addTo(cityMap);
                     marker.bindPopup('<div class="nearby-sticker-popup"><strong>FC St. Gallen</strong><a href="/stickers/3381.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([41.0367861111111, 28.9852722222222]).addTo(cityMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>Konyaspor</strong><a href="/stickers/3386.html" class="map-popup-link">View</a></div>');
                     marker.on('mouseover', function() { this.openPopup(); });
                     marker.on('click', function() { this.openPopup(); });
                 })();
@@ -2889,10 +2889,10 @@
                     [40.9885111111111, 29.0286666666667],
                     [41.0204694444444, 28.97345],
                     [41.0180638888889, 28.9720333333333],
+                    [40.9903361111111, 29.0237555555556],
                     [41.0354638888889, 28.9819944444444],
                     [41.0280194444444, 28.9743527777778],
                     [40.9900166666667, 29.0254305555556],
-                    [40.9903361111111, 29.0237555555556],
                     [41.0354777777778, 28.9819361111111],
                     [41.027675, 28.9742944444444],
                     [41.0354777777778, 28.9819361111111],
@@ -2915,7 +2915,6 @@
                     [41.0280277777778, 28.9743277777778],
                     [41.0337416666667, 28.9760138888889],
                     [41.0239833333333, 28.975225],
-                    [41.0367861111111, 28.9852722222222],
                     [41.0365527777778, 28.9847638888889],
                     [41.0340194444444, 28.9766722222222],
                     [41.0372194444444, 28.9852777777778],
@@ -2925,6 +2924,7 @@
                     [41.0369, 28.9852111111111],
                     [41.0340083333333, 28.9766777777778],
                     [41.0278388888889, 28.9744416666667],
+                    [41.0367861111111, 28.9852722222222],
                     [41.0257416666667, 28.9810861111111],
                     [40.9906416666667, 29.0247583333333],
                     [41.0344305555556, 28.9845638888889],

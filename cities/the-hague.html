@@ -412,6 +412,15 @@
                          loading="lazy"
                          decoding="async">
                 </a>
+                <a href="/stickers/2832.html" class="sticker-preview-link">
+                    <img src="/img/club_851/1766229445695_IMG_7708_thumb.webp"
+                         alt="Fortuna Düsseldorf football sticker #2832 found in this city"
+                         data-sticker-id="2832"
+                         class="sticker-preview-image"
+                         width="200" height="200"
+                         loading="lazy"
+                         decoding="async">
+                </a>
                 <a href="/stickers/2850.html" class="sticker-preview-link">
                     <img src="/img/club_292/1766230330022_IMG_7640_thumb.webp"
                          alt="SK Sturm Graz football sticker #2850 found in this city"
@@ -551,15 +560,6 @@
                     <img src="/img/club_1095/1766229571768_IMG_7721_thumb.webp"
                          alt="ADO Den Haag football sticker #2835 found in this city"
                          data-sticker-id="2835"
-                         class="sticker-preview-image"
-                         width="200" height="200"
-                         loading="lazy"
-                         decoding="async">
-                </a>
-                <a href="/stickers/2832.html" class="sticker-preview-link">
-                    <img src="/img/club_851/1766229445695_IMG_7708_thumb.webp"
-                         alt="Fortuna Düsseldorf football sticker #2832 found in this city"
-                         data-sticker-id="2832"
                          class="sticker-preview-image"
                          width="200" height="200"
                          loading="lazy"
@@ -730,7 +730,7 @@
         
         document.addEventListener('DOMContentLoaded', function() {
             if (typeof L !== 'undefined' && document.getElementById('club-map')) {
-                const cityMap = L.map('club-map').setView([52.10113442758621, 4.291963501724137], 12);
+                const cityMap = L.map('club-map').setView([52.10113442758621, 4.291963501724136], 12);
                 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                     attribution: '&copy; OpenStreetMap contributors'
                 }).addTo(cityMap);
@@ -925,6 +925,13 @@
                 })();
 
                 (function() {
+                    const marker = L.marker([52.0810083, 4.3130944]).addTo(cityMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>Fortuna Düsseldorf</strong><a href="/stickers/2832.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
                     const marker = L.marker([52.1163972, 4.2815944]).addTo(cityMap);
                     marker.bindPopup('<div class="nearby-sticker-popup"><strong>SK Sturm Graz</strong><a href="/stickers/2850.html" class="map-popup-link">View</a></div>');
                     marker.on('mouseover', function() { this.openPopup(); });
@@ -1032,13 +1039,6 @@
                 (function() {
                     const marker = L.marker([52.082325, 4.3059611]).addTo(cityMap);
                     marker.bindPopup('<div class="nearby-sticker-popup"><strong>ADO Den Haag</strong><a href="/stickers/2835.html" class="map-popup-link">View</a></div>');
-                    marker.on('mouseover', function() { this.openPopup(); });
-                    marker.on('click', function() { this.openPopup(); });
-                })();
-
-                (function() {
-                    const marker = L.marker([52.0810083, 4.3130944]).addTo(cityMap);
-                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>Fortuna Düsseldorf</strong><a href="/stickers/2832.html" class="map-popup-link">View</a></div>');
                     marker.on('mouseover', function() { this.openPopup(); });
                     marker.on('click', function() { this.openPopup(); });
                 })();
@@ -1169,6 +1169,7 @@
                     [52.1111667, 4.2804972],
                     [52.0788167, 4.3086306],
                     [52.1112861, 4.2799583],
+                    [52.0810083, 4.3130944],
                     [52.1163972, 4.2815944],
                     [52.0781861, 4.3092417],
                     [52.0781667, 4.3092361],
@@ -1185,7 +1186,6 @@
                     [52.1119111, 4.2776194],
                     [52.0803083, 4.3076444],
                     [52.082325, 4.3059611],
-                    [52.0810083, 4.3130944],
                     [52.116025, 4.2823639],
                     [52.111375, 4.280675],
                     [52.0798861, 4.309825],

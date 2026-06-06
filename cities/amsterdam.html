@@ -1159,6 +1159,15 @@
                          loading="lazy"
                          decoding="async">
                 </a>
+                <a href="/stickers/2727.html" class="sticker-preview-link">
+                    <img src="/img/club_851/1763673118561_IMG_7426_thumb.webp"
+                         alt="Fortuna Düsseldorf football sticker #2727 found in this city"
+                         data-sticker-id="2727"
+                         class="sticker-preview-image"
+                         width="200" height="200"
+                         loading="lazy"
+                         decoding="async">
+                </a>
                 <a href="/stickers/2721.html" class="sticker-preview-link">
                     <img src="/img/club_749/1763598201610_IMG_7392_thumb.webp"
                          alt="Djurgardens IF football sticker #2721 found in this city"
@@ -1289,15 +1298,6 @@
                     <img src="/img/club_431/1760873251716_IMG_7336_thumb.webp"
                          alt="Royal Antwerp football sticker #2715 found in this city"
                          data-sticker-id="2715"
-                         class="sticker-preview-image"
-                         width="200" height="200"
-                         loading="lazy"
-                         decoding="async">
-                </a>
-                <a href="/stickers/2727.html" class="sticker-preview-link">
-                    <img src="/img/club_851/1763673118561_IMG_7426_thumb.webp"
-                         alt="Fortuna Düsseldorf football sticker #2727 found in this city"
-                         data-sticker-id="2727"
                          class="sticker-preview-image"
                          width="200" height="200"
                          loading="lazy"
@@ -2532,6 +2532,13 @@
                 })();
 
                 (function() {
+                    const marker = L.marker([52.3718944, 4.896]).addTo(cityMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>Fortuna Düsseldorf</strong><a href="/stickers/2727.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
                     const marker = L.marker([52.3726417, 4.8932]).addTo(cityMap);
                     marker.bindPopup('<div class="nearby-sticker-popup"><strong>Djurgardens IF</strong><a href="/stickers/2721.html" class="map-popup-link">View</a></div>');
                     marker.on('mouseover', function() { this.openPopup(); });
@@ -2632,13 +2639,6 @@
                 (function() {
                     const marker = L.marker([52.3786972, 4.8962389]).addTo(cityMap);
                     marker.bindPopup('<div class="nearby-sticker-popup"><strong>Royal Antwerp</strong><a href="/stickers/2715.html" class="map-popup-link">View</a></div>');
-                    marker.on('mouseover', function() { this.openPopup(); });
-                    marker.on('click', function() { this.openPopup(); });
-                })();
-
-                (function() {
-                    const marker = L.marker([52.3718944, 4.896]).addTo(cityMap);
-                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>Fortuna Düsseldorf</strong><a href="/stickers/2727.html" class="map-popup-link">View</a></div>');
                     marker.on('mouseover', function() { this.openPopup(); });
                     marker.on('click', function() { this.openPopup(); });
                 })();
@@ -3076,6 +3076,7 @@
                     [52.3766056, 4.8979222],
                     [52.3787472, 4.8986],
                     [52.3788722, 4.8983056],
+                    [52.3718944, 4.896],
                     [52.3726417, 4.8932],
                     [52.3720056, 4.8959528],
                     [52.3719556, 4.8959556],
@@ -3091,7 +3092,6 @@
                     [52.3763778, 4.899325],
                     [52.3689611, 4.8906694],
                     [52.3786972, 4.8962389],
-                    [52.3718944, 4.896],
                     [52.3762167, 4.8995806],
                     [52.3723528, 4.8897472],
                     [52.3720083, 4.895975],
