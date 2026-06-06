@@ -164,6 +164,22 @@
         .global-status.success { background: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
         .global-status.error   { background: var(--color-error-bg); color: var(--color-error); border: 1px solid #f5c6cb; }
 
+        /* Full-page drop target overlay */
+        .drop-overlay {
+            position: fixed; inset: 0; z-index: 9999;
+            display: none; align-items: center; justify-content: center;
+            background: rgba(255, 193, 7, 0.12);
+            border: 4px dashed var(--color-accent);
+            pointer-events: none;
+        }
+        .drop-overlay.active { display: flex; }
+        .drop-overlay-inner {
+            background: var(--color-background);
+            padding: 24px 40px; border-radius: 12px;
+            font-size: 1.3em; font-weight: 600; color: var(--color-text);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.18);
+        }
+
         @media (max-width: 600px) {
             .batch-row { grid-template-columns: 120px 1fr 24px; gap: var(--spacing-unit); }
             .batch-thumb { width: 120px; height: 120px; }
@@ -179,6 +195,10 @@
     </script>
 </head>
 <body>
+    <div id="drop-overlay" class="drop-overlay" aria-hidden="true">
+        <div class="drop-overlay-inner">Drop sticker images anywhere</div>
+    </div>
+
     <header class="app-header">
         <div class="logo-container">
            <a href="/index.html"><img src="/logo.webp" alt="StickerHunt Logo" id="app-logo" width="280" height="71" fetchpriority="high"></a>
@@ -212,8 +232,8 @@
         <!-- Batch uploader -->
         <div id="batch-container" class="batch-wrap" style="display: none;">
             <div id="batch-dropzone" class="batch-dropzone">
-                <p class="batch-dropzone-text">Drop sticker images here (or click to select)</p>
-                <p class="batch-dropzone-hint">JPEG only. Drop as many as you like — one row per image.</p>
+                <p class="batch-dropzone-text">Drop images anywhere on the page — or click to select</p>
+                <p class="batch-dropzone-hint">JPEG only. Drop as many as you like, any time — one row per image.</p>
             </div>
             <input type="file" id="batch-file-input" accept="image/jpeg" multiple style="display: none;">
 

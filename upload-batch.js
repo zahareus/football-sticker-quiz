@@ -164,22 +164,45 @@ async function loadClubs() {
 // ============================================================
 
 function setupDropzone() {
+    // Click the small zone to pick files manually.
     el.dropzone.addEventListener('click', () => el.fileInput.click());
-    el.dropzone.addEventListener('dragover', (e) => {
-        e.preventDefault();
-        el.dropzone.classList.add('dragover');
-    });
-    el.dropzone.addEventListener('dragleave', () => el.dropzone.classList.remove('dragover'));
-    el.dropzone.addEventListener('drop', (e) => {
-        e.preventDefault();
-        el.dropzone.classList.remove('dragover');
-        addFiles(e.dataTransfer.files);
-    });
     el.fileInput.addEventListener('change', (e) => {
         addFiles(e.target.files);
         el.fileInput.value = '';
     });
     el.uploadBtn.addEventListener('click', handleUploadAll);
+
+    // The WHOLE page is a drop target — drag files anywhere (first upload or to
+    // add more). A full-screen overlay highlights while dragging.
+    const overlay = document.getElementById('drop-overlay');
+    let dragDepth = 0;
+    const acceptsDrop = () =>
+        el.container.style.display !== 'none' && el.report.style.display === 'none';
+    const hasFiles = (e) => e.dataTransfer && Array.from(e.dataTransfer.types || []).includes('Files');
+
+    window.addEventListener('dragenter', (e) => {
+        if (!hasFiles(e) || !acceptsDrop()) return;
+        e.preventDefault();
+        dragDepth++;
+        if (overlay) overlay.classList.add('active');
+    });
+    window.addEventListener('dragover', (e) => {
+        if (!hasFiles(e) || !acceptsDrop()) return;
+        e.preventDefault();
+    });
+    window.addEventListener('dragleave', (e) => {
+        if (!hasFiles(e)) return;
+        dragDepth = Math.max(0, dragDepth - 1);
+        if (dragDepth === 0 && overlay) overlay.classList.remove('active');
+    });
+    window.addEventListener('drop', (e) => {
+        if (!hasFiles(e)) return;
+        e.preventDefault(); // stop the browser from opening the file
+        dragDepth = 0;
+        if (overlay) overlay.classList.remove('active');
+        if (!acceptsDrop()) return;
+        addFiles(e.dataTransfer.files);
+    });
 }
 
 function addFiles(fileList) {
