@@ -26,6 +26,7 @@ let allClubs = [];
 let uniqueCountries = [];
 let searchTimeout = null;
 let countrySearchTimeout = null;
+let selectedExistingClub = null; // {id, name, country} when an existing club is picked for re-enrich
 
 // ============================================================
 // DOM ELEMENTS
@@ -90,6 +91,8 @@ function initElements() {
     elements.clubMediaInput = document.getElementById('club-media');
     elements.clubWebInput = document.getElementById('club-web');
     elements.submitBtn = document.getElementById('submit-btn');
+    elements.reenrichBtn = document.getElementById('reenrich-btn');
+    elements.resultTitle = document.getElementById('result-title');
     elements.progressLog = document.getElementById('progress-log');
     elements.statusMessage = document.getElementById('status-message');
     elements.resultCard = document.getElementById('result-card');
@@ -232,7 +235,7 @@ function searchClubs(query) {
 
 function showSuggestions(matches) {
     elements.suggestionsList.innerHTML = matches.map((club, index) => `
-        <li class="suggestion-item existing-club" data-id="${club.id}" data-name="${escapeHtml(club.name)}" data-index="${index}">
+        <li class="suggestion-item existing-club" data-id="${club.id}" data-name="${escapeHtml(club.name)}" data-country="${escapeHtml(club.country || '')}" data-index="${index}">
             ${escapeHtml(club.name)}
             <span class="suggestion-country">${escapeHtml(club.country || '')} - Already exists</span>
         </li>
@@ -379,8 +382,60 @@ function resetForm() {
     elements.statusMessage.style.display = 'none';
     elements.resultCard.style.display = 'none';
     elements.submitBtn.disabled = true;
+    selectedExistingClub = null;
+    if (elements.reenrichBtn) elements.reenrichBtn.style.display = 'none';
     hideSuggestions();
     hideCountrySuggestions();
+}
+
+// ============================================================
+// RE-ENRICH EXISTING CLUB
+// ============================================================
+
+async function handleReEnrich() {
+    if (!selectedExistingClub) return;
+    const { id, name, country } = selectedExistingClub;
+
+    elements.reenrichBtn.disabled = true;
+    elements.submitBtn.disabled = true;
+    elements.progressLog.innerHTML = '';
+    elements.progressLog.style.display = 'block';
+    elements.statusMessage.style.display = 'none';
+    elements.resultCard.style.display = 'none';
+
+    try {
+        logProgress(`Re-enriching "${name}" (ID ${id})...`, 'info');
+        const enrichedData = await enrichClubData(name, country);
+
+        const updatePayload = {};
+        if (enrichedData.city) updatePayload.city = enrichedData.city;
+        if (enrichedData.media) updatePayload.media = enrichedData.media;
+        if (enrichedData.web) updatePayload.web = enrichedData.web;
+
+        if (Object.keys(updatePayload).length === 0) {
+            throw new Error('Enrichment returned no data — nothing was updated. Try again.');
+        }
+
+        logProgress('Saving enriched data...', 'info');
+        const { data: updatedClub, error: updateError } = await supabaseClient
+            .from('clubs')
+            .update(updatePayload)
+            .eq('id', id)
+            .select()
+            .single();
+
+        if (updateError) throw new Error(`Database error: ${updateError.message}`);
+
+        await loadClubs();
+        logProgress('Re-enrichment complete! The club page regenerates automatically within ~1 minute.', 'success');
+        showResult(updatedClub, 'Club Re-enriched Successfully');
+    } catch (error) {
+        console.error('Re-enrich error:', error);
+        logProgress(`ERROR: ${error.message}`, 'error');
+        showStatus(`Error: ${error.message}`, 'error');
+    } finally {
+        elements.reenrichBtn.disabled = false;
+    }
 }
 
 async function handleSubmit(e) {
@@ -500,7 +555,8 @@ function showStatus(message, type = 'info') {
     elements.statusMessage.style.display = 'block';
 }
 
-function showResult(club) {
+function showResult(club, title = 'Club Created Successfully') {
+    if (elements.resultTitle) elements.resultTitle.textContent = title;
     elements.resultDetails.innerHTML = `
         <div class="result-row">
             <span class="result-label">ID:</span>
@@ -546,6 +602,12 @@ function escapeHtml(str) {
 function setupEventListeners() {
     // Club name input - search for duplicates
     elements.clubNameInput.addEventListener('input', () => {
+        // Editing the name cancels a pending re-enrich selection.
+        if (selectedExistingClub && elements.clubNameInput.value.trim() !== selectedExistingClub.name) {
+            selectedExistingClub = null;
+            elements.reenrichBtn.style.display = 'none';
+            elements.statusMessage.style.display = 'none';
+        }
         clearTimeout(searchTimeout);
         searchTimeout = setTimeout(() => {
             searchClubs(elements.clubNameInput.value);
@@ -557,11 +619,17 @@ function setupEventListeners() {
     elements.suggestionsList.addEventListener('click', (e) => {
         const item = e.target.closest('.suggestion-item');
         if (item) {
-            // If clicking on existing club, just fill the name but show warning
+            // Existing club picked: offer Re-enrich instead of just blocking.
             elements.clubNameInput.value = item.dataset.name;
             hideSuggestions();
-            validateForm();
-            showStatus('This club already exists. Please enter a different name.', 'error');
+            selectedExistingClub = {
+                id: parseInt(item.dataset.id, 10),
+                name: item.dataset.name,
+                country: item.dataset.country || ''
+            };
+            elements.reenrichBtn.style.display = 'block';
+            validateForm(); // keeps "Create" disabled (duplicate)
+            showStatus('This club already exists. You can Re-enrich it (refresh city / hashtags / website) or type a different name to create a new one.', 'info');
         }
     });
 
@@ -604,6 +672,9 @@ function setupEventListeners() {
 
     // Form submit
     elements.createForm.addEventListener('submit', handleSubmit);
+
+    // Re-enrich existing club
+    elements.reenrichBtn.addEventListener('click', handleReEnrich);
 
     // Create another button
     elements.createAnotherBtn.addEventListener('click', resetForm);

@@ -395,6 +395,11 @@
                     Create Club
                 </button>
 
+                <!-- Re-enrich existing club (shown when an existing club is picked) -->
+                <button type="button" id="reenrich-btn" class="btn btn-secondary submit-btn" style="display: none;">
+                    Re-enrich this club
+                </button>
+
                 <!-- Progress log -->
                 <div id="progress-log" class="progress-log" style="display: none;"></div>
 
@@ -403,7 +408,7 @@
 
                 <!-- Result card -->
                 <div id="result-card" class="result-card" style="display: none;">
-                    <h3>Club Created Successfully</h3>
+                    <h3 id="result-title">Club Created Successfully</h3>
                     <div id="result-details"></div>
                     <div class="result-actions">
                         <a id="view-club-btn" href="#" class="btn btn-primary">View Club Page</a>
