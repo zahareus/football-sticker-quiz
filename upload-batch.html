@@ -43,9 +43,9 @@
 
         .batch-row {
             display: grid;
-            grid-template-columns: 88px 1fr 130px 30px;
-            gap: calc(var(--spacing-unit) * 1.5);
-            align-items: start;
+            grid-template-columns: 176px 1fr 28px;
+            gap: calc(var(--spacing-unit) * 2);
+            align-items: stretch;
             padding: calc(var(--spacing-unit) * 1.5);
             border: 1px solid var(--color-border);
             border-radius: var(--border-radius);
@@ -55,13 +55,14 @@
         .batch-row.done    { border-color: var(--color-success); }
 
         .batch-thumb {
-            width: 88px; height: 88px;
+            width: 176px; height: 176px;
             border-radius: var(--border-radius);
             object-fit: cover;
             background: var(--color-secondary-bg);
         }
 
-        .batch-col { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+        .batch-col { display: flex; flex-direction: column; gap: 8px; min-width: 0; }
+        .batch-col-content { justify-content: flex-start; }
 
         .batch-club-wrap { position: relative; }
         .batch-club-input {
@@ -104,9 +105,11 @@
         .batch-meta.pending { font-style: italic; }
         .batch-meta.found  { color: var(--color-text); }
 
-        .batch-diff { display: flex; gap: 4px; }
+        .batch-diff-wrap { display: flex; align-items: center; gap: var(--spacing-unit); margin-top: auto; }
+        .batch-diff-label { font-size: 0.8em; color: var(--color-info-text); }
+        .batch-diff { display: flex; gap: 6px; }
         .batch-diff-btn {
-            flex: 1; padding: calc(var(--spacing-unit) * 1); font-size: 1em; font-weight: 600;
+            width: 44px; padding: calc(var(--spacing-unit) * 0.75) 0; font-size: 1em; font-weight: 600;
             border: 2px solid var(--color-border); border-radius: var(--border-radius);
             background: var(--color-background); cursor: pointer; transition: all 0.2s ease;
         }
@@ -162,10 +165,8 @@
         .global-status.error   { background: var(--color-error-bg); color: var(--color-error); border: 1px solid #f5c6cb; }
 
         @media (max-width: 600px) {
-            .batch-row { grid-template-columns: 64px 1fr; }
-            .batch-thumb { width: 64px; height: 64px; }
-            .batch-row .batch-col-diff,
-            .batch-row .batch-remove { grid-column: 2 / 3; }
+            .batch-row { grid-template-columns: 120px 1fr 24px; gap: var(--spacing-unit); }
+            .batch-thumb { width: 120px; height: 120px; }
         }
     </style>
 

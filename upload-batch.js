@@ -211,19 +211,20 @@ function renderRow(row) {
     div.id = `row-${row.id}`;
     div.innerHTML = `
         <img class="batch-thumb" src="${row.previewUrl}" alt="preview">
-        <div class="batch-col batch-col-club">
+        <div class="batch-col batch-col-content">
             <div class="batch-club-wrap">
                 <input type="text" class="batch-club-input" placeholder="Type club name..." autocomplete="off">
                 <ul class="batch-suggestions"></ul>
             </div>
             <div class="batch-filename" data-role="filename" title="${escapeAttr(row.file.name)}">📄 ${escapeHtml(row.file.name)}</div>
             <div class="batch-meta pending" data-role="meta">Reading location…</div>
-        </div>
-        <div class="batch-col batch-col-diff">
-            <div class="batch-diff">
-                <button type="button" class="batch-diff-btn active" data-value="1">1</button>
-                <button type="button" class="batch-diff-btn" data-value="2">2</button>
-                <button type="button" class="batch-diff-btn" data-value="3">3</button>
+            <div class="batch-diff-wrap">
+                <span class="batch-diff-label">Difficulty</span>
+                <div class="batch-diff">
+                    <button type="button" class="batch-diff-btn active" data-value="1">1</button>
+                    <button type="button" class="batch-diff-btn" data-value="2">2</button>
+                    <button type="button" class="batch-diff-btn" data-value="3">3</button>
+                </div>
             </div>
         </div>
         <button type="button" class="batch-remove" title="Remove">&times;</button>
