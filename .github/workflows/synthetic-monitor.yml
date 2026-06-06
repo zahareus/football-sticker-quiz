@@ -7,7 +7,19 @@ name: Synthetic Monitor
 
 on:
   schedule:
-    - cron: '*/15 * * * *'
+    - cron: '0 * * * *'   # hourly
+  push:
+    branches: [main]
+    # Only app code — NOT auto-generated content commits (stickers/, clubs/,
+    # countries/, cities/ live in subdirs; `*.ext` is root-only, so they're skipped).
+    paths:
+      - '*.html'
+      - '*.js'
+      - '*.css'
+      - 'js/**'
+      - 'templates/**'
+      - 'api/**'
+      - '.github/workflows/synthetic-monitor.yml'
   workflow_dispatch:
 
 # Never run two monitors at once; don't cancel an in-flight one.
@@ -26,6 +38,11 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npx playwright install --with-deps chromium
+      # On a code push, give Vercel time to build & deploy before we check prod,
+      # otherwise we'd test the old (or mid-deploy) version and false-alarm.
+      - name: Wait for Vercel deploy (push only)
+        if: github.event_name == 'push'
+        run: sleep 120
       - name: Run synthetic monitor
         env:
           BASE_URL: https://stickerhunt.club
