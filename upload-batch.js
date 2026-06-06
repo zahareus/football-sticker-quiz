@@ -216,6 +216,7 @@ function renderRow(row) {
                 <input type="text" class="batch-club-input" placeholder="Type club name..." autocomplete="off">
                 <ul class="batch-suggestions"></ul>
             </div>
+            <div class="batch-filename" data-role="filename" title="${escapeAttr(row.file.name)}">📄 ${escapeHtml(row.file.name)}</div>
             <div class="batch-meta pending" data-role="meta">Reading location…</div>
         </div>
         <div class="batch-col batch-col-diff">
@@ -321,20 +322,19 @@ function selectClub(row, clubInput, suggestions, id, name, country) {
 // ============================================================
 
 async function extractExif(row) {
-    const metaEl = () => document.querySelector(`#row-${row.id} [data-role="meta"]`);
     if (typeof exifr === 'undefined') {
         row.exifDone = true;
-        setMeta(metaEl(), 'No metadata reader', false);
+        renderMeta(row);
         return;
     }
     try {
         const exifData = await exifr.parse(row.file, { gps: true, tiff: true, exif: true, mergeOutput: false, reviveValues: true });
 
+        // Coordinates are extracted locally — no network needed. Save them regardless
+        // of whether we can resolve a human-readable place name.
         if (exifData?.gps?.latitude && exifData?.gps?.longitude) {
             row.meta.latitude = exifData.gps.latitude;
             row.meta.longitude = exifData.gps.longitude;
-            const loc = await reverseGeocode(row.meta.latitude, row.meta.longitude);
-            if (loc) row.meta.locationName = loc;
         }
 
         const dateSrc = exifData?.DateTimeOriginal || exifData?.exif?.DateTimeOriginal ||
@@ -345,19 +345,37 @@ async function extractExif(row) {
         }
     } catch (err) {
         console.warn('EXIF error for row', row.id, err);
-    } finally {
-        row.exifDone = true;
+    }
+
+    row.exifDone = true;
+    renderMeta(row); // show coords immediately (GPS found)
+
+    // Resolve place name in the background, throttled to respect Nominatim limits.
+    if (row.meta.latitude !== null && row.meta.longitude !== null) {
+        row.geocoding = true;
         renderMeta(row);
+        enqueueGeocode(row.meta.latitude, row.meta.longitude)
+            .then(loc => { if (loc) row.meta.locationName = loc; })
+            .catch(() => {})
+            .finally(() => { row.geocoding = false; renderMeta(row); });
     }
 }
 
 function renderMeta(row) {
     const m = document.querySelector(`#row-${row.id} [data-role="meta"]`);
     if (!m) return;
-    const parts = [];
-    parts.push(row.meta.locationName ? `📍 ${row.meta.locationName}` : '📍 GPS not found');
+    const hasGps = row.meta.latitude !== null && row.meta.longitude !== null;
+    let geoPart;
+    if (row.meta.locationName) {
+        geoPart = `📍 ${row.meta.locationName}`;
+    } else if (hasGps) {
+        geoPart = `📍 ${row.meta.latitude.toFixed(4)}, ${row.meta.longitude.toFixed(4)}${row.geocoding ? ' · locating…' : ''}`;
+    } else {
+        geoPart = '📍 GPS not found';
+    }
+    const parts = [geoPart];
     if (row.meta.photoDate) parts.push(`🗓 ${formatDate(row.meta.photoDate)}`);
-    setMeta(m, parts.join(' · '), !!row.meta.locationName);
+    setMeta(m, parts.join(' · '), hasGps);
 }
 
 function setMeta(m, text, found) {
@@ -366,10 +384,34 @@ function setMeta(m, text, found) {
     m.className = `batch-meta ${found ? 'found' : ''}`;
 }
 
-async function reverseGeocode(lat, lon) {
+// Nominatim allows ~1 request/second and blocks concurrent/bulk requests (HTTP 429).
+// A batch drop would fire N reverse-geocodes at once -> all 429. So serialize them
+// through a single queue, spaced ~1.1s apart, with one retry on 429.
+let geocodeChain = Promise.resolve();
+let lastGeocodeAt = 0;
+const sleep = (ms) => new Promise(r => setTimeout(r, ms));
+
+function enqueueGeocode(lat, lon) {
+    const run = geocodeChain.then(async () => {
+        const wait = 1100 - (Date.now() - lastGeocodeAt);
+        if (wait > 0) await sleep(wait);
+        lastGeocodeAt = Date.now();
+        return reverseGeocodeOnce(lat, lon);
+    });
+    // Keep the chain alive even if one lookup throws.
+    geocodeChain = run.catch(() => {});
+    return run;
+}
+
+async function reverseGeocodeOnce(lat, lon, retry = true) {
     const url = `https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${lat}&lon=${lon}&zoom=10&accept-language=en`;
     try {
-        const resp = await fetch(url, { headers: { 'User-Agent': BATCH_CONFIG.NOMINATIM_USER_AGENT } });
+        const resp = await fetch(url);
+        if (resp.status === 429 && retry) {
+            await sleep(1500);
+            lastGeocodeAt = Date.now();
+            return reverseGeocodeOnce(lat, lon, false);
+        }
         if (!resp.ok) return null;
         const data = await resp.json();
         if (data?.address) {
@@ -427,6 +469,16 @@ async function handleUploadAll() {
 
     el.uploadBtn.disabled = true;
     el.dropzone.style.pointerEvents = 'none';
+
+    // Let the throttled geocode queue finish so place names are saved with the
+    // stickers (Nominatim is ~1 req/sec, so a big batch needs a moment). Coords
+    // are already captured either way.
+    const pendingGeo = valid.some(r => r.geocoding);
+    if (pendingGeo) {
+        showGlobal('Resolving locations… (a few seconds for large batches)', 'info');
+        await geocodeChain;
+    }
+
     showGlobal(`Uploading 0/${valid.length}…`, 'info');
 
     const results = []; // { row, ok, sticker?, error? }
@@ -526,7 +578,10 @@ function renderReport(results) {
     el.reportRows.innerHTML = results.map(r => {
         if (r.ok) {
             const s = r.sticker;
-            const loc = s.location ? escapeHtml(s.location) : '—';
+            let loc;
+            if (s.location) loc = escapeHtml(s.location);
+            else if (s.latitude != null && s.longitude != null) loc = `${Number(s.latitude).toFixed(4)}, ${Number(s.longitude).toFixed(4)}`;
+            else loc = '—';
             const date = s.found ? formatDate(s.found) : '';
             return `
                 <div class="batch-report-row ok">
@@ -535,6 +590,7 @@ function renderReport(results) {
                         <div class="batch-report-line">
                             <strong>${escapeHtml(r.row.club.name)}</strong> · difficulty ${s.difficulty}
                         </div>
+                        <div class="batch-report-sub">📄 ${escapeHtml(r.row.file.name)}</div>
                         <div class="batch-report-sub">
                             📍 ${loc}${date ? ` · 🗓 ${date}` : ''} · ID ${s.id} ·
                             <a href="https://stickerhunt.club/stickers/${s.id}.html" target="_blank">page →</a>
