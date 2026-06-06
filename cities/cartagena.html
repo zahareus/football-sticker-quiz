@@ -161,15 +161,6 @@
             </div>
             <div class="sticker-gallery">
                 
-                <a href="/stickers/3071.html" class="sticker-preview-link">
-                    <img src="/img/club_925/1773520692457_IMG_8262_thumb.webp"
-                         alt="Eintracht Frankfurt football sticker #3071 found in this city"
-                         data-sticker-id="3071"
-                         class="sticker-preview-image"
-                         width="200" height="200"
-                         loading="lazy"
-                         decoding="async">
-                </a>
                 <a href="/stickers/3053.html" class="sticker-preview-link">
                     <img src="/img/club_928/1773005525268_IMG_8217_thumb.webp"
                          alt="FC Augsburg football sticker #3053 found in this city"
@@ -183,6 +174,15 @@
                     <img src="/img/club_1164/1773005914566_IMG_8208_thumb.webp"
                          alt="CD Manchego football sticker #3060 found in this city"
                          data-sticker-id="3060"
+                         class="sticker-preview-image"
+                         width="200" height="200"
+                         loading="lazy"
+                         decoding="async">
+                </a>
+                <a href="/stickers/3071.html" class="sticker-preview-link">
+                    <img src="/img/club_925/1773520692457_IMG_8262_thumb.webp"
+                         alt="Eintracht Frankfurt football sticker #3071 found in this city"
+                         data-sticker-id="3071"
                          class="sticker-preview-image"
                          width="200" height="200"
                          loading="lazy"
@@ -260,19 +260,19 @@
                          loading="lazy"
                          decoding="async">
                 </a>
-                <a href="/stickers/3043.html" class="sticker-preview-link">
-                    <img src="/img/club_774/1773005258703_IMG_8241_thumb.webp"
-                         alt="FC Utrecht football sticker #3043 found in this city"
-                         data-sticker-id="3043"
+                <a href="/stickers/3051.html" class="sticker-preview-link">
+                    <img src="/img/club_804/1773005488886_IMG_8220_thumb.webp"
+                         alt="Cartagena football sticker #3051 found in this city"
+                         data-sticker-id="3051"
                          class="sticker-preview-image"
                          width="200" height="200"
                          loading="lazy"
                          decoding="async">
                 </a>
-                <a href="/stickers/3051.html" class="sticker-preview-link">
-                    <img src="/img/club_804/1773005488886_IMG_8220_thumb.webp"
-                         alt="Cartagena football sticker #3051 found in this city"
-                         data-sticker-id="3051"
+                <a href="/stickers/3043.html" class="sticker-preview-link">
+                    <img src="/img/club_774/1773005258703_IMG_8241_thumb.webp"
+                         alt="FC Utrecht football sticker #3043 found in this city"
+                         data-sticker-id="3043"
                          class="sticker-preview-image"
                          width="200" height="200"
                          loading="lazy"
@@ -566,13 +566,6 @@
                 }).addTo(cityMap);
                 
                 (function() {
-                    const marker = L.marker([37.6007777777778, -0.985844444444444]).addTo(cityMap);
-                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>Eintracht Frankfurt</strong><a href="/stickers/3071.html" class="map-popup-link">View</a></div>');
-                    marker.on('mouseover', function() { this.openPopup(); });
-                    marker.on('click', function() { this.openPopup(); });
-                })();
-
-                (function() {
                     const marker = L.marker([37.5983861111111, -0.985294444444444]).addTo(cityMap);
                     marker.bindPopup('<div class="nearby-sticker-popup"><strong>FC Augsburg</strong><a href="/stickers/3053.html" class="map-popup-link">View</a></div>');
                     marker.on('mouseover', function() { this.openPopup(); });
@@ -582,6 +575,13 @@
                 (function() {
                     const marker = L.marker([37.603375, -0.988494444444444]).addTo(cityMap);
                     marker.bindPopup('<div class="nearby-sticker-popup"><strong>CD Manchego</strong><a href="/stickers/3060.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([37.6007777777778, -0.985844444444444]).addTo(cityMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>Eintracht Frankfurt</strong><a href="/stickers/3071.html" class="map-popup-link">View</a></div>');
                     marker.on('mouseover', function() { this.openPopup(); });
                     marker.on('click', function() { this.openPopup(); });
                 })();
@@ -643,15 +643,15 @@
                 })();
 
                 (function() {
-                    const marker = L.marker([37.599925, -0.984733333333333]).addTo(cityMap);
-                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>FC Utrecht</strong><a href="/stickers/3043.html" class="map-popup-link">View</a></div>');
+                    const marker = L.marker([37.5983916666667, -0.98545]).addTo(cityMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>Cartagena</strong><a href="/stickers/3051.html" class="map-popup-link">View</a></div>');
                     marker.on('mouseover', function() { this.openPopup(); });
                     marker.on('click', function() { this.openPopup(); });
                 })();
 
                 (function() {
-                    const marker = L.marker([37.5983916666667, -0.98545]).addTo(cityMap);
-                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>Cartagena</strong><a href="/stickers/3051.html" class="map-popup-link">View</a></div>');
+                    const marker = L.marker([37.599925, -0.984733333333333]).addTo(cityMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>FC Utrecht</strong><a href="/stickers/3043.html" class="map-popup-link">View</a></div>');
                     marker.on('mouseover', function() { this.openPopup(); });
                     marker.on('click', function() { this.openPopup(); });
                 })();
@@ -839,9 +839,9 @@
                 })();
                 
                 const bounds = L.latLngBounds([
-                    [37.6007777777778, -0.985844444444444],
                     [37.5983861111111, -0.985294444444444],
                     [37.603375, -0.988494444444444],
+                    [37.6007777777778, -0.985844444444444],
                     [37.5993333333333, -0.985030555555556],
                     [37.5983916666667, -0.98545],
                     [37.6004444444444, -0.986288888888889],
@@ -850,8 +850,8 @@
                     [37.5996333333333, -0.985847222222222],
                     [37.5996388888889, -0.985852777777778],
                     [37.6020611111111, -0.987327777777778],
-                    [37.599925, -0.984733333333333],
                     [37.5983916666667, -0.98545],
+                    [37.599925, -0.984733333333333],
                     [37.6024777777778, -0.981427777777778],
                     [37.6004444444444, -0.984358333333333],
                     [37.5998833333333, -0.984883333333333],
