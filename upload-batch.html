@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Batch Upload - StickerHunt</title>
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+
+    <meta name="description" content="Batch-upload football stickers to the StickerHunt database (no social media post).">
+    <meta name="robots" content="noindex, nofollow">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'"><noscript><link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet"></noscript>
+
+    <link rel="stylesheet" href="/style.css?v=5">
+
+    <!-- Batch uploader styles -->
+    <style>
+        .batch-wrap { max-width: 920px; margin: 0 auto; text-align: left; }
+
+        /* Drop area */
+        .batch-dropzone {
+            border: 2px dashed var(--color-border);
+            border-radius: var(--border-radius);
+            padding: calc(var(--spacing-unit) * 5);
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: var(--color-secondary-bg);
+            margin-bottom: calc(var(--spacing-unit) * 3);
+        }
+        .batch-dropzone:hover,
+        .batch-dropzone.dragover {
+            border-color: var(--color-accent);
+            background: var(--color-secondary-bg-hover);
+        }
+        .batch-dropzone-text { color: var(--color-info-text); font-size: 1.05em; }
+        .batch-dropzone-hint { color: var(--color-info-text); font-size: 0.85em; margin-top: var(--spacing-unit); }
+
+        /* Rows */
+        .batch-rows { display: flex; flex-direction: column; gap: calc(var(--spacing-unit) * 1.5); }
+
+        .batch-row {
+            display: grid;
+            grid-template-columns: 88px 1fr 130px 30px;
+            gap: calc(var(--spacing-unit) * 1.5);
+            align-items: start;
+            padding: calc(var(--spacing-unit) * 1.5);
+            border: 1px solid var(--color-border);
+            border-radius: var(--border-radius);
+            background: var(--color-background);
+        }
+        .batch-row.invalid { border-color: var(--color-error); background: #fff7f7; }
+        .batch-row.done    { border-color: var(--color-success); }
+
+        .batch-thumb {
+            width: 88px; height: 88px;
+            border-radius: var(--border-radius);
+            object-fit: cover;
+            background: var(--color-secondary-bg);
+        }
+
+        .batch-col { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+
+        .batch-club-wrap { position: relative; }
+        .batch-club-input {
+            width: 100%;
+            padding: calc(var(--spacing-unit) * 1.25);
+            font-size: 0.95em;
+            border: 1px solid var(--color-border);
+            border-radius: var(--border-radius);
+            margin: 0;
+        }
+        .batch-suggestions {
+            position: absolute; top: 100%; left: 0; right: 0;
+            background: var(--color-background);
+            border: 1px solid var(--color-border);
+            border-top: none;
+            border-radius: 0 0 var(--border-radius) var(--border-radius);
+            max-height: 220px; overflow-y: auto;
+            z-index: 100; display: none;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            list-style: none; margin: 0; padding: 0;
+        }
+        .batch-suggestions.visible { display: block; }
+        .batch-suggestion {
+            padding: calc(var(--spacing-unit) * 1.25);
+            cursor: pointer; border-bottom: 1px solid var(--color-border);
+            font-size: 0.9em;
+        }
+        .batch-suggestion:last-child { border-bottom: none; }
+        .batch-suggestion:hover, .batch-suggestion.selected {
+            background-color: var(--color-accent); color: var(--color-accent-text);
+        }
+        .batch-suggestion-country { font-size: 0.82em; color: var(--color-info-text); margin-left: var(--spacing-unit); }
+
+        .batch-meta { font-size: 0.8em; color: var(--color-info-text); line-height: 1.4; }
+        .batch-meta.pending { font-style: italic; }
+        .batch-meta.found  { color: var(--color-text); }
+
+        .batch-diff { display: flex; gap: 4px; }
+        .batch-diff-btn {
+            flex: 1; padding: calc(var(--spacing-unit) * 1); font-size: 1em; font-weight: 600;
+            border: 2px solid var(--color-border); border-radius: var(--border-radius);
+            background: var(--color-background); cursor: pointer; transition: all 0.2s ease;
+        }
+        .batch-diff-btn:hover { border-color: var(--color-accent); }
+        .batch-diff-btn.active { background: var(--color-accent); border-color: var(--color-accent); color: var(--color-accent-text); }
+
+        .batch-remove {
+            background: none; border: none; color: var(--color-error);
+            font-size: 1.3em; line-height: 1; cursor: pointer; padding: 4px;
+            justify-self: center;
+        }
+        .batch-remove:hover { opacity: 0.7; }
+
+        .batch-row-status { grid-column: 1 / -1; font-size: 0.85em; margin-top: 4px; }
+        .batch-row-status.error { color: var(--color-error); }
+        .batch-row-status.ok    { color: var(--color-success); }
+
+        .batch-footer {
+            margin-top: calc(var(--spacing-unit) * 3);
+            display: flex; flex-direction: column; gap: var(--spacing-unit);
+            align-items: center;
+        }
+        .batch-count { color: var(--color-info-text); font-size: 0.95em; }
+        .batch-upload-btn { width: 100%; max-width: 420px; padding: calc(var(--spacing-unit) * 2); font-size: 1.1em; font-weight: 600; }
+
+        /* Report view */
+        .batch-report-row {
+            display: grid;
+            grid-template-columns: 64px 1fr;
+            gap: calc(var(--spacing-unit) * 1.5);
+            align-items: center;
+            padding: calc(var(--spacing-unit) * 1.25);
+            border: 1px solid var(--color-border);
+            border-radius: var(--border-radius);
+            margin-bottom: var(--spacing-unit);
+        }
+        .batch-report-row.error { border-color: var(--color-error); background: #fff7f7; }
+        .batch-report-row.ok    { border-color: var(--color-success); }
+        .batch-report-thumb { width: 64px; height: 64px; border-radius: var(--border-radius); object-fit: cover; }
+        .batch-report-line { font-size: 0.95em; }
+        .batch-report-sub  { font-size: 0.83em; color: var(--color-info-text); margin-top: 2px; }
+
+        .access-denied, .loading-state { text-align: center; padding: calc(var(--spacing-unit) * 4); }
+        .access-denied h2 { color: var(--color-error); margin-bottom: calc(var(--spacing-unit) * 2); }
+        .loading-state { color: var(--color-info-text); }
+
+        .global-status {
+            margin: calc(var(--spacing-unit) * 2) auto 0; max-width: 600px;
+            padding: calc(var(--spacing-unit) * 2); border-radius: var(--border-radius); text-align: center;
+        }
+        .global-status.info    { background: #d1ecf1; color: #0c5460; border: 1px solid #bee5eb; }
+        .global-status.success { background: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+        .global-status.error   { background: var(--color-error-bg); color: var(--color-error); border: 1px solid #f5c6cb; }
+
+        @media (max-width: 600px) {
+            .batch-row { grid-template-columns: 64px 1fr; }
+            .batch-thumb { width: 64px; height: 64px; }
+            .batch-row .batch-col-diff,
+            .batch-row .batch-remove { grid-column: 2 / 3; }
+        }
+    </style>
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-4Y0MJKGDZS"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-4Y0MJKGDZS');
+    </script>
+</head>
+<body>
+    <header class="app-header">
+        <div class="logo-container">
+           <a href="/index.html"><img src="/logo.webp" alt="StickerHunt Logo" id="app-logo" width="280" height="71" fetchpriority="high"></a>
+        </div>
+        <div id="auth-section">
+             <button id="login-button" class="btn btn-primary google-login" style="display: none;">
+                 <span>Sign in with Google</span>
+             </button>
+             <div id="user-status" style="display: none;">
+                 <strong id="user-nickname" title="Click to edit nickname">Loading...</strong>
+                 <button id="logout-button" class="btn-link">Logout</button>
+             </div>
+         </div>
+    </header>
+
+    <main class="container">
+        <h1>Batch Upload</h1>
+
+        <!-- Loading state -->
+        <div id="loading-state" class="loading-state">
+            <p>Checking permissions...</p>
+        </div>
+
+        <!-- Access denied -->
+        <div id="access-denied" class="access-denied" style="display: none;">
+            <h2>Access Denied</h2>
+            <p>You don't have permission to upload stickers.</p>
+            <a href="/index.html" class="btn btn-primary">Go to Home</a>
+        </div>
+
+        <!-- Batch uploader -->
+        <div id="batch-container" class="batch-wrap" style="display: none;">
+            <div id="batch-dropzone" class="batch-dropzone">
+                <p class="batch-dropzone-text">Drop sticker images here (or click to select)</p>
+                <p class="batch-dropzone-hint">JPEG only. Drop as many as you like — one row per image.</p>
+            </div>
+            <input type="file" id="batch-file-input" accept="image/jpeg" multiple style="display: none;">
+
+            <div id="batch-rows" class="batch-rows"></div>
+
+            <div id="batch-footer" class="batch-footer" style="display: none;">
+                <p id="batch-count" class="batch-count"></p>
+                <button type="button" id="batch-upload-btn" class="btn btn-primary batch-upload-btn" disabled>
+                    Upload all
+                </button>
+            </div>
+
+            <div id="global-status" class="global-status" style="display: none;"></div>
+        </div>
+
+        <!-- Report view (after upload) -->
+        <div id="batch-report" class="batch-wrap" style="display: none;">
+            <div id="global-status-report" class="global-status info"></div>
+            <h2 style="margin-top: calc(var(--spacing-unit) * 3);">Sent for generation</h2>
+            <div id="batch-report-rows"></div>
+            <div style="text-align: center; margin-top: calc(var(--spacing-unit) * 3);">
+                <a href="/upload-batch.html" class="btn btn-primary">Upload another batch</a>
+            </div>
+        </div>
+    </main>
+
+    <footer class="app-footer">
+        <p>
+            <a href="/about.html">About</a> |
+            <a href="/catalogue.html">Catalogue</a> |
+            <a href="/quiz.html">Quiz</a>
+        </p>
+        <p>StickerHunt &copy; 2025</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="https://cdn.jsdelivr.net/npm/exifr/dist/full.umd.js"></script>
+    <script src="shared.js?v=2"></script>
+    <script src="upload-batch.js?v=1"></script>
+</body>
+</html>
