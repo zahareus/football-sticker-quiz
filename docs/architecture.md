@@ -58,6 +58,19 @@ User uploads via web form (upload.js)
       -> git commit + push -> deploy
 ```
 
+### Batch Upload Flow (no social post)
+```
+upload-batch.html / upload-batch.js (separate page; upload.html stays as-is)
+  -> drop N JPEGs -> N rows (thumb, club autocomplete, difficulty, EXIF geo)
+     (incremental drops accumulate in one session; rows without a club are skipped)
+  -> confirm() -> per row: Supabase Storage + stickers INSERT (NO per-sticker webhook)
+  -> ONE POST to n8n "SH batch reconcile" (webhook /sticker-batch-uploaded, id kpeWoT8qqyq0Gdrq)
+    -> ONE repository_dispatch {sticker_ids: "1,2,...", notify: true, n_stickers/n_clubs/n_countries}
+      -> generate-sticker-pages.yml generates ALL pages in a single run + optimizes images
+      -> final step: Telegram alert (Самаритянин, chat 292048) with counts; gated on notify=true
+  -> page swaps to a report view listing every sticker sent for generation
+```
+
 ### Generators
 
 | Script | Creates | Trigger |
