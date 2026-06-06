@@ -2,6 +2,13 @@
 
 Notable changes to StickerHunt. Reverse chronological. Commit hashes link to git history.
 
+## 2026-06-06 — Rating fix + continuous synthetic monitor
+
+- **Fix: `rating.html` was fully broken** ("Initialization error. Rating cannot be loaded.") (`de84046`). `rating.js` loaded WITHOUT `defer` while `shared.js` + `supabase-js` were deferred, so `rating.js`' top-level init ran before `SharedUtils` existed → `supabaseClient` never set. Regression from the May "defer JS" perf commit. Added `defer` to `rating.js`, `battle.js`, `clubs-page.js` (battle/clubs were latent — only used `SharedUtils` inside `DOMContentLoaded`, so they still worked, but the ordering was fragile).
+- **New continuous safety net** so this class of breakage is caught automatically, not by chance:
+  - **`scripts/synthetic-monitor.mjs`** — loads every key page on the LIVE site in a headless browser and asserts it actually works: no JS init failure, no critical console errors (`SharedUtils not loaded`, `TypeError`, …), and the main content rendered. Catches client-render breakage that a plain HTTP-200 check hides. Retries once to avoid false alarms; sends ONE Telegram alert (Самаритянин, chat `292048`) listing the broken pages and exits non-zero; all-green is silent.
+  - **`.github/workflows/synthetic-monitor.yml`** — runs the monitor **every 15 minutes** (+ `workflow_dispatch`). Reuses `TELEGRAM_BOT_TOKEN`. Covers homepage, rating, leaderboard, catalogue, quiz, clubs, map, battle, profile, stickerstat/log, all three uploaders/club-create, and sample static sticker/club pages.
+
 ## 2026-06-06 — Batch uploader + club Re-enrich
 
 ### Batch sticker uploader (no social post)
