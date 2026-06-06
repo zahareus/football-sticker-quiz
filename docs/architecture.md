@@ -71,6 +71,21 @@ upload-batch.html / upload-batch.js (separate page; upload.html stays as-is)
   -> page swaps to a report view listing every sticker sent for generation
 ```
 
+### Club Creation & Enrichment
+```
+club-create.html / club-create.js
+  -> insert clubs row {name, country}
+  -> AI enrichment via /api/enrich-club (Vercel serverless, OPENAI_API_KEY):
+       city ("City, Country"), media (5 hashtags), web (Wikipedia/official URL)
+  -> update clubs row with enriched fields
+  -> clubs poller (n8n, every minute) detects the change -> regenerates club/country pages
+
+Re-enrich (added 2026-06-06): pick an EXISTING club from the autocomplete ->
+  "Re-enrich this club" button -> re-runs /api/enrich-club -> updates the row
+  (only fields that came back; never wipes with null) -> poller regenerates the page.
+  Fixes one-off transient enrichment failures without re-creating the club.
+```
+
 ### Generators
 
 | Script | Creates | Trigger |
@@ -132,16 +147,24 @@ URLs in HTML:
 
 ### n8n Integration
 
-- **Webhook URL:** `https://n8n.ontext.info/webhook/sticker-uploaded`
-- **Workflow:** "SH webhook poster" (ID: `dGmModNhxarQFxjf`)
+- **Single upload (with social post):**
+  - Webhook: `https://n8n.ontext.info/webhook/sticker-uploaded`
+  - Workflow: "SH webhook poster" (ID: `dGmModNhxarQFxjf`) — schedules social post (Zernio) + one `repository_dispatch` per sticker.
+- **Batch upload (no social post):**
+  - Webhook: `https://n8n.ontext.info/webhook/sticker-batch-uploaded`
+  - Workflow: "SH batch reconcile" (ID: `kpeWoT8qqyq0Gdrq`) — thin trigger: one `repository_dispatch` for the WHOLE batch (`sticker_ids` comma-list + `notify:true` + counts). No social post.
+- **Clubs poller:** "SH clubs poller (change detector)" (ID: `qESondLX2tc7dMmH`) — runs every minute, detects new/changed `clubs` rows and dispatches club/country page regeneration. This is what picks up `club-create` inserts and Re-enrich updates.
 - **GitHub credential:** `githubApi` (n8n credential ID: `ivaldofdLM73JGXZ`)
 
 ### GitHub Actions
 
 - **Workflow:** `.github/workflows/generate-sticker-pages.yml`
-- **Concurrency:** serialized, cancel-in-progress: false, only ONE pending run queued
-- **Self-healing:** each run regenerates sticker N-1's page (navigation links)
-- **Push retry:** git stash -> git pull --rebase -> git stash pop (up to 3 attempts)
+- **Concurrency:** serialized, cancel-in-progress: false, only ONE pending run queued.
+- **Multi-ID runs:** accepts `client_payload.sticker_ids` as a comma list and loops `generate-single-sticker.js` over all of them in ONE run — this is how a whole batch is generated without concurrency-group cancellations.
+- **Telegram notify (batch only):** final step fires only when `client_payload.notify == 'true'` — sends a summary to Victor (Самаритянин bot, chat 292048) on success/failure. Single uploads stay silent. Needs GitHub secret `TELEGRAM_BOT_TOKEN`.
+- **Self-healing:** each run regenerates sticker N-1's page (navigation links).
+- **Push retry:** git stash -> git pull --rebase -> git stash pop (up to 3 attempts).
+- **Belt-and-suspenders:** `reconcile-stickers.yml` (cron */15 min) generates any sticker page that has no on-disk HTML, regardless of how it was uploaded.
 
 ## Hybrid Architecture
 
@@ -176,6 +199,10 @@ scripts/.env:
 
 GitHub Secrets:
   SUPABASE_URL, SUPABASE_ANON_KEY, SUPABASE_SERVICE_KEY
+  TELEGRAM_BOT_TOKEN (Самаритянин bot — batch generation notify)
+
+Vercel Environment Variables:
+  OPENAI_API_KEY (api/enrich-club.js — club enrichment)
 ```
 
 ## Key Rules
@@ -191,6 +218,12 @@ GitHub Secrets:
 
 ```
 stickerhunt/
++-- upload.html / upload.js          # Single sticker uploader (with social post)
++-- upload-batch.html / .js          # Batch uploader (no social post; whole page = drop zone)
++-- club-create.html / .js           # Create club + AI enrichment + Re-enrich
++-- api/
+|   +-- enrich-club.js               # Vercel fn: club city/hashtags/website via OpenAI
+|   +-- img-proxy.js                 # Image proxy
 +-- stickers/          # Static sticker HTML pages
 +-- clubs/             # Static club HTML pages
 +-- countries/         # Static country HTML pages

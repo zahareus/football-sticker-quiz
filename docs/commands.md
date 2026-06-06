@@ -53,17 +53,24 @@ node test-generators.js
 
 Run after ANY generator change.
 
+## Uploading stickers
+
+- **Single (with social post):** `upload.html` — one sticker, "Post to media" checkbox.
+- **Batch (no social post):** `upload-batch.html` — drop many JPEGs anywhere on the page, one row each (club + difficulty + EXIF geo), one "Upload all". On finish: one n8n webhook -> one generation run for the whole batch -> Telegram summary when done.
+
 ## GitHub Actions (remote)
 
-Triggered automatically by n8n on sticker upload. Manual trigger:
+Triggered automatically by n8n on sticker upload. Manual trigger (single or comma-list of IDs):
 
 ```bash
 curl -X POST \
   -H "Authorization: token $GITHUB_PAT" \
   -H "Accept: application/vnd.github.v3+json" \
   https://api.github.com/repos/zahareus/football-sticker-quiz/dispatches \
-  -d '{"event_type":"generate-sticker-pages","client_payload":{"sticker_ids":"123","club_ids":"27"}}'
+  -d '{"event_type":"generate-sticker-pages","client_payload":{"sticker_ids":"123,124,125","club_ids":"27"}}'
 ```
+
+Add `"notify":"true"` (plus `n_stickers`/`n_clubs`/`n_countries`) to the payload to get the Telegram summary at the end (this is what the batch uploader sends).
 
 ## Supabase Queries
 

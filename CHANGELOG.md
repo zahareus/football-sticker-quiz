@@ -2,6 +2,26 @@
 
 Notable changes to StickerHunt. Reverse chronological. Commit hashes link to git history.
 
+## 2026-06-06 — Batch uploader + club Re-enrich
+
+### Batch sticker uploader (no social post)
+
+- **New `upload-batch.html` / `upload-batch.js`** (`aa4ce51`). For bulk uploads of stickers that should NOT go to social media. The single uploader (`upload.html`) is unchanged.
+  - Drop any number of JPEGs **anywhere on the page** (full-page drop target with overlay) — one row per image, accumulating across multiple drops in one session (`6211a4b`).
+  - Each row: 176×176 preview, club autocomplete, difficulty 1–3, EXIF geolocation, and the image filename (to cross-check against the catalog) (`0ab6989`).
+  - `confirm()` before upload; then per row → Supabase Storage + `stickers` INSERT (no per-sticker webhook). After all rows: ONE POST to the batch webhook → a report view listing every sticker sent.
+- **One run per batch.** The batch webhook → n8n **"SH batch reconcile"** (`kpeWoT8qqyq0Gdrq`) → ONE `repository_dispatch` with all `sticker_ids` as a comma list. `generate-sticker-pages.yml` already loops `generate-single-sticker.js` over them in a single run — no concurrency-group cancellations. Verified on batches up to 23 stickers (3677–3699) generating cleanly in ~1.5 min.
+- **Telegram notify** (`generate-sticker-pages.yml`, `aa4ce51`): final workflow step fires only when `client_payload.notify == 'true'` (batch only) and reports stickers/clubs/countries counts (or a failure alert) to Victor via the Самаритянин bot (chat `292048`). New GitHub secret `TELEGRAM_BOT_TOKEN`. Single uploads stay silent.
+
+### Geolocation fix (batch)
+
+- **Root cause** (`597a29f`): a batch drop fired N concurrent reverse-geocode requests to Nominatim, which rate-limits/blocks bulk (HTTP 429) → place name never resolved, and the UI misleadingly showed "GPS not found" even when EXIF coordinates WERE extracted.
+- **Fix:** decoupled coords from place name (coords read locally, shown immediately; "GPS not found" only when no coords at all); serialized reverse-geocoding through one queue ~1.1s apart with a retry on 429; upload waits for the queue to drain so place names are saved. Report falls back to coords when no name.
+
+### Club Re-enrich
+
+- **`club-create.html` / `club-create.js`** (`13af4cd`): picking an existing club from the autocomplete now reveals a **"Re-enrich this club"** button. It re-runs AI enrichment (`/api/enrich-club` → city / hashtags / website), updates the club row (only fields that came back; never wipes with null), and the clubs poller regenerates the page within ~1 min. Fixes one-off transient enrichment failures (e.g. IFK Norrköping #1210, whose `city/media/web` were backfilled manually) without re-creating the club.
+
 ## 2026-04-29 — Generation drift recovery + LCP fix + CI guardrails
 
 Triggered by 28-day post-overhaul SEO check that found a 42% click drop after 14.04 and a generation pipeline silently drifting from the database for 26 days.
