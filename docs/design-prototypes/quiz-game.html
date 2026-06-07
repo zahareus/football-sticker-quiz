@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quiz — StickerHunt</title><link rel="preconnect" href="https://stickerhunt.club"><link rel="stylesheet" href="shared.css">
+<style>
+.game{display:grid;grid-template-columns:minmax(0,440px) 1fr;gap:40px;align-items:start;margin-top:8px;}
+.gshot{border:3px solid var(--ink);border-radius:var(--r);overflow:hidden;background:var(--surface);box-shadow:var(--shadow);}
+.gshot img{width:100%;height:auto;aspect-ratio:1/1;object-fit:cover;display:block;}
+.gpanel{display:flex;flex-direction:column;gap:18px;}
+.gtop{display:flex;align-items:center;justify-content:space-between;}
+.gq{font-size:.78rem;font-weight:800;text-transform:uppercase;letter-spacing:.04em;color:var(--muted);}
+.gscore{font-size:.9rem;font-weight:800;text-transform:uppercase;}
+.gscore b{font-size:1.3rem;color:var(--accent-deep);font-variant-numeric:tabular-nums;}
+.gtimer{display:flex;align-items:center;gap:12px;}
+.gtimer .bar{flex:1;height:14px;border:2px solid var(--ink);border-radius:3px;overflow:hidden;background:var(--surface);}
+.gtimer .bar i{display:block;height:100%;width:68%;background:var(--accent);}
+.gtimer .sec{font-size:1.1rem;font-weight:800;font-variant-numeric:tabular-nums;min-width:42px;text-align:right;}
+.glives{display:flex;align-items:center;gap:8px;}
+.glives .ll{font-size:.66rem;font-weight:800;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);}
+.heart{width:22px;height:22px;color:var(--accent-deep);}
+.heart.dead{color:var(--surface-2);stroke:var(--ink);}
+.gask{font-size:1.25rem;font-weight:800;text-transform:uppercase;letter-spacing:-.01em;margin:2px 0;}
+.opts{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.opt{border:2px solid var(--ink);border-radius:var(--r-sm);background:var(--surface);padding:16px 14px;font-size:.95rem;font-weight:800;text-transform:uppercase;text-align:left;cursor:pointer;transition:.12s;display:flex;align-items:center;gap:10px;}
+.opt .key{width:24px;height:24px;flex:0 0 auto;border:2px solid var(--ink);border-radius:3px;display:flex;align-items:center;justify-content:center;font-size:.72rem;background:var(--surface-2);}
+.opt:hover{background:var(--accent);box-shadow:var(--shadow-sm);transform:translate(-2px,-2px);}
+.opt.correct{background:#2e9e5b;color:#fff;border-color:var(--ink);} .opt.correct .key{background:#fff;}
+.opt.incorrect{background:#e5392f;color:#fff;border-color:var(--ink);} .opt.incorrect .key{background:#fff;}
+.gquit{margin-top:4px;}
+.gquit a{font-size:.78rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;} .gquit a:hover{color:var(--ink);}
+@media(max-width:760px){.game{grid-template-columns:1fr;gap:22px;}.opts{grid-template-columns:1fr;}}
+</style></head><body>
+<header class="hdr"><div class="hdr-inner"><a class="logo" href="#"><img src="https://stickerhunt.club/logo.webp" alt="StickerHunt" width="126" height="32"></a><div class="spacer"></div><nav><a href="#">Catalogue</a><a href="#">Map</a><a href="#">Rating</a></nav><a class="play" href="#">▶ Play Quiz</a><div class="user"><div class="ava">V</div><span class="uname">victor</span><span class="caret">▾</span></div></div></header>
+<div class="wrap">
+  <!-- maps to #game-area: #sticker-image, #timer/#time-left, #lives, #score, #options -->
+  <div class="game">
+    <div class="gshot"><img src="https://stickerhunt.club/img/club_896/1777109170183_IMG_9620_web.webp?v=2026-05-27" alt="Sticker to identify" width="1200" height="1200"></div>
+    <div class="gpanel">
+      <div class="gtop"><span class="gq">Classic · Question 3 / 10</span><span class="gscore">Score <b>2</b></span></div>
+      <div class="gtimer"><div class="bar"><i></i></div><span class="sec">7s</span></div>
+      <div class="glives"><span class="ll">Lives</span>
+        <svg class="heart" viewBox="0 0 24 24" fill="currentColor" stroke="var(--ink)" stroke-width="1.5"><path d="M12 21s-7-4.5-9.5-9C1 9 2.5 5.5 6 5.5c2 0 3.2 1.2 4 2.3.8-1.1 2-2.3 4-2.3 3.5 0 5 3.5 3.5 6.5C19 16.5 12 21 12 21z"/></svg>
+        <svg class="heart" viewBox="0 0 24 24" fill="currentColor" stroke="var(--ink)" stroke-width="1.5"><path d="M12 21s-7-4.5-9.5-9C1 9 2.5 5.5 6 5.5c2 0 3.2 1.2 4 2.3.8-1.1 2-2.3 4-2.3 3.5 0 5 3.5 3.5 6.5C19 16.5 12 21 12 21z"/></svg>
+        <svg class="heart dead" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="1.5"><path d="M12 21s-7-4.5-9.5-9C1 9 2.5 5.5 6 5.5c2 0 3.2 1.2 4 2.3.8-1.1 2-2.3 4-2.3 3.5 0 5 3.5 3.5 6.5C19 16.5 12 21 12 21z"/></svg>
+      </div>
+      <div class="gask">Which club is this?</div>
+      <div class="opts">
+        <button class="opt correct"><span class="key">A</span>TSV 1860 München</button>
+        <button class="opt"><span class="key">B</span>FC Bayern Munich</button>
+        <button class="opt"><span class="key">C</span>Dynamo Dresden</button>
+        <button class="opt"><span class="key">D</span>Hertha BSC</button>
+      </div>
+      <div class="gquit"><a href="#">✕ Quit quiz</a></div>
+    </div>
+  </div>
+</div>
+<footer><a href="#">About</a> · <a href="#">Catalogue</a> · <a href="#">Map</a> · <a href="#">Rating</a> · <a href="#">Leaderboard</a> · <a href="#">Terms</a> · <a href="#">Privacy</a> · © 2026 StickerHunt</footer>
+</body></html>

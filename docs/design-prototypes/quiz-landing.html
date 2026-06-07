@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Play the Quiz — StickerHunt</title><link rel="preconnect" href="https://stickerhunt.club"><link rel="stylesheet" href="shared.css">
+<style>
+.qhero{text-align:center;padding:34px 0 6px;}
+.qhero h1{font-size:2.2rem;font-weight:800;text-transform:uppercase;letter-spacing:-.03em;margin:0 0 8px;}
+.qhero p{color:var(--ink-2);font-size:.95rem;font-weight:600;margin:0;}
+.modes{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;}
+.mode{display:flex;flex-direction:column;border:2px solid var(--ink);border-radius:var(--r-sm);background:var(--surface);overflow:hidden;transition:.12s;cursor:pointer;}
+.mode:hover{box-shadow:var(--shadow);transform:translate(-3px,-3px);}
+.mode .mtop{background:var(--ink);color:#fff;padding:10px 16px;display:flex;align-items:center;justify-content:space-between;}
+.mode .mtop .nm{font-size:1.05rem;font-weight:800;text-transform:uppercase;}
+.mode .mtop .pl{background:var(--accent);color:var(--accent-ink);border:2px solid var(--accent);border-radius:3px;font-size:.7rem;font-weight:800;text-transform:uppercase;padding:2px 9px;}
+.mode .mbody{padding:16px;}
+.mode .desc{font-size:.86rem;color:var(--ink-2);font-weight:500;line-height:1.5;margin-bottom:12px;min-height:52px;}
+.mode .meta{display:flex;gap:8px;flex-wrap:wrap;}
+.mode .mt{font-size:.66rem;font-weight:800;text-transform:uppercase;letter-spacing:.04em;color:var(--ink);background:var(--surface-2);border:1.5px solid var(--ink);border-radius:3px;padding:3px 8px;}
+.mode:hover .mt{background:var(--accent);}
+.diff{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;}
+.dcard{border:2px solid var(--ink);border-radius:var(--r-sm);background:var(--surface);padding:16px;transition:.12s;cursor:pointer;}
+.dcard:hover,.dcard.active{background:var(--accent);box-shadow:var(--shadow);transform:translate(-2px,-2px);}
+.dcard .dh{display:flex;align-items:center;justify-content:space-between;margin-bottom:7px;}
+.dcard .dn{font-size:1rem;font-weight:800;text-transform:uppercase;}
+.dcard .dd{font-size:.8rem;color:var(--ink-2);font-weight:500;line-height:1.45;}
+.dcard:hover .dd,.dcard.active .dd{color:var(--accent-ink);}
+.qstats{display:flex;align-items:center;justify-content:center;gap:0;border:2px solid var(--ink);border-radius:var(--r-sm);overflow:hidden;max-width:560px;margin:0 auto;}
+.qstat{flex:1;padding:12px 8px;text-align:center;border-right:2px solid var(--ink);}
+.qstat:last-child{border-right:none;}
+.qstat .v{font-size:1.4rem;font-weight:800;font-variant-numeric:tabular-nums;line-height:1;}
+.qstat .l{font-size:.64rem;color:var(--ink-2);font-weight:700;text-transform:uppercase;letter-spacing:.05em;margin-top:3px;}
+.qstat.lk{background:var(--surface-2);} .qstat.lk:hover{background:var(--accent);}
+.qstat.lk .v{font-size:.95rem;color:var(--accent-deep);} .qstat.lk:hover .v{color:var(--accent-ink);}
+@media(max-width:760px){.modes{grid-template-columns:1fr;}.diff{grid-template-columns:1fr;}}
+</style></head><body>
+<header class="hdr"><div class="hdr-inner"><a class="logo" href="#"><img src="https://stickerhunt.club/logo.webp" alt="StickerHunt" width="126" height="32"></a><div class="spacer"></div><nav><a href="#">Catalogue</a><a href="#">Map</a><a href="#">Rating</a></nav><a class="play" href="#">▶ Play Quiz</a><div class="user"><div class="ava">V</div><span class="uname">victor</span><span class="caret">▾</span></div></div></header>
+<div class="wrap">
+  <div class="qhero"><h1>Play the Quiz</h1><p>Identify the football club from a real street sticker.</p></div>
+
+  <!-- Players stats (moved to top) -->
+  <div class="qstats" style="margin-bottom:8px;">
+    <div class="qstat"><div class="v">1,284</div><div class="l">All-time players</div></div>
+    <div class="qstat"><div class="v">73</div><div class="l">Playing today</div></div>
+    <a class="qstat lk" href="#"><div class="v">Leaderboard ↗</div><div class="l">Top hunters</div></a>
+  </div>
+
+  <!-- maps to #landing-page mode buttons -->
+  <div class="section"><div class="section-head"><h2>Choose a mode</h2></div>
+    <div class="modes">
+      <div class="mode"><div class="mtop"><span class="nm">Classic</span><span class="pl">▶ Play</span></div><div class="mbody"><div class="desc">Identify the club from a single sticker. 10 rounds, 3 lives, beat the 10-second clock.</div><div class="meta"><span class="mt">10 rounds</span><span class="mt">3 lives</span><span class="mt">10s / round</span></div></div></div>
+      <div class="mode"><div class="mtop"><span class="nm">Time to Run</span><span class="pl">▶ Play</span></div><div class="mbody"><div class="desc">Race the clock — how many clubs can you name in 60 seconds? 5 lives, score by difficulty.</div><div class="meta"><span class="mt">60 seconds</span><span class="mt">5 lives</span><span class="mt">combo score</span></div></div></div>
+      <div class="mode"><div class="mtop"><span class="nm">Hunt Them All</span><span class="pl">▶ Play</span></div><div class="mbody"><div class="desc">Daily challenge — 18 stickers, one shot. Bonus time on every correct answer. New set each day.</div><div class="meta"><span class="mt">daily</span><span class="mt">18 stickers</span><span class="mt">45s + bonus</span></div></div></div>
+    </div>
+  </div>
+
+  <!-- maps to #difficulty-selection -->
+  <div class="section"><div class="section-head"><h2>Classic difficulty</h2><span class="meta">pick before you play</span></div>
+    <div class="diff">
+      <div class="dcard active"><div class="dh"><span class="dn">Easy</span><span class="dmeter"><i class="on"></i><i></i><i></i></span></div><div class="dd">Well-known clubs and clear stickers. A relaxed warm-up.</div></div>
+      <div class="dcard"><div class="dh"><span class="dn">Medium</span><span class="dmeter"><i class="on"></i><i class="on"></i><i></i></span></div><div class="dd">Mixed leagues, trickier designs. For regular hunters.</div></div>
+      <div class="dcard"><div class="dh"><span class="dn">Hard</span><span class="dmeter"><i class="on"></i><i class="on"></i><i class="on"></i></span></div><div class="dd">Obscure clubs and worn stickers. Only the sharpest survive.</div></div>
+    </div>
+  </div>
+</div>
+<footer><a href="#">About</a> · <a href="#">Catalogue</a> · <a href="#">Map</a> · <a href="#">Rating</a> · <a href="#">Leaderboard</a> · <a href="#">Terms</a> · <a href="#">Privacy</a> · © 2026 StickerHunt</footer>
+</body></html>

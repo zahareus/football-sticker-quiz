@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quiz Result — StickerHunt</title><link rel="preconnect" href="https://stickerhunt.club"><link rel="stylesheet" href="shared.css">
+<style>
+.game{display:grid;grid-template-columns:minmax(0,440px) 1fr;gap:40px;align-items:start;margin-top:8px;}
+.gshot{border:3px solid var(--ink);border-radius:var(--r);overflow:hidden;background:var(--surface);box-shadow:var(--shadow);}
+.gshot img{width:100%;height:auto;aspect-ratio:1/1;object-fit:cover;display:block;}
+.rpanel{display:flex;flex-direction:column;gap:18px;}
+.rover{font-size:2rem;font-weight:800;text-transform:uppercase;letter-spacing:-.03em;margin:0;}
+.rscorebox{border:3px solid var(--ink);border-radius:var(--r);box-shadow:var(--shadow);background:var(--accent);padding:22px 24px;text-align:center;}
+.rscorebox .big{font-size:3rem;font-weight:800;line-height:1;font-variant-numeric:tabular-nums;color:var(--accent-ink);}
+.rscorebox .lab{font-size:.72rem;font-weight:800;text-transform:uppercase;letter-spacing:.06em;color:var(--accent-ink);margin-top:4px;}
+.rpct{display:flex;align-items:center;gap:10px;border:2px solid var(--ink);border-radius:var(--r-sm);background:var(--surface);padding:13px 16px;font-weight:800;text-transform:uppercase;font-size:.9rem;}
+.rpct b{color:var(--accent-deep);font-size:1.1rem;}
+.ract{display:flex;flex-direction:column;gap:10px;}
+@media(max-width:760px){.game{grid-template-columns:1fr;gap:22px;}}
+</style></head><body>
+<header class="hdr"><div class="hdr-inner"><a class="logo" href="#"><img src="https://stickerhunt.club/logo.webp" alt="StickerHunt" width="126" height="32"></a><div class="spacer"></div><nav><a href="#">Catalogue</a><a href="#">Map</a><a href="#">Rating</a></nav><a class="play" href="#">▶ Play Quiz</a><div class="user"><div class="ava">V</div><span class="uname">victor</span><span class="caret">▾</span></div></div></header>
+<div class="wrap">
+  <!-- maps to .result-right-panel: #game-over-text, #final-score, #percentile-value, #play-again, #result-sticker-info-button, #result-leaderboard-button -->
+  <div class="game">
+    <div class="gshot"><img src="https://stickerhunt.club/img/club_896/1777109170183_IMG_9620_web.webp?v=2026-05-27" alt="Last sticker" width="1200" height="1200"></div>
+    <div class="rpanel">
+      <h1 class="rover">Game Over!</h1>
+      <div class="rscorebox"><div class="big">8 / 10</div><div class="lab">Final score</div></div>
+      <div class="rpct"><span>You beat</span><b>88%</b><span>of players</span></div>
+      <div class="ract">
+        <a class="btn btn-primary" href="#">▶ Play again</a>
+        <a class="btn btn-ghost" href="#">See the last sticker →</a>
+        <a class="btn btn-ghost" href="#">View leaderboard →</a>
+      </div>
+    </div>
+  </div>
+</div>
+<footer><a href="#">About</a> · <a href="#">Catalogue</a> · <a href="#">Map</a> · <a href="#">Rating</a> · <a href="#">Leaderboard</a> · <a href="#">Terms</a> · <a href="#">Privacy</a> · © 2026 StickerHunt</footer>
+</body></html>
