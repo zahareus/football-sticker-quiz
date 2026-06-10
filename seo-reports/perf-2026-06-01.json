@@ -1,0 +1,43 @@
+{
+  "date": "2026-06-01",
+  "formFactor": "PHONE",
+  "cruxBudget": {
+    "lcpMs": 2500,
+    "inpMs": 200,
+    "cls": 0.1
+  },
+  "labBudget": {
+    "lcpMs": 7000,
+    "performance": 0.6
+  },
+  "labRuns": 3,
+  "results": [
+    {
+      "url": "https://stickerhunt.club/",
+      "source": "lab",
+      "runs": 3,
+      "performance": 1,
+      "lcpMs": 1809.9965294160897,
+      "cls": 0,
+      "tbtMs": 6
+    },
+    {
+      "url": "https://stickerhunt.club/stickers/3201.html",
+      "source": "lab",
+      "runs": 3,
+      "performance": 0.97,
+      "lcpMs": 2351.935723687045,
+      "cls": 0.000151,
+      "tbtMs": 62
+    },
+    {
+      "url": "https://stickerhunt.club/clubs/695.html",
+      "source": "lab",
+      "runs": 3,
+      "performance": 0.67,
+      "lcpMs": 6856.633182722615,
+      "cls": 0,
+      "tbtMs": 67
+    }
+  ]
+}
