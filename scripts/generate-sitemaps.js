@@ -16,7 +16,7 @@
  * Usage: node generate-sitemaps.js
  */
 
-import { writeFileSync, readdirSync } from 'fs';
+import { writeFileSync, readdirSync, readFileSync, existsSync } from 'fs';
 import { join, dirname } from 'path';
 import { fileURLToPath } from 'url';
 
@@ -58,8 +58,43 @@ function urlEntry(loc, lastmod, changefreq, priority) {
     return `<url><loc>${loc}</loc><lastmod>${lastmod}</lastmod><changefreq>${changefreq}</changefreq><priority>${priority}</priority></url>\n`;
 }
 
+/**
+ * Build a loc -> lastmod map from already-committed sitemap files.
+ *
+ * Why: stamping lastmod=today on every URL each run poisons Google's crawl
+ * budget — frequent full regenerations made the whole sitemap claim "everything
+ * changed today" daily, so Google stopped trusting lastmod and throttled crawl
+ * (visibility collapse mid-May 2026). We instead preserve each URL's existing
+ * lastmod and only stamp `today` on genuinely NEW urls. File mtimes are useless
+ * here because CI checkout resets them, so we read the committed XML, not the FS.
+ */
+function loadExistingLastmods(projectRoot) {
+    const map = new Map();
+    let files = [];
+    try {
+        files = readdirSync(projectRoot).filter(f => /^sitemap-.*\.xml$/.test(f));
+    } catch {}
+    const re = /<loc>([^<]+)<\/loc><lastmod>([^<]+)<\/lastmod>/g;
+    for (const f of files) {
+        const path = join(projectRoot, f);
+        if (!existsSync(path)) continue;
+        const xml = readFileSync(path, 'utf-8');
+        let m;
+        while ((m = re.exec(xml)) !== null) map.set(m[1], m[2]);
+    }
+    return map;
+}
+
 async function main() {
     const today = new Date().toISOString().split('T')[0];
+    // Force a fresh lastmod on every URL — use ONLY for intentional site-wide
+    // changes (template/layout overhaul), never on routine regeneration.
+    const touchAll = process.env.SITEMAP_TOUCH_ALL === '1';
+    const prevLastmod = touchAll ? new Map() : loadExistingLastmods(PROJECT_ROOT);
+    // Preserve an existing URL's lastmod; only new URLs get today.
+    const lm = (loc) => prevLastmod.get(loc) || today;
+    if (touchAll) console.log('SITEMAP_TOUCH_ALL=1 — stamping today on every URL');
+    else console.log(`Preserving lastmod for ${prevLastmod.size} known URLs`);
 
     console.log('Fetching from Supabase...');
     const stickers = await fetchAll('stickers', 'id', 'id');
@@ -81,17 +116,6 @@ async function main() {
     } catch {}
     cityFiles.sort();
 
-    // ---- sitemap.xml (index) ----
-    let indexXml = '<?xml version="1.0" encoding="UTF-8"?>\n<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n';
-    indexXml += `<sitemap><loc>${BASE_URL}/sitemap-main.xml</loc><lastmod>${today}</lastmod></sitemap>\n`;
-    indexXml += `<sitemap><loc>${BASE_URL}/sitemap-cities.xml</loc><lastmod>${today}</lastmod></sitemap>\n`;
-    for (let i = 1; i <= chunkCount; i++) {
-        indexXml += `<sitemap><loc>${BASE_URL}/sitemap-stickers-${i}.xml</loc><lastmod>${today}</lastmod></sitemap>\n`;
-    }
-    indexXml += '</sitemapindex>\n';
-    writeFileSync(join(PROJECT_ROOT, 'sitemap.xml'), indexXml, 'utf-8');
-    console.log(`  sitemap.xml — index with ${1 + 1 + chunkCount} sub-sitemaps`);
-
     // ---- sitemap-main.xml ----
     const staticPages = [
         { loc: '/', changefreq: 'daily', priority: '1.0' },
@@ -107,15 +131,24 @@ async function main() {
         { loc: '/privacy.html', changefreq: 'monthly', priority: '0.2' },
         { loc: '/terms.html', changefreq: 'monthly', priority: '0.2' },
     ];
+    const maxLm = {}; // filename -> max lastmod used, for the index
+    const track = (file, val) => { if (!maxLm[file] || val > maxLm[file]) maxLm[file] = val; };
+
     let mainXml = xmlOpen();
     for (const p of staticPages) {
-        mainXml += urlEntry(`${BASE_URL}${p.loc}`, today, p.changefreq, p.priority);
+        const loc = `${BASE_URL}${p.loc}`;
+        const d = lm(loc); track('sitemap-main.xml', d);
+        mainXml += urlEntry(loc, d, p.changefreq, p.priority);
     }
     for (const cc of countries) {
-        mainXml += urlEntry(`${BASE_URL}/countries/${cc}.html`, today, 'weekly', '0.8');
+        const loc = `${BASE_URL}/countries/${cc}.html`;
+        const d = lm(loc); track('sitemap-main.xml', d);
+        mainXml += urlEntry(loc, d, 'weekly', '0.8');
     }
     for (const club of clubs) {
-        mainXml += urlEntry(`${BASE_URL}/clubs/${club.id}.html`, today, 'weekly', '0.7');
+        const loc = `${BASE_URL}/clubs/${club.id}.html`;
+        const d = lm(loc); track('sitemap-main.xml', d);
+        mainXml += urlEntry(loc, d, 'weekly', '0.7');
     }
     mainXml += '</urlset>\n';
     writeFileSync(join(PROJECT_ROOT, 'sitemap-main.xml'), mainXml, 'utf-8');
@@ -124,7 +157,9 @@ async function main() {
     // ---- sitemap-cities.xml ----
     let citiesXml = xmlOpen();
     for (const slug of cityFiles) {
-        citiesXml += urlEntry(`${BASE_URL}/cities/${slug}.html`, today, 'weekly', '0.7');
+        const loc = `${BASE_URL}/cities/${slug}.html`;
+        const d = lm(loc); track('sitemap-cities.xml', d);
+        citiesXml += urlEntry(loc, d, 'weekly', '0.7');
     }
     citiesXml += '</urlset>\n';
     writeFileSync(join(PROJECT_ROOT, 'sitemap-cities.xml'), citiesXml, 'utf-8');
@@ -133,16 +168,30 @@ async function main() {
     // ---- sitemap-stickers-N.xml ----
     for (let i = 0; i < chunkCount; i++) {
         const chunk = stickers.slice(i * STICKERS_PER_FILE, (i + 1) * STICKERS_PER_FILE);
+        const file = `sitemap-stickers-${i + 1}.xml`;
         let xml = xmlOpen();
         for (const s of chunk) {
-            xml += urlEntry(`${BASE_URL}/stickers/${s.id}.html`, today, 'monthly', '0.6');
+            const loc = `${BASE_URL}/stickers/${s.id}.html`;
+            const d = lm(loc); track(file, d);
+            xml += urlEntry(loc, d, 'monthly', '0.6');
         }
         xml += '</urlset>\n';
-        writeFileSync(join(PROJECT_ROOT, `sitemap-stickers-${i + 1}.xml`), xml, 'utf-8');
+        writeFileSync(join(PROJECT_ROOT, file), xml, 'utf-8');
         console.log(`  sitemap-stickers-${i + 1}.xml — ${chunk.length} stickers (IDs ${chunk[0].id}..${chunk[chunk.length - 1].id})`);
     }
 
-    console.log('\nDone. lastmod=' + today);
+    // ---- sitemap.xml (index) — each sub-sitemap's lastmod = newest URL inside it ----
+    const subFiles = ['sitemap-main.xml', 'sitemap-cities.xml',
+        ...Array.from({ length: chunkCount }, (_, i) => `sitemap-stickers-${i + 1}.xml`)];
+    let indexXml = '<?xml version="1.0" encoding="UTF-8"?>\n<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n';
+    for (const file of subFiles) {
+        indexXml += `<sitemap><loc>${BASE_URL}/${file}</loc><lastmod>${maxLm[file] || today}</lastmod></sitemap>\n`;
+    }
+    indexXml += '</sitemapindex>\n';
+    writeFileSync(join(PROJECT_ROOT, 'sitemap.xml'), indexXml, 'utf-8');
+    console.log(`  sitemap.xml — index with ${subFiles.length} sub-sitemaps`);
+
+    console.log('\nDone. today=' + today + (touchAll ? ' (touched all)' : ' (lastmod preserved for existing URLs)'));
 }
 
 main().catch(err => {
