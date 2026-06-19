@@ -155,12 +155,17 @@ async function testSitemapFreshness() {
         assert(lastXml.includes(`/stickers/${maxDbId}.html`), `${lastSticker}: covers max DB sticker #${maxDbId}`);
     }
 
-    // lastmod in main sitemap should be within 7 days
+    // lastmod in main sitemap must be a valid, non-future date.
+    // NOTE: we deliberately do NOT require freshness (e.g. "within 7 days").
+    // The mid-May crawl-budget regression was caused by churning lastmod=today
+    // on every regen; fix ce05eb6cf preserves per-URL lastmod. A "must be recent"
+    // assertion would re-introduce exactly the churn we removed.
     const mainXml = readFileSync(join(PROJECT_ROOT, 'sitemap-main.xml'), 'utf-8');
     const lastmodMatch = mainXml.match(/<lastmod>(\d{4}-\d{2}-\d{2})<\/lastmod>/);
     if (lastmodMatch) {
         const ageDays = (Date.now() - new Date(lastmodMatch[1]).getTime()) / 86400_000;
-        assert(ageDays <= 7, `sitemap-main.xml: lastmod within 7 days (was ${Math.round(ageDays)}d ago)`);
+        assert(!Number.isNaN(ageDays), `sitemap-main.xml: lastmod is a valid date (${lastmodMatch[1]})`);
+        assert(ageDays >= -1, `sitemap-main.xml: lastmod not in the future (was ${Math.round(ageDays)}d ago)`);
     } else {
         assert(false, 'sitemap-main.xml: has <lastmod>');
     }
