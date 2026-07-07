@@ -258,6 +258,13 @@ export function toLocalImgAbs(url) {
  * SOURCE OF TRUTH — all generators MUST import this. Inline copies caused production drift
  * (Beyoğlu → 'beyo-lu' zombies, 29.04.2026).
  */
+// clubs.city in the DB is "City, Country" (718/722 rows). Use this whenever
+// the city is paired with a separately-rendered country, or "Hamburg,
+// Germany, Germany" class duplication appears (450 live pages, fixed 07.07).
+export function cityOnly(city) {
+    return city ? String(city).split(',')[0].trim() : '';
+}
+
 export function cityToSlug(cityName) {
     if (!cityName) return '';
     const SPECIAL_MAP = {
@@ -401,7 +408,9 @@ export function generateDescriptiveAltText({ clubName, stickerId, context = 'sti
     switch (context) {
         case 'sticker': {
             const parts = [`${club} football sticker`];
-            if (cityName && countryName) parts.push(`from ${cityName}, ${countryName}`);
+            // cityName is the FIND location (may include its own country) — never
+            // pair it with the CLUB's country ("Prague, Japan" bug, 798 pages).
+            if (cityName) parts.push(`found in ${cityName}`);
             else if (countryName) parts.push(`from ${countryName}`);
             if (league) parts.push(`${league} club`);
             parts.push(`#${stickerId}`);
@@ -460,7 +469,6 @@ export function generateStickerContextParagraph({ clubName, stickerId, countryNa
     // Lead
     let lead = `Sticker #${stickerId} from ${club}`;
     if (countryName) lead += `, a football club from ${countryName}`;
-    if (cityName) lead += `, based in ${cityName}`;
     lead += '.';
     sentences.push(lead);
     // Club background

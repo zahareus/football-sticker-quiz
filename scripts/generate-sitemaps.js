@@ -68,10 +68,12 @@ function imageBlock(sticker, club) {
     if (!imgAbs) return '';
     const clubName = club ? stripEmoji(club.name) : '';
     const countryName = club ? getCountryName(club.country) : '';
-    const cityName = sticker.location ? sticker.location.split(',')[0].trim() : '';
+    // location is the FIND place with its own country — never pair the find
+    // city with the CLUB's country ("Prague, Japan" bug).
+    const findLoc = sticker.location ? sticker.location.trim() : '';
     const title = `${clubName} football sticker #${sticker.id}${countryName ? ' — ' + countryName : ''}`;
-    const caption = `${clubName} football fan sticker${cityName ? ', found in ' + cityName : ''}${countryName ? ', ' + countryName : ''}.`;
-    const geoLoc = (cityName && countryName) ? `${cityName}, ${countryName}` : (countryName || '');
+    const caption = `${clubName} football fan sticker${findLoc ? ', found in ' + findLoc : (countryName ? ', ' + countryName : '')}.`;
+    const geoLoc = findLoc || '';
     let x = `<image:image><image:loc>${xmlEsc(imgAbs)}</image:loc>`;
     x += `<image:title>${xmlEsc(title)}</image:title>`;
     x += `<image:caption>${xmlEsc(caption)}</image:caption>`;
@@ -118,10 +120,17 @@ async function main() {
     // changes (template/layout overhaul), never on routine regeneration.
     const touchAll = process.env.SITEMAP_TOUCH_ALL === '1';
     const prevLastmod = touchAll ? new Map() : loadExistingLastmods(PROJECT_ROOT);
-    // Preserve an existing URL's lastmod; only new URLs get today.
-    const lm = (loc) => prevLastmod.get(loc) || today;
+    // SITEMAP_TOUCH_FILE=<path> — file with one URL per line whose pages GENUINELY
+    // changed this run; they get lastmod=today. Honest per-URL bump, unlike the
+    // blanket TOUCH_ALL. Everything else keeps its preserved date.
+    const touchFile = process.env.SITEMAP_TOUCH_FILE;
+    const touched = new Set(touchFile
+        ? readFileSync(touchFile, 'utf-8').split('\n').map(l => l.trim()).filter(Boolean)
+        : []);
+    // Preserve an existing URL's lastmod; new and explicitly-touched URLs get today.
+    const lm = (loc) => touched.has(loc) ? today : (prevLastmod.get(loc) || today);
     if (touchAll) console.log('SITEMAP_TOUCH_ALL=1 — stamping today on every URL');
-    else console.log(`Preserving lastmod for ${prevLastmod.size} known URLs`);
+    else console.log(`Preserving lastmod for ${prevLastmod.size} known URLs` + (touched.size ? `, touching ${touched.size}` : ''));
 
     console.log('Fetching from Supabase...');
     const stickers = await fetchAll('stickers', 'id, club_id, location, image_url', 'id');

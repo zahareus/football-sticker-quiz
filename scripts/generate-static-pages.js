@@ -10,7 +10,7 @@ import { execFileSync } from 'child_process';
 import { join, dirname } from 'path';
 import { fileURLToPath } from 'url';
 
-import { createSupabaseClient, COUNTRY_NAMES, COUNTRY_FLAGS, cityToSlug, generateMultilingualMeta, generateMultilingualAltText, generateStickerContextParagraph } from './seo-helpers.js';
+import { createSupabaseClient, COUNTRY_NAMES, COUNTRY_FLAGS, cityOnly, cityToSlug, generateMultilingualMeta, generateMultilingualAltText, generateStickerContextParagraph } from './seo-helpers.js';
 
 // Configuration
 const BASE_URL = "https://stickerhunt.club";
@@ -173,7 +173,7 @@ function generateClubDescription(club, stickerCount, countryName) {
     const clubNameClean = stripEmoji(club.name);
     const stickerWord = stickerCount !== 1 ? 'stickers' : 'sticker';
     let desc = `<div class="club-description-text"><p>${clubNameClean} is a football club from ${countryName}`;
-    if (club.city) desc += `, based in ${club.city}`;
+    if (club.city) desc += `, based in ${cityOnly(club.city)}`;
     desc += `. Our database contains <strong>${stickerCount} ${stickerWord}</strong> from ${clubNameClean}`;
     if (stickerCount > 0) {
         desc += `. Browse the full collection below or <a href="/quiz.html">play the quiz</a> to identify a specific sticker`;
@@ -778,13 +778,13 @@ async function generateStickerPage(sticker, club, prevStickerId, nextStickerId, 
             clubName: clubNameClean, stickerId: sticker.id,
             countryCode: club.country,
             countryName,
-            cityName: sticker.location ? sticker.location.split(',')[0].trim() : null,
+            cityName: sticker.location ? sticker.location.trim() : null,
             league: wikiCache[club.id]?.league,
         }),
         STICKER_CONTEXT_PARAGRAPH: generateStickerContextParagraph({
             clubName: clubNameClean, stickerId: sticker.id,
             countryName,
-            cityName: sticker.location ? sticker.location.split(',')[0].trim() : null,
+            cityName: sticker.location ? sticker.location.trim() : null,
             league: wikiCache[club.id]?.league,
             founded: wikiCache[club.id]?.founded,
         }),
@@ -837,7 +837,7 @@ async function generateClubPage(club, stickers, allClubsInCountry, stickerCounts
     const stickerCount = stickers ? stickers.length : 0;
     const stickerWord = stickerCount !== 1 ? 'stickers' : 'sticker';
     const pageTitle = `${clubNameClean} Stickers — ${stickerCount} ${stickerWord.charAt(0).toUpperCase() + stickerWord.slice(1)} | StickerHunt`;
-    const cityPart = club.city ? ` from ${club.city},` : ' from';
+    const cityPart = club.city ? ` from ${cityOnly(club.city)},` : ' from';
     const metaDescription = `${clubNameClean} —${cityPart} ${countryName}. ${stickerCount} football ${stickerWord} found on streets. Can you identify them? Browse the collection at StickerHunt.`;
     const canonicalUrl = `${BASE_URL}/clubs/${club.id}.html`;
 

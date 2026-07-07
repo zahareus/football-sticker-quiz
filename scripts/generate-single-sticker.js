@@ -21,7 +21,7 @@ import {
     toLocalImg, toLocalImgAbs,
     stripEmoji as _stripEmoji, escapeHtml, loadTemplate as _loadTemplate, replacePlaceholders as _replacePlaceholders,
     generateBreadcrumbs as _generateBreadcrumbs, generateBreadcrumbSchema as _generateBreadcrumbSchema,
-    selectTopRatedStickers, generateDescriptiveAltText, generateMultilingualAltText, generateStickerContextParagraph, generateMultilingualMeta,
+    cityOnly, selectTopRatedStickers, generateDescriptiveAltText, generateMultilingualAltText, generateStickerContextParagraph, generateMultilingualMeta,
     generateFeaturedGallery, fetchAllPaginated,
     buildClubKeywords as _buildClubKeywords,
     cityToSlug
@@ -190,7 +190,7 @@ function generateWikiSection(clubId, club, countryName) {
     const metaItems = [];
     if (club.city) {
         const countryLink = `<a href="/countries/${club.country.toUpperCase()}.html">${countryName}</a>`;
-        metaItems.push(`<span class="club-meta-item">${escapeHtml(club.city)}, ${countryLink}</span>`);
+        metaItems.push(`<span class="club-meta-item">${escapeHtml(cityOnly(club.city))}, ${countryLink}</span>`);
     }
     if (wiki?.founded) metaItems.push(`<span class="club-meta-item">Founded <strong>${escapeHtml(wiki.founded)}</strong></span>`);
     if (wiki?.stadium) {
@@ -299,7 +299,7 @@ function generateClubDescription(club, stickerCount, countryName) {
     const clubNameClean = stripEmoji(club.name);
     const stickerWord = stickerCount !== 1 ? 'stickers' : 'sticker';
     let desc = `<div class="club-description-text"><p>${escapeHtml(clubNameClean)} is a football club from ${escapeHtml(countryName)}`;
-    if (club.city) desc += `, based in ${escapeHtml(club.city)}`;
+    if (club.city) desc += `, based in ${escapeHtml(cityOnly(club.city))}`;
     desc += `. Our database contains <strong>${stickerCount} ${stickerWord}</strong> from ${clubNameClean}`;
     if (stickerCount > 0) {
         desc += `. Browse the full collection below or <a href="/quiz.html">play the quiz</a> to identify a specific sticker`;
@@ -702,13 +702,13 @@ async function generateStickerPage(sticker, club, prevStickerId, nextStickerId, 
             clubName: clubNameClean, stickerId: sticker.id,
             countryCode: club.country,
             countryName: countryName,
-            cityName: sticker.location ? sticker.location.split(',')[0].trim() : null,
+            cityName: sticker.location ? sticker.location.trim() : null,
             league: wikiCache[club.id]?.league
         }),
         STICKER_CONTEXT_PARAGRAPH: generateStickerContextParagraph({
             clubName: clubNameClean, stickerId: sticker.id,
             countryName: countryName,
-            cityName: sticker.location ? sticker.location.split(',')[0].trim() : null,
+            cityName: sticker.location ? sticker.location.trim() : null,
             league: wikiCache[club.id]?.league,
             founded: wikiCache[club.id]?.founded,
         }),
@@ -765,7 +765,7 @@ async function generateClubPage(club, stickers, allClubsInCountry, stickerCounts
     const stickerCount = stickers ? stickers.length : 0;
     const stickerWord = stickerCount !== 1 ? 'stickers' : 'sticker';
     const pageTitle = `${escapeHtml(clubNameClean)} Stickers — ${stickerCount} ${stickerWord.charAt(0).toUpperCase() + stickerWord.slice(1)} | StickerHunt`;
-    const cityPart = club.city ? ` from ${escapeHtml(club.city)},` : ' from';
+    const cityPart = club.city ? ` from ${escapeHtml(cityOnly(club.city))},` : ' from';
     const metaDescription = `${escapeHtml(clubNameClean)} —${cityPart} ${escapeHtml(countryName)}. ${stickerCount} football ${stickerWord} found on streets. Can you identify them? Browse the collection at StickerHunt.`;
     const canonicalUrl = `${BASE_URL}/clubs/${club.id}.html`;
 
