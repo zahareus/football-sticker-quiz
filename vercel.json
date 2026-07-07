@@ -25,7 +25,7 @@
         }
       ],
       "destination": "/stickers/:id.html",
-      "permanent": false
+      "permanent": true
     },
     {
       "source": "/catalogue.html",
@@ -37,7 +37,7 @@
         }
       ],
       "destination": "/clubs/:id.html",
-      "permanent": false
+      "permanent": true
     },
     {
       "source": "/catalogue.html",
@@ -49,7 +49,7 @@
         }
       ],
       "destination": "/countries/:code.html",
-      "permanent": false
+      "permanent": true
     }
   ]
 }
