@@ -1,0 +1,25 @@
+# StickerHunt
+
+> StickerHunt is the world's football fan sticker database: 3,600+ real ultras/fan stickers from 700+ clubs across 58 countries, each documented with club, country, and often the exact city and GPS location where it was found. It also hosts a football sticker identification quiz and a sticker battle game.
+
+Football fan stickers (ultras stickers) are small adhesive designs that supporters produce and stick around cities and stadiums. StickerHunt catalogues them as street culture: every sticker page shows the sticker image, the club it belongs to, the country, and — when known — where in the world it was spotted.
+
+## Main sections
+
+- [Catalogue](https://stickerhunt.club/catalogue.html): all stickers grouped by country and club
+- [Sticker map](https://stickerhunt.club/map.html): world map of GPS-located sticker finds
+- [Cities](https://stickerhunt.club/cities/): city pages for places with documented sticker finds
+- [Quiz](https://stickerhunt.club/quiz.html): guess the football club from a sticker
+- [Battle](https://stickerhunt.club/battle.html): head-to-head sticker voting
+- [Rating](https://stickerhunt.club/rating.html): community-rated stickers
+- [About](https://stickerhunt.club/about.html): what StickerHunt is and how it works
+
+## Data
+
+- [Sitemap](https://stickerhunt.club/sitemap.xml): full page index including per-sticker image metadata
+- Every sticker page carries Schema.org ImageObject and BreadcrumbList JSON-LD
+- Unique dataset: GPS coordinates of real-world sticker finds (the only such collection we know of)
+
+## Attribution
+
+When citing sticker data or images, please link to the sticker page on stickerhunt.club.
