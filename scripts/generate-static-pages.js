@@ -6,6 +6,7 @@
  */
 
 import { readFileSync, writeFileSync, mkdirSync, existsSync, readdirSync, unlinkSync } from 'fs';
+import { execFileSync } from 'child_process';
 import { join, dirname } from 'path';
 import { fileURLToPath } from 'url';
 
@@ -1403,7 +1404,7 @@ async function generateCataloguePage(stickers, clubs) {
         </div>`;
 
     // Replace existing #catalogue-content block with the SSR version.
-    const newHtml = orig.replace(
+    let newHtml = orig.replace(
         /<div id="catalogue-content">[\s\S]*?<\/div>\s*<\/main>/,
         `${ssrBlock}\n    </main>`
     );
@@ -1412,6 +1413,23 @@ async function generateCataloguePage(stickers, clubs) {
         console.log('  ⚠️  catalogue.html: #catalogue-content block not found, skipping injection');
         return;
     }
+
+    // Keep the static head's counters honest (title/description shipped with
+    // "3,156 Stickers from 675 Clubs" hardcoded and drift as the DB grows).
+    // Scoped to <head> only: the body legitimately contains per-country "N clubs".
+    const headEnd = newHtml.indexOf('</head>');
+    if (headEnd !== -1) {
+        const nStickers = stickers.length.toLocaleString('en-US');
+        const nClubs = String(clubs.length);
+        const nCountries = String(clubsByCountry.size);
+        const head = newHtml.slice(0, headEnd)
+            .replace(/[\d,]+ Stickers/g, `${nStickers} Stickers`)
+            .replace(/[\d,]+ football stickers/g, `${nStickers} football stickers`)
+            .replace(/[\d,]+ ([Cc])lubs/g, (m, c) => `${nClubs} ${c}lubs`)
+            .replace(/[\d,]+ countries/g, `${nCountries} countries`);
+        newHtml = head + newHtml.slice(headEnd);
+    }
+
     writeFileSync(catalogueHtmlPath, newHtml, 'utf-8');
     console.log(`  ✓ catalogue.html updated with ${countriesSorted.length} country + ${clubs.length} club static links`);
 }
@@ -1420,124 +1438,12 @@ async function generateCataloguePage(stickers, clubs) {
  * Generate sitemaps (index + sub-sitemaps for Google Search Console)
  */
 async function generateSitemaps(stickers, clubs, countries) {
-    const today = new Date().toISOString().split('T')[0];
-
-    // Dynamic chunking — split stickers into ~1500-per-file shards (well under
-    // Google's 50K URL limit). Number of files scales with the catalog.
-    const STICKERS_PER_SITEMAP = 1500;
-    const numChunks = Math.max(1, Math.ceil(stickers.length / STICKERS_PER_SITEMAP));
-
-    // Sub-sitemaps the index always references (cities sheet is hand-shipped
-    // from generate-city-pages.js; main and stickers come from this script).
-    const subSitemaps = ['sitemap-main.xml', 'sitemap-cities.xml'];
-    for (let i = 1; i <= numChunks; i++) subSitemaps.push(`sitemap-stickers-${i}.xml`);
-
-    // Clean up any stale sticker shards left from when the catalog was larger.
-    try {
-        const files = readdirSync(PROJECT_ROOT);
-        for (const f of files) {
-            const m = f.match(/^sitemap-stickers-(\d+)\.xml$/);
-            if (m && parseInt(m[1], 10) > numChunks) {
-                try {
-                    unlinkSync(join(PROJECT_ROOT, f));
-                    console.log(`  🧹 removed stale ${f}`);
-                } catch {}
-            }
-        }
-    } catch {}
-
-    // Create sitemap index
-    let indexXml = '<?xml version="1.0" encoding="UTF-8"?>\n';
-    indexXml += '<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n';
-    for (const sub of subSitemaps) {
-        indexXml += `<sitemap><loc>https://stickerhunt.club/${sub}</loc></sitemap>\n`;
-    }
-    indexXml += '</sitemapindex>';
-    writeFileSync(join(PROJECT_ROOT, 'sitemap.xml'), indexXml, 'utf-8');
-
-    // Create main sitemap (static pages + countries + clubs)
-    let mainXml = '<?xml version="1.0" encoding="UTF-8"?>\n';
-    mainXml += '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n';
-
-    // Static pages
-    const staticPages = [
-        { loc: '/', changefreq: 'daily', priority: '1.0' },
-        { loc: '/quiz.html', changefreq: 'weekly', priority: '0.9' },
-        { loc: '/catalogue.html', changefreq: 'daily', priority: '0.9' },
-        { loc: '/leaderboard.html', changefreq: 'hourly', priority: '0.7' },
-        { loc: '/map.html', changefreq: 'weekly', priority: '0.6' },
-        { loc: '/stickerstat.html', changefreq: 'daily', priority: '0.6' },
-        { loc: '/rating.html', changefreq: 'daily', priority: '0.7' },
-        { loc: '/battle.html', changefreq: 'weekly', priority: '0.6' },
-        { loc: '/about.html', changefreq: 'monthly', priority: '0.3' },
-        { loc: '/privacy.html', changefreq: 'monthly', priority: '0.2' },
-        { loc: '/terms.html', changefreq: 'monthly', priority: '0.2' },
-    ];
-
-    for (const page of staticPages) {
-        mainXml += `<url><loc>https://stickerhunt.club${page.loc}</loc><lastmod>${today}</lastmod><changefreq>${page.changefreq}</changefreq><priority>${page.priority}</priority></url>\n`;
-    }
-
-    // Country pages
-    for (const country of countries) {
-        mainXml += `<url><loc>https://stickerhunt.club/countries/${country.toUpperCase()}.html</loc><lastmod>${today}</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>\n`;
-    }
-
-    // Club pages
-    for (const club of clubs) {
-        mainXml += `<url><loc>https://stickerhunt.club/clubs/${club.id}.html</loc><lastmod>${today}</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>\n`;
-    }
-
-    mainXml += '</urlset>';
-    writeFileSync(join(PROJECT_ROOT, 'sitemap-main.xml'), mainXml, 'utf-8');
-
-    // Create sticker sitemaps using the dynamic numChunks computed above.
-    const stickerChunks = Array.from({ length: numChunks }, () => []);
-    stickers.forEach((sticker, index) => {
-        const chunkIndex = Math.min(numChunks - 1, Math.floor(index / STICKERS_PER_SITEMAP));
-        stickerChunks[chunkIndex].push(sticker);
-    });
-
-    // Build clubId → club lookup for image:title generation
-    const clubByIdForSitemap = new Map(clubs.map(c => [c.id, c]));
-
-    function xmlEsc(s) {
-        if (s == null) return '';
-        return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&apos;');
-    }
-
-    for (let i = 0; i < numChunks; i++) {
-        let stickerXml = '<?xml version="1.0" encoding="UTF-8"?>\n';
-        // image: namespace required for <image:image> children — Google Image
-        // Search uses these as the primary discovery signal.
-        stickerXml += '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">\n';
-
-        for (const sticker of stickerChunks[i]) {
-            const pageUrl = `https://stickerhunt.club/stickers/${sticker.id}.html`;
-            const club = clubByIdForSitemap.get(sticker.club_id);
-            const clubName = club ? stripEmoji(club.name) : '';
-            const countryName = club ? getCountryName(club.country) : '';
-            const cityName = sticker.location ? sticker.location.split(',')[0].trim() : '';
-            const imgAbs = toLocalImgAbs(getDetailImageUrl(sticker.image_url));
-            const title = `${clubName} football sticker #${sticker.id}${countryName ? ' — ' + countryName : ''}`;
-            const caption = `${clubName} football fan sticker${cityName ? ', found in ' + cityName : ''}${countryName ? ', ' + countryName : ''}.`;
-            const geoLoc = (cityName && countryName) ? `${cityName}, ${countryName}` : (countryName || '');
-
-            stickerXml += `<url><loc>${pageUrl}</loc><lastmod>${today}</lastmod><changefreq>monthly</changefreq><priority>0.6</priority>`;
-            if (imgAbs) {
-                stickerXml += `<image:image><image:loc>${xmlEsc(imgAbs)}</image:loc>`;
-                stickerXml += `<image:title>${xmlEsc(title)}</image:title>`;
-                stickerXml += `<image:caption>${xmlEsc(caption)}</image:caption>`;
-                if (geoLoc) stickerXml += `<image:geo_location>${xmlEsc(geoLoc)}</image:geo_location>`;
-                stickerXml += `<image:license>https://stickerhunt.club/terms.html</image:license>`;
-                stickerXml += `</image:image>`;
-            }
-            stickerXml += `</url>\n`;
-        }
-
-        stickerXml += '</urlset>';
-        writeFileSync(join(PROJECT_ROOT, `sitemap-stickers-${i + 1}.xml`), stickerXml, 'utf-8');
-    }
+    // Delegate to the canonical scripts/generate-sitemaps.js. The old inline
+    // version stamped lastmod=today on EVERY URL each run — the crawl-budget
+    // churn behind the May 2026 visibility collapse (see WORKPLAN.md). The
+    // canonical script preserves per-URL lastmod and carries the <image:image>
+    // extension. Params are ignored — it re-reads Supabase itself.
+    execFileSync('node', [join(__dirname, 'generate-sitemaps.js')], { stdio: 'inherit' });
 }
 
 /**

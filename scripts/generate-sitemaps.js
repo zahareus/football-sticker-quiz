@@ -20,7 +20,7 @@ import { writeFileSync, readdirSync, readFileSync, existsSync } from 'fs';
 import { join, dirname } from 'path';
 import { fileURLToPath } from 'url';
 
-import { createSupabaseClient, cityToSlug } from './seo-helpers.js';
+import { createSupabaseClient, cityToSlug, getDetailImageUrl, toLocalImgAbs, stripEmoji, getCountryName } from './seo-helpers.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -50,8 +50,35 @@ async function fetchAll(table, select, order) {
     return out;
 }
 
-function xmlOpen() {
-    return '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n';
+function xmlOpen(withImageNs = false) {
+    const imageNs = withImageNs ? ' xmlns:image="http://www.google.com/schemas/sitemap-image/1.1"' : '';
+    return `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"${imageNs}>\n`;
+}
+
+function xmlEsc(s) {
+    if (s == null) return '';
+    return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&apos;');
+}
+
+// <image:image> extension inside sticker sitemaps — Google Image Search uses
+// these as the primary discovery signal. Image URLs go through the site's own
+// /img/ proxy (toLocalImgAbs), not the raw Supabase host.
+function imageBlock(sticker, club) {
+    const imgAbs = toLocalImgAbs(getDetailImageUrl(sticker.image_url));
+    if (!imgAbs) return '';
+    const clubName = club ? stripEmoji(club.name) : '';
+    const countryName = club ? getCountryName(club.country) : '';
+    const cityName = sticker.location ? sticker.location.split(',')[0].trim() : '';
+    const title = `${clubName} football sticker #${sticker.id}${countryName ? ' — ' + countryName : ''}`;
+    const caption = `${clubName} football fan sticker${cityName ? ', found in ' + cityName : ''}${countryName ? ', ' + countryName : ''}.`;
+    const geoLoc = (cityName && countryName) ? `${cityName}, ${countryName}` : (countryName || '');
+    let x = `<image:image><image:loc>${xmlEsc(imgAbs)}</image:loc>`;
+    x += `<image:title>${xmlEsc(title)}</image:title>`;
+    x += `<image:caption>${xmlEsc(caption)}</image:caption>`;
+    if (geoLoc) x += `<image:geo_location>${xmlEsc(geoLoc)}</image:geo_location>`;
+    x += `<image:license>https://stickerhunt.club/terms.html</image:license>`;
+    x += `</image:image>`;
+    return x;
 }
 
 function urlEntry(loc, lastmod, changefreq, priority) {
@@ -97,8 +124,9 @@ async function main() {
     else console.log(`Preserving lastmod for ${prevLastmod.size} known URLs`);
 
     console.log('Fetching from Supabase...');
-    const stickers = await fetchAll('stickers', 'id', 'id');
-    const clubs = await fetchAll('clubs', 'id, country', 'id');
+    const stickers = await fetchAll('stickers', 'id, club_id, location, image_url', 'id');
+    const clubs = await fetchAll('clubs', 'id, country, name', 'id');
+    const clubById = new Map(clubs.map(c => [c.id, c]));
     console.log(`  ${stickers.length} stickers, ${clubs.length} clubs`);
 
     const countries = [...new Set(clubs.map(c => (c.country || '').toUpperCase()).filter(Boolean))].sort();
@@ -166,19 +194,23 @@ async function main() {
     console.log(`  sitemap-cities.xml — ${cityFiles.length} cities`);
 
     // ---- sitemap-stickers-N.xml ----
+    let imagesTotal = 0;
     for (let i = 0; i < chunkCount; i++) {
         const chunk = stickers.slice(i * STICKERS_PER_FILE, (i + 1) * STICKERS_PER_FILE);
         const file = `sitemap-stickers-${i + 1}.xml`;
-        let xml = xmlOpen();
+        let xml = xmlOpen(true);
         for (const s of chunk) {
             const loc = `${BASE_URL}/stickers/${s.id}.html`;
             const d = lm(loc); track(file, d);
-            xml += urlEntry(loc, d, 'monthly', '0.6');
+            const img = imageBlock(s, clubById.get(s.club_id));
+            if (img) imagesTotal++;
+            xml += `<url><loc>${loc}</loc><lastmod>${d}</lastmod><changefreq>monthly</changefreq><priority>0.6</priority>${img}</url>\n`;
         }
         xml += '</urlset>\n';
         writeFileSync(join(PROJECT_ROOT, file), xml, 'utf-8');
         console.log(`  sitemap-stickers-${i + 1}.xml — ${chunk.length} stickers (IDs ${chunk[0].id}..${chunk[chunk.length - 1].id})`);
     }
+    console.log(`  image extension: ${imagesTotal}/${stickers.length} stickers carry <image:image>`);
 
     // ---- sitemap.xml (index) — each sub-sitemap's lastmod = newest URL inside it ----
     const subFiles = ['sitemap-main.xml', 'sitemap-cities.xml',
