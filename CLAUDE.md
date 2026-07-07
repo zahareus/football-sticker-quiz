@@ -7,6 +7,14 @@ Global football fan sticker database with quiz, battle mode, and interactive map
 **Backend:** Supabase (`rbmeslzlbsolkxnvesqb.supabase.co`)
 **Hosting:** Vercel + GitHub Pages
 
+> **Backend decision (2026-06-22):** StickerHunt stays **fully on Supabase Pro** and we
+> maximize its built-in features. It is the one project that genuinely needs an integrated
+> backend (Postgres + Auth with real OAuth users + Storage + Edge Functions + RPC logic).
+> Rejected: moving images to R2 (pointless hybrid — DB/Auth/RPC still need Supabase) and a
+> full Cloudflare migration (would require rebuilding auth from scratch + porting PL/pgSQL).
+> No storage problem exists on Pro (100 GB limit, ~1.9 GB used; DB only 28 MB). See
+> `docs/architecture.md` → "Backend platform decision".
+
 ## Documentation
 
 - [Architecture](docs/architecture.md) -- tech stack, pipelines, database, generators, file structure
