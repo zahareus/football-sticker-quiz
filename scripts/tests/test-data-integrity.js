@@ -185,6 +185,24 @@ async function testSitemapFreshness() {
     }
 }
 
+// ─── Test: Geo text sanity ───────────────────────────────────────────────
+
+// clubs.city in the DB is "City, Country"; generators must strip the country
+// before pairing with a separately-rendered country name. Regression guard
+// for the "Hamburg, Germany, Germany" bug (450+ live pages until 2026-07-07).
+async function testNoDoubledCountry() {
+    console.log('\n\n🌍 Geo Text Sanity');
+    const files = readdirSync(join(PROJECT_ROOT, 'clubs')).filter(f => f.endsWith('.html'));
+    const re = /, ([A-Z][A-Za-z ]{2,30}), \1[.,<"]/;
+    const bad = [];
+    for (const f of files) {
+        const head = readFileSync(join(PROJECT_ROOT, 'clubs', f), 'utf-8');
+        const headOnly = head.slice(0, head.indexOf('</head>'));
+        if (re.test(headOnly)) bad.push(f);
+    }
+    assert(bad.length === 0, `clubs: 0 pages with doubled country in <head> (found ${bad.length}: ${bad.slice(0, 5).join(', ')})`);
+}
+
 // ─── Test: City sync ─────────────────────────────────────────────────────
 
 async function testCitySync() {
@@ -229,6 +247,7 @@ async function main() {
     await testDbHtmlParity();
     await testStorageVariants();
     await testSitemapFreshness();
+    await testNoDoubledCountry();
     await testCitySync();
     console.log(`\n\n${'═'.repeat(50)}`);
     console.log(`Results: ${passed} passed, ${failed} failed`);
