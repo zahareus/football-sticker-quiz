@@ -317,6 +317,31 @@ function loadCriticalCss(projectRoot) {
     return _criticalCssCache;
 }
 
+// noindex experiment (2026-07-07, owner-approved slice of 1104): thin sticker
+// pages with zero impressions/12mo, no GPS, no location. Blocklist lives in
+// scripts/noindex-blocklist.json (committed — auditable and revertible).
+// 🔴 HARD GUARD: a sticker with GPS coordinates or a location is NEVER
+// noindexed, even if its id is in the blocklist — GPS data is the moat.
+let __noindexSet = null;
+export function stickerNoindexTag(sticker) {
+    if (__noindexSet === null) {
+        try {
+            __noindexSet = new Set(JSON.parse(readFileSync(join(__seoHelpersDir, 'noindex-blocklist.json'), 'utf-8')));
+        } catch { __noindexSet = new Set(); }
+    }
+    if (!__noindexSet.has(sticker.id)) return '';
+    if (sticker.latitude != null || sticker.location) {
+        console.warn(`⚠️  noindex blocklist contains GPS/located sticker #${sticker.id} — refusing to noindex`);
+        return '';
+    }
+    return '<meta name="robots" content="noindex, follow">';
+}
+
+export function isNoindexedStickerId(id) {
+    if (__noindexSet === null) stickerNoindexTag({ id: -1 });
+    return __noindexSet.has(id);
+}
+
 export function loadTemplate(templateName, projectRoot) {
     const templatePath = join(projectRoot, 'templates', templateName);
     if (!existsSync(templatePath)) {

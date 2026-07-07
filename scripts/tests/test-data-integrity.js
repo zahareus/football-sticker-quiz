@@ -146,9 +146,12 @@ async function testSitemapFreshness() {
         assert(indexXml.includes(sf), `sitemap.xml: references ${sf}`);
     }
 
-    // Newest sticker sitemap covers max DB sticker ID
-    const { data: latest } = await supabase.from('stickers').select('id').order('id', { ascending: false }).limit(1);
-    const maxDbId = latest?.[0]?.id;
+    // Newest sticker sitemap covers max DB sticker ID (noindex'ed stickers are
+    // deliberately absent from the sitemap — skip them when picking the max).
+    let noindexIds = new Set();
+    try { noindexIds = new Set(JSON.parse(readFileSync(join(PROJECT_ROOT, 'scripts', 'noindex-blocklist.json'), 'utf-8'))); } catch {}
+    const { data: latestRows } = await supabase.from('stickers').select('id').order('id', { ascending: false }).limit(50);
+    const maxDbId = (latestRows || []).map(r => r.id).find(id => !noindexIds.has(id));
     if (maxDbId) {
         const lastSticker = stickerSitemaps[stickerSitemaps.length - 1];
         const lastXml = readFileSync(join(PROJECT_ROOT, lastSticker), 'utf-8');

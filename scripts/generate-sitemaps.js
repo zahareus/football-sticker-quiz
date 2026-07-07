@@ -16,11 +16,11 @@
  * Usage: node generate-sitemaps.js
  */
 
-import { writeFileSync, readdirSync, readFileSync, existsSync } from 'fs';
+import { writeFileSync, readdirSync, readFileSync, existsSync, unlinkSync } from 'fs';
 import { join, dirname } from 'path';
 import { fileURLToPath } from 'url';
 
-import { createSupabaseClient, cityToSlug, getDetailImageUrl, toLocalImgAbs, stripEmoji, getCountryName } from './seo-helpers.js';
+import { createSupabaseClient, cityToSlug, getDetailImageUrl, toLocalImgAbs, stripEmoji, getCountryName, isNoindexedStickerId } from './seo-helpers.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -133,7 +133,11 @@ async function main() {
     else console.log(`Preserving lastmod for ${prevLastmod.size} known URLs` + (touched.size ? `, touching ${touched.size}` : ''));
 
     console.log('Fetching from Supabase...');
-    const stickers = await fetchAll('stickers', 'id, club_id, location, image_url', 'id');
+    const allStickers = await fetchAll('stickers', 'id, club_id, location, image_url', 'id');
+    // noindex'ed pages must not sit in the sitemap — contradictory signals.
+    const stickers = allStickers.filter(s => !isNoindexedStickerId(s.id));
+    if (allStickers.length !== stickers.length)
+        console.log(`  excluding ${allStickers.length - stickers.length} noindex'ed stickers from sitemap`);
     const clubs = await fetchAll('clubs', 'id, country, name', 'id');
     const clubById = new Map(clubs.map(c => [c.id, c]));
     console.log(`  ${stickers.length} stickers, ${clubs.length} clubs`);
@@ -142,6 +146,14 @@ async function main() {
 
     // Sticker chunks (dynamic 1000/file)
     const chunkCount = Math.max(1, Math.ceil(stickers.length / STICKERS_PER_FILE));
+    // Remove stale shards left from when the catalog spanned more chunks.
+    for (const f of readdirSync(PROJECT_ROOT)) {
+        const m = f.match(/^sitemap-stickers-(\d+)\.xml$/);
+        if (m && parseInt(m[1], 10) > chunkCount) {
+            unlinkSync(join(PROJECT_ROOT, f));
+            console.log(`  removed stale ${f}`);
+        }
+    }
 
     // City pages — mirror filesystem (only generated cities exist)
     const citiesDir = join(PROJECT_ROOT, 'cities');

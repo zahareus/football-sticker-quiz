@@ -10,7 +10,7 @@ import { execFileSync } from 'child_process';
 import { join, dirname } from 'path';
 import { fileURLToPath } from 'url';
 
-import { createSupabaseClient, COUNTRY_NAMES, COUNTRY_FLAGS, cityOnly, cityToSlug, generateMultilingualMeta, generateMultilingualAltText, generateStickerContextParagraph } from './seo-helpers.js';
+import { createSupabaseClient, COUNTRY_NAMES, COUNTRY_FLAGS, cityOnly, stickerNoindexTag, cityToSlug, generateMultilingualMeta, generateMultilingualAltText, generateStickerContextParagraph } from './seo-helpers.js';
 
 // Configuration
 const BASE_URL = "https://stickerhunt.club";
@@ -764,6 +764,7 @@ async function generateStickerPage(sticker, club, prevStickerId, nextStickerId, 
         META_DESCRIPTION: metaDescription,
         META_KEYWORDS: keywords,
         CANONICAL_URL: canonicalUrl,
+        NOINDEX_TAG: stickerNoindexTag(sticker),
         OG_IMAGE: cleanTrailingQuery(sticker.image_url),
         STICKER_NAME: `${club.name} Sticker #${sticker.id}`,
         IMAGE_URL: getDetailImageUrl(sticker.image_url),
