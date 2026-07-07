@@ -169,6 +169,20 @@ async function testSitemapFreshness() {
     } else {
         assert(false, 'sitemap-main.xml: has <lastmod>');
     }
+
+    // Index consistency: each sitemap.xml entry's lastmod must equal the newest
+    // per-URL lastmod inside its sub-sitemap, and never sit in the future —
+    // catches index/sub-sitemap drift that per-file checks above can't see.
+    const todayStr = new Date().toISOString().split('T')[0];
+    const indexEntries = [...indexXml.matchAll(/<loc>https:\/\/stickerhunt\.club\/(sitemap-[^<]+\.xml)<\/loc><lastmod>(\d{4}-\d{2}-\d{2})<\/lastmod>/g)];
+    assert(indexEntries.length >= 3, `sitemap.xml: index entries carry lastmod (found ${indexEntries.length})`);
+    for (const [, file, indexLm] of indexEntries) {
+        assert(indexLm <= todayStr, `${file}: index lastmod not in the future (${indexLm})`);
+        const xml = readFileSync(join(PROJECT_ROOT, file), 'utf-8');
+        const dates = [...xml.matchAll(/<lastmod>(\d{4}-\d{2}-\d{2})<\/lastmod>/g)].map(m => m[1]);
+        const maxLm = dates.reduce((a, b) => (b > a ? b : a), '0000-00-00');
+        assert(indexLm === maxLm, `${file}: index lastmod ${indexLm} == max per-URL lastmod ${maxLm}`);
+    }
 }
 
 // ─── Test: City sync ─────────────────────────────────────────────────────
