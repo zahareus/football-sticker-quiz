@@ -8,7 +8,7 @@
 
 const CONFIG = {
     SUPABASE_URL: "https://rbmeslzlbsolkxnvesqb.supabase.co",
-    SUPABASE_ANON_KEY: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJibWVzbHpsYnNvbGt4bnZlc3FiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDUwODcxMzYsImV4cCI6MjA2MDY2MzEzNn0.cu-Qw0WoEslfKXXCiMocWFg6Uf1sK_cQYcyP2mT0-Nw",
+    SUPABASE_ANON_KEY: "sb_publishable_sGDiQzwEi3G1F3n0z_d67A_SlWdO1f-",
 
     // Cache settings
     PROFILE_CACHE_TTL: 24 * 60 * 60 * 1000, // 24 hours in milliseconds
