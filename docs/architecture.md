@@ -101,11 +101,14 @@ club-create.html / club-create.js
   -> AI enrichment via /api/enrich-club (Vercel serverless, OPENAI_API_KEY):
        city ("City, Country"), media (5 hashtags), web (Wikipedia/official URL)
   -> update clubs row with enriched fields
-  -> clubs poller (n8n, every minute) detects the change -> regenerates club/country pages
+  -> DB trigger clubs_changed_webhook (pg_net, migration 004) fires on INSERT/UPDATE
+     -> POST to n8n "SH club changed (webhook)" -> repository_dispatch
+     -> club/country pages regenerated (~25 sec end-to-end)
+  -> hourly n8n poller remains as fallback (see n8n section below)
 
 Re-enrich (added 2026-06-06): pick an EXISTING club from the autocomplete ->
   "Re-enrich this club" button -> re-runs /api/enrich-club -> updates the row
-  (only fields that came back; never wipes with null) -> poller regenerates the page.
+  (only fields that came back; never wipes with null) -> trigger regenerates the page.
   Fixes one-off transient enrichment failures without re-creating the club.
 ```
 
@@ -176,7 +179,8 @@ URLs in HTML:
 - **Batch upload (no social post):**
   - Webhook: `https://n8n.ontext.info/webhook/sticker-batch-uploaded`
   - Workflow: "SH batch reconcile" (ID: `kpeWoT8qqyq0Gdrq`) — thin trigger: one `repository_dispatch` for the WHOLE batch (`sticker_ids` comma-list + `notify:true` + counts). No social post.
-- **Clubs poller:** "SH clubs poller (change detector)" (ID: `qESondLX2tc7dMmH`) — runs every minute, detects new/changed `clubs` rows and dispatches club/country page regeneration. This is what picks up `club-create` inserts and Re-enrich updates.
+- **Club changes (primary, event-driven since 2026-07-11):** DB trigger `clubs_changed_webhook` on `public.clubs` (migration `004_clubs_changed_webhook.sql`, pg_net) POSTs `{club_id, op}` to workflow "SH club changed (webhook)" (ID: `NYYH4Oqul9f5g7jw`) → `repository_dispatch`. Picks up `club-create` inserts and Re-enrich updates in ~25 sec.
+- **Clubs poller (hourly fallback):** "SH clubs poller (hourly fallback)" (ID: `qESondLX2tc7dMmH`) — batched diff of all clubs once an hour. LOAD-BEARING, never delete: GitHub keeps only ONE pending run per concurrency group, so bulk club edits can silently drop per-row dispatches from the webhook path — the poller's batched diff recovers them. Uses the public `sb_publishable` key (read-only via RLS).
 - **GitHub credential:** `githubApi` (n8n credential ID: `ivaldofdLM73JGXZ`)
 
 ### GitHub Actions
