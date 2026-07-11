@@ -46,33 +46,30 @@ function getContentType(filePath) {
     }
 }
 
-async function getViewCount(page, stickerId) {
+async function getViewCount(stickerId) {
     if (!SERVICE_KEY) {
         throw new Error('SUPABASE_SERVICE_KEY env var required for the view-count e2e test');
     }
 
-    return page.evaluate(async ({ stickerId, supabaseUrl, serviceKey }) => {
-        const response = await fetch(
-            `${supabaseUrl}/rest/v1/stickers?id=eq.${stickerId}&select=id,view_count`,
-            {
-                headers: {
-                    apikey: serviceKey,
-                    Authorization: `Bearer ${serviceKey}`
-                }
+    // Node-side fetch: Supabase rejects sb_secret keys sent from a browser
+    // ("Forbidden use of secret API key in browser"), so this must not run
+    // inside page.evaluate().
+    const response = await fetch(
+        `${SUPABASE_URL}/rest/v1/stickers?id=eq.${stickerId}&select=id,view_count`,
+        {
+            headers: {
+                apikey: SERVICE_KEY,
+                Authorization: `Bearer ${SERVICE_KEY}`
             }
-        );
-
-        if (!response.ok) {
-            throw new Error(`Failed to query view count: ${response.status}`);
         }
+    );
 
-        const rows = await response.json();
-        return rows[0]?.view_count ?? null;
-    }, {
-        stickerId,
-        supabaseUrl: SUPABASE_URL,
-        serviceKey: SERVICE_KEY
-    });
+    if (!response.ok) {
+        throw new Error(`Failed to query view count: ${response.status}`);
+    }
+
+    const rows = await response.json();
+    return rows[0]?.view_count ?? null;
 }
 
 async function waitForTrackedImage(page, selector) {
@@ -129,7 +126,7 @@ test('tracks views, renders badges, and excludes quiz and battle badges', async 
         }
     });
 
-    const beforeCount = await getViewCount(page, CLUB_STICKER_ID);
+    const beforeCount = await getViewCount(CLUB_STICKER_ID);
 
     // Club, country, city: tracking fires but badge must NOT render.
     await page.goto(CLUB_PAGE_URL);
@@ -140,7 +137,7 @@ test('tracks views, renders badges, and excludes quiz and battle badges', async 
 
     await expect.poll(() => rpcPayloads.length, { timeout: 15000 }).toBeGreaterThan(0);
 
-    const afterCount = await getViewCount(page, CLUB_STICKER_ID);
+    const afterCount = await getViewCount(CLUB_STICKER_ID);
     expect(afterCount).toBeGreaterThan(beforeCount);
 
     await page.goto(COUNTRY_PAGE_URL);
