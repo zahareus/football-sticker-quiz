@@ -1401,6 +1401,15 @@
                          loading="lazy"
                          decoding="async">
                 </a>
+                <a href="/stickers/3314.html" class="sticker-preview-link">
+                    <img src="/img/club_1183/1776079603504_IMG_9443_thumb.webp"
+                         alt="Rot Weiss Ahlen e.V. football sticker #3314 found in this city"
+                         data-sticker-id="3314"
+                         class="sticker-preview-image"
+                         width="200" height="200"
+                         loading="lazy"
+                         decoding="async">
+                </a>
                 <a href="/stickers/3349.html" class="sticker-preview-link">
                     <img src="/img/club_947/1777109188908_IMG_9619_thumb.webp"
                          alt="VfB Stuttgart football sticker #3349 found in this city"
@@ -1414,15 +1423,6 @@
                     <img src="/img/club_1201/1778337172271_IMG_9679_thumb.webp"
                          alt="Cagliari Calcio football sticker #3417 found in this city"
                          data-sticker-id="3417"
-                         class="sticker-preview-image"
-                         width="200" height="200"
-                         loading="lazy"
-                         decoding="async">
-                </a>
-                <a href="/stickers/3314.html" class="sticker-preview-link">
-                    <img src="/img/club_1183/1776079603504_IMG_9443_thumb.webp"
-                         alt="Rot Weiss Ahlen e.V. football sticker #3314 found in this city"
-                         data-sticker-id="3314"
                          class="sticker-preview-image"
                          width="200" height="200"
                          loading="lazy"
@@ -2621,6 +2621,13 @@
                 })();
 
                 (function() {
+                    const marker = L.marker([41.0327527777778, 28.9750166666667]).addTo(cityMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>Rot Weiss Ahlen e.V.</strong><a href="/stickers/3314.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
                     const marker = L.marker([40.9857888888889, 29.0261305555556]).addTo(cityMap);
                     marker.bindPopup('<div class="nearby-sticker-popup"><strong>VfB Stuttgart</strong><a href="/stickers/3349.html" class="map-popup-link">View</a></div>');
                     marker.on('mouseover', function() { this.openPopup(); });
@@ -2630,13 +2637,6 @@
                 (function() {
                     const marker = L.marker([41.0393361111111, 28.9956694444444]).addTo(cityMap);
                     marker.bindPopup('<div class="nearby-sticker-popup"><strong>Cagliari Calcio</strong><a href="/stickers/3417.html" class="map-popup-link">View</a></div>');
-                    marker.on('mouseover', function() { this.openPopup(); });
-                    marker.on('click', function() { this.openPopup(); });
-                })();
-
-                (function() {
-                    const marker = L.marker([41.0327527777778, 28.9750166666667]).addTo(cityMap);
-                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>Rot Weiss Ahlen e.V.</strong><a href="/stickers/3314.html" class="map-popup-link">View</a></div>');
                     marker.on('mouseover', function() { this.openPopup(); });
                     marker.on('click', function() { this.openPopup(); });
                 })();
@@ -2926,9 +2926,9 @@
                     [41.03745, 28.9953944444444],
                     [41.0374361111111, 28.9955333333333],
                     [41.0404888888889, 28.9945805555556],
+                    [41.0327527777778, 28.9750166666667],
                     [40.9857888888889, 29.0261305555556],
                     [41.0393361111111, 28.9956694444444],
-                    [41.0327527777778, 28.9750166666667],
                     [41.0372055555556, 28.9951388888889],
                     [41.0340083333333, 28.9766777777778],
                     [40.9869611111111, 29.0256638888889],

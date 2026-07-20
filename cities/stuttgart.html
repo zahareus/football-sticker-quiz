@@ -213,6 +213,15 @@
                          loading="lazy"
                          decoding="async">
                 </a>
+                <a href="/stickers/2368.html" class="sticker-preview-link">
+                    <img src="/img/club_916%2F1751114737671_IMG_6069_thumb.webp"
+                         alt="Stuttgarter Kickers football sticker #2368 found in this city"
+                         data-sticker-id="2368"
+                         class="sticker-preview-image"
+                         width="200" height="200"
+                         loading="lazy"
+                         decoding="async">
+                </a>
                 <a href="/stickers/2438.html" class="sticker-preview-link">
                     <img src="/img/club_1075%2F1755812225883_IMG_6190_thumb.webp"
                          alt="Kiskunmajsa FC football sticker #2438 found in this city"
@@ -343,15 +352,6 @@
                     <img src="/img/club_947%2F1755810259503_IMG_6235_thumb.webp"
                          alt="VfB Stuttgart football sticker #2407 found in this city"
                          data-sticker-id="2407"
-                         class="sticker-preview-image"
-                         width="200" height="200"
-                         loading="lazy"
-                         decoding="async">
-                </a>
-                <a href="/stickers/2368.html" class="sticker-preview-link">
-                    <img src="/img/club_916%2F1751114737671_IMG_6069_thumb.webp"
-                         alt="Stuttgarter Kickers football sticker #2368 found in this city"
-                         data-sticker-id="2368"
                          class="sticker-preview-image"
                          width="200" height="200"
                          loading="lazy"
@@ -573,15 +573,6 @@
                          loading="lazy"
                          decoding="async">
                 </a>
-                <a href="/stickers/2437.html" class="sticker-preview-link">
-                    <img src="/img/club_1074%2F1755812121186_IMG_6195_thumb.webp"
-                         alt="SV Botan Köln 1988 football sticker #2437 found in this city"
-                         data-sticker-id="2437"
-                         class="sticker-preview-image"
-                         width="200" height="200"
-                         loading="lazy"
-                         decoding="async">
-                </a>
                 <a href="/stickers/2441.html" class="sticker-preview-link">
                     <img src="/img/club_1076%2F1755812598066_IMG_6183_thumb.webp"
                          alt="SV Zeltingen-Rachtig football sticker #2441 found in this city"
@@ -604,6 +595,15 @@
                     <img src="/img/club_1072%2F1755811729694_IMG_6180_thumb.webp"
                          alt="󠁧󠁢󠁳󠁣󠁴󠁿 Aberdeen F.C. football sticker #2430 found in this city"
                          data-sticker-id="2430"
+                         class="sticker-preview-image"
+                         width="200" height="200"
+                         loading="lazy"
+                         decoding="async">
+                </a>
+                <a href="/stickers/2437.html" class="sticker-preview-link">
+                    <img src="/img/club_1074%2F1755812121186_IMG_6195_thumb.webp"
+                         alt="SV Botan Köln 1988 football sticker #2437 found in this city"
+                         data-sticker-id="2437"
                          class="sticker-preview-image"
                          width="200" height="200"
                          loading="lazy"
@@ -1017,7 +1017,7 @@
         
         document.addEventListener('DOMContentLoaded', function() {
             if (typeof L !== 'undefined' && document.getElementById('club-map')) {
-                const cityMap = L.map('club-map').setView([48.780622870370394, 9.189608302469138], 12);
+                const cityMap = L.map('club-map').setView([48.780622870370394, 9.189608302469136], 12);
                 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                     attribution: '&copy; OpenStreetMap contributors'
                 }).addTo(cityMap);
@@ -1053,6 +1053,13 @@
                 (function() {
                     const marker = L.marker([48.6918333333333, 9.16754722222222]).addTo(cityMap);
                     marker.bindPopup('<div class="nearby-sticker-popup"><strong>VfB Stuttgart</strong><a href="/stickers/2397.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([48.7795611111111, 9.17925]).addTo(cityMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>Stuttgarter Kickers</strong><a href="/stickers/2368.html" class="map-popup-link">View</a></div>');
                     marker.on('mouseover', function() { this.openPopup(); });
                     marker.on('click', function() { this.openPopup(); });
                 })();
@@ -1158,13 +1165,6 @@
                 (function() {
                     const marker = L.marker([48.794675, 9.22460555555556]).addTo(cityMap);
                     marker.bindPopup('<div class="nearby-sticker-popup"><strong>VfB Stuttgart</strong><a href="/stickers/2407.html" class="map-popup-link">View</a></div>');
-                    marker.on('mouseover', function() { this.openPopup(); });
-                    marker.on('click', function() { this.openPopup(); });
-                })();
-
-                (function() {
-                    const marker = L.marker([48.7795611111111, 9.17925]).addTo(cityMap);
-                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>Stuttgarter Kickers</strong><a href="/stickers/2368.html" class="map-popup-link">View</a></div>');
                     marker.on('mouseover', function() { this.openPopup(); });
                     marker.on('click', function() { this.openPopup(); });
                 })();
@@ -1338,13 +1338,6 @@
                 })();
 
                 (function() {
-                    const marker = L.marker([48.7807777777778, 9.17951944444444]).addTo(cityMap);
-                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>SV Botan Köln 1988</strong><a href="/stickers/2437.html" class="map-popup-link">View</a></div>');
-                    marker.on('mouseover', function() { this.openPopup(); });
-                    marker.on('click', function() { this.openPopup(); });
-                })();
-
-                (function() {
                     const marker = L.marker([48.7809861111111, 9.18295833333333]).addTo(cityMap);
                     marker.bindPopup('<div class="nearby-sticker-popup"><strong>SV Zeltingen-Rachtig</strong><a href="/stickers/2441.html" class="map-popup-link">View</a></div>');
                     marker.on('mouseover', function() { this.openPopup(); });
@@ -1361,6 +1354,13 @@
                 (function() {
                     const marker = L.marker([48.7807, 9.18329722222222]).addTo(cityMap);
                     marker.bindPopup('<div class="nearby-sticker-popup"><strong>󠁧󠁢󠁳󠁣󠁴󠁿 Aberdeen F.C.</strong><a href="/stickers/2430.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([48.7807777777778, 9.17951944444444]).addTo(cityMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>SV Botan Köln 1988</strong><a href="/stickers/2437.html" class="map-popup-link">View</a></div>');
                     marker.on('mouseover', function() { this.openPopup(); });
                     marker.on('click', function() { this.openPopup(); });
                 })();
@@ -1658,6 +1658,7 @@
                     [48.774975, 9.17498055555556],
                     [48.7809861111111, 9.18294722222222],
                     [48.6918333333333, 9.16754722222222],
+                    [48.7795611111111, 9.17925],
                     [48.7808722222222, 9.18252777777778],
                     [48.7752, 9.17536111111111],
                     [48.7782666666667, 9.17844444444444],
@@ -1673,7 +1674,6 @@
                     [48.7946194444444, 9.22436666666667],
                     [48.7793194444444, 9.17919166666667],
                     [48.794675, 9.22460555555556],
-                    [48.7795611111111, 9.17925],
                     [48.7831833333333, 9.18055555555556],
                     [48.7795861111111, 9.17933333333333],
                     [48.7796527777778, 9.179375],
@@ -1698,10 +1698,10 @@
                     [48.7982027777778, 9.21750833333333],
                     [48.782525, 9.18172222222222],
                     [48.7810138888889, 9.17995833333333],
-                    [48.7807777777778, 9.17951944444444],
                     [48.7809861111111, 9.18295833333333],
                     [48.7801388888889, 9.18382777777778],
                     [48.7807, 9.18329722222222],
+                    [48.7807777777778, 9.17951944444444],
                     [48.7806277777778, 9.18337777777778],
                     [48.7823916666667, 9.18168055555556],
                     [48.7793888888889, 9.17943055555556],

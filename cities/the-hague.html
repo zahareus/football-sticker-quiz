@@ -420,6 +420,15 @@
                          loading="lazy"
                          decoding="async">
                 </a>
+                <a href="/stickers/2829.html" class="sticker-preview-link">
+                    <img src="/img/club_967/1766229308122_IMG_7734_thumb.webp"
+                         alt="SpVgg Greuther Fürth football sticker #2829 found in this city"
+                         data-sticker-id="2829"
+                         class="sticker-preview-image"
+                         width="200" height="200"
+                         loading="lazy"
+                         decoding="async">
+                </a>
                 <a href="/stickers/2821.html" class="sticker-preview-link">
                     <img src="/img/club_886/1766184835364_IMG_7616_thumb.webp"
                          alt="VfL Bochum football sticker #2821 found in this city"
@@ -487,15 +496,6 @@
                     <img src="/img/club_972/1766229659063_IMG_7642_thumb.webp"
                          alt="1 FC Kaiserslautern football sticker #2837 found in this city"
                          data-sticker-id="2837"
-                         class="sticker-preview-image"
-                         width="200" height="200"
-                         loading="lazy"
-                         decoding="async">
-                </a>
-                <a href="/stickers/2829.html" class="sticker-preview-link">
-                    <img src="/img/club_967/1766229308122_IMG_7734_thumb.webp"
-                         alt="SpVgg Greuther Fürth football sticker #2829 found in this city"
-                         data-sticker-id="2829"
                          class="sticker-preview-image"
                          width="200" height="200"
                          loading="lazy"
@@ -931,6 +931,13 @@
                 })();
 
                 (function() {
+                    const marker = L.marker([52.0782389, 4.309225]).addTo(cityMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>SpVgg Greuther Fürth</strong><a href="/stickers/2829.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
                     const marker = L.marker([52.1132278, 4.2803667]).addTo(cityMap);
                     marker.bindPopup('<div class="nearby-sticker-popup"><strong>VfL Bochum</strong><a href="/stickers/2821.html" class="map-popup-link">View</a></div>');
                     marker.on('mouseover', function() { this.openPopup(); });
@@ -982,13 +989,6 @@
                 (function() {
                     const marker = L.marker([52.1163972, 4.2815944]).addTo(cityMap);
                     marker.bindPopup('<div class="nearby-sticker-popup"><strong>1 FC Kaiserslautern</strong><a href="/stickers/2837.html" class="map-popup-link">View</a></div>');
-                    marker.on('mouseover', function() { this.openPopup(); });
-                    marker.on('click', function() { this.openPopup(); });
-                })();
-
-                (function() {
-                    const marker = L.marker([52.0782389, 4.309225]).addTo(cityMap);
-                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>SpVgg Greuther Fürth</strong><a href="/stickers/2829.html" class="map-popup-link">View</a></div>');
                     marker.on('mouseover', function() { this.openPopup(); });
                     marker.on('click', function() { this.openPopup(); });
                 })();
@@ -1169,6 +1169,7 @@
                     [52.1121833, 4.2789167],
                     [52.1119111, 4.2776194],
                     [52.1111667, 4.2804972],
+                    [52.0782389, 4.309225],
                     [52.1132278, 4.2803667],
                     [52.1163972, 4.2815944],
                     [52.1112861, 4.2799583],
@@ -1177,7 +1178,6 @@
                     [52.0800694, 4.3095889],
                     [52.0788167, 4.3086306],
                     [52.1163972, 4.2815944],
-                    [52.0782389, 4.309225],
                     [52.1163944, 4.2815944],
                     [52.0781889, 4.3092417],
                     [52.0840222, 4.3053417],
