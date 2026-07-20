@@ -195,15 +195,6 @@
                          loading="lazy"
                          decoding="async">
                 </a>
-                <a href="/stickers/2796.html" class="sticker-preview-link">
-                    <img src="/img/club_759/1763899055256_IMG_7502_thumb.webp"
-                         alt="Feyenoord football sticker #2796 found in this city"
-                         data-sticker-id="2796"
-                         class="sticker-preview-image"
-                         width="200" height="200"
-                         loading="lazy"
-                         decoding="async">
-                </a>
                 <a href="/stickers/2795.html" class="sticker-preview-link">
                     <img src="/img/club_947/1763899021898_IMG_7570_thumb.webp"
                          alt="VfB Stuttgart football sticker #2795 found in this city"
@@ -217,6 +208,15 @@
                     <img src="/img/club_759/1768769020748_IMG_7751_thumb.webp"
                          alt="Feyenoord football sticker #2933 found in this city"
                          data-sticker-id="2933"
+                         class="sticker-preview-image"
+                         width="200" height="200"
+                         loading="lazy"
+                         decoding="async">
+                </a>
+                <a href="/stickers/2796.html" class="sticker-preview-link">
+                    <img src="/img/club_759/1763899055256_IMG_7502_thumb.webp"
+                         alt="Feyenoord football sticker #2796 found in this city"
+                         data-sticker-id="2796"
                          class="sticker-preview-image"
                          width="200" height="200"
                          loading="lazy"
@@ -675,13 +675,6 @@
                 })();
 
                 (function() {
-                    const marker = L.marker([52.0078667, 4.3568972]).addTo(cityMap);
-                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>Feyenoord</strong><a href="/stickers/2796.html" class="map-popup-link">View</a></div>');
-                    marker.on('mouseover', function() { this.openPopup(); });
-                    marker.on('click', function() { this.openPopup(); });
-                })();
-
-                (function() {
                     const marker = L.marker([52.0124694, 4.3568361]).addTo(cityMap);
                     marker.bindPopup('<div class="nearby-sticker-popup"><strong>VfB Stuttgart</strong><a href="/stickers/2795.html" class="map-popup-link">View</a></div>');
                     marker.on('mouseover', function() { this.openPopup(); });
@@ -691,6 +684,13 @@
                 (function() {
                     const marker = L.marker([52.0107083333333, 4.35826388888889]).addTo(cityMap);
                     marker.bindPopup('<div class="nearby-sticker-popup"><strong>Feyenoord</strong><a href="/stickers/2933.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([52.0078667, 4.3568972]).addTo(cityMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>Feyenoord</strong><a href="/stickers/2796.html" class="map-popup-link">View</a></div>');
                     marker.on('mouseover', function() { this.openPopup(); });
                     marker.on('click', function() { this.openPopup(); });
                 })();
@@ -1000,9 +1000,9 @@
                     [52.0121722, 4.3596611],
                     [52.0109055555556, 4.36964166666667],
                     [52.011925, 4.35865],
-                    [52.0078667, 4.3568972],
                     [52.0124694, 4.3568361],
                     [52.0107083333333, 4.35826388888889],
+                    [52.0078667, 4.3568972],
                     [52.01275, 4.36718611111111],
                     [52.0113222222222, 4.36590555555556],
                     [52.0108416666667, 4.36818888888889],
