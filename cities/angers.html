@@ -154,7 +154,7 @@
         <div id="catalogue-content">
             <div class="wiki-section">
     <div class="wiki-facts">
-        <div class="wiki-fact"><span class="wiki-fact-label">Population</span><span class="wiki-fact-value">159 022</span></div>
+        <div class="wiki-fact"><span class="wiki-fact-label">Population</span><span class="wiki-fact-value">159,022</span></div>
     </div>
     <div class="wiki-intro">
         <p>Angers is a city in western France, about 300 km (190 mi) southwest of Paris.  It is the prefecture of the Maine-et-Loire department and was the capital of the province of Anjou until the French Revolution.</p>
@@ -168,6 +168,15 @@
             </div>
             <div class="sticker-gallery">
                 
+                <a href="/stickers/3282.html" class="sticker-preview-link">
+                    <img src="/img/club_647/1775997274829_IMG_8795_thumb.webp"
+                         alt="Angers SCO football sticker #3282 found in this city"
+                         data-sticker-id="3282"
+                         class="sticker-preview-image"
+                         width="200" height="200"
+                         loading="lazy"
+                         decoding="async">
+                </a>
                 <a href="/stickers/3234.html" class="sticker-preview-link">
                     <img src="/img/club_647/1775419972230_IMG_8828_thumb.webp"
                          alt="Angers SCO football sticker #3234 found in this city"
@@ -285,15 +294,6 @@
                          loading="lazy"
                          decoding="async">
                 </a>
-                <a href="/stickers/3282.html" class="sticker-preview-link">
-                    <img src="/img/club_647/1775997274829_IMG_8795_thumb.webp"
-                         alt="Angers SCO football sticker #3282 found in this city"
-                         data-sticker-id="3282"
-                         class="sticker-preview-image"
-                         width="200" height="200"
-                         loading="lazy"
-                         decoding="async">
-                </a>
                 <a href="/stickers/3199.html" class="sticker-preview-link">
                     <img src="/img/club_666/1774860565636_IMG_8799_thumb.webp"
                          alt="Olympique de Marseille football sticker #3199 found in this city"
@@ -351,11 +351,18 @@
         
         document.addEventListener('DOMContentLoaded', function() {
             if (typeof L !== 'undefined' && document.getElementById('club-map')) {
-                const cityMap = L.map('club-map').setView([47.47053628472223, -0.5531711805555557], 12);
+                const cityMap = L.map('club-map').setView([47.47053628472223, -0.5531711805555556], 12);
                 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                     attribution: '&copy; OpenStreetMap contributors'
                 }).addTo(cityMap);
                 
+                (function() {
+                    const marker = L.marker([47.4666055555556, -0.556791666666667]).addTo(cityMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>Angers SCO</strong><a href="/stickers/3282.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
                 (function() {
                     const marker = L.marker([47.4732805555556, -0.549525]).addTo(cityMap);
                     marker.bindPopup('<div class="nearby-sticker-popup"><strong>Angers SCO</strong><a href="/stickers/3234.html" class="map-popup-link">View</a></div>');
@@ -448,13 +455,6 @@
                 })();
 
                 (function() {
-                    const marker = L.marker([47.4666055555556, -0.556791666666667]).addTo(cityMap);
-                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>Angers SCO</strong><a href="/stickers/3282.html" class="map-popup-link">View</a></div>');
-                    marker.on('mouseover', function() { this.openPopup(); });
-                    marker.on('click', function() { this.openPopup(); });
-                })();
-
-                (function() {
                     const marker = L.marker([47.4679083333333, -0.554994444444444]).addTo(cityMap);
                     marker.bindPopup('<div class="nearby-sticker-popup"><strong>Olympique de Marseille</strong><a href="/stickers/3199.html" class="map-popup-link">View</a></div>');
                     marker.on('mouseover', function() { this.openPopup(); });
@@ -469,6 +469,7 @@
                 })();
                 
                 const bounds = L.latLngBounds([
+                    [47.4666055555556, -0.556791666666667],
                     [47.4732805555556, -0.549525],
                     [47.4665638888889, -0.556911111111111],
                     [47.4728444444444, -0.554941666666667],
@@ -482,7 +483,6 @@
                     [47.4704361111111, -0.553652777777778],
                     [47.4725444444444, -0.553094444444444],
                     [47.4731611111111, -0.548580555555556],
-                    [47.4666055555556, -0.556791666666667],
                     [47.4679083333333, -0.554994444444444],
                     [47.4679944444444, -0.554716666666667]
                 ]);
