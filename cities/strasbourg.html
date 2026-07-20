@@ -186,15 +186,6 @@
                          loading="lazy"
                          decoding="async">
                 </a>
-                <a href="/stickers/3582.html" class="sticker-preview-link">
-                    <img src="/img/club_911/1779535462390_IMG_9994_thumb.webp"
-                         alt="SV Lippstadt 08 football sticker #3582 found in this city"
-                         data-sticker-id="3582"
-                         class="sticker-preview-image"
-                         width="200" height="200"
-                         loading="lazy"
-                         decoding="async">
-                </a>
                 <a href="/stickers/3579.html" class="sticker-preview-link">
                     <img src="/img/club_707/1779535257971_IMG_0205_thumb.webp"
                          alt="Strasbourg football sticker #3579 found in this city"
@@ -226,6 +217,15 @@
                     <img src="/img/club_880/1779533481432_IMG_0195_thumb.webp"
                          alt="Hertha BSC football sticker #3535 found in this city"
                          data-sticker-id="3535"
+                         class="sticker-preview-image"
+                         width="200" height="200"
+                         loading="lazy"
+                         decoding="async">
+                </a>
+                <a href="/stickers/3582.html" class="sticker-preview-link">
+                    <img src="/img/club_911/1779535462390_IMG_9994_thumb.webp"
+                         alt="SV Lippstadt 08 football sticker #3582 found in this city"
+                         data-sticker-id="3582"
                          class="sticker-preview-image"
                          width="200" height="200"
                          loading="lazy"
@@ -875,13 +875,6 @@
                 })();
 
                 (function() {
-                    const marker = L.marker([48.5908166666667, 7.73207777777778]).addTo(cityMap);
-                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>SV Lippstadt 08</strong><a href="/stickers/3582.html" class="map-popup-link">View</a></div>');
-                    marker.on('mouseover', function() { this.openPopup(); });
-                    marker.on('click', function() { this.openPopup(); });
-                })();
-
-                (function() {
                     const marker = L.marker([48.5812888888889, 7.74151944444444]).addTo(cityMap);
                     marker.bindPopup('<div class="nearby-sticker-popup"><strong>Strasbourg</strong><a href="/stickers/3579.html" class="map-popup-link">View</a></div>');
                     marker.on('mouseover', function() { this.openPopup(); });
@@ -905,6 +898,13 @@
                 (function() {
                     const marker = L.marker([48.5807277777778, 7.73884166666667]).addTo(cityMap);
                     marker.bindPopup('<div class="nearby-sticker-popup"><strong>Hertha BSC</strong><a href="/stickers/3535.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([48.5908166666667, 7.73207777777778]).addTo(cityMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>SV Lippstadt 08</strong><a href="/stickers/3582.html" class="map-popup-link">View</a></div>');
                     marker.on('mouseover', function() { this.openPopup(); });
                     marker.on('click', function() { this.openPopup(); });
                 })();
@@ -1367,11 +1367,11 @@
                 const bounds = L.latLngBounds([
                     [48.5830055555556, 7.74777777777778],
                     [48.5880083333333, 7.73783055555556],
-                    [48.5908166666667, 7.73207777777778],
                     [48.5812888888889, 7.74151944444444],
                     [48.5800444444444, 7.74451944444444],
                     [48.5842916666667, 7.746425],
                     [48.5807277777778, 7.73884166666667],
+                    [48.5908166666667, 7.73207777777778],
                     [48.5843194444444, 7.74649444444444],
                     [48.5846166666667, 7.73613611111111],
                     [48.5833527777778, 7.739075],

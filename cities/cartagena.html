@@ -493,6 +493,15 @@
                          loading="lazy"
                          decoding="async">
                 </a>
+                <a href="/stickers/3054.html" class="sticker-preview-link">
+                    <img src="/img/club_1163/1773005677792_IMG_8216_thumb.webp"
+                         alt="Rendsburger Primaner Ruderclub football sticker #3054 found in this city"
+                         data-sticker-id="3054"
+                         class="sticker-preview-image"
+                         width="200" height="200"
+                         loading="lazy"
+                         decoding="async">
+                </a>
                 <a href="/stickers/3050.html" class="sticker-preview-link">
                     <img src="/img/club_849/1773005451722_IMG_8232_thumb.webp"
                          alt="Villareal CF football sticker #3050 found in this city"
@@ -506,15 +515,6 @@
                     <img src="/img/club_431/1773006048382_IMG_8194_thumb.webp"
                          alt="Royal Antwerp football sticker #3063 found in this city"
                          data-sticker-id="3063"
-                         class="sticker-preview-image"
-                         width="200" height="200"
-                         loading="lazy"
-                         decoding="async">
-                </a>
-                <a href="/stickers/3054.html" class="sticker-preview-link">
-                    <img src="/img/club_1163/1773005677792_IMG_8216_thumb.webp"
-                         alt="Rendsburger Primaner Ruderclub football sticker #3054 found in this city"
-                         data-sticker-id="3054"
                          class="sticker-preview-image"
                          width="200" height="200"
                          loading="lazy"
@@ -817,6 +817,13 @@
                 })();
 
                 (function() {
+                    const marker = L.marker([37.5983888888889, -0.985283333333333]).addTo(cityMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>Rendsburger Primaner Ruderclub</strong><a href="/stickers/3054.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
                     const marker = L.marker([37.5989, -0.985266666666667]).addTo(cityMap);
                     marker.bindPopup('<div class="nearby-sticker-popup"><strong>Villareal CF</strong><a href="/stickers/3050.html" class="map-popup-link">View</a></div>');
                     marker.on('mouseover', function() { this.openPopup(); });
@@ -826,13 +833,6 @@
                 (function() {
                     const marker = L.marker([37.60215, -0.984769444444444]).addTo(cityMap);
                     marker.bindPopup('<div class="nearby-sticker-popup"><strong>Royal Antwerp</strong><a href="/stickers/3063.html" class="map-popup-link">View</a></div>');
-                    marker.on('mouseover', function() { this.openPopup(); });
-                    marker.on('click', function() { this.openPopup(); });
-                })();
-
-                (function() {
-                    const marker = L.marker([37.5983888888889, -0.985283333333333]).addTo(cityMap);
-                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>Rendsburger Primaner Ruderclub</strong><a href="/stickers/3054.html" class="map-popup-link">View</a></div>');
                     marker.on('mouseover', function() { this.openPopup(); });
                     marker.on('click', function() { this.openPopup(); });
                 })();
@@ -874,9 +874,9 @@
                     [37.6029777777778, -0.989780555555556],
                     [37.6043138888889, -0.986294444444444],
                     [37.5999305555556, -0.984744444444444],
+                    [37.5983888888889, -0.985283333333333],
                     [37.5989, -0.985266666666667],
-                    [37.60215, -0.984769444444444],
-                    [37.5983888888889, -0.985283333333333]
+                    [37.60215, -0.984769444444444]
                 ]);
                 cityMap.fitBounds(bounds, { padding: [30, 30], maxZoom: 15 });
                 

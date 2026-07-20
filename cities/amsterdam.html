@@ -321,15 +321,6 @@
                          loading="lazy"
                          decoding="async">
                 </a>
-                <a href="/stickers/2618.html" class="sticker-preview-link">
-                    <img src="/img/club_1100/1759591765810_IMG_7246_thumb.webp"
-                         alt="SC Brühl football sticker #2618 found in this city"
-                         data-sticker-id="2618"
-                         class="sticker-preview-image"
-                         width="200" height="200"
-                         loading="lazy"
-                         decoding="async">
-                </a>
                 <a href="/stickers/2718.html" class="sticker-preview-link">
                     <img src="/img/club_967/1763597224803_IMG_7386_thumb.webp"
                          alt="SpVgg Greuther Fürth football sticker #2718 found in this city"
@@ -352,6 +343,15 @@
                     <img src="/img/club_670/1760188975489_IMG_7319_thumb.webp"
                          alt="Atalanta BC football sticker #2672 found in this city"
                          data-sticker-id="2672"
+                         class="sticker-preview-image"
+                         width="200" height="200"
+                         loading="lazy"
+                         decoding="async">
+                </a>
+                <a href="/stickers/2618.html" class="sticker-preview-link">
+                    <img src="/img/club_1100/1759591765810_IMG_7246_thumb.webp"
+                         alt="SC Brühl football sticker #2618 found in this city"
+                         data-sticker-id="2618"
                          class="sticker-preview-image"
                          width="200" height="200"
                          loading="lazy"
@@ -1880,13 +1880,6 @@
                 })();
 
                 (function() {
-                    const marker = L.marker([52.3135944444444, 4.94094722222222]).addTo(cityMap);
-                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>SC Brühl</strong><a href="/stickers/2618.html" class="map-popup-link">View</a></div>');
-                    marker.on('mouseover', function() { this.openPopup(); });
-                    marker.on('click', function() { this.openPopup(); });
-                })();
-
-                (function() {
                     const marker = L.marker([52.3757972, 4.8990222]).addTo(cityMap);
                     marker.bindPopup('<div class="nearby-sticker-popup"><strong>SpVgg Greuther Fürth</strong><a href="/stickers/2718.html" class="map-popup-link">View</a></div>');
                     marker.on('mouseover', function() { this.openPopup(); });
@@ -1903,6 +1896,13 @@
                 (function() {
                     const marker = L.marker([52.3788917, 4.8982417]).addTo(cityMap);
                     marker.bindPopup('<div class="nearby-sticker-popup"><strong>Atalanta BC</strong><a href="/stickers/2672.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([52.3135944444444, 4.94094722222222]).addTo(cityMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>SC Brühl</strong><a href="/stickers/2618.html" class="map-popup-link">View</a></div>');
                     marker.on('mouseover', function() { this.openPopup(); });
                     marker.on('click', function() { this.openPopup(); });
                 })();
@@ -2982,10 +2982,10 @@
                     [52.3788722, 4.8983056],
                     [52.3778083, 4.8994028],
                     [52.3134417, 4.9423722],
-                    [52.3135944444444, 4.94094722222222],
                     [52.3757972, 4.8990222],
                     [52.3782694, 4.8990972],
                     [52.3788917, 4.8982417],
+                    [52.3135944444444, 4.94094722222222],
                     [52.3718694, 4.8958028],
                     [52.3134778, 4.9424778],
                     [52.3782583, 4.8990556],
