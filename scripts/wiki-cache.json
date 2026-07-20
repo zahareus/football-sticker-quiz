@@ -6201,5 +6201,14 @@
     "capacity": null,
     "league": "Superettan",
     "website": "https://ifknorrkoping.se/"
+  },
+  "1216": {
+    "wikiUrl": "https://en.wikipedia.org/wiki/FC_Nordsj%C3%A6lland",
+    "intro": "Football Club Nordsjælland, commonly known as FC Nordsjælland, Nordsjælland (Danish pronunciation: [ˈnoɐ̯ɕeˌlænˀ]) or FCN, is a professional  football club from the Danish town of Farum. Founded as Farum Boldklub from the merger of the town's two football clubs Farum IK and Stavnsholt BK in 1991, the club changed its name to FC Nordsjælland in 2003.",
+    "founded": "1991",
+    "stadium": "Right to Dream Park",
+    "capacity": "10,100",
+    "league": "Danish Superliga",
+    "website": "https://fcn.dk/"
   }
 }
