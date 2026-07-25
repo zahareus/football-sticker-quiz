@@ -303,15 +303,6 @@
                          loading="lazy"
                          decoding="async">
                 </a>
-                <a href="/stickers/3610.html" class="sticker-preview-link">
-                    <img src="/img/club_894/1780259916248_IMG_0289_thumb.webp"
-                         alt="SV Waldhof Mannheim football sticker #3610 found in this city"
-                         data-sticker-id="3610"
-                         class="sticker-preview-image"
-                         width="200" height="200"
-                         loading="lazy"
-                         decoding="async">
-                </a>
                 <a href="/stickers/3611.html" class="sticker-preview-link">
                     <img src="/img/club_894/1780259936988_IMG_0292_thumb.webp"
                          alt="SV Waldhof Mannheim football sticker #3611 found in this city"
@@ -384,15 +375,6 @@
                          loading="lazy"
                          decoding="async">
                 </a>
-                <a href="/stickers/3606.html" class="sticker-preview-link">
-                    <img src="/img/club_861/1780259835385_IMG_0268_thumb.webp"
-                         alt="SC Freiburg football sticker #3606 found in this city"
-                         data-sticker-id="3606"
-                         class="sticker-preview-image"
-                         width="200" height="200"
-                         loading="lazy"
-                         decoding="async">
-                </a>
                 <a href="/stickers/3592.html" class="sticker-preview-link">
                     <img src="/img/club_894/1780259563446_IMG_0288_thumb.webp"
                          alt="SV Waldhof Mannheim football sticker #3592 found in this city"
@@ -451,6 +433,24 @@
                     <img src="/img/club_925/1780259873198_IMG_0265_thumb.webp"
                          alt="Eintracht Frankfurt football sticker #3608 found in this city"
                          data-sticker-id="3608"
+                         class="sticker-preview-image"
+                         width="200" height="200"
+                         loading="lazy"
+                         decoding="async">
+                </a>
+                <a href="/stickers/3610.html" class="sticker-preview-link">
+                    <img src="/img/club_894/1780259916248_IMG_0289_thumb.webp"
+                         alt="SV Waldhof Mannheim football sticker #3610 found in this city"
+                         data-sticker-id="3610"
+                         class="sticker-preview-image"
+                         width="200" height="200"
+                         loading="lazy"
+                         decoding="async">
+                </a>
+                <a href="/stickers/3606.html" class="sticker-preview-link">
+                    <img src="/img/club_861/1780259835385_IMG_0268_thumb.webp"
+                         alt="SC Freiburg football sticker #3606 found in this city"
+                         data-sticker-id="3606"
                          class="sticker-preview-image"
                          width="200" height="200"
                          loading="lazy"
@@ -606,13 +606,6 @@
                 })();
 
                 (function() {
-                    const marker = L.marker([48.4737361111111, 7.94409722222222]).addTo(cityMap);
-                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>SV Waldhof Mannheim</strong><a href="/stickers/3610.html" class="map-popup-link">View</a></div>');
-                    marker.on('mouseover', function() { this.openPopup(); });
-                    marker.on('click', function() { this.openPopup(); });
-                })();
-
-                (function() {
                     const marker = L.marker([48.4741305555556, 7.94426111111111]).addTo(cityMap);
                     marker.bindPopup('<div class="nearby-sticker-popup"><strong>SV Waldhof Mannheim</strong><a href="/stickers/3611.html" class="map-popup-link">View</a></div>');
                     marker.on('mouseover', function() { this.openPopup(); });
@@ -669,13 +662,6 @@
                 })();
 
                 (function() {
-                    const marker = L.marker([48.4756777777778, 7.94548333333333]).addTo(cityMap);
-                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>SC Freiburg</strong><a href="/stickers/3606.html" class="map-popup-link">View</a></div>');
-                    marker.on('mouseover', function() { this.openPopup(); });
-                    marker.on('click', function() { this.openPopup(); });
-                })();
-
-                (function() {
                     const marker = L.marker([48.4731083333333, 7.94394722222222]).addTo(cityMap);
                     marker.bindPopup('<div class="nearby-sticker-popup"><strong>SV Waldhof Mannheim</strong><a href="/stickers/3592.html" class="map-popup-link">View</a></div>');
                     marker.on('mouseover', function() { this.openPopup(); });
@@ -723,6 +709,20 @@
                     marker.on('mouseover', function() { this.openPopup(); });
                     marker.on('click', function() { this.openPopup(); });
                 })();
+
+                (function() {
+                    const marker = L.marker([48.4737361111111, 7.94409722222222]).addTo(cityMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>SV Waldhof Mannheim</strong><a href="/stickers/3610.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([48.4756777777778, 7.94548333333333]).addTo(cityMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>SC Freiburg</strong><a href="/stickers/3606.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
                 
                 const bounds = L.latLngBounds([
                     [48.4764027777778, 7.94620833333333],
@@ -740,7 +740,6 @@
                     [48.4757277777778, 7.94545555555556],
                     [48.4759666666667, 7.94551388888889],
                     [48.4759638888889, 7.94550277777778],
-                    [48.4737361111111, 7.94409722222222],
                     [48.4741305555556, 7.94426111111111],
                     [48.4730083333333, 7.94374722222222],
                     [48.4739277777778, 7.94401388888889],
@@ -749,14 +748,15 @@
                     [48.4759, 7.94543888888889],
                     [48.4761416666667, 7.94547222222222],
                     [48.4732305555556, 7.943525],
-                    [48.4756777777778, 7.94548333333333],
                     [48.4731083333333, 7.94394722222222],
                     [48.4728888888889, 7.94368333333333],
                     [48.476325, 7.94555277777778],
                     [48.4761388888889, 7.9455],
                     [48.4728194444444, 7.94363888888889],
                     [48.4747138888889, 7.94450277777778],
-                    [48.4758638888889, 7.94540833333333]
+                    [48.4758638888889, 7.94540833333333],
+                    [48.4737361111111, 7.94409722222222],
+                    [48.4756777777778, 7.94548333333333]
                 ]);
                 cityMap.fitBounds(bounds, { padding: [30, 30], maxZoom: 15 });
                 
