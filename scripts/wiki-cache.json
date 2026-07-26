@@ -6246,5 +6246,14 @@
     "capacity": null,
     "league": "National League North",
     "website": "http://www.corbytownfc.co.uk/"
+  },
+  "1222": {
+    "wikiUrl": "https://en.wikipedia.org/wiki/FC_Drita",
+    "intro": "Football Club Drita (Albanian: Klubi Futbollistik Drita), commonly known as Drita, is a professional football club based in Gjilan, Kosovo. The club competes in the Kosovo Superleague.\nThe club's home ground is the Gjilan City Stadium.",
+    "founded": "1947",
+    "stadium": "City Stadium",
+    "capacity": "15,000",
+    "league": "Football Superleague of Kosovo",
+    "website": null
   }
 }
