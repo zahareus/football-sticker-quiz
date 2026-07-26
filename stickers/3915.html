@@ -1277,6 +1277,19 @@
                 })();
 
                 (function() {
+                    L.marker([38.7498222222222, -9.18013611111111], {
+                        icon: L.icon({
+                            iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
+                            iconSize: [18, 30],
+                            iconAnchor: [9, 30],
+                            popupAnchor: [1, -25]
+                        }),
+                        opacity: 0.6
+                    }).addTo(map)
+                    .bindPopup('<div class="nearby-sticker-popup"><strong>SL Benfica</strong><a href="/stickers/3917.html" class="map-popup-link">View</a></div>');
+                })();
+
+                (function() {
                     L.marker([38.7619944444444, -9.15929166666667], {
                         icon: L.icon({
                             iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
