@@ -6228,5 +6228,14 @@
     "capacity": "5,200",
     "league": "Liga Portugal",
     "website": "http://www.cdnacional.pt"
+  },
+  "1221": {
+    "wikiUrl": "https://en.wikipedia.org/wiki/Corby_Town_F.C.",
+    "intro": "Corby Town Football Club is a football club based in Corby, Northamptonshire, England. They are currently members of the Northern Premier League Division One Midlands and play at Steel Park..",
+    "founded": "1948",
+    "stadium": null,
+    "capacity": null,
+    "league": "National League North",
+    "website": "http://www.corbytownfc.co.uk/"
   }
 }
