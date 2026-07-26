@@ -1191,8 +1191,9 @@ async function generateIndexPage(stickers, clubs) {
     ]));
 
     const data = {
-        TOTAL_STICKERS: TOTAL_STICKERS.toLocaleString(),
-        TOTAL_CLUBS: TOTAL_CLUBS.toLocaleString(),
+        TOTAL_STICKERS: TOTAL_STICKERS.toLocaleString('en-US'),
+        TOTAL_CLUBS: TOTAL_CLUBS.toLocaleString('en-US'),
+        TOTAL_COUNTRIES: topCountries.length,
         TOP_RATED_HTML: topRatedHtml,
         RECENT_STICKERS_HTML: recentHtml,
         COUNTRIES_HTML: countriesHtml,

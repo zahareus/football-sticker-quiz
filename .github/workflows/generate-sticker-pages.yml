@@ -185,6 +185,17 @@ jobs:
           echo "Regenerating city pages..."
           node generate-city-pages.js
 
+      - name: Regenerate homepage
+        if: always()
+        working-directory: ./scripts
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
+        continue-on-error: true
+        run: |
+          echo "Regenerating homepage (counts, recent stickers, countries, cities)..."
+          node generate-static-pages.js --homepage-only
+
       - name: Regenerate sitemaps
         if: always()
         working-directory: ./scripts
@@ -217,7 +228,7 @@ jobs:
           # failures on 2026-05-23: first push race-rejected, rebase OK, second
           # push fatal "could not read Username"). x-access-token survives rebase.
           git remote set-url origin "https://x-access-token:${GH_TOKEN}@github.com/${{ github.repository }}.git"
-          git add stickers/ clubs/ countries/ cities/ scripts/wiki-cache.json sitemap*.xml
+          git add stickers/ clubs/ countries/ cities/ index.html catalogue.html scripts/wiki-cache.json sitemap*.xml
 
           # Create commit message
           STICKER_IDS="${{ steps.get-ids.outputs.sticker_ids }}"
