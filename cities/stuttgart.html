@@ -510,6 +510,15 @@
                          loading="lazy"
                          decoding="async">
                 </a>
+                <a href="/stickers/2425.html" class="sticker-preview-link">
+                    <img src="/img/club_1071%2F1755811606335_IMG_6191_thumb.webp"
+                         alt="󠁧󠁢󠁥󠁮󠁧󠁿 Middlesbrough F.C. football sticker #2425 found in this city"
+                         data-sticker-id="2425"
+                         class="sticker-preview-image"
+                         width="200" height="200"
+                         loading="lazy"
+                         decoding="async">
+                </a>
                 <a href="/stickers/2404.html" class="sticker-preview-link">
                     <img src="/img/club_1066%2F1755809728743_IMG_6244_thumb.webp"
                          alt="FC Veszprém football sticker #2404 found in this city"
@@ -550,15 +559,6 @@
                     <img src="/img/club_948%2F1755810474102_IMG_6204_thumb.webp"
                          alt="Borussia Dortmund football sticker #2415 found in this city"
                          data-sticker-id="2415"
-                         class="sticker-preview-image"
-                         width="200" height="200"
-                         loading="lazy"
-                         decoding="async">
-                </a>
-                <a href="/stickers/2425.html" class="sticker-preview-link">
-                    <img src="/img/club_1071%2F1755811606335_IMG_6191_thumb.webp"
-                         alt="󠁧󠁢󠁥󠁮󠁧󠁿 Middlesbrough F.C. football sticker #2425 found in this city"
-                         data-sticker-id="2425"
                          class="sticker-preview-image"
                          width="200" height="200"
                          loading="lazy"
@@ -1289,6 +1289,13 @@
                 })();
 
                 (function() {
+                    const marker = L.marker([48.782525, 9.18172222222222]).addTo(cityMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>󠁧󠁢󠁥󠁮󠁧󠁿 Middlesbrough F.C.</strong><a href="/stickers/2425.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
                     const marker = L.marker([48.7958111111111, 9.22701388888889]).addTo(cityMap);
                     marker.bindPopup('<div class="nearby-sticker-popup"><strong>FC Veszprém</strong><a href="/stickers/2404.html" class="map-popup-link">View</a></div>');
                     marker.on('mouseover', function() { this.openPopup(); });
@@ -1319,13 +1326,6 @@
                 (function() {
                     const marker = L.marker([48.78065, 9.17976944444444]).addTo(cityMap);
                     marker.bindPopup('<div class="nearby-sticker-popup"><strong>Borussia Dortmund</strong><a href="/stickers/2415.html" class="map-popup-link">View</a></div>');
-                    marker.on('mouseover', function() { this.openPopup(); });
-                    marker.on('click', function() { this.openPopup(); });
-                })();
-
-                (function() {
-                    const marker = L.marker([48.782525, 9.18172222222222]).addTo(cityMap);
-                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>󠁧󠁢󠁥󠁮󠁧󠁿 Middlesbrough F.C.</strong><a href="/stickers/2425.html" class="map-popup-link">View</a></div>');
                     marker.on('mouseover', function() { this.openPopup(); });
                     marker.on('click', function() { this.openPopup(); });
                 })();
@@ -1691,12 +1691,12 @@
                     [48.7758166666667, 9.17568055555556],
                     [48.7827805555556, 9.18191944444444],
                     [48.7613027777778, 9.17968333333333],
+                    [48.782525, 9.18172222222222],
                     [48.7958111111111, 9.22701388888889],
                     [48.7810027777778, 9.18294444444444],
                     [48.7952527777778, 9.22306666666667],
                     [48.7982027777778, 9.21750833333333],
                     [48.78065, 9.17976944444444],
-                    [48.782525, 9.18172222222222],
                     [48.7810138888889, 9.17995833333333],
                     [48.7807777777778, 9.17951944444444],
                     [48.7809861111111, 9.18295833333333],

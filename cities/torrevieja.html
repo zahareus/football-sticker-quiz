@@ -231,6 +231,15 @@
                          loading="lazy"
                          decoding="async">
                 </a>
+                <a href="/stickers/3473.html" class="sticker-preview-link">
+                    <img src="/img/club_1204/1778935599801_IMG_9937_thumb.webp"
+                         alt="󠁧󠁢󠁥󠁮󠁧󠁿 Aston Villa F.C. football sticker #3473 found in this city"
+                         data-sticker-id="3473"
+                         class="sticker-preview-image"
+                         width="200" height="200"
+                         loading="lazy"
+                         decoding="async">
+                </a>
                 <a href="/stickers/3476.html" class="sticker-preview-link">
                     <img src="/img/club_906/1778935662563_IMG_9929_thumb.webp"
                          alt="Karlsruher SC football sticker #3476 found in this city"
@@ -244,15 +253,6 @@
                     <img src="/img/club_626/1778935519046_IMG_9940_thumb.webp"
                          alt="Vålerenga Fotball football sticker #3471 found in this city"
                          data-sticker-id="3471"
-                         class="sticker-preview-image"
-                         width="200" height="200"
-                         loading="lazy"
-                         decoding="async">
-                </a>
-                <a href="/stickers/3473.html" class="sticker-preview-link">
-                    <img src="/img/club_1204/1778935599801_IMG_9937_thumb.webp"
-                         alt="󠁧󠁢󠁥󠁮󠁧󠁿 Aston Villa F.C. football sticker #3473 found in this city"
-                         data-sticker-id="3473"
                          class="sticker-preview-image"
                          width="200" height="200"
                          loading="lazy"
@@ -1432,6 +1432,13 @@
                 })();
 
                 (function() {
+                    const marker = L.marker([37.9731888888889, -0.678636111111111]).addTo(cityMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>󠁧󠁢󠁥󠁮󠁧󠁿 Aston Villa F.C.</strong><a href="/stickers/3473.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
                     const marker = L.marker([37.9758416666667, -0.672611111111111]).addTo(cityMap);
                     marker.bindPopup('<div class="nearby-sticker-popup"><strong>Karlsruher SC</strong><a href="/stickers/3476.html" class="map-popup-link">View</a></div>');
                     marker.on('mouseover', function() { this.openPopup(); });
@@ -1441,13 +1448,6 @@
                 (function() {
                     const marker = L.marker([37.9749916666667, -0.679275]).addTo(cityMap);
                     marker.bindPopup('<div class="nearby-sticker-popup"><strong>Vålerenga Fotball</strong><a href="/stickers/3471.html" class="map-popup-link">View</a></div>');
-                    marker.on('mouseover', function() { this.openPopup(); });
-                    marker.on('click', function() { this.openPopup(); });
-                })();
-
-                (function() {
-                    const marker = L.marker([37.9731888888889, -0.678636111111111]).addTo(cityMap);
-                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>󠁧󠁢󠁥󠁮󠁧󠁿 Aston Villa F.C.</strong><a href="/stickers/3473.html" class="map-popup-link">View</a></div>');
                     marker.on('mouseover', function() { this.openPopup(); });
                     marker.on('click', function() { this.openPopup(); });
                 })();
@@ -2279,9 +2279,9 @@
                     [37.9833916666667, -0.660694444444444],
                     [37.9758805555556, -0.6751],
                     [37.9763916666667, -0.671330555555556],
+                    [37.9731888888889, -0.678636111111111],
                     [37.9758416666667, -0.672611111111111],
                     [37.9749916666667, -0.679275],
-                    [37.9731888888889, -0.678636111111111],
                     [37.9767777777778, -0.671258333333333],
                     [37.9740055555556, -0.678363888888889],
                     [37.9758416666667, -0.672611111111111],
