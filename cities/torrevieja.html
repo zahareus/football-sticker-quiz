@@ -798,15 +798,6 @@
                          loading="lazy"
                          decoding="async">
                 </a>
-                <a href="/stickers/3963.html" class="sticker-preview-link">
-                    <img src="/img/club_740/1785163839939_IMG_1404_thumb.webp"
-                         alt="Malmö FF football sticker #3963 found in this city"
-                         data-sticker-id="3963"
-                         class="sticker-preview-image"
-                         width="200" height="200"
-                         loading="lazy"
-                         decoding="async">
-                </a>
                 <a href="/stickers/3025.html" class="sticker-preview-link">
                     <img src="/img/club_68/1772989568298_IMG_8130_thumb.webp"
                          alt="Royal Charleroi S.C. football sticker #3025 found in this city"
@@ -991,6 +982,15 @@
                     <img src="/img/club_1210/1780750422602_IMG_0432_thumb.webp"
                          alt="IFK Norrköping football sticker #3704 found in this city"
                          data-sticker-id="3704"
+                         class="sticker-preview-image"
+                         width="200" height="200"
+                         loading="lazy"
+                         decoding="async">
+                </a>
+                <a href="/stickers/3963.html" class="sticker-preview-link">
+                    <img src="/img/club_740/1785163839939_IMG_1404_thumb.webp"
+                         alt="Malmö FF football sticker #3963 found in this city"
+                         data-sticker-id="3963"
                          class="sticker-preview-image"
                          width="200" height="200"
                          loading="lazy"
@@ -1868,13 +1868,6 @@
                 })();
 
                 (function() {
-                    const marker = L.marker([37.9830666666667, -0.674625]).addTo(cityMap);
-                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>Malmö FF</strong><a href="/stickers/3963.html" class="map-popup-link">View</a></div>');
-                    marker.on('mouseover', function() { this.openPopup(); });
-                    marker.on('click', function() { this.openPopup(); });
-                })();
-
-                (function() {
                     const marker = L.marker([37.9774444444444, -0.676444444444444]).addTo(cityMap);
                     marker.bindPopup('<div class="nearby-sticker-popup"><strong>Royal Charleroi S.C.</strong><a href="/stickers/3025.html" class="map-popup-link">View</a></div>');
                     marker.on('mouseover', function() { this.openPopup(); });
@@ -2010,6 +2003,13 @@
                 (function() {
                     const marker = L.marker([37.9768583333333, -0.676158333333333]).addTo(cityMap);
                     marker.bindPopup('<div class="nearby-sticker-popup"><strong>IFK Norrköping</strong><a href="/stickers/3704.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([37.9830666666667, -0.674625]).addTo(cityMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>Malmö FF</strong><a href="/stickers/3963.html" class="map-popup-link">View</a></div>');
                     marker.on('mouseover', function() { this.openPopup(); });
                     marker.on('click', function() { this.openPopup(); });
                 })();
@@ -2356,7 +2356,6 @@
                     [37.9764055555556, -0.6867],
                     [37.980175, -0.672652777777778],
                     [37.9755222222222, -0.680258333333333],
-                    [37.9830666666667, -0.674625],
                     [37.9774444444444, -0.676444444444444],
                     [37.9772333333333, -0.681838888888889],
                     [37.9839888888889, -0.661755555555556],
@@ -2377,6 +2376,7 @@
                     [37.9772527777778, -0.670044444444444],
                     [37.9855333333333, -0.678561111111111],
                     [37.9768583333333, -0.676158333333333],
+                    [37.9830666666667, -0.674625],
                     [37.9764972222222, -0.683591666666667],
                     [37.9761027777778, -0.685108333333333],
                     [37.979125, -0.675977777777778],
