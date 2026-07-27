@@ -6273,5 +6273,14 @@
     "capacity": "71,200",
     "league": "Campeonato Brasileiro Série A",
     "website": "http://www.saopaulofc.net/"
+  },
+  "1228": {
+    "wikiUrl": "https://en.wikipedia.org/wiki/Ava%C3%AD_FC",
+    "intro": "Avaí Futebol Clube (Portuguese pronunciation: [avaˈi]) is a Brazilian football team from Florianópolis in Santa Catarina, founded on 1 September 1923. Their home stadium is Estádio Aderbal Ramos da Silva, also known as Ressacada, with a capacity of 17,800.",
+    "founded": "1923",
+    "stadium": "Estádio da Ressacada",
+    "capacity": "17,800",
+    "league": "Campeonato Brasileiro Série B",
+    "website": "http://www.avai.com.br/novo/"
   }
 }
