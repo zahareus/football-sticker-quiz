@@ -6255,5 +6255,14 @@
     "capacity": "15,000",
     "league": "Football Superleague of Kosovo",
     "website": null
+  },
+  "1223": {
+    "wikiUrl": "https://en.wikipedia.org/wiki/Barrow_A.F.C.",
+    "intro": "Barrow Association Football Club is a professional football club based in Barrow-in-Furness, Cumbria, England. The club will compete in the National League in the 2026–27 season, following relegation from EFL League Two.\nHaving initially played in the Lancashire Combination, Barrow joined the Football League in 1921.",
+    "founded": "1901",
+    "stadium": "Holker Street",
+    "capacity": "5,000",
+    "league": "National League",
+    "website": "https://www.barrowafc.com/"
   }
 }
