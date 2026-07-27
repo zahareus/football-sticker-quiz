@@ -6291,5 +6291,14 @@
     "capacity": "19,619",
     "league": "Major League Soccer",
     "website": "https://www.cfmontreal.com/"
+  },
+  "1234": {
+    "wikiUrl": "https://en.wikipedia.org/wiki/Club_Atl%C3%A9tico_River_Plate",
+    "intro": "Club Atlético River Plate (CARP) (Spanish pronunciation: [ˈkluβ aˈtletiko ˈriβer ˈpleit]) is an Argentine professional sports club based in the Belgrano neighborhood of Buenos Aires. Founded in 1901, the club is named after the English-language name for the city's estuary, Río de la Plata.",
+    "founded": "1901",
+    "stadium": "Mas Monumental Stadium",
+    "capacity": "84,567",
+    "league": "Argentine Primera División",
+    "website": "https://www.cariverplate.com.ar/"
   }
 }
