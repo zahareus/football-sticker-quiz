@@ -6264,5 +6264,14 @@
     "capacity": "5,000",
     "league": "National League",
     "website": "https://www.barrowafc.com/"
+  },
+  "1226": {
+    "wikiUrl": "https://en.wikipedia.org/wiki/S%C3%A3o_Paulo_FC",
+    "intro": "São Paulo Futebol Clube (Brazilian Portuguese: [sɐ̃w ˈpawlu futʃiˈbɔw ˈklubi] ) is a Brazilian professional football club based in the Morumbi district of São Paulo. It plays in Campeonato Paulista, the São Paulo's premier state league, and in the Campeonato Brasileiro Série A, the top tier of Brazilian football.",
+    "founded": "1930",
+    "stadium": "Estádio do Morumbi",
+    "capacity": "71,200",
+    "league": "Campeonato Brasileiro Série A",
+    "website": "http://www.saopaulofc.net/"
   }
 }
