@@ -942,6 +942,15 @@
                          loading="lazy"
                          decoding="async">
                 </a>
+                <a href="/stickers/2709.html" class="sticker-preview-link">
+                    <img src="/img/club_1122/1760872405485_IMG_7339_thumb.webp"
+                         alt="Toronto FC football sticker #2709 found in this city"
+                         data-sticker-id="2709"
+                         class="sticker-preview-image"
+                         width="200" height="200"
+                         loading="lazy"
+                         decoding="async">
+                </a>
                 <a href="/stickers/2722.html" class="sticker-preview-link">
                     <img src="/img/club_881/1763598275403_IMG_7390_thumb.webp"
                          alt="FC St Pauli football sticker #2722 found in this city"
@@ -1009,15 +1018,6 @@
                     <img src="/img/club_771/1763673602247_IMG_7411_thumb.webp"
                          alt="Willem II football sticker #2736 found in this city"
                          data-sticker-id="2736"
-                         class="sticker-preview-image"
-                         width="200" height="200"
-                         loading="lazy"
-                         decoding="async">
-                </a>
-                <a href="/stickers/2709.html" class="sticker-preview-link">
-                    <img src="/img/club_1122/1760872405485_IMG_7339_thumb.webp"
-                         alt="Toronto FC football sticker #2709 found in this city"
-                         data-sticker-id="2709"
                          class="sticker-preview-image"
                          width="200" height="200"
                          loading="lazy"
@@ -1153,15 +1153,6 @@
                     <img src="/img/club_729/1760043064292_IMG_7282_thumb.webp"
                          alt="AFC Ajax football sticker #2638 found in this city"
                          data-sticker-id="2638"
-                         class="sticker-preview-image"
-                         width="200" height="200"
-                         loading="lazy"
-                         decoding="async">
-                </a>
-                <a href="/stickers/2655.html" class="sticker-preview-link">
-                    <img src="/img/club_1109/1760045262756_IMG_7270_thumb.webp"
-                         alt="Leixões SC football sticker #2655 found in this city"
-                         data-sticker-id="2655"
                          class="sticker-preview-image"
                          width="200" height="200"
                          loading="lazy"
@@ -1567,6 +1558,15 @@
                     <img src="/img/club_729/1759425113033_IMG_7065_thumb.webp"
                          alt="AFC Ajax football sticker #2580 found in this city"
                          data-sticker-id="2580"
+                         class="sticker-preview-image"
+                         width="200" height="200"
+                         loading="lazy"
+                         decoding="async">
+                </a>
+                <a href="/stickers/2655.html" class="sticker-preview-link">
+                    <img src="/img/club_1109/1760045262756_IMG_7270_thumb.webp"
+                         alt="Leixões SC football sticker #2655 found in this city"
+                         data-sticker-id="2655"
                          class="sticker-preview-image"
                          width="200" height="200"
                          loading="lazy"
@@ -2363,6 +2363,13 @@
                 })();
 
                 (function() {
+                    const marker = L.marker([52.3788194, 4.8955389]).addTo(cityMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>Toronto FC</strong><a href="/stickers/2709.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
                     const marker = L.marker([52.3744083, 4.8970583]).addTo(cityMap);
                     marker.bindPopup('<div class="nearby-sticker-popup"><strong>FC St Pauli</strong><a href="/stickers/2722.html" class="map-popup-link">View</a></div>');
                     marker.on('mouseover', function() { this.openPopup(); });
@@ -2414,13 +2421,6 @@
                 (function() {
                     const marker = L.marker([52.36885, 4.8904722]).addTo(cityMap);
                     marker.bindPopup('<div class="nearby-sticker-popup"><strong>Willem II</strong><a href="/stickers/2736.html" class="map-popup-link">View</a></div>');
-                    marker.on('mouseover', function() { this.openPopup(); });
-                    marker.on('click', function() { this.openPopup(); });
-                })();
-
-                (function() {
-                    const marker = L.marker([52.3788194, 4.8955389]).addTo(cityMap);
-                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>Toronto FC</strong><a href="/stickers/2709.html" class="map-popup-link">View</a></div>');
                     marker.on('mouseover', function() { this.openPopup(); });
                     marker.on('click', function() { this.openPopup(); });
                 })();
@@ -2526,13 +2526,6 @@
                 (function() {
                     const marker = L.marker([52.3134388888889, 4.94236111111111]).addTo(cityMap);
                     marker.bindPopup('<div class="nearby-sticker-popup"><strong>AFC Ajax</strong><a href="/stickers/2638.html" class="map-popup-link">View</a></div>');
-                    marker.on('mouseover', function() { this.openPopup(); });
-                    marker.on('click', function() { this.openPopup(); });
-                })();
-
-                (function() {
-                    const marker = L.marker([52.3135333333333, 4.94240555555556]).addTo(cityMap);
-                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>Leixões SC</strong><a href="/stickers/2655.html" class="map-popup-link">View</a></div>');
                     marker.on('mouseover', function() { this.openPopup(); });
                     marker.on('click', function() { this.openPopup(); });
                 })();
@@ -2853,6 +2846,13 @@
                 })();
 
                 (function() {
+                    const marker = L.marker([52.3135333333333, 4.94240555555556]).addTo(cityMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>Leixões SC</strong><a href="/stickers/2655.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
                     const marker = L.marker([52.3102388888889, 4.760675]).addTo(cityMap);
                     marker.bindPopup('<div class="nearby-sticker-popup"><strong>Újpest FC</strong><a href="/stickers/2581.html" class="map-popup-link">View</a></div>');
                     marker.on('mouseover', function() { this.openPopup(); });
@@ -3051,6 +3051,7 @@
                     [52.3720056, 4.8959528],
                     [52.3720056, 4.8959528],
                     [52.3763778, 4.899325],
+                    [52.3788194, 4.8955389],
                     [52.3744083, 4.8970583],
                     [52.3720083, 4.895975],
                     [52.3720056, 4.8959528],
@@ -3059,7 +3060,6 @@
                     [52.3762167, 4.8995806],
                     [52.3786972, 4.8962389],
                     [52.36885, 4.8904722],
-                    [52.3788194, 4.8955389],
                     [52.3718944, 4.896],
                     [52.3737, 4.8978111],
                     [52.3775833, 4.8980944],
@@ -3075,7 +3075,6 @@
                     [52.3744167, 4.8970667],
                     [52.3720083, 4.895975],
                     [52.3134388888889, 4.94236111111111],
-                    [52.3135333333333, 4.94240555555556],
                     [52.3143583333333, 4.94073333333333],
                     [52.3762361, 4.8995889],
                     [52.3134472222222, 4.94240833333333],
@@ -3121,6 +3120,7 @@
                     [52.3143083333333, 4.94055833333333],
                     [52.3105666666667, 4.75933888888889],
                     [52.3103444444444, 4.75566388888889],
+                    [52.3135333333333, 4.94240555555556],
                     [52.3102388888889, 4.760675],
                     [52.3134583333333, 4.94239444444444],
                     [52.3131778, 4.9434389],
