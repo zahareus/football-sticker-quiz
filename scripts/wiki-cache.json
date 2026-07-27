@@ -6282,5 +6282,14 @@
     "capacity": "17,800",
     "league": "Campeonato Brasileiro Série B",
     "website": "http://www.avai.com.br/novo/"
+  },
+  "1232": {
+    "wikiUrl": "https://en.wikipedia.org/wiki/CF_Montréal",
+    "intro": "CF Montréal (lit. 'Montreal Football Club') is a Canadian professional soccer club based in Montreal. The club competes in Major League Soccer (MLS) as a member of the Eastern Conference.",
+    "founded": "2010",
+    "stadium": "Saputo Stadium",
+    "capacity": "19,619",
+    "league": "Major League Soccer",
+    "website": "https://www.cfmontreal.com/"
   }
 }
