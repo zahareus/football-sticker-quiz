@@ -312,15 +312,6 @@
                          loading="lazy"
                          decoding="async">
                 </a>
-                <a href="/stickers/3176.html" class="sticker-preview-link">
-                    <img src="/img/club_708/1774787466186_IMG_8653_thumb.webp"
-                         alt="Genoa CFC football sticker #3176 found in this city"
-                         data-sticker-id="3176"
-                         class="sticker-preview-image"
-                         width="200" height="200"
-                         loading="lazy"
-                         decoding="async">
-                </a>
                 <a href="/stickers/3175.html" class="sticker-preview-link">
                     <img src="/img/club_701/1774787440959_IMG_8679_thumb.webp"
                          alt="Nantes football sticker #3175 found in this city"
@@ -672,6 +663,15 @@
                          loading="lazy"
                          decoding="async">
                 </a>
+                <a href="/stickers/3176.html" class="sticker-preview-link">
+                    <img src="/img/club_708/1774787466186_IMG_8653_thumb.webp"
+                         alt="Genoa CFC football sticker #3176 found in this city"
+                         data-sticker-id="3176"
+                         class="sticker-preview-image"
+                         width="200" height="200"
+                         loading="lazy"
+                         decoding="async">
+                </a>
                 <a href="/stickers/3168.html" class="sticker-preview-link">
                     <img src="/img/club_701/1774787279723_IMG_8698_thumb.webp"
                          alt="Nantes football sticker #3168 found in this city"
@@ -720,7 +720,7 @@
         
         document.addEventListener('DOMContentLoaded', function() {
             if (typeof L !== 'undefined' && document.getElementById('club-map')) {
-                const cityMap = L.map('club-map').setView([47.23229468810918, -1.5445126218323582], 12);
+                const cityMap = L.map('club-map').setView([47.23229468810917, -1.5445126218323582], 12);
                 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                     attribution: '&copy; OpenStreetMap contributors'
                 }).addTo(cityMap);
@@ -833,13 +833,6 @@
                 (function() {
                     const marker = L.marker([47.2070916666667, -1.57283888888889]).addTo(cityMap);
                     marker.bindPopup('<div class="nearby-sticker-popup"><strong>Nantes</strong><a href="/stickers/3156.html" class="map-popup-link">View</a></div>');
-                    marker.on('mouseover', function() { this.openPopup(); });
-                    marker.on('click', function() { this.openPopup(); });
-                })();
-
-                (function() {
-                    const marker = L.marker([47.2148666666667, -1.55818611111111]).addTo(cityMap);
-                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>Genoa CFC</strong><a href="/stickers/3176.html" class="map-popup-link">View</a></div>');
                     marker.on('mouseover', function() { this.openPopup(); });
                     marker.on('click', function() { this.openPopup(); });
                 })();
@@ -1118,6 +1111,13 @@
                 })();
 
                 (function() {
+                    const marker = L.marker([47.2148666666667, -1.55818611111111]).addTo(cityMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>Genoa CFC</strong><a href="/stickers/3176.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
                     const marker = L.marker([47.2574055555556, -1.52668333333333]).addTo(cityMap);
                     marker.bindPopup('<div class="nearby-sticker-popup"><strong>Nantes</strong><a href="/stickers/3168.html" class="map-popup-link">View</a></div>');
                     marker.on('mouseover', function() { this.openPopup(); });
@@ -1141,7 +1141,6 @@
                     [47.2582055555556, -1.52626111111111],
                     [47.2067722222222, -1.57188055555556],
                     [47.2070916666667, -1.57283888888889],
-                    [47.2148666666667, -1.55818611111111],
                     [47.2585972222222, -1.52636111111111],
                     [47.1578361111111, -1.60094444444444],
                     [47.2576222222222, -1.52655277777778],
@@ -1181,6 +1180,7 @@
                     [47.217675, -1.54301111111111],
                     [47.2143638888889, -1.55779166666667],
                     [47.2563166666667, -1.52645277777778],
+                    [47.2148666666667, -1.55818611111111],
                     [47.2574055555556, -1.52668333333333]
                 ]);
                 cityMap.fitBounds(bounds, { padding: [30, 30], maxZoom: 15 });
