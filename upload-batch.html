@@ -43,7 +43,7 @@
 
         .batch-row {
             display: grid;
-            grid-template-columns: 176px 1fr 28px;
+            grid-template-columns: 352px 1fr 28px;
             gap: calc(var(--spacing-unit) * 2);
             align-items: stretch;
             padding: calc(var(--spacing-unit) * 1.5);
@@ -55,7 +55,7 @@
         .batch-row.done    { border-color: var(--color-success); }
 
         .batch-thumb {
-            width: 176px; height: 176px;
+            width: 352px; height: 352px;
             border-radius: var(--border-radius);
             object-fit: cover;
             background: var(--color-secondary-bg);
@@ -181,8 +181,8 @@
         }
 
         @media (max-width: 600px) {
-            .batch-row { grid-template-columns: 120px 1fr 24px; gap: var(--spacing-unit); }
-            .batch-thumb { width: 120px; height: 120px; }
+            .batch-row { grid-template-columns: 1fr 24px; gap: var(--spacing-unit); }
+            .batch-thumb { width: 100%; height: auto; aspect-ratio: 1; grid-column: 1 / -1; }
         }
     </style>
 
