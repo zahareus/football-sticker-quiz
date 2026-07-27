@@ -1482,6 +1482,15 @@
                          loading="lazy"
                          decoding="async">
                 </a>
+                <a href="/stickers/2631.html" class="sticker-preview-link">
+                    <img src="/img/club_701/1759593510302_IMG_7223_thumb.webp"
+                         alt="Nantes football sticker #2631 found in this city"
+                         data-sticker-id="2631"
+                         class="sticker-preview-image"
+                         width="200" height="200"
+                         loading="lazy"
+                         decoding="async">
+                </a>
                 <a href="/stickers/2728.html" class="sticker-preview-link">
                     <img src="/img/club_1102/1763673165267_IMG_7423_thumb.webp"
                          alt="Arminia Bielefeld football sticker #2728 found in this city"
@@ -1504,15 +1513,6 @@
                     <img src="/img/club_900/1763673682115_IMG_7413_thumb.webp"
                          alt="Bayer 04 Leverkusen football sticker #2738 found in this city"
                          data-sticker-id="2738"
-                         class="sticker-preview-image"
-                         width="200" height="200"
-                         loading="lazy"
-                         decoding="async">
-                </a>
-                <a href="/stickers/2631.html" class="sticker-preview-link">
-                    <img src="/img/club_701/1759593510302_IMG_7223_thumb.webp"
-                         alt="Nantes football sticker #2631 found in this city"
-                         data-sticker-id="2631"
                          class="sticker-preview-image"
                          width="200" height="200"
                          loading="lazy"
@@ -2783,6 +2783,13 @@
                 })();
 
                 (function() {
+                    const marker = L.marker([52.3141527777778, 4.94010555555556]).addTo(cityMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>Nantes</strong><a href="/stickers/2631.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
                     const marker = L.marker([52.3719, 4.89585]).addTo(cityMap);
                     marker.bindPopup('<div class="nearby-sticker-popup"><strong>Arminia Bielefeld</strong><a href="/stickers/2728.html" class="map-popup-link">View</a></div>');
                     marker.on('mouseover', function() { this.openPopup(); });
@@ -2799,13 +2806,6 @@
                 (function() {
                     const marker = L.marker([52.3707861, 4.8890861]).addTo(cityMap);
                     marker.bindPopup('<div class="nearby-sticker-popup"><strong>Bayer 04 Leverkusen</strong><a href="/stickers/2738.html" class="map-popup-link">View</a></div>');
-                    marker.on('mouseover', function() { this.openPopup(); });
-                    marker.on('click', function() { this.openPopup(); });
-                })();
-
-                (function() {
-                    const marker = L.marker([52.3141527777778, 4.94010555555556]).addTo(cityMap);
-                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>Nantes</strong><a href="/stickers/2631.html" class="map-popup-link">View</a></div>');
                     marker.on('mouseover', function() { this.openPopup(); });
                     marker.on('click', function() { this.openPopup(); });
                 })();
@@ -3111,10 +3111,10 @@
                     [52.3140611111111, 4.94003055555556],
                     [52.3141444444444, 4.94005833333333],
                     [52.3719472, 4.8959639],
+                    [52.3141527777778, 4.94010555555556],
                     [52.3719, 4.89585],
                     [52.3143055555555, 4.94059722222222],
                     [52.3707861, 4.8890861],
-                    [52.3141527777778, 4.94010555555556],
                     [52.3134611, 4.9423917],
                     [52.3103444444444, 4.75566388888889],
                     [52.3131944444444, 4.94],
