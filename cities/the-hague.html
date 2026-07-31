@@ -303,6 +303,15 @@
                          loading="lazy"
                          decoding="async">
                 </a>
+                <a href="/stickers/2810.html" class="sticker-preview-link">
+                    <img src="/img/club_1090/1766183481028_IMG_7625_thumb.webp"
+                         alt="FC Den Bosch football sticker #2810 found in this city"
+                         data-sticker-id="2810"
+                         class="sticker-preview-image"
+                         width="200" height="200"
+                         loading="lazy"
+                         decoding="async">
+                </a>
                 <a href="/stickers/2799.html" class="sticker-preview-link">
                     <img src="/img/club_1102/1765281898840_IMG_7612_thumb.webp"
                          alt="Arminia Bielefeld football sticker #2799 found in this city"
@@ -316,15 +325,6 @@
                     <img src="/img/club_886/1766184056092_IMG_7626_thumb.webp"
                          alt="VfL Bochum football sticker #2817 found in this city"
                          data-sticker-id="2817"
-                         class="sticker-preview-image"
-                         width="200" height="200"
-                         loading="lazy"
-                         decoding="async">
-                </a>
-                <a href="/stickers/2810.html" class="sticker-preview-link">
-                    <img src="/img/club_1090/1766183481028_IMG_7625_thumb.webp"
-                         alt="FC Den Bosch football sticker #2810 found in this city"
-                         data-sticker-id="2810"
                          class="sticker-preview-image"
                          width="200" height="200"
                          loading="lazy"
@@ -840,6 +840,13 @@
                 })();
 
                 (function() {
+                    const marker = L.marker([52.1152806, 4.2830389]).addTo(cityMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>FC Den Bosch</strong><a href="/stickers/2810.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
                     const marker = L.marker([52.1114778, 4.2794639]).addTo(cityMap);
                     marker.bindPopup('<div class="nearby-sticker-popup"><strong>Arminia Bielefeld</strong><a href="/stickers/2799.html" class="map-popup-link">View</a></div>');
                     marker.on('mouseover', function() { this.openPopup(); });
@@ -849,13 +856,6 @@
                 (function() {
                     const marker = L.marker([52.1152917, 4.2830222]).addTo(cityMap);
                     marker.bindPopup('<div class="nearby-sticker-popup"><strong>VfL Bochum</strong><a href="/stickers/2817.html" class="map-popup-link">View</a></div>');
-                    marker.on('mouseover', function() { this.openPopup(); });
-                    marker.on('click', function() { this.openPopup(); });
-                })();
-
-                (function() {
-                    const marker = L.marker([52.1152806, 4.2830389]).addTo(cityMap);
-                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>FC Den Bosch</strong><a href="/stickers/2810.html" class="map-popup-link">View</a></div>');
                     marker.on('mouseover', function() { this.openPopup(); });
                     marker.on('click', function() { this.openPopup(); });
                 })();
@@ -1156,9 +1156,9 @@
                     [52.1149444, 4.28275],
                     [52.115325, 4.283025],
                     [52.1160361, 4.2822972],
+                    [52.1152806, 4.2830389],
                     [52.1114778, 4.2794639],
                     [52.1152917, 4.2830222],
-                    [52.1152806, 4.2830389],
                     [52.1117361, 4.2789167],
                     [52.11555, 4.2831444],
                     [52.1116472, 4.2789889],
