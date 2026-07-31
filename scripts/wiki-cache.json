@@ -6327,5 +6327,23 @@
     "capacity": "84,567",
     "league": "Argentine Primera División",
     "website": "https://www.cariverplate.com.ar/"
+  },
+  "1235": {
+    "wikiUrl": "https://en.wikipedia.org/wiki/Accrington_Stanley_F.C.",
+    "intro": "Accrington Stanley Football Club is a professional association football club, based in Accrington in Lancashire, England, that competes in the EFL League Two, the fourth level of the English football league system. Ever since its founding, its team have played at the Crown Ground; they traditionally play in red shirts, most often also with red shorts and socks.",
+    "founded": "1968",
+    "stadium": "Crown Ground",
+    "capacity": "5,057",
+    "league": "EFL League Two",
+    "website": "https://www.accringtonstanley.co.uk/"
+  },
+  "1236": {
+    "wikiUrl": "https://en.wikipedia.org/wiki/Bristol_Rovers_F.C.",
+    "intro": "Bristol Rovers Football Club is a professional association football club in Bristol, England. The team competes in EFL League Two, the fourth level of the English football league system.",
+    "founded": "1883",
+    "stadium": "Memorial Stadium",
+    "capacity": "12,100",
+    "league": "EFL League Two",
+    "website": "https://www.bristolrovers.co.uk/"
   }
 }
