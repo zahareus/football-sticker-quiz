@@ -6399,5 +6399,14 @@
     "capacity": "4,200",
     "league": "Ligue 2",
     "website": "http://www.usldunkerque.com"
+  },
+  "1243": {
+    "wikiUrl": "https://fr.wikipedia.org/wiki/Racing_Club_de_Calais",
+    "intro": "Calais Racing Union FC (Calais RUFC) was a French football club based in Calais, France.\nCalais RUFC was founded in 1974 after a merger of two local clubs and, as an amateur club, reached the 2000 Coupe de France Final which it lost to top-flight Nantes. The club played at the 12,342-seater Stade de l'Épopée.",
+    "founded": "1902",
+    "stadium": "Stade de l'Épopée",
+    "capacity": "12,432",
+    "league": "Championnat National 3",
+    "website": "http://www.crufc.fr"
   }
 }
