@@ -6345,5 +6345,14 @@
     "capacity": "12,100",
     "league": "EFL League Two",
     "website": "https://www.bristolrovers.co.uk/"
+  },
+  "1237": {
+    "wikiUrl": "https://en.wikipedia.org/wiki/FC_Dinamo_Minsk",
+    "intro": "FC Dinamo Minsk or FK Dynama Minsk (Belarusian: ФК Дынама Мінск; Russian: ФК Динамо Минск) is a Belarusian professional football club based in the capital city of Minsk.\nIt was founded in 1927 as part of the Soviet Dinamo Sports Society, and was the only club from the Byelorussian SSR that competed in the Soviet Top League, playing 39 of the 54 seasons, and winning the title in 1982. Since the independence of Belarus, the club participates in the Belarusian Premier League, having won 9 league titles and 3 Belarusian Cups.\nDinamo plays its home games in the 22,246-capacity Dinamo Stadium in Minsk.",
+    "founded": "1927",
+    "stadium": "Dinamo Stadium",
+    "capacity": "22,000",
+    "league": "Belarusian Premier League",
+    "website": "https://dinamo-minsk.by/"
   }
 }
