@@ -6364,6 +6364,33 @@
     "league": null,
     "website": "http://www.unionzizkov.cz"
   },
+  "1239": {
+    "wikiUrl": "https://de.wikipedia.org/wiki/Sportfreunde_Siegen",
+    "intro": "Sportfreunde Siegen von 1899 e. V.",
+    "founded": "1899",
+    "stadium": "Leimbachstadion",
+    "capacity": "19,400",
+    "league": "Regionalliga West",
+    "website": "http://www.sportfreunde-siegen.info/"
+  },
+  "1240": {
+    "wikiUrl": "https://en.wikipedia.org/wiki/Portsmouth_F.C.",
+    "intro": "Portsmouth Football Club is a professional association football club based in Portsmouth, Hampshire, England. The team is currently competing in the EFL Championship, the second level of the English football league system.",
+    "founded": "1898",
+    "stadium": "Fratton Park",
+    "capacity": "21,100",
+    "league": "EFL Championship",
+    "website": "https://www.portsmouthfc.co.uk/"
+  },
+  "1241": {
+    "wikiUrl": "https://en.wikipedia.org/wiki/Stade_Rennais_F.C.",
+    "intro": "Stade Rennais Football Club (French: Stade rennais Football Club, SRFC; French pronunciation: [stad ʁɛnɛ]), commonly referred to as Stade Rennais (Breton: Stad Roazhon) or simply Rennes, is a French professional football club based in Rennes, Brittany. It competes in Ligue 1, the top tier of French football, and plays its home matches at the Roazhon Park.",
+    "founded": "1901",
+    "stadium": "Roazhon Park",
+    "capacity": "31,127",
+    "league": "Ligue 1",
+    "website": "https://www.staderennais.com"
+  },
   "1242": {
     "wikiUrl": "https://fr.wikipedia.org/wiki/Union_sportive_du_littoral_de_Dunkerque",
     "intro": "Union Sportive du Littoral de Dunkerque (French pronunciation: [ynjɔ̃ spɔʁtiv dy litɔʁal də dœ̃kɛʁk]) is a football club based in Dunkirk, France. It competes in Ligue 2, having achieved promotion from the Championnat National in the 2022–23 season.",
