@@ -8,16 +8,16 @@ treated as "isolated" — they're the crawl-budget orphans Google rarely
 re-visits.
 
 ## Scope
-- HTML files walked: 4772
-- Unique link targets: 4768
-- Sticker pages: 3917
-- Club pages: 737
+- HTML files walked: 4923
+- Unique link targets: 4920
+- Sticker pages: 4050
+- Club pages: 751
 - Country pages: 59
-- City pages: 36
+- City pages: 40
 
 ## Headline
-- **Isolated clubs:** 0 / 737 (0.0%)
-- **Isolated stickers:** 2 / 3917 (0.1%)
+- **Isolated clubs:** 0 / 751 (0.0%)
+- **Isolated stickers:** 0 / 4050 (0.0%)
 - Threshold: fewer than 2 incoming links from home/catalogue/country/club pages
 
 ## High-authority outgoing-link counts
@@ -25,7 +25,7 @@ Most-orphan pages root cause is that few HA pages link to them. Below — outbou
 
 | Page | Internal links |
 |---|---|
-| catalogue.html | 902 |
+| catalogue.html | 916 |
 | clubs/1000.html | 21 |
 | clubs/1001.html | 22 |
 | clubs/1002.html | 26 |
@@ -46,12 +46,11 @@ Most-orphan pages root cause is that few HA pages link to them. Below — outbou
 
 | Page | HA in | Total in | HA samples |
 |---|---|---|---|
-| stickers/3949.html | 0 | 16 | (none) |
-| stickers/3814.html | 0 | 151 | (none) |
+
 
 ## Recommendations
 
-1. **catalogue.html** — currently has 902 internal links. The catalogue page must link to every club + every country. Today it links to nothing — that's the single biggest structural orphan-generator.
+1. **catalogue.html** — currently has 916 internal links. The catalogue page must link to every club + every country. Today it links to nothing — that's the single biggest structural orphan-generator.
 2. **index.html** — currently has 100 internal links. Add a "Featured clubs" rotating block (random 10-20 with weekly rotation) so different clubs accumulate link juice over time.
 3. **clubs/X.html template** — add "More clubs from {country}" section (5-10 random clubs from the same country) to crosslink intra-country.
 4. **Bump sitemap lastmod** for the top-30 isolated pages so Google re-crawls them after the new links are live.
