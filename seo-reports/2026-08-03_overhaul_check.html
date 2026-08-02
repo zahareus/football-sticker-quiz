@@ -1,0 +1,404 @@
+<title>StickerHunt SEO — чек 03.08.2026</title>
+<style>
+  :root {
+    --paper: #FBFAF6;
+    --ink: #16201B;
+    --ink-soft: #5C6862;
+    --rule: #DFDCD1;
+    --card: #FFFFFF;
+    --foil: #B08A1E;
+    --good: #2F7D5A;
+    --warn: #A8701F;
+    --bad: #A93A34;
+    --shadow: 0 1px 2px rgba(22,32,27,.06), 0 8px 24px -16px rgba(22,32,27,.25);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --paper: #121714; --ink: #E8E9E4; --ink-soft: #98A29B; --rule: #2A322D;
+      --card: #191F1B; --foil: #D9B44A; --good: #6FBF95; --warn: #D69A47; --bad: #E0736B;
+      --shadow: 0 1px 2px rgba(0,0,0,.4), 0 8px 24px -16px rgba(0,0,0,.8);
+    }
+  }
+  :root[data-theme="light"] {
+    --paper: #FBFAF6; --ink: #16201B; --ink-soft: #5C6862; --rule: #DFDCD1;
+    --card: #FFFFFF; --foil: #B08A1E; --good: #2F7D5A; --warn: #A8701F; --bad: #A93A34;
+    --shadow: 0 1px 2px rgba(22,32,27,.06), 0 8px 24px -16px rgba(22,32,27,.25);
+  }
+  :root[data-theme="dark"] {
+    --paper: #121714; --ink: #E8E9E4; --ink-soft: #98A29B; --rule: #2A322D;
+    --card: #191F1B; --foil: #D9B44A; --good: #6FBF95; --warn: #D69A47; --bad: #E0736B;
+    --shadow: 0 1px 2px rgba(0,0,0,.4), 0 8px 24px -16px rgba(0,0,0,.8);
+  }
+
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font: 400 17px/1.65 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap {
+    max-width: 44rem; margin: 0 auto; padding: 4rem 1.5rem 6rem;
+    display: flex; flex-direction: column; gap: 2.75rem;
+  }
+  h1, h2, h3 { font-family: Georgia, "Times New Roman", serif; font-weight: 600; text-wrap: balance; }
+  h1 { font-size: 2.4rem; line-height: 1.15; letter-spacing: -.015em; margin: 0; }
+  h2 { font-size: 1.5rem; line-height: 1.25; margin: 0 0 .25rem; }
+  h3 { font-size: 1.1rem; margin: 0 0 .25rem; }
+  p { margin: 0; }
+  section { display: flex; flex-direction: column; gap: .9rem; }
+
+  .eyebrow {
+    font-size: .75rem; text-transform: uppercase; letter-spacing: .14em;
+    color: var(--foil); font-weight: 600;
+  }
+  .lede { font-size: 1.15rem; color: var(--ink-soft); }
+  .meta {
+    font-size: .875rem; color: var(--ink-soft); font-variant-numeric: tabular-nums;
+    padding-top: 1rem; border-top: 1px solid var(--rule);
+    display: flex; flex-wrap: wrap; gap: .35rem 1.25rem;
+  }
+
+  .headline-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(9.5rem, 1fr)); gap: .75rem; }
+  .stat {
+    background: var(--card); border: 1px solid var(--rule); border-radius: 3px;
+    padding: .9rem 1rem; box-shadow: var(--shadow);
+    display: flex; flex-direction: column; gap: .15rem;
+  }
+  .stat .label { font-size: .75rem; text-transform: uppercase; letter-spacing: .08em; color: var(--ink-soft); }
+  .stat .value {
+    font: 600 1.75rem/1.1 ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-variant-numeric: tabular-nums;
+  }
+  .stat .delta { font-size: .8rem; font-variant-numeric: tabular-nums; }
+  .up { color: var(--good); }
+  .down { color: var(--bad); }
+  .flat { color: var(--ink-soft); }
+
+  .scroll { overflow-x: auto; }
+  table { border-collapse: collapse; width: 100%; font-size: .9rem; }
+  th, td {
+    text-align: right; padding: .55rem .7rem; border-bottom: 1px solid var(--rule);
+    font-variant-numeric: tabular-nums; white-space: nowrap;
+  }
+  th:first-child, td:first-child { text-align: left; white-space: normal; min-width: 11rem; }
+  thead th {
+    font-size: .72rem; text-transform: uppercase; letter-spacing: .08em;
+    color: var(--ink-soft); font-weight: 600; border-bottom: 1.5px solid var(--ink);
+  }
+  tbody tr:last-child td { border-bottom: none; }
+  td.now { font-weight: 600; }
+
+  .plain {
+    background: var(--card); border: 1px solid var(--rule);
+    border-left: 3px solid var(--foil); border-radius: 3px;
+    padding: 1rem 1.15rem; display: flex; flex-direction: column; gap: .5rem;
+  }
+  .plain.alarm { border-left-color: var(--bad); }
+  .plain.alarm .tag { color: var(--bad); }
+  .plain .tag { font-size: .72rem; text-transform: uppercase; letter-spacing: .12em; color: var(--foil); font-weight: 600; }
+  .plain p { font-size: .95rem; }
+
+  .chart { background: var(--card); border: 1px solid var(--rule); border-radius: 3px; padding: 1.15rem 1.15rem .9rem; box-shadow: var(--shadow); }
+  .chart svg { display: block; width: 100%; height: auto; }
+  .chart .cap { font-size: .8rem; color: var(--ink-soft); margin-top: .6rem; display: flex; justify-content: space-between; gap: 1rem; }
+
+  ul { margin: 0; padding-left: 1.15rem; display: flex; flex-direction: column; gap: .4rem; }
+  li::marker { color: var(--foil); }
+  code {
+    font: 400 .875em/1 ui-monospace, SFMono-Regular, Menlo, monospace;
+    background: color-mix(in srgb, var(--foil) 12%, transparent);
+    padding: .12em .35em; border-radius: 2px;
+  }
+  strong { font-weight: 600; }
+  hr { border: none; border-top: 1px solid var(--rule); margin: 0; }
+</style>
+
+<div class="wrap">
+
+  <header>
+    <p class="eyebrow">Двотижневий моніторинг · цикл 13</p>
+    <h1>Сайт виріс на 233 сторінки. Показів стало менше.</h1>
+    <p class="lede" style="margin-top:.75rem">
+      За два тижні жодної SEO-роботи не робилось — тільки звичайне наповнення каталогу.
+      Вийшов чистий природний експеримент, і він дав негативну відповідь на останню
+      втішну гіпотезу: обсяг контенту сам по собі трафік не витягує.
+    </p>
+    <div class="meta">
+      <span>3 серпня 2026</span>
+      <span>Вікно даних: 04.07 – 31.07 (28 днів)</span>
+      <span>Попередній цикл: 20.07</span>
+    </div>
+  </header>
+
+  <section>
+    <div class="plain">
+      <span class="tag">Якщо ви тут уперше</span>
+      <p>
+        StickerHunt — база футбольних наліпок, майже 4000 сторінок. Живе з пошуку: людина
+        гуглить клуб чи наліпку й потрапляє на сторінку сайту. Проблема, яку лікуємо з
+        квітня: Google про сайт знає, але майже не показує його людям. Причина знайдена
+        ще в червні — <strong>нуль зовнішніх посилань</strong>. Ніхто в інтернеті на сайт
+        не лінкує, тож Google вважає його неважливим і виділяє мізерний бюджет на обхід:
+        41 запит на добу проти ~1000 у ботів OpenAI.
+      </p>
+      <p>
+        Технічну частину плану закрили 7–8 липня. Лишився єдиний невиконаний блок —
+        лінкбілдинг і дистрибуція по спільнотах. Цей звіт нічого не виправляє, він лише
+        показує, куди рухається графік. Замір тринадцятий.
+      </p>
+    </div>
+  </section>
+
+  <section>
+    <h2>Що показують цифри</h2>
+    <div class="headline-grid">
+      <div class="stat">
+        <span class="label">Показів на день</span>
+        <span class="value">19</span>
+        <span class="delta down">було ~24 · сповзання</span>
+      </div>
+      <div class="stat">
+        <span class="label">Позиція</span>
+        <span class="value">28.4</span>
+        <span class="delta down">було 27.3 · третя сторінка</span>
+      </div>
+      <div class="stat">
+        <span class="label">Кліки за 28 днів</span>
+        <span class="value">8</span>
+        <span class="delta flat">було 5 · шум</span>
+      </div>
+      <div class="stat">
+        <span class="label">Покази в Картинках</span>
+        <span class="value">7</span>
+        <span class="delta down">на 2870 поданих зображень</span>
+      </div>
+    </div>
+
+    <div class="chart">
+      <svg viewBox="0 0 640 150" role="img" aria-label="Денні покази з 4 по 31 липня: до 20 липня в середньому 24 на день, після — 19.">
+        <line x1="0" y1="81" x2="379" y2="81" stroke="var(--good)" stroke-width="1.5" stroke-dasharray="4 4" opacity=".8"></line>
+        <line x1="379" y1="91" x2="640" y2="91" stroke="var(--bad)" stroke-width="1.5" stroke-dasharray="4 4" opacity=".8"></line>
+        <line x1="379" y1="14" x2="379" y2="136" stroke="var(--rule)" stroke-width="1"></line>
+        <polyline
+          points="0,85 24,89 47,83 71,91 95,53 119,101 142,73 166,34 190,44 213,99 237,20 261,81 284,114 308,97 332,110 356,112 379,83 403,99 427,75 450,77 474,69 498,104 521,106 545,85 569,91 593,104 616,101 640,85"
+          fill="none" stroke="var(--ink)" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" opacity=".85"></polyline>
+        <text x="6" y="75" font-size="11" fill="var(--good)" font-family="ui-monospace, Menlo, monospace">~24/день</text>
+        <text x="386" y="106" font-size="11" fill="var(--bad)" font-family="ui-monospace, Menlo, monospace">~19/день</text>
+      </svg>
+      <div class="cap"><span>4 липня</span><span>↑ попередній звіт, 20.07</span><span>31 липня</span></div>
+    </div>
+
+    <div class="plain alarm">
+      <span class="tag">Обережно з цифрою «625»</span>
+      <p>
+        Сума показів за 28 днів виросла з 465 до 625, і це виглядає як зростання. Ним воно
+        не є. Вікно ковзне, і воно досі «доїдає» одноразову сходинку 3 липня: сума
+        витісняє старі слабкі дні новими, хоча нічого нового не відбувається. Той самий
+        ефект ми вже розбирали минулого разу.
+      </p>
+      <p>
+        Дивитись треба на денний рівень — і він <strong>упав з 24 до 19 показів на
+        день</strong>. Не обвал, але й не плато: повільне сповзання. І це на сайті, який
+        за той самий час став на 233 сторінки більшим.
+      </p>
+    </div>
+  </section>
+
+  <section>
+    <h2>Що робили у вікні</h2>
+    <p>
+      SEO-робіт — жодної. Ні лінкбілдингу, ні технічних правок під пошук. Натомість
+      каталог наповнювався звичайним темпом: 96 комітів, з них 90 — автоматична
+      генерація сторінок.
+    </p>
+    <div class="scroll">
+      <table>
+        <thead>
+          <tr><th>Що додалось</th><th>20.07</th><th>03.08</th><th>Δ</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Сторінки стікерів</td><td>3684</td><td class="now">3917</td><td class="now up">+233</td></tr>
+          <tr><td>Сторінки клубів</td><td>722</td><td class="now">737</td><td class="up">+15</td></tr>
+          <tr><td>Країни</td><td>58</td><td class="now">59</td><td class="up">+1 (Косово)</td></tr>
+          <tr><td>Міста</td><td>35</td><td class="now">36</td><td class="up">+1</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>
+      Сайт виріс на 6% за два тижні. Якби наповнення саме по собі витягувало трафік,
+      покази мали б піти вгору. Вони пішли вниз — і саме це робить цикл цінним.
+    </p>
+  </section>
+
+  <section>
+    <h2>Порівняння з трьома попередніми циклами</h2>
+    <div class="scroll">
+      <table>
+        <thead>
+          <tr><th>Метрика (28 днів)</th><th>23.06</th><th>07.07</th><th>20.07</th><th>03.08</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Покази на день</td><td>~9</td><td>~10</td><td>~24</td><td class="now down">~19</td></tr>
+          <tr><td>Покази, сума</td><td>247</td><td>281</td><td>465</td><td class="now">625</td></tr>
+          <tr><td>Позиція</td><td>29.2</td><td>32.8</td><td>27.3</td><td class="now down">28.4</td></tr>
+          <tr><td>Кліки</td><td>8</td><td>3</td><td>5</td><td class="now">8</td></tr>
+          <tr><td>CTR</td><td>3.24%</td><td>1.07%</td><td>1.08%</td><td class="now">1.28%</td></tr>
+          <tr><td>Покази в Картинках</td><td>18</td><td>14</td><td>11</td><td class="now down">7</td></tr>
+          <tr><td>Зображень подано</td><td>0</td><td>0</td><td>2580</td><td class="now up">2870</td></tr>
+          <tr><td>CLS (лабораторний)</td><td>0.000</td><td>0.000</td><td>0.000</td><td class="now up">0.000</td></tr>
+          <tr><td>Стікери-сироти</td><td>0</td><td>0</td><td>0</td><td class="now down">2</td></tr>
+          <tr><td>Каталог — днів без обходу</td><td>—</td><td>—</td><td>40</td><td class="now down">54</td></tr>
+          <tr><td>Стікер 3201 — днів без обходу</td><td>43</td><td>57</td><td>70</td><td class="now down">84</td></tr>
+          <tr><td>Клуб 1095 — днів без обходу</td><td>79</td><td>93</td><td>106</td><td class="now down">120</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section>
+    <h2>Три тести — три негативні відповіді</h2>
+
+    <h3>1. Картинки: подали майже 3000, показів сім</h3>
+    <p>
+      Це був головний запланований тест циклу. 7 липня ми показали Google 2580 зображень
+      через розмітку в картах сайту, зараз їх уже 2870. Google усе завантажив, повторно,
+      без єдиної помилки — і не показує. Сім показів за 28 днів, останні чотири дні —
+      рівний нуль. Це <em>менше</em>, ніж було до подачі.
+    </p>
+    <p>
+      Проблема не в тому, що Google не знає про наші картинки. Проблема в тому, що йому
+      нема причини ставити їх у видачу поперед сайтів з авторитетом.
+      <strong>Image-SEO закриваємо як напрям росту.</strong>
+    </p>
+
+    <h3>2. Тест noindex: провести неможливо</h3>
+    <p>
+      7 липня ми сховали від пошуку 1104 слабкі сторінки. Перевірка планувалась на 4 серпня.
+      Але жодну з трьох контрольних сторінок Google не відвідував після 7 липня — останні
+      обходи датовані березнем, березнем і червнем. Тег стоїть у коді, Google його ще
+      не бачив. Тест відкладається не на дні, а на місяці — і прив'язувати його
+      до календаря немає сенсу.
+    </p>
+
+    <h3>3. Наповнення каталогу: 233 сторінки, мінус 5 показів на день</h3>
+    <p>
+      Найцінніша відповідь циклу, бо вона закриває гіпотезу «просто наповнюймо каталог,
+      воно саме розкрутиться». Не розкрутиться.
+    </p>
+  </section>
+
+  <section>
+    <h2>Нова деталь: Google ходить, але тільки по верхівці</h2>
+    <div class="scroll">
+      <table>
+        <thead>
+          <tr><th>Сторінка</th><th>Останній обхід</th><th>Днів тому</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Головна</td><td>11.07</td><td>23</td></tr>
+          <tr><td><code>clubs/617</code> — флагман</td><td>27.07</td><td class="up">7</td></tr>
+          <tr><td><code>catalogue.html</code></td><td>10.06</td><td class="down">54</td></tr>
+          <tr><td><code>stickers/3201</code></td><td>11.05</td><td class="down">84</td></tr>
+          <tr><td><code>clubs/1095</code></td><td>05.04</td><td class="down">120</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>
+      Усі п'ять сторінок технічно бездоганні: індексація дозволена, канонікал свій,
+      помилок нема. Питання не «чи можна індексувати», а «чи Google приходить».
+    </p>
+    <div class="plain">
+      <span class="tag">Уточнений діагноз</span>
+      <p>
+        Флагманська клубна сторінка перекраулена тиждень тому — вперше за багато циклів
+        серед діагностичних URL є свіжий обхід. Разом з рештою рядків це складається
+        в чітку картину: <strong>Google не «не ходить на сайт»</strong>. Він ходить, але
+        його 41 запит на добу з'їдають головна і кілька верхніх клубних сторінок. Углиб —
+        у 3900 сторінок стікерів і хвіст клубів — не спускається взагалі.
+      </p>
+      <p>
+        Раніше ми писали «бюджет обходу не купується чесною датою оновлення». Точніше
+        буде так: бюджету вистачає рівно на верхівку, і внутрішнє перелінкування тут ні
+        до чого — воно перерозподіляє, але не збільшує ліміт. Ліміт росте від авторитету
+        ззовні.
+      </p>
+    </div>
+    <p>
+      Окремо тривожить <code>catalogue.html</code> — розподільник із 902 вихідними
+      лінками, який не бачив бота 54 дні. Він мав би бути другим за пріоритетом після
+      головної, а фактично випав з обходу.
+    </p>
+  </section>
+
+  <section>
+    <h2>Дірка в конвеєрі</h2>
+    <p>
+      Уперше за моніторинг зʼявились сторінки-сироти — <code>stickers/3814</code>
+      (FC Nordsjælland) і <code>stickers/3949</code> (Bologna FC 1909). На них не веде
+      жодного посилання з авторитетних сторінок.
+    </p>
+    <p>
+      Причина знайдена: клубні сторінки <code>clubs/1216</code> і <code>clubs/672</code>
+      не перегенерувалися після додавання цих стікерів — обидві востаннє змінювались
+      20 липня. Автоматична регенерація клубів пропустила два випадки приблизно
+      з 250.
+    </p>
+    <p>
+      Дві сторінки з 3917 — не катастрофа. Але збій мовчазний: нічого не падає, сторінка
+      просто лишається сиротою. Варто дофіксити окремо, поза цим циклом.
+    </p>
+  </section>
+
+  <section>
+    <h2>Що працює справно</h2>
+    <ul>
+      <li><strong>Карти сайту</strong> — нуль помилок скрізь, дочірні файли Google тягне регулярно (25–31 липня), подано 2870 зображень.</li>
+      <li><strong>CLS = 0.000</strong> на всіх трьох перевірених сторінках — головний захищений показник верстки тримається.</li>
+      <li><strong>Ізольованих клубів 0 з 737</strong> — перелінкування клубного рівня ціле.</li>
+      <li><strong>Швидкість</strong> — реальних польових даних Google досі не зібрав, трафіку замало. Лабораторні цифри погані (LCP близько 6 с), але це емуляція повільного мобільного на холодному кеші, у чергу робіт зараз не ставимо: поки нема кого возити на сайт, оптимізувати швидкість — не той порядок дій.</li>
+      <li>Один застряглий дрібʼязок: індексний файл <code>sitemap.xml</code> висить у статусі «очікує» вже 27 днів. Нічого не ламає, дочірні файли подані окремо. Кандидат на передподачу — дешево і без ризику.</li>
+    </ul>
+  </section>
+
+  <hr>
+
+  <section>
+    <h2>Висновок</h2>
+    <p>
+      Три незалежні тести цього циклу дали ту саму відповідь з трьох різних боків.
+      Майже 3000 зображень подано — сім показів. 233 нові сторінки — мінус п'ять показів
+      на день. Тег noindex стоїть три тижні — Google по нього не прийшов.
+    </p>
+    <p>
+      <strong>Усе, що можна було зробити на своєму боці, зроблено, і воно не працює без
+      авторитету ззовні.</strong> Технічний запас вичерпано — це вже третій цикл поспіль,
+      який вимірює те саме плато. Четвертий покаже те саме, якщо у вікні знову нічого
+      не публікувати в спільнотах.
+    </p>
+    <div class="plain alarm">
+      <span class="tag">Що з цього випливає</span>
+      <ul>
+        <li><strong>Лінкбілдинг і дистрибуція — єдина відкрита дія.</strong> Потрібен Віктор як публікатор: Claude готує тексти й аналіз спільнот, але постити має людина.</li>
+        <li><strong>Image-SEO закриваємо.</strong> Тест проведено чисто, результат нульовий.</li>
+        <li><strong>Тест noindex — без нової дати.</strong> Перевіряти принагідно, у складі звичайного циклу.</li>
+        <li><strong>Дрібне паралельно:</strong> передподати <code>sitemap.xml</code>; полагодити пропуск регенерації клубних сторінок.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section>
+    <h2>Що дивитись 17 серпня</h2>
+    <ul>
+      <li><strong>Зовнішні посилання &gt; 0</strong> — головний показник. Досі нуль.</li>
+      <li>Денні покази — чи зупинилось сповзання 24 → 19, чи триває.</li>
+      <li><code>catalogue.html</code>: 54 дні без обходу й росте. Перевалить за 70 — розподільник можна вважати остаточно випалим.</li>
+      <li>Чи лишається флагманська клубна сторінка свіжою — індикатор, що бюджет верхівки живий.</li>
+      <li>Стікери-сироти: має повернутись до нуля після фіксу регенерації.</li>
+    </ul>
+    <p class="meta">
+      <span>Сирі дані: <code>seo-reports/2026-08-03_overhaul_check.md</code></span>
+      <span>Історія: 02.04 → 13.04 → 29.04 → 13.05 → 27.05 → 10.06 → 23.06 → 07.07 → 20.07 → 03.08</span>
+    </p>
+  </section>
+
+</div>
