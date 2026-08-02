@@ -9,7 +9,7 @@ re-visits.
 
 ## Scope
 - HTML files walked: 4772
-- Unique link targets: 4768
+- Unique link targets: 4769
 - Sticker pages: 3917
 - Club pages: 737
 - Country pages: 59
@@ -17,7 +17,7 @@ re-visits.
 
 ## Headline
 - **Isolated clubs:** 0 / 737 (0.0%)
-- **Isolated stickers:** 2 / 3917 (0.1%)
+- **Isolated stickers:** 0 / 3917 (0.0%)
 - Threshold: fewer than 2 incoming links from home/catalogue/country/club pages
 
 ## High-authority outgoing-link counts
@@ -46,8 +46,7 @@ Most-orphan pages root cause is that few HA pages link to them. Below — outbou
 
 | Page | HA in | Total in | HA samples |
 |---|---|---|---|
-| stickers/3949.html | 0 | 16 | (none) |
-| stickers/3814.html | 0 | 151 | (none) |
+
 
 ## Recommendations
 
