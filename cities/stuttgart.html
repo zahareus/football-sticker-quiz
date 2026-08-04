@@ -357,6 +357,24 @@
                          loading="lazy"
                          decoding="async">
                 </a>
+                <a href="/stickers/2445.html" class="sticker-preview-link">
+                    <img src="/img/club_852%2F1755812675293_IMG_6169_thumb.webp"
+                         alt="1 FC Heidenheim football sticker #2445 found in this city"
+                         data-sticker-id="2445"
+                         class="sticker-preview-image"
+                         width="200" height="200"
+                         loading="lazy"
+                         decoding="async">
+                </a>
+                <a href="/stickers/2430.html" class="sticker-preview-link">
+                    <img src="/img/club_1072%2F1755811729694_IMG_6180_thumb.webp"
+                         alt="󠁧󠁢󠁳󠁣󠁴󠁿 Aberdeen F.C. football sticker #2430 found in this city"
+                         data-sticker-id="2430"
+                         class="sticker-preview-image"
+                         width="200" height="200"
+                         loading="lazy"
+                         decoding="async">
+                </a>
                 <a href="/stickers/2372.html" class="sticker-preview-link">
                     <img src="/img/club_1061%2F1751115504847_IMG_6080_thumb.webp"
                          alt="SSV Reutlingen 05 football sticker #2372 found in this city"
@@ -375,19 +393,19 @@
                          loading="lazy"
                          decoding="async">
                 </a>
-                <a href="/stickers/2364.html" class="sticker-preview-link">
-                    <img src="/img/club_700%2F1751114401685_IMG_6067_thumb.webp"
-                         alt="FC Sochaux-Montbéliard football sticker #2364 found in this city"
-                         data-sticker-id="2364"
+                <a href="/stickers/2369.html" class="sticker-preview-link">
+                    <img src="/img/club_949%2F1751114946649_IMG_6066_thumb.webp"
+                         alt="FC Schalke 04 football sticker #2369 found in this city"
+                         data-sticker-id="2369"
                          class="sticker-preview-image"
                          width="200" height="200"
                          loading="lazy"
                          decoding="async">
                 </a>
-                <a href="/stickers/2369.html" class="sticker-preview-link">
-                    <img src="/img/club_949%2F1751114946649_IMG_6066_thumb.webp"
-                         alt="FC Schalke 04 football sticker #2369 found in this city"
-                         data-sticker-id="2369"
+                <a href="/stickers/2364.html" class="sticker-preview-link">
+                    <img src="/img/club_700%2F1751114401685_IMG_6067_thumb.webp"
+                         alt="FC Sochaux-Montbéliard football sticker #2364 found in this city"
+                         data-sticker-id="2364"
                          class="sticker-preview-image"
                          width="200" height="200"
                          loading="lazy"
@@ -577,15 +595,6 @@
                     <img src="/img/club_1076%2F1755812598066_IMG_6183_thumb.webp"
                          alt="SV Zeltingen-Rachtig football sticker #2441 found in this city"
                          data-sticker-id="2441"
-                         class="sticker-preview-image"
-                         width="200" height="200"
-                         loading="lazy"
-                         decoding="async">
-                </a>
-                <a href="/stickers/2430.html" class="sticker-preview-link">
-                    <img src="/img/club_1072%2F1755811729694_IMG_6180_thumb.webp"
-                         alt="󠁧󠁢󠁳󠁣󠁴󠁿 Aberdeen F.C. football sticker #2430 found in this city"
-                         data-sticker-id="2430"
                          class="sticker-preview-image"
                          width="200" height="200"
                          loading="lazy"
@@ -888,15 +897,6 @@
                          loading="lazy"
                          decoding="async">
                 </a>
-                <a href="/stickers/2445.html" class="sticker-preview-link">
-                    <img src="/img/club_852%2F1755812675293_IMG_6169_thumb.webp"
-                         alt="1 FC Heidenheim football sticker #2445 found in this city"
-                         data-sticker-id="2445"
-                         class="sticker-preview-image"
-                         width="200" height="200"
-                         loading="lazy"
-                         decoding="async">
-                </a>
                 <a href="/stickers/2416.html" class="sticker-preview-link">
                     <img src="/img/club_948%2F1755810487816_IMG_6203_thumb.webp"
                          alt="Borussia Dortmund football sticker #2416 found in this city"
@@ -1017,7 +1017,7 @@
         
         document.addEventListener('DOMContentLoaded', function() {
             if (typeof L !== 'undefined' && document.getElementById('club-map')) {
-                const cityMap = L.map('club-map').setView([48.780622870370394, 9.189608302469136], 12);
+                const cityMap = L.map('club-map').setView([48.780622870370394, 9.189608302469138], 12);
                 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                     attribution: '&copy; OpenStreetMap contributors'
                 }).addTo(cityMap);
@@ -1170,6 +1170,20 @@
                 })();
 
                 (function() {
+                    const marker = L.marker([48.7793916666667, 9.18258888888889]).addTo(cityMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>1 FC Heidenheim</strong><a href="/stickers/2445.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([48.7807, 9.18329722222222]).addTo(cityMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>󠁧󠁢󠁳󠁣󠁴󠁿 Aberdeen F.C.</strong><a href="/stickers/2430.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
                     const marker = L.marker([48.7787472222222, 9.18011388888889]).addTo(cityMap);
                     marker.bindPopup('<div class="nearby-sticker-popup"><strong>SSV Reutlingen 05</strong><a href="/stickers/2372.html" class="map-popup-link">View</a></div>');
                     marker.on('mouseover', function() { this.openPopup(); });
@@ -1184,15 +1198,15 @@
                 })();
 
                 (function() {
-                    const marker = L.marker([48.7795861111111, 9.17933333333333]).addTo(cityMap);
-                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>FC Sochaux-Montbéliard</strong><a href="/stickers/2364.html" class="map-popup-link">View</a></div>');
+                    const marker = L.marker([48.7796527777778, 9.179375]).addTo(cityMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>FC Schalke 04</strong><a href="/stickers/2369.html" class="map-popup-link">View</a></div>');
                     marker.on('mouseover', function() { this.openPopup(); });
                     marker.on('click', function() { this.openPopup(); });
                 })();
 
                 (function() {
-                    const marker = L.marker([48.7796527777778, 9.179375]).addTo(cityMap);
-                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>FC Schalke 04</strong><a href="/stickers/2369.html" class="map-popup-link">View</a></div>');
+                    const marker = L.marker([48.7795861111111, 9.17933333333333]).addTo(cityMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>FC Sochaux-Montbéliard</strong><a href="/stickers/2364.html" class="map-popup-link">View</a></div>');
                     marker.on('mouseover', function() { this.openPopup(); });
                     marker.on('click', function() { this.openPopup(); });
                 })();
@@ -1340,13 +1354,6 @@
                 (function() {
                     const marker = L.marker([48.7809861111111, 9.18295833333333]).addTo(cityMap);
                     marker.bindPopup('<div class="nearby-sticker-popup"><strong>SV Zeltingen-Rachtig</strong><a href="/stickers/2441.html" class="map-popup-link">View</a></div>');
-                    marker.on('mouseover', function() { this.openPopup(); });
-                    marker.on('click', function() { this.openPopup(); });
-                })();
-
-                (function() {
-                    const marker = L.marker([48.7807, 9.18329722222222]).addTo(cityMap);
-                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>󠁧󠁢󠁳󠁣󠁴󠁿 Aberdeen F.C.</strong><a href="/stickers/2430.html" class="map-popup-link">View</a></div>');
                     marker.on('mouseover', function() { this.openPopup(); });
                     marker.on('click', function() { this.openPopup(); });
                 })();
@@ -1583,13 +1590,6 @@
                 })();
 
                 (function() {
-                    const marker = L.marker([48.7793916666667, 9.18258888888889]).addTo(cityMap);
-                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>1 FC Heidenheim</strong><a href="/stickers/2445.html" class="map-popup-link">View</a></div>');
-                    marker.on('mouseover', function() { this.openPopup(); });
-                    marker.on('click', function() { this.openPopup(); });
-                })();
-
-                (function() {
                     const marker = L.marker([48.7807166666667, 9.18068055555555]).addTo(cityMap);
                     marker.bindPopup('<div class="nearby-sticker-popup"><strong>Borussia Dortmund</strong><a href="/stickers/2416.html" class="map-popup-link">View</a></div>');
                     marker.on('mouseover', function() { this.openPopup(); });
@@ -1674,10 +1674,12 @@
                     [48.7946194444444, 9.22436666666667],
                     [48.7793194444444, 9.17919166666667],
                     [48.794675, 9.22460555555556],
+                    [48.7793916666667, 9.18258888888889],
+                    [48.7807, 9.18329722222222],
                     [48.7787472222222, 9.18011388888889],
                     [48.7831833333333, 9.18055555555556],
-                    [48.7795861111111, 9.17933333333333],
                     [48.7796527777778, 9.179375],
+                    [48.7795861111111, 9.17933333333333],
                     [48.7774888888889, 9.17975555555556],
                     [48.7763027777778, 9.17601944444444],
                     [48.7818138888889, 9.18029444444444],
@@ -1699,7 +1701,6 @@
                     [48.78065, 9.17976944444444],
                     [48.7807777777778, 9.17951944444444],
                     [48.7809861111111, 9.18295833333333],
-                    [48.7807, 9.18329722222222],
                     [48.7806277777778, 9.18337777777778],
                     [48.7801388888889, 9.18382777777778],
                     [48.7823916666667, 9.18168055555556],
@@ -1733,7 +1734,6 @@
                     [48.7957694444444, 9.22724166666667],
                     [48.7948611111111, 9.23055],
                     [48.7952694444444, 9.22301666666667],
-                    [48.7793916666667, 9.18258888888889],
                     [48.7807166666667, 9.18068055555555],
                     [48.7946472222222, 9.22444722222222],
                     [48.7789888888889, 9.17943611111111],
