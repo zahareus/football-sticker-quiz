@@ -861,15 +861,6 @@
                          loading="lazy"
                          decoding="async">
                 </a>
-                <a href="/stickers/3273.html" class="sticker-preview-link">
-                    <img src="/img/club_560/1775996714566_IMG_9150_thumb.webp"
-                         alt="Brondby IF football sticker #3273 found in this city"
-                         data-sticker-id="3273"
-                         class="sticker-preview-image"
-                         width="200" height="200"
-                         loading="lazy"
-                         decoding="async">
-                </a>
                 <a href="/stickers/3237.html" class="sticker-preview-link">
                     <img src="/img/club_947/1775993040637_IMG_9186_thumb.webp"
                          alt="VfB Stuttgart football sticker #3237 found in this city"
@@ -892,6 +883,15 @@
                     <img src="/img/club_1171/1775993182046_IMG_9182_thumb.webp"
                          alt="HNK Cibalia football sticker #3238 found in this city"
                          data-sticker-id="3238"
+                         class="sticker-preview-image"
+                         width="200" height="200"
+                         loading="lazy"
+                         decoding="async">
+                </a>
+                <a href="/stickers/3273.html" class="sticker-preview-link">
+                    <img src="/img/club_560/1775996714566_IMG_9150_thumb.webp"
+                         alt="Brondby IF football sticker #3273 found in this city"
+                         data-sticker-id="3273"
                          class="sticker-preview-image"
                          width="200" height="200"
                          loading="lazy"
@@ -2102,13 +2102,6 @@
                 })();
 
                 (function() {
-                    const marker = L.marker([50.0831861111111, 14.4226083333333]).addTo(cityMap);
-                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>Brondby IF</strong><a href="/stickers/3273.html" class="map-popup-link">View</a></div>');
-                    marker.on('mouseover', function() { this.openPopup(); });
-                    marker.on('click', function() { this.openPopup(); });
-                })();
-
-                (function() {
                     const marker = L.marker([50.0736972222222, 14.4139944444444]).addTo(cityMap);
                     marker.bindPopup('<div class="nearby-sticker-popup"><strong>VfB Stuttgart</strong><a href="/stickers/3237.html" class="map-popup-link">View</a></div>');
                     marker.on('mouseover', function() { this.openPopup(); });
@@ -2125,6 +2118,13 @@
                 (function() {
                     const marker = L.marker([50.0759416666667, 14.4142638888889]).addTo(cityMap);
                     marker.bindPopup('<div class="nearby-sticker-popup"><strong>HNK Cibalia</strong><a href="/stickers/3238.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([50.0831861111111, 14.4226083333333]).addTo(cityMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>Brondby IF</strong><a href="/stickers/3273.html" class="map-popup-link">View</a></div>');
                     marker.on('mouseover', function() { this.openPopup(); });
                     marker.on('click', function() { this.openPopup(); });
                 })();
@@ -2655,10 +2655,10 @@
                     [50.0917916666667, 14.4448972222222],
                     [50.0777555555556, 14.4195388888889],
                     [50.0878305555556, 14.3914888888889],
-                    [50.0831861111111, 14.4226083333333],
                     [50.0736972222222, 14.4139944444444],
                     [50.086375, 14.4268388888889],
                     [50.0759416666667, 14.4142638888889],
+                    [50.0831861111111, 14.4226083333333],
                     [50.0763083333333, 14.4143611111111],
                     [50.0826416666667, 14.4205527777778],
                     [50.0773666666667, 14.4143666666667],
