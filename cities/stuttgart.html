@@ -915,15 +915,6 @@
                          loading="lazy"
                          decoding="async">
                 </a>
-                <a href="/stickers/2362.html" class="sticker-preview-link">
-                    <img src="/img/club_947%2F1751114262225_IMG_6075_thumb.webp"
-                         alt="VfB Stuttgart football sticker #2362 found in this city"
-                         data-sticker-id="2362"
-                         class="sticker-preview-image"
-                         width="200" height="200"
-                         loading="lazy"
-                         decoding="async">
-                </a>
                 <a href="/stickers/2358.html" class="sticker-preview-link">
                     <img src="/img/club_947%2F1751114125671_IMG_6084_thumb.webp"
                          alt="VfB Stuttgart football sticker #2358 found in this city"
@@ -946,6 +937,15 @@
                     <img src="/img/club_1067%2F1755810063956_IMG_6238_thumb.webp"
                          alt="Diósgyőri VTK football sticker #2406 found in this city"
                          data-sticker-id="2406"
+                         class="sticker-preview-image"
+                         width="200" height="200"
+                         loading="lazy"
+                         decoding="async">
+                </a>
+                <a href="/stickers/2362.html" class="sticker-preview-link">
+                    <img src="/img/club_947%2F1751114262225_IMG_6075_thumb.webp"
+                         alt="VfB Stuttgart football sticker #2362 found in this city"
+                         data-sticker-id="2362"
                          class="sticker-preview-image"
                          width="200" height="200"
                          loading="lazy"
@@ -1017,7 +1017,7 @@
         
         document.addEventListener('DOMContentLoaded', function() {
             if (typeof L !== 'undefined' && document.getElementById('club-map')) {
-                const cityMap = L.map('club-map').setView([48.780622870370394, 9.189608302469138], 12);
+                const cityMap = L.map('club-map').setView([48.7806228703704, 9.189608302469138], 12);
                 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                     attribution: '&copy; OpenStreetMap contributors'
                 }).addTo(cityMap);
@@ -1604,13 +1604,6 @@
                 })();
 
                 (function() {
-                    const marker = L.marker([48.7789888888889, 9.17943611111111]).addTo(cityMap);
-                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>VfB Stuttgart</strong><a href="/stickers/2362.html" class="map-popup-link">View</a></div>');
-                    marker.on('mouseover', function() { this.openPopup(); });
-                    marker.on('click', function() { this.openPopup(); });
-                })();
-
-                (function() {
                     const marker = L.marker([48.7769, 9.17878611111111]).addTo(cityMap);
                     marker.bindPopup('<div class="nearby-sticker-popup"><strong>VfB Stuttgart</strong><a href="/stickers/2358.html" class="map-popup-link">View</a></div>');
                     marker.on('mouseover', function() { this.openPopup(); });
@@ -1627,6 +1620,13 @@
                 (function() {
                     const marker = L.marker([48.7952722222222, 9.22531111111111]).addTo(cityMap);
                     marker.bindPopup('<div class="nearby-sticker-popup"><strong>Diósgyőri VTK</strong><a href="/stickers/2406.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([48.7789888888889, 9.17943611111111]).addTo(cityMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>VfB Stuttgart</strong><a href="/stickers/2362.html" class="map-popup-link">View</a></div>');
                     marker.on('mouseover', function() { this.openPopup(); });
                     marker.on('click', function() { this.openPopup(); });
                 })();
@@ -1736,10 +1736,10 @@
                     [48.7952694444444, 9.22301666666667],
                     [48.7807166666667, 9.18068055555555],
                     [48.7946472222222, 9.22444722222222],
-                    [48.7789888888889, 9.17943611111111],
                     [48.7769, 9.17878611111111],
                     [48.7817111111111, 9.18073055555556],
                     [48.7952722222222, 9.22531111111111],
+                    [48.7789888888889, 9.17943611111111],
                     [48.7765083333333, 9.17565555555555],
                     [48.778725, 9.18345555555556],
                     [48.7763833333333, 9.17531944444444]
