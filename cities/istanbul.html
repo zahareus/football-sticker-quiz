@@ -870,15 +870,6 @@
                          loading="lazy"
                          decoding="async">
                 </a>
-                <a href="/stickers/3406.html" class="sticker-preview-link">
-                    <img src="/img/club_622/1777114072940_IMG_9606_thumb.webp"
-                         alt="Fenerbahçe SK football sticker #3406 found in this city"
-                         data-sticker-id="3406"
-                         class="sticker-preview-image"
-                         width="200" height="200"
-                         loading="lazy"
-                         decoding="async">
-                </a>
                 <a href="/stickers/3465.html" class="sticker-preview-link">
                     <img src="/img/club_622/1778339505408_IMG_9628_thumb.webp"
                          alt="Fenerbahçe SK football sticker #3465 found in this city"
@@ -1617,6 +1608,15 @@
                          loading="lazy"
                          decoding="async">
                 </a>
+                <a href="/stickers/3406.html" class="sticker-preview-link">
+                    <img src="/img/club_622/1777114072940_IMG_9606_thumb.webp"
+                         alt="Fenerbahçe SK football sticker #3406 found in this city"
+                         data-sticker-id="3406"
+                         class="sticker-preview-image"
+                         width="200" height="200"
+                         loading="lazy"
+                         decoding="async">
+                </a>
             </div>
             
             <div class="club-map-section">
@@ -1656,7 +1656,7 @@
         
         document.addEventListener('DOMContentLoaded', function() {
             if (typeof L !== 'undefined' && document.getElementById('club-map')) {
-                const cityMap = L.map('club-map').setView([41.02884668737058, 28.98630200138027], 12);
+                const cityMap = L.map('club-map').setView([41.02884668737059, 28.98630200138027], 12);
                 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                     attribution: '&copy; OpenStreetMap contributors'
                 }).addTo(cityMap);
@@ -2203,13 +2203,6 @@
                 (function() {
                     const marker = L.marker([41.0312222222222, 28.9787083333333]).addTo(cityMap);
                     marker.bindPopup('<div class="nearby-sticker-popup"><strong>Hamburger SV</strong><a href="/stickers/3407.html" class="map-popup-link">View</a></div>');
-                    marker.on('mouseover', function() { this.openPopup(); });
-                    marker.on('click', function() { this.openPopup(); });
-                })();
-
-                (function() {
-                    const marker = L.marker([40.9903361111111, 29.0237555555556]).addTo(cityMap);
-                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>Fenerbahçe SK</strong><a href="/stickers/3406.html" class="map-popup-link">View</a></div>');
                     marker.on('mouseover', function() { this.openPopup(); });
                     marker.on('click', function() { this.openPopup(); });
                 })();
@@ -2787,6 +2780,13 @@
                     marker.on('mouseover', function() { this.openPopup(); });
                     marker.on('click', function() { this.openPopup(); });
                 })();
+
+                (function() {
+                    const marker = L.marker([40.9903361111111, 29.0237555555556]).addTo(cityMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>Fenerbahçe SK</strong><a href="/stickers/3406.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
                 
                 const bounds = L.latLngBounds([
                     [41.0254138888889, 28.975],
@@ -2867,7 +2867,6 @@
                     [40.9900166666667, 29.0254305555556],
                     [41.0372194444444, 28.9852777777778],
                     [41.0312222222222, 28.9787083333333],
-                    [40.9903361111111, 29.0237555555556],
                     [40.9906583333333, 29.0248222222222],
                     [41.0355138888889, 28.9820166666667],
                     [41.0354527777778, 28.9820222222222],
@@ -2949,7 +2948,8 @@
                     [41.0403861111111, 28.99455],
                     [41.0345416666667, 28.9844472222222],
                     [41.0348638888889, 28.9846833333333],
-                    [41.0374555555556, 28.9953944444444]
+                    [41.0374555555556, 28.9953944444444],
+                    [40.9903361111111, 29.0237555555556]
                 ]);
                 cityMap.fitBounds(bounds, { padding: [30, 30], maxZoom: 15 });
                 

@@ -375,6 +375,15 @@
                          loading="lazy"
                          decoding="async">
                 </a>
+                <a href="/stickers/4021.html" class="sticker-preview-link">
+                    <img src="/img/club_790/1785511756895_IMG_1839_thumb.webp"
+                         alt="Hercules football sticker #4021 found in this city"
+                         data-sticker-id="4021"
+                         class="sticker-preview-image"
+                         width="200" height="200"
+                         loading="lazy"
+                         decoding="async">
+                </a>
                 <a href="/stickers/4025.html" class="sticker-preview-link">
                     <img src="/img/club_890/1785511761115_IMG_1760_thumb.webp"
                          alt="SC Paderborn 07 football sticker #4025 found in this city"
@@ -388,15 +397,6 @@
                     <img src="/img/club_842/1775418977140_IMG_9019_thumb.webp"
                          alt="Real Sociedad football sticker #3220 found in this city"
                          data-sticker-id="3220"
-                         class="sticker-preview-image"
-                         width="200" height="200"
-                         loading="lazy"
-                         decoding="async">
-                </a>
-                <a href="/stickers/4021.html" class="sticker-preview-link">
-                    <img src="/img/club_790/1785511756895_IMG_1839_thumb.webp"
-                         alt="Hercules football sticker #4021 found in this city"
-                         data-sticker-id="4021"
                          class="sticker-preview-image"
                          width="200" height="200"
                          loading="lazy"
@@ -1050,15 +1050,6 @@
                          loading="lazy"
                          decoding="async">
                 </a>
-                <a href="/stickers/3684.html" class="sticker-preview-link">
-                    <img src="/img/club_741/1780749484386_IMG_0407_thumb.webp"
-                         alt="PEC Zwolle football sticker #3684 found in this city"
-                         data-sticker-id="3684"
-                         class="sticker-preview-image"
-                         width="200" height="200"
-                         loading="lazy"
-                         decoding="async">
-                </a>
                 <a href="/stickers/3308.html" class="sticker-preview-link">
                     <img src="/img/club_773/1776078688723_IMG_9255_thumb.webp"
                          alt="Helsinborgs IF football sticker #3308 found in this city"
@@ -1383,6 +1374,15 @@
                          loading="lazy"
                          decoding="async">
                 </a>
+                <a href="/stickers/3684.html" class="sticker-preview-link">
+                    <img src="/img/club_741/1780749484386_IMG_0407_thumb.webp"
+                         alt="PEC Zwolle football sticker #3684 found in this city"
+                         data-sticker-id="3684"
+                         class="sticker-preview-image"
+                         width="200" height="200"
+                         loading="lazy"
+                         decoding="async">
+                </a>
                 <a href="/stickers/3307.html" class="sticker-preview-link">
                     <img src="/img/club_952/1776078665067_IMG_9261_thumb.webp"
                          alt="MSV Duisburg football sticker #3307 found in this city"
@@ -1431,7 +1431,7 @@
         
         document.addEventListener('DOMContentLoaded', function() {
             if (typeof L !== 'undefined' && document.getElementById('club-map')) {
-                const cityMap = L.map('club-map').setView([37.979333583959914, -0.6739989139515451], 12);
+                const cityMap = L.map('club-map').setView([37.97933358395992, -0.6739989139515451], 12);
                 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                     attribution: '&copy; OpenStreetMap contributors'
                 }).addTo(cityMap);
@@ -1598,6 +1598,13 @@
                 })();
 
                 (function() {
+                    const marker = L.marker([37.9808138888889, -0.670238888888889]).addTo(cityMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>Hercules</strong><a href="/stickers/4021.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
                     const marker = L.marker([37.9775416666667, -0.675366666666667]).addTo(cityMap);
                     marker.bindPopup('<div class="nearby-sticker-popup"><strong>SC Paderborn 07</strong><a href="/stickers/4025.html" class="map-popup-link">View</a></div>');
                     marker.on('mouseover', function() { this.openPopup(); });
@@ -1607,13 +1614,6 @@
                 (function() {
                     const marker = L.marker([37.9771694444444, -0.687713888888889]).addTo(cityMap);
                     marker.bindPopup('<div class="nearby-sticker-popup"><strong>Real Sociedad</strong><a href="/stickers/3220.html" class="map-popup-link">View</a></div>');
-                    marker.on('mouseover', function() { this.openPopup(); });
-                    marker.on('click', function() { this.openPopup(); });
-                })();
-
-                (function() {
-                    const marker = L.marker([37.9808138888889, -0.670238888888889]).addTo(cityMap);
-                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>Hercules</strong><a href="/stickers/4021.html" class="map-popup-link">View</a></div>');
                     marker.on('mouseover', function() { this.openPopup(); });
                     marker.on('click', function() { this.openPopup(); });
                 })();
@@ -2102,13 +2102,6 @@
                 })();
 
                 (function() {
-                    const marker = L.marker([37.9761027777778, -0.685108333333333]).addTo(cityMap);
-                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>PEC Zwolle</strong><a href="/stickers/3684.html" class="map-popup-link">View</a></div>');
-                    marker.on('mouseover', function() { this.openPopup(); });
-                    marker.on('click', function() { this.openPopup(); });
-                })();
-
-                (function() {
                     const marker = L.marker([37.979125, -0.675977777777778]).addTo(cityMap);
                     marker.bindPopup('<div class="nearby-sticker-popup"><strong>Helsinborgs IF</strong><a href="/stickers/3308.html" class="map-popup-link">View</a></div>');
                     marker.on('mouseover', function() { this.openPopup(); });
@@ -2361,6 +2354,13 @@
                 })();
 
                 (function() {
+                    const marker = L.marker([37.9761027777778, -0.685108333333333]).addTo(cityMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>PEC Zwolle</strong><a href="/stickers/3684.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
                     const marker = L.marker([37.9793777777778, -0.678608333333333]).addTo(cityMap);
                     marker.bindPopup('<div class="nearby-sticker-popup"><strong>MSV Duisburg</strong><a href="/stickers/3307.html" class="map-popup-link">View</a></div>');
                     marker.on('mouseover', function() { this.openPopup(); });
@@ -2391,9 +2391,9 @@
                     [37.97935, -0.668066666666667],
                     [37.9759555555556, -0.684769444444444],
                     [37.977425, -0.678275],
+                    [37.9808138888889, -0.670238888888889],
                     [37.9775416666667, -0.675366666666667],
                     [37.9771694444444, -0.687713888888889],
-                    [37.9808138888889, -0.670238888888889],
                     [37.980125, -0.672558333333333],
                     [37.9739944444444, -0.678344444444444],
                     [37.9763027777778, -0.671388888888889],
@@ -2463,7 +2463,6 @@
                     [37.9768583333333, -0.676158333333333],
                     [37.9830666666667, -0.674625],
                     [37.9764972222222, -0.683591666666667],
-                    [37.9761027777778, -0.685108333333333],
                     [37.979125, -0.675977777777778],
                     [37.9762694444444, -0.671580555555556],
                     [37.9761611111111, -0.686972222222222],
@@ -2500,6 +2499,7 @@
                     [37.9900055555556, -0.6872],
                     [37.9758416666667, -0.672611111111111],
                     [37.975625, -0.681816666666667],
+                    [37.9761027777778, -0.685108333333333],
                     [37.9793777777778, -0.678608333333333]
                 ]);
                 cityMap.fitBounds(bounds, { padding: [30, 30], maxZoom: 15 });

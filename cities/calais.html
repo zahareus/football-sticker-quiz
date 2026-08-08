@@ -152,7 +152,15 @@
         <h1 id="main-catalogue-heading">Calais, <a href="/countries/FRA.html">France</a> — 18 Football Stickers</h1>
 
         <div id="catalogue-content">
-            
+            <div class="wiki-section">
+    <div class="wiki-facts">
+        <div class="wiki-fact"><span class="wiki-fact-label">Population</span><span class="wiki-fact-value">67,571</span></div>
+    </div>
+    <div class="wiki-intro">
+        <p>Calais is a French major port city in the Pas-de-Calais department, of which it is a subprefecture.  Calais is the largest city in Pas-de-Calais.</p>
+        <p class="wiki-source">Source: <a href="https://en.wikipedia.org/wiki/Calais" target="_blank" rel="noopener noreferrer">Wikipedia</a></p>
+    </div>
+</div>
             <div class="club-details-block">
                 <p class="club-info-item">📦 Clubs represented: 13 clubs from 4 countries</p>
 <p class="club-info-item">📅 First found: 14 May 2025 | Latest: 14 May 2025</p>
@@ -227,15 +235,6 @@
                     <img src="/img/club_937/1785518663764_IMG_2030_thumb.webp"
                          alt="1 FC Köln football sticker #4057 found in this city"
                          data-sticker-id="4057"
-                         class="sticker-preview-image"
-                         width="200" height="200"
-                         loading="lazy"
-                         decoding="async">
-                </a>
-                <a href="/stickers/4058.html" class="sticker-preview-link">
-                    <img src="/img/club_881/1785518664411_IMG_2028_thumb.webp"
-                         alt="FC St Pauli football sticker #4058 found in this city"
-                         data-sticker-id="4058"
                          class="sticker-preview-image"
                          width="200" height="200"
                          loading="lazy"
@@ -322,6 +321,15 @@
                          loading="lazy"
                          decoding="async">
                 </a>
+                <a href="/stickers/4058.html" class="sticker-preview-link">
+                    <img src="/img/club_881/1785518664411_IMG_2028_thumb.webp"
+                         alt="FC St Pauli football sticker #4058 found in this city"
+                         data-sticker-id="4058"
+                         class="sticker-preview-image"
+                         width="200" height="200"
+                         loading="lazy"
+                         decoding="async">
+                </a>
             </div>
             
             <div class="club-map-section">
@@ -361,7 +369,7 @@
         
         document.addEventListener('DOMContentLoaded', function() {
             if (typeof L !== 'undefined' && document.getElementById('club-map')) {
-                const cityMap = L.map('club-map').setView([50.95917731481482, 1.8495648148148152], 12);
+                const cityMap = L.map('club-map').setView([50.959177314814816, 1.8495648148148156], 12);
                 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                     attribution: '&copy; OpenStreetMap contributors'
                 }).addTo(cityMap);
@@ -418,13 +426,6 @@
                 (function() {
                     const marker = L.marker([50.9611666666667, 1.84801388888889]).addTo(cityMap);
                     marker.bindPopup('<div class="nearby-sticker-popup"><strong>1 FC Köln</strong><a href="/stickers/4057.html" class="map-popup-link">View</a></div>');
-                    marker.on('mouseover', function() { this.openPopup(); });
-                    marker.on('click', function() { this.openPopup(); });
-                })();
-
-                (function() {
-                    const marker = L.marker([50.9609138888889, 1.85205555555556]).addTo(cityMap);
-                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>FC St Pauli</strong><a href="/stickers/4058.html" class="map-popup-link">View</a></div>');
                     marker.on('mouseover', function() { this.openPopup(); });
                     marker.on('click', function() { this.openPopup(); });
                 })();
@@ -491,6 +492,13 @@
                     marker.on('mouseover', function() { this.openPopup(); });
                     marker.on('click', function() { this.openPopup(); });
                 })();
+
+                (function() {
+                    const marker = L.marker([50.9609138888889, 1.85205555555556]).addTo(cityMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>FC St Pauli</strong><a href="/stickers/4058.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
                 
                 const bounds = L.latLngBounds([
                     [50.9604916666667, 1.84816111111111],
@@ -501,7 +509,6 @@
                     [50.9661888888889, 1.84215833333333],
                     [50.9602305555556, 1.84857222222222],
                     [50.9611666666667, 1.84801388888889],
-                    [50.9609138888889, 1.85205555555556],
                     [50.961025, 1.85239166666667],
                     [50.95915, 1.85145],
                     [50.9531333333333, 1.85239722222222],
@@ -510,7 +517,8 @@
                     [50.9609527777778, 1.84788055555556],
                     [50.9590638888889, 1.85196666666667],
                     [50.9538388888889, 1.85095555555556],
-                    [50.9583333333333, 1.84946111111111]
+                    [50.9583333333333, 1.84946111111111],
+                    [50.9609138888889, 1.85205555555556]
                 ]);
                 cityMap.fitBounds(bounds, { padding: [30, 30], maxZoom: 15 });
                 
