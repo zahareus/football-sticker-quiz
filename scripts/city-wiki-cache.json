@@ -232,5 +232,47 @@
     "population": null,
     "country": null,
     "wikiUrl": null
+  },
+  "Lens": {
+    "intro": "A lens is a transmissive optical device that focuses or disperses a light beam by means of refraction.  A simple lens consists of a single piece of transparent material, while a compound lens consists of several simple lenses (elements), usually arranged along a common axis.",
+    "population": null,
+    "country": null,
+    "wikiUrl": "https://en.wikipedia.org/wiki/Lens"
+  },
+  "Lille": {
+    "intro": "Lille is a city in the northern part of France, within French Flanders.  Positioned along the Deûle river, near France's border with Belgium, it is the capital of the Hauts-de-France region, the prefecture of the Nord department, and the main city of the European Metropolis of Lille.",
+    "population": 238246,
+    "country": "France",
+    "wikiUrl": "https://en.wikipedia.org/wiki/Lille"
+  },
+  "Dunkirk": {
+    "intro": "Dunkirk is a major port city in the department of Nord in northern France.  It lies on the North Sea, 10 kilometres (6.",
+    "population": 86263,
+    "country": "France",
+    "wikiUrl": "https://en.wikipedia.org/wiki/Dunkirk"
+  },
+  "Calais": {
+    "intro": "Calais is a French major port city in the Pas-de-Calais department, of which it is a subprefecture.  Calais is the largest city in Pas-de-Calais.",
+    "population": 67571,
+    "country": "France",
+    "wikiUrl": "https://en.wikipedia.org/wiki/Calais"
+  },
+  "Arras": {
+    "intro": "Arras is the prefecture of the Pas-de-Calais department, which forms part of the region of Hauts-de-France; before the reorganization of 2014 it was in Nord-Pas-de-Calais.  The historic centre of the Artois region, with a Baroque town square, Arras is in northern France at the confluence of the rivers Scarpe and Crinchon.",
+    "population": 42875,
+    "country": "France",
+    "wikiUrl": "https://en.wikipedia.org/wiki/Arras"
+  },
+  "Orihuela": {
+    "intro": "",
+    "population": 84560,
+    "country": "Spain",
+    "wikiUrl": "https://en.wikipedia.org/wiki/Orihuela"
+  },
+  "Murcia": {
+    "intro": "",
+    "population": null,
+    "country": null,
+    "wikiUrl": null
   }
 }
