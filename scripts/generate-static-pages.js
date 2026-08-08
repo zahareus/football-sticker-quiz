@@ -60,7 +60,7 @@ function generateWikiSection(clubId) {
         facts.push(`<div class="wiki-fact"><span class="wiki-fact-label">Founded</span><span class="wiki-fact-value">${wiki.founded}</span></div>`);
     }
     if (wiki.stadium) {
-        const capacityStr = wiki.capacity ? ` (${wiki.capacity.toLocaleString()})` : '';
+        const capacityStr = wiki.capacity ? ` (${wiki.capacity.toLocaleString('en-US')})` : '';
         facts.push(`<div class="wiki-fact"><span class="wiki-fact-label">Stadium</span><span class="wiki-fact-value">${wiki.stadium}${capacityStr}</span></div>`);
     }
     if (wiki.league) {
@@ -1155,7 +1155,7 @@ async function generateIndexPage(stickers, clubs) {
                 <a href="/countries/${code}.html" class="hp-country-card">
                     <span class="hp-country-flag">${flag}</span>
                     <span class="hp-country-name">${shortName}</span>
-                    <span class="hp-country-count">${count.toLocaleString()}</span>
+                    <span class="hp-country-count">${count.toLocaleString('en-US')}</span>
                 </a>`;
     });
 

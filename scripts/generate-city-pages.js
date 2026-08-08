@@ -257,7 +257,7 @@ function generateCityWikiSection(wikiData) {
 
     const facts = [];
     if (wikiData.population) {
-        facts.push(`<div class="wiki-fact"><span class="wiki-fact-label">Population</span><span class="wiki-fact-value">${wikiData.population.toLocaleString()}</span></div>`);
+        facts.push(`<div class="wiki-fact"><span class="wiki-fact-label">Population</span><span class="wiki-fact-value">${wikiData.population.toLocaleString('en-US')}</span></div>`);
     }
     // Country shown in details block, not in wiki facts
 

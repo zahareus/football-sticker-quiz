@@ -124,7 +124,7 @@ async function ensureWikiData(club) {
                 const sr = await fetch(`https://www.wikidata.org/w/api.php?action=wbgetentities&ids=${best}&props=claims&format=json`, ua);
                 const sd = await sr.json();
                 const cap = sd.entities[best]?.claims?.P1083?.[0]?.mainsnak?.datavalue?.value?.amount;
-                if (cap) capacity = parseInt(cap.replace('+', '')).toLocaleString();
+                if (cap) capacity = parseInt(cap.replace('+', '')).toLocaleString('en-US');
             }
         }
 
