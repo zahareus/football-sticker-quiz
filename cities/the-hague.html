@@ -258,15 +258,6 @@
                          loading="lazy"
                          decoding="async">
                 </a>
-                <a href="/stickers/2810.html" class="sticker-preview-link">
-                    <img src="/img/club_1090/1766183481028_IMG_7625_thumb.webp"
-                         alt="FC Den Bosch football sticker #2810 found in this city"
-                         data-sticker-id="2810"
-                         class="sticker-preview-image"
-                         width="200" height="200"
-                         loading="lazy"
-                         decoding="async">
-                </a>
                 <a href="/stickers/2807.html" class="sticker-preview-link">
                     <img src="/img/club_449/1766183270667_IMG_7614_thumb.webp"
                          alt="Molenbek football sticker #2807 found in this city"
@@ -280,6 +271,15 @@
                     <img src="/img/club_725/1766184655167_IMG_7615_thumb.webp"
                          alt="Legia Warsaw football sticker #2818 found in this city"
                          data-sticker-id="2818"
+                         class="sticker-preview-image"
+                         width="200" height="200"
+                         loading="lazy"
+                         decoding="async">
+                </a>
+                <a href="/stickers/2810.html" class="sticker-preview-link">
+                    <img src="/img/club_1090/1766183481028_IMG_7625_thumb.webp"
+                         alt="FC Den Bosch football sticker #2810 found in this city"
+                         data-sticker-id="2810"
                          class="sticker-preview-image"
                          width="200" height="200"
                          loading="lazy"
@@ -805,13 +805,6 @@
                 })();
 
                 (function() {
-                    const marker = L.marker([52.1152806, 4.2830389]).addTo(cityMap);
-                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>FC Den Bosch</strong><a href="/stickers/2810.html" class="map-popup-link">View</a></div>');
-                    marker.on('mouseover', function() { this.openPopup(); });
-                    marker.on('click', function() { this.openPopup(); });
-                })();
-
-                (function() {
                     const marker = L.marker([52.1117361, 4.2789167]).addTo(cityMap);
                     marker.bindPopup('<div class="nearby-sticker-popup"><strong>Molenbek</strong><a href="/stickers/2807.html" class="map-popup-link">View</a></div>');
                     marker.on('mouseover', function() { this.openPopup(); });
@@ -821,6 +814,13 @@
                 (function() {
                     const marker = L.marker([52.112525, 4.2794]).addTo(cityMap);
                     marker.bindPopup('<div class="nearby-sticker-popup"><strong>Legia Warsaw</strong><a href="/stickers/2818.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([52.1152806, 4.2830389]).addTo(cityMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>FC Den Bosch</strong><a href="/stickers/2810.html" class="map-popup-link">View</a></div>');
                     marker.on('mouseover', function() { this.openPopup(); });
                     marker.on('click', function() { this.openPopup(); });
                 })();
@@ -1151,9 +1151,9 @@
                     [52.0781667, 4.3092361],
                     [52.1147778, 4.2828444],
                     [52.1160389, 4.28235],
-                    [52.1152806, 4.2830389],
                     [52.1117361, 4.2789167],
                     [52.112525, 4.2794],
+                    [52.1152806, 4.2830389],
                     [52.1155806, 4.2829889],
                     [52.1116472, 4.2789889],
                     [52.1114778, 4.2794639],

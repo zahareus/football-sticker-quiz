@@ -348,6 +348,15 @@
                          loading="lazy"
                          decoding="async">
                 </a>
+                <a href="/stickers/3132.html" class="sticker-preview-link">
+                    <img src="/img/club_949/1773525035991_IMG_8368_thumb.webp"
+                         alt="FC Schalke 04 football sticker #3132 found in this city"
+                         data-sticker-id="3132"
+                         class="sticker-preview-image"
+                         width="200" height="200"
+                         loading="lazy"
+                         decoding="async">
+                </a>
                 <a href="/stickers/3111.html" class="sticker-preview-link">
                     <img src="/img/club_925/1773523777104_IMG_8377_thumb.webp"
                          alt="Eintracht Frankfurt football sticker #3111 found in this city"
@@ -397,15 +406,6 @@
                     <img src="/img/club_824/1773523624874_IMG_8382_thumb.webp"
                          alt="Real Betis football sticker #3110 found in this city"
                          data-sticker-id="3110"
-                         class="sticker-preview-image"
-                         width="200" height="200"
-                         loading="lazy"
-                         decoding="async">
-                </a>
-                <a href="/stickers/3132.html" class="sticker-preview-link">
-                    <img src="/img/club_949/1773525035991_IMG_8368_thumb.webp"
-                         alt="FC Schalke 04 football sticker #3132 found in this city"
-                         data-sticker-id="3132"
                          class="sticker-preview-image"
                          width="200" height="200"
                          loading="lazy"
@@ -558,7 +558,7 @@
         
         document.addEventListener('DOMContentLoaded', function() {
             if (typeof L !== 'undefined' && document.getElementById('club-map')) {
-                const cityMap = L.map('club-map').setView([37.394526282051274, -5.980539173789172], 12);
+                const cityMap = L.map('club-map').setView([37.394526282051274, -5.980539173789173], 12);
                 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                     attribution: '&copy; OpenStreetMap contributors'
                 }).addTo(cityMap);
@@ -704,6 +704,13 @@
                 })();
 
                 (function() {
+                    const marker = L.marker([37.3896444444444, -5.99234722222222]).addTo(cityMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>FC Schalke 04</strong><a href="/stickers/3132.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
                     const marker = L.marker([37.3838388888889, -5.99406388888889]).addTo(cityMap);
                     marker.bindPopup('<div class="nearby-sticker-popup"><strong>Eintracht Frankfurt</strong><a href="/stickers/3111.html" class="map-popup-link">View</a></div>');
                     marker.on('mouseover', function() { this.openPopup(); });
@@ -741,13 +748,6 @@
                 (function() {
                     const marker = L.marker([37.3888888888889, -5.99985277777778]).addTo(cityMap);
                     marker.bindPopup('<div class="nearby-sticker-popup"><strong>Real Betis</strong><a href="/stickers/3110.html" class="map-popup-link">View</a></div>');
-                    marker.on('mouseover', function() { this.openPopup(); });
-                    marker.on('click', function() { this.openPopup(); });
-                })();
-
-                (function() {
-                    const marker = L.marker([37.3896444444444, -5.99234722222222]).addTo(cityMap);
-                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>FC Schalke 04</strong><a href="/stickers/3132.html" class="map-popup-link">View</a></div>');
                     marker.on('mouseover', function() { this.openPopup(); });
                     marker.on('click', function() { this.openPopup(); });
                 })();
@@ -857,13 +857,13 @@
                     [37.3928416666667, -5.99194444444444],
                     [37.3960222222222, -5.99117222222222],
                     [37.3841444444444, -5.99350833333333],
+                    [37.3896444444444, -5.99234722222222],
                     [37.3838388888889, -5.99406388888889],
                     [37.3960194444444, -5.9912],
                     [37.3941388888889, -5.98918333333333],
                     [37.3873861111111, -5.99251666666667],
                     [37.3872222222222, -5.99243611111111],
                     [37.3888888888889, -5.99985277777778],
-                    [37.3896444444444, -5.99234722222222],
                     [37.3908583333333, -5.99239444444444],
                     [37.3936166666667, -5.98942777777778],
                     [37.4228333333333, -5.90113888888889],
