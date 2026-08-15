@@ -19,7 +19,7 @@ import {
     getOptimizedImageUrl as _getOptimizedImageUrl, getThumbnailUrl as _getThumbnailUrl,
     getDetailImageUrl as _getDetailImageUrl, cleanTrailingQuery as _cleanTrailingQuery,
     toLocalImg, toLocalImgAbs,
-    stripEmoji as _stripEmoji, escapeHtml, loadTemplate as _loadTemplate, replacePlaceholders as _replacePlaceholders,
+    stripEmoji as _stripEmoji, escapeHtml, escapeForJsHtmlString, loadTemplate as _loadTemplate, replacePlaceholders as _replacePlaceholders,
     generateBreadcrumbs as _generateBreadcrumbs, generateBreadcrumbSchema as _generateBreadcrumbSchema,
     cityOnly, stickerNoindexTag, selectTopRatedStickers, generateDescriptiveAltText, generateMultilingualAltText, generateStickerContextParagraph, generateMultilingualMeta,
     generateFeaturedGallery, fetchAllPaginated,
@@ -511,7 +511,7 @@ function generateMapInitScript(sticker, clubName, nearbyStickers = []) {
     let nearbyMarkersCode = '';
     if (withCoords.length > 0) {
         nearbyMarkersCode = withCoords.map(nearby => {
-            const escapedClubName = stripEmoji(nearby.clubName || '').replace(/'/g, "\\'");
+            const escapedClubName = escapeForJsHtmlString(stripEmoji(nearby.clubName || ''));
             return `
                 (function() {
                     L.marker([${nearby.latitude}, ${nearby.longitude}], {
@@ -528,7 +528,7 @@ function generateMapInitScript(sticker, clubName, nearbyStickers = []) {
         }).join('\n');
     }
 
-    const escapedName = clubName ? clubName.replace(/'/g, "\\'").replace(/[\u{1F000}-\u{1FFFF}\u{2600}-\u{26FF}\u{2700}-\u{27BF}\u{1F900}-\u{1F9FF}\u{1FA00}-\u{1FAFF}\u{FE00}-\u{FE0F}\u{1F1E0}-\u{1F1FF}]/gu, '').trim() : 'This sticker';
+    const escapedName = clubName ? escapeForJsHtmlString(stripEmoji(clubName)) : 'This sticker';
 
     return `
         document.addEventListener('DOMContentLoaded', function() {
@@ -627,7 +627,7 @@ function generateClubMapInitScript(stickersWithCoordinates, clubName) {
 
     const avgLat = stickersWithCoordinates.reduce((sum, s) => sum + s.latitude, 0) / stickersWithCoordinates.length;
     const avgLng = stickersWithCoordinates.reduce((sum, s) => sum + s.longitude, 0) / stickersWithCoordinates.length;
-    const escapedClubName = clubName.replace(/'/g, "\\'");
+    const escapedClubName = escapeForJsHtmlString(clubName);
 
     const markers = stickersWithCoordinates.map(sticker => {
         return `

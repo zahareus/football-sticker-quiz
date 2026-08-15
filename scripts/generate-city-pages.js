@@ -17,7 +17,8 @@ import {
     getOptimizedImageUrl as _getOptimizedImageUrl,
     selectTopRatedStickers, generateMultilingualMeta,
     cityToSlug,
-    stripEmoji
+    stripEmoji,
+    escapeForJsHtmlString
 } from './seo-helpers.js';
 
 // Configuration
@@ -371,7 +372,7 @@ function generateCityMapInitScript(stickersWithCoordinates, clubsMap) {
 
     const markers = stickersWithCoordinates.map(sticker => {
         const club = clubsMap[sticker.club_id];
-        const clubName = club ? stripEmoji(club.name).replace(/'/g, "\\'") : 'Unknown';
+        const clubName = club ? escapeForJsHtmlString(stripEmoji(club.name)) : 'Unknown';
         return `
                 (function() {
                     const marker = L.marker([${sticker.latitude}, ${sticker.longitude}]).addTo(cityMap);

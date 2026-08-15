@@ -288,6 +288,20 @@ export function escapeHtml(str) {
     return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 }
 
+/**
+ * Escape a value that gets glued into a single-quoted JS string literal which
+ * Leaflet then parses as HTML (map popups). Both layers need neutralising:
+ * the HTML layer or a club name like `<img src=x onerror=...>` executes, the
+ * JS layer or a backslash/newline breaks the generated script. Backslashes go
+ * first so the escapes added afterwards are not themselves re-escaped.
+ */
+export function escapeForJsHtmlString(str) {
+    if (str === null || str === undefined) return '';
+    return escapeHtml(String(str).replace(/\\/g, '\\\\'))
+        .replace(/'/g, "\\'")
+        .replace(/[\r\n\u2028\u2029]/g, ' ');
+}
+
 export function parseMediaKeywords(mediaString) {
     if (!mediaString) return [];
     const hashtags = mediaString.match(/#\w+/g);

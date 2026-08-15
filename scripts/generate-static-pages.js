@@ -10,7 +10,7 @@ import { execFileSync } from 'child_process';
 import { join, dirname } from 'path';
 import { fileURLToPath } from 'url';
 
-import { createSupabaseClient, COUNTRY_NAMES, COUNTRY_FLAGS, cityOnly, stickerNoindexTag, cityToSlug, generateMultilingualMeta, generateMultilingualAltText, generateStickerContextParagraph } from './seo-helpers.js';
+import { createSupabaseClient, escapeForJsHtmlString, COUNTRY_NAMES, COUNTRY_FLAGS, cityOnly, stickerNoindexTag, cityToSlug, generateMultilingualMeta, generateMultilingualAltText, generateStickerContextParagraph } from './seo-helpers.js';
 
 // Configuration
 const BASE_URL = "https://stickerhunt.club";
@@ -508,7 +508,7 @@ function generateMapInitScript(sticker, clubName, nearbyStickers = []) {
     let nearbyMarkersCode = '';
     if (nearbyStickers.length > 0) {
         nearbyMarkersCode = nearbyStickers.map(nearby => {
-            const escapedClubName = nearby.clubName.replace(/'/g, "\\'");
+            const escapedClubName = escapeForJsHtmlString(nearby.clubName);
             return `
                 (function() {
                     const nearbyMarker = L.marker([${nearby.latitude}, ${nearby.longitude}], {
@@ -552,7 +552,7 @@ function generateMapInitScript(sticker, clubName, nearbyStickers = []) {
                     }),
                     zIndexOffset: 1000
                 }).addTo(map)
-                    .bindPopup('<strong>${clubName ? clubName.replace(/'/g, "\\'") : 'Sticker location'}</strong>').openPopup();
+                    .bindPopup('<strong>${clubName ? escapeForJsHtmlString(clubName) : 'Sticker location'}</strong>').openPopup();
 
                 // Fit bounds to show all markers if there are nearby stickers
                 ${nearbyStickers.length > 0 ? `
@@ -650,7 +650,7 @@ function generateClubMapInitScript(stickersWithCoordinates, clubName) {
     const avgLat = stickersWithCoordinates.reduce((sum, s) => sum + s.latitude, 0) / stickersWithCoordinates.length;
     const avgLng = stickersWithCoordinates.reduce((sum, s) => sum + s.longitude, 0) / stickersWithCoordinates.length;
 
-    const escapedClubName = clubName.replace(/'/g, "\\'");
+    const escapedClubName = escapeForJsHtmlString(clubName);
 
     // Generate markers with hover and click functionality
     const markers = stickersWithCoordinates.map(sticker => {
