@@ -6417,5 +6417,14 @@
     "capacity": "18,250",
     "league": "Ligue 2",
     "website": "http://www.eaguingamp.com"
+  },
+  "1247": {
+    "wikiUrl": "https://en.wikipedia.org/wiki/Cork_City_F.C.",
+    "intro": "Cork City Football Club  is an Irish association football club based in Cork. The club was founded and elected to the League of Ireland in 1984.\nCork City was one of the first clubs in Ireland (and the first in Cork) to field a team of professional footballers.",
+    "founded": "1984",
+    "stadium": "Turners Cross",
+    "capacity": "7,485",
+    "league": "League of Ireland First Division",
+    "website": "https://www.corkcityfc.ie/"
   }
 }
