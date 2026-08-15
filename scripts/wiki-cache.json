@@ -6480,5 +6480,14 @@
     "capacity": "25,000",
     "league": "Regionalliga Nordost",
     "website": "https://www.chemnitzerfc.de/"
+  },
+  "1262": {
+    "wikiUrl": "https://en.wikipedia.org/wiki/Reggina_1914",
+    "intro": "Associazione Sportiva Reggina 1914, commonly referred to as Reggina, is an Italian football club based in Reggio Calabria. They play their home matches at the 27,763-seater Stadio Oreste Granillo and are currently playing in the Serie D.\nThey are nicknamed the Amaranto (amaranth) after their official dark red colour.",
+    "founded": "1914",
+    "stadium": "Stadio Oreste Granillo",
+    "capacity": "27,543",
+    "league": "Serie B",
+    "website": "https://www.reggina1914.it/"
   }
 }
