@@ -96,6 +96,11 @@ jobs:
           fi
           rm -f sweep.log
 
+      - name: Placeholder corpus guard
+        # on:push CI never fires for GITHUB_TOKEN bot pushes — guard must run
+        # here, between generation and commit (audit 2026-08-15).
+        run: node scripts/tests/test-no-raw-placeholders.js
+
       - name: Check for changes
         id: check
         if: always()

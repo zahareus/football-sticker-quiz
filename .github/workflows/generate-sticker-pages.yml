@@ -44,25 +44,38 @@ jobs:
 
       - name: Get IDs and flags
         id: get-ids
+        env:
+          # Payload values go through env, never direct ${{ }} interpolation
+          # inside run: — GitHub substitutes those before the shell runs, which
+          # is a script-injection vector (audit 2026-08-15).
+          CP_STICKER_IDS: ${{ github.event.client_payload.sticker_ids }}
+          CP_STICKER_ID: ${{ github.event.client_payload.sticker_id }}
+          CP_CLUB_IDS: ${{ github.event.client_payload.club_ids }}
+          CP_REGENERATE: ${{ github.event.client_payload.regenerate_stickers }}
+          CP_NOTIFY: ${{ github.event.client_payload.notify }}
+          CP_N_STICKERS: ${{ github.event.client_payload.n_stickers }}
+          CP_N_CLUBS: ${{ github.event.client_payload.n_clubs }}
+          CP_N_COUNTRIES: ${{ github.event.client_payload.n_countries }}
+          IN_STICKER_IDS: ${{ github.event.inputs.sticker_ids }}
         run: |
           if [ "${{ github.event_name }}" == "repository_dispatch" ]; then
             # Support both single sticker_id and multiple sticker_ids from API
-            if [ -n "${{ github.event.client_payload.sticker_ids }}" ]; then
-              STICKER_IDS="${{ github.event.client_payload.sticker_ids }}"
+            if [ -n "$CP_STICKER_IDS" ]; then
+              STICKER_IDS="$CP_STICKER_IDS"
             else
-              STICKER_IDS="${{ github.event.client_payload.sticker_id }}"
+              STICKER_IDS="$CP_STICKER_ID"
             fi
             # Get club_ids if provided (for regenerating club/country pages)
-            CLUB_IDS="${{ github.event.client_payload.club_ids }}"
+            CLUB_IDS="$CP_CLUB_IDS"
             # Get regenerate_stickers flag (for club edits that change name)
-            REGENERATE_STICKERS="${{ github.event.client_payload.regenerate_stickers }}"
+            REGENERATE_STICKERS="$CP_REGENERATE"
             # Batch uploader: Telegram notify + counts for the message
-            NOTIFY="${{ github.event.client_payload.notify }}"
-            N_STICKERS="${{ github.event.client_payload.n_stickers }}"
-            N_CLUBS="${{ github.event.client_payload.n_clubs }}"
-            N_COUNTRIES="${{ github.event.client_payload.n_countries }}"
+            NOTIFY="$CP_NOTIFY"
+            N_STICKERS="$CP_N_STICKERS"
+            N_CLUBS="$CP_N_CLUBS"
+            N_COUNTRIES="$CP_N_COUNTRIES"
           else
-            STICKER_IDS="${{ github.event.inputs.sticker_ids }}"
+            STICKER_IDS="$IN_STICKER_IDS"
             CLUB_IDS=""
             REGENERATE_STICKERS=""
             NOTIFY=""
@@ -206,6 +219,11 @@ jobs:
         run: |
           echo "Regenerating sitemaps (dynamic chunks + cities)..."
           node generate-sitemaps.js
+
+      - name: Placeholder corpus guard
+        # The on:push CI never fires for GITHUB_TOKEN bot pushes, so the guard
+        # must run here, between generation and commit (audit 2026-08-15).
+        run: node scripts/tests/test-no-raw-placeholders.js
 
       - name: Check for changes
         id: check-changes
