@@ -16,6 +16,11 @@ jobs:
           node-version: 20
           cache: npm
       - run: npm ci
+      # tests/strip-emoji.test.js imports scripts/seo-helpers.js, which pulls in
+      # @supabase/supabase-js — that lives in scripts/package.json, not the root.
+      - name: Install scripts deps
+        working-directory: ./scripts
+        run: npm install
       - run: npm test
 
   generator-tests:
