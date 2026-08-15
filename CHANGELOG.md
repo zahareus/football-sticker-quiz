@@ -2,6 +2,37 @@
 
 Notable changes to StickerHunt. Reverse chronological. Commit hashes link to git history.
 
+## 2026-08-15 — Flag-emoji leftovers, nightly city map sweep, popup escaping
+
+- **Fix: subdivision-flag tag chars survived `stripEmoji`** (`c429bee`). The regex knew the
+  base 🏴 (U+1F3F4) but not the six `\u{E0000}-\u{E007F}` tag chars that spell out the
+  subdivision, so 64 English/Scottish/Welsh clubs carried six invisible codepoints at the
+  front of every `<title>`, `<h1>` and JSON-LD `name` — visible to Google, invisible to
+  everyone else. Regional-indicator flags (🇩🇪) were never affected. Added the tag range +
+  ZWJ. Two further private copies of the same regex were deduped onto the shared helper
+  (`b9f7c5f` map popups, plus the one inside `generate-city-pages.js`).
+  **Emoji in `clubs.name` itself is untouched and must stay** — see Key Rule 7.
+- **Decision: no mass regeneration to clean the ~1400 older pages.** `stickers/` is 279 MB
+  and `.git` 208 MB; a full pass would add a permanent ~270 MB commit to history to remove
+  bytes nobody can see. Pages clean themselves as they get touched.
+- **New: nightly city map sweep** (`179e8033`) — `scripts/sweep-city-maps.js` +
+  `.github/workflows/sweep-city-maps.yml`, cron 02:30 UTC, Telegram to Самаритянин on every
+  run including idle nights. Sticker pages bake their nearby markers and "Also found in
+  \<city\>" links at generation time and the upload run only touches the new sticker and
+  its id-predecessor, so the rest of the city froze at whatever existed when it was born.
+  First run: 386 pages across Barcelona/Lens/Torrevieja, sticker 4316 went from **2 markers
+  to 112**. Batched per city, not per sticker — a 30-sticker upload over 3 cities is 3
+  sweeps, not 30. See architecture.md → "Nightly City Map Sweep".
+  - **Rejected alternative:** fetching markers client-side. Premortem killed it — the same
+    DB query has to stay for the SEO link block anyway (so zero CI saving), it fixes only
+    half the staleness, and it would make the map depend on Supabase + a CDN where today it
+    works even with the DB down.
+- **Fix: club names spliced into map popups unescaped** (`5d8f793`). Labels went into a
+  single-quoted JS string that Leaflet re-parses as HTML with only the apostrophe escaped,
+  and club names are user-supplied (`club-create.js` inserts from the browser). A name like
+  `<img src=x onerror=…>` would have executed on every page of that city. New
+  `escapeForJsHtmlString()` covers all seven splice points across four generators.
+
 ## 2026-06-06 — Rating fix + continuous synthetic monitor
 
 - **Fix: `rating.html` was fully broken** ("Initialization error. Rating cannot be loaded.") (`de84046`). `rating.js` loaded WITHOUT `defer` while `shared.js` + `supabase-js` were deferred, so `rating.js`' top-level init ran before `SharedUtils` existed → `supabaseClient` never set. Regression from the May "defer JS" perf commit. Added `defer` to `rating.js`, `battle.js`, `clubs-page.js` (battle/clubs were latent — only used `SharedUtils` inside `DOMContentLoaded`, so they still worked, but the ordering was fragile).

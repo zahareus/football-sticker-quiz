@@ -137,6 +137,11 @@ All generators import from `scripts/seo-helpers.js`:
 - Breadcrumbs generation
 - Alt text generation (descriptive, multilingual)
 - Paginated Supabase queries
+- `stripEmoji()` — strips flags for rendering. Covers regional-indicator pairs (🇩🇪), the
+  `\u{E0000}-\u{E007F}` tag chars of subdivision flags (🏴󠁧󠁢󠁥󠁮󠁧󠁿 England/Scotland/Wales) and ZWJ.
+  Before 2026-08-15 the tag chars survived, leaving 6 invisible codepoints at the front of
+  every title/H1/JSON-LD name for 64 clubs.
+- `escapeForJsHtmlString()` — the only safe way to put a club name into generated JS
 
 ### Templates
 
@@ -192,6 +197,34 @@ URLs in HTML:
 - **Self-healing:** each run regenerates sticker N-1's page (navigation links).
 - **Push retry:** git stash -> git pull --rebase -> git stash pop (up to 3 attempts).
 - **Belt-and-suspenders:** `reconcile-stickers.yml` (cron */15 min) generates any sticker page that has no on-disk HTML, regardless of how it was uploaded.
+- **Nightly city sweep:** `sweep-city-maps.yml` (cron 02:30 UTC) — see below.
+
+### Nightly City Map Sweep (2026-08-15)
+
+A sticker page bakes its nearby-map markers **and** its "Also found in \<city\>" links
+at generation time, from every sticker sharing the same `location` string. The upload
+run regenerates only the new sticker and its id-predecessor, so every other page in
+that city keeps the marker set it was born with — a sticker uploaded at 10:00 never
+learns about one uploaded at 12:00. Measured before the fix: sticker 4316 showed 2
+markers where 112 were due.
+
+- **Script:** `scripts/sweep-city-maps.js` — finds the `location` values touched in the
+  window (default 26 h), then regenerates every page in those locations.
+  Flags: `--hours=N`, `--city="Lens, France"`, `--dry-run`.
+- **Batched per city, not per sticker.** A 30-sticker upload spanning 3 cities is 3
+  sweeps, not 30 — 386 pages instead of ~11 400.
+- **Nightly rather than inline** because one page costs ~3.6 s and the sweep shares the
+  `generate-pages` concurrency group; a busy day (386 pages) is ~7 min of runner time
+  that would otherwise stall every upload behind it.
+- **`STICKER_PAGE_ONLY=1`** — sweeps sticker pages only. Club/country pages and prev/next
+  nav are already correct from the upload run; rewriting them would only add churn.
+- **Telegram:** reports to Самаритянин (chat 292048) on **every** run, including an idle
+  night, so a silently dead cron stays distinguishable from a genuinely quiet one.
+- **Scale context:** 50 distinct `location` values; 2145 of 4386 stickers have no
+  `location` at all (no map, never swept). Largest group Lisbon 287.
+- **Known ceiling:** the per-page generator refetches the whole `stickers` table each
+  time, which is what makes it 3.6 s. Sub-minute sweeps would need a batch generator
+  that fetches shared data once. Not needed while the sweep is nightly.
 
 ## Hybrid Architecture
 
@@ -240,6 +273,15 @@ Vercel Environment Variables:
 4. Service Key != anon key. Keep secret.
 5. Image optimization takes 30-60 min for all stickers.
 6. When changing SEO in templates/generators, update ALL generator scripts consistently.
+7. **Club names in the DB always carry a country flag emoji — never strip it there.**
+   `clubs.name` is `🇩🇪 Chemnitzer FC`, `🏴󠁧󠁢󠁥󠁮󠁧󠁿 Derby County F.C.` by deliberate, years-old
+   convention (763 of 771 clubs). `stripEmoji()` is a **render layer**: it keeps flags out
+   of `<title>`/`<h1>`/JSON-LD because a flag in `h1` cost CLS 0.35 on Android/PSI
+   (`6033d17`, 2026-05-26 — Playwright-proven, 0.35 → 0.00). A club without a flag is an
+   omission to fill in, not data to normalise away.
+8. **Never splice a club name into generated JS by hand.** Popup labels land inside a
+   single-quoted JS string that Leaflet re-parses as HTML, and names are user-supplied.
+   Use `escapeForJsHtmlString()` from `seo-helpers.js` — it covers both layers.
 
 ## File Structure
 
