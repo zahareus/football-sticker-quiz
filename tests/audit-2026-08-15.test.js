@@ -57,12 +57,15 @@ describe('prev-sticker regeneration keeps Similar-from-country (audit: 2352 page
     });
 });
 
-describe('generated homepage/catalogue carry no invisible tag characters', () => {
+describe('generated homepage/catalogue carry no ORPHANED invisible tag characters', () => {
+    // Tag chars U+E0000–E007F are legitimate right after 🏴 (U+1F3F4) — they
+    // spell the England/Scotland/Wales flags. Orphaned runs (base emoji
+    // stripped, invisible tail left behind) are the audit bug.
     for (const f of ['index.html', 'catalogue.html']) {
-        it(`${f} has zero U+E0000–E007F tag chars`, () => {
+        it(`${f} has zero orphaned tag chars`, () => {
             if (!fs.existsSync(path.join(root, f))) return; // fresh checkout without generated pages
-            const count = (read(f).match(/[\u{E0000}-\u{E007F}]/gu) || []).length;
-            expect(count).toBe(0);
+            const orphaned = (read(f).match(/(?<!\u{1F3F4}[\u{E0000}-\u{E007F}]*)[\u{E0000}-\u{E007F}]/gu) || []).length;
+            expect(orphaned).toBe(0);
         });
     }
 });
