@@ -6435,5 +6435,14 @@
     "capacity": "10,000",
     "league": "EFL League One",
     "website": "https://www.mansfieldtown.net/"
+  },
+  "1250": {
+    "wikiUrl": "https://en.wikipedia.org/wiki/Godoy_Cruz_Antonio_Tomba",
+    "intro": "Club Deportivo Godoy Cruz Antonio Tomba is an Argentine sports club from Godoy Cruz, Mendoza. The club is best known for its football team, which plays in the Primera Nacional since 2026, the second top level of the Argentine football league system.\nOther activities practised at Godoy Cruz are basketball, team handball, field hockey, tennis and volleyball..",
+    "founded": "1921",
+    "stadium": "Estadio Feliciano Gambarte",
+    "capacity": "16,000",
+    "league": "Argentine Primera División",
+    "website": "https://clubgodoycruz.com.ar/"
   }
 }
