@@ -20,6 +20,7 @@ Global football fan sticker database with quiz, battle mode, and interactive map
 - [Architecture](docs/architecture.md) -- tech stack, pipelines, database, generators, file structure
 - [SEO](docs/seo.md) -- strategy, performance metrics, completed improvements
 - [Commands](docs/commands.md) -- generation, optimization, testing, deployment
+- [Backlog](docs/BACKLOG.md) -- deferred items awaiting the planned functional/visual overhaul
 
 ## Domain Vocabulary
 
