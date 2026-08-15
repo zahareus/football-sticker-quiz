@@ -303,6 +303,15 @@
                          loading="lazy"
                          decoding="async">
                 </a>
+                <a href="/stickers/3744.html" class="sticker-preview-link">
+                    <img src="/img/club_630/1784583612787_IMG_0911_thumb.webp"
+                         alt="Sporting CP football sticker #3744 found in this city"
+                         data-sticker-id="3744"
+                         class="sticker-preview-image"
+                         width="200" height="200"
+                         loading="lazy"
+                         decoding="async">
+                </a>
                 <a href="/stickers/3902.html" class="sticker-preview-link">
                     <img src="/img/club_621/1785079626688_IMG_1132_thumb.webp"
                          alt="SL Benfica football sticker #3902 found in this city"
@@ -316,15 +325,6 @@
                     <img src="/img/club_630/1784583610647_IMG_0913_thumb.webp"
                          alt="Sporting CP football sticker #3742 found in this city"
                          data-sticker-id="3742"
-                         class="sticker-preview-image"
-                         width="200" height="200"
-                         loading="lazy"
-                         decoding="async">
-                </a>
-                <a href="/stickers/3744.html" class="sticker-preview-link">
-                    <img src="/img/club_630/1784583612787_IMG_0911_thumb.webp"
-                         alt="Sporting CP football sticker #3744 found in this city"
-                         data-sticker-id="3744"
                          class="sticker-preview-image"
                          width="200" height="200"
                          loading="lazy"
@@ -2901,6 +2901,13 @@
                 })();
 
                 (function() {
+                    const marker = L.marker([38.7608722222222, -9.15908333333333]).addTo(cityMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>Sporting CP</strong><a href="/stickers/3744.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
                     const marker = L.marker([38.7497472222222, -9.18016666666667]).addTo(cityMap);
                     marker.bindPopup('<div class="nearby-sticker-popup"><strong>SL Benfica</strong><a href="/stickers/3902.html" class="map-popup-link">View</a></div>');
                     marker.on('mouseover', function() { this.openPopup(); });
@@ -2910,13 +2917,6 @@
                 (function() {
                     const marker = L.marker([38.7609138888889, -9.15906388888889]).addTo(cityMap);
                     marker.bindPopup('<div class="nearby-sticker-popup"><strong>Sporting CP</strong><a href="/stickers/3742.html" class="map-popup-link">View</a></div>');
-                    marker.on('mouseover', function() { this.openPopup(); });
-                    marker.on('click', function() { this.openPopup(); });
-                })();
-
-                (function() {
-                    const marker = L.marker([38.7608722222222, -9.15908333333333]).addTo(cityMap);
-                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>Sporting CP</strong><a href="/stickers/3744.html" class="map-popup-link">View</a></div>');
                     marker.on('mouseover', function() { this.openPopup(); });
                     marker.on('click', function() { this.openPopup(); });
                 })();
@@ -4785,9 +4785,9 @@
                     [38.7608805555556, -9.159125],
                     [38.7497277777778, -9.18016388888889],
                     [38.7612444444444, -9.15916388888889],
+                    [38.7608722222222, -9.15908333333333],
                     [38.7497472222222, -9.18016666666667],
                     [38.7609138888889, -9.15906388888889],
-                    [38.7608722222222, -9.15908333333333],
                     [38.7230833333333, -9.13536666666667],
                     [38.7607583333333, -9.15924722222222],
                     [38.7498055555556, -9.18013611111111],
