@@ -1177,13 +1177,27 @@ async function generatePagesForSticker() {
                     .eq('club_id', prevStickerData.club_id)
                     .order('id', { ascending: true });
 
+                // Country stickers for Similar-from-country (audit 2026-08-15:
+                // this 7th arg was missing, so every upload silently stripped
+                // the block from the previous sticker's page). Reuse the
+                // current batch's set when countries match, else fetch.
+                let prevCountryStickers = countryStickersForSimilar;
+                if (prevStickerData.clubs?.country !== club.country) {
+                    const { data } = await supabase
+                        .from('stickers')
+                        .select('*, clubs!inner(*)')
+                        .eq('clubs.country', prevStickerData.clubs?.country ?? '');
+                    prevCountryStickers = data || [];
+                }
+
                 await generateStickerPage(
                     prevStickerData,
                     prevStickerData.clubs,
                     prevPrevSticker?.id || null,
                     stickerId,
                     prevNearby,
-                    prevClubStickers || []
+                    prevClubStickers || [],
+                    prevCountryStickers
                 );
                 console.log(`  ✓ Updated: stickers/${prevStickerId}.html`);
             }
