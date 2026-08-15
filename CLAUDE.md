@@ -21,6 +21,40 @@ Global football fan sticker database with quiz, battle mode, and interactive map
 - [SEO](docs/seo.md) -- strategy, performance metrics, completed improvements
 - [Commands](docs/commands.md) -- generation, optimization, testing, deployment
 
+## Domain Vocabulary
+
+- **Sticker** — one photographed fan sticker; row in `stickers` table; static page `stickers/<id>.html`. ~4400 stickers; ~half have no `location` (no map).
+- **Club** — row in `clubs`; static page `clubs/<id>.html`. ~770 clubs.
+- **Club name** — in DB it ALWAYS starts with a country flag emoji (`🇩🇪 Chemnitzer FC`). See Iron Rules.
+- **Generator** — Node script that renders static HTML from DB + `templates/`. Several page types have DUPLICATE generator code paths; only the canonical one per type is safe (see Iron Rules).
+- **Placeholder** — `{{TOKEN}}` in templates. A generator whose data object lags the template would leak raw `{{...}}` to prod; guards make it throw instead.
+- **Poller** — hourly n8n workflow "SH clubs poller" that diffs `clubs` and catches regenerations lost by GitHub's concurrency queue. Load-bearing fallback.
+- **City sweep** — nightly workflow (`scripts/sweep-city-maps.js`, 02:30 UTC) regenerating all sticker pages of cities touched by uploads (map markers / "Also found in" blocks are baked at generation time and go stale otherwise).
+- **Upload / batch upload** — `upload.html` (single, triggers Zernio social post) and `upload-batch.html` (many, no posts) → n8n → Supabase → repository_dispatch page generation.
+
+## 🔴 Iron Rules (violating any of these has caused real production incidents)
+
+1. **NEVER run `npm run generate`** (full `generate-static-pages.js`). Its sticker/club render paths are stale copies; the 2026-05-27 incident baked raw `{{MULTILINGUAL_META}}` into 712 club + 3534 sticker pages. Canonical generators only:
+   - stickers → `scripts/generate-single-sticker.js` (bulk: parallel with `STICKER_PAGE_ONLY=1`)
+   - clubs → `scripts/regenerate-club-pages.js`
+   - countries → `scripts/regenerate-country-pages.js`
+   - cities → `scripts/generate-city-pages.js`
+   - homepage + catalogue + sitemaps → `generate-static-pages.js --homepage-only` (this mode ONLY)
+2. **Placeholder guards are Chesterton's fences — never remove:** `replacePlaceholders` throws on leftover `{{...}}` (3 copies: `seo-helpers.js`, `generate-static-pages.js`, `generate-city-pages.js`); corpus guard `npm run test:placeholders` scans ALL generated HTML and runs in CI. If a generator throws `missing data keys` — add the key to its data object, do NOT remove the throw. Sample-based `test-generators.js` alone is blind (checks ~5 pages).
+3. **`clubs.name` in DB always keeps its flag emoji.** Never UPDATE/normalize emoji out of the DB — Victor enters flags by hand; a club without one is a gap to fill, not noise to clean. `stripEmoji()` in `seo-helpers.js` is a RENDER-layer concern only.
+4. **No emoji in `<h1>`/`<h2>`/`<title>` club names.** Flag emoji above the fold cause CLS 0.35+ on Android/Linux (emoji font swap). Every generator writing `CLUB_NAME` into HTML must wrap it in `stripEmoji()`.
+5. **Never delete the hourly clubs poller** (n8n `qESondLX2tc7dMmH`). GitHub keeps only 1 pending run per `generate-pages` concurrency group, so bulk club edits lose per-row dispatches; only the poller catches them.
+6. **Country dictionaries are triplicated.** A new country code must be added in ALL of: `scripts/seo-helpers.js` (COUNTRY_NAMES/FLAGS), `catalogue.js`, `stickerstat.js` — otherwise pages show the raw code (Kosovo/XKX incident).
+7. **After deploy — curl the live prod pages.** Green GitHub Actions ≠ deployed; verify actual URLs.
+
+## ⚠️ Known Traps
+
+- Local green `npx vitest run` ≠ green CI: root and `scripts/` have separate `package.json`; CI needs deps installed in both (fixed in `test.yml`, keep the "Install scripts deps" step).
+- `npm run test:generators` WRITES real files (`stickers/2332.html`, `2333.html`) — dirty tree after tests is a test artifact; `git restore`, don't commit.
+- Batch upload silently skips rows without a selected club — no warning exists yet.
+- Rotated Supabase keys do NOT propagate to n8n credentials automatically; edit them by hand in the n8n UI (`Supabase account` credential, used by "SH webhook poster").
+- Generators re-read the whole `stickers` table per page (~3.6 s/page) — bulk regeneration is slow by design; don't "optimize" it inline into upload flows.
+
 ## Testing
 
 ### Unit Tests (Vitest)
