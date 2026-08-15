@@ -14,7 +14,9 @@ import { fileURLToPath } from 'url';
 import {
     COUNTRY_NAMES,
     createSupabaseClient,
-    getOptimizedImageUrl as _getOptimizedImageUrl,
+    cleanTrailingQuery, toLocalImg, getThumbnailUrl,
+    replacePlaceholders, generateBreadcrumbs, generateBreadcrumbSchema,
+    getOptimizedImageUrl,
     selectTopRatedStickers, generateMultilingualMeta,
     cityToSlug,
     stripEmoji,
@@ -48,10 +50,6 @@ function getCountryCode(name) {
     return COUNTRY_CODES[name] || null;
 }
 
-function cleanTrailingQuery(url) {
-    return url ? url.replace(/\?$/, '') : url;
-}
-
 let _criticalCssCache = null;
 function loadCriticalCss() {
     if (_criticalCssCache !== null) return _criticalCssCache;
@@ -75,77 +73,6 @@ function loadTemplate(templateName) {
     return html;
 }
 
-function replacePlaceholders(template, data) {
-    let result = template;
-    for (const [key, value] of Object.entries(data)) {
-        const placeholder = `{{${key}}}`;
-        result = result.replaceAll(placeholder, value || '');
-    }
-    // Fail-fast on unsubstituted placeholders (see seo-helpers.js for rationale).
-    const residual = result.match(/\{\{[A-Z0-9_]+\}\}/g);
-    if (residual) {
-        const unique = [...new Set(residual)];
-        throw new Error(`replacePlaceholders: unsubstituted placeholder(s) — missing data keys: ${unique.join(', ')}`);
-    }
-    return result;
-}
-
-function generateBreadcrumbs(links) {
-    return links.map(link => `<a href="${link.url}">${link.text}</a>`).join(' &rarr; ');
-}
-
-function generateBreadcrumbSchema(links) {
-    const items = [
-        { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://stickerhunt.club" }
-    ];
-    links.forEach((link, i) => {
-        items.push({
-            "@type": "ListItem",
-            "position": i + 2,
-            "name": link.text,
-            "item": `https://stickerhunt.club${link.url}`
-        });
-    });
-    const schema = {
-        "@context": "https://schema.org",
-        "@type": "BreadcrumbList",
-        "itemListElement": items
-    };
-    return `<script type="application/ld+json">\n    ${JSON.stringify(schema, null, 2)}\n    </script>`;
-}
-
-function getOptimizedImageUrl(imageUrl, suffix = '_web') {
-    if (!imageUrl) return imageUrl;
-    if (!imageUrl.includes('/storage/v1/object/')) return imageUrl;
-    try {
-        const url = new URL(imageUrl);
-        const pathname = url.pathname;
-        const lastDotIndex = pathname.lastIndexOf('.');
-        if (lastDotIndex === -1) {
-            url.pathname = pathname + suffix + '.webp';
-        } else {
-            url.pathname = pathname.substring(0, lastDotIndex) + suffix + '.webp';
-        }
-        return url.toString();
-    } catch (e) {
-        return imageUrl;
-    }
-}
-
-const SUPABASE_STICKERS_PREFIX = 'https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/';
-
-function toLocalImg(url) {
-    if (!url) return url;
-    const cleaned = cleanTrailingQuery(url);
-    if (cleaned.startsWith(SUPABASE_STICKERS_PREFIX)) {
-        return '/img/' + cleaned.slice(SUPABASE_STICKERS_PREFIX.length);
-    }
-    return cleaned;
-}
-
-function getThumbnailUrl(imageUrl) {
-    return toLocalImg(getOptimizedImageUrl(imageUrl, '_thumb'));
-}
 
 // ============================================================
 // Wikipedia / Wikidata fetching for cities
@@ -639,7 +566,7 @@ async function main() {
 
         const topCityStickers = selectTopRatedStickers(stickers, 1);
         const ogImage = topCityStickers.length > 0
-            ? _getOptimizedImageUrl(topCityStickers[0].image_url)
+            ? getOptimizedImageUrl(topCityStickers[0].image_url)
             : 'https://stickerhunt.club/metash.png';
 
         // Determine country code from first club for multilingual meta
