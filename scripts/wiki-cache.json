@@ -6444,5 +6444,14 @@
     "capacity": "16,000",
     "league": "Argentine Primera División",
     "website": "https://clubgodoycruz.com.ar/"
+  },
+  "1251": {
+    "wikiUrl": "https://en.wikipedia.org/wiki/Bray_Wanderers_F.C.",
+    "intro": "Bray Wanderers Football Club are an Irish association football club playing in the League of Ireland First Division. The club in its present form was founded in 1942 in Bray, and was known until 2010 as Bray Wanderers A.F.C.",
+    "founded": "1942",
+    "stadium": "Carlisle Grounds",
+    "capacity": "3,185",
+    "league": "League of Ireland First Division",
+    "website": "https://braywanderersfc.ie/"
   }
 }
