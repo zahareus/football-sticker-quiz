@@ -392,7 +392,9 @@ export function replacePlaceholders(template, data) {
 // ─── Breadcrumbs ─────────────────────────────────────────────────────────────
 
 export function generateBreadcrumbs(links) {
-    return links.map(link => `<a href="${link.url}">${link.text}</a>`).join(' → ');
+    // escapeHtml on both parts: club names are user-entered DB values
+    // (audit 2026-08-15 — same stored-XSS class as the map popups).
+    return links.map(link => `<a href="${escapeHtml(link.url)}">${escapeHtml(link.text)}</a>`).join(' → ');
 }
 
 export function generateBreadcrumbSchema(links) {
