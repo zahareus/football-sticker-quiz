@@ -6426,5 +6426,14 @@
     "capacity": "7,485",
     "league": "League of Ireland First Division",
     "website": "https://www.corkcityfc.ie/"
+  },
+  "1249": {
+    "wikiUrl": "https://en.wikipedia.org/wiki/Mansfield_Town_F.C.",
+    "intro": "Mansfield Town Football Club is a professional association football club based in the town of Mansfield, Nottinghamshire, England. The team competes in EFL League One, the third level of the English football league system.\nThe club was formed in 1897 as Mansfield Wesleyans and entered the Mansfield & District Amateur League in 1902, before changing its name to Mansfield Wesley and joining the Notts & District League in 1906.",
+    "founded": "1897",
+    "stadium": "Field Mill",
+    "capacity": "10,000",
+    "league": "EFL League One",
+    "website": "https://www.mansfieldtown.net/"
   }
 }
