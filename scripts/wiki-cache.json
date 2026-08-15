@@ -6471,5 +6471,14 @@
     "capacity": "18,000",
     "league": "Danish 1st Division",
     "website": "https://www.efb.dk/"
+  },
+  "1255": {
+    "wikiUrl": "https://en.wikipedia.org/wiki/Chemnitzer_FC",
+    "intro": "Chemnitzer Fußballclub e.V. is a German association football club based in Chemnitz, Saxony.",
+    "founded": "1966",
+    "stadium": "Stadion an der Gellertstraße",
+    "capacity": "25,000",
+    "league": "Regionalliga Nordost",
+    "website": "https://www.chemnitzerfc.de/"
   }
 }
