@@ -10,7 +10,7 @@ import { execFileSync } from 'child_process';
 import { join, dirname } from 'path';
 import { fileURLToPath } from 'url';
 
-import { createSupabaseClient, escapeForJsHtmlString, COUNTRY_NAMES, COUNTRY_FLAGS, cityOnly, stickerNoindexTag, cityToSlug, generateMultilingualMeta, generateMultilingualAltText, generateStickerContextParagraph } from './seo-helpers.js';
+import { createSupabaseClient, escapeForJsHtmlString, stripEmoji, generateBreadcrumbs, COUNTRY_NAMES, COUNTRY_FLAGS, cityOnly, stickerNoindexTag, cityToSlug, generateMultilingualMeta, generateMultilingualAltText, generateStickerContextParagraph } from './seo-helpers.js';
 
 // Configuration
 const BASE_URL = "https://stickerhunt.club";
@@ -37,13 +37,6 @@ console.log(`🚀 Starting static page generation${LIMIT ? ` (LIMIT: ${LIMIT} st
 
 // Initialize Supabase client
 const supabase = createSupabaseClient();
-
-/**
- * Strip emoji and flag characters from a string (for use in <title> tags)
- */
-function stripEmoji(str) {
-    return str.replace(/[\u{1F000}-\u{1FFFF}\u{2600}-\u{26FF}\u{2700}-\u{27BF}\u{1F900}-\u{1F9FF}\u{1FA00}-\u{1FAFF}\u{FE00}-\u{FE0F}\u{1F1E0}-\u{1F1FF}]/gu, '').trim();
-}
 
 /**
  * Generate a descriptive text block for a club page
@@ -306,15 +299,6 @@ function replacePlaceholders(template, data) {
         throw new Error(`replacePlaceholders: unsubstituted placeholder(s) — missing data keys: ${unique.join(', ')}`);
     }
     return result;
-}
-
-/**
- * Generate breadcrumbs HTML
- */
-function generateBreadcrumbs(links) {
-    return links.map(link =>
-        `<a href="${link.url}">${link.text}</a>`
-    ).join(' → ');
 }
 
 function generateBreadcrumbSchema(links) {
