@@ -1,0 +1,182 @@
+name: Sweep City Maps
+
+# Sticker pages bake their nearby-map markers and "Also found in <city>" links
+# at generation time. The upload pipeline only regenerates the new sticker and
+# its id-predecessor, so every other page in that city keeps the marker set it
+# was born with. This sweep refreshes the whole city once a night.
+#
+# Deliberately nightly, not per-upload: a full city is ~3.6s x N pages (386
+# pages for a busy day = ~20 min), and the upload workflow shares this
+# concurrency group — putting the sweep inline would stall every batch behind it.
+
+on:
+  schedule:
+    # 02:30 UTC = 04:30 Europe/Madrid — well clear of upload sessions.
+    - cron: '30 2 * * *'
+  workflow_dispatch:
+    inputs:
+      hours:
+        description: 'Look back N hours for touched cities (default 26)'
+        required: false
+        type: string
+        default: '26'
+      city:
+        description: 'Sweep one city instead, e.g. "Lens, France" (ignores the window)'
+        required: false
+        type: string
+
+permissions:
+  contents: write
+
+# Shared with generate-sticker-pages / reconcile-stickers so pushes never race.
+# We never cancel — we wait.
+concurrency:
+  group: generate-pages
+  cancel-in-progress: false
+
+jobs:
+  sweep:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          fetch-depth: 1
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        working-directory: ./scripts
+        run: npm install
+
+      - name: Sweep city pages
+        id: sweep
+        continue-on-error: true
+        working-directory: ./scripts
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
+          HOURS: ${{ github.event.inputs.hours }}
+          CITY: ${{ github.event.inputs.city }}
+        run: |
+          set -o pipefail
+          if [ -n "$CITY" ]; then
+            node sweep-city-maps.js --city="$CITY" 2>&1 | tee sweep.log
+          else
+            node sweep-city-maps.js --hours="${HOURS:-26}" 2>&1 | tee sweep.log
+          fi
+
+      - name: Extract summary
+        id: summary
+        if: always()
+        working-directory: ./scripts
+        run: |
+          SUMMARY=$(grep -o 'SWEEP_SUMMARY=.*' sweep.log 2>/dev/null | head -1 | sed 's/^SWEEP_SUMMARY=//')
+          if [ -z "$SUMMARY" ]; then
+            # No summary line means the sweep found nothing to do, or died early.
+            if grep -q 'nothing to sweep' sweep.log 2>/dev/null; then
+              echo "state=idle" >> $GITHUB_OUTPUT
+            else
+              echo "state=broken" >> $GITHUB_OUTPUT
+            fi
+            echo "cities=" >> $GITHUB_OUTPUT
+            echo "pages=0" >> $GITHUB_OUTPUT
+            echo "failed=0" >> $GITHUB_OUTPUT
+          else
+            echo "state=ran" >> $GITHUB_OUTPUT
+            echo "cities=$(echo "$SUMMARY" | node -e 'let s="";process.stdin.on("data",d=>s+=d).on("end",()=>{const j=JSON.parse(s);console.log(j.cities.map(c=>`${c.location} (${c.pages})`).join(", "))})')" >> $GITHUB_OUTPUT
+            echo "pages=$(echo "$SUMMARY" | node -e 'let s="";process.stdin.on("data",d=>s+=d).on("end",()=>console.log(JSON.parse(s).regenerated))')" >> $GITHUB_OUTPUT
+            echo "failed=$(echo "$SUMMARY" | node -e 'let s="";process.stdin.on("data",d=>s+=d).on("end",()=>console.log(JSON.parse(s).failed))')" >> $GITHUB_OUTPUT
+          fi
+          rm -f sweep.log
+
+      - name: Check for changes
+        id: check
+        if: always()
+        run: |
+          if [ -n "$(git status --porcelain)" ]; then
+            echo "has_changes=true" >> $GITHUB_OUTPUT
+            echo "Changed files: $(git status --porcelain | wc -l)"
+          else
+            echo "has_changes=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Commit and push
+        if: always() && steps.check.outputs.has_changes == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          CITIES: ${{ steps.summary.outputs.cities }}
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          # Survive rebase: actions/checkout's http.extraheader gets dropped by
+          # `git rebase --autostash`. Embedding token in URL avoids that.
+          git remote set-url origin "https://x-access-token:${GH_TOKEN}@github.com/${{ github.repository }}.git"
+          git add stickers/ || true
+          git commit -m "Auto-sweep: refresh city maps — ${CITIES:-touched cities}"
+
+          # Same retry-with-rebase pattern as generate-sticker-pages.yml
+          PUSHED=0
+          for i in 1 2 3 4 5; do
+            if git push; then PUSHED=1; break; fi
+            echo "Push failed (attempt $i), rebasing onto origin/main with -X theirs..."
+            git fetch origin main
+            if ! git rebase --autostash -X theirs origin/main; then
+              echo "Rebase could not auto-resolve, aborting and retrying..."
+              git rebase --abort || true
+            fi
+            sleep $(( (RANDOM % 5) + i * 2 ))
+          done
+          if [ "$PUSHED" != "1" ]; then
+            echo "::error::git push failed after 5 attempts"
+            exit 1
+          fi
+
+      - name: Notify Telegram
+        if: always()
+        env:
+          TG_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          CHAT_ID: '292048'
+          STATE: ${{ steps.summary.outputs.state }}
+          CITIES: ${{ steps.summary.outputs.cities }}
+          PAGES: ${{ steps.summary.outputs.pages }}
+          FAILED: ${{ steps.summary.outputs.failed }}
+          HAS_CHANGES: ${{ steps.check.outputs.has_changes }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          if [ -z "$TG_TOKEN" ]; then
+            echo "TELEGRAM_BOT_TOKEN not set — skipping Telegram notify."
+            exit 0
+          fi
+
+          case "$STATE" in
+            idle)
+              # Quiet night — no city gained stickers. Still worth one line so a
+              # silently dead cron is distinguishable from a genuinely idle one.
+              TEXT=$(printf '🗺 <b>StickerHunt — нічний свіп карт</b>\nЖодне місто не отримало нових стікерів, перегенерація не потрібна.')
+              ;;
+            ran)
+              if [ "${FAILED:-0}" != "0" ]; then
+                TEXT=$(printf '⚠️ <b>StickerHunt — нічний свіп карт із помилками</b>\nМіста: %s\nОновлено сторінок: <b>%s</b>, впало: <b>%s</b>\n<a href="%s">Лог GitHub Actions →</a>' "${CITIES}" "${PAGES}" "${FAILED}" "${RUN_URL}")
+              elif [ "$HAS_CHANGES" = "true" ]; then
+                TEXT=$(printf '🗺 <b>StickerHunt — карти міст оновлено</b>\nМіста: %s\nПерегенеровано сторінок: <b>%s</b>' "${CITIES}" "${PAGES}")
+              else
+                TEXT=$(printf '🗺 <b>StickerHunt — нічний свіп карт</b>\nМіста: %s\nПерегенеровано сторінок: <b>%s</b>, змін у контенті не було.' "${CITIES}" "${PAGES}")
+              fi
+              ;;
+            *)
+              TEXT=$(printf '🔴 <b>StickerHunt — нічний свіп карт ЗЛАМАВСЯ</b>\nСкрипт не дійшов до підсумку.\n<a href="%s">Лог GitHub Actions →</a>' "${RUN_URL}")
+              ;;
+          esac
+
+          curl -s -X POST "https://api.telegram.org/bot${TG_TOKEN}/sendMessage" \
+            -d "chat_id=${CHAT_ID}" \
+            -d "parse_mode=HTML" \
+            -d "disable_web_page_preview=true" \
+            --data-urlencode "text=${TEXT}" > /dev/null
