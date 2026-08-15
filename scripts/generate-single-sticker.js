@@ -511,7 +511,7 @@ function generateMapInitScript(sticker, clubName, nearbyStickers = []) {
     let nearbyMarkersCode = '';
     if (withCoords.length > 0) {
         nearbyMarkersCode = withCoords.map(nearby => {
-            const escapedClubName = (nearby.clubName || '').replace(/'/g, "\\'").replace(/[\u{1F000}-\u{1FFFF}\u{2600}-\u{26FF}\u{2700}-\u{27BF}\u{1F900}-\u{1F9FF}\u{1FA00}-\u{1FAFF}\u{FE00}-\u{FE0F}\u{1F1E0}-\u{1F1FF}]/gu, '').trim();
+            const escapedClubName = stripEmoji(nearby.clubName || '').replace(/'/g, "\\'");
             return `
                 (function() {
                     L.marker([${nearby.latitude}, ${nearby.longitude}], {
