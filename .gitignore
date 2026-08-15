@@ -16,3 +16,4 @@ scripts/sticker_descriptions/
 scripts/supabase_enricher/
 scripts/upload_stickers.py
 .vercel
+backups-local/

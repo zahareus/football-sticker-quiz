@@ -46,6 +46,7 @@ Global football fan sticker database with quiz, battle mode, and interactive map
 5. **Never delete the hourly clubs poller** (n8n `qESondLX2tc7dMmH`). GitHub keeps only 1 pending run per `generate-pages` concurrency group, so bulk club edits lose per-row dispatches; only the poller catches them.
 6. **Country dictionaries are triplicated.** A new country code must be added in ALL of: `scripts/seo-helpers.js` (COUNTRY_NAMES/FLAGS), `catalogue.js`, `stickerstat.js` — otherwise pages show the raw code (Kosovo/XKX incident).
 7. **After deploy — curl the live prod pages.** Green GitHub Actions ≠ deployed; verify actual URLs.
+8. **No anon-role write policies, ever** (migration 006, audit 2026-08-15). Writes go through `authenticated` (can_upload/can_edit) or the service-role key. RLS policies live in the dashboard and are invisible to repo review — any policy change must be mirrored as a migration file. Migrations are applied manually via Management API; never `supabase db push`.
 
 ## ⚠️ Known Traps
 
