@@ -204,28 +204,19 @@
                          loading="lazy"
                          decoding="async">
                 </a>
-                <a href="/stickers/2110.html" class="sticker-preview-link">
-                    <img src="/img/club_805%2F1746720005796_590EFE40-7287-4461-B6A8-9B2A5E5ADE3F_1_105_c_thumb.webp"
-                         alt="Rayo Vallecano football sticker #2110 found in this city"
-                         data-sticker-id="2110"
-                         class="sticker-preview-image"
-                         width="200" height="200"
-                         loading="lazy"
-                         decoding="async">
-                </a>
-                <a href="/stickers/2118.html" class="sticker-preview-link">
-                    <img src="/img/club_836%2F1746722495550_IMG_5249_thumb.webp"
-                         alt="RC Celta de Vigo football sticker #2118 found in this city"
-                         data-sticker-id="2118"
-                         class="sticker-preview-image"
-                         width="200" height="200"
-                         loading="lazy"
-                         decoding="async">
-                </a>
                 <a href="/stickers/2117.html" class="sticker-preview-link">
                     <img src="/img/club_1027%2F1746722454033_IMG_5250_thumb.webp"
                          alt="Pontevedra CF football sticker #2117 found in this city"
                          data-sticker-id="2117"
+                         class="sticker-preview-image"
+                         width="200" height="200"
+                         loading="lazy"
+                         decoding="async">
+                </a>
+                <a href="/stickers/2110.html" class="sticker-preview-link">
+                    <img src="/img/club_805%2F1746720005796_590EFE40-7287-4461-B6A8-9B2A5E5ADE3F_1_105_c_thumb.webp"
+                         alt="Rayo Vallecano football sticker #2110 found in this city"
+                         data-sticker-id="2110"
                          class="sticker-preview-image"
                          width="200" height="200"
                          loading="lazy"
@@ -244,6 +235,15 @@
                     <img src="/img/club_1028%2F1746721830304_IMG_5212_thumb.webp"
                          alt="SD Compostela football sticker #2112 found in this city"
                          data-sticker-id="2112"
+                         class="sticker-preview-image"
+                         width="200" height="200"
+                         loading="lazy"
+                         decoding="async">
+                </a>
+                <a href="/stickers/2118.html" class="sticker-preview-link">
+                    <img src="/img/club_836%2F1746722495550_IMG_5249_thumb.webp"
+                         alt="RC Celta de Vigo football sticker #2118 found in this city"
+                         data-sticker-id="2118"
                          class="sticker-preview-image"
                          width="200" height="200"
                          loading="lazy"
@@ -316,15 +316,6 @@
                     <img src="/img/club_1029%2F1746721794532_IMG_5226_thumb.webp"
                          alt="Sarpsborg 08 FF football sticker #2111 found in this city"
                          data-sticker-id="2111"
-                         class="sticker-preview-image"
-                         width="200" height="200"
-                         loading="lazy"
-                         decoding="async">
-                </a>
-                <a href="/stickers/2251.html" class="sticker-preview-link">
-                    <img src="/img/club_796%2F1747588585802_IMG_5386_thumb.webp"
-                         alt="Málaga CF football sticker #2251 found in this city"
-                         data-sticker-id="2251"
                          class="sticker-preview-image"
                          width="200" height="200"
                          loading="lazy"
@@ -564,6 +555,15 @@
                          loading="lazy"
                          decoding="async">
                 </a>
+                <a href="/stickers/2251.html" class="sticker-preview-link">
+                    <img src="/img/club_796%2F1747588585802_IMG_5386_thumb.webp"
+                         alt="Málaga CF football sticker #2251 found in this city"
+                         data-sticker-id="2251"
+                         class="sticker-preview-image"
+                         width="200" height="200"
+                         loading="lazy"
+                         decoding="async">
+                </a>
                 <a href="/stickers/2108.html" class="sticker-preview-link">
                     <img src="/img/club_677%2F1746718596136_8822DB24-1DDB-47CB-9B95-7D6695B13DEE_1_105_c_thumb.webp"
                          alt="Como 1907 football sticker #2108 found in this city"
@@ -612,7 +612,7 @@
         
         document.addEventListener('DOMContentLoaded', function() {
             if (typeof L !== 'undefined' && document.getElementById('club-map')) {
-                const cityMap = L.map('club-map').setView([42.876871969696964, -8.54333484848485], 12);
+                const cityMap = L.map('club-map').setView([42.876871969696964, -8.543334848484848], 12);
                 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                     attribution: '&copy; OpenStreetMap contributors'
                 }).addTo(cityMap);
@@ -627,13 +627,6 @@
                 (function() {
                     const marker = L.marker([42.8752361111111, -8.54423888888889]).addTo(cityMap);
                     marker.bindPopup('<div class="nearby-sticker-popup"><strong>SD Compostela</strong><a href="/stickers/2262.html" class="map-popup-link">View</a></div>');
-                    marker.on('mouseover', function() { this.openPopup(); });
-                    marker.on('click', function() { this.openPopup(); });
-                })();
-
-                (function() {
-                    const marker = L.marker([42.8802944444444, -8.54153333333333]).addTo(cityMap);
-                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>Málaga CF</strong><a href="/stickers/2251.html" class="map-popup-link">View</a></div>');
                     marker.on('mouseover', function() { this.openPopup(); });
                     marker.on('click', function() { this.openPopup(); });
                 })();
@@ -693,11 +686,17 @@
                     marker.on('mouseover', function() { this.openPopup(); });
                     marker.on('click', function() { this.openPopup(); });
                 })();
+
+                (function() {
+                    const marker = L.marker([42.8802944444444, -8.54153333333333]).addTo(cityMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>Málaga CF</strong><a href="/stickers/2251.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
                 
                 const bounds = L.latLngBounds([
                     [42.8752472222222, -8.54422222222222],
                     [42.8752361111111, -8.54423888888889],
-                    [42.8802944444444, -8.54153333333333],
                     [42.87815, -8.54173055555555],
                     [42.8753277777778, -8.54413055555556],
                     [42.8806388888889, -8.54126666666667],
@@ -705,7 +704,8 @@
                     [42.8751305555556, -8.54438611111111],
                     [42.8821361111111, -8.54208611111111],
                     [42.875125, -8.54436666666667],
-                    [42.8729444444444, -8.54460555555556]
+                    [42.8729444444444, -8.54460555555556],
+                    [42.8802944444444, -8.54153333333333]
                 ]);
                 cityMap.fitBounds(bounds, { padding: [30, 30], maxZoom: 15 });
                 
