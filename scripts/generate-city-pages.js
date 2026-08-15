@@ -16,7 +16,8 @@ import {
     createSupabaseClient,
     getOptimizedImageUrl as _getOptimizedImageUrl,
     selectTopRatedStickers, generateMultilingualMeta,
-    cityToSlug
+    cityToSlug,
+    stripEmoji
 } from './seo-helpers.js';
 
 // Configuration
@@ -143,10 +144,6 @@ function toLocalImg(url) {
 
 function getThumbnailUrl(imageUrl) {
     return toLocalImg(getOptimizedImageUrl(imageUrl, '_thumb'));
-}
-
-function stripEmoji(str) {
-    return str.replace(/[\u{1F000}-\u{1FFFF}\u{2600}-\u{26FF}\u{2700}-\u{27BF}\u{1F900}-\u{1F9FF}\u{1FA00}-\u{1FAFF}\u{FE00}-\u{FE0F}\u{1F1E0}-\u{1F1FF}]/gu, '').trim();
 }
 
 // ============================================================
