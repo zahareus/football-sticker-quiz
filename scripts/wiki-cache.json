@@ -6507,5 +6507,14 @@
     "capacity": "4,000",
     "league": null,
     "website": "http://www.fkekranas.lt/"
+  },
+  "1270": {
+    "wikiUrl": "https://es.wikipedia.org/wiki/Palam%C3%B3s_Club_de_Futbol",
+    "intro": "Palamós Club de Futbol, S.A.D. is a Spanish football team based in Palamós, a town and commercial port in the Costa Brava, in the autonomous community of Catalonia.",
+    "founded": "1898",
+    "stadium": "Estadi Palamós Costa Brava",
+    "capacity": "3,724",
+    "league": "Tercera División",
+    "website": "http://www.palamoscf.cat/"
   }
 }
