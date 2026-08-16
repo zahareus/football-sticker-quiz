@@ -537,11 +537,37 @@ async function handleUploadAll() {
     renderReport(results);
 }
 
+// A failure here is usually the Storage service momentarily out of connections,
+// not a problem with the file — on 2026-08-16 that lost three stickers mid-batch
+// with nothing saved anywhere. Retry, but only the transient kind.
+function isTransient(err) {
+    const status = err?.statusCode ?? err?.status;
+    if (status && (Number(status) >= 500 || Number(status) === 429)) return true;
+    if (err instanceof TypeError) return true; // fetch/network failure
+    return /too many connections|timeout|network|fetch failed|ECONNRESET/i.test(err?.message || '');
+}
+
 async function uploadOne(row) {
-    // 1. Storage
+    // Computed ONCE, outside the retry loop: a fresh Date.now() per attempt would
+    // leave the first attempt's file orphaned in the bucket with no row pointing
+    // at it. With a stable path, upsert makes a retry idempotent.
     const fileName = `${Date.now()}_${row.file.name.replace(/\s+/g, '_')}`;
     const storagePath = `club_${row.club.id}/${fileName}`;
-    const { error: uploadError } = await supabaseClient.storage.from('stickers').upload(storagePath, row.file);
+
+    // 1. Storage
+    let uploadError = null;
+    for (let attempt = 1; attempt <= 3; attempt++) {
+        const res = await supabaseClient.storage.from('stickers')
+            .upload(storagePath, row.file, { upsert: true });
+        uploadError = res.error;
+        if (!uploadError) break;
+        if (!isTransient(uploadError) || attempt === 3) break;
+        row.retried = true;
+        console.warn(`Storage upload attempt ${attempt} failed for "${row.file.name}", retrying:`, uploadError.message);
+        // Backoff with jitter: retrying in lockstep would re-hit an already
+        // saturated pool at exactly the same moment for every queued row.
+        await sleep([2000, 5000][attempt - 1] * (0.7 + Math.random() * 0.6));
+    }
     if (uploadError) throw new Error('Storage: ' + uploadError.message);
 
     // 2. URL
@@ -556,8 +582,21 @@ async function uploadOne(row) {
     }
     if (row.meta.photoDate) insertData.found = row.meta.photoDate;
 
-    const { data: sticker, error: insertError } = await supabaseClient
-        .from('stickers').insert(insertData).select().single();
+    let sticker = null, insertError = null;
+    for (let attempt = 1; attempt <= 3; attempt++) {
+        const res = await supabaseClient.from('stickers').insert(insertData).select().single();
+        sticker = res.data; insertError = res.error;
+        if (!insertError) break;
+        if (!isTransient(insertError) || attempt === 3) break;
+        // The insert may have landed with only the reply lost, so look before
+        // inserting again — image_url is unique per upload and is the natural key.
+        const existing = await supabaseClient
+            .from('stickers').select('*').eq('image_url', imageUrl).maybeSingle();
+        if (existing.data) { sticker = existing.data; insertError = null; break; }
+        row.retried = true;
+        console.warn(`DB insert attempt ${attempt} failed for "${row.file.name}", retrying:`, insertError.message);
+        await sleep([2000, 5000][attempt - 1] * (0.7 + Math.random() * 0.6));
+    }
     if (insertError) throw new Error('DB: ' + insertError.message);
     return sticker;
 }
@@ -593,11 +632,15 @@ function renderReport(results) {
 
     const ok = results.filter(r => r.ok).length;
     const failed = results.length - ok;
+    // Surfaced on purpose: a silent retry would turn a saturated Storage pool
+    // into an invisible problem that resurfaces somewhere less obvious.
+    const retried = results.filter(r => r.row?.retried).length;
 
+    const retryNote = retried ? ` ${retried} needed a retry — Storage was busy.` : '';
     el.reportStatus.className = `global-status ${failed ? 'error' : 'success'}`;
     el.reportStatus.innerHTML = failed
-        ? `<strong>Process started.</strong> ${ok} sticker(s) sent for generation, ${failed} failed to upload. A Telegram message will arrive when pages are generated.`
-        : `<strong>Process started.</strong> ${ok} sticker(s) sent for generation & optimization. A Telegram message will arrive when pages are generated.`;
+        ? `<strong>Process started.</strong> ${ok} sticker(s) sent for generation, ${failed} failed to upload.${retryNote} A Telegram message will arrive when pages are generated.`
+        : `<strong>Process started.</strong> ${ok} sticker(s) sent for generation & optimization.${retryNote} A Telegram message will arrive when pages are generated.`;
 
     el.reportRows.innerHTML = results.map(r => {
         if (r.ok) {

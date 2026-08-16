@@ -80,8 +80,10 @@ const CONFIG = {
         format: 'webp'
     },
 
-    // Processing settings
-    BATCH_SIZE: 10,           // Process N images at a time
+    // Processing settings. Each image in a batch downloads the original and
+    // uploads two variants, so BATCH_SIZE is really 3x that many concurrent
+    // Storage calls — and this runs while people upload. See CHECK_CONCURRENCY.
+    BATCH_SIZE: 3,            // Process N images at a time
     DELAY_BETWEEN_BATCHES: 1000, // ms delay between batches
 
     // Suffixes for optimized versions
@@ -460,7 +462,14 @@ async function main() {
         // --missing-only: pre-filter to stickers without _web.webp in Storage
         if (CONFIG.MISSING_ONLY) {
             console.log(`\nChecking _web.webp existence for ${stickers.length} stickers...`);
-            const CHECK_CONCURRENCY = 20;
+            // Kept low on purpose. This step runs `if: always()` on every page
+            // generation, so it fires while someone may be uploading — and the
+            // uploader talks to the same Storage service. At 20 it exhausted the
+            // pooler's client slots and browser uploads failed with "Too many
+            // connections issued to the database": every refusal spike on
+            // 2026-08-16 (15:56, 15:59, 16:01, 16:09, 16:10) lands inside this
+            // step's window, the largest one on its longest run.
+            const CHECK_CONCURRENCY = 5;
             const missing = [];
             for (let i = 0; i < stickers.length; i += CHECK_CONCURRENCY) {
                 const batch = stickers.slice(i, i + CHECK_CONCURRENCY);
