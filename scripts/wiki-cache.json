@@ -6525,5 +6525,14 @@
     "capacity": null,
     "league": "Serie B",
     "website": "https://www.pordenonefc.com/"
+  },
+  "1273": {
+    "wikiUrl": "https://en.wikipedia.org/wiki/FC_Thun",
+    "intro": "Fussballclub Thun 1898 is a Swiss football team from the Bernese Oberland town of Thun. The club plays in the Swiss Super League, the top tier of the Swiss football league system.",
+    "founded": "1898",
+    "stadium": "Visana Stadion",
+    "capacity": "10,000",
+    "league": "Swiss Super League",
+    "website": "https://www.fcthun.ch/"
   }
 }
