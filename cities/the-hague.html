@@ -258,6 +258,15 @@
                          loading="lazy"
                          decoding="async">
                 </a>
+                <a href="/stickers/2815.html" class="sticker-preview-link">
+                    <img src="/img/club_1117/1766183950126_IMG_7628_thumb.webp?v=2026-05-27"
+                         alt="Motor Lublin football sticker #2815 found in this city"
+                         data-sticker-id="2815"
+                         class="sticker-preview-image"
+                         width="200" height="200"
+                         loading="lazy"
+                         decoding="async">
+                </a>
                 <a href="/stickers/2807.html" class="sticker-preview-link">
                     <img src="/img/club_449/1766183270667_IMG_7614_thumb.webp?v=2026-05-27"
                          alt="Molenbek football sticker #2807 found in this city"
@@ -303,15 +312,6 @@
                          loading="lazy"
                          decoding="async">
                 </a>
-                <a href="/stickers/2815.html" class="sticker-preview-link">
-                    <img src="/img/club_1117/1766183950126_IMG_7628_thumb.webp?v=2026-05-27"
-                         alt="Motor Lublin football sticker #2815 found in this city"
-                         data-sticker-id="2815"
-                         class="sticker-preview-image"
-                         width="200" height="200"
-                         loading="lazy"
-                         decoding="async">
-                </a>
                 <a href="/stickers/2818.html" class="sticker-preview-link">
                     <img src="/img/club_725/1766184655167_IMG_7615_thumb.webp?v=2026-05-27"
                          alt="Legia Warsaw football sticker #2818 found in this city"
@@ -325,15 +325,6 @@
                     <img src="/img/club_880/1766230141407_IMG_7639_thumb.webp?v=2026-05-27"
                          alt="Hertha BSC football sticker #2847 found in this city"
                          data-sticker-id="2847"
-                         class="sticker-preview-image"
-                         width="200" height="200"
-                         loading="lazy"
-                         decoding="async">
-                </a>
-                <a href="/stickers/2832.html" class="sticker-preview-link">
-                    <img src="/img/club_851/1766229445695_IMG_7708_thumb.webp?v=2026-05-27"
-                         alt="Fortuna Düsseldorf football sticker #2832 found in this city"
-                         data-sticker-id="2832"
                          class="sticker-preview-image"
                          width="200" height="200"
                          loading="lazy"
@@ -361,6 +352,15 @@
                     <img src="/img/club_961/1766231073845_IMG_77161_thumb.webp?v=2026-05-27"
                          alt="Borussia Mönchengladbach football sticker #2855 found in this city"
                          data-sticker-id="2855"
+                         class="sticker-preview-image"
+                         width="200" height="200"
+                         loading="lazy"
+                         decoding="async">
+                </a>
+                <a href="/stickers/2832.html" class="sticker-preview-link">
+                    <img src="/img/club_851/1766229445695_IMG_7708_thumb.webp?v=2026-05-27"
+                         alt="Fortuna Düsseldorf football sticker #2832 found in this city"
+                         data-sticker-id="2832"
                          class="sticker-preview-image"
                          width="200" height="200"
                          loading="lazy"
@@ -805,6 +805,13 @@
                 })();
 
                 (function() {
+                    const marker = L.marker([52.115325, 4.283025]).addTo(cityMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>Motor Lublin</strong><a href="/stickers/2815.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
                     const marker = L.marker([52.1117361, 4.2789167]).addTo(cityMap);
                     marker.bindPopup('<div class="nearby-sticker-popup"><strong>Molenbek</strong><a href="/stickers/2807.html" class="map-popup-link">View</a></div>');
                     marker.on('mouseover', function() { this.openPopup(); });
@@ -840,13 +847,6 @@
                 })();
 
                 (function() {
-                    const marker = L.marker([52.115325, 4.283025]).addTo(cityMap);
-                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>Motor Lublin</strong><a href="/stickers/2815.html" class="map-popup-link">View</a></div>');
-                    marker.on('mouseover', function() { this.openPopup(); });
-                    marker.on('click', function() { this.openPopup(); });
-                })();
-
-                (function() {
                     const marker = L.marker([52.112525, 4.2794]).addTo(cityMap);
                     marker.bindPopup('<div class="nearby-sticker-popup"><strong>Legia Warsaw</strong><a href="/stickers/2818.html" class="map-popup-link">View</a></div>');
                     marker.on('mouseover', function() { this.openPopup(); });
@@ -856,13 +856,6 @@
                 (function() {
                     const marker = L.marker([52.1163944, 4.2815944]).addTo(cityMap);
                     marker.bindPopup('<div class="nearby-sticker-popup"><strong>Hertha BSC</strong><a href="/stickers/2847.html" class="map-popup-link">View</a></div>');
-                    marker.on('mouseover', function() { this.openPopup(); });
-                    marker.on('click', function() { this.openPopup(); });
-                })();
-
-                (function() {
-                    const marker = L.marker([52.0810083, 4.3130944]).addTo(cityMap);
-                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>Fortuna Düsseldorf</strong><a href="/stickers/2832.html" class="map-popup-link">View</a></div>');
                     marker.on('mouseover', function() { this.openPopup(); });
                     marker.on('click', function() { this.openPopup(); });
                 })();
@@ -884,6 +877,13 @@
                 (function() {
                     const marker = L.marker([52.0798861, 4.309825]).addTo(cityMap);
                     marker.bindPopup('<div class="nearby-sticker-popup"><strong>Borussia Mönchengladbach</strong><a href="/stickers/2855.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([52.0810083, 4.3130944]).addTo(cityMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>Fortuna Düsseldorf</strong><a href="/stickers/2832.html" class="map-popup-link">View</a></div>');
                     marker.on('mouseover', function() { this.openPopup(); });
                     marker.on('click', function() { this.openPopup(); });
                 })();
@@ -1151,18 +1151,18 @@
                     [52.0781667, 4.3092361],
                     [52.1147778, 4.2828444],
                     [52.1160389, 4.28235],
+                    [52.115325, 4.283025],
                     [52.1117361, 4.2789167],
                     [52.1152806, 4.2830389],
                     [52.1116472, 4.2789889],
                     [52.1114778, 4.2794639],
                     [52.1155806, 4.2829889],
-                    [52.115325, 4.283025],
                     [52.112525, 4.2794],
                     [52.1163944, 4.2815944],
-                    [52.0810083, 4.3130944],
                     [52.0788167, 4.3086306],
                     [52.1163972, 4.2815944],
                     [52.0798861, 4.309825],
+                    [52.0810083, 4.3130944],
                     [52.0781889, 4.3092417],
                     [52.1112972, 4.2808361],
                     [52.0798861, 4.309825],

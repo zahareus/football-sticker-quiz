@@ -753,6 +753,15 @@
                          loading="lazy"
                          decoding="async">
                 </a>
+                <a href="/stickers/3022.html" class="sticker-preview-link">
+                    <img src="/img/club_403/1772988800832_IMG_8032_thumb.webp?v=2026-05-27"
+                         alt="RSC Anderlecht football sticker #3022 found in this city"
+                         data-sticker-id="3022"
+                         class="sticker-preview-image"
+                         width="200" height="200"
+                         loading="lazy"
+                         decoding="async">
+                </a>
                 <a href="/stickers/3021.html" class="sticker-preview-link">
                     <img src="/img/club_925/1772988771852_IMG_8029_thumb.webp?v=2026-05-27"
                          alt="Eintracht Frankfurt football sticker #3021 found in this city"
@@ -766,15 +775,6 @@
                     <img src="/img/club_886/1772971462916_IMG_8039_thumb.webp?v=2026-05-27"
                          alt="VfL Bochum football sticker #3013 found in this city"
                          data-sticker-id="3013"
-                         class="sticker-preview-image"
-                         width="200" height="200"
-                         loading="lazy"
-                         decoding="async">
-                </a>
-                <a href="/stickers/3022.html" class="sticker-preview-link">
-                    <img src="/img/club_403/1772988800832_IMG_8032_thumb.webp?v=2026-05-27"
-                         alt="RSC Anderlecht football sticker #3022 found in this city"
-                         data-sticker-id="3022"
                          class="sticker-preview-image"
                          width="200" height="200"
                          loading="lazy"
@@ -1370,6 +1370,13 @@
                 })();
 
                 (function() {
+                    const marker = L.marker([50.8342138888889, 4.35673333333333]).addTo(cityMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>RSC Anderlecht</strong><a href="/stickers/3022.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
                     const marker = L.marker([50.8332277777778, 4.357075]).addTo(cityMap);
                     marker.bindPopup('<div class="nearby-sticker-popup"><strong>Eintracht Frankfurt</strong><a href="/stickers/3021.html" class="map-popup-link">View</a></div>');
                     marker.on('mouseover', function() { this.openPopup(); });
@@ -1379,13 +1386,6 @@
                 (function() {
                     const marker = L.marker([50.8380972222222, 4.352225]).addTo(cityMap);
                     marker.bindPopup('<div class="nearby-sticker-popup"><strong>VfL Bochum</strong><a href="/stickers/3013.html" class="map-popup-link">View</a></div>');
-                    marker.on('mouseover', function() { this.openPopup(); });
-                    marker.on('click', function() { this.openPopup(); });
-                })();
-
-                (function() {
-                    const marker = L.marker([50.8342138888889, 4.35673333333333]).addTo(cityMap);
-                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>RSC Anderlecht</strong><a href="/stickers/3022.html" class="map-popup-link">View</a></div>');
                     marker.on('mouseover', function() { this.openPopup(); });
                     marker.on('click', function() { this.openPopup(); });
                 })();
@@ -1526,9 +1526,9 @@
                     [50.8441722222222, 4.35122777777778],
                     [50.8380666666667, 4.36198055555556],
                     [50.8380277777778, 4.35214444444444],
+                    [50.8342138888889, 4.35673333333333],
                     [50.8332277777778, 4.357075],
                     [50.8380972222222, 4.352225],
-                    [50.8342138888889, 4.35673333333333],
                     [50.8340333333333, 4.35693055555556],
                     [50.8443333333333, 4.35078055555555],
                     [50.8338583333333, 4.35712222222222],
