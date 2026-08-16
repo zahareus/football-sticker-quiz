@@ -297,10 +297,19 @@ async function enrichClubData(clubName, countryCode) {
     logProgress('Starting AI enrichment via secure API...', 'info');
 
     try {
+        // The endpoint now verifies the session and can_upload server-side, so the
+        // access token has to travel with the request — the page's own permission
+        // check only ever governed what the browser displayed.
+        const { data: { session: enrichSession } } = await supabaseClient.auth.getSession();
+        if (!enrichSession?.access_token) {
+            throw new Error('Your session expired — please sign in again.');
+        }
+
         const response = await fetch(CLUB_CREATE_CONFIG.ENRICH_API_URL, {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${enrichSession.access_token}`
             },
             body: JSON.stringify({
                 clubName,

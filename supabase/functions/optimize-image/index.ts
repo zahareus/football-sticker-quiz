@@ -24,6 +24,15 @@ await initialize();
 const SUPABASE_URL = Deno.env.get("SUPABASE_URL")!;
 const SUPABASE_SERVICE_ROLE_KEY = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
 const BUCKET_NAME = "stickers";
+const WEBHOOK_SECRET = Deno.env.get("OPTIMIZE_IMAGE_WEBHOOK_SECRET") ?? "";
+
+/** Constant-time string compare, so a wrong secret leaks nothing through timing. */
+function timingSafeEqual(a: string, b: string): boolean {
+  if (a.length !== b.length) return false;
+  let diff = 0;
+  for (let i = 0; i < a.length; i++) diff |= a.charCodeAt(i) ^ b.charCodeAt(i);
+  return diff === 0;
+}
 
 // Optimization settings
 const WEB_SIZE = { width: 600, height: 600, quality: 80 };
@@ -42,7 +51,26 @@ interface WebhookPayload {
 
 serve(async (req) => {
   try {
-    // Verify request
+    // This function runs with the service-role key, which bypasses RLS entirely,
+    // and it used to trust whatever JSON arrived: the "authentication" was the
+    // caller asserting type/table in its own payload. Require a shared secret
+    // that only the database webhook knows. Fail closed when unset — an
+    // unauthenticated path to a service-role key is worse than an outage, and
+    // the GitHub Actions optimizer already covers this work as a fallback.
+    if (!WEBHOOK_SECRET) {
+      console.error("OPTIMIZE_IMAGE_WEBHOOK_SECRET is not configured");
+      return new Response(JSON.stringify({ error: "Server not configured" }), {
+        status: 503,
+        headers: { "Content-Type": "application/json" },
+      });
+    }
+    if (!timingSafeEqual(req.headers.get("x-webhook-secret") ?? "", WEBHOOK_SECRET)) {
+      return new Response(JSON.stringify({ error: "Unauthorized" }), {
+        status: 401,
+        headers: { "Content-Type": "application/json" },
+      });
+    }
+
     const payload: WebhookPayload = await req.json();
 
     if (payload.type !== "INSERT" || payload.table !== "stickers") {
@@ -130,9 +158,32 @@ serve(async (req) => {
   }
 });
 
+/**
+ * Resolve a public storage URL to a path inside our own bucket.
+ * The previous pattern accepted any host and any bucket and kept `..` segments,
+ * so a caller-supplied URL could name a path outside the sticker tree while the
+ * function held the service-role key. Host and bucket are now pinned and the
+ * path must look like a stored object.
+ */
 function extractStoragePath(imageUrl: string): string | null {
-  const match = imageUrl.match(/\/storage\/v1\/object\/public\/[^/]+\/(.+)$/);
-  return match ? match[1] : null;
+  let parsed: URL;
+  try {
+    parsed = new URL(imageUrl);
+  } catch {
+    return null;
+  }
+  if (parsed.protocol !== "https:") return null;
+  if (parsed.hostname !== new URL(SUPABASE_URL).hostname) return null;
+
+  const prefix = `/storage/v1/object/public/${BUCKET_NAME}/`;
+  if (!parsed.pathname.startsWith(prefix)) return null;
+
+  const path = decodeURIComponent(parsed.pathname.slice(prefix.length));
+  if (!path) return null;
+  // No traversal, no absolute paths, no NUL — and it must end in an image name.
+  if (path.includes("..") || path.startsWith("/") || path.includes("\0")) return null;
+  if (!/^[A-Za-z0-9/._ -]+\.(jpe?g|png|webp|heic|heif)$/i.test(path)) return null;
+  return path;
 }
 
 async function optimizeImage(

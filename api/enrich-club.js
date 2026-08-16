@@ -24,6 +24,14 @@ module.exports = async function handler(req, res) {
         return res.status(500).json({ error: 'Server configuration error' });
     }
 
+    // The page that calls this checks the session and can_upload in the browser,
+    // which stops nothing: the endpoint itself was reachable with a bare curl and
+    // spent OPENAI_API_KEY for whoever asked. Verify the caller server-side.
+    const auth = await verifyUploader(req.headers.authorization);
+    if (!auth.ok) {
+        return res.status(auth.status).json({ error: auth.error });
+    }
+
     try {
         const { clubName, countryCode, field } = req.body;
 
@@ -31,6 +39,16 @@ module.exports = async function handler(req, res) {
             return res.status(400).json({
                 error: 'Missing required fields: clubName, countryCode, field'
             });
+        }
+
+        // These strings are pasted into an LLM prompt, so bound them: a club name
+        // is short and single-line, and anything longer is either a mistake or an
+        // attempt to append instructions of its own.
+        if (typeof clubName !== 'string' || clubName.length > 120 || /[\r\n]/.test(clubName)) {
+            return res.status(400).json({ error: 'Invalid clubName' });
+        }
+        if (typeof countryCode !== 'string' || !/^[A-Za-z]{2,3}$/.test(countryCode)) {
+            return res.status(400).json({ error: 'Invalid countryCode' });
         }
 
         // Validate field parameter
@@ -89,6 +107,49 @@ module.exports = async function handler(req, res) {
         });
     }
 };
+
+// Supabase project URL and publishable key are public by design — the same pair
+// is served to every browser in shared.js — so they are constants here rather
+// than secrets. Env vars win when set, so the project can be pointed elsewhere.
+const SUPABASE_URL = process.env.SUPABASE_URL || 'https://rbmeslzlbsolkxnvesqb.supabase.co';
+const SUPABASE_ANON_KEY = process.env.SUPABASE_ANON_KEY || 'sb_publishable_sGDiQzwEi3G1F3n0z_d67A_SlWdO1f-';
+
+/**
+ * Resolve an Authorization header to a user who is allowed to enrich clubs.
+ * The token is checked by Supabase itself, and can_upload is read with that same
+ * token, so RLS decides what the caller may see — this function never holds a
+ * service-role key.
+ */
+async function verifyUploader(authorization) {
+    if (!authorization || !authorization.startsWith('Bearer ')) {
+        return { ok: false, status: 401, error: 'Authentication required' };
+    }
+    const token = authorization.slice('Bearer '.length).trim();
+    if (!token) return { ok: false, status: 401, error: 'Authentication required' };
+
+    try {
+        const userRes = await fetch(`${SUPABASE_URL}/auth/v1/user`, {
+            headers: { apikey: SUPABASE_ANON_KEY, Authorization: `Bearer ${token}` }
+        });
+        if (!userRes.ok) return { ok: false, status: 401, error: 'Invalid session' };
+        const user = await userRes.json();
+        if (!user?.id) return { ok: false, status: 401, error: 'Invalid session' };
+
+        const profileRes = await fetch(
+            `${SUPABASE_URL}/rest/v1/profiles?id=eq.${encodeURIComponent(user.id)}&select=can_upload`,
+            { headers: { apikey: SUPABASE_ANON_KEY, Authorization: `Bearer ${token}` } }
+        );
+        if (!profileRes.ok) return { ok: false, status: 403, error: 'Not allowed' };
+        const rows = await profileRes.json();
+        if (!Array.isArray(rows) || rows[0]?.can_upload !== true) {
+            return { ok: false, status: 403, error: 'Not allowed' };
+        }
+        return { ok: true, userId: user.id };
+    } catch (err) {
+        console.error('Auth check failed:', err);
+        return { ok: false, status: 503, error: 'Auth check unavailable' };
+    }
+}
 
 async function callOpenAI(apiKey, prompt, retries = 2) {
     for (let i = 0; i < retries; i++) {

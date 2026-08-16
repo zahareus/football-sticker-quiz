@@ -35,6 +35,22 @@ the same area.
   (work fine, cosmetic split identity) — normalize via `toLocalImgAbs` if touched.
 - supabase-js loaded from jsdelivr CDN without SRI (leaflet already has it).
 
+## Security follow-ups (from CLAUDE-SECURITY-20260815-200225)
+
+- **Votes are not bound to a served pair** (F9/F15). `submit_vote` checks the
+  winner belongs to the pair, but `get_battle_pair` records nothing, so a caller
+  can vote on any pair it names and inflate ratings. Needs a served-pairs table
+  with a TTL — schema + battle-flow change, not a patch. No sign of abuse today
+  (3392 votes / 1066 sessions, 16.08.2026).
+- **`optimize-image` needs its secret before redeploy.** The function now
+  requires `x-webhook-secret` and fails closed; set
+  `OPTIMIZE_IMAGE_WEBHOOK_SECRET` in the function's env AND add the same header
+  to the DB webhook that calls it, then deploy. Until then the deployed old
+  version keeps running and the GitHub Actions optimizer is the fallback.
+- **Migration 007 is written but not applied** — apply via the Management API.
+- **`docs/commands.md:12` still documents `npm run generate`**, which iron rule 1
+  forbids. Fix the doc so the landmine is not re-armed for the next reader.
+
 ## Earlier deferred
 
 - Club #865 "SC Harten" is likely a typo of Sport-Club **Herten** — renaming
