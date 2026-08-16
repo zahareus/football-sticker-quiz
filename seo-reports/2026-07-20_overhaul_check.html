@@ -1,0 +1,335 @@
+<title>StickerHunt SEO — чек 20.07.2026</title>
+<style>
+  :root {
+    --paper: #FBFAF6;
+    --ink: #16201B;
+    --ink-soft: #5C6862;
+    --rule: #DFDCD1;
+    --card: #FFFFFF;
+    --foil: #B08A1E;
+    --good: #2F7D5A;
+    --warn: #A8701F;
+    --bad: #A93A34;
+    --shadow: 0 1px 2px rgba(22,32,27,.06), 0 8px 24px -16px rgba(22,32,27,.25);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --paper: #121714;
+      --ink: #E8E9E4;
+      --ink-soft: #98A29B;
+      --rule: #2A322D;
+      --card: #191F1B;
+      --foil: #D9B44A;
+      --good: #6FBF95;
+      --warn: #D69A47;
+      --bad: #E0736B;
+      --shadow: 0 1px 2px rgba(0,0,0,.4), 0 8px 24px -16px rgba(0,0,0,.8);
+    }
+  }
+  :root[data-theme="light"] {
+    --paper: #FBFAF6; --ink: #16201B; --ink-soft: #5C6862; --rule: #DFDCD1;
+    --card: #FFFFFF; --foil: #B08A1E; --good: #2F7D5A; --warn: #A8701F; --bad: #A93A34;
+    --shadow: 0 1px 2px rgba(22,32,27,.06), 0 8px 24px -16px rgba(22,32,27,.25);
+  }
+  :root[data-theme="dark"] {
+    --paper: #121714; --ink: #E8E9E4; --ink-soft: #98A29B; --rule: #2A322D;
+    --card: #191F1B; --foil: #D9B44A; --good: #6FBF95; --warn: #D69A47; --bad: #E0736B;
+    --shadow: 0 1px 2px rgba(0,0,0,.4), 0 8px 24px -16px rgba(0,0,0,.8);
+  }
+
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font: 400 17px/1.65 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap {
+    max-width: 44rem;
+    margin: 0 auto;
+    padding: 4rem 1.5rem 6rem;
+    display: flex;
+    flex-direction: column;
+    gap: 2.75rem;
+  }
+  h1, h2, h3 { font-family: Georgia, "Times New Roman", serif; font-weight: 600; text-wrap: balance; }
+  h1 { font-size: 2.4rem; line-height: 1.15; letter-spacing: -.015em; margin: 0; }
+  h2 { font-size: 1.5rem; line-height: 1.25; margin: 0 0 .25rem; }
+  h3 { font-size: 1.1rem; margin: 0 0 .25rem; }
+  p { margin: 0; }
+  section { display: flex; flex-direction: column; gap: .9rem; }
+
+  .eyebrow {
+    font-size: .75rem; text-transform: uppercase; letter-spacing: .14em;
+    color: var(--foil); font-weight: 600;
+  }
+  .lede { font-size: 1.15rem; color: var(--ink-soft); }
+  .meta {
+    font-size: .875rem; color: var(--ink-soft);
+    font-variant-numeric: tabular-nums;
+    padding-top: 1rem; border-top: 1px solid var(--rule);
+    display: flex; flex-wrap: wrap; gap: .35rem 1.25rem;
+  }
+
+  .headline-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(9.5rem, 1fr)); gap: .75rem;
+  }
+  .stat {
+    background: var(--card); border: 1px solid var(--rule); border-radius: 3px;
+    padding: .9rem 1rem; box-shadow: var(--shadow);
+    display: flex; flex-direction: column; gap: .15rem;
+  }
+  .stat .label { font-size: .75rem; text-transform: uppercase; letter-spacing: .08em; color: var(--ink-soft); }
+  .stat .value {
+    font: 600 1.75rem/1.1 ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-variant-numeric: tabular-nums;
+  }
+  .stat .delta { font-size: .8rem; font-variant-numeric: tabular-nums; }
+  .up { color: var(--good); }
+  .down { color: var(--bad); }
+  .flat { color: var(--ink-soft); }
+
+  .scroll { overflow-x: auto; }
+  table { border-collapse: collapse; width: 100%; font-size: .9rem; }
+  th, td {
+    text-align: right; padding: .55rem .7rem; border-bottom: 1px solid var(--rule);
+    font-variant-numeric: tabular-nums; white-space: nowrap;
+  }
+  th:first-child, td:first-child { text-align: left; white-space: normal; min-width: 11rem; }
+  thead th {
+    font-size: .72rem; text-transform: uppercase; letter-spacing: .08em;
+    color: var(--ink-soft); font-weight: 600; border-bottom: 1.5px solid var(--ink);
+  }
+  tbody tr:last-child td { border-bottom: none; }
+  td.now { font-weight: 600; }
+
+  .plain {
+    background: var(--card); border: 1px solid var(--rule);
+    border-left: 3px solid var(--foil); border-radius: 3px;
+    padding: 1rem 1.15rem; display: flex; flex-direction: column; gap: .5rem;
+  }
+  .plain .tag {
+    font-size: .72rem; text-transform: uppercase; letter-spacing: .12em;
+    color: var(--foil); font-weight: 600;
+  }
+  .plain p { font-size: .95rem; }
+
+  ul { margin: 0; padding-left: 1.15rem; display: flex; flex-direction: column; gap: .4rem; }
+  li::marker { color: var(--foil); }
+  code {
+    font: 400 .875em/1 ui-monospace, SFMono-Regular, Menlo, monospace;
+    background: color-mix(in srgb, var(--foil) 12%, transparent);
+    padding: .12em .35em; border-radius: 2px;
+  }
+  strong { font-weight: 600; }
+  hr { border: none; border-top: 1px solid var(--rule); margin: 0; }
+</style>
+
+<div class="wrap">
+
+  <header>
+    <p class="eyebrow">Двотижневий моніторинг · цикл 12</p>
+    <h1>StickerHunt: графік показує +65%, і це оманливо</h1>
+    <p class="lede" style="margin-top:.75rem">
+      Головна цифра звіту виглядає як зростання, але ним не є — це арифметика способу
+      підрахунку. Реальний щоденний рівень стоїть на місці з 3 липня. Технічну частину
+      плану виконано повністю, і вона не зрушила головного.
+    </p>
+    <div class="meta">
+      <span>20 липня 2026</span>
+      <span>Вікно даних: 22.06 – 19.07 (28 днів)</span>
+      <span>Попередній цикл: 07.07</span>
+    </div>
+  </header>
+
+  <section>
+    <div class="plain">
+      <span class="tag">Якщо ви тут уперше</span>
+      <p>
+        StickerHunt — база футбольних наліпок. Живе з пошуку: людина гуглить клуб чи
+        наліпку, потрапляє на сторінку сайту. Проблема, яку ми лікуємо з квітня: Google
+        знає про сайт, але майже не показує його людям. Кожні два тижні я знімаю ті самі
+        показники й дивлюсь, чи ліки діють. Цей звіт — дванадцятий такий замір.
+      </p>
+    </div>
+  </section>
+
+  <section>
+    <h2>Що показують цифри</h2>
+    <div class="headline-grid">
+      <div class="stat">
+        <span class="label">Показів на день</span>
+        <span class="value">27</span>
+        <span class="delta flat">було ~25 · плато</span>
+      </div>
+      <div class="stat">
+        <span class="label">Покази за 28 днів</span>
+        <span class="value">465</span>
+        <span class="delta flat">↑65%, але це артефакт</span>
+      </div>
+      <div class="stat">
+        <span class="label">Позиція</span>
+        <span class="value">27.3</span>
+        <span class="delta down">сплеск не втримався</span>
+      </div>
+      <div class="stat">
+        <span class="label">Глибокі сторінки</span>
+        <span class="value">70/106</span>
+        <span class="delta down">днів без візиту Google</span>
+      </div>
+    </div>
+
+    <div class="plain">
+      <span class="tag">Чому +65% — не зростання</span>
+      <p>
+        <strong>Покази</strong> — скільки разів сайт з’явився у видачі Google. Ми рахуємо
+        їх сумою за 28 днів, і саме тут пастка: 3 липня рівень стрибнув з 4-10 показів
+        на день до ~25. Сам стрибок стався один раз — але 28-денна сума після нього
+        росте ще чотири тижні, просто витісняючи старі слабкі дні новими. Цифра йде
+        вгору, хоча нічого нового не відбувається.
+      </p>
+      <p>
+        Денний рівень це підтверджує: ~25 показів на замірі 13 липня, ~27 зараз.
+        <strong>Плато, набране 3 липня, тримається, але не росте.</strong> Тому наступного
+        разу дивимось на показник на день, а не на суму.
+      </p>
+    </div>
+  </section>
+
+  <section>
+    <h2>Порівняння з двома попередніми циклами</h2>
+    <div class="scroll">
+      <table>
+        <thead>
+          <tr><th>Показник (28 днів)</th><th>23.06</th><th>07.07</th><th>20.07</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Покази в пошуку</td><td>247</td><td>281</td><td class="now up">465</td></tr>
+          <tr><td>Середня позиція</td><td>29.2</td><td>32.8</td><td class="now up">27.3</td></tr>
+          <tr><td>Кліки</td><td>8</td><td>3</td><td class="now">5</td></tr>
+          <tr><td>CTR</td><td>3.24%</td><td>1.07%</td><td class="now">1.08%</td></tr>
+          <tr><td>Покази в пошуку картинок</td><td>18</td><td>14</td><td class="now down">11</td></tr>
+          <tr><td>Стрибки верстки (CLS)</td><td>0.000</td><td>0.000</td><td class="now up">0.000</td></tr>
+          <tr><td>Сторінки без вхідних лінків</td><td>0</td><td>0</td><td class="now">0</td></tr>
+          <tr><td>Наліпка 3201 — без візиту Google</td><td>43 дні</td><td>57 днів</td><td class="now down">70 днів</td></tr>
+          <tr><td>Клуб 1095 — без візиту Google</td><td>79 днів</td><td>93 дні</td><td class="now down">106 днів</td></tr>
+          <tr><td>Картинки, подані в Google</td><td>0</td><td>0</td><td class="now up">2580</td></tr>
+          <tr><td>Сайти, що на нас посилаються</td><td>0</td><td>0</td><td class="now">не міряли</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section>
+    <h2>Головна проблема нікуди не зникла</h2>
+    <p>
+      Google приходить на сайт регулярно — головна сторінка і сторінка флагманського клубу
+      були відвідані 11 липня, тобто дев’ять днів тому. Але глибше він не спускається.
+      Сторінка наліпки №3201 не відвідувалась із 11 травня. Сторінка клубу №1095 — із
+      5 квітня. Це не «повільно», це фактично заморожено.
+    </p>
+    <div class="plain">
+      <span class="tag">Чому це важливо</span>
+      <p>
+        Google не показує в пошуку те, чого давно не бачив. Якщо робот не заходив на
+        сторінку 106 днів, у його індексі лежить квітнева версія — і вона змагається за
+        місце у видачі як застаріла. У нас таких сторінок тисячі: 3684 наліпки і 722 клуби.
+        Саме вони мали б приводити трафік, бо люди гуглять конкретний клуб, а не «база наліпок».
+      </p>
+    </div>
+    <p>
+      Це був <strong>головний запланований тест пакета, і його провалено</strong>. Сторінка
+      3201 реально змінилась, отримала 7 липня чесну позначку «оновлено», Google карту
+      сайту з цією позначкою завантажив — і все одно не пішов. Дедлайн сигналу стояв
+      на 21 липня.
+    </p>
+    <div class="plain">
+      <span class="tag">Що це доводить</span>
+      <p>
+        Гіпотеза «Google не переобходить, бо ми погано подали сигнал» знята — сигнал
+        подано бездоганно. Лишається інша: Google просто не виділяє сайту уваги. Заміри
+        10 липня дали точну цифру — <strong>41 запит Googlebot на добу</strong> проти
+        тисячі в роботів OpenAI. Це не технічна проблема, це питання авторитету сайту,
+        і технікою воно не лікується.
+      </p>
+    </div>
+    <p>
+      <strong>Нове, чого не було в попередніх звітах:</strong> сторінка каталогу
+      (<code>catalogue.html</code>) теж застигла — Google не заходив на неї з 10 червня,
+      сорок днів. А це головний вузол сайту: з неї веде 886 посилань на всі клуби й країни.
+      Робот ходить по ній, щоб знайти дорогу вглиб. Якщо він її не переобходить — він не
+      бачить оновлених посилань, і глибокі сторінки не отримають сигналу навіть після того,
+      як ми зробимо заплановані виправлення. Це підозрюваний №1 на наступний цикл.
+    </p>
+  </section>
+
+  <section>
+    <h2>Що саме спричинило зростання</h2>
+    <p>
+      7-8 липня — тобто рівно на межі попереднього заміру — був виконаний великий пакет
+      технічних робіт. Цей цикл перший, який може показати його ефект:
+    </p>
+    <ul>
+      <li><strong>2580 картинок наліпок подані в Google</strong> окремою розміткою в карті сайту, з назвами й підписами. Раніше Google про них просто не знав.</li>
+      <li><strong>1104 порожні сторінки закриті від індексації.</strong> Ідея: перестати витрачати увагу Google на сміття, щоб він ходив на живі сторінки.</li>
+      <li><strong>Виправлено хибну географію</strong> на 1892 сторінках — там стояли беззмістовні «Germany, Germany» і «Prague, Japan».</li>
+      <li><strong>Розблоковано роботів AI-пошуковиків</strong> (ChatGPT, Claude) — щоб сайт міг з’являтись і в їхніх відповідях.</li>
+    </ul>
+    <div class="plain">
+      <span class="tag">Чи можна зарахувати зростання пакету</span>
+      <p>
+        Ні. Стрибок показів стався <strong>3 липня — за чотири дні до пакета</strong>, і
+        проміжні заміри 10 і 13 липня це чесно зафіксували. Після пакета денний рівень
+        не прискорився. Позиція справді покращилась одразу після робіт (13-16 місце
+        8-10 липня), але за наступний тиждень розповзлась назад до 30-48. Короткий
+        сплеск, не новий рівень.
+      </p>
+    </div>
+    <p>
+      Що пакет точно дав: Google прийняв <strong>2580 поданих картинок</strong> (завантажив
+      карти 17, 18 і 20 липня) — прямий тест 31 липня. І роботи AI-пошуковиків пішли
+      вглиб сайту: близько тисячі запитів на добу від OpenAI проти п’яти до розблокування.
+    </p>
+  </section>
+
+  <section>
+    <h2>Що зі швидкістю сайту</h2>
+    <p>
+      Стрибків верстки немає — <strong>CLS 0.000</strong>, третій цикл поспіль. Це той
+      показник, який ми свого часу зламали емодзі в заголовках і полагодили; тримається.
+    </p>
+    <p>
+      Швидкість завантаження головної (5.1 с) і сторінки наліпки (6.6 с) погана, сторінка
+      клубу здорова (2.2 с). Але це лабораторний замір на штучному повільному з’єднанні —
+      Google на нього не дивиться. Він дивиться на дані реальних відвідувачів, а їх у нас
+      досі недостатньо, щоб він їх зібрав. Тому поки що це орієнтир, не проблема.
+    </p>
+  </section>
+
+  <section>
+    <h2>Наступний цикл — 3 серпня</h2>
+    <ul>
+      <li><strong>3 серпня:</strong> покази <em>на день</em> — чи пробили 27. Суму за 28 днів як головну цифру більше не беремо</li>
+      <li><strong>3 серпня:</strong> чи зрушив каталог із 40-денної паузи — новий головний підозрюваний</li>
+      <li><strong>31 липня:</strong> перші покази в пошуку картинок — прямий тест 2580 поданих зображень</li>
+      <li><strong>4 серпня:</strong> головний тест закриття сміттєвих сторінок — кількість проіндексованих має впасти на ~1100 <em>без</em> падіння показів. Якщо покази впадуть разом із нею — рішення було помилковим і його треба відкочувати.</li>
+    </ul>
+    <div class="plain">
+      <span class="tag">Що це означає для роботи</span>
+      <p>
+        Технічну частину плану виконано повністю і якісно — і вона не купила сайту уваги
+        Google. Це рівно те, що передбачала стратегія: двигун виходу з ями — не техніка,
+        а авторитет. На сайт зараз не посилається <strong>жоден</strong> сторонній ресурс.
+        Поки ця частина роботи відкладена, наступні заміри показуватимуть те саме плато —
+        уже без запасу технічних виправлень, які можна було б зробити замість неї.
+      </p>
+    </div>
+  </section>
+
+  <hr>
+  <p style="font-size:.85rem; color:var(--ink-soft)">
+    Джерела: Google Search Console (searchanalytics + URL Inspection), внутрішній аудит
+    посилань, PageSpeed Insights. Повні дані — <code>seo-reports/2026-07-20_overhaul_check.md</code>
+    і <code>2026-07-20_internal_links_audit.md</code>.
+  </p>
+
+</div>

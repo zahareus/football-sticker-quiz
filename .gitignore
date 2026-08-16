@@ -17,3 +17,8 @@ scripts/supabase_enricher/
 scripts/upload_stickers.py
 .vercel
 backups-local/
+
+# Local debugging scratch — CLS/LCP probes and preflight checks, never shipped
+cls-*.mjs
+preflight-check.mjs
+scripts/__pycache__/
