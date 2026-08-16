@@ -924,6 +924,15 @@
                          loading="lazy"
                          decoding="async">
                 </a>
+                <a href="/stickers/3379.html" class="sticker-preview-link">
+                    <img src="/img/club_1187/1777110988571_IMG_9602_thumb.webp?v=2026-05-27"
+                         alt="FC Dynamo Bryansk football sticker #3379 found in this city"
+                         data-sticker-id="3379"
+                         class="sticker-preview-image"
+                         width="200" height="200"
+                         loading="lazy"
+                         decoding="async">
+                </a>
                 <a href="/stickers/3388.html" class="sticker-preview-link">
                     <img src="/img/club_1190/1777112212862_IMG_9603_thumb.webp?v=2026-05-27"
                          alt="Manisaspor football sticker #3388 found in this city"
@@ -937,15 +946,6 @@
                     <img src="/img/club_614/1777110800517_IMG_9613_thumb.webp?v=2026-05-27"
                          alt="FCSB football sticker #3378 found in this city"
                          data-sticker-id="3378"
-                         class="sticker-preview-image"
-                         width="200" height="200"
-                         loading="lazy"
-                         decoding="async">
-                </a>
-                <a href="/stickers/3379.html" class="sticker-preview-link">
-                    <img src="/img/club_1187/1777110988571_IMG_9602_thumb.webp?v=2026-05-27"
-                         alt="FC Dynamo Bryansk football sticker #3379 found in this city"
-                         data-sticker-id="3379"
                          class="sticker-preview-image"
                          width="200" height="200"
                          loading="lazy"
@@ -2250,6 +2250,13 @@
                 })();
 
                 (function() {
+                    const marker = L.marker([41.0180638888889, 28.9720333333333]).addTo(cityMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>FC Dynamo Bryansk</strong><a href="/stickers/3379.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
                     const marker = L.marker([41.0172416666667, 28.9751333333333]).addTo(cityMap);
                     marker.bindPopup('<div class="nearby-sticker-popup"><strong>Manisaspor</strong><a href="/stickers/3388.html" class="map-popup-link">View</a></div>');
                     marker.on('mouseover', function() { this.openPopup(); });
@@ -2259,13 +2266,6 @@
                 (function() {
                     const marker = L.marker([40.9885111111111, 29.0286666666667]).addTo(cityMap);
                     marker.bindPopup('<div class="nearby-sticker-popup"><strong>FCSB</strong><a href="/stickers/3378.html" class="map-popup-link">View</a></div>');
-                    marker.on('mouseover', function() { this.openPopup(); });
-                    marker.on('click', function() { this.openPopup(); });
-                })();
-
-                (function() {
-                    const marker = L.marker([41.0180638888889, 28.9720333333333]).addTo(cityMap);
-                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>FC Dynamo Bryansk</strong><a href="/stickers/3379.html" class="map-popup-link">View</a></div>');
                     marker.on('mouseover', function() { this.openPopup(); });
                     marker.on('click', function() { this.openPopup(); });
                 })();
@@ -2873,9 +2873,9 @@
                     [41.0356416666667, 28.9819416666667],
                     [40.9858888888889, 29.0262138888889],
                     [40.9890972222222, 29.0287361111111],
+                    [41.0180638888889, 28.9720333333333],
                     [41.0172416666667, 28.9751333333333],
                     [40.9885111111111, 29.0286666666667],
-                    [41.0180638888889, 28.9720333333333],
                     [41.0354638888889, 28.9819944444444],
                     [41.0280194444444, 28.9743527777778],
                     [41.033675, 28.9759472222222],
