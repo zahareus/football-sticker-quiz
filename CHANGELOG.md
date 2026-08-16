@@ -2,6 +2,77 @@
 
 Notable changes to StickerHunt. Reverse chronological. Commit hashes link to git history.
 
+## 2026-08-16 — Security audit fixed end to end, corpus flush, upload no longer starved
+
+### Security (31 of 32 audit findings closed)
+
+- **CI command injection** (`a56806c6f`). `repository_dispatch` payload values were
+  re-interpolated by GitHub into `run:` script text, so `$(...)` in `sticker_ids` executed
+  on the runner — reaching the `contents: write` GITHUB_TOKEN and, in the image step,
+  `SUPABASE_SERVICE_KEY`. Reproduced before fixing: a crafted payload created a file on the
+  runner. All eight sites now pass values through `env:` quoted; ids are normalised to
+  `[0-9,]` rather than rejected, so one bad token no longer fails a whole batch, and the
+  Telegram alert is emitted before anything that can abort.
+- **Stored XSS in the leaderboard** (`f6e7d6d42`). Nicknames are user-chosen and
+  registration is open; two raw `${username}` interpolations ran for every visitor.
+  `escapeHtml` moved into `SharedUtils`; regression guard added that fails on the pre-fix file.
+- **Escaping in the generators, by context** (`fe7553d94`). Club/city names, sticker
+  locations and Wikipedia text reached HTML unescaped. Fixed per output context, not per
+  field: `escapeHtml(stripEmoji(x))` for text and attributes, `escapeForJsHtmlString` for the
+  Leaflet popup that only escaped the JS quote, a new `jsonLdPayload()` for all eight JSON-LD
+  sites, and a new `safeUrl()` for hrefs — `encodeURI` is not a scheme validator and passed
+  `javascript:` through. **Do not "simplify" this to one escaper**: HTML-escaping a JSON-LD
+  value writes a literal `&amp;` into structured data.
+- **Pre-existing structured-data corruption fixed on the way** — `pageTitle`/`metaDescription`
+  were built HTML-escaped for `<title>` and reused inside the schema, so Brighton & Hove
+  Albion shipped as `Brighton &amp; Hove` in its JSON-LD. Raw and escaped forms are now separate.
+- **`/api/enrich-club` had no server-side auth** (`7ad2ad4c8`). A bare curl returned 200 and
+  spent OPENAI_API_KEY; the page's permission check only governed the browser. Now verifies a
+  Supabase token and reads `can_upload` with it. Also `optimize-image` (not deployed — kept
+  for the future) and migration 007 bounding the two anon RPCs.
+- **Deliberately not built: binding a vote to a served pair.** Measured first — 3392 votes,
+  1130 sessions, zero sustaining >30 votes/minute. The "harmless" log-only phase would move a
+  write onto `get_battle_pair`, which today cannot fail. Reasoning and four preconditions in
+  `docs/BACKLOG.md`.
+
+### Corpus and SEO
+
+- **Flushed 1018 stale sticker pages + 63 club + 3 country** (`9f2e873f5`, `7eb9364a1`) —
+  orphaned tag characters and a `<meta keywords>` the templates dropped in `3fb215f6b`.
+  Scope was measured, not assumed: a naive tag-char scan flags 1287 pages, but most are
+  legitimate 🏴󠁧󠁢󠁥󠁮󠁧󠁿 flags in JSON-LD. **Full-corpus regeneration was rejected** — the
+  "similar stickers" strip is rebuilt from current DB state every run, so it would churn
+  3368 pages with no defect to fix.
+- **Root cause of the orphaned stickers found** (`a11902ee1`), after three SEO cycles
+  reported it unfixed. Three mechanisms leave a gap: a dispatch is evicted from the
+  concurrency queue → the nightly city sweep still writes the sticker page, but with
+  `STICKER_PAGE_ONLY=1`, which skips club pages → `reconcile-stickers` only checked that the
+  sticker page exists, so it stayed silent forever. It now also checks the club page links to
+  it. Isolated stickers: 0 / 4386.
+- Canonicals on 7 service pages, descriptions on privacy/terms, `profile.html` to noindex
+  (it rendered other people's accounts under one indexable URL), twitter cards to `name=`
+  across templates and 5259 pages, `sitemap-stickers-4.xml` submitted to Search Console.
+- **`health.js` reported RED wrongly** (`202ffb225`) — it aged the sitemap by its *first*
+  `<lastmod>`, but entries are ordered by sticker id, not date.
+
+### Upload reliability
+
+- **Browser uploads were being starved by our own pipeline** (`c418253bc`, `713f2653d`).
+  Batch uploads failed mid-run with "Storage: Too many connections issued to the database",
+  losing stickers with neither file nor row saved. The culprit was the `if: always()`
+  safety-net image sweep: it ran on *every* generation run — and creating a club or uploading
+  a single sticker each fires one — hitting Storage with 20 concurrent checks while the
+  browser uploaded to the same service. Every pooler refusal spike that day sat inside its
+  window, the largest on its longest run. The step was a duplicate of `reconcile-images.yml`
+  and was removed; that cron now runs every 5 minutes over a 1-day window (less total load,
+  faster healing) and carries a failure alert, since it is now the only healer.
+  `upload-batch.js` retries transient failures three times with jittered backoff —
+  idempotently: the storage path is computed once and uploaded with `upsert`, and the insert
+  retry looks the row up by `image_url`, so a retry can neither orphan a file nor duplicate a
+  sticker. Retries are surfaced in the report rather than hidden.
+- An earlier diagnosis blaming the page generators' full-table reads was **wrong** — they go
+  through PostgREST, which has its own pool and does not consume pooler client slots.
+
 ## 2026-08-15 — Flag-emoji leftovers, nightly city map sweep, popup escaping
 
 - **Fix: subdivision-flag tag chars survived `stripEmoji`** (`c429bee`). The regex knew the
