@@ -762,15 +762,6 @@
                          loading="lazy"
                          decoding="async">
                 </a>
-                <a href="/stickers/4443.html" class="sticker-preview-link">
-                    <img src="/img/club_948/1786895112683_IMG_3288_thumb.webp?v=2026-05-27"
-                         alt="Borussia Dortmund football sticker #4443 found in this city"
-                         data-sticker-id="4443"
-                         class="sticker-preview-image"
-                         width="200" height="200"
-                         loading="lazy"
-                         decoding="async">
-                </a>
                 <a href="/stickers/4441.html" class="sticker-preview-link">
                     <img src="/img/club_743/1786895110169_IMG_3290_thumb.webp?v=2026-05-27"
                          alt="Hammarby football sticker #4441 found in this city"
@@ -937,6 +928,15 @@
                     <img src="/img/club_187/1772989713613_IMG_8099_thumb.webp?v=2026-05-27"
                          alt="PFC Levski Sofia football sticker #3031 found in this city"
                          data-sticker-id="3031"
+                         class="sticker-preview-image"
+                         width="200" height="200"
+                         loading="lazy"
+                         decoding="async">
+                </a>
+                <a href="/stickers/4443.html" class="sticker-preview-link">
+                    <img src="/img/club_948/1786895112683_IMG_3288_thumb.webp?v=2026-05-27"
+                         alt="Borussia Dortmund football sticker #4443 found in this city"
+                         data-sticker-id="4443"
                          class="sticker-preview-image"
                          width="200" height="200"
                          loading="lazy"
@@ -2171,13 +2171,6 @@
                 })();
 
                 (function() {
-                    const marker = L.marker([37.9744, -0.693013888888889]).addTo(cityMap);
-                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>Borussia Dortmund</strong><a href="/stickers/4443.html" class="map-popup-link">View</a></div>');
-                    marker.on('mouseover', function() { this.openPopup(); });
-                    marker.on('click', function() { this.openPopup(); });
-                })();
-
-                (function() {
                     const marker = L.marker([37.9706666666667, -0.695852777777778]).addTo(cityMap);
                     marker.bindPopup('<div class="nearby-sticker-popup"><strong>Hammarby</strong><a href="/stickers/4441.html" class="map-popup-link">View</a></div>');
                     marker.on('mouseover', function() { this.openPopup(); });
@@ -2306,6 +2299,13 @@
                 (function() {
                     const marker = L.marker([37.976975, -0.687727777777778]).addTo(cityMap);
                     marker.bindPopup('<div class="nearby-sticker-popup"><strong>PFC Levski Sofia</strong><a href="/stickers/3031.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([37.9744, -0.693013888888889]).addTo(cityMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>Borussia Dortmund</strong><a href="/stickers/4443.html" class="map-popup-link">View</a></div>');
                     marker.on('mouseover', function() { this.openPopup(); });
                     marker.on('click', function() { this.openPopup(); });
                 })();
@@ -2929,7 +2929,6 @@
                     [37.9764472222222, -0.685341666666667],
                     [37.9749194444444, -0.692011111111111],
                     [37.9707083333333, -0.695822222222222],
-                    [37.9744, -0.693013888888889],
                     [37.9706666666667, -0.695852777777778],
                     [37.97645, -0.685327777777778],
                     [37.9740083333333, -0.678363888888889],
@@ -2949,6 +2948,7 @@
                     [37.9846277777778, -0.676347222222222],
                     [37.9864527777778, -0.676008333333333],
                     [37.976975, -0.687727777777778],
+                    [37.9744, -0.693013888888889],
                     [37.9755583333333, -0.6816],
                     [37.9792638888889, -0.668122222222222],
                     [37.9857305555556, -0.662708333333333],

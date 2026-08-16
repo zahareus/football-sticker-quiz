@@ -492,6 +492,15 @@
                          loading="lazy"
                          decoding="async">
                 </a>
+                <a href="/stickers/3770.html" class="sticker-preview-link">
+                    <img src="/img/club_630/1784584326203_IMG_0953_thumb.webp?v=2026-05-27"
+                         alt="Sporting CP football sticker #3770 found in this city"
+                         data-sticker-id="3770"
+                         class="sticker-preview-image"
+                         width="200" height="200"
+                         loading="lazy"
+                         decoding="async">
+                </a>
                 <a href="/stickers/3776.html" class="sticker-preview-link">
                     <img src="/img/club_880/1784584332659_IMG_0940_thumb.webp?v=2026-05-27"
                          alt="Hertha BSC football sticker #3776 found in this city"
@@ -532,15 +541,6 @@
                     <img src="/img/club_824/1784584323654_IMG_0957_thumb.webp?v=2026-05-27"
                          alt="Real Betis football sticker #3768 found in this city"
                          data-sticker-id="3768"
-                         class="sticker-preview-image"
-                         width="200" height="200"
-                         loading="lazy"
-                         decoding="async">
-                </a>
-                <a href="/stickers/3770.html" class="sticker-preview-link">
-                    <img src="/img/club_630/1784584326203_IMG_0953_thumb.webp?v=2026-05-27"
-                         alt="Sporting CP football sticker #3770 found in this city"
-                         data-sticker-id="3770"
                          class="sticker-preview-image"
                          width="200" height="200"
                          loading="lazy"
@@ -3041,6 +3041,13 @@
                 })();
 
                 (function() {
+                    const marker = L.marker([38.7623138888889, -9.16019166666667]).addTo(cityMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>Sporting CP</strong><a href="/stickers/3770.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
                     const marker = L.marker([38.7622833333333, -9.16003888888889]).addTo(cityMap);
                     marker.bindPopup('<div class="nearby-sticker-popup"><strong>Hertha BSC</strong><a href="/stickers/3776.html" class="map-popup-link">View</a></div>');
                     marker.on('mouseover', function() { this.openPopup(); });
@@ -3071,13 +3078,6 @@
                 (function() {
                     const marker = L.marker([38.7626055555556, -9.16065833333333]).addTo(cityMap);
                     marker.bindPopup('<div class="nearby-sticker-popup"><strong>Real Betis</strong><a href="/stickers/3768.html" class="map-popup-link">View</a></div>');
-                    marker.on('mouseover', function() { this.openPopup(); });
-                    marker.on('click', function() { this.openPopup(); });
-                })();
-
-                (function() {
-                    const marker = L.marker([38.7623138888889, -9.16019166666667]).addTo(cityMap);
-                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>Sporting CP</strong><a href="/stickers/3770.html" class="map-popup-link">View</a></div>');
                     marker.on('mouseover', function() { this.openPopup(); });
                     marker.on('click', function() { this.openPopup(); });
                 })();
@@ -4805,12 +4805,12 @@
                     [38.7262611111111, -9.14976111111111],
                     [38.731575, -9.14738333333333],
                     [38.7625916666667, -9.16057777777778],
+                    [38.7623138888889, -9.16019166666667],
                     [38.7622833333333, -9.16003888888889],
                     [38.7626027777778, -9.16056111111111],
                     [38.7172611111111, -9.14271944444444],
                     [38.7623222222222, -9.16009722222222],
                     [38.7626055555556, -9.16065833333333],
-                    [38.7623138888889, -9.16019166666667],
                     [38.7623111111111, -9.16018611111111],
                     [38.7625805555556, -9.16050833333333],
                     [38.7623222222222, -9.16016944444445],
