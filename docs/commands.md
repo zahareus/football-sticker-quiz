@@ -2,19 +2,34 @@
 
 ## Page Generation
 
+> 🔴 **Never run `npm run generate`.** Its sticker and club render paths in
+> `generate-static-pages.js` are stale copies; running it on 2026-05-27 baked a
+> raw `{{MULTILINGUAL_META}}` into 712 club and 3534 sticker pages. Use the
+> canonical generator for the page type you actually want (iron rule 1 in
+> `CLAUDE.md`). The `generate` / `generate:test` scripts stay in `package.json`
+> for now, but nothing should call them.
+
 ```bash
 cd "/Users/victorzakharchenko/Claude Code/stickerhunt/scripts"
 
 # Install dependencies (first time)
 npm install
 
-# Generate ALL pages (stickers + clubs + countries + cities)
-npm run generate
+# One sticker page (canonical). STICKER_PAGE_ONLY=1 skips the related club /
+# country / nav rebuilds, which is what makes bulk runs safe to parallelise.
+node generate-single-sticker.js <sticker_id>
+STICKER_PAGE_ONLY=1 node generate-single-sticker.js <sticker_id>
 
-# Test generation (first 10)
-npm run generate:test
+# Club pages (canonical) — comma-separated ids; also refreshes their countries
+node regenerate-club-pages.js 1175,1183
 
-# Homepage only
+# Country pages (canonical) — takes no arguments, rebuilds every country
+node regenerate-country-pages.js
+
+# City pages (canonical) — takes no arguments, rebuilds every city
+node generate-city-pages.js
+
+# Homepage + catalogue + sitemaps — this mode ONLY
 node generate-static-pages.js --homepage-only
 ```
 
