@@ -58,6 +58,16 @@ jobs:
           CP_N_COUNTRIES: ${{ github.event.client_payload.n_countries }}
           IN_STICKER_IDS: ${{ github.event.inputs.sticker_ids }}
         run: |
+          # Normalise a comma-separated ID list: strip whitespace, keep only
+          # numeric tokens, re-join with commas. Deliberately permissive — a
+          # junk token (e.g. the "NaN" upload-batch.js can produce from a broken
+          # autocomplete) is dropped and the rest of the batch still runs. It
+          # also guarantees the value written to $GITHUB_OUTPUT holds no newline,
+          # so payload text cannot forge extra step outputs. The injection
+          # defence proper is env: + quoting at every consumer, not this filter.
+          normalize_ids() {
+            printf '%s' "$1" | tr -d ' \t\r' | tr ',' '\n' | grep -E '^[0-9]+$' | paste -sd, -
+          }
           if [ "${{ github.event_name }}" == "repository_dispatch" ]; then
             # Support both single sticker_id and multiple sticker_ids from API
             if [ -n "$CP_STICKER_IDS" ]; then
@@ -83,16 +93,34 @@ jobs:
             N_CLUBS=""
             N_COUNTRIES=""
           fi
-          # Remove spaces and store
-          STICKER_IDS=$(echo "$STICKER_IDS" | tr -d ' ')
-          CLUB_IDS=$(echo "$CLUB_IDS" | tr -d ' ')
-          echo "sticker_ids=$STICKER_IDS" >> $GITHUB_OUTPUT
-          echo "club_ids=$CLUB_IDS" >> $GITHUB_OUTPUT
-          echo "regenerate_stickers=$REGENERATE_STICKERS" >> $GITHUB_OUTPUT
+          # Telegram alert channel FIRST: whatever happens below, the batch
+          # uploader promised the user a message, so `notify` and its counters
+          # must always reach $GITHUB_OUTPUT. These never touch a shell command,
+          # they only populate the notify step's env.
+          [ "$NOTIFY" = "true" ] && NOTIFY=true || NOTIFY=false
+          N_STICKERS=$(printf '%s' "$N_STICKERS" | tr -cd '0-9')
+          N_CLUBS=$(printf '%s' "$N_CLUBS" | tr -cd '0-9')
+          N_COUNTRIES=$(printf '%s' "$N_COUNTRIES" | tr -cd '0-9')
           echo "notify=$NOTIFY" >> $GITHUB_OUTPUT
           echo "n_stickers=$N_STICKERS" >> $GITHUB_OUTPUT
           echo "n_clubs=$N_CLUBS" >> $GITHUB_OUTPUT
           echo "n_countries=$N_COUNTRIES" >> $GITHUB_OUTPUT
+
+          # Normalise ID lists and store
+          RAW_STICKER_IDS="$STICKER_IDS"
+          RAW_CLUB_IDS="$CLUB_IDS"
+          STICKER_IDS=$(normalize_ids "$STICKER_IDS")
+          CLUB_IDS=$(normalize_ids "$CLUB_IDS")
+          if [ -n "$RAW_STICKER_IDS" ] && [ -z "$STICKER_IDS" ]; then
+            echo "::warning::sticker_ids had no usable numeric IDs, nothing to generate"
+          fi
+          if [ -n "$RAW_CLUB_IDS" ] && [ -z "$CLUB_IDS" ]; then
+            echo "::warning::club_ids had no usable numeric IDs, nothing to regenerate"
+          fi
+          [ "$REGENERATE_STICKERS" = "true" ] && REGENERATE_STICKERS=true || REGENERATE_STICKERS=false
+          echo "sticker_ids=$STICKER_IDS" >> $GITHUB_OUTPUT
+          echo "club_ids=$CLUB_IDS" >> $GITHUB_OUTPUT
+          echo "regenerate_stickers=$REGENERATE_STICKERS" >> $GITHUB_OUTPUT
 
           if [ -n "$STICKER_IDS" ]; then
             echo "Processing sticker IDs: $STICKER_IDS"
@@ -111,8 +139,8 @@ jobs:
         env:
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
           SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
+          STICKER_IDS: ${{ steps.get-ids.outputs.sticker_ids }}
         run: |
-          STICKER_IDS="${{ steps.get-ids.outputs.sticker_ids }}"
           IFS=',' read -ra IDS <<< "$STICKER_IDS"
 
           GENERATED_URLS=""
@@ -138,8 +166,8 @@ jobs:
         env:
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
           SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
+          CLUB_IDS: ${{ steps.get-ids.outputs.club_ids }}
         run: |
-          CLUB_IDS="${{ steps.get-ids.outputs.club_ids }}"
           echo "Regenerating pages for clubs: $CLUB_IDS"
           node regenerate-club-pages.js "$CLUB_IDS"
 
@@ -149,8 +177,8 @@ jobs:
         env:
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
           SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
+          CLUB_IDS: ${{ steps.get-ids.outputs.club_ids }}
         run: |
-          CLUB_IDS="${{ steps.get-ids.outputs.club_ids }}"
           echo "Regenerating sticker pages for clubs: $CLUB_IDS"
           IFS=',' read -ra IDS <<< "$CLUB_IDS"
           for id in "${IDS[@]}"; do
@@ -167,12 +195,12 @@ jobs:
         env:
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
           SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
+          STICKER_IDS: ${{ steps.get-ids.outputs.sticker_ids }}
         run: |
-          STICKER_IDS="${{ steps.get-ids.outputs.sticker_ids }}"
           echo "Optimizing images for stickers: $STICKER_IDS"
 
           # Run optimization for specific sticker IDs
-          node optimize-images.js --only=$STICKER_IDS
+          node optimize-images.js --only="$STICKER_IDS"
 
           echo "image_optimization=success" >> $GITHUB_OUTPUT
 
@@ -238,6 +266,8 @@ jobs:
         if: steps.check-changes.outputs.has_changes == 'true'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          STICKER_IDS: ${{ steps.get-ids.outputs.sticker_ids }}
+          CLUB_IDS: ${{ steps.get-ids.outputs.club_ids }}
         run: |
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
@@ -248,10 +278,7 @@ jobs:
           git remote set-url origin "https://x-access-token:${GH_TOKEN}@github.com/${{ github.repository }}.git"
           git add stickers/ clubs/ countries/ cities/ index.html catalogue.html scripts/wiki-cache.json sitemap*.xml
 
-          # Create commit message
-          STICKER_IDS="${{ steps.get-ids.outputs.sticker_ids }}"
-          CLUB_IDS="${{ steps.get-ids.outputs.club_ids }}"
-
+          # Create commit message (STICKER_IDS / CLUB_IDS come from env)
           if [ -n "$STICKER_IDS" ]; then
             if [[ "$STICKER_IDS" == *","* ]]; then
               git commit -m "Auto-generate pages for stickers #$STICKER_IDS"
@@ -288,17 +315,21 @@ jobs:
           fi
 
       - name: Output result
+        env:
+          STICKER_IDS: ${{ steps.get-ids.outputs.sticker_ids }}
+          PAGE_GENERATION: ${{ steps.generate-pages.outputs.page_generation }}
+          IMAGE_OPTIMIZATION: ${{ steps.optimize-images.outputs.image_optimization }}
         run: |
           echo "========================================"
           echo "WORKFLOW COMPLETED SUCCESSFULLY"
           echo "========================================"
           echo ""
-          echo "Sticker IDs: ${{ steps.get-ids.outputs.sticker_ids }}"
-          echo "Page Generation: ${{ steps.generate-pages.outputs.page_generation }}"
-          echo "Image Optimization: ${{ steps.optimize-images.outputs.image_optimization }}"
+          echo "Sticker IDs: $STICKER_IDS"
+          echo "Page Generation: $PAGE_GENERATION"
+          echo "Image Optimization: $IMAGE_OPTIMIZATION"
           echo ""
           echo "Generated URLs:"
-          IFS=',' read -ra IDS <<< "${{ steps.get-ids.outputs.sticker_ids }}"
+          IFS=',' read -ra IDS <<< "$STICKER_IDS"
           for id in "${IDS[@]}"; do
             echo "  - https://stickerhunt.club/stickers/$id.html"
           done
