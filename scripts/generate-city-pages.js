@@ -20,7 +20,8 @@ import {
     selectTopRatedStickers, generateMultilingualMeta,
     cityToSlug,
     stripEmoji,
-    escapeForJsHtmlString
+    escapeForJsHtmlString,
+    escapeHtml, safeUrl
 } from './seo-helpers.js';
 
 // Configuration
@@ -194,9 +195,9 @@ function generateCityWikiSection(wikiData) {
         html += `\n    <div class="wiki-facts">\n        ${facts.join('\n        ')}\n    </div>`;
     }
     if (hasIntro) {
-        html += `\n    <div class="wiki-intro">\n        <p>${wikiData.intro}</p>`;
+        html += `\n    <div class="wiki-intro">\n        <p>${escapeHtml(wikiData.intro)}</p>`;
         if (wikiData.wikiUrl) {
-            html += `\n        <p class="wiki-source">Source: <a href="${wikiData.wikiUrl}" target="_blank" rel="noopener noreferrer">Wikipedia</a></p>`;
+            html += `\n        <p class="wiki-source">Source: <a href="${safeUrl(wikiData.wikiUrl)}" target="_blank" rel="noopener noreferrer">Wikipedia</a></p>`;
         }
         html += `\n    </div>`;
     }
@@ -592,9 +593,12 @@ async function main() {
                 { text: 'Cities', url: '/cities/' },
                 { text: cityName, url: `/cities/${slug}.html` }
             ]),
+            // cityName also feeds BREADCRUMB_SCHEMA above, which must stay
+            // unescaped (jsonLdPayload handles that block) — so escape here,
+            // at the point where it becomes markup, not at the variable.
             MAIN_HEADING: resolvedCountry
-                ? `${cityName}, <a href="/countries/${(getCountryCode(resolvedCountry) || '').toUpperCase()}.html">${resolvedCountry}</a> — ${stickerCount} Football ${stickerWord}`
-                : `${cityName} — ${stickerCount} Football ${stickerWord}`,
+                ? `${escapeHtml(cityName)}, <a href="/countries/${(getCountryCode(resolvedCountry) || '').toUpperCase()}.html">${escapeHtml(resolvedCountry)}</a> — ${stickerCount} Football ${stickerWord}`
+                : `${escapeHtml(cityName)} — ${stickerCount} Football ${stickerWord}`,
             WIKI_SECTION: generateCityWikiSection(wikiData),
             CITY_DETAILS: generateCityDetails(cityData, clubsMap),
             STICKER_GALLERY: generateCityStickerGallery(stickers, clubsMap),

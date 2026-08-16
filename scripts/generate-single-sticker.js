@@ -24,7 +24,7 @@ import {
     cityOnly, stickerNoindexTag, selectTopRatedStickers, generateDescriptiveAltText, generateMultilingualAltText, generateStickerContextParagraph, generateMultilingualMeta,
     generateFeaturedGallery, fetchAllPaginated,
     buildClubKeywords as _buildClubKeywords,
-    cityToSlug
+    cityToSlug, jsonLdPayload, safeUrl
 } from './seo-helpers.js';
 
 // Configuration
@@ -201,7 +201,8 @@ function generateWikiSection(clubId, club, countryName) {
     if (wiki?.website) {
         try {
             const domain = new URL(wiki.website).hostname.replace('www.', '');
-            metaItems.push(`<span class="club-meta-item"><a href="${wiki.website}" target="_blank" rel="noopener noreferrer">${escapeHtml(domain)}</a></span>`);
+            const href = safeUrl(wiki.website);
+            if (href) metaItems.push(`<span class="club-meta-item"><a href="${href}" target="_blank" rel="noopener noreferrer">${escapeHtml(domain)}</a></span>`);
         } catch {}
     }
 
@@ -214,7 +215,7 @@ function generateWikiSection(clubId, club, countryName) {
     if (wiki?.intro && wiki.intro.trim().length > 0) {
         html += `\n<div class="club-about">\n    <p>${escapeHtml(wiki.intro)}</p>`;
         if (wiki.wikiUrl) {
-            html += `\n    <p class="club-about-source">Source: <a href="${wiki.wikiUrl}" target="_blank" rel="noopener noreferrer">Wikipedia</a></p>`;
+            html += `\n    <p class="club-about-source">Source: <a href="${safeUrl(wiki.wikiUrl)}" target="_blank" rel="noopener noreferrer">Wikipedia</a></p>`;
         } else if (wiki.source === 'ai') {
             html += `\n    <p class="club-about-source">AI-generated description</p>`;
         }
@@ -292,7 +293,7 @@ function generateSchemaJsonLd(club, stickers, canonicalUrl, metaDescription, pag
         }));
     }
 
-    return `<script type="application/ld+json">\n    ${JSON.stringify(schema, null, 2).split('\n').join('\n    ')}\n    </script>`;
+    return `<script type="application/ld+json">\n    ${jsonLdPayload(schema, '    ')}\n    </script>`;
 }
 
 function generateClubDescription(club, stickerCount, countryName) {
@@ -325,7 +326,7 @@ function generateStickerLocation(sticker) {
     if (!sticker.location || sticker.location.trim() === '') return '';
     const city = sticker.location.split(',')[0].trim();
     const slug = cityToSlug(city);
-    return `<p class="sticker-detail-location"><a href="/cities/${slug}.html">${sticker.location}</a></p>`;
+    return `<p class="sticker-detail-location"><a href="/cities/${slug}.html">${escapeHtml(sticker.location)}</a></p>`;
 }
 
 function generateClubMiniCard(club, stickerCount) {
@@ -570,9 +571,8 @@ function generateMapInitScript(sticker, clubName, nearbyStickers = []) {
 function generateClubInfo(club) {
     const items = [];
     if (club.web) {
-        let safeUrl;
-        try { safeUrl = encodeURI(decodeURI(club.web)); } catch { safeUrl = club.web; }
-        items.push(`<span class="club-stat-tag">🌐 <a href="${safeUrl}" target="_blank" rel="noopener noreferrer">${escapeHtml(club.web)}</a></span>`);
+        const webHref = safeUrl(club.web);
+        if (webHref) items.push(`<span class="club-stat-tag">🌐 <a href="${webHref}" target="_blank" rel="noopener noreferrer">${escapeHtml(club.web)}</a></span>`);
     }
     if (club.media) items.push(`<span class="club-stat-tag">#️⃣ ${escapeHtml(club.media)}</span>`);
     if (items.length === 0) return '';
@@ -667,8 +667,13 @@ async function generateStickerPage(sticker, club, prevStickerId, nextStickerId, 
 
     const countryName = getCountryName(club.country);
     const clubNameClean = stripEmoji(club.name);
-    const pageTitle = `${escapeHtml(clubNameClean)} Sticker #${sticker.id} — Identify This Football Sticker | StickerHunt`;
-    const metaDescription = `Football sticker #${sticker.id} from ${escapeHtml(clubNameClean)}, ${escapeHtml(countryName)}. Can you identify this ${escapeHtml(clubNameClean)} sticker? Browse our collection.`;
+    // Raw first, escaped second: the escaped pair goes into <title> and
+    // content="..." attributes; the raw pair goes into JSON-LD, where HTML
+    // escaping would leave a literal &amp; in the structured data.
+    const pageTitleRaw = `${clubNameClean} Sticker #${sticker.id} — Identify This Football Sticker | StickerHunt`;
+    const pageTitle = escapeHtml(pageTitleRaw);
+    const metaDescriptionRaw = `Football sticker #${sticker.id} from ${clubNameClean}, ${countryName}. Can you identify this ${clubNameClean} sticker? Browse our collection.`;
+    const metaDescription = escapeHtml(metaDescriptionRaw);
     const canonicalUrl = `${BASE_URL}/stickers/${sticker.id}.html`;
 
     const keywords = buildClubKeywords(clubNameClean, countryName, club.media);
@@ -683,7 +688,44 @@ async function generateStickerPage(sticker, club, prevStickerId, nextStickerId, 
     // allStickers = city stickers passed from caller (all stickers from same location)
     const nearbyStickers = allStickers;
 
+    // Built here rather than in the template: the block used to be assembled by
+    // string substitution, so a club name containing a quote broke the JSON and
+    // an HTML-escaped description put `&amp;` into structured data.
+    const addedDateIso = sticker.added_at
+        ? new Date(sticker.added_at).toISOString().slice(0, 10)
+        : (sticker.created_at ? new Date(sticker.created_at).toISOString().slice(0, 10) : '');
+    const imageAltText = generateMultilingualAltText({
+        clubName: clubNameClean, stickerId: sticker.id,
+        countryCode: club.country,
+        countryName: countryName,
+        cityName: sticker.location ? sticker.location.trim() : null,
+        league: wikiCache[club.id]?.league
+    });
+
+    const imageSchema = {
+        "@context": "https://schema.org",
+        "@type": "ImageObject",
+        "name": `${club.name} Sticker #${sticker.id}`,
+        "description": metaDescriptionRaw,
+        "contentUrl": toLocalImgAbs(getDetailImageUrl(sticker.image_url)),
+        "thumbnailUrl": toLocalImgAbs(getThumbnailUrl(sticker.image_url)),
+        "width": 1200,
+        "height": 1200,
+        "encodingFormat": "image/webp",
+        "url": canonicalUrl,
+        "datePublished": addedDateIso || undefined,
+        "license": "https://stickerhunt.club/terms.html",
+        "acquireLicensePage": "https://stickerhunt.club/about.html",
+        "creator": { "@type": "Organization", "name": "StickerHunt", "url": "https://stickerhunt.club" },
+        "copyrightHolder": { "@type": "Organization", "name": "StickerHunt" },
+        "creditText": "StickerHunt",
+        "copyrightNotice": "© 2026 StickerHunt",
+        "caption": imageAltText,
+        "representativeOfPage": true
+    };
+
     const data = {
+        IMAGE_SCHEMA: `<script type="application/ld+json">\n    ${jsonLdPayload(imageSchema, '    ')}\n    </script>`,
         PAGE_TITLE: pageTitle,
         META_DESCRIPTION: metaDescription,
         META_KEYWORDS: keywords,
@@ -698,14 +740,8 @@ async function generateStickerPage(sticker, club, prevStickerId, nextStickerId, 
         THUMBNAIL_URL_LOCAL: toLocalImg(getThumbnailUrl(sticker.image_url)),
         THUMBNAIL_URL_ABS: toLocalImgAbs(getThumbnailUrl(sticker.image_url)),
         IMAGE_FULL_URL: sticker.image_url,
-        ADDED_DATE_ISO: sticker.added_at ? new Date(sticker.added_at).toISOString().slice(0, 10) : (sticker.created_at ? new Date(sticker.created_at).toISOString().slice(0, 10) : ''),
-        IMAGE_ALT: generateMultilingualAltText({
-            clubName: clubNameClean, stickerId: sticker.id,
-            countryCode: club.country,
-            countryName: countryName,
-            cityName: sticker.location ? sticker.location.trim() : null,
-            league: wikiCache[club.id]?.league
-        }),
+        ADDED_DATE_ISO: addedDateIso,
+        IMAGE_ALT: imageAltText,
         STICKER_CONTEXT_PARAGRAPH: generateStickerContextParagraph({
             clubName: clubNameClean, stickerId: sticker.id,
             countryName: countryName,
@@ -765,9 +801,12 @@ async function generateClubPage(club, stickers, allClubsInCountry, stickerCounts
     const clubNameClean = stripEmoji(club.name);
     const stickerCount = stickers ? stickers.length : 0;
     const stickerWord = stickerCount !== 1 ? 'stickers' : 'sticker';
-    const pageTitle = `${escapeHtml(clubNameClean)} Stickers — ${stickerCount} ${stickerWord.charAt(0).toUpperCase() + stickerWord.slice(1)} | StickerHunt`;
-    const cityPart = club.city ? ` from ${escapeHtml(cityOnly(club.city))},` : ' from';
-    const metaDescription = `${escapeHtml(clubNameClean)} —${cityPart} ${escapeHtml(countryName)}. ${stickerCount} football ${stickerWord} found on streets. Can you identify them? Browse the collection at StickerHunt.`;
+    // Raw for JSON-LD, escaped for <title>/content="..." — see the sticker page.
+    const cityPartRaw = club.city ? ` from ${cityOnly(club.city)},` : ' from';
+    const pageTitleRaw = `${clubNameClean} Stickers — ${stickerCount} ${stickerWord.charAt(0).toUpperCase() + stickerWord.slice(1)} | StickerHunt`;
+    const metaDescriptionRaw = `${clubNameClean} —${cityPartRaw} ${countryName}. ${stickerCount} football ${stickerWord} found on streets. Can you identify them? Browse the collection at StickerHunt.`;
+    const pageTitle = escapeHtml(pageTitleRaw);
+    const metaDescription = escapeHtml(metaDescriptionRaw);
     const canonicalUrl = `${BASE_URL}/clubs/${club.id}.html`;
 
     const keywords = buildClubKeywords(clubNameClean, countryName, club.media);
@@ -802,10 +841,13 @@ async function generateClubPage(club, stickers, allClubsInCountry, stickerCounts
         OG_IMAGE_LOCAL: toLocalImg(ogImage),
         MULTILINGUAL_META: multilingualMetaClub,
         CLUB_ID: club.id,
-        CLUB_NAME: stripEmoji(club.name),
-        CLUB_CITY: club.city || '',
-        CLUB_WEB: club.web || '',
-        CLUB_MEDIA: club.media || '',
+        // These land in element text and in value="..." attributes of the
+        // inline edit form; escapeHtml covers both contexts. CLUB_MEDIA is
+        // hashtags, not a URL, so it needs escaping and nothing else.
+        CLUB_NAME: escapeHtml(stripEmoji(club.name)),
+        CLUB_CITY: escapeHtml(club.city || ''),
+        CLUB_WEB: escapeHtml(club.web || ''),
+        CLUB_MEDIA: escapeHtml(club.media || ''),
         BREADCRUMBS: breadcrumbs,
         BREADCRUMB_SCHEMA: generateBreadcrumbSchema([
             { text: 'Catalogue', url: '/catalogue.html' },
@@ -822,7 +864,7 @@ async function generateClubPage(club, stickers, allClubsInCountry, stickerCounts
         CLUB_MAP_SECTION: generateClubMapSection(stickersWithCoordinates),
         CLUB_MAP_INIT_SCRIPT: generateClubMapInitScript(stickersWithCoordinates, club.name),
         OTHER_CLUBS: generateOtherClubs(club.id, allClubsInCountry || [], stickerCountsByClub || {}, countryName),
-        SCHEMA_JSON_LD: generateSchemaJsonLd(club, stickers, canonicalUrl, metaDescription, pageTitle)
+        SCHEMA_JSON_LD: generateSchemaJsonLd(club, stickers, canonicalUrl, metaDescriptionRaw, pageTitleRaw)
     };
 
     const html = replacePlaceholders(template, data);
@@ -981,7 +1023,7 @@ async function generateCountryPage(countryCode, clubs, stickerCountsByClub, coun
         "name": `Football clubs from ${countryName}`, "description": metaDescription,
         "url": canonicalUrl, "numberOfItems": clubs.length, "itemListElement": schemaItems
     };
-    const schemaJsonLd = `<script type="application/ld+json">\n    ${JSON.stringify(schema, null, 2).split('\n').join('\n    ')}\n    </script>`;
+    const schemaJsonLd = `<script type="application/ld+json">\n    ${jsonLdPayload(schema, '    ')}\n    </script>`;
 
     const data = {
         PAGE_TITLE: pageTitle, META_DESCRIPTION: metaDescription, META_KEYWORDS: keywords,

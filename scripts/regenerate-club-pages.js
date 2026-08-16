@@ -19,7 +19,7 @@ import {
     generateBreadcrumbs, generateBreadcrumbSchema,
     cityOnly, selectTopRatedStickers, generateDescriptiveAltText, generateMultilingualMeta,
     generateFeaturedGallery, fetchAllPaginated,
-    buildClubKeywords
+    buildClubKeywords, jsonLdPayload, escapeForJsHtmlString, safeUrl
 } from './seo-helpers.js';
 
 const __scriptsDir = dirname(fileURLToPath(import.meta.url));
@@ -68,7 +68,7 @@ function generateWikiSection(clubId, club, countryName) {
     if (wiki?.website) {
         try {
             const domain = new URL(wiki.website).hostname.replace('www.', '');
-            metaItems.push(`<span class="club-meta-item"><a href="${wiki.website}" target="_blank" rel="noopener noreferrer">${escapeHtml(domain)}</a></span>`);
+            metaItems.push(`<span class="club-meta-item"><a href="${safeUrl(wiki.website)}" target="_blank" rel="noopener noreferrer">${escapeHtml(domain)}</a></span>`);
         } catch {}
     }
 
@@ -81,7 +81,7 @@ function generateWikiSection(clubId, club, countryName) {
     if (wiki?.intro && wiki.intro.trim().length > 0) {
         html += `\n<div class="club-about">\n    <p>${escapeHtml(wiki.intro)}</p>`;
         if (wiki.wikiUrl) {
-            html += `\n    <p class="club-about-source">Source: <a href="${wiki.wikiUrl}" target="_blank" rel="noopener noreferrer">Wikipedia</a></p>`;
+            html += `\n    <p class="club-about-source">Source: <a href="${safeUrl(wiki.wikiUrl)}" target="_blank" rel="noopener noreferrer">Wikipedia</a></p>`;
         } else if (wiki.source === 'ai') {
             html += `\n    <p class="club-about-source">AI-generated description</p>`;
         }
@@ -108,7 +108,7 @@ function generateOtherClubs(currentClubId, allClubsInCountry, stickerCountsByClu
     let html = `<div class="other-clubs-section">\n<h3>Other clubs from ${countryName}</h3>\n<ul class="other-clubs-list">`;
     shown.forEach(c => {
         const count = stickerCountsByClub[c.id] || 0;
-        html += `\n<li><a href="/clubs/${c.id}.html">${stripEmoji(c.name)}</a> (${count})</li>`;
+        html += `\n<li><a href="/clubs/${c.id}.html">${escapeHtml(stripEmoji(c.name))}</a> (${count})</li>`;
     });
     if (others.length > 10) {
         const countryCode = allClubsInCountry[0]?.country?.toUpperCase();
@@ -134,9 +134,8 @@ function generateClubDescription(club, stickerCount, countryName) {
 function generateClubInfo(club) {
     const items = [];
     if (club.web) {
-        let safeUrl;
-        try { safeUrl = encodeURI(decodeURI(club.web)); } catch { safeUrl = club.web; }
-        items.push(`<span class="club-stat-tag">🌐 <a href="${safeUrl}" target="_blank" rel="noopener noreferrer">${escapeHtml(club.web)}</a></span>`);
+        const webHref = safeUrl(club.web);
+        if (webHref) items.push(`<span class="club-stat-tag">🌐 <a href="${webHref}" target="_blank" rel="noopener noreferrer">${escapeHtml(club.web)}</a></span>`);
     }
     if (club.media) items.push(`<span class="club-stat-tag">#️⃣ ${escapeHtml(club.media)}</span>`);
     if (items.length === 0) return '';
@@ -192,7 +191,11 @@ function generateClubMapInitScript(stickersWithCoordinates, clubName) {
     if (!stickersWithCoordinates || stickersWithCoordinates.length === 0) return '';
     const avgLat = stickersWithCoordinates.reduce((sum, s) => sum + s.latitude, 0) / stickersWithCoordinates.length;
     const avgLng = stickersWithCoordinates.reduce((sum, s) => sum + s.longitude, 0) / stickersWithCoordinates.length;
-    const escapedClubName = clubName.replace(/'/g, "\\'");
+    // The name lands in a single-quoted JS string that Leaflet then parses as
+    // HTML, so both layers need neutralising — escaping only the quote leaves
+    // `<img src=x onerror=...>` live inside the popup. escapeForJsHtmlString
+    // does both and is already used for the identical sink elsewhere.
+    const escapedClubName = escapeForJsHtmlString(clubName);
     const markers = stickersWithCoordinates.map(sticker => `
                 (function() {
                     const marker = L.marker([${sticker.latitude}, ${sticker.longitude}]).addTo(clubMap);
@@ -267,7 +270,7 @@ function generateSchemaJsonLd(club, stickers, canonicalUrl, metaDescription, pag
         }));
     }
 
-    return `<script type="application/ld+json">\n    ${JSON.stringify(schema, null, 2).split('\n').join('\n    ')}\n    </script>`;
+    return `<script type="application/ld+json">\n    ${jsonLdPayload(schema, '    ')}\n    </script>`;
 }
 
 // ─── Page Generators ─────────────────────────────────────────────────────────
@@ -278,9 +281,15 @@ async function generateClubPage(club, stickers, allClubsInCountry = [], stickerC
     const clubNameClean = stripEmoji(club.name);
     const stickerCount = stickers ? stickers.length : 0;
     const stickerWord = stickerCount !== 1 ? 'stickers' : 'sticker';
-    const pageTitle = `${escapeHtml(clubNameClean)} Stickers — ${stickerCount} ${stickerWord.charAt(0).toUpperCase() + stickerWord.slice(1)} | StickerHunt`;
-    const cityPart = club.city ? ` from ${escapeHtml(cityOnly(club.city))},` : ' from';
-    const metaDescription = `${escapeHtml(clubNameClean)} —${cityPart} ${escapeHtml(countryName)}. ${stickerCount} football ${stickerWord} found on streets. Can you identify them? Browse the collection at StickerHunt.`;
+    // Built raw first: the same two strings feed <title>/<meta content="..."> ,
+    // where they must be HTML-escaped, AND the JSON-LD schema, where escaping
+    // would put a literal `&amp;` into structured data (Brighton & Hove Albion
+    // shipped exactly that). Escape at the markup end only.
+    const pageTitleRaw = `${clubNameClean} Stickers — ${stickerCount} ${stickerWord.charAt(0).toUpperCase() + stickerWord.slice(1)} | StickerHunt`;
+    const cityPartRaw = club.city ? ` from ${cityOnly(club.city)},` : ' from';
+    const metaDescriptionRaw = `${clubNameClean} —${cityPartRaw} ${countryName}. ${stickerCount} football ${stickerWord} found on streets. Can you identify them? Browse the collection at StickerHunt.`;
+    const pageTitle = escapeHtml(pageTitleRaw);
+    const metaDescription = escapeHtml(metaDescriptionRaw);
     const canonicalUrl = `${BASE_URL}/clubs/${club.id}.html`;
 
     const keywords = buildClubKeywords(clubNameClean, countryName, club.media);
@@ -318,10 +327,12 @@ async function generateClubPage(club, stickers, allClubsInCountry = [], stickerC
         OG_IMAGE_LOCAL: toLocalImg(ogImage),
         MULTILINGUAL_META: multilingualMeta,
         CLUB_ID: club.id,
-        CLUB_NAME: stripEmoji(club.name),
-        CLUB_CITY: club.city || '',
-        CLUB_WEB: club.web || '',
-        CLUB_MEDIA: club.media || '',
+        // Element text plus value="..." attributes of the inline edit form —
+        // escapeHtml covers both. CLUB_MEDIA is hashtags, not a URL.
+        CLUB_NAME: escapeHtml(stripEmoji(club.name)),
+        CLUB_CITY: escapeHtml(club.city || ''),
+        CLUB_WEB: escapeHtml(club.web || ''),
+        CLUB_MEDIA: escapeHtml(club.media || ''),
         BREADCRUMBS: breadcrumbs,
         BREADCRUMB_SCHEMA: generateBreadcrumbSchema([
             { text: 'Catalogue', url: '/catalogue.html' },
@@ -338,7 +349,7 @@ async function generateClubPage(club, stickers, allClubsInCountry = [], stickerC
         CLUB_MAP_SECTION: generateClubMapSection(stickersWithCoordinates),
         CLUB_MAP_INIT_SCRIPT: generateClubMapInitScript(stickersWithCoordinates, club.name),
         OTHER_CLUBS: generateOtherClubs(club.id, allClubsInCountry, stickerCountsByClub, countryName),
-        SCHEMA_JSON_LD: generateSchemaJsonLd(club, stickers, canonicalUrl, metaDescription, pageTitle)
+        SCHEMA_JSON_LD: generateSchemaJsonLd(club, stickers, canonicalUrl, metaDescriptionRaw, pageTitleRaw)
     };
 
     const html = replacePlaceholders(template, data);
@@ -467,7 +478,7 @@ async function generateCountryPage(countryCode, clubs, stickerCountsByClub, coun
         "name": `Football clubs from ${countryName}`, "description": metaDescription,
         "url": canonicalUrl, "numberOfItems": clubs.length, "itemListElement": schemaItems
     };
-    const schemaJsonLd = `<script type="application/ld+json">\n    ${JSON.stringify(schema, null, 2).split('\n').join('\n    ')}\n    </script>`;
+    const schemaJsonLd = `<script type="application/ld+json">\n    ${jsonLdPayload(schema, '    ')}\n    </script>`;
 
     // Featured stickers — top 12 by rating. country-page.html has a
     // {{FEATURED_STICKERS_SECTION}} placeholder; omitting it here left raw

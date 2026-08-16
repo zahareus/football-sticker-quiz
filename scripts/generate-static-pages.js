@@ -10,7 +10,7 @@ import { execFileSync } from 'child_process';
 import { join, dirname } from 'path';
 import { fileURLToPath } from 'url';
 
-import { createSupabaseClient, escapeForJsHtmlString, stripEmoji, generateBreadcrumbs, COUNTRY_NAMES, COUNTRY_FLAGS, cityOnly, stickerNoindexTag, cityToSlug, generateMultilingualMeta, generateMultilingualAltText, generateStickerContextParagraph } from './seo-helpers.js';
+import { createSupabaseClient, escapeForJsHtmlString, escapeHtml, stripEmoji, generateBreadcrumbs, COUNTRY_NAMES, COUNTRY_FLAGS, cityOnly, stickerNoindexTag, cityToSlug, generateMultilingualMeta, generateMultilingualAltText, generateStickerContextParagraph, jsonLdPayload } from './seo-helpers.js';
 
 // Configuration
 const BASE_URL = "https://stickerhunt.club";
@@ -131,7 +131,7 @@ function generateOtherClubs(currentClubId, allClubsInCountry, stickerCountsByClu
     let html = `<div class="other-clubs-section">\n<h3>Other clubs from ${countryName}</h3>\n<ul class="other-clubs-list">`;
     shown.forEach(c => {
         const count = stickerCountsByClub[c.id] || 0;
-        html += `\n<li><a href="/clubs/${c.id}.html">${stripEmoji(c.name)}</a> (${count})</li>`;
+        html += `\n<li><a href="/clubs/${c.id}.html">${escapeHtml(stripEmoji(c.name))}</a> (${count})</li>`;
     });
     if (others.length > 10) {
         const cc = allClubsInCountry[0]?.country?.toUpperCase();
@@ -159,7 +159,7 @@ function generateSchemaJsonLd(club, stickerCount, canonicalUrl, metaDescription,
         }
         if (wiki.league) schema.about.memberOf = { "@type": "SportsOrganization", "name": wiki.league };
     }
-    return '<script type="application/ld+json">\n    ' + JSON.stringify(schema, null, 2).split('\n').join('\n    ') + '\n    </script>';
+    return '<script type="application/ld+json">\n    ' + jsonLdPayload(schema, '    ') + '\n    </script>';
 }
 
 function generateClubDescription(club, stickerCount, countryName) {
@@ -318,7 +318,7 @@ function generateBreadcrumbSchema(links) {
         "@type": "BreadcrumbList",
         "itemListElement": items
     };
-    return `<script type="application/ld+json">\n    ${JSON.stringify(schema, null, 2)}\n    </script>`;
+    return `<script type="application/ld+json">\n    ${jsonLdPayload(schema)}\n    </script>`;
 }
 
 /**
@@ -744,6 +744,25 @@ async function generateStickerPage(sticker, club, prevStickerId, nextStickerId, 
     const nearbyStickers = findNearbyStickers(sticker, allStickers, 50, 10);
 
     const data = {
+        // sticker-page.html now takes the ImageObject block as one token instead
+        // of assembling it from {{STICKER_NAME}}/{{META_DESCRIPTION}}. This render
+        // path is the stale duplicate (never run — see Iron Rule 1), but the key
+        // must exist or replacePlaceholders throws on the leftover placeholder.
+        IMAGE_SCHEMA: `<script type="application/ld+json">\n    ${jsonLdPayload({
+            "@context": "https://schema.org",
+            "@type": "ImageObject",
+            "name": `${club.name} Sticker #${sticker.id}`,
+            "description": metaDescription,
+            "contentUrl": toLocalImgAbs(getDetailImageUrl(sticker.image_url)),
+            "thumbnailUrl": toLocalImgAbs(getThumbnailUrl(sticker.image_url)),
+            "width": 1200,
+            "height": 1200,
+            "encodingFormat": "image/webp",
+            "url": canonicalUrl,
+            "license": "https://stickerhunt.club/terms.html",
+            "creator": { "@type": "Organization", "name": "StickerHunt", "url": "https://stickerhunt.club" },
+            "representativeOfPage": true
+        }, '    ')}\n    </script>`,
         PAGE_TITLE: pageTitle,
         META_DESCRIPTION: metaDescription,
         META_KEYWORDS: keywords,
@@ -975,7 +994,7 @@ async function generateCountryPage(countryCode, clubs, stickerCountsByClub, allS
         featuredStickers.forEach(s => {
             const thumbUrl = cleanTrailingQuery(getThumbnailUrl(s.image_url));
             const club = clubById.get(s.club_id);
-            const clubName = club ? stripEmoji(club.name) : '';
+            const clubName = club ? escapeHtml(stripEmoji(club.name)) : '';
             cards += `
                 <a href="/stickers/${s.id}.html" class="cat-club-card">
                     <img src="${thumbUrl}" alt="${clubName} sticker -- rated ${s.rating || 1500}" data-sticker-id="${s.id}" width="140" height="140" loading="lazy" decoding="async">
@@ -1039,7 +1058,7 @@ async function generateCountryPage(countryCode, clubs, stickerCountsByClub, allS
         "name": `Football clubs from ${countryName}`, "description": metaDescription,
         "url": canonicalUrl, "numberOfItems": clubs.length, "itemListElement": schemaItems
     };
-    const schemaJsonLd = `<script type="application/ld+json">\n    ${JSON.stringify(schema, null, 2).split('\n').join('\n    ')}\n    </script>`;
+    const schemaJsonLd = `<script type="application/ld+json">\n    ${jsonLdPayload(schema, '    ')}\n    </script>`;
 
     const data = {
         PAGE_TITLE: pageTitle,
@@ -1096,7 +1115,7 @@ async function generateIndexPage(stickers, clubs) {
 
     let topRatedHtml = '';
     topRated.forEach(s => {
-        const clubName = s.clubs ? stripEmoji(s.clubs.name) : '';
+        const clubName = s.clubs ? escapeHtml(stripEmoji(s.clubs.name)) : '';
         const thumbUrl = getThumbnailUrl(s.image_url);
         topRatedHtml += `
                 <a href="/stickers/${s.id}.html" class="hp-sticker-card">
@@ -1110,7 +1129,7 @@ async function generateIndexPage(stickers, clubs) {
     const recent = [...stickers].sort((a, b) => b.id - a.id).slice(0, 8);
     let recentHtml = '';
     recent.forEach(s => {
-        const clubName = s.clubs ? stripEmoji(s.clubs.name) : '';
+        const clubName = s.clubs ? escapeHtml(stripEmoji(s.clubs.name)) : '';
         const thumbUrl = getThumbnailUrl(s.image_url);
         recentHtml += `
                 <a href="/stickers/${s.id}.html" class="hp-sticker-card">
@@ -1336,7 +1355,7 @@ async function generateCataloguePage(stickers, clubs) {
     topStickers.forEach(s => {
         const thumbUrl = cleanTrailingQuery(getThumbnailUrl(s.image_url));
         const club = clubByIdForCat.get(s.club_id);
-        const clubName = club ? stripEmoji(club.name) : '';
+        const clubName = club ? escapeHtml(stripEmoji(club.name)) : '';
         topStickersHtml += `<a href="/stickers/${s.id}.html" class="cat-club-card"><img src="${thumbUrl}" alt="${clubName} sticker -- rated ${s.rating || 1500}" data-sticker-id="${s.id}" width="140" height="140" loading="lazy" decoding="async"><span class="cat-club-label">${clubName}</span><span class="cat-club-count">⚡ ${s.rating || 1500}</span></a>`;
     });
     topStickersHtml += '</div>';
@@ -1360,7 +1379,7 @@ async function generateCataloguePage(stickers, clubs) {
         const list = clubsByCountry.get(cc);
         clubsHtml += `<details class="cat-country-group"><summary><a href="/countries/${cc}.html">${flag} ${name}</a> <span class="cat-group-count">${list.length} clubs</span></summary><ul class="cat-clubs-list">`;
         for (const club of list) {
-            const cleanName = stripEmoji(club.name);
+            const cleanName = escapeHtml(stripEmoji(club.name));
             const count = stickerCountByClub.get(club.id) || 0;
             clubsHtml += `<li><a href="/clubs/${club.id}.html">${cleanName}</a> <span class="cat-club-count">${count}</span></li>`;
         }

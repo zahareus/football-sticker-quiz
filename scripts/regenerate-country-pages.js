@@ -16,7 +16,7 @@ import {
     cleanTrailingQuery, stripEmoji, loadTemplate, replacePlaceholders,
     generateBreadcrumbs, generateBreadcrumbSchema,
     generateMultilingualMeta,
-    fetchAllPaginated
+    fetchAllPaginated, jsonLdPayload, escapeHtml
 } from './seo-helpers.js';
 
 // Configuration
@@ -111,17 +111,17 @@ async function generateCountryPage(countryCode, clubs, stickerCountsByClub, coun
             thumbHtml = '<span class="country-club-thumb-placeholder"></span>';
         }
         clubCardsHtml += `
-                <a href="/clubs/${club.id}.html" class="cat-country-card" title="${club.cleanName}">
+                <a href="/clubs/${club.id}.html" class="cat-country-card" title="${escapeHtml(club.cleanName)}">
                     ${thumbHtml}
                     <div class="cat-country-info">
-                        <span class="cat-country-name">${club.name}</span>
+                        <span class="cat-country-name">${escapeHtml(club.name)}</span>
                         <span class="cat-country-meta">${countLabel}</span>
                     </div>
                 </a>`;
     });
 
     // SEO description
-    const topClubNames = topClubs.slice(0, 5).map(c => c.cleanName).join(', ');
+    const topClubNames = topClubs.slice(0, 5).map(c => escapeHtml(c.cleanName)).join(', ');
     const seoDescription = `StickerHunt features stickers from clubs across ${countryName}. The most collected clubs include ${topClubNames}. Each club page shows all stickers found, their map locations, and community ratings. Browse the complete ${countryName} collection and discover fan-spotted stickers from across the country.`;
 
     // Schema
@@ -134,7 +134,7 @@ async function generateCountryPage(countryCode, clubs, stickerCountsByClub, coun
         "name": `Football clubs from ${countryName}`, "description": metaDescription,
         "url": canonicalUrl, "numberOfItems": clubs.length, "itemListElement": schemaItems
     };
-    const schemaJsonLd = `<script type="application/ld+json">\n    ${JSON.stringify(schema, null, 2).split('\n').join('\n    ')}\n    </script>`;
+    const schemaJsonLd = `<script type="application/ld+json">\n    ${jsonLdPayload(schema, '    ')}\n    </script>`;
 
     // Featured stickers — top 12 by rating (mirrors generate-static-pages.js
     // generateCountryPage so the country-page.html {{FEATURED_STICKERS_SECTION}}

@@ -295,6 +295,23 @@ export function escapeHtml(str) {
  * JS layer or a backslash/newline breaks the generated script. Backslashes go
  * first so the escapes added afterwards are not themselves re-escaped.
  */
+/**
+ * Escape a URL for an href/src attribute, dropping any scheme that can execute.
+ * encodeURI() is not a validator — it passes `javascript:alert(1)` through
+ * untouched — so the scheme is checked first and anything that is not http(s)
+ * or a site-relative path yields '' (the caller then omits the link).
+ * Checked against production data before shipping: all 770 non-empty clubs.web
+ * values already start with http:// or https://, so nothing legitimate is lost.
+ */
+export function safeUrl(url) {
+    if (!url || typeof url !== 'string') return '';
+    const trimmed = url.trim();
+    // Strip control characters first: `java\tscript:` is parsed as javascript:
+    const bare = trimmed.replace(/[ -]/g, '');
+    if (/^https?:\/\//i.test(bare) || bare.startsWith('/')) return escapeHtml(bare);
+    return '';
+}
+
 export function escapeForJsHtmlString(str) {
     if (str === null || str === undefined) return '';
     return escapeHtml(String(str).replace(/\\/g, '\\\\'))
@@ -414,7 +431,20 @@ export function generateBreadcrumbSchema(links) {
         "@type": "BreadcrumbList",
         "itemListElement": items
     };
-    return `<script type="application/ld+json">\n    ${JSON.stringify(schema, null, 2)}\n    </script>`;
+    return `<script type="application/ld+json">\n    ${jsonLdPayload(schema)}\n    </script>`;
+}
+
+/**
+ * Serialise a schema object for embedding in a <script type="application/ld+json">
+ * block. JSON.stringify already neutralises quotes and backslashes; the one thing
+ * it leaves intact is `<`, so a club name containing `</script>` would close the
+ * block early. Escaping it as < is invisible to any JSON parser and keeps the
+ * value byte-exact for consumers — unlike HTML-escaping, which would turn
+ * `Brighton & Hove` into `Brighton &amp; Hove` in the structured data itself.
+ */
+export function jsonLdPayload(schema, indent = '') {
+    const json = JSON.stringify(schema, null, 2).replace(/</g, '\\u003c');
+    return indent ? json.split('\n').join('\n' + indent) : json;
 }
 
 // ─── Top-Rated Sticker Selection ─────────────────────────────────────────────
@@ -506,8 +536,14 @@ export function generateMultilingualAltText({ clubName, stickerId, countryCode, 
 // context using DB fields (no AI generation): club, country, city, league,
 // founded year. Stays unique-per-page through variable substitution.
 export function generateStickerContextParagraph({ clubName, stickerId, countryName, cityName, league, founded, stickerNumber }) {
-    const club = stripEmoji(clubName || '');
+    // Every value below is glued into the returned HTML as text content, so it
+    // is escaped once here at the entry point. Nothing downstream escapes them
+    // again, and none of them reaches an attribute, a URL or a JSON block.
+    const club = escapeHtml(stripEmoji(clubName || ''));
     if (!club) return '';
+    countryName = escapeHtml(countryName || '');
+    cityName = escapeHtml(cityName || '');
+    league = escapeHtml(league || '');
     const sentences = [];
     // Lead
     let lead = `Sticker #${stickerId} from ${club}`;
