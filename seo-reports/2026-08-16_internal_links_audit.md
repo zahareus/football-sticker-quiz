@@ -17,7 +17,7 @@ re-visits.
 
 ## Headline
 - **Isolated clubs:** 0 / 771 (0.0%)
-- **Isolated stickers:** 2 / 4386 (0.0%)
+- **Isolated stickers:** 0 / 4386 (0.0%)
 - Threshold: fewer than 2 incoming links from home/catalogue/country/club pages
 
 ## High-authority outgoing-link counts
@@ -46,8 +46,7 @@ Most-orphan pages root cause is that few HA pages link to them. Below — outbou
 
 | Page | HA in | Total in | HA samples |
 |---|---|---|---|
-| stickers/4320.html | 0 | 113 | (none) |
-| stickers/4414.html | 0 | 113 | (none) |
+
 
 ## Recommendations
 
