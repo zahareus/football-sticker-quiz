@@ -59,9 +59,14 @@ async function main() {
         const lastSitemap = readFileSync(join(PROJECT_ROOT, stickerSitemaps[stickerSitemaps.length - 1]), 'utf-8');
         const ids = [...lastSitemap.matchAll(/\/stickers\/(\d+)\.html/g)].map(m => parseInt(m[1]));
         maxSitemapId = ids.length ? Math.max(...ids) : 0;
-        const lastmod = lastSitemap.match(/<lastmod>(\d{4}-\d{2}-\d{2})<\/lastmod>/);
-        if (lastmod) {
-            sitemapAgeDays = Math.round((Date.now() - new Date(lastmod[1]).getTime()) / 86400_000);
+        // Age of the sitemap = its NEWEST entry, not its first. Entries are in id
+        // order, not date order, so the first <lastmod> in the file belongs to the
+        // oldest sticker in that chunk and reported the sitemap as a week stale
+        // the day after it was regenerated.
+        const lastmods = [...lastSitemap.matchAll(/<lastmod>(\d{4}-\d{2}-\d{2})<\/lastmod>/g)].map(m => m[1]);
+        if (lastmods.length) {
+            const newest = lastmods.reduce((a, b) => (a > b ? a : b));
+            sitemapAgeDays = Math.round((Date.now() - new Date(newest).getTime()) / 86400_000);
         }
     }
 
