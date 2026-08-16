@@ -245,7 +245,7 @@ function displayLeaderboard(containerElement, data, difficulty) {
         tableHtml += `
             <tr${rowClass}>
                 <td class="stats-rank">${index + 1}</td>
-                <td class="stats-name"><a href="/profile.html?id=${entry.user_id}">${username}</a></td>
+                <td class="stats-name"><a href="/profile.html?id=${encodeURIComponent(entry.user_id)}">${SharedUtils.escapeHtml(username)}</a></td>
                 <td class="stats-count">${entry.score}</td>
             </tr>
         `;
@@ -260,7 +260,7 @@ function displayLeaderboard(containerElement, data, difficulty) {
             </tr>
             <tr class="user-score-row">
                 <td class="stats-rank">${userPosition}</td>
-                <td class="stats-name"><a href="/profile.html?id=${userEntry.user_id}">${username}</a></td>
+                <td class="stats-name"><a href="/profile.html?id=${encodeURIComponent(userEntry.user_id)}">${SharedUtils.escapeHtml(username)}</a></td>
                 <td class="stats-count">${userEntry.score}</td>
             </tr>
         `;

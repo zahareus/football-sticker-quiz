@@ -33,6 +33,23 @@ describe('client sanity checks', () => {
     }
   });
 
+  // Regression guard for the Aug 2026 stored-XSS finding: a nickname is chosen
+  // by the user, so any username interpolated into an innerHTML template must
+  // go through an escape helper first. `leaderboard.js` shipped two raw sinks.
+  it('usernames interpolated into HTML templates are escaped', () => {
+    for (const file of CLIENT_JS_FILES) {
+      const path = join(ROOT, file);
+      if (!existsSync(path)) continue;
+      const content = readFileSync(path, 'utf8');
+      // Only lines that actually build markup — `document.title = ${username}`
+      // is a plain string assignment and needs no escaping.
+      const raw = content
+        .split('\n')
+        .filter((line) => line.includes('<') && /\$\{\s*(?:\w+\.)*username\s*\}/.test(line));
+      expect(raw, `${file} interpolates a username into markup without escaping`).toEqual([]);
+    }
+  });
+
   it('all HTML pages exist', () => {
     for (const page of HTML_PAGES) {
       const path = join(ROOT, page);

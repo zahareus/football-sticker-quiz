@@ -102,6 +102,18 @@ function truncateString(str, maxLength = CONFIG.NICKNAME_DISPLAY_MAX_LENGTH) {
 }
 
 /**
+ * Escape a string for safe interpolation into HTML markup
+ * @param {string} text - Untrusted text (e.g. a user-chosen nickname)
+ * @returns {string} Text with HTML metacharacters escaped
+ */
+function escapeHtml(text) {
+    if (text === null || text === undefined) return '';
+    const div = document.createElement('div');
+    div.textContent = String(text);
+    return div.innerHTML;
+}
+
+/**
  * Truncate long words in a text
  * @param {string} text - Text to process
  * @param {number} maxWordLength - Maximum word length (default 25)
@@ -787,6 +799,7 @@ window.SharedUtils = {
     getSupabaseClient,
 
     // String utilities
+    escapeHtml,
     truncateString,
     truncateLongWords,
     generateRandomNickname,
