@@ -168,15 +168,6 @@
             </div>
             <div class="sticker-gallery">
                 
-                <a href="/stickers/4054.html" class="sticker-preview-link">
-                    <img src="/img/club_676/1785518661569_IMG_2064_thumb.webp?v=2026-05-27"
-                         alt="Lille OSC football sticker #4054 found in this city"
-                         data-sticker-id="4054"
-                         class="sticker-preview-image"
-                         width="200" height="200"
-                         loading="lazy"
-                         decoding="async">
-                </a>
                 <a href="/stickers/4051.html" class="sticker-preview-link">
                     <img src="/img/club_695/1785518658906_IMG_2069_thumb.webp?v=2026-05-27"
                          alt="Racing Club de Lens football sticker #4051 found in this city"
@@ -186,19 +177,19 @@
                          loading="lazy"
                          decoding="async">
                 </a>
-                <a href="/stickers/4052.html" class="sticker-preview-link">
-                    <img src="/img/club_866/1785518660039_IMG_2066_thumb.webp?v=2026-05-27"
-                         alt="1 FCA Darmstadt football sticker #4052 found in this city"
-                         data-sticker-id="4052"
+                <a href="/stickers/4054.html" class="sticker-preview-link">
+                    <img src="/img/club_676/1785518661569_IMG_2064_thumb.webp?v=2026-05-27"
+                         alt="Lille OSC football sticker #4054 found in this city"
+                         data-sticker-id="4054"
                          class="sticker-preview-image"
                          width="200" height="200"
                          loading="lazy"
                          decoding="async">
                 </a>
-                <a href="/stickers/4050.html" class="sticker-preview-link">
-                    <img src="/img/club_881/1785518657951_IMG_2071_thumb.webp?v=2026-05-27"
-                         alt="FC St Pauli football sticker #4050 found in this city"
-                         data-sticker-id="4050"
+                <a href="/stickers/4052.html" class="sticker-preview-link">
+                    <img src="/img/club_866/1785518660039_IMG_2066_thumb.webp?v=2026-05-27"
+                         alt="1 FCA Darmstadt football sticker #4052 found in this city"
+                         data-sticker-id="4052"
                          class="sticker-preview-image"
                          width="200" height="200"
                          loading="lazy"
@@ -222,6 +213,15 @@
                          loading="lazy"
                          decoding="async">
                 </a>
+                <a href="/stickers/4059.html" class="sticker-preview-link">
+                    <img src="/img/club_771/1785518665240_IMG_2027_thumb.webp?v=2026-05-27"
+                         alt="Willem II football sticker #4059 found in this city"
+                         data-sticker-id="4059"
+                         class="sticker-preview-image"
+                         width="200" height="200"
+                         loading="lazy"
+                         decoding="async">
+                </a>
                 <a href="/stickers/4057.html" class="sticker-preview-link">
                     <img src="/img/club_937/1785518663764_IMG_2030_thumb.webp?v=2026-05-27"
                          alt="1 FC Köln football sticker #4057 found in this city"
@@ -231,10 +231,10 @@
                          loading="lazy"
                          decoding="async">
                 </a>
-                <a href="/stickers/4059.html" class="sticker-preview-link">
-                    <img src="/img/club_771/1785518665240_IMG_2027_thumb.webp?v=2026-05-27"
-                         alt="Willem II football sticker #4059 found in this city"
-                         data-sticker-id="4059"
+                <a href="/stickers/4050.html" class="sticker-preview-link">
+                    <img src="/img/club_881/1785518657951_IMG_2071_thumb.webp?v=2026-05-27"
+                         alt="FC St Pauli football sticker #4050 found in this city"
+                         data-sticker-id="4050"
                          class="sticker-preview-image"
                          width="200" height="200"
                          loading="lazy"
@@ -369,18 +369,11 @@
         
         document.addEventListener('DOMContentLoaded', function() {
             if (typeof L !== 'undefined' && document.getElementById('club-map')) {
-                const cityMap = L.map('club-map').setView([50.95917731481482, 1.8495648148148152], 12);
+                const cityMap = L.map('club-map').setView([50.95917731481482, 1.8495648148148156], 12);
                 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                     attribution: '&copy; OpenStreetMap contributors'
                 }).addTo(cityMap);
                 
-                (function() {
-                    const marker = L.marker([50.9604916666667, 1.84816111111111]).addTo(cityMap);
-                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>Lille OSC</strong><a href="/stickers/4054.html" class="map-popup-link">View</a></div>');
-                    marker.on('mouseover', function() { this.openPopup(); });
-                    marker.on('click', function() { this.openPopup(); });
-                })();
-
                 (function() {
                     const marker = L.marker([50.9579638888889, 1.84949166666667]).addTo(cityMap);
                     marker.bindPopup('<div class="nearby-sticker-popup"><strong>Racing Club de Lens</strong><a href="/stickers/4051.html" class="map-popup-link">View</a></div>');
@@ -389,15 +382,15 @@
                 })();
 
                 (function() {
-                    const marker = L.marker([50.9597166666667, 1.84867777777778]).addTo(cityMap);
-                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>1 FCA Darmstadt</strong><a href="/stickers/4052.html" class="map-popup-link">View</a></div>');
+                    const marker = L.marker([50.9604916666667, 1.84816111111111]).addTo(cityMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>Lille OSC</strong><a href="/stickers/4054.html" class="map-popup-link">View</a></div>');
                     marker.on('mouseover', function() { this.openPopup(); });
                     marker.on('click', function() { this.openPopup(); });
                 })();
 
                 (function() {
-                    const marker = L.marker([50.9531361111111, 1.85196111111111]).addTo(cityMap);
-                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>FC St Pauli</strong><a href="/stickers/4050.html" class="map-popup-link">View</a></div>');
+                    const marker = L.marker([50.9597166666667, 1.84867777777778]).addTo(cityMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>1 FCA Darmstadt</strong><a href="/stickers/4052.html" class="map-popup-link">View</a></div>');
                     marker.on('mouseover', function() { this.openPopup(); });
                     marker.on('click', function() { this.openPopup(); });
                 })();
@@ -417,6 +410,13 @@
                 })();
 
                 (function() {
+                    const marker = L.marker([50.961025, 1.85239166666667]).addTo(cityMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>Willem II</strong><a href="/stickers/4059.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
                     const marker = L.marker([50.9611666666667, 1.84801388888889]).addTo(cityMap);
                     marker.bindPopup('<div class="nearby-sticker-popup"><strong>1 FC Köln</strong><a href="/stickers/4057.html" class="map-popup-link">View</a></div>');
                     marker.on('mouseover', function() { this.openPopup(); });
@@ -424,8 +424,8 @@
                 })();
 
                 (function() {
-                    const marker = L.marker([50.961025, 1.85239166666667]).addTo(cityMap);
-                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>Willem II</strong><a href="/stickers/4059.html" class="map-popup-link">View</a></div>');
+                    const marker = L.marker([50.9531361111111, 1.85196111111111]).addTo(cityMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>FC St Pauli</strong><a href="/stickers/4050.html" class="map-popup-link">View</a></div>');
                     marker.on('mouseover', function() { this.openPopup(); });
                     marker.on('click', function() { this.openPopup(); });
                 })();
@@ -501,14 +501,14 @@
                 })();
                 
                 const bounds = L.latLngBounds([
-                    [50.9604916666667, 1.84816111111111],
                     [50.9579638888889, 1.84949166666667],
+                    [50.9604916666667, 1.84816111111111],
                     [50.9597166666667, 1.84867777777778],
-                    [50.9531361111111, 1.85196111111111],
                     [50.9602305555556, 1.84857222222222],
                     [50.9661888888889, 1.84215833333333],
-                    [50.9611666666667, 1.84801388888889],
                     [50.961025, 1.85239166666667],
+                    [50.9611666666667, 1.84801388888889],
+                    [50.9531361111111, 1.85196111111111],
                     [50.95915, 1.85145],
                     [50.9531333333333, 1.85239722222222],
                     [50.9591555555556, 1.849975],

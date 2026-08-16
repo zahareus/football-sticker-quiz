@@ -231,6 +231,15 @@
                          loading="lazy"
                          decoding="async">
                 </a>
+                <a href="/stickers/3104.html" class="sticker-preview-link">
+                    <img src="/img/club_915/1773523368595_IMG_8381_thumb.webp?v=2026-05-27"
+                         alt="Chemie Leipzig football sticker #3104 found in this city"
+                         data-sticker-id="3104"
+                         class="sticker-preview-image"
+                         width="200" height="200"
+                         loading="lazy"
+                         decoding="async">
+                </a>
                 <a href="/stickers/3096.html" class="sticker-preview-link">
                     <img src="/img/club_949/1773523067485_IMG_8431_thumb.webp?v=2026-05-27"
                          alt="FC Schalke 04 football sticker #3096 found in this city"
@@ -262,15 +271,6 @@
                     <img src="/img/club_919/1773523031317_IMG_8451_thumb.webp?v=2026-05-27"
                          alt="Alemannia Aachen football sticker #3095 found in this city"
                          data-sticker-id="3095"
-                         class="sticker-preview-image"
-                         width="200" height="200"
-                         loading="lazy"
-                         decoding="async">
-                </a>
-                <a href="/stickers/3104.html" class="sticker-preview-link">
-                    <img src="/img/club_915/1773523368595_IMG_8381_thumb.webp?v=2026-05-27"
-                         alt="Chemie Leipzig football sticker #3104 found in this city"
-                         data-sticker-id="3104"
                          class="sticker-preview-image"
                          width="200" height="200"
                          loading="lazy"
@@ -558,7 +558,7 @@
         
         document.addEventListener('DOMContentLoaded', function() {
             if (typeof L !== 'undefined' && document.getElementById('club-map')) {
-                const cityMap = L.map('club-map').setView([37.394526282051274, -5.980539173789173], 12);
+                const cityMap = L.map('club-map').setView([37.394526282051274, -5.9805391737891735], 12);
                 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                     attribution: '&copy; OpenStreetMap contributors'
                 }).addTo(cityMap);
@@ -613,6 +613,13 @@
                 })();
 
                 (function() {
+                    const marker = L.marker([37.3882722222222, -6.000475]).addTo(cityMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>Chemie Leipzig</strong><a href="/stickers/3104.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
                     const marker = L.marker([37.3928416666667, -5.99194166666667]).addTo(cityMap);
                     marker.bindPopup('<div class="nearby-sticker-popup"><strong>FC Schalke 04</strong><a href="/stickers/3096.html" class="map-popup-link">View</a></div>');
                     marker.on('mouseover', function() { this.openPopup(); });
@@ -636,13 +643,6 @@
                 (function() {
                     const marker = L.marker([37.4220388888889, -5.90128611111111]).addTo(cityMap);
                     marker.bindPopup('<div class="nearby-sticker-popup"><strong>Alemannia Aachen</strong><a href="/stickers/3095.html" class="map-popup-link">View</a></div>');
-                    marker.on('mouseover', function() { this.openPopup(); });
-                    marker.on('click', function() { this.openPopup(); });
-                })();
-
-                (function() {
-                    const marker = L.marker([37.3882722222222, -6.000475]).addTo(cityMap);
-                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>Chemie Leipzig</strong><a href="/stickers/3104.html" class="map-popup-link">View</a></div>');
                     marker.on('mouseover', function() { this.openPopup(); });
                     marker.on('click', function() { this.openPopup(); });
                 })();
@@ -844,11 +844,11 @@
                     [37.4221527777778, -5.9013],
                     [37.3932944444444, -6.001675],
                     [37.3931722222222, -5.99993055555556],
+                    [37.3882722222222, -6.000475],
                     [37.3928416666667, -5.99194166666667],
                     [37.3850888888889, -5.99838888888889],
                     [37.3931583333333, -5.99993055555556],
                     [37.4220388888889, -5.90128611111111],
-                    [37.3882722222222, -6.000475],
                     [37.3920111111111, -5.99551944444444],
                     [37.3928194444444, -5.99213611111111],
                     [37.3836944444444, -5.99442777777778],
