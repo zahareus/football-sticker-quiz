@@ -35,6 +35,34 @@ the same area.
   (work fine, cosmetic split identity) — normalize via `toLocalImgAbs` if touched.
 - supabase-js loaded from jsdelivr CDN without SRI (leaflet already has it).
 
+## Upload pipeline — one decision still open (16.08.2026)
+
+- **`reconcile-stickers.yml` shares the `generate-pages` concurrency group and
+  evicts uploads.** GitHub keeps one running plus one pending run per group; a
+  third arrival drops the pending one. The reconcile cron enters that queue every
+  15 minutes, so an upload dispatch waiting there is what gets discarded — the
+  mechanism meant to heal lost runs is also a steady producer of them. This is
+  how stickers 4320 and 4414 ended up orphaned on 15.08.
+
+  Options considered, none applied yet:
+  - **Own concurrency group for reconcile** — one line, stops the eviction, but
+    lets two jobs push to `main` at once. The rebase-retry in the push step was
+    written for a rare race (five prod failures on 2026-05-23), not for routine
+    parallelism. Trading a tamed risk for an untamed one.
+  - **Run reconcile hourly instead of every 15 minutes** — four times fewer
+    evictions, no new risk, but it dilutes the cause rather than removing it and
+    a genuinely lost page waits up to an hour.
+  - **Skip the reconcile run when a generation run is active** (query the Actions
+    API first, exit quietly) — removes the cause without parallel pushes, at the
+    cost of more code and a dependency on the API inside the workflow.
+  - **Leave it.** Since 16.08 reconcile also detects missing club links, so an
+    evicted run self-heals within 15 minutes; images heal every 5 minutes; and the
+    batch uploader retries. An eviction now means "page appears a few minutes
+    later", not "sticker lost".
+
+  Recommendation on 16.08 was leave-it plus the hourly interval if it recurs;
+  the own-group option is the one NOT to reach for first.
+
 ## Security follow-ups (from CLAUDE-SECURITY-20260815-200225)
 
 - **Votes are not bound to a served pair** (F9/F15). Investigated 16.08, decided
