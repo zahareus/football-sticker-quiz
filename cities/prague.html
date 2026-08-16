@@ -843,15 +843,6 @@
                          loading="lazy"
                          decoding="async">
                 </a>
-                <a href="/stickers/3245.html" class="sticker-preview-link">
-                    <img src="/img/club_685/1775994464870_IMG_9180_thumb.webp?v=2026-05-27"
-                         alt="Inter Milan football sticker #3245 found in this city"
-                         data-sticker-id="3245"
-                         class="sticker-preview-image"
-                         width="200" height="200"
-                         loading="lazy"
-                         decoding="async">
-                </a>
                 <a href="/stickers/3266.html" class="sticker-preview-link">
                     <img src="/img/club_922/1775995928668_IMG_9152_(1)_thumb.webp?v=2026-05-27"
                          alt="1 FC Nürnberg football sticker #3266 found in this city"
@@ -865,6 +856,15 @@
                     <img src="/img/club_1117/1775994597079_IMG_9177_thumb.webp?v=2026-05-27"
                          alt="Motor Lublin football sticker #3247 found in this city"
                          data-sticker-id="3247"
+                         class="sticker-preview-image"
+                         width="200" height="200"
+                         loading="lazy"
+                         decoding="async">
+                </a>
+                <a href="/stickers/3245.html" class="sticker-preview-link">
+                    <img src="/img/club_685/1775994464870_IMG_9180_thumb.webp?v=2026-05-27"
+                         alt="Inter Milan football sticker #3245 found in this city"
+                         data-sticker-id="3245"
                          class="sticker-preview-image"
                          width="200" height="200"
                          loading="lazy"
@@ -2088,13 +2088,6 @@
                 })();
 
                 (function() {
-                    const marker = L.marker([50.0763083333333, 14.4143611111111]).addTo(cityMap);
-                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>Inter Milan</strong><a href="/stickers/3245.html" class="map-popup-link">View</a></div>');
-                    marker.on('mouseover', function() { this.openPopup(); });
-                    marker.on('click', function() { this.openPopup(); });
-                })();
-
-                (function() {
                     const marker = L.marker([50.0826416666667, 14.4205527777778]).addTo(cityMap);
                     marker.bindPopup('<div class="nearby-sticker-popup"><strong>1 FC Nürnberg</strong><a href="/stickers/3266.html" class="map-popup-link">View</a></div>');
                     marker.on('mouseover', function() { this.openPopup(); });
@@ -2104,6 +2097,13 @@
                 (function() {
                     const marker = L.marker([50.0773666666667, 14.4143666666667]).addTo(cityMap);
                     marker.bindPopup('<div class="nearby-sticker-popup"><strong>Motor Lublin</strong><a href="/stickers/3247.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([50.0763083333333, 14.4143611111111]).addTo(cityMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>Inter Milan</strong><a href="/stickers/3245.html" class="map-popup-link">View</a></div>');
                     marker.on('mouseover', function() { this.openPopup(); });
                     marker.on('click', function() { this.openPopup(); });
                 })();
@@ -2653,9 +2653,9 @@
                     [50.086375, 14.4268388888889],
                     [50.0831861111111, 14.4226083333333],
                     [50.0759416666667, 14.4142638888889],
-                    [50.0763083333333, 14.4143611111111],
                     [50.0826416666667, 14.4205527777778],
                     [50.0773666666667, 14.4143666666667],
+                    [50.0763083333333, 14.4143611111111],
                     [50.0818222222222, 14.4173972222222],
                     [50.0876777777778, 14.3910638888889],
                     [50.0874166666667, 14.452925],
