@@ -569,6 +569,19 @@
                 })();
 
                 (function() {
+                    L.marker([38.342425, -0.493275], {
+                        icon: L.icon({
+                            iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
+                            iconSize: [18, 30],
+                            iconAnchor: [9, 30],
+                            popupAnchor: [1, -25]
+                        }),
+                        opacity: 0.6
+                    }).addTo(map)
+                    .bindPopup('<div class="nearby-sticker-popup"><strong>Eintracht Frankfurt</strong><a href="/stickers/4475.html" class="map-popup-link">View</a></div>');
+                })();
+
+                (function() {
                     L.marker([38.3377388888889, -0.491188888888889], {
                         icon: L.icon({
                             iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
@@ -814,6 +827,7 @@
                     [38.3412333333333, -0.494513888888889],
                     [38.3412333333333, -0.494513888888889],
                     [38.3383861111111, -0.491211111111111],
+                    [38.342425, -0.493275],
                     [38.3377388888889, -0.491188888888889],
                     [38.342725, -0.479466666666667],
                     [38.3424694444444, -0.492263888888889],
