@@ -540,6 +540,11 @@ async function handleUploadAll() {
 // A failure here is usually the Storage service momentarily out of connections,
 // not a problem with the file — on 2026-08-16 that lost three stickers mid-batch
 // with nothing saved anywhere. Retry, but only the transient kind.
+function isDuplicate(err) {
+    const status = err?.statusCode ?? err?.status;
+    return Number(status) === 409 || /already exists|duplicate/i.test(err?.message || '');
+}
+
 function isTransient(err) {
     const status = err?.statusCode ?? err?.status;
     if (status && (Number(status) >= 500 || Number(status) === 429)) return true;
@@ -550,17 +555,23 @@ function isTransient(err) {
 async function uploadOne(row) {
     // Computed ONCE, outside the retry loop: a fresh Date.now() per attempt would
     // leave the first attempt's file orphaned in the bucket with no row pointing
-    // at it. With a stable path, upsert makes a retry idempotent.
+    // at it. The path is stable, so a retry either lands or hits its own leftover.
     const fileName = `${Date.now()}_${row.file.name.replace(/\s+/g, '_')}`;
     const storagePath = `club_${row.club.id}/${fileName}`;
 
     // 1. Storage
     let uploadError = null;
     for (let attempt = 1; attempt <= 3; attempt++) {
+        // No upsert: the bucket has an INSERT policy only, and Storage checks the
+        // (missing) UPDATE policy on any upsert — that rejected whole batches with
+        // "new row violates row-level security policy" on 2026-08-18.
         const res = await supabaseClient.storage.from('stickers')
-            .upload(storagePath, row.file, { upsert: true });
+            .upload(storagePath, row.file);
         uploadError = res.error;
         if (!uploadError) break;
+        // 409 on this path can only be our own previous attempt: same timestamped
+        // name, same file. The object is there, so treat it as uploaded.
+        if (isDuplicate(uploadError)) { uploadError = null; break; }
         if (!isTransient(uploadError) || attempt === 3) break;
         row.retried = true;
         console.warn(`Storage upload attempt ${attempt} failed for "${row.file.name}", retrying:`, uploadError.message);
