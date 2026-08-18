@@ -6543,5 +6543,14 @@
     "capacity": null,
     "league": null,
     "website": null
+  },
+  "1275": {
+    "wikiUrl": "https://en.wikipedia.org/wiki/Sport_Club_Corinthians_Paulista",
+    "intro": "Sport Club Corinthians Paulista (Brazilian Portuguese: [isˈpɔɾtʃi ˈklubi koˈɾĩtʃɐ̃s pawˈlistɐ] ) is a Brazilian professional sports club based in São Paulo, in the district of Tatuapé. Although it competes in multiple sports modalities, it is best known for its professional men's football team, which plays in the Campeonato Brasileiro Série A, the top tier of Brazilian football, as well as in the Campeonato Paulista Série A1, the first division of the traditional in-state competition.\nFounded in 1910 by five railway workers inspired by the London-based Corinthian Football Club, the Sport Club Corinthians Paulista traditionally plays in a white and black home kit.",
+    "founded": "1910",
+    "stadium": "Neo Química Arena",
+    "capacity": "68,034",
+    "league": "Campeonato Brasileiro Série A",
+    "website": "https://www.corinthians.com.br/"
   }
 }
