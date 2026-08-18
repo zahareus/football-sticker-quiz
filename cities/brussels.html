@@ -168,6 +168,15 @@
             </div>
             <div class="sticker-gallery">
                 
+                <a href="/stickers/2892.html" class="sticker-preview-link">
+                    <img src="/img/club_8/1767599815989_IMG_7772_thumb.webp?v=2026-05-27"
+                         alt="Royale Union Saint-Gilloise football sticker #2892 found in this city"
+                         data-sticker-id="2892"
+                         class="sticker-preview-image"
+                         width="200" height="200"
+                         loading="lazy"
+                         decoding="async">
+                </a>
                 <a href="/stickers/2954.html" class="sticker-preview-link">
                     <img src="/img/club_666/1769892491502_IMG_7882_thumb.webp?v=2026-05-27"
                          alt="Olympique de Marseille football sticker #2954 found in this city"
@@ -379,15 +388,6 @@
                     <img src="/img/club_8/1768766522422_IMG_7840_thumb.webp?v=2026-05-27"
                          alt="Royale Union Saint-Gilloise football sticker #2923 found in this city"
                          data-sticker-id="2923"
-                         class="sticker-preview-image"
-                         width="200" height="200"
-                         loading="lazy"
-                         decoding="async">
-                </a>
-                <a href="/stickers/2892.html" class="sticker-preview-link">
-                    <img src="/img/club_8/1767599815989_IMG_7772_thumb.webp?v=2026-05-27"
-                         alt="Royale Union Saint-Gilloise football sticker #2892 found in this city"
-                         data-sticker-id="2892"
                          class="sticker-preview-image"
                          width="200" height="200"
                          loading="lazy"
@@ -909,11 +909,18 @@
         
         document.addEventListener('DOMContentLoaded', function() {
             if (typeof L !== 'undefined' && document.getElementById('club-map')) {
-                const cityMap = L.map('club-map').setView([50.84031901737891, 4.35652881011396], 12);
+                const cityMap = L.map('club-map').setView([50.8403190173789, 4.35652881011396], 12);
                 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                     attribution: '&copy; OpenStreetMap contributors'
                 }).addTo(cityMap);
                 
+                (function() {
+                    const marker = L.marker([50.8339416666667, 4.35705833333333]).addTo(cityMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>Royale Union Saint-Gilloise</strong><a href="/stickers/2892.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
                 (function() {
                     const marker = L.marker([50.8314277777778, 4.35461666666667]).addTo(cityMap);
                     marker.bindPopup('<div class="nearby-sticker-popup"><strong>Olympique de Marseille</strong><a href="/stickers/2954.html" class="map-popup-link">View</a></div>');
@@ -1078,13 +1085,6 @@
                 (function() {
                     const marker = L.marker([50.8436194444444, 4.35829722222222]).addTo(cityMap);
                     marker.bindPopup('<div class="nearby-sticker-popup"><strong>Royale Union Saint-Gilloise</strong><a href="/stickers/2923.html" class="map-popup-link">View</a></div>');
-                    marker.on('mouseover', function() { this.openPopup(); });
-                    marker.on('click', function() { this.openPopup(); });
-                })();
-
-                (function() {
-                    const marker = L.marker([50.8339416666667, 4.35705833333333]).addTo(cityMap);
-                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>Royale Union Saint-Gilloise</strong><a href="/stickers/2892.html" class="map-popup-link">View</a></div>');
                     marker.on('mouseover', function() { this.openPopup(); });
                     marker.on('click', function() { this.openPopup(); });
                 })();
@@ -1461,6 +1461,7 @@
                 })();
                 
                 const bounds = L.latLngBounds([
+                    [50.8339416666667, 4.35705833333333],
                     [50.8314277777778, 4.35461666666667],
                     [50.8481638888889, 4.35238611111111],
                     [50.837025, 4.35293055555556],
@@ -1485,7 +1486,6 @@
                     [50.8457722222222, 4.35655],
                     [50.8470611111111, 4.35676388888889],
                     [50.8436194444444, 4.35829722222222],
-                    [50.8339416666667, 4.35705833333333],
                     [50.8352166666667, 4.36359166666667],
                     [50.8367888888889, 4.36263888888889],
                     [50.8368027777778, 4.36253611111111],

@@ -627,15 +627,6 @@
                          loading="lazy"
                          decoding="async">
                 </a>
-                <a href="/stickers/2989.html" class="sticker-preview-link">
-                    <img src="/img/club_1148/1771277620592_IMG_7951_thumb.webp?v=2026-05-27"
-                         alt="MVV Maastricht football sticker #2989 found in this city"
-                         data-sticker-id="2989"
-                         class="sticker-preview-image"
-                         width="200" height="200"
-                         loading="lazy"
-                         decoding="async">
-                </a>
                 <a href="/stickers/2949.html" class="sticker-preview-link">
                     <img src="/img/club_745/1769892010556_IMG_7894_thumb.webp?v=2026-05-27"
                          alt="SC Heerenveen football sticker #2949 found in this city"
@@ -649,6 +640,15 @@
                     <img src="/img/club_1148/1769892148768_IMG_7896_thumb.webp?v=2026-05-27"
                          alt="MVV Maastricht football sticker #2950 found in this city"
                          data-sticker-id="2950"
+                         class="sticker-preview-image"
+                         width="200" height="200"
+                         loading="lazy"
+                         decoding="async">
+                </a>
+                <a href="/stickers/2989.html" class="sticker-preview-link">
+                    <img src="/img/club_1148/1771277620592_IMG_7951_thumb.webp?v=2026-05-27"
+                         alt="MVV Maastricht football sticker #2989 found in this city"
+                         data-sticker-id="2989"
                          class="sticker-preview-image"
                          width="200" height="200"
                          loading="lazy"
@@ -1128,13 +1128,6 @@
                 })();
 
                 (function() {
-                    const marker = L.marker([50.8469277777778, 5.69194166666667]).addTo(cityMap);
-                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>MVV Maastricht</strong><a href="/stickers/2989.html" class="map-popup-link">View</a></div>');
-                    marker.on('mouseover', function() { this.openPopup(); });
-                    marker.on('click', function() { this.openPopup(); });
-                })();
-
-                (function() {
                     const marker = L.marker([50.850175, 5.70596111111111]).addTo(cityMap);
                     marker.bindPopup('<div class="nearby-sticker-popup"><strong>SC Heerenveen</strong><a href="/stickers/2949.html" class="map-popup-link">View</a></div>');
                     marker.on('mouseover', function() { this.openPopup(); });
@@ -1144,6 +1137,13 @@
                 (function() {
                     const marker = L.marker([50.8497611111111, 5.705125]).addTo(cityMap);
                     marker.bindPopup('<div class="nearby-sticker-popup"><strong>MVV Maastricht</strong><a href="/stickers/2950.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([50.8469277777778, 5.69194166666667]).addTo(cityMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>MVV Maastricht</strong><a href="/stickers/2989.html" class="map-popup-link">View</a></div>');
                     marker.on('mouseover', function() { this.openPopup(); });
                     marker.on('click', function() { this.openPopup(); });
                 })();
@@ -1256,9 +1256,9 @@
                     [50.8486055555556, 5.69276388888889],
                     [50.8501694444444, 5.69415277777778],
                     [50.8494194444445, 5.69475555555556],
-                    [50.8469277777778, 5.69194166666667],
                     [50.850175, 5.70596111111111],
                     [50.8497611111111, 5.705125],
+                    [50.8469277777778, 5.69194166666667],
                     [50.8498611111111, 5.7036],
                     [50.8497805555556, 5.70271666666667],
                     [50.8493305555556, 5.69307222222222],
