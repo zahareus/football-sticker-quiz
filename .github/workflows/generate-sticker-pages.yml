@@ -190,7 +190,14 @@ jobs:
 
       - name: Optimize images
         id: optimize-images
-        if: steps.get-ids.outputs.sticker_ids != ''
+        # !cancelled(), not always(): eviction from the `generate-pages`
+        # concurrency group is routine here and should not touch Storage.
+        # But a failure in an EARLIER step must not skip this one — on
+        # 2026-08-19 the club-page renderer died and left stickers #4527-#4530
+        # with no _web.webp, i.e. broken images on live pages, because the
+        # implicit success() on this `if` swallowed the step. Nothing depends
+        # on it: it writes only to Storage, never to the working tree.
+        if: ${{ !cancelled() && steps.get-ids.outputs.sticker_ids != '' }}
         working-directory: ./scripts
         env:
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
@@ -361,3 +368,17 @@ jobs:
             --data-urlencode "text=${TEXT}" > /dev/null
           echo "Telegram notify sent (status=$JOB_STATUS)."
 
+      # The batch notify above only fires for batch uploads. A single upload
+      # that fails was completely silent until 2026-08-19 — four of them broke
+      # the live image pipeline that day with nothing to notice it.
+      - name: Alert on failure (single upload)
+        if: failure() && steps.get-ids.outputs.notify != 'true'
+        env:
+          TG_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TG_CHAT: '292048'
+          IDS: ${{ steps.get-ids.outputs.sticker_ids }}
+        run: |
+          if [ -z "$TG_TOKEN" ]; then echo "no TELEGRAM_BOT_TOKEN, skip"; exit 0; fi
+          curl -s -X POST "https://api.telegram.org/bot${TG_TOKEN}/sendMessage" \
+            -d chat_id="${TG_CHAT}" \
+            -d text="🔴 StickerHunt: генерація впала для стікерів [${IDS:-?}] — ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
