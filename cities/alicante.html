@@ -312,15 +312,6 @@
                          loading="lazy"
                          decoding="async">
                 </a>
-                <a href="/stickers/3145.html" class="sticker-preview-link">
-                    <img src="/img/club_978/1774785068441_IMG_8497_thumb.webp?v=2026-05-27"
-                         alt="Manchester United football sticker #3145 found in this city"
-                         data-sticker-id="3145"
-                         class="sticker-preview-image"
-                         width="200" height="200"
-                         loading="lazy"
-                         decoding="async">
-                </a>
                 <a href="/stickers/3146.html" class="sticker-preview-link">
                     <img src="/img/club_790/1774785090075_IMG_8496_thumb.webp?v=2026-05-27"
                          alt="Hercules football sticker #3146 found in this city"
@@ -406,6 +397,15 @@
                     <img src="/img/club_790/1746655244634_8FF5CE35-D0EB-43FA-BC7A-7A6ECE0E272D_1_105_c_thumb.webp?v=2026-05-27"
                          alt="Hercules football sticker #2096 found in this city"
                          data-sticker-id="2096"
+                         class="sticker-preview-image"
+                         width="200" height="200"
+                         loading="lazy"
+                         decoding="async">
+                </a>
+                <a href="/stickers/3145.html" class="sticker-preview-link">
+                    <img src="/img/club_978/1774785068441_IMG_8497_thumb.webp?v=2026-05-27"
+                         alt="Manchester United football sticker #3145 found in this city"
+                         data-sticker-id="3145"
                          class="sticker-preview-image"
                          width="200" height="200"
                          loading="lazy"
@@ -709,13 +709,6 @@
                 })();
 
                 (function() {
-                    const marker = L.marker([38.3435444444444, -0.493094444444444]).addTo(cityMap);
-                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>Manchester United</strong><a href="/stickers/3145.html" class="map-popup-link">View</a></div>');
-                    marker.on('mouseover', function() { this.openPopup(); });
-                    marker.on('click', function() { this.openPopup(); });
-                })();
-
-                (function() {
                     const marker = L.marker([38.3433222222222, -0.493233333333333]).addTo(cityMap);
                     marker.bindPopup('<div class="nearby-sticker-popup"><strong>Hercules</strong><a href="/stickers/3146.html" class="map-popup-link">View</a></div>');
                     marker.on('mouseover', function() { this.openPopup(); });
@@ -760,6 +753,13 @@
                 (function() {
                     const marker = L.marker([38.3383861111111, -0.491211111111111]).addTo(cityMap);
                     marker.bindPopup('<div class="nearby-sticker-popup"><strong>Grasshopper Club Zürich</strong><a href="/stickers/3144.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([38.3435444444444, -0.493094444444444]).addTo(cityMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>Manchester United</strong><a href="/stickers/3145.html" class="map-popup-link">View</a></div>');
                     marker.on('mouseover', function() { this.openPopup(); });
                     marker.on('click', function() { this.openPopup(); });
                 })();
@@ -897,7 +897,6 @@
                     [38.3550472222222, -0.494388888888889],
                     [38.3573138888889, -0.493683333333333],
                     [38.3456138888889, -0.498180555555556],
-                    [38.3435444444444, -0.493094444444444],
                     [38.3433222222222, -0.493233333333333],
                     [38.3399777777778, -0.490411111111111],
                     [38.3395777777778, -0.490016666666667],
@@ -905,6 +904,7 @@
                     [38.3412333333333, -0.494513888888889],
                     [38.3412333333333, -0.494513888888889],
                     [38.3383861111111, -0.491211111111111],
+                    [38.3435444444444, -0.493094444444444],
                     [38.342425, -0.493275],
                     [38.3377388888889, -0.491188888888889],
                     [38.342725, -0.479466666666667],

@@ -438,6 +438,15 @@
                          loading="lazy"
                          decoding="async">
                 </a>
+                <a href="/stickers/2663.html" class="sticker-preview-link">
+                    <img src="/img/club_1113/1760126109929_IMG_7294_thumb.webp?v=2026-05-27"
+                         alt="Sheffield F.C. football sticker #2663 found in this city"
+                         data-sticker-id="2663"
+                         class="sticker-preview-image"
+                         width="200" height="200"
+                         loading="lazy"
+                         decoding="async">
+                </a>
                 <a href="/stickers/2720.html" class="sticker-preview-link">
                     <img src="/img/club_624/1763598068778_IMG_7401_thumb.webp?v=2026-05-27"
                          alt="SK Brann football sticker #2720 found in this city"
@@ -523,15 +532,6 @@
                     <img src="/img/club_1115/1760126758430_IMG_7296_thumb.webp?v=2026-05-27"
                          alt="Moss FK football sticker #2671 found in this city"
                          data-sticker-id="2671"
-                         class="sticker-preview-image"
-                         width="200" height="200"
-                         loading="lazy"
-                         decoding="async">
-                </a>
-                <a href="/stickers/2663.html" class="sticker-preview-link">
-                    <img src="/img/club_1113/1760126109929_IMG_7294_thumb.webp?v=2026-05-27"
-                         alt="Sheffield F.C. football sticker #2663 found in this city"
-                         data-sticker-id="2663"
                          class="sticker-preview-image"
                          width="200" height="200"
                          loading="lazy"
@@ -663,6 +663,15 @@
                          loading="lazy"
                          decoding="async">
                 </a>
+                <a href="/stickers/2690.html" class="sticker-preview-link">
+                    <img src="/img/club_986/1760871166758_IMG_7382_thumb.webp?v=2026-05-27"
+                         alt="Leicester City football sticker #2690 found in this city"
+                         data-sticker-id="2690"
+                         class="sticker-preview-image"
+                         width="200" height="200"
+                         loading="lazy"
+                         decoding="async">
+                </a>
                 <a href="/stickers/2684.html" class="sticker-preview-link">
                     <img src="/img/club_1116/1760189924448_IMG_7313_thumb.webp?v=2026-05-27"
                          alt="IK Start football sticker #2684 found in this city"
@@ -775,15 +784,6 @@
                     <img src="/img/club_783/1760871537718_IMG_7377_thumb.webp?v=2026-05-27"
                          alt="NEC Nijmegen football sticker #2693 found in this city"
                          data-sticker-id="2693"
-                         class="sticker-preview-image"
-                         width="200" height="200"
-                         loading="lazy"
-                         decoding="async">
-                </a>
-                <a href="/stickers/2690.html" class="sticker-preview-link">
-                    <img src="/img/club_986/1760871166758_IMG_7382_thumb.webp?v=2026-05-27"
-                         alt="Leicester City football sticker #2690 found in this city"
-                         data-sticker-id="2690"
                          class="sticker-preview-image"
                          width="200" height="200"
                          loading="lazy"
@@ -1356,6 +1356,15 @@
                          loading="lazy"
                          decoding="async">
                 </a>
+                <a href="/stickers/2726.html" class="sticker-preview-link">
+                    <img src="/img/club_1128/1763673072216_IMG_743222_thumb.webp?v=2026-05-27"
+                         alt="Crystal Palace F.C. football sticker #2726 found in this city"
+                         data-sticker-id="2726"
+                         class="sticker-preview-image"
+                         width="200" height="200"
+                         loading="lazy"
+                         decoding="async">
+                </a>
                 <a href="/stickers/2630.html" class="sticker-preview-link">
                     <img src="/img/club_1007/1759593373443_IMG_7224_thumb.webp?v=2026-05-27"
                          alt="Hibernian football sticker #2630 found in this city"
@@ -1387,15 +1396,6 @@
                     <img src="/img/club_1103/1759592760190_IMG_7236_thumb.webp?v=2026-05-27"
                          alt="Radomiak Radom football sticker #2625 found in this city"
                          data-sticker-id="2625"
-                         class="sticker-preview-image"
-                         width="200" height="200"
-                         loading="lazy"
-                         decoding="async">
-                </a>
-                <a href="/stickers/2726.html" class="sticker-preview-link">
-                    <img src="/img/club_1128/1763673072216_IMG_743222_thumb.webp?v=2026-05-27"
-                         alt="Crystal Palace F.C. football sticker #2726 found in this city"
-                         data-sticker-id="2726"
                          class="sticker-preview-image"
                          width="200" height="200"
                          loading="lazy"
@@ -1755,7 +1755,7 @@
         
         document.addEventListener('DOMContentLoaded', function() {
             if (typeof L !== 'undefined' && document.getElementById('club-map')) {
-                const cityMap = L.map('club-map').setView([52.34389177823, 4.908947207428939], 12);
+                const cityMap = L.map('club-map').setView([52.34389177823, 4.908947207428938], 12);
                 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                     attribution: '&copy; OpenStreetMap contributors'
                 }).addTo(cityMap);
@@ -1971,6 +1971,13 @@
                 })();
 
                 (function() {
+                    const marker = L.marker([52.3134389, 4.942375]).addTo(cityMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>Sheffield F.C.</strong><a href="/stickers/2663.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
                     const marker = L.marker([52.3692694, 4.8926028]).addTo(cityMap);
                     marker.bindPopup('<div class="nearby-sticker-popup"><strong>SK Brann</strong><a href="/stickers/2720.html" class="map-popup-link">View</a></div>');
                     marker.on('mouseover', function() { this.openPopup(); });
@@ -2036,13 +2043,6 @@
                 (function() {
                     const marker = L.marker([52.3134528, 4.942375]).addTo(cityMap);
                     marker.bindPopup('<div class="nearby-sticker-popup"><strong>Moss FK</strong><a href="/stickers/2671.html" class="map-popup-link">View</a></div>');
-                    marker.on('mouseover', function() { this.openPopup(); });
-                    marker.on('click', function() { this.openPopup(); });
-                })();
-
-                (function() {
-                    const marker = L.marker([52.3134389, 4.942375]).addTo(cityMap);
-                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>Sheffield F.C.</strong><a href="/stickers/2663.html" class="map-popup-link">View</a></div>');
                     marker.on('mouseover', function() { this.openPopup(); });
                     marker.on('click', function() { this.openPopup(); });
                 })();
@@ -2146,6 +2146,13 @@
                 })();
 
                 (function() {
+                    const marker = L.marker([52.3757833, 4.9005861]).addTo(cityMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>Leicester City</strong><a href="/stickers/2690.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
                     const marker = L.marker([52.3782611, 4.8990778]).addTo(cityMap);
                     marker.bindPopup('<div class="nearby-sticker-popup"><strong>IK Start</strong><a href="/stickers/2684.html" class="map-popup-link">View</a></div>');
                     marker.on('mouseover', function() { this.openPopup(); });
@@ -2232,13 +2239,6 @@
                 (function() {
                     const marker = L.marker([52.3763694, 4.8992972]).addTo(cityMap);
                     marker.bindPopup('<div class="nearby-sticker-popup"><strong>NEC Nijmegen</strong><a href="/stickers/2693.html" class="map-popup-link">View</a></div>');
-                    marker.on('mouseover', function() { this.openPopup(); });
-                    marker.on('click', function() { this.openPopup(); });
-                })();
-
-                (function() {
-                    const marker = L.marker([52.3757833, 4.9005861]).addTo(cityMap);
-                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>Leicester City</strong><a href="/stickers/2690.html" class="map-popup-link">View</a></div>');
                     marker.on('mouseover', function() { this.openPopup(); });
                     marker.on('click', function() { this.openPopup(); });
                 })();
@@ -2685,6 +2685,13 @@
                 })();
 
                 (function() {
+                    const marker = L.marker([52.3719472, 4.8959639]).addTo(cityMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>Crystal Palace F.C.</strong><a href="/stickers/2726.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
                     const marker = L.marker([52.3141527777778, 4.940125]).addTo(cityMap);
                     marker.bindPopup('<div class="nearby-sticker-popup"><strong>Hibernian</strong><a href="/stickers/2630.html" class="map-popup-link">View</a></div>');
                     marker.on('mouseover', function() { this.openPopup(); });
@@ -2708,13 +2715,6 @@
                 (function() {
                     const marker = L.marker([52.3140611111111, 4.94003055555556]).addTo(cityMap);
                     marker.bindPopup('<div class="nearby-sticker-popup"><strong>Radomiak Radom</strong><a href="/stickers/2625.html" class="map-popup-link">View</a></div>');
-                    marker.on('mouseover', function() { this.openPopup(); });
-                    marker.on('click', function() { this.openPopup(); });
-                })();
-
-                (function() {
-                    const marker = L.marker([52.3719472, 4.8959639]).addTo(cityMap);
-                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>Crystal Palace F.C.</strong><a href="/stickers/2726.html" class="map-popup-link">View</a></div>');
                     marker.on('mouseover', function() { this.openPopup(); });
                     marker.on('click', function() { this.openPopup(); });
                 })();
@@ -2995,6 +2995,7 @@
                     [52.3102222222222, 4.76067222222222],
                     [52.3105972222222, 4.75916111111111],
                     [52.3105916666667, 4.75918055555556],
+                    [52.3134389, 4.942375],
                     [52.3692694, 4.8926028],
                     [52.3140333333333, 4.94008611111111],
                     [52.3129666666667, 4.94031944444444],
@@ -3005,7 +3006,6 @@
                     [52.3134611111111, 4.94237777777778],
                     [52.313525, 4.94242777777778],
                     [52.3134528, 4.942375],
-                    [52.3134389, 4.942375],
                     [52.3134833333333, 4.9424],
                     [52.3134528, 4.9423833],
                     [52.3134583, 4.9423944],
@@ -3020,6 +3020,7 @@
                     [52.3134806, 4.9424],
                     [52.3757833, 4.9005833],
                     [52.3742667, 4.8875111],
+                    [52.3757833, 4.9005861],
                     [52.3782611, 4.8990778],
                     [52.3766056, 4.8979222],
                     [52.3778083, 4.8994028],
@@ -3033,7 +3034,6 @@
                     [52.3774611, 4.8990444],
                     [52.3778083, 4.8994028],
                     [52.3763694, 4.8992972],
-                    [52.3757833, 4.9005861],
                     [52.3787472, 4.8986],
                     [52.3788528, 4.8936556],
                     [52.3131861, 4.9429306],
@@ -3097,11 +3097,11 @@
                     [52.3132666666667, 4.94128888888889],
                     [52.3130944444444, 4.94092777777778],
                     [52.3142916666667, 4.940425],
+                    [52.3719472, 4.8959639],
                     [52.3141527777778, 4.940125],
                     [52.3141638888889, 4.94010277777778],
                     [52.3136, 4.94101388888889],
                     [52.3140611111111, 4.94003055555556],
-                    [52.3719472, 4.8959639],
                     [52.3141444444444, 4.94005833333333],
                     [52.3719, 4.89585],
                     [52.3143055555555, 4.94059722222222],

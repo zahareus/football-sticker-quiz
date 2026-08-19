@@ -546,15 +546,6 @@
                          loading="lazy"
                          decoding="async">
                 </a>
-                <a href="/stickers/3018.html" class="sticker-preview-link">
-                    <img src="/img/club_759/1772988687348_IMG_8019_thumb.webp?v=2026-05-27"
-                         alt="Feyenoord football sticker #3018 found in this city"
-                         data-sticker-id="3018"
-                         class="sticker-preview-image"
-                         width="200" height="200"
-                         loading="lazy"
-                         decoding="async">
-                </a>
                 <a href="/stickers/3001.html" class="sticker-preview-link">
                     <img src="/img/club_937/1772970142594_IMG_8020_thumb.webp?v=2026-05-27"
                          alt="1 FC Köln football sticker #3001 found in this city"
@@ -577,6 +568,15 @@
                     <img src="/img/club_759/1772970623007_IMG_8004_thumb.webp?v=2026-05-27"
                          alt="Feyenoord football sticker #3004 found in this city"
                          data-sticker-id="3004"
+                         class="sticker-preview-image"
+                         width="200" height="200"
+                         loading="lazy"
+                         decoding="async">
+                </a>
+                <a href="/stickers/3018.html" class="sticker-preview-link">
+                    <img src="/img/club_759/1772988687348_IMG_8019_thumb.webp?v=2026-05-27"
+                         alt="Feyenoord football sticker #3018 found in this city"
+                         data-sticker-id="3018"
                          class="sticker-preview-image"
                          width="200" height="200"
                          loading="lazy"
@@ -765,7 +765,7 @@
         
         document.addEventListener('DOMContentLoaded', function() {
             if (typeof L !== 'undefined' && document.getElementById('club-map')) {
-                const cityMap = L.map('club-map').setView([50.84912074372761, 5.695765860215054], 12);
+                const cityMap = L.map('club-map').setView([50.84912074372761, 5.6957658602150545], 12);
                 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                     attribution: '&copy; OpenStreetMap contributors'
                 }).addTo(cityMap);
@@ -1065,13 +1065,6 @@
                 })();
 
                 (function() {
-                    const marker = L.marker([50.8495666666667, 5.70399166666667]).addTo(cityMap);
-                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>Feyenoord</strong><a href="/stickers/3018.html" class="map-popup-link">View</a></div>');
-                    marker.on('mouseover', function() { this.openPopup(); });
-                    marker.on('click', function() { this.openPopup(); });
-                })();
-
-                (function() {
                     const marker = L.marker([50.8496444444444, 5.70415277777778]).addTo(cityMap);
                     marker.bindPopup('<div class="nearby-sticker-popup"><strong>1 FC Köln</strong><a href="/stickers/3001.html" class="map-popup-link">View</a></div>');
                     marker.on('mouseover', function() { this.openPopup(); });
@@ -1088,6 +1081,13 @@
                 (function() {
                     const marker = L.marker([50.8495138888889, 5.69517222222222]).addTo(cityMap);
                     marker.bindPopup('<div class="nearby-sticker-popup"><strong>Feyenoord</strong><a href="/stickers/3004.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([50.8495666666667, 5.70399166666667]).addTo(cityMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>Feyenoord</strong><a href="/stickers/3018.html" class="map-popup-link">View</a></div>');
                     marker.on('mouseover', function() { this.openPopup(); });
                     marker.on('click', function() { this.openPopup(); });
                 })();
@@ -1247,10 +1247,10 @@
                     [50.848775, 5.692675],
                     [50.8517694444444, 5.69315277777778],
                     [50.849575, 5.69628611111111],
-                    [50.8495666666667, 5.70399166666667],
                     [50.8496444444444, 5.70415277777778],
                     [50.8465916666667, 5.68858611111111],
                     [50.8495138888889, 5.69517222222222],
+                    [50.8495666666667, 5.70399166666667],
                     [50.8497361111111, 5.69443888888889],
                     [50.8496444444444, 5.69991111111111],
                     [50.8486055555556, 5.69276388888889],

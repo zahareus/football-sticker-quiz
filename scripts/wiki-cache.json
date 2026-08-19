@@ -6561,5 +6561,14 @@
     "capacity": "15,497",
     "league": "Campeonato de Portugal",
     "website": "https://vfc.pt/"
+  },
+  "1277": {
+    "wikiUrl": "https://en.wikipedia.org/wiki/FC_Baden",
+    "intro": "Fussballclub Baden 1897, simply known as FC Baden, is a Swiss football club based in Baden, Canton Aargau, which is a short distance from Zürich. It was founded in 1897.",
+    "founded": "1897",
+    "stadium": "Esp Stadium",
+    "capacity": null,
+    "league": "1. Liga Classic",
+    "website": "http://www.fcbaden.ch/"
   }
 }

@@ -546,15 +546,6 @@
                          loading="lazy"
                          decoding="async">
                 </a>
-                <a href="/stickers/2425.html" class="sticker-preview-link">
-                    <img src="/img/club_1071/1755811606335_IMG_6191_thumb.webp?v=2026-05-27"
-                         alt="Middlesbrough F.C. football sticker #2425 found in this city"
-                         data-sticker-id="2425"
-                         class="sticker-preview-image"
-                         width="200" height="200"
-                         loading="lazy"
-                         decoding="async">
-                </a>
                 <a href="/stickers/2427.html" class="sticker-preview-link">
                     <img src="/img/club_622/1755811640563_IMG_6185_thumb.webp?v=2026-05-27"
                          alt="Fenerbahçe SK football sticker #2427 found in this city"
@@ -604,15 +595,6 @@
                     <img src="/img/club_1073/1755811973370_IMG_6175_thumb.webp?v=2026-05-27"
                          alt="Kecskeméti TE football sticker #2433 found in this city"
                          data-sticker-id="2433"
-                         class="sticker-preview-image"
-                         width="200" height="200"
-                         loading="lazy"
-                         decoding="async">
-                </a>
-                <a href="/stickers/2376.html" class="sticker-preview-link">
-                    <img src="/img/club_976/1755806696269_IMG_6127_thumb.webp?v=2026-05-27"
-                         alt="Everton FC football sticker #2376 found in this city"
-                         data-sticker-id="2376"
                          class="sticker-preview-image"
                          width="200" height="200"
                          loading="lazy"
@@ -699,10 +681,28 @@
                          loading="lazy"
                          decoding="async">
                 </a>
+                <a href="/stickers/2376.html" class="sticker-preview-link">
+                    <img src="/img/club_976/1755806696269_IMG_6127_thumb.webp?v=2026-05-27"
+                         alt="Everton FC football sticker #2376 found in this city"
+                         data-sticker-id="2376"
+                         class="sticker-preview-image"
+                         width="200" height="200"
+                         loading="lazy"
+                         decoding="async">
+                </a>
                 <a href="/stickers/2366.html" class="sticker-preview-link">
                     <img src="/img/club_947/1751114497282_IMG_6062_thumb.webp?v=2026-05-27"
                          alt="VfB Stuttgart football sticker #2366 found in this city"
                          data-sticker-id="2366"
+                         class="sticker-preview-image"
+                         width="200" height="200"
+                         loading="lazy"
+                         decoding="async">
+                </a>
+                <a href="/stickers/2425.html" class="sticker-preview-link">
+                    <img src="/img/club_1071/1755811606335_IMG_6191_thumb.webp?v=2026-05-27"
+                         alt="Middlesbrough F.C. football sticker #2425 found in this city"
+                         data-sticker-id="2425"
                          class="sticker-preview-image"
                          width="200" height="200"
                          loading="lazy"
@@ -1017,7 +1017,7 @@
         
         document.addEventListener('DOMContentLoaded', function() {
             if (typeof L !== 'undefined' && document.getElementById('club-map')) {
-                const cityMap = L.map('club-map').setView([48.7806228703704, 9.189608302469136], 12);
+                const cityMap = L.map('club-map').setView([48.780622870370394, 9.189608302469136], 12);
                 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                     attribution: '&copy; OpenStreetMap contributors'
                 }).addTo(cityMap);
@@ -1317,13 +1317,6 @@
                 })();
 
                 (function() {
-                    const marker = L.marker([48.782525, 9.18172222222222]).addTo(cityMap);
-                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>Middlesbrough F.C.</strong><a href="/stickers/2425.html" class="map-popup-link">View</a></div>');
-                    marker.on('mouseover', function() { this.openPopup(); });
-                    marker.on('click', function() { this.openPopup(); });
-                })();
-
-                (function() {
                     const marker = L.marker([48.7810027777778, 9.18294444444444]).addTo(cityMap);
                     marker.bindPopup('<div class="nearby-sticker-popup"><strong>Fenerbahçe SK</strong><a href="/stickers/2427.html" class="map-popup-link">View</a></div>');
                     marker.on('mouseover', function() { this.openPopup(); });
@@ -1361,13 +1354,6 @@
                 (function() {
                     const marker = L.marker([48.7801388888889, 9.18382777777778]).addTo(cityMap);
                     marker.bindPopup('<div class="nearby-sticker-popup"><strong>Kecskeméti TE</strong><a href="/stickers/2433.html" class="map-popup-link">View</a></div>');
-                    marker.on('mouseover', function() { this.openPopup(); });
-                    marker.on('click', function() { this.openPopup(); });
-                })();
-
-                (function() {
-                    const marker = L.marker([48.7793888888889, 9.17943055555556]).addTo(cityMap);
-                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>Everton FC</strong><a href="/stickers/2376.html" class="map-popup-link">View</a></div>');
                     marker.on('mouseover', function() { this.openPopup(); });
                     marker.on('click', function() { this.openPopup(); });
                 })();
@@ -1436,8 +1422,22 @@
                 })();
 
                 (function() {
+                    const marker = L.marker([48.7793888888889, 9.17943055555556]).addTo(cityMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>Everton FC</strong><a href="/stickers/2376.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
                     const marker = L.marker([48.7831833333333, 9.18055555555556]).addTo(cityMap);
                     marker.bindPopup('<div class="nearby-sticker-popup"><strong>VfB Stuttgart</strong><a href="/stickers/2366.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([48.782525, 9.18172222222222]).addTo(cityMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>Middlesbrough F.C.</strong><a href="/stickers/2425.html" class="map-popup-link">View</a></div>');
                     marker.on('mouseover', function() { this.openPopup(); });
                     marker.on('click', function() { this.openPopup(); });
                 })();
@@ -1695,14 +1695,12 @@
                     [48.7958111111111, 9.22701388888889],
                     [48.7827805555556, 9.18191944444444],
                     [48.7952527777778, 9.22306666666667],
-                    [48.782525, 9.18172222222222],
                     [48.7810027777778, 9.18294444444444],
                     [48.78065, 9.17976944444444],
                     [48.7807777777778, 9.17951944444444],
                     [48.7809861111111, 9.18295833333333],
                     [48.7806277777778, 9.18337777777778],
                     [48.7801388888889, 9.18382777777778],
-                    [48.7793888888889, 9.17943055555556],
                     [48.7823916666667, 9.18168055555556],
                     [48.7782055555556, 9.17846666666667],
                     [48.7807083333333, 9.183325],
@@ -1712,7 +1710,9 @@
                     [48.776225, 9.17585277777778],
                     [48.7801166666667, 9.18385833333333],
                     [48.7955944444444, 9.22271944444445],
+                    [48.7793888888889, 9.17943055555556],
                     [48.7831833333333, 9.18055555555556],
+                    [48.782525, 9.18172222222222],
                     [48.7789722222222, 9.17943888888889],
                     [48.7795305555556, 9.18401944444444],
                     [48.7985638888889, 9.21699166666667],
