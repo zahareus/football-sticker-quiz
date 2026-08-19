@@ -33,7 +33,7 @@
     <meta property="og:url" content="https://stickerhunt.club/clubs/723.html">
     <meta property="og:title" content="Śląsk Wrocław Stickers — 2 Stickers | StickerHunt">
     <meta property="og:description" content="Śląsk Wrocław — from Wrocław, Poland. 2 football stickers found on streets. Can you identify them? Browse the collection at StickerHunt.">
-    <meta property="og:image" content="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/club_723%2F1746526850346_IMG_9723_web.webp">
+    <meta property="og:image" content="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/club_723/1786795013689_IMG_3006_web.webp">
     <meta property="og:site_name" content="StickerHunt">
 
     <!-- Twitter -->
@@ -41,7 +41,7 @@
     <meta name="twitter:url" content="https://stickerhunt.club/clubs/723.html">
     <meta name="twitter:title" content="Śląsk Wrocław Stickers — 2 Stickers | StickerHunt">
     <meta name="twitter:description" content="Śląsk Wrocław — from Wrocław, Poland. 2 football stickers found on streets. Can you identify them? Browse the collection at StickerHunt.">
-    <meta name="twitter:image" content="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/club_723%2F1746526850346_IMG_9723_web.webp">
+    <meta name="twitter:image" content="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/club_723/1786795013689_IMG_3006_web.webp">
     <meta name="twitter:site" content="@StickerHunting">
     <meta name="twitter:creator" content="@StickerHunting">
         <!-- Self-hosted Poppins fonts (cached by Vercel/Cloudflare). Preload + @font-face with swap.
@@ -58,7 +58,7 @@
     </style>
 
     <!-- Preload LCP image (top sticker / OG) -->
-    <link rel="preload" as="image" href="/img/club_723/1746526850346_IMG_9723_web.webp?v=2026-05-27" fetchpriority="high">
+    <link rel="preload" as="image" href="/img/club_723/1786795013689_IMG_3006_web.webp?v=2026-05-27" fetchpriority="high">
     <!-- Full stylesheet loaded async (non-blocking) -->
     <link rel="stylesheet" href="/style.css?v=5">
 
@@ -95,13 +95,13 @@
       "image": [
         {
           "@type": "ImageObject",
-          "contentUrl": "https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/club_723%2F1746526850346_IMG_9723_web.webp",
-          "thumbnailUrl": "/img/club_723/1746526850346_IMG_9723_thumb.webp?v=2026-05-27"
+          "contentUrl": "https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/club_723/1786795013689_IMG_3006_web.webp",
+          "thumbnailUrl": "/img/club_723/1786795013689_IMG_3006_thumb.webp?v=2026-05-27"
         },
         {
           "@type": "ImageObject",
-          "contentUrl": "https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/club_723/1786795013689_IMG_3006_web.webp",
-          "thumbnailUrl": "/img/club_723/1786795013689_IMG_3006_thumb.webp?v=2026-05-27"
+          "contentUrl": "https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/club_723%2F1746526850346_IMG_9723_web.webp",
+          "thumbnailUrl": "/img/club_723/1746526850346_IMG_9723_thumb.webp?v=2026-05-27"
         }
       ]
     }
@@ -173,7 +173,9 @@
         <div id="club-edit-form" class="club-edit-form" style="display: none;">
             <div class="edit-field">
                 <label for="edit-club-name">Club Name:</label>
-                <input type="text" id="edit-club-name" class="edit-input" value="Śląsk Wrocław">
+                <!-- CLUB_NAME_RAW, not CLUB_NAME: the heading strips the flag emoji for CLS,
+                     but this value goes back into the DB — it must carry the real name. -->
+                <input type="text" id="edit-club-name" class="edit-input" value="🇵🇱 Śląsk Wrocław">
             </div>
             <div class="edit-field">
                 <label for="edit-club-city">City:</label>
@@ -241,7 +243,7 @@
         <div class="other-clubs-section">
 <h3>Other clubs from Poland</h3>
 <ul class="other-clubs-list">
-<li><a href="/clubs/725.html">Legia Warsaw</a> (13)</li>
+<li><a href="/clubs/725.html">Legia Warsaw</a> (14)</li>
 <li><a href="/clubs/780.html">LKS Lodz</a> (10)</li>
 <li><a href="/clubs/766.html">Lech Poznań</a> (8)</li>
 <li><a href="/clubs/739.html">Cracovia</a> (6)</li>
@@ -250,7 +252,7 @@
 <li><a href="/clubs/721.html">Górnik Zabrze</a> (4)</li>
 <li><a href="/clubs/747.html">Lechia Gdańsk</a> (4)</li>
 <li><a href="/clubs/746.html">Pogoń Szczecin</a> (4)</li>
-<li><a href="/clubs/764.html">Zawisza Bydgoszcz</a> (4)</li>
+<li><a href="/clubs/1103.html">Radomiak Radom</a> (4)</li>
 <li><a href="/countries/POL.html">View all 36 clubs →</a></li>
 </ul>
 </div>
@@ -440,14 +442,14 @@
 
                 try {
                     // Step 1: Update club in database
+                    // name only travels when it actually changed — an untouched field can
+                    // never overwrite the stored name (this is what ate the flag emoji).
+                    const clubPayload = { city: newCity, web: newWeb, media: newMedia };
+                    if (nameChanged) clubPayload.name = newName;
+
                     const { error: updateError } = await supabase
                         .from('clubs')
-                        .update({
-                            name: newName,
-                            city: newCity,
-                            web: newWeb,
-                            media: newMedia
-                        })
+                        .update(clubPayload)
                         .eq('id', clubPageState.clubId);
 
                     if (updateError) throw updateError;

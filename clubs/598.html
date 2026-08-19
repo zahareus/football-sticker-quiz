@@ -177,7 +177,9 @@
         <div id="club-edit-form" class="club-edit-form" style="display: none;">
             <div class="edit-field">
                 <label for="edit-club-name">Club Name:</label>
-                <input type="text" id="edit-club-name" class="edit-input" value="Jeunesse">
+                <!-- CLUB_NAME_RAW, not CLUB_NAME: the heading strips the flag emoji for CLS,
+                     but this value goes back into the DB — it must carry the real name. -->
+                <input type="text" id="edit-club-name" class="edit-input" value="🇱🇺 Jeunesse">
             </div>
             <div class="edit-field">
                 <label for="edit-club-city">City:</label>
@@ -209,7 +211,7 @@
     <p>Jeunesse Esch (full name Association Sportive la Jeunesse d'Esch/Alzette) is a professional football club based in Esch-sur-Alzette, in south-western Luxembourg. The side play in the National Division, the highest league in the country, and have won the league title on 28 occasions between 1921 and 2010, the most of any team in Luxembourg..</p>
     <p class="club-about-source">Source: <a href="https://en.wikipedia.org/wiki/Jeunesse_d%27Esch" target="_blank" rel="noopener noreferrer">Wikipedia</a></p>
 </div>
-            <div class="club-stats"><span class="club-stat-tag">🌐 <a href="https://en.wikipedia.org/wiki/Jeunesse_d'Esch" target="_blank" rel="noopener noreferrer">https://en.wikipedia.org/wiki/Jeunesse_d%27Esch</a></span>
+            <div class="club-stats"><span class="club-stat-tag">🌐 <a href="https://en.wikipedia.org/wiki/Jeunesse_d%27Esch" target="_blank" rel="noopener noreferrer">https://en.wikipedia.org/wiki/Jeunesse_d%27Esch</a></span>
 <span class="club-stat-tag">#️⃣ #Jeunesse #JeunesseEsch #LUXfootball #FootballLuxembourg #JeunesseFamily</span></div>
             <div class="sticker-gallery">
                 
@@ -229,7 +231,12 @@
 
         <div class="club-description-text"><p>Jeunesse is a football club from Luxembourg, based in Luxembourg City. Our database contains <strong>1 sticker</strong> from Jeunesse. Browse the full collection below or <a href="/quiz.html">play the quiz</a> to identify a specific sticker.</p></div>
 
-        
+        <div class="other-clubs-section">
+<h3>Other clubs from Luxembourg</h3>
+<ul class="other-clubs-list">
+<li><a href="/clubs/1219.html">Daring Club Echternach</a> (1)</li>
+</ul>
+</div>
 
         <nav class="site-nav">
             <a href="/catalogue.html" class="btn btn-nav">Catalogue</a>
@@ -399,14 +406,14 @@
 
                 try {
                     // Step 1: Update club in database
+                    // name only travels when it actually changed — an untouched field can
+                    // never overwrite the stored name (this is what ate the flag emoji).
+                    const clubPayload = { city: newCity, web: newWeb, media: newMedia };
+                    if (nameChanged) clubPayload.name = newName;
+
                     const { error: updateError } = await supabase
                         .from('clubs')
-                        .update({
-                            name: newName,
-                            city: newCity,
-                            web: newWeb,
-                            media: newMedia
-                        })
+                        .update(clubPayload)
                         .eq('id', clubPageState.clubId);
 
                     if (updateError) throw updateError;

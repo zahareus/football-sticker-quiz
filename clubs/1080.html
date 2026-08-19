@@ -177,7 +177,9 @@
         <div id="club-edit-form" class="club-edit-form" style="display: none;">
             <div class="edit-field">
                 <label for="edit-club-name">Club Name:</label>
-                <input type="text" id="edit-club-name" class="edit-input" value="Clermont Foot 63">
+                <!-- CLUB_NAME_RAW, not CLUB_NAME: the heading strips the flag emoji for CLS,
+                     but this value goes back into the DB — it must carry the real name. -->
+                <input type="text" id="edit-club-name" class="edit-input" value="🇫🇷 Clermont Foot 63">
             </div>
             <div class="edit-field">
                 <label for="edit-club-city">City:</label>
@@ -240,17 +242,17 @@
         <div class="other-clubs-section">
 <h3>Other clubs from France</h3>
 <ul class="other-clubs-list">
-<li><a href="/clubs/701.html">Nantes</a> (49)</li>
-<li><a href="/clubs/657.html">Paris Saint-Germain</a> (45)</li>
-<li><a href="/clubs/666.html">Olympique de Marseille</a> (29)</li>
+<li><a href="/clubs/695.html">Racing Club de Lens</a> (138)</li>
+<li><a href="/clubs/657.html">Paris Saint-Germain</a> (51)</li>
+<li><a href="/clubs/701.html">Nantes</a> (50)</li>
+<li><a href="/clubs/676.html">Lille OSC</a> (44)</li>
+<li><a href="/clubs/666.html">Olympique de Marseille</a> (34)</li>
 <li><a href="/clubs/707.html">Strasbourg</a> (27)</li>
 <li><a href="/clubs/714.html">Toulouse FC</a> (26)</li>
-<li><a href="/clubs/709.html">AJ Auxerre</a> (15)</li>
-<li><a href="/clubs/647.html">Angers SCO</a> (13)</li>
-<li><a href="/clubs/659.html">Montpellier HSC</a> (9)</li>
-<li><a href="/clubs/695.html">Racing Club de Lens</a> (9)</li>
-<li><a href="/clubs/696.html">Olympique Lyonnais</a> (8)</li>
-<li><a href="/countries/FRA.html">View all 32 clubs →</a></li>
+<li><a href="/clubs/709.html">AJ Auxerre</a> (23)</li>
+<li><a href="/clubs/1242.html">USL Dunkerque</a> (17)</li>
+<li><a href="/clubs/647.html">Angers SCO</a> (15)</li>
+<li><a href="/countries/FRA.html">View all 37 clubs →</a></li>
 </ul>
 </div>
 
@@ -292,7 +294,6 @@
                     marker.on('mouseover', function() { this.openPopup(); });
                     marker.on('click', function() { this.openPopup(); });
                 })();
-
                 
             }
         });
@@ -440,14 +441,14 @@
 
                 try {
                     // Step 1: Update club in database
+                    // name only travels when it actually changed — an untouched field can
+                    // never overwrite the stored name (this is what ate the flag emoji).
+                    const clubPayload = { city: newCity, web: newWeb, media: newMedia };
+                    if (nameChanged) clubPayload.name = newName;
+
                     const { error: updateError } = await supabase
                         .from('clubs')
-                        .update({
-                            name: newName,
-                            city: newCity,
-                            web: newWeb,
-                            media: newMedia
-                        })
+                        .update(clubPayload)
                         .eq('id', clubPageState.clubId);
 
                     if (updateError) throw updateError;

@@ -187,7 +187,9 @@
         <div id="club-edit-form" class="club-edit-form" style="display: none;">
             <div class="edit-field">
                 <label for="edit-club-name">Club Name:</label>
-                <input type="text" id="edit-club-name" class="edit-input" value="FC Basel 1893">
+                <!-- CLUB_NAME_RAW, not CLUB_NAME: the heading strips the flag emoji for CLS,
+                     but this value goes back into the DB — it must carry the real name. -->
+                <input type="text" id="edit-club-name" class="edit-input" value="🇨🇭 FC Basel 1893">
             </div>
             <div class="edit-field">
                 <label for="edit-club-city">City:</label>
@@ -602,8 +604,8 @@ Basel competed in UEFA competitions for 25 consecutive seasons between 1999–20
 <li><a href="/clubs/1146.html">FC Luzern</a> (4)</li>
 <li><a href="/clubs/517.html">Lausanne</a> (2)</li>
 <li><a href="/clubs/98.html">Neuchâtel Xamax FCS</a> (2)</li>
-<li><a href="/clubs/1133.html">FC Schaffhausen</a> (1)</li>
-<li><a href="/countries/CHE.html">View all 14 clubs →</a></li>
+<li><a href="/clubs/1277.html">FC Baden</a> (1)</li>
+<li><a href="/countries/CHE.html">View all 15 clubs →</a></li>
 </ul>
 </div>
 
@@ -1045,14 +1047,14 @@ Basel competed in UEFA competitions for 25 consecutive seasons between 1999–20
 
                 try {
                     // Step 1: Update club in database
+                    // name only travels when it actually changed — an untouched field can
+                    // never overwrite the stored name (this is what ate the flag emoji).
+                    const clubPayload = { city: newCity, web: newWeb, media: newMedia };
+                    if (nameChanged) clubPayload.name = newName;
+
                     const { error: updateError } = await supabase
                         .from('clubs')
-                        .update({
-                            name: newName,
-                            city: newCity,
-                            web: newWeb,
-                            media: newMedia
-                        })
+                        .update(clubPayload)
                         .eq('id', clubPageState.clubId);
 
                     if (updateError) throw updateError;

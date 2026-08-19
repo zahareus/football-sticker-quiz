@@ -173,7 +173,9 @@
         <div id="club-edit-form" class="club-edit-form" style="display: none;">
             <div class="edit-field">
                 <label for="edit-club-name">Club Name:</label>
-                <input type="text" id="edit-club-name" class="edit-input" value="FC Metalist Kharkiv">
+                <!-- CLUB_NAME_RAW, not CLUB_NAME: the heading strips the flag emoji for CLS,
+                     but this value goes back into the DB — it must carry the real name. -->
+                <input type="text" id="edit-club-name" class="edit-input" value="🇺🇦 FC Metalist Kharkiv">
             </div>
             <div class="edit-field">
                 <label for="edit-club-city">City:</label>
@@ -204,7 +206,7 @@
     <p>Football Club Metalist Kharkiv, also known as Football Club Metalist Kharkov or FC Metalist Kharkov (Ukrainian: Футбо́льний Клуб Металі́ст Ха́рків [metɐˈl⁽ʲ⁾ist ˈxɑrkiu̯]), is a Ukrainian professional football club based in Kharkiv that plays in the Ukrainian First League during the 2023–24 season. It was revived five years after the original FC Metalist Kharkiv ceased operations.</p>
     <p class="club-about-source">Source: <a href="https://uk.wikipedia.org/wiki/ФК_Металіст_Харків" target="_blank" rel="noopener noreferrer">Wikipedia</a></p>
 </div>
-            <div class="club-stats"><span class="club-stat-tag">🌐 <a href="https://uk.wikipedia.org/wiki/%D0%A4%D0%9A_%D0%9C%D0%B5%D1%82%D0%B0%D0%BB%D1%96%D1%81%D1%82_%D0%A5%D0%B0%D1%80%D0%BA%D1%96%D0%B2" target="_blank" rel="noopener noreferrer">https://uk.wikipedia.org/wiki/ФК_Металіст_Харків</a></span>
+            <div class="club-stats"><span class="club-stat-tag">🌐 <a href="https://uk.wikipedia.org/wiki/ФК_Металіст_Харків" target="_blank" rel="noopener noreferrer">https://uk.wikipedia.org/wiki/ФК_Металіст_Харків</a></span>
 <span class="club-stat-tag">#️⃣ #FCMetalist #MetalistKharkiv #Metalist #УкраїнськийФутбол #ПершаЛіга</span></div>
             <div class="sticker-gallery">
                 
@@ -402,14 +404,14 @@
 
                 try {
                     // Step 1: Update club in database
+                    // name only travels when it actually changed — an untouched field can
+                    // never overwrite the stored name (this is what ate the flag emoji).
+                    const clubPayload = { city: newCity, web: newWeb, media: newMedia };
+                    if (nameChanged) clubPayload.name = newName;
+
                     const { error: updateError } = await supabase
                         .from('clubs')
-                        .update({
-                            name: newName,
-                            city: newCity,
-                            web: newWeb,
-                            media: newMedia
-                        })
+                        .update(clubPayload)
                         .eq('id', clubPageState.clubId);
 
                     if (updateError) throw updateError;

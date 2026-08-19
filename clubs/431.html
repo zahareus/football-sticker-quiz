@@ -109,13 +109,13 @@
         },
         {
           "@type": "ImageObject",
-          "contentUrl": "https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/club_431/1777109543899_IMG_9575_web.webp",
-          "thumbnailUrl": "/img/club_431/1777109543899_IMG_9575_thumb.webp?v=2026-05-27"
+          "contentUrl": "https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/club_431/1786792493927_IMG_2883_web.webp",
+          "thumbnailUrl": "/img/club_431/1786792493927_IMG_2883_thumb.webp?v=2026-05-27"
         },
         {
           "@type": "ImageObject",
-          "contentUrl": "https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/club_431/1780750394673_IMG_0513_web.webp",
-          "thumbnailUrl": "/img/club_431/1780750394673_IMG_0513_thumb.webp?v=2026-05-27"
+          "contentUrl": "https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/club_431/1777109543899_IMG_9575_web.webp",
+          "thumbnailUrl": "/img/club_431/1777109543899_IMG_9575_thumb.webp?v=2026-05-27"
         }
       ]
     }
@@ -187,7 +187,9 @@
         <div id="club-edit-form" class="club-edit-form" style="display: none;">
             <div class="edit-field">
                 <label for="edit-club-name">Club Name:</label>
-                <input type="text" id="edit-club-name" class="edit-input" value="Royal Antwerp">
+                <!-- CLUB_NAME_RAW, not CLUB_NAME: the heading strips the flag emoji for CLS,
+                     but this value goes back into the DB — it must carry the real name. -->
+                <input type="text" id="edit-club-name" class="edit-input" value="🇧🇪 Royal Antwerp">
             </div>
             <div class="edit-field">
                 <label for="edit-club-city">City:</label>
@@ -316,8 +318,8 @@
 <li><a href="/clubs/403.html">RSC Anderlecht</a> (45)</li>
 <li><a href="/clubs/317.html">Standard Liège</a> (13)</li>
 <li><a href="/clubs/8.html">Royale Union Saint-Gilloise</a> (7)</li>
+<li><a href="/clubs/401.html">KAA Gent</a> (6)</li>
 <li><a href="/clubs/94.html">K.R.C. Genk</a> (6)</li>
-<li><a href="/clubs/401.html">KAA Gent</a> (5)</li>
 <li><a href="/clubs/449.html">Molenbek</a> (4)</li>
 <li><a href="/clubs/68.html">Royal Charleroi S.C.</a> (3)</li>
 <li><a href="/clubs/179.html">S.V. Zulte Waregem</a> (2)</li>
@@ -557,14 +559,14 @@
 
                 try {
                     // Step 1: Update club in database
+                    // name only travels when it actually changed — an untouched field can
+                    // never overwrite the stored name (this is what ate the flag emoji).
+                    const clubPayload = { city: newCity, web: newWeb, media: newMedia };
+                    if (nameChanged) clubPayload.name = newName;
+
                     const { error: updateError } = await supabase
                         .from('clubs')
-                        .update({
-                            name: newName,
-                            city: newCity,
-                            web: newWeb,
-                            media: newMedia
-                        })
+                        .update(clubPayload)
                         .eq('id', clubPageState.clubId);
 
                     if (updateError) throw updateError;

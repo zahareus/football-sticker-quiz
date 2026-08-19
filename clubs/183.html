@@ -31,7 +31,7 @@
     <meta property="og:url" content="https://stickerhunt.club/clubs/183.html">
     <meta property="og:title" content="FK Željezničar Sarajevo Stickers — 7 Stickers | StickerHunt">
     <meta property="og:description" content="FK Željezničar Sarajevo — from Sarajevo, Bosnia and Herzegovina. 7 football stickers found on streets. Can you identify them? Browse the collection at StickerHunt.">
-    <meta property="og:image" content="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/BIH%20FK%20Zeljeznicar%20Sarajevo/IMG_0033_web.webp">
+    <meta property="og:image" content="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/club_183/1786795004546_IMG_3026_web.webp">
     <meta property="og:site_name" content="StickerHunt">
 
     <!-- Twitter -->
@@ -39,7 +39,7 @@
     <meta name="twitter:url" content="https://stickerhunt.club/clubs/183.html">
     <meta name="twitter:title" content="FK Željezničar Sarajevo Stickers — 7 Stickers | StickerHunt">
     <meta name="twitter:description" content="FK Željezničar Sarajevo — from Sarajevo, Bosnia and Herzegovina. 7 football stickers found on streets. Can you identify them? Browse the collection at StickerHunt.">
-    <meta name="twitter:image" content="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/BIH%20FK%20Zeljeznicar%20Sarajevo/IMG_0033_web.webp">
+    <meta name="twitter:image" content="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/club_183/1786795004546_IMG_3026_web.webp">
     <meta name="twitter:site" content="@StickerHunting">
     <meta name="twitter:creator" content="@StickerHunting">
         <!-- Self-hosted Poppins fonts (cached by Vercel/Cloudflare). Preload + @font-face with swap.
@@ -56,7 +56,7 @@
     </style>
 
     <!-- Preload LCP image (top sticker / OG) -->
-    <link rel="preload" as="image" href="/img/BIH%20FK%20Zeljeznicar%20Sarajevo/IMG_0033_web.webp?v=2026-05-27" fetchpriority="high">
+    <link rel="preload" as="image" href="/img/club_183/1786795004546_IMG_3026_web.webp?v=2026-05-27" fetchpriority="high">
     <!-- Full stylesheet loaded async (non-blocking) -->
     <link rel="stylesheet" href="/style.css?v=5">
 
@@ -104,18 +104,18 @@
       "image": [
         {
           "@type": "ImageObject",
+          "contentUrl": "https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/club_183/1786795004546_IMG_3026_web.webp",
+          "thumbnailUrl": "/img/club_183/1786795004546_IMG_3026_thumb.webp?v=2026-05-27"
+        },
+        {
+          "@type": "ImageObject",
+          "contentUrl": "https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/club_183/1786794999208_IMG_3051_web.webp",
+          "thumbnailUrl": "/img/club_183/1786794999208_IMG_3051_thumb.webp?v=2026-05-27"
+        },
+        {
+          "@type": "ImageObject",
           "contentUrl": "https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/BIH%20FK%20Zeljeznicar%20Sarajevo/IMG_0033_web.webp",
           "thumbnailUrl": "/img/BIH%20FK%20Zeljeznicar%20Sarajevo/IMG_0033_thumb.webp?v=2026-05-27"
-        },
-        {
-          "@type": "ImageObject",
-          "contentUrl": "https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/BIH%20FK%20Zeljeznicar%20Sarajevo/IMG_0022_web.webp",
-          "thumbnailUrl": "/img/BIH%20FK%20Zeljeznicar%20Sarajevo/IMG_0022_thumb.webp?v=2026-05-27"
-        },
-        {
-          "@type": "ImageObject",
-          "contentUrl": "https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/club_183/1786795014983_IMG_3004_web.webp",
-          "thumbnailUrl": "/img/club_183/1786795014983_IMG_3004_thumb.webp?v=2026-05-27"
         }
       ]
     }
@@ -187,7 +187,9 @@
         <div id="club-edit-form" class="club-edit-form" style="display: none;">
             <div class="edit-field">
                 <label for="edit-club-name">Club Name:</label>
-                <input type="text" id="edit-club-name" class="edit-input" value="FK Željezničar Sarajevo">
+                <!-- CLUB_NAME_RAW, not CLUB_NAME: the heading strips the flag emoji for CLS,
+                     but this value goes back into the DB — it must carry the real name. -->
+                <input type="text" id="edit-club-name" class="edit-input" value="🇧🇦 FK Željezničar Sarajevo">
             </div>
             <div class="edit-field">
                 <label for="edit-club-city">City:</label>
@@ -523,14 +525,14 @@
 
                 try {
                     // Step 1: Update club in database
+                    // name only travels when it actually changed — an untouched field can
+                    // never overwrite the stored name (this is what ate the flag emoji).
+                    const clubPayload = { city: newCity, web: newWeb, media: newMedia };
+                    if (nameChanged) clubPayload.name = newName;
+
                     const { error: updateError } = await supabase
                         .from('clubs')
-                        .update({
-                            name: newName,
-                            city: newCity,
-                            web: newWeb,
-                            media: newMedia
-                        })
+                        .update(clubPayload)
                         .eq('id', clubPageState.clubId);
 
                     if (updateError) throw updateError;

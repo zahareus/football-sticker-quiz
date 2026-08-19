@@ -187,7 +187,9 @@
         <div id="club-edit-form" class="club-edit-form" style="display: none;">
             <div class="edit-field">
                 <label for="edit-club-name">Club Name:</label>
-                <input type="text" id="edit-club-name" class="edit-input" value="FC Kuban Krasnodar">
+                <!-- CLUB_NAME_RAW, not CLUB_NAME: the heading strips the flag emoji for CLS,
+                     but this value goes back into the DB — it must carry the real name. -->
+                <input type="text" id="edit-club-name" class="edit-input" value="🇷🇺 FC Kuban Krasnodar">
             </div>
             <div class="edit-field">
                 <label for="edit-club-city">City:</label>
@@ -219,7 +221,7 @@
     <p>FC Kuban (Russian: Футбольный клуб &quot;Кубань&quot; Краснодар) was a Russian professional football club based in Krasnodar, which now only plays on a regional level. The team began playing in the Russian Premier League in 2011, having for won the Russian First Division a year prior.</p>
     <p class="club-about-source">Source: <a href="https://ru.wikipedia.org/wiki/ФК_Кубань_Краснодар" target="_blank" rel="noopener noreferrer">Wikipedia</a></p>
 </div>
-            <div class="club-stats"><span class="club-stat-tag">🌐 <a href="https://ru.wikipedia.org/wiki/%D0%A4%D0%9A_%D0%9A%D1%83%D0%B1%D0%B0%D0%BD%D1%8C_%D0%9A%D1%80%D0%B0%D1%81%D0%BD%D0%BE%D0%B4%D0%B0%D1%80" target="_blank" rel="noopener noreferrer">https://ru.wikipedia.org/wiki/ФК_Кубань_Краснодар</a></span>
+            <div class="club-stats"><span class="club-stat-tag">🌐 <a href="https://ru.wikipedia.org/wiki/ФК_Кубань_Краснодар" target="_blank" rel="noopener noreferrer">https://ru.wikipedia.org/wiki/ФК_Кубань_Краснодар</a></span>
 <span class="club-stat-tag">#️⃣ #FCKuban #KubanKrasnodar #Kuban #Krasnodar #RussianFootball</span></div>
             <div class="sticker-gallery">
                 
@@ -469,14 +471,14 @@
 
                 try {
                     // Step 1: Update club in database
+                    // name only travels when it actually changed — an untouched field can
+                    // never overwrite the stored name (this is what ate the flag emoji).
+                    const clubPayload = { city: newCity, web: newWeb, media: newMedia };
+                    if (nameChanged) clubPayload.name = newName;
+
                     const { error: updateError } = await supabase
                         .from('clubs')
-                        .update({
-                            name: newName,
-                            city: newCity,
-                            web: newWeb,
-                            media: newMedia
-                        })
+                        .update(clubPayload)
                         .eq('id', clubPageState.clubId);
 
                     if (updateError) throw updateError;

@@ -135,7 +135,7 @@
     {
       "@type": "ListItem",
       "position": 4,
-      "name": "FC Baden",
+      "name": "🇨🇭 FC Baden",
       "item": "https://stickerhunt.club/clubs/1277.html"
     }
   ]
@@ -165,7 +165,7 @@
     </header>
 
     <main class="container club-page" id="catalogue-container">
-        <div id="catalogue-breadcrumbs"><a href="/catalogue.html">Catalogue</a> → <a href="/countries/CHE.html">Switzerland</a> → <a href="/clubs/1277.html">FC Baden</a></div>
+        <div id="catalogue-breadcrumbs"><a href="/catalogue.html">Catalogue</a> → <a href="/countries/CHE.html">Switzerland</a> → <a href="/clubs/1277.html">🇨🇭 FC Baden</a></div>
 
         <h1 id="main-catalogue-heading">
             <span id="club-name-display">FC Baden</span> — <span class="heading-suffix">1 Sticker</span>
@@ -176,7 +176,9 @@
         <div id="club-edit-form" class="club-edit-form" style="display: none;">
             <div class="edit-field">
                 <label for="edit-club-name">Club Name:</label>
-                <input type="text" id="edit-club-name" class="edit-input" value="FC Baden">
+                <!-- CLUB_NAME_RAW, not CLUB_NAME: the heading strips the flag emoji for CLS,
+                     but this value goes back into the DB — it must carry the real name. -->
+                <input type="text" id="edit-club-name" class="edit-input" value="🇨🇭 FC Baden">
             </div>
             <div class="edit-field">
                 <label for="edit-club-city">City:</label>
@@ -287,11 +289,10 @@
                 
                 (function() {
                     const marker = L.marker([38.7077833333333, -9.14446388888889]).addTo(clubMap);
-                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>FC Baden</strong><a href="/stickers/4526.html" class="map-popup-link">View</a></div>');
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🇨🇭 FC Baden</strong><a href="/stickers/4526.html" class="map-popup-link">View</a></div>');
                     marker.on('mouseover', function() { this.openPopup(); });
                     marker.on('click', function() { this.openPopup(); });
                 })();
-
                 
             }
         });
@@ -439,14 +440,14 @@
 
                 try {
                     // Step 1: Update club in database
+                    // name only travels when it actually changed — an untouched field can
+                    // never overwrite the stored name (this is what ate the flag emoji).
+                    const clubPayload = { city: newCity, web: newWeb, media: newMedia };
+                    if (nameChanged) clubPayload.name = newName;
+
                     const { error: updateError } = await supabase
                         .from('clubs')
-                        .update({
-                            name: newName,
-                            city: newCity,
-                            web: newWeb,
-                            media: newMedia
-                        })
+                        .update(clubPayload)
                         .eq('id', clubPageState.clubId);
 
                     if (updateError) throw updateError;

@@ -182,7 +182,9 @@
         <div id="club-edit-form" class="club-edit-form" style="display: none;">
             <div class="edit-field">
                 <label for="edit-club-name">Club Name:</label>
-                <input type="text" id="edit-club-name" class="edit-input" value="Maccabi Haifa FC">
+                <!-- CLUB_NAME_RAW, not CLUB_NAME: the heading strips the flag emoji for CLS,
+                     but this value goes back into the DB — it must carry the real name. -->
+                <input type="text" id="edit-club-name" class="edit-input" value="🇮🇱 Maccabi Haifa FC">
             </div>
             <div class="edit-field">
                 <label for="edit-club-city">City:</label>
@@ -194,7 +196,7 @@
             </div>
             <div class="edit-field">
                 <label for="edit-club-media">Tags / Social:</label>
-                <input type="text" id="edit-club-media" class="edit-input" value="#MaccabiHaifa #MaccabiHaifaFC #Haifa #יאללהירוקים (yallahayarokim - means "Go Green" in Hebrew) #ליגתהעליה (Ligat Ha'Al - Israeli Premier League)" placeholder="#hashtag @handle">
+                <input type="text" id="edit-club-media" class="edit-input" value="#MaccabiHaifa #MaccabiHaifaFC #Haifa #יאללהירוקים (yallahayarokim - means &quot;Go Green&quot; in Hebrew) #ליגתהעליה (Ligat Ha'Al - Israeli Premier League)" placeholder="#hashtag @handle">
             </div>
             <div class="edit-buttons">
                 <button id="save-club-btn" class="btn btn-save" disabled>Save</button>
@@ -420,14 +422,14 @@
 
                 try {
                     // Step 1: Update club in database
+                    // name only travels when it actually changed — an untouched field can
+                    // never overwrite the stored name (this is what ate the flag emoji).
+                    const clubPayload = { city: newCity, web: newWeb, media: newMedia };
+                    if (nameChanged) clubPayload.name = newName;
+
                     const { error: updateError } = await supabase
                         .from('clubs')
-                        .update({
-                            name: newName,
-                            city: newCity,
-                            web: newWeb,
-                            media: newMedia
-                        })
+                        .update(clubPayload)
                         .eq('id', clubPageState.clubId);
 
                     if (updateError) throw updateError;

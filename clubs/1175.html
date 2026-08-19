@@ -77,8 +77,8 @@
     {
       "@context": "https://schema.org",
       "@type": "CollectionPage",
-      "name": "Brighton &amp; Hove Albion F.C. Stickers — 2 Stickers | StickerHunt",
-      "description": "Brighton &amp; Hove Albion F.C. — from Brighton, England. 2 football stickers found on streets. Can you identify them? Browse the collection at StickerHunt.",
+      "name": "Brighton & Hove Albion F.C. Stickers — 2 Stickers | StickerHunt",
+      "description": "Brighton & Hove Albion F.C. — from Brighton, England. 2 football stickers found on streets. Can you identify them? Browse the collection at StickerHunt.",
       "url": "https://stickerhunt.club/clubs/1175.html",
       "about": {
         "@type": "SportsTeam",
@@ -174,7 +174,7 @@
         <div id="catalogue-breadcrumbs"><a href="/catalogue.html">Catalogue</a> → <a href="/countries/ENG.html">England</a> → <a href="/clubs/1175.html">🏴󠁧󠁢󠁥󠁮󠁧󠁿 Brighton &amp; Hove Albion F.C.</a></div>
 
         <h1 id="main-catalogue-heading">
-            <span id="club-name-display">Brighton & Hove Albion F.C.</span> — <span class="heading-suffix">2 Stickers</span>
+            <span id="club-name-display">Brighton &amp; Hove Albion F.C.</span> — <span class="heading-suffix">2 Stickers</span>
             <a href="#" id="edit-club-btn" class="edit-link" style="display: none;">edit</a>
         </h1>
 
@@ -182,7 +182,9 @@
         <div id="club-edit-form" class="club-edit-form" style="display: none;">
             <div class="edit-field">
                 <label for="edit-club-name">Club Name:</label>
-                <input type="text" id="edit-club-name" class="edit-input" value="Brighton & Hove Albion F.C.">
+                <!-- CLUB_NAME_RAW, not CLUB_NAME: the heading strips the flag emoji for CLS,
+                     but this value goes back into the DB — it must carry the real name. -->
+                <input type="text" id="edit-club-name" class="edit-input" value="🏴󠁧󠁢󠁥󠁮󠁧󠁿 Brighton &amp; Hove Albion F.C.">
             </div>
             <div class="edit-field">
                 <label for="edit-club-city">City:</label>
@@ -214,7 +216,7 @@
     <p>Brighton &amp; Hove Albion Football Club, commonly referred to as Brighton, is a professional football club based in Brighton and Hove, East Sussex, England.  The club competes in the Premier League, the top tier of English football.</p>
     <p class="club-about-source">Source: <a href="https://en.wikipedia.org/wiki/Brighton_%26_Hove_Albion_F.C." target="_blank" rel="noopener noreferrer">Wikipedia</a></p>
 </div>
-            <div class="club-stats"><span class="club-stat-tag">🌐 <a href="https://en.wikipedia.org/wiki/Brighton_%2526_Hove_Albion_F.C." target="_blank" rel="noopener noreferrer">https://en.wikipedia.org/wiki/Brighton_%26_Hove_Albion_F.C.</a></span>
+            <div class="club-stats"><span class="club-stat-tag">🌐 <a href="https://en.wikipedia.org/wiki/Brighton_%26_Hove_Albion_F.C." target="_blank" rel="noopener noreferrer">https://en.wikipedia.org/wiki/Brighton_%26_Hove_Albion_F.C.</a></span>
 <span class="club-stat-tag">#️⃣ #BHAFC #Seagulls #BrightonHoveAlbion #AmexStadium #PremierLeague</span></div>
             <div class="sticker-gallery">
                 
@@ -258,8 +260,8 @@
 <li><a href="/clubs/1018.html">Manchester City</a> (12)</li>
 <li><a href="/clubs/976.html">Everton FC</a> (6)</li>
 <li><a href="/clubs/979.html">Arsenal FC</a> (5)</li>
+<li><a href="/clubs/975.html">Birmingham City</a> (5)</li>
 <li><a href="/clubs/977.html">Liverpool FC</a> (5)</li>
-<li><a href="/clubs/975.html">Birmingham City</a> (4)</li>
 <li><a href="/clubs/986.html">Leicester City</a> (4)</li>
 <li><a href="/clubs/978.html">Manchester United</a> (4)</li>
 <li><a href="/clubs/1011.html">Nottingham Forest FC</a> (4)</li>
@@ -302,14 +304,14 @@
                 
                 (function() {
                     const marker = L.marker([50.0804527777778, 14.4136416666667]).addTo(clubMap);
-                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🏴󠁧󠁢󠁥󠁮󠁧󠁿 Brighton & Hove Albion F.C.</strong><a href="/stickers/3256.html" class="map-popup-link">View</a></div>');
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🏴󠁧󠁢󠁥󠁮󠁧󠁿 Brighton &amp; Hove Albion F.C.</strong><a href="/stickers/3256.html" class="map-popup-link">View</a></div>');
                     marker.on('mouseover', function() { this.openPopup(); });
                     marker.on('click', function() { this.openPopup(); });
                 })();
 
                 (function() {
                     const marker = L.marker([38.7073888888889, -9.14330277777778]).addTo(clubMap);
-                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🏴󠁧󠁢󠁥󠁮󠁧󠁿 Brighton & Hove Albion F.C.</strong><a href="/stickers/3950.html" class="map-popup-link">View</a></div>');
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>🏴󠁧󠁢󠁥󠁮󠁧󠁿 Brighton &amp; Hove Albion F.C.</strong><a href="/stickers/3950.html" class="map-popup-link">View</a></div>');
                     marker.on('mouseover', function() { this.openPopup(); });
                     marker.on('click', function() { this.openPopup(); });
                 })();
@@ -466,14 +468,14 @@
 
                 try {
                     // Step 1: Update club in database
+                    // name only travels when it actually changed — an untouched field can
+                    // never overwrite the stored name (this is what ate the flag emoji).
+                    const clubPayload = { city: newCity, web: newWeb, media: newMedia };
+                    if (nameChanged) clubPayload.name = newName;
+
                     const { error: updateError } = await supabase
                         .from('clubs')
-                        .update({
-                            name: newName,
-                            city: newCity,
-                            web: newWeb,
-                            media: newMedia
-                        })
+                        .update(clubPayload)
                         .eq('id', clubPageState.clubId);
 
                     if (updateError) throw updateError;

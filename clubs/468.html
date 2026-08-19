@@ -178,7 +178,9 @@
         <div id="club-edit-form" class="club-edit-form" style="display: none;">
             <div class="edit-field">
                 <label for="edit-club-name">Club Name:</label>
-                <input type="text" id="edit-club-name" class="edit-input" value="Goztepe">
+                <!-- CLUB_NAME_RAW, not CLUB_NAME: the heading strips the flag emoji for CLS,
+                     but this value goes back into the DB — it must carry the real name. -->
+                <input type="text" id="edit-club-name" class="edit-input" value="🇹🇷 Goztepe">
             </div>
             <div class="edit-field">
                 <label for="edit-club-city">City:</label>
@@ -207,7 +209,7 @@
 14 Haziran 1925 tarihinde Altay'ın Aydın'da katıldığı spor müsabakasında yönetimde bulunan Ferit Bey'e söz hakkı verilmemesi sonucu, dönüş yolunda trende çıkan anlaşmazlıkların ardından Altay'da futbol oynayan Nebi ile Vedat kardeşler, Muzaffer Koral, Ferit Simsaroğlu, Necati Bey ve Nusret Bey bir spor kulübü kurmaya karar verirler. 14 Haziran 1925 tarihinde, vapur iskelesi yanındaki Mez Gazinosu'nda toplanan Göztepe semtinin ileri gelenleri (kıdemli futbolcular) ve gençler Göztepe futbol takımını kurarlar.</p>
     <p class="club-about-source">Source: <a href="https://tr.wikipedia.org/wiki/Göztepe_S.K." target="_blank" rel="noopener noreferrer">Wikipedia</a></p>
 </div>
-            <div class="club-stats"><span class="club-stat-tag">🌐 <a href="https://tr.wikipedia.org/wiki/G%C3%B6ztepe_S.K." target="_blank" rel="noopener noreferrer">https://tr.wikipedia.org/wiki/Göztepe_S.K.</a></span>
+            <div class="club-stats"><span class="club-stat-tag">🌐 <a href="https://tr.wikipedia.org/wiki/Göztepe_S.K." target="_blank" rel="noopener noreferrer">https://tr.wikipedia.org/wiki/Göztepe_S.K.</a></span>
 <span class="club-stat-tag">#️⃣ #Goztepe #GoztepeSK #GöztepeSporKulübü #Göztepespor #TFF1Lig</span></div>
             <div class="sticker-gallery">
                 
@@ -519,14 +521,14 @@
 
                 try {
                     // Step 1: Update club in database
+                    // name only travels when it actually changed — an untouched field can
+                    // never overwrite the stored name (this is what ate the flag emoji).
+                    const clubPayload = { city: newCity, web: newWeb, media: newMedia };
+                    if (nameChanged) clubPayload.name = newName;
+
                     const { error: updateError } = await supabase
                         .from('clubs')
-                        .update({
-                            name: newName,
-                            city: newCity,
-                            web: newWeb,
-                            media: newMedia
-                        })
+                        .update(clubPayload)
                         .eq('id', clubPageState.clubId);
 
                     if (updateError) throw updateError;

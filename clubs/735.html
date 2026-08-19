@@ -189,7 +189,9 @@
         <div id="club-edit-form" class="club-edit-form" style="display: none;">
             <div class="edit-field">
                 <label for="edit-club-name">Club Name:</label>
-                <input type="text" id="edit-club-name" class="edit-input" value="Ruch Chorzów">
+                <!-- CLUB_NAME_RAW, not CLUB_NAME: the heading strips the flag emoji for CLS,
+                     but this value goes back into the DB — it must carry the real name. -->
+                <input type="text" id="edit-club-name" class="edit-input" value="🇵🇱 Ruch Chorzów">
             </div>
             <div class="edit-field">
                 <label for="edit-club-city">City:</label>
@@ -221,7 +223,7 @@
     <p>Ruch Chorzów (Polish: [ˈrux ˈxɔʐuf] ) is a Polish professional football club based in Chorzów, Upper Silesia. It is one of the most successful football teams in Poland, having won fourteen Polish Championships, and the Polish Cup three times.</p>
     <p class="club-about-source">Source: <a href="https://pl.wikipedia.org/wiki/Ruch_Chorzów" target="_blank" rel="noopener noreferrer">Wikipedia</a></p>
 </div>
-            <div class="club-stats"><span class="club-stat-tag">🌐 <a href="https://pl.wikipedia.org/wiki/Ruch_Chorz%C3%B3w" target="_blank" rel="noopener noreferrer">https://pl.wikipedia.org/wiki/Ruch_Chorzów</a></span>
+            <div class="club-stats"><span class="club-stat-tag">🌐 <a href="https://pl.wikipedia.org/wiki/Ruch_Chorzów" target="_blank" rel="noopener noreferrer">https://pl.wikipedia.org/wiki/Ruch_Chorzów</a></span>
 <span class="club-stat-tag">#️⃣ #RuchChorzów #Niebiescy #RuchChorzów1920 #Ekstraklasa #ForzaRuch</span></div>
             <div class="sticker-gallery">
                 
@@ -262,16 +264,16 @@
         <div class="other-clubs-section">
 <h3>Other clubs from Poland</h3>
 <ul class="other-clubs-list">
-<li><a href="/clubs/725.html">Legia Warsaw</a> (12)</li>
-<li><a href="/clubs/780.html">LKS Lodz</a> (8)</li>
-<li><a href="/clubs/766.html">Lech Poznań</a> (7)</li>
+<li><a href="/clubs/725.html">Legia Warsaw</a> (14)</li>
+<li><a href="/clubs/780.html">LKS Lodz</a> (10)</li>
+<li><a href="/clubs/766.html">Lech Poznań</a> (8)</li>
 <li><a href="/clubs/739.html">Cracovia</a> (6)</li>
 <li><a href="/clubs/751.html">Widzew Łódź</a> (6)</li>
 <li><a href="/clubs/750.html">Arka Gdynia</a> (4)</li>
+<li><a href="/clubs/721.html">Górnik Zabrze</a> (4)</li>
 <li><a href="/clubs/747.html">Lechia Gdańsk</a> (4)</li>
-<li><a href="/clubs/764.html">Zawisza Bydgoszcz</a> (4)</li>
-<li><a href="/clubs/721.html">Górnik Zabrze</a> (3)</li>
-<li><a href="/clubs/782.html">KSZO Ostrowiec Świętokrzyski</a> (3)</li>
+<li><a href="/clubs/746.html">Pogoń Szczecin</a> (4)</li>
+<li><a href="/clubs/1103.html">Radomiak Radom</a> (4)</li>
 <li><a href="/countries/POL.html">View all 36 clubs →</a></li>
 </ul>
 </div>
@@ -444,14 +446,14 @@
 
                 try {
                     // Step 1: Update club in database
+                    // name only travels when it actually changed — an untouched field can
+                    // never overwrite the stored name (this is what ate the flag emoji).
+                    const clubPayload = { city: newCity, web: newWeb, media: newMedia };
+                    if (nameChanged) clubPayload.name = newName;
+
                     const { error: updateError } = await supabase
                         .from('clubs')
-                        .update({
-                            name: newName,
-                            city: newCity,
-                            web: newWeb,
-                            media: newMedia
-                        })
+                        .update(clubPayload)
                         .eq('id', clubPageState.clubId);
 
                     if (updateError) throw updateError;

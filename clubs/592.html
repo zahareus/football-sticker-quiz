@@ -187,7 +187,9 @@
         <div id="club-edit-form" class="club-edit-form" style="display: none;">
             <div class="edit-field">
                 <label for="edit-club-name">Club Name:</label>
-                <input type="text" id="edit-club-name" class="edit-input" value="Budapest Honvéd FC">
+                <!-- CLUB_NAME_RAW, not CLUB_NAME: the heading strips the flag emoji for CLS,
+                     but this value goes back into the DB — it must carry the real name. -->
+                <input type="text" id="edit-club-name" class="edit-input" value="🇭🇺 Budapest Honvéd FC">
             </div>
             <div class="edit-field">
                 <label for="edit-club-city">City:</label>
@@ -219,7 +221,7 @@
     <p>Budapest Honvéd Football Club (Hungarian pronunciation: [ˈbudɒpɛʃt ˈhonveːd ˈɛft͡seː]), commonly known as Budapest Honvéd or simply Honvéd, is a Hungarian sports club based in Kispest, Budapest, with the colours of red and black. The club is best known for its football team.</p>
     <p class="club-about-source">Source: <a href="https://en.wikipedia.org/wiki/Budapest_Honvéd_FC" target="_blank" rel="noopener noreferrer">Wikipedia</a></p>
 </div>
-            <div class="club-stats"><span class="club-stat-tag">🌐 <a href="https://en.wikipedia.org/wiki/Budapest_Honv%C3%A9d_FC" target="_blank" rel="noopener noreferrer">https://en.wikipedia.org/wiki/Budapest_Honvéd_FC</a></span>
+            <div class="club-stats"><span class="club-stat-tag">🌐 <a href="https://en.wikipedia.org/wiki/Budapest_Honvéd_FC" target="_blank" rel="noopener noreferrer">https://en.wikipedia.org/wiki/Budapest_Honvéd_FC</a></span>
 <span class="club-stat-tag">#️⃣ #HonvédFC #BudapestHonvéd #Honvéd #KispestHonvéd #NBII</span></div>
             <div class="sticker-gallery">
                 
@@ -289,13 +291,13 @@
 <li><a href="/clubs/594.html">Újpest FC</a> (9)</li>
 <li><a href="/clubs/1063.html">Ferencvárosi TC</a> (5)</li>
 <li><a href="/clubs/1065.html">Békéscsaba 1912 Előre</a> (2)</li>
+<li><a href="/clubs/1067.html">Diósgyőri VTK</a> (2)</li>
 <li><a href="/clubs/1066.html">FC Veszprém</a> (2)</li>
 <li><a href="/clubs/593.html">Kaposvári Rákóczi FC</a> (2)</li>
 <li><a href="/clubs/1073.html">Kecskeméti TE</a> (2)</li>
+<li><a href="/clubs/1192.html">Vasas SC</a> (2)</li>
 <li><a href="/clubs/1068.html">Debreceni VSC</a> (1)</li>
-<li><a href="/clubs/1067.html">Diósgyőri VTK</a> (1)</li>
 <li><a href="/clubs/599.html">Fehérvár FC</a> (1)</li>
-<li><a href="/clubs/1075.html">Kiskunmajsa FC</a> (1)</li>
 <li><a href="/countries/HUN.html">View all 14 clubs →</a></li>
 </ul>
 </div>
@@ -338,7 +340,6 @@
                     marker.on('mouseover', function() { this.openPopup(); });
                     marker.on('click', function() { this.openPopup(); });
                 })();
-
                 
             }
         });
@@ -486,14 +487,14 @@
 
                 try {
                     // Step 1: Update club in database
+                    // name only travels when it actually changed — an untouched field can
+                    // never overwrite the stored name (this is what ate the flag emoji).
+                    const clubPayload = { city: newCity, web: newWeb, media: newMedia };
+                    if (nameChanged) clubPayload.name = newName;
+
                     const { error: updateError } = await supabase
                         .from('clubs')
-                        .update({
-                            name: newName,
-                            city: newCity,
-                            web: newWeb,
-                            media: newMedia
-                        })
+                        .update(clubPayload)
                         .eq('id', clubPageState.clubId);
 
                     if (updateError) throw updateError;

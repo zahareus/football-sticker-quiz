@@ -7,8 +7,7 @@
     <link rel="icon" href="/favicon.ico?v=2" type="image/x-icon">
 
     <!-- SEO Meta Tags - Pre-rendered for better indexing -->
-    <meta name="description" content="Seattle Sounders FC — from Seattle, USA, United States. 1 football sticker found on streets. Can you identify them? Browse the collection at StickerHunt.">
-    <meta name="keywords" content="Seattle Sounders FC stickers, Seattle Sounders FC football stickers, identify Seattle Sounders FC sticker, United States football stickers, football sticker database, SoundersFC, Sounders, SeattleSounders, RaveGreen, MLS">
+    <meta name="description" content="Seattle Sounders FC — from Seattle, United States. 1 football sticker found on streets. Can you identify them? Browse the collection at StickerHunt.">
     <link rel="canonical" href="https://stickerhunt.club/clubs/604.html">
     
     <meta name="description" lang="de" content="Seattle Sounders FC -- 1 Fussball-Sticker gefunden. Durchsuche die Sammlung bei StickerHunt.">
@@ -31,7 +30,7 @@
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://stickerhunt.club/clubs/604.html">
     <meta property="og:title" content="Seattle Sounders FC Stickers — 1 Sticker | StickerHunt">
-    <meta property="og:description" content="Seattle Sounders FC — from Seattle, USA, United States. 1 football sticker found on streets. Can you identify them? Browse the collection at StickerHunt.">
+    <meta property="og:description" content="Seattle Sounders FC — from Seattle, United States. 1 football sticker found on streets. Can you identify them? Browse the collection at StickerHunt.">
     <meta property="og:image" content="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/stickers/Seattle_Sounders_FC/IMG_8771_web.webp">
     <meta property="og:site_name" content="StickerHunt">
 
@@ -39,7 +38,7 @@
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:url" content="https://stickerhunt.club/clubs/604.html">
     <meta name="twitter:title" content="Seattle Sounders FC Stickers — 1 Sticker | StickerHunt">
-    <meta name="twitter:description" content="Seattle Sounders FC — from Seattle, USA, United States. 1 football sticker found on streets. Can you identify them? Browse the collection at StickerHunt.">
+    <meta name="twitter:description" content="Seattle Sounders FC — from Seattle, United States. 1 football sticker found on streets. Can you identify them? Browse the collection at StickerHunt.">
     <meta name="twitter:image" content="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/stickers/Seattle_Sounders_FC/IMG_8771_web.webp">
     <meta name="twitter:site" content="@StickerHunting">
     <meta name="twitter:creator" content="@StickerHunting">
@@ -79,7 +78,7 @@
       "@context": "https://schema.org",
       "@type": "CollectionPage",
       "name": "Seattle Sounders FC Stickers — 1 Sticker | StickerHunt",
-      "description": "Seattle Sounders FC — from Seattle, USA, United States. 1 football sticker found on streets. Can you identify them? Browse the collection at StickerHunt.",
+      "description": "Seattle Sounders FC — from Seattle, United States. 1 football sticker found on streets. Can you identify them? Browse the collection at StickerHunt.",
       "url": "https://stickerhunt.club/clubs/604.html",
       "about": {
         "@type": "SportsTeam",
@@ -178,7 +177,9 @@
         <div id="club-edit-form" class="club-edit-form" style="display: none;">
             <div class="edit-field">
                 <label for="edit-club-name">Club Name:</label>
-                <input type="text" id="edit-club-name" class="edit-input" value="Seattle Sounders FC">
+                <!-- CLUB_NAME_RAW, not CLUB_NAME: the heading strips the flag emoji for CLS,
+                     but this value goes back into the DB — it must carry the real name. -->
+                <input type="text" id="edit-club-name" class="edit-input" value="🇺🇸 Seattle Sounders FC">
             </div>
             <div class="edit-field">
                 <label for="edit-club-city">City:</label>
@@ -200,7 +201,7 @@
 
         <div id="catalogue-content" data-club-id="604">
             <div class="club-meta">
-    <span class="club-meta-item">Seattle, USA, <a href="/countries/USA.html">United States</a></span>
+    <span class="club-meta-item">Seattle, <a href="/countries/USA.html">United States</a></span>
     <span class="club-meta-item">Founded <strong>2009</strong></span>
     <span class="club-meta-item">Stadium <strong>Lumen Field</strong> (67000)</span>
     <span class="club-meta-item">League <strong>Major League Soccer</strong></span>
@@ -228,12 +229,12 @@
             
         </div>
 
-        <div class="club-description-text"><p>Seattle Sounders FC is a football club from United States, based in Seattle, USA. Our database contains <strong>1 sticker</strong> from Seattle Sounders FC. Browse the full collection below or <a href="/quiz.html">play the quiz</a> to identify a specific sticker.</p></div>
+        <div class="club-description-text"><p>Seattle Sounders FC is a football club from United States, based in Seattle. Our database contains <strong>1 sticker</strong> from Seattle Sounders FC. Browse the full collection below or <a href="/quiz.html">play the quiz</a> to identify a specific sticker.</p></div>
 
         <div class="other-clubs-section">
 <h3>Other clubs from United States</h3>
 <ul class="other-clubs-list">
-<li><a href="/clubs/611.html">LA Galaxy</a> (1)</li>
+<li><a href="/clubs/611.html">LA Galaxy</a> (2)</li>
 </ul>
 </div>
 
@@ -405,14 +406,14 @@
 
                 try {
                     // Step 1: Update club in database
+                    // name only travels when it actually changed — an untouched field can
+                    // never overwrite the stored name (this is what ate the flag emoji).
+                    const clubPayload = { city: newCity, web: newWeb, media: newMedia };
+                    if (nameChanged) clubPayload.name = newName;
+
                     const { error: updateError } = await supabase
                         .from('clubs')
-                        .update({
-                            name: newName,
-                            city: newCity,
-                            web: newWeb,
-                            media: newMedia
-                        })
+                        .update(clubPayload)
                         .eq('id', clubPageState.clubId);
 
                     if (updateError) throw updateError;

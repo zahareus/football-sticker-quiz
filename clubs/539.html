@@ -186,7 +186,9 @@
         <div id="club-edit-form" class="club-edit-form" style="display: none;">
             <div class="edit-field">
                 <label for="edit-club-name">Club Name:</label>
-                <input type="text" id="edit-club-name" class="edit-input" value="SK Rapid Wien">
+                <!-- CLUB_NAME_RAW, not CLUB_NAME: the heading strips the flag emoji for CLS,
+                     but this value goes back into the DB — it must carry the real name. -->
+                <input type="text" id="edit-club-name" class="edit-input" value="🇦🇹 SK Rapid Wien">
             </div>
             <div class="edit-field">
                 <label for="edit-club-city">City:</label>
@@ -393,15 +395,15 @@
         <div class="other-clubs-section">
 <h3>Other clubs from Austria</h3>
 <ul class="other-clubs-list">
-<li><a href="/clubs/345.html">FK Austria Viena</a> (17)</li>
-<li><a href="/clubs/292.html">SK Sturm Graz</a> (14)</li>
+<li><a href="/clubs/345.html">FK Austria Viena</a> (19)</li>
+<li><a href="/clubs/292.html">SK Sturm Graz</a> (19)</li>
 <li><a href="/clubs/549.html">LASK</a> (12)</li>
 <li><a href="/clubs/327.html">FC Blau-Weiß Linz</a> (7)</li>
 <li><a href="/clubs/499.html">GAK</a> (4)</li>
+<li><a href="/clubs/103.html">Wiener Sport-Club</a> (3)</li>
 <li><a href="/clubs/235.html">DSG Celtic Salmannsdorf</a> (1)</li>
 <li><a href="/clubs/1194.html">FC Wacker Innsbruck</a> (1)</li>
 <li><a href="/clubs/280.html">SV Austria Salzburg</a> (1)</li>
-<li><a href="/clubs/103.html">Wiener Sport-Club</a> (1)</li>
 </ul>
 </div>
 
@@ -457,7 +459,6 @@
                     marker.on('mouseover', function() { this.openPopup(); });
                     marker.on('click', function() { this.openPopup(); });
                 })();
-
                 
                 const bounds = L.latLngBounds([
                     [50.0929194444444, 14.4464611111111],
@@ -612,14 +613,14 @@
 
                 try {
                     // Step 1: Update club in database
+                    // name only travels when it actually changed — an untouched field can
+                    // never overwrite the stored name (this is what ate the flag emoji).
+                    const clubPayload = { city: newCity, web: newWeb, media: newMedia };
+                    if (nameChanged) clubPayload.name = newName;
+
                     const { error: updateError } = await supabase
                         .from('clubs')
-                        .update({
-                            name: newName,
-                            city: newCity,
-                            web: newWeb,
-                            media: newMedia
-                        })
+                        .update(clubPayload)
                         .eq('id', clubPageState.clubId);
 
                     if (updateError) throw updateError;

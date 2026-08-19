@@ -33,7 +33,7 @@
     <meta property="og:url" content="https://stickerhunt.club/clubs/585.html">
     <meta property="og:title" content="HNK Hajduk Split Stickers — 9 Stickers | StickerHunt">
     <meta property="og:description" content="HNK Hajduk Split — from Split, Croatia. 9 football stickers found on streets. Can you identify them? Browse the collection at StickerHunt.">
-    <meta property="og:image" content="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/club_585/1760190041672_IMG_7317_web.webp">
+    <meta property="og:image" content="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/club_585/1784969204372_IMG_1088_web.webp">
     <meta property="og:site_name" content="StickerHunt">
 
     <!-- Twitter -->
@@ -41,7 +41,7 @@
     <meta name="twitter:url" content="https://stickerhunt.club/clubs/585.html">
     <meta name="twitter:title" content="HNK Hajduk Split Stickers — 9 Stickers | StickerHunt">
     <meta name="twitter:description" content="HNK Hajduk Split — from Split, Croatia. 9 football stickers found on streets. Can you identify them? Browse the collection at StickerHunt.">
-    <meta name="twitter:image" content="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/club_585/1760190041672_IMG_7317_web.webp">
+    <meta name="twitter:image" content="https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/club_585/1784969204372_IMG_1088_web.webp">
     <meta name="twitter:site" content="@StickerHunting">
     <meta name="twitter:creator" content="@StickerHunting">
         <!-- Self-hosted Poppins fonts (cached by Vercel/Cloudflare). Preload + @font-face with swap.
@@ -58,7 +58,7 @@
     </style>
 
     <!-- Preload LCP image (top sticker / OG) -->
-    <link rel="preload" as="image" href="/img/club_585/1760190041672_IMG_7317_web.webp?v=2026-05-27" fetchpriority="high">
+    <link rel="preload" as="image" href="/img/club_585/1784969204372_IMG_1088_web.webp?v=2026-05-27" fetchpriority="high">
     <!-- Full stylesheet loaded async (non-blocking) -->
     <link rel="stylesheet" href="/style.css?v=5">
 
@@ -106,18 +106,18 @@
       "image": [
         {
           "@type": "ImageObject",
+          "contentUrl": "https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/club_585/1784969204372_IMG_1088_web.webp",
+          "thumbnailUrl": "/img/club_585/1784969204372_IMG_1088_thumb.webp?v=2026-05-27"
+        },
+        {
+          "@type": "ImageObject",
+          "contentUrl": "https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/club_585/1784968691204_IMG_1059_web.webp",
+          "thumbnailUrl": "/img/club_585/1784968691204_IMG_1059_thumb.webp?v=2026-05-27"
+        },
+        {
+          "@type": "ImageObject",
           "contentUrl": "https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/club_585/1760190041672_IMG_7317_web.webp",
           "thumbnailUrl": "/img/club_585/1760190041672_IMG_7317_thumb.webp?v=2026-05-27"
-        },
-        {
-          "@type": "ImageObject",
-          "contentUrl": "https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/stickers/HNK_Hajduk_Split/IMG_9588_(2)_web.webp",
-          "thumbnailUrl": "/img/stickers/HNK_Hajduk_Split/IMG_9588_(2)_thumb.webp?v=2026-05-27"
-        },
-        {
-          "@type": "ImageObject",
-          "contentUrl": "https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/stickers/HNK_Hajduk_Split/IMG_3517_web.webp",
-          "thumbnailUrl": "/img/stickers/HNK_Hajduk_Split/IMG_3517_thumb.webp?v=2026-05-27"
         }
       ]
     }
@@ -189,7 +189,9 @@
         <div id="club-edit-form" class="club-edit-form" style="display: none;">
             <div class="edit-field">
                 <label for="edit-club-name">Club Name:</label>
-                <input type="text" id="edit-club-name" class="edit-input" value="HNK Hajduk Split">
+                <!-- CLUB_NAME_RAW, not CLUB_NAME: the heading strips the flag emoji for CLS,
+                     but this value goes back into the DB — it must carry the real name. -->
+                <input type="text" id="edit-club-name" class="edit-input" value="🇭🇷 HNK Hajduk Split">
             </div>
             <div class="edit-field">
                 <label for="edit-club-city">City:</label>
@@ -555,14 +557,14 @@
 
                 try {
                     // Step 1: Update club in database
+                    // name only travels when it actually changed — an untouched field can
+                    // never overwrite the stored name (this is what ate the flag emoji).
+                    const clubPayload = { city: newCity, web: newWeb, media: newMedia };
+                    if (nameChanged) clubPayload.name = newName;
+
                     const { error: updateError } = await supabase
                         .from('clubs')
-                        .update({
-                            name: newName,
-                            city: newCity,
-                            web: newWeb,
-                            media: newMedia
-                        })
+                        .update(clubPayload)
                         .eq('id', clubPageState.clubId);
 
                     if (updateError) throw updateError;

@@ -187,7 +187,9 @@
         <div id="club-edit-form" class="club-edit-form" style="display: none;">
             <div class="edit-field">
                 <label for="edit-club-name">Club Name:</label>
-                <input type="text" id="edit-club-name" class="edit-input" value="Deportivo Alaves">
+                <!-- CLUB_NAME_RAW, not CLUB_NAME: the heading strips the flag emoji for CLS,
+                     but this value goes back into the DB — it must carry the real name. -->
+                <input type="text" id="edit-club-name" class="edit-input" value="🇪🇸 Deportivo Alaves">
             </div>
             <div class="edit-field">
                 <label for="edit-club-city">City:</label>
@@ -219,7 +221,7 @@
     <p>Deportivo Alavés, S.A.D. (Spanish pronunciation: [depoɾˈtiβo alaˈβes]; Sporting Alavés), usually known as Alavés, is a Spanish football club based in Vitoria-Gasteiz, Álava, in the autonomous community of the Basque Country. Founded on 23 January 1921 as Sport Friends Club, the club competes in La Liga, the top tier of Spanish football.</p>
     <p class="club-about-source">Source: <a href="https://es.wikipedia.org/wiki/Deportivo_Alavés" target="_blank" rel="noopener noreferrer">Wikipedia</a></p>
 </div>
-            <div class="club-stats"><span class="club-stat-tag">🌐 <a href="https://es.wikipedia.org/wiki/Deportivo_Alav%C3%A9s" target="_blank" rel="noopener noreferrer">https://es.wikipedia.org/wiki/Deportivo_Alavés</a></span>
+            <div class="club-stats"><span class="club-stat-tag">🌐 <a href="https://es.wikipedia.org/wiki/Deportivo_Alavés" target="_blank" rel="noopener noreferrer">https://es.wikipedia.org/wiki/Deportivo_Alavés</a></span>
 <span class="club-stat-tag">#️⃣ #DeportivoAlaves #Alaves #GoAlaves #Alavés #LaLigaSmartBank</span></div>
             <div class="sticker-gallery">
                 
@@ -431,16 +433,16 @@
 <h3>Other clubs from Spain</h3>
 <ul class="other-clubs-list">
 <li><a href="/clubs/836.html">RC Celta de Vigo</a> (35)</li>
-<li><a href="/clubs/813.html">Sevilla FC</a> (30)</li>
-<li><a href="/clubs/824.html">Real Betis</a> (26)</li>
-<li><a href="/clubs/848.html">Atlético Madrid</a> (21)</li>
-<li><a href="/clubs/814.html">Burgos CF</a> (21)</li>
+<li><a href="/clubs/813.html">Sevilla FC</a> (32)</li>
+<li><a href="/clubs/844.html">FC Barcelona</a> (30)</li>
+<li><a href="/clubs/824.html">Real Betis</a> (30)</li>
+<li><a href="/clubs/790.html">Hercules</a> (26)</li>
+<li><a href="/clubs/848.html">Atlético Madrid</a> (22)</li>
+<li><a href="/clubs/814.html">Burgos CF</a> (22)</li>
+<li><a href="/clubs/794.html">CE Europa</a> (20)</li>
 <li><a href="/clubs/845.html">Albacete Balompié</a> (19)</li>
-<li><a href="/clubs/794.html">CE Europa</a> (18)</li>
 <li><a href="/clubs/809.html">Levante UD</a> (16)</li>
-<li><a href="/clubs/1028.html">SD Compostela</a> (14)</li>
-<li><a href="/clubs/844.html">FC Barcelona</a> (13)</li>
-<li><a href="/countries/ESP.html">View all 73 clubs →</a></li>
+<li><a href="/countries/ESP.html">View all 75 clubs →</a></li>
 </ul>
 </div>
 
@@ -482,7 +484,6 @@
                     marker.on('mouseover', function() { this.openPopup(); });
                     marker.on('click', function() { this.openPopup(); });
                 })();
-
                 
             }
         });
@@ -630,14 +631,14 @@
 
                 try {
                     // Step 1: Update club in database
+                    // name only travels when it actually changed — an untouched field can
+                    // never overwrite the stored name (this is what ate the flag emoji).
+                    const clubPayload = { city: newCity, web: newWeb, media: newMedia };
+                    if (nameChanged) clubPayload.name = newName;
+
                     const { error: updateError } = await supabase
                         .from('clubs')
-                        .update({
-                            name: newName,
-                            city: newCity,
-                            web: newWeb,
-                            media: newMedia
-                        })
+                        .update(clubPayload)
                         .eq('id', clubPageState.clubId);
 
                     if (updateError) throw updateError;

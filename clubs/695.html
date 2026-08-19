@@ -109,13 +109,13 @@
         },
         {
           "@type": "ImageObject",
-          "contentUrl": "https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/club_695/1786187236103_IMG_2278_web.webp",
-          "thumbnailUrl": "/img/club_695/1786187236103_IMG_2278_thumb.webp?v=2026-05-27"
+          "contentUrl": "https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/club_695/1786793533613_IMG_2333_web.webp",
+          "thumbnailUrl": "/img/club_695/1786793533613_IMG_2333_thumb.webp?v=2026-05-27"
         },
         {
           "@type": "ImageObject",
-          "contentUrl": "https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/club_695/1786187054370_IMG_2273_web.webp",
-          "thumbnailUrl": "/img/club_695/1786187054370_IMG_2273_thumb.webp?v=2026-05-27"
+          "contentUrl": "https://rbmeslzlbsolkxnvesqb.supabase.co/storage/v1/object/public/stickers/club_695/1786189017082_IMG_2263_web.webp",
+          "thumbnailUrl": "/img/club_695/1786189017082_IMG_2263_thumb.webp?v=2026-05-27"
         }
       ]
     }
@@ -187,7 +187,9 @@
         <div id="club-edit-form" class="club-edit-form" style="display: none;">
             <div class="edit-field">
                 <label for="edit-club-name">Club Name:</label>
-                <input type="text" id="edit-club-name" class="edit-input" value="Racing Club de Lens">
+                <!-- CLUB_NAME_RAW, not CLUB_NAME: the heading strips the flag emoji for CLS,
+                     but this value goes back into the DB — it must carry the real name. -->
+                <input type="text" id="edit-club-name" class="edit-input" value="🇫🇷 Racing Club de Lens">
             </div>
             <div class="edit-field">
                 <label for="edit-club-city">City:</label>
@@ -1483,8 +1485,8 @@
         <div class="other-clubs-section">
 <h3>Other clubs from France</h3>
 <ul class="other-clubs-list">
-<li><a href="/clubs/657.html">Paris Saint-Germain</a> (50)</li>
-<li><a href="/clubs/701.html">Nantes</a> (49)</li>
+<li><a href="/clubs/657.html">Paris Saint-Germain</a> (51)</li>
+<li><a href="/clubs/701.html">Nantes</a> (50)</li>
 <li><a href="/clubs/676.html">Lille OSC</a> (44)</li>
 <li><a href="/clubs/666.html">Olympique de Marseille</a> (34)</li>
 <li><a href="/clubs/707.html">Strasbourg</a> (27)</li>
@@ -2473,7 +2475,6 @@
                     marker.on('mouseover', function() { this.openPopup(); });
                     marker.on('click', function() { this.openPopup(); });
                 })();
-
                 
                 const bounds = L.latLngBounds([
                     [47.7612583333333, 7.32874722222222],
@@ -2760,14 +2761,14 @@
 
                 try {
                     // Step 1: Update club in database
+                    // name only travels when it actually changed — an untouched field can
+                    // never overwrite the stored name (this is what ate the flag emoji).
+                    const clubPayload = { city: newCity, web: newWeb, media: newMedia };
+                    if (nameChanged) clubPayload.name = newName;
+
                     const { error: updateError } = await supabase
                         .from('clubs')
-                        .update({
-                            name: newName,
-                            city: newCity,
-                            web: newWeb,
-                            media: newMedia
-                        })
+                        .update(clubPayload)
                         .eq('id', clubPageState.clubId);
 
                     if (updateError) throw updateError;

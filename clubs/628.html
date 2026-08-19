@@ -176,7 +176,9 @@
         <div id="club-edit-form" class="club-edit-form" style="display: none;">
             <div class="edit-field">
                 <label for="edit-club-name">Club Name:</label>
-                <input type="text" id="edit-club-name" class="edit-input" value="CSM Reșița">
+                <!-- CLUB_NAME_RAW, not CLUB_NAME: the heading strips the flag emoji for CLS,
+                     but this value goes back into the DB — it must carry the real name. -->
+                <input type="text" id="edit-club-name" class="edit-input" value="🇷🇴 CSM Reșița">
             </div>
             <div class="edit-field">
                 <label for="edit-club-city">City:</label>
@@ -210,7 +212,7 @@ The club was founded on 16 May 1926 as UD (Uzinele și Domeniile) Reșița and t
 Over time CSM had important battles with local rivals as Muncitorul Reșița or Gloria Reșița, but has secured itself the city's supremacy, as well as the title of county's most important and supported club.</p>
     <p class="club-about-source">Source: <a href="https://ro.wikipedia.org/wiki/CSM_Reșița" target="_blank" rel="noopener noreferrer">Wikipedia</a></p>
 </div>
-            <div class="club-stats"><span class="club-stat-tag">🌐 <a href="https://ro.wikipedia.org/wiki/CSM_Re%C8%99i%C8%9Ba" target="_blank" rel="noopener noreferrer">https://ro.wikipedia.org/wiki/CSM_Reșița</a></span>
+            <div class="club-stats"><span class="club-stat-tag">🌐 <a href="https://ro.wikipedia.org/wiki/CSM_Reșița" target="_blank" rel="noopener noreferrer">https://ro.wikipedia.org/wiki/CSM_Reșița</a></span>
 <span class="club-stat-tag">#️⃣ #CSMResita #Resita #Liga2 #FotbalRomania #CSMResitaFans</span></div>
             <div class="sticker-gallery">
                 
@@ -233,7 +235,7 @@ Over time CSM had important battles with local rivals as Muncitorul Reșița or 
         <div class="other-clubs-section">
 <h3>Other clubs from Romania</h3>
 <ul class="other-clubs-list">
-<li><a href="/clubs/614.html">FCSB</a> (9)</li>
+<li><a href="/clubs/614.html">FCSB</a> (11)</li>
 <li><a href="/clubs/633.html">CS Universitatea Craiova</a> (6)</li>
 <li><a href="/clubs/646.html">FC Politehnica Iași</a> (3)</li>
 <li><a href="/clubs/637.html">Rapid Bucuresti</a> (3)</li>
@@ -412,14 +414,14 @@ Over time CSM had important battles with local rivals as Muncitorul Reșița or 
 
                 try {
                     // Step 1: Update club in database
+                    // name only travels when it actually changed — an untouched field can
+                    // never overwrite the stored name (this is what ate the flag emoji).
+                    const clubPayload = { city: newCity, web: newWeb, media: newMedia };
+                    if (nameChanged) clubPayload.name = newName;
+
                     const { error: updateError } = await supabase
                         .from('clubs')
-                        .update({
-                            name: newName,
-                            city: newCity,
-                            web: newWeb,
-                            media: newMedia
-                        })
+                        .update(clubPayload)
                         .eq('id', clubPageState.clubId);
 
                     if (updateError) throw updateError;
