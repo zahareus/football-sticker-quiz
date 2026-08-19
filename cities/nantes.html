@@ -164,7 +164,7 @@
             <div class="club-details-block">
                 <p class="club-info-item">📦 Clubs represented: 9 clubs from 4 countries</p>
 <p class="club-info-item">📅 First found: 12 Oct 2024 | Latest: 15 Oct 2024</p>
-<p class="club-info-item">🌍 Most common: <a href="/countries/FRA.html">France</a> (51), <a href="/countries/AUT.html">Austria</a> (4), <a href="/countries/CHE.html">Switzerland</a> (1), <a href="/countries/ITA.html">Italy</a> (1)</p>
+<p class="club-info-item">🌍 Most common: <a href="/countries/FRA.html">France</a> (51), <a href="/countries/AUT.html">Austria</a> (4), <a href="/countries/ITA.html">Italy</a> (1), <a href="/countries/CHE.html">Switzerland</a> (1)</p>
             </div>
             <div class="sticker-gallery">
                 
@@ -379,15 +379,6 @@
                     <img src="/img/club_701/1774787200871_IMG_8714_thumb.webp?v=2026-05-27"
                          alt="Nantes football sticker #3163 found in this city"
                          data-sticker-id="3163"
-                         class="sticker-preview-image"
-                         width="200" height="200"
-                         loading="lazy"
-                         decoding="async">
-                </a>
-                <a href="/stickers/3194.html" class="sticker-preview-link">
-                    <img src="/img/club_466/1774788996985_IMG_86261_thumb.webp?v=2026-05-27"
-                         alt="FC Zurich football sticker #3194 found in this city"
-                         data-sticker-id="3194"
                          class="sticker-preview-image"
                          width="200" height="200"
                          loading="lazy"
@@ -672,6 +663,15 @@
                          loading="lazy"
                          decoding="async">
                 </a>
+                <a href="/stickers/3194.html" class="sticker-preview-link">
+                    <img src="/img/club_466/1774788996985_IMG_86261_thumb.webp?v=2026-05-27"
+                         alt="FC Zurich football sticker #3194 found in this city"
+                         data-sticker-id="3194"
+                         class="sticker-preview-image"
+                         width="200" height="200"
+                         loading="lazy"
+                         decoding="async">
+                </a>
                 <a href="/stickers/3168.html" class="sticker-preview-link">
                     <img src="/img/club_701/1774787279723_IMG_8698_thumb.webp?v=2026-05-27"
                          alt="Nantes football sticker #3168 found in this city"
@@ -720,7 +720,7 @@
         
         document.addEventListener('DOMContentLoaded', function() {
             if (typeof L !== 'undefined' && document.getElementById('club-map')) {
-                const cityMap = L.map('club-map').setView([47.23229468810917, -1.5445126218323582], 12);
+                const cityMap = L.map('club-map').setView([47.232294688109164, -1.5445126218323584], 12);
                 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                     attribution: '&copy; OpenStreetMap contributors'
                 }).addTo(cityMap);
@@ -889,13 +889,6 @@
                 (function() {
                     const marker = L.marker([47.2579194444444, -1.52605833333333]).addTo(cityMap);
                     marker.bindPopup('<div class="nearby-sticker-popup"><strong>Nantes</strong><a href="/stickers/3163.html" class="map-popup-link">View</a></div>');
-                    marker.on('mouseover', function() { this.openPopup(); });
-                    marker.on('click', function() { this.openPopup(); });
-                })();
-
-                (function() {
-                    const marker = L.marker([47.1578416666667, -1.60080277777778]).addTo(cityMap);
-                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>FC Zurich</strong><a href="/stickers/3194.html" class="map-popup-link">View</a></div>');
                     marker.on('mouseover', function() { this.openPopup(); });
                     marker.on('click', function() { this.openPopup(); });
                 })();
@@ -1118,6 +1111,13 @@
                 })();
 
                 (function() {
+                    const marker = L.marker([47.1578416666667, -1.60080277777778]).addTo(cityMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>FC Zurich</strong><a href="/stickers/3194.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
                     const marker = L.marker([47.2574055555556, -1.52668333333333]).addTo(cityMap);
                     marker.bindPopup('<div class="nearby-sticker-popup"><strong>Nantes</strong><a href="/stickers/3168.html" class="map-popup-link">View</a></div>');
                     marker.on('mouseover', function() { this.openPopup(); });
@@ -1149,7 +1149,6 @@
                     [47.2143361111111, -1.5576],
                     [47.2573611111111, -1.52663333333333],
                     [47.2579194444444, -1.52605833333333],
-                    [47.1578416666667, -1.60080277777778],
                     [47.2576222222222, -1.52655277777778],
                     [47.2565777777778, -1.52668888888889],
                     [47.2579944444444, -1.52646111111111],
@@ -1181,6 +1180,7 @@
                     [47.2143638888889, -1.55779166666667],
                     [47.2563166666667, -1.52645277777778],
                     [47.2148666666667, -1.55818611111111],
+                    [47.1578416666667, -1.60080277777778],
                     [47.2574055555556, -1.52668333333333]
                 ]);
                 cityMap.fitBounds(bounds, { padding: [30, 30], maxZoom: 15 });

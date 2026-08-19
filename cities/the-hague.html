@@ -276,15 +276,6 @@
                          loading="lazy"
                          decoding="async">
                 </a>
-                <a href="/stickers/2815.html" class="sticker-preview-link">
-                    <img src="/img/club_1117/1766183950126_IMG_7628_thumb.webp?v=2026-05-27"
-                         alt="Motor Lublin football sticker #2815 found in this city"
-                         data-sticker-id="2815"
-                         class="sticker-preview-image"
-                         width="200" height="200"
-                         loading="lazy"
-                         decoding="async">
-                </a>
                 <a href="/stickers/2810.html" class="sticker-preview-link">
                     <img src="/img/club_1090/1766183481028_IMG_7625_thumb.webp?v=2026-05-27"
                          alt="FC Den Bosch football sticker #2810 found in this city"
@@ -298,6 +289,15 @@
                     <img src="/img/club_957/1766184753228_IMG_7613_thumb.webp?v=2026-05-27"
                          alt="1 FC Magdeburg football sticker #2819 found in this city"
                          data-sticker-id="2819"
+                         class="sticker-preview-image"
+                         width="200" height="200"
+                         loading="lazy"
+                         decoding="async">
+                </a>
+                <a href="/stickers/2815.html" class="sticker-preview-link">
+                    <img src="/img/club_1117/1766183950126_IMG_7628_thumb.webp?v=2026-05-27"
+                         alt="Motor Lublin football sticker #2815 found in this city"
+                         data-sticker-id="2815"
                          class="sticker-preview-image"
                          width="200" height="200"
                          loading="lazy"
@@ -819,13 +819,6 @@
                 })();
 
                 (function() {
-                    const marker = L.marker([52.115325, 4.283025]).addTo(cityMap);
-                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>Motor Lublin</strong><a href="/stickers/2815.html" class="map-popup-link">View</a></div>');
-                    marker.on('mouseover', function() { this.openPopup(); });
-                    marker.on('click', function() { this.openPopup(); });
-                })();
-
-                (function() {
                     const marker = L.marker([52.1152806, 4.2830389]).addTo(cityMap);
                     marker.bindPopup('<div class="nearby-sticker-popup"><strong>FC Den Bosch</strong><a href="/stickers/2810.html" class="map-popup-link">View</a></div>');
                     marker.on('mouseover', function() { this.openPopup(); });
@@ -835,6 +828,13 @@
                 (function() {
                     const marker = L.marker([52.1116472, 4.2789889]).addTo(cityMap);
                     marker.bindPopup('<div class="nearby-sticker-popup"><strong>1 FC Magdeburg</strong><a href="/stickers/2819.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([52.115325, 4.283025]).addTo(cityMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>Motor Lublin</strong><a href="/stickers/2815.html" class="map-popup-link">View</a></div>');
                     marker.on('mouseover', function() { this.openPopup(); });
                     marker.on('click', function() { this.openPopup(); });
                 })();
@@ -1153,9 +1153,9 @@
                     [52.1160389, 4.28235],
                     [52.1114778, 4.2794639],
                     [52.1117361, 4.2789167],
-                    [52.115325, 4.283025],
                     [52.1152806, 4.2830389],
                     [52.1116472, 4.2789889],
+                    [52.115325, 4.283025],
                     [52.1155806, 4.2829889],
                     [52.112525, 4.2794],
                     [52.1163944, 4.2815944],

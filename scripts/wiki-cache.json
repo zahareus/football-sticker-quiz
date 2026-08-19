@@ -6570,5 +6570,23 @@
     "capacity": null,
     "league": "1. Liga Classic",
     "website": "http://www.fcbaden.ch/"
+  },
+  "1279": {
+    "wikiUrl": "https://en.wikipedia.org/wiki/FC_Aarau",
+    "intro": "FC Aarau is a Swiss professional football club based in Aarau. Founded in 1902, the club competes in the Swiss Challenge League, the second tier of Swiss football after being relegated from the Swiss Super League..",
+    "founded": "1902",
+    "stadium": "Stadion Brügglifeld",
+    "capacity": "9,249",
+    "league": null,
+    "website": "https://fcaarau.ch/"
+  },
+  "1281": {
+    "wikiUrl": "https://en.wikipedia.org/wiki/F.C._Alverca",
+    "intro": "Futebol Clube de Alverca is a professional football club based in Alverca do Ribatejo, Vila Franca de Xira, Portugal. The team play in the Liga Portugal, the top tier of Portuguese football, after promotion from the Liga Portugal 2 in the 2024–25 season..",
+    "founded": "1939",
+    "stadium": null,
+    "capacity": null,
+    "league": "Liga Portugal",
+    "website": "http://www.alvercafutebolsad.pt/"
   }
 }

@@ -465,15 +465,6 @@
                          loading="lazy"
                          decoding="async">
                 </a>
-                <a href="/stickers/3107.html" class="sticker-preview-link">
-                    <img src="/img/club_695/1773523482346_IMG_8379_thumb.webp?v=2026-05-27"
-                         alt="Racing Club de Lens football sticker #3107 found in this city"
-                         data-sticker-id="3107"
-                         class="sticker-preview-image"
-                         width="200" height="200"
-                         loading="lazy"
-                         decoding="async">
-                </a>
                 <a href="/stickers/3102.html" class="sticker-preview-link">
                     <img src="/img/club_922/1773523319662_IMG_8417_thumb.webp?v=2026-05-27"
                          alt="1 FC Nürnberg football sticker #3102 found in this city"
@@ -514,6 +505,15 @@
                     <img src="/img/club_1165/1773523925670_IMG_8375_thumb.webp?v=2026-05-27"
                          alt="US Livorno 1915 football sticker #3114 found in this city"
                          data-sticker-id="3114"
+                         class="sticker-preview-image"
+                         width="200" height="200"
+                         loading="lazy"
+                         decoding="async">
+                </a>
+                <a href="/stickers/3107.html" class="sticker-preview-link">
+                    <img src="/img/club_695/1773523482346_IMG_8379_thumb.webp?v=2026-05-27"
+                         alt="Racing Club de Lens football sticker #3107 found in this city"
+                         data-sticker-id="3107"
                          class="sticker-preview-image"
                          width="200" height="200"
                          loading="lazy"
@@ -795,13 +795,6 @@
                 })();
 
                 (function() {
-                    const marker = L.marker([37.38305, -5.99567222222222]).addTo(cityMap);
-                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>Racing Club de Lens</strong><a href="/stickers/3107.html" class="map-popup-link">View</a></div>');
-                    marker.on('mouseover', function() { this.openPopup(); });
-                    marker.on('click', function() { this.openPopup(); });
-                })();
-
-                (function() {
                     const marker = L.marker([37.3960194444444, -5.9912]).addTo(cityMap);
                     marker.bindPopup('<div class="nearby-sticker-popup"><strong>1 FC Nürnberg</strong><a href="/stickers/3102.html" class="map-popup-link">View</a></div>');
                     marker.on('mouseover', function() { this.openPopup(); });
@@ -832,6 +825,13 @@
                 (function() {
                     const marker = L.marker([37.3841277777778, -5.99350833333333]).addTo(cityMap);
                     marker.bindPopup('<div class="nearby-sticker-popup"><strong>US Livorno 1915</strong><a href="/stickers/3114.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([37.38305, -5.99567222222222]).addTo(cityMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>Racing Club de Lens</strong><a href="/stickers/3107.html" class="map-popup-link">View</a></div>');
                     marker.on('mouseover', function() { this.openPopup(); });
                     marker.on('click', function() { this.openPopup(); });
                 })();
@@ -870,12 +870,12 @@
                     [37.3960222222222, -5.99117222222222],
                     [37.3895861111111, -5.99233333333333],
                     [37.387275, -5.99244444444444],
-                    [37.38305, -5.99567222222222],
                     [37.3960194444444, -5.9912],
                     [37.3882722222222, -6.000475],
                     [37.3925805555556, -5.9907],
                     [37.4218138888889, -5.90089722222222],
-                    [37.3841277777778, -5.99350833333333]
+                    [37.3841277777778, -5.99350833333333],
+                    [37.38305, -5.99567222222222]
                 ]);
                 cityMap.fitBounds(bounds, { padding: [30, 30], maxZoom: 15 });
                 
