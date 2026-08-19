@@ -627,15 +627,6 @@
                          loading="lazy"
                          decoding="async">
                 </a>
-                <a href="/stickers/2826.html" class="sticker-preview-link">
-                    <img src="/img/club_1138/1766186100542_IMG_7631_thumb.webp?v=2026-05-27"
-                         alt="Radomiak Radom football sticker #2826 found in this city"
-                         data-sticker-id="2826"
-                         class="sticker-preview-image"
-                         width="200" height="200"
-                         loading="lazy"
-                         decoding="async">
-                </a>
                 <a href="/stickers/2853.html" class="sticker-preview-link">
                     <img src="/img/club_1095/1766230886982_IMG_7738_thumb.webp?v=2026-05-27"
                          alt="ADO Den Haag football sticker #2853 found in this city"
@@ -658,6 +649,15 @@
                     <img src="/img/club_292/1766230330022_IMG_7640_thumb.webp?v=2026-05-27"
                          alt="SK Sturm Graz football sticker #2850 found in this city"
                          data-sticker-id="2850"
+                         class="sticker-preview-image"
+                         width="200" height="200"
+                         loading="lazy"
+                         decoding="async">
+                </a>
+                <a href="/stickers/2826.html" class="sticker-preview-link">
+                    <img src="/img/club_1138/1766186100542_IMG_7631_thumb.webp?v=2026-05-27"
+                         alt="Radomiak Radom football sticker #2826 found in this city"
+                         data-sticker-id="2826"
                          class="sticker-preview-image"
                          width="200" height="200"
                          loading="lazy"
@@ -1092,13 +1092,6 @@
                 })();
 
                 (function() {
-                    const marker = L.marker([52.1156083, 4.2829639]).addTo(cityMap);
-                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>Radomiak Radom</strong><a href="/stickers/2826.html" class="map-popup-link">View</a></div>');
-                    marker.on('mouseover', function() { this.openPopup(); });
-                    marker.on('click', function() { this.openPopup(); });
-                })();
-
-                (function() {
                     const marker = L.marker([52.0781667, 4.3092361]).addTo(cityMap);
                     marker.bindPopup('<div class="nearby-sticker-popup"><strong>ADO Den Haag</strong><a href="/stickers/2853.html" class="map-popup-link">View</a></div>');
                     marker.on('mouseover', function() { this.openPopup(); });
@@ -1115,6 +1108,13 @@
                 (function() {
                     const marker = L.marker([52.1163972, 4.2815944]).addTo(cityMap);
                     marker.bindPopup('<div class="nearby-sticker-popup"><strong>SK Sturm Graz</strong><a href="/stickers/2850.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([52.1156083, 4.2829639]).addTo(cityMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>Radomiak Radom</strong><a href="/stickers/2826.html" class="map-popup-link">View</a></div>');
                     marker.on('mouseover', function() { this.openPopup(); });
                     marker.on('click', function() { this.openPopup(); });
                 })();
@@ -1192,10 +1192,10 @@
                     [52.084525, 4.3063556],
                     [52.0800694, 4.3095889],
                     [52.1121833, 4.2789167],
-                    [52.1156083, 4.2829639],
                     [52.0781667, 4.3092361],
                     [52.1111667, 4.2804972],
                     [52.1163972, 4.2815944],
+                    [52.1156083, 4.2829639],
                     [52.0840222, 4.3053417],
                     [52.111375, 4.280675],
                     [52.1155806, 4.2829889]
