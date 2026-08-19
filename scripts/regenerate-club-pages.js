@@ -330,6 +330,9 @@ async function generateClubPage(club, stickers, allClubsInCountry = [], stickerC
         // Element text plus value="..." attributes of the inline edit form —
         // escapeHtml covers both. CLUB_MEDIA is hashtags, not a URL.
         CLUB_NAME: escapeHtml(stripEmoji(club.name)),
+        // The edit form writes its value straight back to clubs.name, so it gets the
+        // real name with the flag. Stripping here silently ate the flag on every save.
+        CLUB_NAME_RAW: escapeHtml(club.name),
         CLUB_CITY: escapeHtml(club.city || ''),
         CLUB_WEB: escapeHtml(club.web || ''),
         CLUB_MEDIA: escapeHtml(club.media || ''),
