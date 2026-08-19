@@ -845,6 +845,7 @@ async function generateClubPage(club, stickers, allClubsInCountry, stickerCounts
         // inline edit form; escapeHtml covers both contexts. CLUB_MEDIA is
         // hashtags, not a URL, so it needs escaping and nothing else.
         CLUB_NAME: escapeHtml(stripEmoji(club.name)),
+        CLUB_NAME_RAW: escapeHtml(club.name),
         CLUB_CITY: escapeHtml(club.city || ''),
         CLUB_WEB: escapeHtml(club.web || ''),
         CLUB_MEDIA: escapeHtml(club.media || ''),
