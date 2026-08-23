@@ -6588,5 +6588,14 @@
     "capacity": null,
     "league": "Liga Portugal",
     "website": "http://www.alvercafutebolsad.pt/"
+  },
+  "1287": {
+    "wikiUrl": "https://en.wikipedia.org/wiki/CFR_Cluj",
+    "intro": "Fotbal Club CFR 1907 Cluj, commonly known as CFR Cluj (Romanian pronunciation: [t͡ʃefeˌre ˈkluʒ] or [ˌt͡ʃefere ˈkluʒ]) or simply CFR, is a Romanian professional football club based in the city of Cluj-Napoca, Cluj County, that competes in the Liga I. Founded as Kolozsvári Vasutas Sport Club in 1907, when Transylvania was part of Austria-Hungary, the club's current name is an acronym for Căile Ferate Române (\"Romanian Railways\").\nBefore its promotion to Liga I in 2004, CFR Cluj primarily competed in the lower divisions.",
+    "founded": "1907",
+    "stadium": "Stadionul Dr. Constantin Rădulescu",
+    "capacity": "23,500",
+    "league": "Liga I",
+    "website": "https://cfr1907.ro/"
   }
 }
