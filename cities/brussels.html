@@ -609,6 +609,15 @@
                          loading="lazy"
                          decoding="async">
                 </a>
+                <a href="/stickers/2913.html" class="sticker-preview-link">
+                    <img src="/img/club_449/1768765804427_IMG_7848_thumb.webp?v=2026-05-27"
+                         alt="Molenbek football sticker #2913 found in this city"
+                         data-sticker-id="2913"
+                         class="sticker-preview-image"
+                         width="200" height="200"
+                         loading="lazy"
+                         decoding="async">
+                </a>
                 <a href="/stickers/2919.html" class="sticker-preview-link">
                     <img src="/img/club_985/1768766006705_IMG_7815_thumb.webp?v=2026-05-27"
                          alt="York City FC football sticker #2919 found in this city"
@@ -622,15 +631,6 @@
                     <img src="/img/club_1150/1769892358510_IMG_7884_thumb.webp?v=2026-05-27"
                          alt="Ménilmontant FC 1871 football sticker #2952 found in this city"
                          data-sticker-id="2952"
-                         class="sticker-preview-image"
-                         width="200" height="200"
-                         loading="lazy"
-                         decoding="async">
-                </a>
-                <a href="/stickers/2913.html" class="sticker-preview-link">
-                    <img src="/img/club_449/1768765804427_IMG_7848_thumb.webp?v=2026-05-27"
-                         alt="Molenbek football sticker #2913 found in this city"
-                         data-sticker-id="2913"
                          class="sticker-preview-image"
                          width="200" height="200"
                          loading="lazy"
@@ -1258,6 +1258,13 @@
                 })();
 
                 (function() {
+                    const marker = L.marker([50.8527305555556, 4.35582222222222]).addTo(cityMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>Molenbek</strong><a href="/stickers/2913.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
                     const marker = L.marker([50.8446805555556, 4.35650555555556]).addTo(cityMap);
                     marker.bindPopup('<div class="nearby-sticker-popup"><strong>York City FC</strong><a href="/stickers/2919.html" class="map-popup-link">View</a></div>');
                     marker.on('mouseover', function() { this.openPopup(); });
@@ -1267,13 +1274,6 @@
                 (function() {
                     const marker = L.marker([50.8317555555556, 4.35348888888889]).addTo(cityMap);
                     marker.bindPopup('<div class="nearby-sticker-popup"><strong>Ménilmontant FC 1871</strong><a href="/stickers/2952.html" class="map-popup-link">View</a></div>');
-                    marker.on('mouseover', function() { this.openPopup(); });
-                    marker.on('click', function() { this.openPopup(); });
-                })();
-
-                (function() {
-                    const marker = L.marker([50.8527305555556, 4.35582222222222]).addTo(cityMap);
-                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>Molenbek</strong><a href="/stickers/2913.html" class="map-popup-link">View</a></div>');
                     marker.on('mouseover', function() { this.openPopup(); });
                     marker.on('click', function() { this.openPopup(); });
                 })();
@@ -1510,9 +1510,9 @@
                     [50.8468861111111, 4.35686111111111],
                     [50.8382305555556, 4.36184722222222],
                     [50.8312638888889, 4.35648611111111],
+                    [50.8527305555556, 4.35582222222222],
                     [50.8446805555556, 4.35650555555556],
                     [50.8317555555556, 4.35348888888889],
-                    [50.8527305555556, 4.35582222222222],
                     [50.8368027777778, 4.36256111111111],
                     [50.8437305555556, 4.35205833333333],
                     [50.8397111111111, 4.36056388888889],

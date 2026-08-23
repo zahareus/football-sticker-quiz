@@ -164,7 +164,7 @@
             <div class="club-details-block">
                 <p class="club-info-item">📦 Clubs represented: 9 clubs from 4 countries</p>
 <p class="club-info-item">📅 First found: 12 Oct 2024 | Latest: 15 Oct 2024</p>
-<p class="club-info-item">🌍 Most common: <a href="/countries/FRA.html">France</a> (51), <a href="/countries/AUT.html">Austria</a> (4), <a href="/countries/ITA.html">Italy</a> (1), <a href="/countries/CHE.html">Switzerland</a> (1)</p>
+<p class="club-info-item">🌍 Most common: <a href="/countries/FRA.html">France</a> (51), <a href="/countries/AUT.html">Austria</a> (4), <a href="/countries/CHE.html">Switzerland</a> (1), <a href="/countries/ITA.html">Italy</a> (1)</p>
             </div>
             <div class="sticker-gallery">
                 
@@ -528,6 +528,15 @@
                          loading="lazy"
                          decoding="async">
                 </a>
+                <a href="/stickers/3229.html" class="sticker-preview-link">
+                    <img src="/img/club_666/1775419701880_IMG_8882_thumb.webp?v=2026-05-27"
+                         alt="Olympique de Marseille football sticker #3229 found in this city"
+                         data-sticker-id="3229"
+                         class="sticker-preview-image"
+                         width="200" height="200"
+                         loading="lazy"
+                         decoding="async">
+                </a>
                 <a href="/stickers/3231.html" class="sticker-preview-link">
                     <img src="/img/club_701/1775419764103_IMG_8877_thumb.webp?v=2026-05-27"
                          alt="Nantes football sticker #3231 found in this city"
@@ -541,15 +550,6 @@
                     <img src="/img/club_697/1775419744965_IMG_8879_thumb.webp?v=2026-05-27"
                          alt="AS Saint-Étienne football sticker #3230 found in this city"
                          data-sticker-id="3230"
-                         class="sticker-preview-image"
-                         width="200" height="200"
-                         loading="lazy"
-                         decoding="async">
-                </a>
-                <a href="/stickers/3229.html" class="sticker-preview-link">
-                    <img src="/img/club_666/1775419701880_IMG_8882_thumb.webp?v=2026-05-27"
-                         alt="Olympique de Marseille football sticker #3229 found in this city"
-                         data-sticker-id="3229"
                          class="sticker-preview-image"
                          width="200" height="200"
                          loading="lazy"
@@ -654,19 +654,19 @@
                          loading="lazy"
                          decoding="async">
                 </a>
-                <a href="/stickers/3176.html" class="sticker-preview-link">
-                    <img src="/img/club_708/1774787466186_IMG_8653_thumb.webp?v=2026-05-27"
-                         alt="Genoa CFC football sticker #3176 found in this city"
-                         data-sticker-id="3176"
+                <a href="/stickers/3194.html" class="sticker-preview-link">
+                    <img src="/img/club_466/1774788996985_IMG_86261_thumb.webp?v=2026-05-27"
+                         alt="FC Zurich football sticker #3194 found in this city"
+                         data-sticker-id="3194"
                          class="sticker-preview-image"
                          width="200" height="200"
                          loading="lazy"
                          decoding="async">
                 </a>
-                <a href="/stickers/3194.html" class="sticker-preview-link">
-                    <img src="/img/club_466/1774788996985_IMG_86261_thumb.webp?v=2026-05-27"
-                         alt="FC Zurich football sticker #3194 found in this city"
-                         data-sticker-id="3194"
+                <a href="/stickers/3176.html" class="sticker-preview-link">
+                    <img src="/img/club_708/1774787466186_IMG_8653_thumb.webp?v=2026-05-27"
+                         alt="Genoa CFC football sticker #3176 found in this city"
+                         data-sticker-id="3176"
                          class="sticker-preview-image"
                          width="200" height="200"
                          loading="lazy"
@@ -1006,6 +1006,13 @@
                 })();
 
                 (function() {
+                    const marker = L.marker([47.1579861111111, -1.60199722222222]).addTo(cityMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>Olympique de Marseille</strong><a href="/stickers/3229.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
                     const marker = L.marker([47.2161722222222, -1.54191944444444]).addTo(cityMap);
                     marker.bindPopup('<div class="nearby-sticker-popup"><strong>Nantes</strong><a href="/stickers/3231.html" class="map-popup-link">View</a></div>');
                     marker.on('mouseover', function() { this.openPopup(); });
@@ -1015,13 +1022,6 @@
                 (function() {
                     const marker = L.marker([47.2150277777778, -1.54196944444444]).addTo(cityMap);
                     marker.bindPopup('<div class="nearby-sticker-popup"><strong>AS Saint-Étienne</strong><a href="/stickers/3230.html" class="map-popup-link">View</a></div>');
-                    marker.on('mouseover', function() { this.openPopup(); });
-                    marker.on('click', function() { this.openPopup(); });
-                })();
-
-                (function() {
-                    const marker = L.marker([47.1579861111111, -1.60199722222222]).addTo(cityMap);
-                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>Olympique de Marseille</strong><a href="/stickers/3229.html" class="map-popup-link">View</a></div>');
                     marker.on('mouseover', function() { this.openPopup(); });
                     marker.on('click', function() { this.openPopup(); });
                 })();
@@ -1104,15 +1104,15 @@
                 })();
 
                 (function() {
-                    const marker = L.marker([47.2148666666667, -1.55818611111111]).addTo(cityMap);
-                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>Genoa CFC</strong><a href="/stickers/3176.html" class="map-popup-link">View</a></div>');
+                    const marker = L.marker([47.1578416666667, -1.60080277777778]).addTo(cityMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>FC Zurich</strong><a href="/stickers/3194.html" class="map-popup-link">View</a></div>');
                     marker.on('mouseover', function() { this.openPopup(); });
                     marker.on('click', function() { this.openPopup(); });
                 })();
 
                 (function() {
-                    const marker = L.marker([47.1578416666667, -1.60080277777778]).addTo(cityMap);
-                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>FC Zurich</strong><a href="/stickers/3194.html" class="map-popup-link">View</a></div>');
+                    const marker = L.marker([47.2148666666667, -1.55818611111111]).addTo(cityMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>Genoa CFC</strong><a href="/stickers/3176.html" class="map-popup-link">View</a></div>');
                     marker.on('mouseover', function() { this.openPopup(); });
                     marker.on('click', function() { this.openPopup(); });
                 })();
@@ -1165,9 +1165,9 @@
                     [47.2566444444444, -1.526725],
                     [47.2584888888889, -1.52608055555556],
                     [47.2133416666667, -1.55883055555556],
+                    [47.1579861111111, -1.60199722222222],
                     [47.2161722222222, -1.54191944444444],
                     [47.2150277777778, -1.54196944444444],
-                    [47.1579861111111, -1.60199722222222],
                     [47.2566861111111, -1.52666388888889],
                     [47.2577583333333, -1.52653611111111],
                     [47.2569, -1.52669722222222],
@@ -1179,8 +1179,8 @@
                     [47.2563888888889, -1.52665],
                     [47.2143638888889, -1.55779166666667],
                     [47.2563166666667, -1.52645277777778],
-                    [47.2148666666667, -1.55818611111111],
                     [47.1578416666667, -1.60080277777778],
+                    [47.2148666666667, -1.55818611111111],
                     [47.2574055555556, -1.52668333333333]
                 ]);
                 cityMap.fitBounds(bounds, { padding: [30, 30], maxZoom: 15 });
