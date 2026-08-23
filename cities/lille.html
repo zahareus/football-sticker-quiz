@@ -357,6 +357,15 @@
                          loading="lazy"
                          decoding="async">
                 </a>
+                <a href="/stickers/4109.html" class="sticker-preview-link">
+                    <img src="/img/club_1245/1785821876287_IMG_2171_thumb.webp?v=2026-05-27"
+                         alt="En Avant Guingamp football sticker #4109 found in this city"
+                         data-sticker-id="4109"
+                         class="sticker-preview-image"
+                         width="200" height="200"
+                         loading="lazy"
+                         decoding="async">
+                </a>
                 <a href="/stickers/4113.html" class="sticker-preview-link">
                     <img src="/img/club_676/1785821880786_IMG_2132_thumb.webp?v=2026-05-27"
                          alt="Lille OSC football sticker #4113 found in this city"
@@ -397,15 +406,6 @@
                     <img src="/img/club_657/1785821803566_IMG_2125_thumb.webp?v=2026-05-27"
                          alt="Paris Saint-Germain football sticker #4108 found in this city"
                          data-sticker-id="4108"
-                         class="sticker-preview-image"
-                         width="200" height="200"
-                         loading="lazy"
-                         decoding="async">
-                </a>
-                <a href="/stickers/4109.html" class="sticker-preview-link">
-                    <img src="/img/club_1245/1785821876287_IMG_2171_thumb.webp?v=2026-05-27"
-                         alt="En Avant Guingamp football sticker #4109 found in this city"
-                         data-sticker-id="4109"
                          class="sticker-preview-image"
                          width="200" height="200"
                          loading="lazy"
@@ -519,15 +519,6 @@
                          loading="lazy"
                          decoding="async">
                 </a>
-                <a href="/stickers/4122.html" class="sticker-preview-link">
-                    <img src="/img/club_1172/1785822476386_IMG_2115_thumb.webp?v=2026-05-27"
-                         alt="Le Havre AC football sticker #4122 found in this city"
-                         data-sticker-id="4122"
-                         class="sticker-preview-image"
-                         width="200" height="200"
-                         loading="lazy"
-                         decoding="async">
-                </a>
                 <a href="/stickers/4130.html" class="sticker-preview-link">
                     <img src="/img/club_676/1785822484317_IMG_2091_thumb.webp?v=2026-05-27"
                          alt="Lille OSC football sticker #4130 found in this city"
@@ -550,6 +541,15 @@
                     <img src="/img/club_715/1785822480352_IMG_2107_thumb.webp?v=2026-05-27"
                          alt="OGC Nice football sticker #4126 found in this city"
                          data-sticker-id="4126"
+                         class="sticker-preview-image"
+                         width="200" height="200"
+                         loading="lazy"
+                         decoding="async">
+                </a>
+                <a href="/stickers/4122.html" class="sticker-preview-link">
+                    <img src="/img/club_1172/1785822476386_IMG_2115_thumb.webp?v=2026-05-27"
+                         alt="Le Havre AC football sticker #4122 found in this city"
+                         data-sticker-id="4122"
                          class="sticker-preview-image"
                          width="200" height="200"
                          loading="lazy"
@@ -666,7 +666,7 @@
         
         document.addEventListener('DOMContentLoaded', function() {
             if (typeof L !== 'undefined' && document.getElementById('club-map')) {
-                const cityMap = L.map('club-map').setView([50.638413071895414, 3.06241748366013], 12);
+                const cityMap = L.map('club-map').setView([50.63841307189543, 3.062417483660131], 12);
                 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                     attribution: '&copy; OpenStreetMap contributors'
                 }).addTo(cityMap);
@@ -819,6 +819,13 @@
                 })();
 
                 (function() {
+                    const marker = L.marker([50.6346888888889, 3.06265833333333]).addTo(cityMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>En Avant Guingamp</strong><a href="/stickers/4109.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
                     const marker = L.marker([50.6372888888889, 3.05136111111111]).addTo(cityMap);
                     marker.bindPopup('<div class="nearby-sticker-popup"><strong>Lille OSC</strong><a href="/stickers/4113.html" class="map-popup-link">View</a></div>');
                     marker.on('mouseover', function() { this.openPopup(); });
@@ -849,13 +856,6 @@
                 (function() {
                     const marker = L.marker([50.6399694444444, 3.05621388888889]).addTo(cityMap);
                     marker.bindPopup('<div class="nearby-sticker-popup"><strong>Paris Saint-Germain</strong><a href="/stickers/4108.html" class="map-popup-link">View</a></div>');
-                    marker.on('mouseover', function() { this.openPopup(); });
-                    marker.on('click', function() { this.openPopup(); });
-                })();
-
-                (function() {
-                    const marker = L.marker([50.6346888888889, 3.06265833333333]).addTo(cityMap);
-                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>En Avant Guingamp</strong><a href="/stickers/4109.html" class="map-popup-link">View</a></div>');
                     marker.on('mouseover', function() { this.openPopup(); });
                     marker.on('click', function() { this.openPopup(); });
                 })();
@@ -945,13 +945,6 @@
                 })();
 
                 (function() {
-                    const marker = L.marker([50.6418055555556, 3.06375833333333]).addTo(cityMap);
-                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>Le Havre AC</strong><a href="/stickers/4122.html" class="map-popup-link">View</a></div>');
-                    marker.on('mouseover', function() { this.openPopup(); });
-                    marker.on('click', function() { this.openPopup(); });
-                })();
-
-                (function() {
                     const marker = L.marker([50.6334805555556, 3.06806388888889]).addTo(cityMap);
                     marker.bindPopup('<div class="nearby-sticker-popup"><strong>Lille OSC</strong><a href="/stickers/4130.html" class="map-popup-link">View</a></div>');
                     marker.on('mouseover', function() { this.openPopup(); });
@@ -968,6 +961,13 @@
                 (function() {
                     const marker = L.marker([50.6390277777778, 3.06402222222222]).addTo(cityMap);
                     marker.bindPopup('<div class="nearby-sticker-popup"><strong>OGC Nice</strong><a href="/stickers/4126.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([50.6418055555556, 3.06375833333333]).addTo(cityMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>Le Havre AC</strong><a href="/stickers/4122.html" class="map-popup-link">View</a></div>');
                     marker.on('mouseover', function() { this.openPopup(); });
                     marker.on('click', function() { this.openPopup(); });
                 })();
@@ -1050,12 +1050,12 @@
                     [50.6373305555556, 3.05860833333333],
                     [50.6376222222222, 3.06722222222222],
                     [50.6367444444444, 3.06711111111111],
+                    [50.6346888888889, 3.06265833333333],
                     [50.6372888888889, 3.05136111111111],
                     [50.6394, 3.05240833333333],
                     [50.6410055555556, 3.05962777777778],
                     [50.6375222222222, 3.052075],
                     [50.6399694444444, 3.05621388888889],
-                    [50.6346888888889, 3.06265833333333],
                     [50.6383111111111, 3.05096944444444],
                     [50.6372694444444, 3.05195555555556],
                     [50.639775, 3.05336388888889],
@@ -1068,10 +1068,10 @@
                     [50.6392638888889, 3.06404166666667],
                     [50.6307305555556, 3.06386666666667],
                     [50.6334861111111, 3.06807222222222],
-                    [50.6418055555556, 3.06375833333333],
                     [50.6334805555556, 3.06806388888889],
                     [50.6308444444444, 3.06380833333333],
                     [50.6390277777778, 3.06402222222222],
+                    [50.6418055555556, 3.06375833333333],
                     [50.6418055555556, 3.06128888888889],
                     [50.6405833333333, 3.064175],
                     [50.6380027777778, 3.06506388888889],

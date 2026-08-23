@@ -276,15 +276,6 @@
                          loading="lazy"
                          decoding="async">
                 </a>
-                <a href="/stickers/4073.html" class="sticker-preview-link">
-                    <img src="/img/club_1243/1785519663044_IMG_2023_thumb.webp?v=2026-05-27"
-                         alt="RC Calais football sticker #4073 found in this city"
-                         data-sticker-id="4073"
-                         class="sticker-preview-image"
-                         width="200" height="200"
-                         loading="lazy"
-                         decoding="async">
-                </a>
                 <a href="/stickers/4074.html" class="sticker-preview-link">
                     <img src="/img/club_1243/1785519664334_IMG_2009_thumb.webp?v=2026-05-27"
                          alt="RC Calais football sticker #4074 found in this city"
@@ -298,6 +289,15 @@
                     <img src="/img/club_1240/1785518969876_IMG_2067_thumb.webp?v=2026-05-27"
                          alt="Portsmouth F.C. football sticker #4062 found in this city"
                          data-sticker-id="4062"
+                         class="sticker-preview-image"
+                         width="200" height="200"
+                         loading="lazy"
+                         decoding="async">
+                </a>
+                <a href="/stickers/4073.html" class="sticker-preview-link">
+                    <img src="/img/club_1243/1785519663044_IMG_2023_thumb.webp?v=2026-05-27"
+                         alt="RC Calais football sticker #4073 found in this city"
+                         data-sticker-id="4073"
                          class="sticker-preview-image"
                          width="200" height="200"
                          loading="lazy"
@@ -459,13 +459,6 @@
                 })();
 
                 (function() {
-                    const marker = L.marker([50.9590638888889, 1.85196666666667]).addTo(cityMap);
-                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>RC Calais</strong><a href="/stickers/4073.html" class="map-popup-link">View</a></div>');
-                    marker.on('mouseover', function() { this.openPopup(); });
-                    marker.on('click', function() { this.openPopup(); });
-                })();
-
-                (function() {
                     const marker = L.marker([50.9538388888889, 1.85095555555556]).addTo(cityMap);
                     marker.bindPopup('<div class="nearby-sticker-popup"><strong>RC Calais</strong><a href="/stickers/4074.html" class="map-popup-link">View</a></div>');
                     marker.on('mouseover', function() { this.openPopup(); });
@@ -475,6 +468,13 @@
                 (function() {
                     const marker = L.marker([50.9597083333333, 1.84872777777778]).addTo(cityMap);
                     marker.bindPopup('<div class="nearby-sticker-popup"><strong>Portsmouth F.C.</strong><a href="/stickers/4062.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([50.9590638888889, 1.85196666666667]).addTo(cityMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>RC Calais</strong><a href="/stickers/4073.html" class="map-popup-link">View</a></div>');
                     marker.on('mouseover', function() { this.openPopup(); });
                     marker.on('click', function() { this.openPopup(); });
                 })();
@@ -513,9 +513,9 @@
                     [50.9531333333333, 1.85239722222222],
                     [50.9591555555556, 1.849975],
                     [50.9609527777778, 1.84788055555556],
-                    [50.9590638888889, 1.85196666666667],
                     [50.9538388888889, 1.85095555555556],
                     [50.9597083333333, 1.84872777777778],
+                    [50.9590638888889, 1.85196666666667],
                     [50.9609138888889, 1.85205555555556],
                     [50.9610222222222, 1.84786944444444],
                     [50.9583333333333, 1.84946111111111]
