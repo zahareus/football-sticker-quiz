@@ -156,19 +156,10 @@
             <div class="club-details-block">
                 <p class="club-info-item">📦 Clubs represented: 5 clubs from 4 countries</p>
 <p class="club-info-item">📅 First found: 27 Jan 2025 | Latest: 20 Jul 2025</p>
-<p class="club-info-item">🌍 Most common: <a href="/countries/DEU.html">Germany</a> (2), <a href="/countries/NOR.html">Norway</a> (1), <a href="/countries/ESP.html">Spain</a> (1), <a href="/countries/FRA.html">France</a> (1)</p>
+<p class="club-info-item">🌍 Most common: <a href="/countries/DEU.html">Germany</a> (2), <a href="/countries/ESP.html">Spain</a> (1), <a href="/countries/NOR.html">Norway</a> (1), <a href="/countries/FRA.html">France</a> (1)</p>
             </div>
             <div class="sticker-gallery">
                 
-                <a href="/stickers/4568.html" class="sticker-preview-link">
-                    <img src="/img/club_1052/1787161543062_IMG_3322_thumb.webp?v=2026-05-27"
-                         alt="Rosenborg BK football sticker #4568 found in this city"
-                         data-sticker-id="4568"
-                         class="sticker-preview-image"
-                         width="200" height="200"
-                         loading="lazy"
-                         decoding="async">
-                </a>
                 <a href="/stickers/4469.html" class="sticker-preview-link">
                     <img src="/img/club_1271/1786897417164_IMG_3118_thumb.webp?v=2026-05-27"
                          alt="SV Westum football sticker #4469 found in this city"
@@ -182,6 +173,15 @@
                     <img src="/img/club_824/1786897210312_IMG_3119_thumb.webp?v=2026-05-27"
                          alt="Real Betis football sticker #4468 found in this city"
                          data-sticker-id="4468"
+                         class="sticker-preview-image"
+                         width="200" height="200"
+                         loading="lazy"
+                         decoding="async">
+                </a>
+                <a href="/stickers/4568.html" class="sticker-preview-link">
+                    <img src="/img/club_1052/1787161543062_IMG_3322_thumb.webp?v=2026-05-27"
+                         alt="Rosenborg BK football sticker #4568 found in this city"
+                         data-sticker-id="4568"
                          class="sticker-preview-image"
                          width="200" height="200"
                          loading="lazy"
@@ -250,13 +250,6 @@
                 }).addTo(cityMap);
                 
                 (function() {
-                    const marker = L.marker([38.285775, -0.550988888888889]).addTo(cityMap);
-                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>Rosenborg BK</strong><a href="/stickers/4568.html" class="map-popup-link">View</a></div>');
-                    marker.on('mouseover', function() { this.openPopup(); });
-                    marker.on('click', function() { this.openPopup(); });
-                })();
-
-                (function() {
                     const marker = L.marker([38.2874333333333, -0.553480555555556]).addTo(cityMap);
                     marker.bindPopup('<div class="nearby-sticker-popup"><strong>SV Westum</strong><a href="/stickers/4469.html" class="map-popup-link">View</a></div>');
                     marker.on('mouseover', function() { this.openPopup(); });
@@ -266,6 +259,13 @@
                 (function() {
                     const marker = L.marker([38.2876, -0.553513888888889]).addTo(cityMap);
                     marker.bindPopup('<div class="nearby-sticker-popup"><strong>Real Betis</strong><a href="/stickers/4468.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([38.285775, -0.550988888888889]).addTo(cityMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>Rosenborg BK</strong><a href="/stickers/4568.html" class="map-popup-link">View</a></div>');
                     marker.on('mouseover', function() { this.openPopup(); });
                     marker.on('click', function() { this.openPopup(); });
                 })();
@@ -285,9 +285,9 @@
                 })();
                 
                 const bounds = L.latLngBounds([
-                    [38.285775, -0.550988888888889],
                     [38.2874333333333, -0.553480555555556],
                     [38.2876, -0.553513888888889],
+                    [38.285775, -0.550988888888889],
                     [38.2875055555556, -0.55365],
                     [38.2873444444444, -0.553319444444444]
                 ]);
