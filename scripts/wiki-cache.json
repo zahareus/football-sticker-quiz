@@ -6615,5 +6615,14 @@
     "capacity": "10,000",
     "league": "Fußball-Regionalliga Südwest",
     "website": "https://www.sg94.de/"
+  },
+  "1290": {
+    "wikiUrl": "https://en.wikipedia.org/wiki/RCD_Mallorca",
+    "intro": "Real Club Deportivo Mallorca, S.A.D. (Spanish: [reˈal ˈkluβ ðepoɾˈtiβo maˈʎoɾka], Catalan: Reial Club Deportiu Mallorca [rəˈjal ˈklub dəpuɾˈtiw məˈʎɔɾkə], Royal Sporting Club Mallorca), commonly known as Real Mallorca or RCD Mallorca, is a Spanish professional football club based in Palma on the island of Mallorca in the Balearic Islands.",
+    "founded": "1916",
+    "stadium": "Estadi Mallorca Son Moix",
+    "capacity": "23,142",
+    "league": "LaLiga 2",
+    "website": "https://www.rcdmallorca.es/"
   }
 }
