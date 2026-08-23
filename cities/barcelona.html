@@ -1095,6 +1095,15 @@
                          loading="lazy"
                          decoding="async">
                 </a>
+                <a href="/stickers/4413.html" class="sticker-preview-link">
+                    <img src="/img/club_1264/1786794905544_IMG_2996_thumb.webp?v=2026-05-27"
+                         alt="FK Ekranas football sticker #4413 found in this city"
+                         data-sticker-id="4413"
+                         class="sticker-preview-image"
+                         width="200" height="200"
+                         loading="lazy"
+                         decoding="async">
+                </a>
                 <a href="/stickers/4428.html" class="sticker-preview-link">
                     <img src="/img/club_183/1786795014983_IMG_3004_thumb.webp?v=2026-05-27"
                          alt="FK Željezničar Sarajevo football sticker #4428 found in this city"
@@ -1153,15 +1162,6 @@
                     <img src="/img/club_1183/1786794997653_IMG_3052_thumb.webp?v=2026-05-27"
                          alt="Rot Weiss Ahlen e.V. football sticker #4416 found in this city"
                          data-sticker-id="4416"
-                         class="sticker-preview-image"
-                         width="200" height="200"
-                         loading="lazy"
-                         decoding="async">
-                </a>
-                <a href="/stickers/4413.html" class="sticker-preview-link">
-                    <img src="/img/club_1264/1786794905544_IMG_2996_thumb.webp?v=2026-05-27"
-                         alt="FK Ekranas football sticker #4413 found in this city"
-                         data-sticker-id="4413"
                          class="sticker-preview-image"
                          width="200" height="200"
                          loading="lazy"
@@ -2158,6 +2158,13 @@
                 })();
 
                 (function() {
+                    const marker = L.marker([41.3645111111111, 2.16625]).addTo(cityMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>FK Ekranas</strong><a href="/stickers/4413.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
                     const marker = L.marker([41.3646305555556, 2.16661666666667]).addTo(cityMap);
                     marker.bindPopup('<div class="nearby-sticker-popup"><strong>FK Željezničar Sarajevo</strong><a href="/stickers/4428.html" class="map-popup-link">View</a></div>');
                     marker.on('mouseover', function() { this.openPopup(); });
@@ -2202,13 +2209,6 @@
                 (function() {
                     const marker = L.marker([41.382975, 2.16979166666667]).addTo(cityMap);
                     marker.bindPopup('<div class="nearby-sticker-popup"><strong>Rot Weiss Ahlen e.V.</strong><a href="/stickers/4416.html" class="map-popup-link">View</a></div>');
-                    marker.on('mouseover', function() { this.openPopup(); });
-                    marker.on('click', function() { this.openPopup(); });
-                })();
-
-                (function() {
-                    const marker = L.marker([41.3645111111111, 2.16625]).addTo(cityMap);
-                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>FK Ekranas</strong><a href="/stickers/4413.html" class="map-popup-link">View</a></div>');
                     marker.on('mouseover', function() { this.openPopup(); });
                     marker.on('click', function() { this.openPopup(); });
                 })();
@@ -2492,6 +2492,7 @@
                     [41.3660861111111, 2.15588611111111],
                     [41.3642, 2.16692777777778],
                     [41.3661972222222, 2.15672777777778],
+                    [41.3645111111111, 2.16625],
                     [41.3646305555556, 2.16661666666667],
                     [41.3646833333333, 2.16679722222222],
                     [41.3660277777778, 2.15623888888889],
@@ -2499,7 +2500,6 @@
                     [41.3661416666667, 2.15686666666667],
                     [41.3647305555556, 2.16673055555556],
                     [41.382975, 2.16979166666667],
-                    [41.3645111111111, 2.16625],
                     [41.3661138888889, 2.15600833333333],
                     [41.3661166666667, 2.1559],
                     [41.3660277777778, 2.15623888888889],
