@@ -710,12 +710,10 @@ export function generateMultilingualMeta({ type, countryCode, vars }) {
         'id': 'id_ID',
     };
 
-    for (const lang of langs) {
-        const templates = META_TEMPLATES[lang];
-        if (!templates || !templates[type]) continue;
-        const content = fillTemplate(templates[type], vars);
-        html += `\n    <meta name="description" lang="${lang}" content="${escapeHtml(content)}">`;
-    }
+    // ponytail: multilingual <meta name="description" lang="xx"> removed 2026-08-27.
+    // The lang attribute has no defined meaning on meta description -- Google ignored it and
+    // saw 8 competing descriptions, picking one at random. Proper multilingual = localized
+    // URLs + hreflang. og:locale alternates below stay: those ARE spec-defined.
 
     // OG locale alternates
     html += '\n    <meta property="og:locale" content="en_GB">';

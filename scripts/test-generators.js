@@ -48,6 +48,12 @@ function checkHasContent(html, pattern, pageName, what) {
     assert(html.includes(pattern), `${pageName}: has ${what}`);
 }
 
+// Google picks one description at random when several are present -- there must be exactly one.
+function checkSingleDescription(html, pageName) {
+    const n = (html.match(/<meta name="description"/g) || []).length;
+    assert(n === 1, `${pageName}: exactly one meta description (found ${n})`);
+}
+
 function checkMetaTag(html, property, pageName) {
     const regex = new RegExp(`<meta[^>]*${property}[^>]*content="[^"]+"`);
     assert(regex.test(html), `${pageName}: has ${property} meta tag`);
@@ -68,8 +74,7 @@ async function testStickerPage() {
     checkMetaTag(html, 'og:image', 'sticker');
     checkMetaTag(html, 'og:title', 'sticker');
     checkHasContent(html, '_web.webp', 'sticker', 'WebP OG image');
-    checkHasContent(html, 'lang="de"', 'sticker', 'German multilingual meta');
-    checkHasContent(html, 'lang="nl"', 'sticker', 'Dutch multilingual meta');
+    checkSingleDescription(html, 'sticker');
     checkHasContent(html, 'BreadcrumbList', 'sticker', 'breadcrumb schema');
     checkHasContent(html, 'ImageObject', 'sticker', 'ImageObject schema');
     checkHasContent(html, 'football sticker', 'sticker', 'descriptive alt text');
@@ -89,7 +94,7 @@ async function testClubPage() {
     checkNoUnreplacedPlaceholders(html, 'club');
     checkMetaTag(html, 'og:image', 'club');
     checkHasContent(html, '_web.webp', 'club', 'WebP OG image');
-    checkHasContent(html, 'lang="no"', 'club', 'Norwegian multilingual meta');
+    checkSingleDescription(html, 'club');
     checkHasContent(html, 'CollectionPage', 'club', 'CollectionPage schema');
     checkHasContent(html, 'SportsTeam', 'club', 'SportsTeam schema');
     checkHasContent(html, 'club-meta', 'club', 'club-meta bar (V2 layout)');
@@ -109,7 +114,7 @@ async function testAIEnrichedClubPage() {
 
     checkNoUnreplacedPlaceholders(html, 'AI club');
     checkHasContent(html, 'club-about', 'AI club', 'AI-generated club-about (V2 layout)');
-    checkHasContent(html, 'lang="de"', 'AI club', 'German multilingual meta');
+    checkSingleDescription(html, 'AI club');
 }
 
 async function testCountryPage() {
@@ -128,7 +133,7 @@ async function testCountryPage() {
     checkHasContent(html, 'cat-seo-text', 'country', 'SEO text block (V2)');
     checkHasContent(html, 'country-club-thumb', 'country', 'club thumbnails');
     checkHasContent(html, 'title="', 'country', 'tooltip on club cards');
-    checkHasContent(html, 'lang="de"', 'country', 'German multilingual meta');
+    checkSingleDescription(html, 'country');
     checkHasContent(html, 'ItemList', 'country', 'ItemList schema');
     checkHasContent(html, 'BreadcrumbList', 'country', 'breadcrumb schema');
     // OG should NOT be metash.png
@@ -148,7 +153,7 @@ async function testCityPage() {
     checkNoUnreplacedPlaceholders(html, 'city');
     checkMetaTag(html, 'og:image', 'city');
     checkHasContent(html, '_web.webp', 'city', 'WebP OG image');
-    checkHasContent(html, 'lang=', 'city', 'multilingual meta');
+    checkSingleDescription(html, 'city');
     checkHasContent(html, 'BreadcrumbList', 'city', 'breadcrumb schema');
 }
 
