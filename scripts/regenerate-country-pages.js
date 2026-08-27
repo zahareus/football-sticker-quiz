@@ -15,7 +15,7 @@ import {
     COUNTRY_NAMES, COUNTRY_FLAGS, getCountryName, getOptimizedImageUrl, getThumbnailUrl,
     cleanTrailingQuery, stripEmoji, loadTemplate, replacePlaceholders,
     generateBreadcrumbs, generateBreadcrumbSchema,
-    countryPageTitle, generateMultilingualMeta,
+    countryPageTitle, clubThumbHtml, generateMultilingualMeta,
     fetchAllPaginated, jsonLdPayload, escapeHtml
 } from './seo-helpers.js';
 
@@ -103,13 +103,7 @@ async function generateCountryPage(countryCode, clubs, stickerCountsByClub, coun
     let clubCardsHtml = '';
     clubsEnriched.forEach(club => {
         const countLabel = club.stickerCount === 1 ? '1 sticker' : `${club.stickerCount} stickers`;
-        let thumbHtml = '';
-        if (club.bestImg) {
-            const thumbUrl = cleanTrailingQuery(getThumbnailUrl(club.bestImg));
-            thumbHtml = `<img src="${thumbUrl}" class="country-club-thumb" alt="" data-sticker-id="${club.bestStickerId}" width="44" height="44" loading="lazy" decoding="async">`;
-        } else {
-            thumbHtml = '<span class="country-club-thumb-placeholder"></span>';
-        }
+        const thumbHtml = clubThumbHtml(club, club.bestImg ? cleanTrailingQuery(getThumbnailUrl(club.bestImg)) : null);
         clubCardsHtml += `
                 <a href="/clubs/${club.id}.html" class="cat-country-card" title="${escapeHtml(club.cleanName)}">
                     ${thumbHtml}

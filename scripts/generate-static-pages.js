@@ -10,7 +10,7 @@ import { execFileSync } from 'child_process';
 import { join, dirname } from 'path';
 import { fileURLToPath } from 'url';
 
-import { createSupabaseClient, escapeForJsHtmlString, escapeHtml, stripEmoji, generateBreadcrumbs, COUNTRY_NAMES, COUNTRY_FLAGS, cityOnly, stickerNoindexTag, cityToSlug, stickerPageTitle, countryPageTitle, generateMultilingualMeta, generateMultilingualAltText, generateStickerContextParagraph, jsonLdPayload } from './seo-helpers.js';
+import { createSupabaseClient, escapeForJsHtmlString, escapeHtml, stripEmoji, generateBreadcrumbs, COUNTRY_NAMES, COUNTRY_FLAGS, cityOnly, stickerNoindexTag, cityToSlug, stickerPageTitle, countryPageTitle, clubThumbHtml, generateMultilingualMeta, generateMultilingualAltText, generateStickerContextParagraph, jsonLdPayload } from './seo-helpers.js';
 
 // Configuration
 const BASE_URL = "https://stickerhunt.club";
@@ -1022,13 +1022,7 @@ async function generateCountryPage(countryCode, clubs, stickerCountsByClub, allS
     let clubCardsHtml = '';
     clubsEnriched.forEach(club => {
         const countLabel = club.stickerCount === 1 ? '1 sticker' : `${club.stickerCount} stickers`;
-        let thumbHtml = '';
-        if (club.bestImg) {
-            const thumbUrl = cleanTrailingQuery(getThumbnailUrl(club.bestImg));
-            thumbHtml = `<img src="${thumbUrl}" class="country-club-thumb" alt="" data-sticker-id="${club.bestStickerId}" width="44" height="44" loading="lazy" decoding="async">`;
-        } else {
-            thumbHtml = '<span class="country-club-thumb-placeholder"></span>';
-        }
+        const thumbHtml = clubThumbHtml(club, club.bestImg ? cleanTrailingQuery(getThumbnailUrl(club.bestImg)) : null);
         clubCardsHtml += `
                 <a href="/clubs/${club.id}.html" class="cat-country-card" title="${club.cleanName}">
                     ${thumbHtml}

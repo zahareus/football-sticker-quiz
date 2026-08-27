@@ -21,7 +21,7 @@ import {
     toLocalImg, toLocalImgAbs,
     stripEmoji as _stripEmoji, escapeHtml, escapeForJsHtmlString, loadTemplate as _loadTemplate, replacePlaceholders as _replacePlaceholders,
     generateBreadcrumbs as _generateBreadcrumbs, generateBreadcrumbSchema as _generateBreadcrumbSchema,
-    cityOnly, stickerNoindexTag, selectTopRatedStickers, generateDescriptiveAltText, generateMultilingualAltText, generateStickerContextParagraph, stickerPageTitle, countryPageTitle, generateMultilingualMeta,
+    cityOnly, stickerNoindexTag, selectTopRatedStickers, generateDescriptiveAltText, generateMultilingualAltText, generateStickerContextParagraph, stickerPageTitle, countryPageTitle, clubThumbHtml, generateMultilingualMeta,
     generateFeaturedGallery, fetchAllPaginated,
     buildClubKeywords as _buildClubKeywords,
     cityToSlug, jsonLdPayload, safeUrl
@@ -993,13 +993,7 @@ async function generateCountryPage(countryCode, clubs, stickerCountsByClub, coun
     let clubCardsHtml = '';
     clubsEnriched.forEach(club => {
         const countLabel = club.stickerCount === 1 ? '1 sticker' : `${club.stickerCount} stickers`;
-        let thumbHtml = '';
-        if (club.bestImg) {
-            const thumbUrl = cleanTrailingQuery(getThumbnailUrl(club.bestImg));
-            thumbHtml = `<img src="${thumbUrl}" class="country-club-thumb" alt="" data-sticker-id="${club.bestStickerId}" width="44" height="44" loading="lazy" decoding="async">`;
-        } else {
-            thumbHtml = '<span class="country-club-thumb-placeholder"></span>';
-        }
+        const thumbHtml = clubThumbHtml(club, club.bestImg ? cleanTrailingQuery(getThumbnailUrl(club.bestImg)) : null);
         clubCardsHtml += `
                 <a href="/clubs/${club.id}.html" class="cat-country-card" title="${escapeHtml(club.cleanName)}">
                     ${thumbHtml}

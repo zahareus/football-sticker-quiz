@@ -17,7 +17,7 @@ import {
     COUNTRY_NAMES, getCountryName, getCountryFlag, getOptimizedImageUrl, getThumbnailUrl,
     cleanTrailingQuery, toLocalImg, stripEmoji, escapeHtml, loadTemplate, replacePlaceholders,
     generateBreadcrumbs, generateBreadcrumbSchema,
-    cityOnly, selectTopRatedStickers, generateDescriptiveAltText, countryPageTitle, generateMultilingualMeta,
+    cityOnly, selectTopRatedStickers, generateDescriptiveAltText, countryPageTitle, clubThumbHtml, generateMultilingualMeta,
     generateFeaturedGallery, fetchAllPaginated,
     buildClubKeywords, jsonLdPayload, escapeForJsHtmlString, safeUrl
 } from './seo-helpers.js';
@@ -449,13 +449,7 @@ async function generateCountryPage(countryCode, clubs, stickerCountsByClub, coun
         const countLabel = club.stickerCount === 1 ? '1 sticker' : `${club.stickerCount} stickers`;
         const metaText = countLabel;
 
-        let thumbHtml = '';
-        if (club.bestImg) {
-            const thumbUrl = cleanTrailingQuery(getThumbnailUrl(club.bestImg));
-            thumbHtml = `<img src="${thumbUrl}" class="country-club-thumb" alt="" data-sticker-id="${club.bestStickerId}" width="44" height="44" loading="lazy" decoding="async">`;
-        } else {
-            thumbHtml = '<span class="country-club-thumb-placeholder"></span>';
-        }
+        const thumbHtml = clubThumbHtml(club, club.bestImg ? cleanTrailingQuery(getThumbnailUrl(club.bestImg)) : null);
 
         clubCardsHtml += `
                 <a href="/clubs/${club.id}.html" class="cat-country-card" title="${escapeHtml(club.cleanName)}">

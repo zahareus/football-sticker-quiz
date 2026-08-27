@@ -690,6 +690,18 @@ function fillTemplate(template, vars) {
     return result;
 }
 
+// ─── Club Thumbnails ─────────────────────────────────────────────────────────
+
+/**
+ * Thumbnail for a club card in a club grid, or a placeholder when the club has no image.
+ * The alt text used to be empty, which is only correct for decorative images -- these are
+ * the page's content and a channel into Google Images.
+ */
+export function clubThumbHtml(club, thumbUrl) {
+    if (!thumbUrl) return '<span class="country-club-thumb-placeholder"></span>';
+    return `<img src="${thumbUrl}" class="country-club-thumb" alt="${escapeHtml(club.cleanName)} stickers" data-sticker-id="${club.bestStickerId}" width="44" height="44" loading="lazy" decoding="async">`;
+}
+
 // ─── Page Titles ─────────────────────────────────────────────────────────────
 // Kept here because the same two formulas were copy-pasted across five generators.
 // Google truncates the SERP title around 60 characters, so no boilerplate tails.
