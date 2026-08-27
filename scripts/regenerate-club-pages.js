@@ -17,7 +17,7 @@ import {
     COUNTRY_NAMES, getCountryName, getCountryFlag, getOptimizedImageUrl, getThumbnailUrl,
     cleanTrailingQuery, toLocalImg, stripEmoji, escapeHtml, loadTemplate, replacePlaceholders,
     generateBreadcrumbs, generateBreadcrumbSchema,
-    cityOnly, selectTopRatedStickers, generateDescriptiveAltText, generateMultilingualMeta,
+    cityOnly, selectTopRatedStickers, generateDescriptiveAltText, countryPageTitle, generateMultilingualMeta,
     generateFeaturedGallery, fetchAllPaginated,
     buildClubKeywords, jsonLdPayload, escapeForJsHtmlString, safeUrl
 } from './seo-helpers.js';
@@ -374,7 +374,7 @@ async function generateCountryPage(countryCode, clubs, stickerCountsByClub, coun
     const countryName = getCountryName(countryCode);
     const countryFlag = getCountryFlag(countryCode);
     const totalStickers = clubs.reduce((sum, club) => sum + (stickerCountsByClub[club.id] || 0), 0);
-    const pageTitle = `${escapeHtml(countryName)} Football Stickers — ${clubs.length} Clubs, ${totalStickers} Stickers | StickerHunt`;
+    const pageTitle = countryPageTitle(escapeHtml(countryName), clubs.length);
     const metaDescription = `Browse ${totalStickers} football stickers from ${clubs.length} clubs in ${escapeHtml(countryName)}. Find stickers from ${escapeHtml(countryName)} clubs in the StickerHunt database.`;
     const canonicalUrl = `${BASE_URL}/countries/${countryCode.toUpperCase()}.html`;
     const keywords = `${escapeHtml(countryName)} football stickers, ${escapeHtml(countryName)} clubs stickers, identify ${escapeHtml(countryName)} sticker, football sticker database`;

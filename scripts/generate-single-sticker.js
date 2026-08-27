@@ -21,7 +21,7 @@ import {
     toLocalImg, toLocalImgAbs,
     stripEmoji as _stripEmoji, escapeHtml, escapeForJsHtmlString, loadTemplate as _loadTemplate, replacePlaceholders as _replacePlaceholders,
     generateBreadcrumbs as _generateBreadcrumbs, generateBreadcrumbSchema as _generateBreadcrumbSchema,
-    cityOnly, stickerNoindexTag, selectTopRatedStickers, generateDescriptiveAltText, generateMultilingualAltText, generateStickerContextParagraph, generateMultilingualMeta,
+    cityOnly, stickerNoindexTag, selectTopRatedStickers, generateDescriptiveAltText, generateMultilingualAltText, generateStickerContextParagraph, stickerPageTitle, countryPageTitle, generateMultilingualMeta,
     generateFeaturedGallery, fetchAllPaginated,
     buildClubKeywords as _buildClubKeywords,
     cityToSlug, jsonLdPayload, safeUrl
@@ -670,7 +670,7 @@ async function generateStickerPage(sticker, club, prevStickerId, nextStickerId, 
     // Raw first, escaped second: the escaped pair goes into <title> and
     // content="..." attributes; the raw pair goes into JSON-LD, where HTML
     // escaping would leave a literal &amp; in the structured data.
-    const pageTitleRaw = `${clubNameClean} Sticker #${sticker.id} — Identify This Football Sticker | StickerHunt`;
+    const pageTitleRaw = stickerPageTitle(clubNameClean, sticker.id);
     const pageTitle = escapeHtml(pageTitleRaw);
     const metaDescriptionRaw = `Football sticker #${sticker.id} from ${clubNameClean}, ${countryName}. Can you identify this ${clubNameClean} sticker? Browse our collection.`;
     const metaDescription = escapeHtml(metaDescriptionRaw);
@@ -890,7 +890,7 @@ async function generateCountryPage(countryCode, clubs, stickerCountsByClub, coun
     const countryName = getCountryName(countryCode);
     const countryFlag = getCountryFlag(countryCode);
     const totalStickers = clubs.reduce((sum, club) => sum + (stickerCountsByClub[club.id] || 0), 0);
-    const pageTitle = `${escapeHtml(countryName)} Football Stickers — ${clubs.length} Clubs, ${totalStickers} Stickers | StickerHunt`;
+    const pageTitle = countryPageTitle(escapeHtml(countryName), clubs.length);
     const metaDescription = `Browse ${totalStickers} football stickers from ${clubs.length} clubs in ${escapeHtml(countryName)}. Find stickers from ${escapeHtml(countryName)} clubs in the StickerHunt database.`;
     const canonicalUrl = `${BASE_URL}/countries/${countryCode.toUpperCase()}.html`;
     const keywords = `${escapeHtml(countryName)} football stickers, ${escapeHtml(countryName)} clubs stickers, identify ${escapeHtml(countryName)} sticker, football sticker database`;

@@ -10,7 +10,7 @@ import { execFileSync } from 'child_process';
 import { join, dirname } from 'path';
 import { fileURLToPath } from 'url';
 
-import { createSupabaseClient, escapeForJsHtmlString, escapeHtml, stripEmoji, generateBreadcrumbs, COUNTRY_NAMES, COUNTRY_FLAGS, cityOnly, stickerNoindexTag, cityToSlug, generateMultilingualMeta, generateMultilingualAltText, generateStickerContextParagraph, jsonLdPayload } from './seo-helpers.js';
+import { createSupabaseClient, escapeForJsHtmlString, escapeHtml, stripEmoji, generateBreadcrumbs, COUNTRY_NAMES, COUNTRY_FLAGS, cityOnly, stickerNoindexTag, cityToSlug, stickerPageTitle, countryPageTitle, generateMultilingualMeta, generateMultilingualAltText, generateStickerContextParagraph, jsonLdPayload } from './seo-helpers.js';
 
 // Configuration
 const BASE_URL = "https://stickerhunt.club";
@@ -719,7 +719,7 @@ async function generateStickerPage(sticker, club, prevStickerId, nextStickerId, 
 
     const countryName = getCountryName(club.country);
     const clubNameClean = stripEmoji(club.name);
-    const pageTitle = `${clubNameClean} Sticker #${sticker.id} — Identify This Football Sticker | StickerHunt`;
+    const pageTitle = stickerPageTitle(clubNameClean, sticker.id);
     const metaDescription = `Football sticker #${sticker.id} from ${clubNameClean} (${countryName}). Browse our database to identify this sticker and explore the full ${clubNameClean} sticker collection.`;
     const canonicalUrl = `${BASE_URL}/stickers/${sticker.id}.html`;
 
@@ -924,7 +924,7 @@ async function generateCountryPage(countryCode, clubs, stickerCountsByClub, allS
     const countryName = getCountryName(countryCode);
     const countryFlag = COUNTRY_FLAGS[countryCode.toUpperCase()] || '🏳️';
     const totalStickers = Object.values(stickerCountsByClub).reduce((sum, n) => sum + n, 0);
-    const pageTitle = `${countryName} Football Stickers — ${clubs.length} Clubs, ${totalStickers} Stickers | StickerHunt`;
+    const pageTitle = countryPageTitle(countryName, clubs.length);
     const metaDescription = `Browse ${totalStickers} football stickers from ${clubs.length} clubs in ${countryName}. Find stickers from ${countryName} clubs in the StickerHunt database.`;
     const canonicalUrl = `${BASE_URL}/countries/${countryCode.toUpperCase()}.html`;
     const keywords = `${countryName} football stickers, ${countryName} clubs stickers, identify ${countryName} sticker, football sticker database`;

@@ -690,6 +690,20 @@ function fillTemplate(template, vars) {
     return result;
 }
 
+// ─── Page Titles ─────────────────────────────────────────────────────────────
+// Kept here because the same two formulas were copy-pasted across five generators.
+// Google truncates the SERP title around 60 characters, so no boilerplate tails.
+
+/** Sticker page title, e.g. "Atletico Belgrano Sticker #4 | StickerHunt" (~42 ch). */
+export function stickerPageTitle(clubName, stickerId) {
+    return `${clubName} Sticker #${stickerId} | StickerHunt`;
+}
+
+/** Country page title, e.g. "Argentina Football Stickers -- 11 Clubs | StickerHunt". */
+export function countryPageTitle(countryName, clubCount) {
+    return `${countryName} Football Stickers — ${clubCount} Clubs | StickerHunt`;
+}
+
 /**
  * Generate multilingual meta description tags.
  * @param {Object} params
