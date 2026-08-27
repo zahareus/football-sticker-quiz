@@ -10,13 +10,6 @@
     <meta name="description" content="18 football stickers from 14 clubs found on streets of Valencia, Spain. Browse the collection and see where they were found.">
     <link rel="canonical" href="https://stickerhunt.club/cities/valencia.html">
     
-    <meta name="description" lang="de" content="Fussball-Sticker aus Valencia -- 18 Sticker von Vereinen dieser Stadt.">
-    <meta name="description" lang="nl" content="Voetbalstickers uit Valencia -- 18 stickers van lokale clubs.">
-    <meta name="description" lang="no" content="Fotballklistremerker fra Valencia -- 18 klistremerker fra lokale klubber.">
-    <meta name="description" lang="sv" content="Fotbollsklistermanerken fran Valencia -- 18 klistermanerken fran lokala klubbar.">
-    <meta name="description" lang="es" content="Pegatinas de futbol en Valencia -- 18 pegatinas de clubes locales.">
-    <meta name="description" lang="pt" content="Adesivos de futebol em Valencia -- 18 adesivos de clubes locais.">
-    <meta name="description" lang="fr" content="Autocollants de football a Valencia -- 18 autocollants de clubs locaux.">
     <meta property="og:locale" content="en_GB">
     <meta property="og:locale:alternate" content="de_DE">
     <meta property="og:locale:alternate" content="nl_NL">
@@ -200,15 +193,6 @@
                          loading="lazy"
                          decoding="async">
                 </a>
-                <a href="/stickers/4447.html" class="sticker-preview-link">
-                    <img src="/img/club_703/1786895121598_IMG_3258_thumb.webp?v=2026-05-27"
-                         alt="SS Lazio football sticker #4447 found in this city"
-                         data-sticker-id="4447"
-                         class="sticker-preview-image"
-                         width="200" height="200"
-                         loading="lazy"
-                         decoding="async">
-                </a>
                 <a href="/stickers/4449.html" class="sticker-preview-link">
                     <img src="/img/club_1269/1786895738800_IMG_3241_thumb.webp?v=2026-05-27"
                          alt="Matera 1933 football sticker #4449 found in this city"
@@ -254,28 +238,10 @@
                          loading="lazy"
                          decoding="async">
                 </a>
-                <a href="/stickers/4454.html" class="sticker-preview-link">
-                    <img src="/img/club_930/1786896528214_IMG_3244_thumb.webp?v=2026-05-27"
-                         alt="Hamburger SV football sticker #4454 found in this city"
-                         data-sticker-id="4454"
-                         class="sticker-preview-image"
-                         width="200" height="200"
-                         loading="lazy"
-                         decoding="async">
-                </a>
                 <a href="/stickers/4455.html" class="sticker-preview-link">
                     <img src="/img/club_710/1786896529571_IMG_3243_thumb.webp?v=2026-05-27"
                          alt="AS Roma football sticker #4455 found in this city"
                          data-sticker-id="4455"
-                         class="sticker-preview-image"
-                         width="200" height="200"
-                         loading="lazy"
-                         decoding="async">
-                </a>
-                <a href="/stickers/4458.html" class="sticker-preview-link">
-                    <img src="/img/club_677/1786896532971_IMG_3239_thumb.webp?v=2026-05-27"
-                         alt="Como 1907 football sticker #4458 found in this city"
-                         data-sticker-id="4458"
                          class="sticker-preview-image"
                          width="200" height="200"
                          loading="lazy"
@@ -290,10 +256,37 @@
                          loading="lazy"
                          decoding="async">
                 </a>
+                <a href="/stickers/4458.html" class="sticker-preview-link">
+                    <img src="/img/club_677/1786896532971_IMG_3239_thumb.webp?v=2026-05-27"
+                         alt="Como 1907 football sticker #4458 found in this city"
+                         data-sticker-id="4458"
+                         class="sticker-preview-image"
+                         width="200" height="200"
+                         loading="lazy"
+                         decoding="async">
+                </a>
                 <a href="/stickers/4459.html" class="sticker-preview-link">
                     <img src="/img/club_801/1786896534229_IMG_3238_thumb.webp?v=2026-05-27"
                          alt="Real Zaragoza football sticker #4459 found in this city"
                          data-sticker-id="4459"
+                         class="sticker-preview-image"
+                         width="200" height="200"
+                         loading="lazy"
+                         decoding="async">
+                </a>
+                <a href="/stickers/4454.html" class="sticker-preview-link">
+                    <img src="/img/club_930/1786896528214_IMG_3244_thumb.webp?v=2026-05-27"
+                         alt="Hamburger SV football sticker #4454 found in this city"
+                         data-sticker-id="4454"
+                         class="sticker-preview-image"
+                         width="200" height="200"
+                         loading="lazy"
+                         decoding="async">
+                </a>
+                <a href="/stickers/4447.html" class="sticker-preview-link">
+                    <img src="/img/club_703/1786895121598_IMG_3258_thumb.webp?v=2026-05-27"
+                         alt="SS Lazio football sticker #4447 found in this city"
+                         data-sticker-id="4447"
                          class="sticker-preview-image"
                          width="200" height="200"
                          loading="lazy"
@@ -365,7 +358,7 @@
         
         document.addEventListener('DOMContentLoaded', function() {
             if (typeof L !== 'undefined' && document.getElementById('club-map')) {
-                const cityMap = L.map('club-map').setView([39.46835462962963, -0.3737291666666667], 12);
+                const cityMap = L.map('club-map').setView([39.46835462962963, -0.3737291666666666], 12);
                 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                     attribution: '&copy; OpenStreetMap contributors'
                 }).addTo(cityMap);
@@ -394,13 +387,6 @@
                 (function() {
                     const marker = L.marker([39.4673277777778, -0.375694444444444]).addTo(cityMap);
                     marker.bindPopup('<div class="nearby-sticker-popup"><strong>Hamburger SV</strong><a href="/stickers/4446.html" class="map-popup-link">View</a></div>');
-                    marker.on('mouseover', function() { this.openPopup(); });
-                    marker.on('click', function() { this.openPopup(); });
-                })();
-
-                (function() {
-                    const marker = L.marker([39.4685555555556, -0.372875]).addTo(cityMap);
-                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>SS Lazio</strong><a href="/stickers/4447.html" class="map-popup-link">View</a></div>');
                     marker.on('mouseover', function() { this.openPopup(); });
                     marker.on('click', function() { this.openPopup(); });
                 })();
@@ -441,22 +427,8 @@
                 })();
 
                 (function() {
-                    const marker = L.marker([39.4672944444444, -0.376141666666667]).addTo(cityMap);
-                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>Hamburger SV</strong><a href="/stickers/4454.html" class="map-popup-link">View</a></div>');
-                    marker.on('mouseover', function() { this.openPopup(); });
-                    marker.on('click', function() { this.openPopup(); });
-                })();
-
-                (function() {
                     const marker = L.marker([39.4672805555556, -0.376147222222222]).addTo(cityMap);
                     marker.bindPopup('<div class="nearby-sticker-popup"><strong>AS Roma</strong><a href="/stickers/4455.html" class="map-popup-link">View</a></div>');
-                    marker.on('mouseover', function() { this.openPopup(); });
-                    marker.on('click', function() { this.openPopup(); });
-                })();
-
-                (function() {
-                    const marker = L.marker([39.4672722222222, -0.376155555555556]).addTo(cityMap);
-                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>Como 1907</strong><a href="/stickers/4458.html" class="map-popup-link">View</a></div>');
                     marker.on('mouseover', function() { this.openPopup(); });
                     marker.on('click', function() { this.openPopup(); });
                 })();
@@ -469,8 +441,29 @@
                 })();
 
                 (function() {
+                    const marker = L.marker([39.4672722222222, -0.376155555555556]).addTo(cityMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>Como 1907</strong><a href="/stickers/4458.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
                     const marker = L.marker([39.4673722222222, -0.376569444444444]).addTo(cityMap);
                     marker.bindPopup('<div class="nearby-sticker-popup"><strong>Real Zaragoza</strong><a href="/stickers/4459.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([39.4672944444444, -0.376141666666667]).addTo(cityMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>Hamburger SV</strong><a href="/stickers/4454.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([39.4685555555556, -0.372875]).addTo(cityMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>SS Lazio</strong><a href="/stickers/4447.html" class="map-popup-link">View</a></div>');
                     marker.on('mouseover', function() { this.openPopup(); });
                     marker.on('click', function() { this.openPopup(); });
                 })();
@@ -501,17 +494,17 @@
                     [39.4679111111111, -0.373808333333333],
                     [39.4698361111111, -0.371702777777778],
                     [39.4673277777778, -0.375694444444444],
-                    [39.4685555555556, -0.372875],
                     [39.4672916666667, -0.376138888888889],
                     [39.4673111111111, -0.376152777777778],
                     [39.4672916666667, -0.376147222222222],
                     [39.4673527777778, -0.376572222222222],
                     [39.4669638888889, -0.377655555555556],
-                    [39.4672944444444, -0.376141666666667],
+                    [39.4672805555556, -0.376147222222222],
                     [39.4672805555556, -0.376147222222222],
                     [39.4672722222222, -0.376155555555556],
-                    [39.4672805555556, -0.376147222222222],
                     [39.4673722222222, -0.376569444444444],
+                    [39.4672944444444, -0.376141666666667],
+                    [39.4685555555556, -0.372875],
                     [39.4672777777778, -0.376152777777778],
                     [39.4742972222222, -0.359436111111111],
                     [39.4745722222222, -0.359855555555556]

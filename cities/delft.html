@@ -10,13 +10,6 @@
     <meta name="description" content="49 football stickers from 19 clubs found on streets of Delft, Netherlands. Browse the collection and see where they were found.">
     <link rel="canonical" href="https://stickerhunt.club/cities/delft.html">
     
-    <meta name="description" lang="de" content="Fussball-Sticker aus Delft -- 49 Sticker von Vereinen dieser Stadt.">
-    <meta name="description" lang="nl" content="Voetbalstickers uit Delft -- 49 stickers van lokale clubs.">
-    <meta name="description" lang="no" content="Fotballklistremerker fra Delft -- 49 klistremerker fra lokale klubber.">
-    <meta name="description" lang="sv" content="Fotbollsklistermanerken fran Delft -- 49 klistermanerken fran lokala klubbar.">
-    <meta name="description" lang="es" content="Pegatinas de futbol en Delft -- 49 pegatinas de clubes locales.">
-    <meta name="description" lang="pt" content="Adesivos de futebol em Delft -- 49 adesivos de clubes locais.">
-    <meta name="description" lang="fr" content="Autocollants de football a Delft -- 49 autocollants de clubs locaux.">
     <meta property="og:locale" content="en_GB">
     <meta property="og:locale:alternate" content="de_DE">
     <meta property="og:locale:alternate" content="nl_NL">
@@ -537,15 +530,6 @@
                          loading="lazy"
                          decoding="async">
                 </a>
-                <a href="/stickers/2787.html" class="sticker-preview-link">
-                    <img src="/img/club_957/1763898632978_IMG_7578_thumb.webp?v=2026-05-27"
-                         alt="1 FC Magdeburg football sticker #2787 found in this city"
-                         data-sticker-id="2787"
-                         class="sticker-preview-image"
-                         width="200" height="200"
-                         loading="lazy"
-                         decoding="async">
-                </a>
                 <a href="/stickers/2813.html" class="sticker-preview-link">
                     <img src="/img/club_1139/1766183865191_IMG_7544_thumb.webp?v=2026-05-27"
                          alt="Sparta Rotterdam football sticker #2813 found in this city"
@@ -604,6 +588,15 @@
                     <img src="/img/club_759/1766232618345_IMG_7577_thumb.webp?v=2026-05-27"
                          alt="Feyenoord football sticker #2862 found in this city"
                          data-sticker-id="2862"
+                         class="sticker-preview-image"
+                         width="200" height="200"
+                         loading="lazy"
+                         decoding="async">
+                </a>
+                <a href="/stickers/2787.html" class="sticker-preview-link">
+                    <img src="/img/club_957/1763898632978_IMG_7578_thumb.webp?v=2026-05-27"
+                         alt="1 FC Magdeburg football sticker #2787 found in this city"
+                         data-sticker-id="2787"
                          class="sticker-preview-image"
                          width="200" height="200"
                          loading="lazy"
@@ -941,13 +934,6 @@
                 })();
 
                 (function() {
-                    const marker = L.marker([52.01365, 4.3516222]).addTo(cityMap);
-                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>1 FC Magdeburg</strong><a href="/stickers/2787.html" class="map-popup-link">View</a></div>');
-                    marker.on('mouseover', function() { this.openPopup(); });
-                    marker.on('click', function() { this.openPopup(); });
-                })();
-
-                (function() {
                     const marker = L.marker([52.0122861, 4.3632417]).addTo(cityMap);
                     marker.bindPopup('<div class="nearby-sticker-popup"><strong>Sparta Rotterdam</strong><a href="/stickers/2813.html" class="map-popup-link">View</a></div>');
                     marker.on('mouseover', function() { this.openPopup(); });
@@ -995,6 +981,13 @@
                     marker.on('mouseover', function() { this.openPopup(); });
                     marker.on('click', function() { this.openPopup(); });
                 })();
+
+                (function() {
+                    const marker = L.marker([52.01365, 4.3516222]).addTo(cityMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>1 FC Magdeburg</strong><a href="/stickers/2787.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
                 
                 const bounds = L.latLngBounds([
                     [52.0134722, 4.3644111],
@@ -1038,14 +1031,14 @@
                     [52.0078806, 4.3567917],
                     [52.0128528, 4.3607722],
                     [52.0104166666667, 4.35691944444444],
-                    [52.01365, 4.3516222],
                     [52.0122861, 4.3632417],
                     [52.0069361, 4.3608556],
                     [52.0116806, 4.3648611],
                     [52.0114333, 4.3595722],
                     [52.0133472, 4.3657889],
                     [52.0104166666667, 4.35691944444444],
-                    [52.0135778, 4.35145]
+                    [52.0135778, 4.35145],
+                    [52.01365, 4.3516222]
                 ]);
                 cityMap.fitBounds(bounds, { padding: [30, 30], maxZoom: 15 });
                 

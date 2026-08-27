@@ -10,13 +10,6 @@
     <meta name="description" content="17 football stickers from 2 clubs found on streets of Arras, France. Browse the collection and see where they were found.">
     <link rel="canonical" href="https://stickerhunt.club/cities/arras.html">
     
-    <meta name="description" lang="de" content="Fussball-Sticker aus Arras -- 17 Sticker von Vereinen dieser Stadt.">
-    <meta name="description" lang="nl" content="Voetbalstickers uit Arras -- 17 stickers van lokale clubs.">
-    <meta name="description" lang="no" content="Fotballklistremerker fra Arras -- 17 klistremerker fra lokale klubber.">
-    <meta name="description" lang="sv" content="Fotbollsklistermanerken fran Arras -- 17 klistermanerken fran lokala klubbar.">
-    <meta name="description" lang="es" content="Pegatinas de futbol en Arras -- 17 pegatinas de clubes locales.">
-    <meta name="description" lang="pt" content="Adesivos de futebol em Arras -- 17 adesivos de clubes locais.">
-    <meta name="description" lang="fr" content="Autocollants de football a Arras -- 17 autocollants de clubs locaux.">
     <meta property="og:locale" content="en_GB">
     <meta property="og:locale:alternate" content="de_DE">
     <meta property="og:locale:alternate" content="nl_NL">
@@ -204,15 +197,6 @@
                          loading="lazy"
                          decoding="async">
                 </a>
-                <a href="/stickers/4140.html" class="sticker-preview-link">
-                    <img src="/img/club_695/1786185437925_IMG_2198_thumb.webp?v=2026-05-27"
-                         alt="Racing Club de Lens football sticker #4140 found in this city"
-                         data-sticker-id="4140"
-                         class="sticker-preview-image"
-                         width="200" height="200"
-                         loading="lazy"
-                         decoding="async">
-                </a>
                 <a href="/stickers/4146.html" class="sticker-preview-link">
                     <img src="/img/club_695/1786185444582_IMG_2206_thumb.webp?v=2026-05-27"
                          alt="Racing Club de Lens football sticker #4146 found in this city"
@@ -226,6 +210,24 @@
                     <img src="/img/club_695/1786185445745_IMG_2207_thumb.webp?v=2026-05-27"
                          alt="Racing Club de Lens football sticker #4147 found in this city"
                          data-sticker-id="4147"
+                         class="sticker-preview-image"
+                         width="200" height="200"
+                         loading="lazy"
+                         decoding="async">
+                </a>
+                <a href="/stickers/4140.html" class="sticker-preview-link">
+                    <img src="/img/club_695/1786185437925_IMG_2198_thumb.webp?v=2026-05-27"
+                         alt="Racing Club de Lens football sticker #4140 found in this city"
+                         data-sticker-id="4140"
+                         class="sticker-preview-image"
+                         width="200" height="200"
+                         loading="lazy"
+                         decoding="async">
+                </a>
+                <a href="/stickers/4141.html" class="sticker-preview-link">
+                    <img src="/img/club_695/1786185439118_IMG_2199_thumb.webp?v=2026-05-27"
+                         alt="Racing Club de Lens football sticker #4141 found in this city"
+                         data-sticker-id="4141"
                          class="sticker-preview-image"
                          width="200" height="200"
                          loading="lazy"
@@ -303,15 +305,6 @@
                          loading="lazy"
                          decoding="async">
                 </a>
-                <a href="/stickers/4141.html" class="sticker-preview-link">
-                    <img src="/img/club_695/1786185439118_IMG_2199_thumb.webp?v=2026-05-27"
-                         alt="Racing Club de Lens football sticker #4141 found in this city"
-                         data-sticker-id="4141"
-                         class="sticker-preview-image"
-                         width="200" height="200"
-                         loading="lazy"
-                         decoding="async">
-                </a>
                 <a href="/stickers/4148.html" class="sticker-preview-link">
                     <img src="/img/club_695/1786185460131_IMG_2230_thumb.webp?v=2026-05-27"
                          alt="Racing Club de Lens football sticker #4148 found in this city"
@@ -360,7 +353,7 @@
         
         document.addEventListener('DOMContentLoaded', function() {
             if (typeof L !== 'undefined' && document.getElementById('club-map')) {
-                const cityMap = L.map('club-map').setView([50.29062287581699, 2.7789021241830074], 12);
+                const cityMap = L.map('club-map').setView([50.290622875817, 2.7789021241830065], 12);
                 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                     attribution: '&copy; OpenStreetMap contributors'
                 }).addTo(cityMap);
@@ -394,13 +387,6 @@
                 })();
 
                 (function() {
-                    const marker = L.marker([50.2909388888889, 2.77866666666667]).addTo(cityMap);
-                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>Racing Club de Lens</strong><a href="/stickers/4140.html" class="map-popup-link">View</a></div>');
-                    marker.on('mouseover', function() { this.openPopup(); });
-                    marker.on('click', function() { this.openPopup(); });
-                })();
-
-                (function() {
                     const marker = L.marker([50.2898055555556, 2.77813333333333]).addTo(cityMap);
                     marker.bindPopup('<div class="nearby-sticker-popup"><strong>Racing Club de Lens</strong><a href="/stickers/4146.html" class="map-popup-link">View</a></div>');
                     marker.on('mouseover', function() { this.openPopup(); });
@@ -410,6 +396,20 @@
                 (function() {
                     const marker = L.marker([50.2895861111111, 2.77845555555556]).addTo(cityMap);
                     marker.bindPopup('<div class="nearby-sticker-popup"><strong>Racing Club de Lens</strong><a href="/stickers/4147.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([50.2909388888889, 2.77866666666667]).addTo(cityMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>Racing Club de Lens</strong><a href="/stickers/4140.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([50.2909583333333, 2.77864166666667]).addTo(cityMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>Racing Club de Lens</strong><a href="/stickers/4141.html" class="map-popup-link">View</a></div>');
                     marker.on('mouseover', function() { this.openPopup(); });
                     marker.on('click', function() { this.openPopup(); });
                 })();
@@ -471,13 +471,6 @@
                 })();
 
                 (function() {
-                    const marker = L.marker([50.2909583333333, 2.77864166666667]).addTo(cityMap);
-                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>Racing Club de Lens</strong><a href="/stickers/4141.html" class="map-popup-link">View</a></div>');
-                    marker.on('mouseover', function() { this.openPopup(); });
-                    marker.on('click', function() { this.openPopup(); });
-                })();
-
-                (function() {
                     const marker = L.marker([50.2861861111111, 2.77933333333333]).addTo(cityMap);
                     marker.bindPopup('<div class="nearby-sticker-popup"><strong>Racing Club de Lens</strong><a href="/stickers/4148.html" class="map-popup-link">View</a></div>');
                     marker.on('mouseover', function() { this.openPopup(); });
@@ -489,9 +482,10 @@
                     [50.292125, 2.77985277777778],
                     [50.2909472222222, 2.77864166666667],
                     [50.29095, 2.77835555555556],
-                    [50.2909388888889, 2.77866666666667],
                     [50.2898055555556, 2.77813333333333],
                     [50.2895861111111, 2.77845555555556],
+                    [50.2909388888889, 2.77866666666667],
+                    [50.2909583333333, 2.77864166666667],
                     [50.2918527777778, 2.77954444444444],
                     [50.2909388888889, 2.77869444444444],
                     [50.2904777777778, 2.77846388888889],
@@ -500,7 +494,6 @@
                     [50.2908166666667, 2.77726666666667],
                     [50.2891388888889, 2.78074166666667],
                     [50.2908583333333, 2.7773],
-                    [50.2909583333333, 2.77864166666667],
                     [50.2861861111111, 2.77933333333333]
                 ]);
                 cityMap.fitBounds(bounds, { padding: [30, 30], maxZoom: 15 });

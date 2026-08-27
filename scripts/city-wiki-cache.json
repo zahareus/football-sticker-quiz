@@ -280,5 +280,17 @@
     "population": 1731649,
     "country": "Spain",
     "wikiUrl": "https://en.wikipedia.org/wiki/Barcelona"
+  },
+  "Cascais": {
+    "intro": "Cascais is a town and municipality in the Lisbon District of Portugal, located on the Estoril Coast.  The municipality has a total of 214,158 inhabitants in an area of 97.",
+    "population": 214124,
+    "country": "Portugal",
+    "wikiUrl": "https://en.wikipedia.org/wiki/Cascais"
+  },
+  "Colares": {
+    "intro": "",
+    "population": null,
+    "country": null,
+    "wikiUrl": "https://en.wikipedia.org/wiki/Colares"
   }
 }
