@@ -92,8 +92,6 @@
         <div class="sticker-page-content-wrapper">
             <div id="catalogue-breadcrumbs">{{BREADCRUMBS}}</div>
 
-            <h1 id="main-catalogue-heading" style="display: none;">{{MAIN_HEADING}}</h1>
-
             <div id="catalogue-content">
                 <div class="sticker-detail-view sticker-detail-two-column">
                     <div class="sticker-detail-left-column">
@@ -118,10 +116,12 @@
 
                     <div class="sticker-detail-right-panel">
                         <div class="sticker-detail-info-block">
-                            <h2 class="sticker-detail-club-name">
+                            <!-- This IS the page h1: the club name is the page's semantic subject.
+                                 Replaces a display:none h1 that Google devalued. -->
+                            <h1 class="sticker-detail-club-name">
                                 <span id="club-name-display">{{CLUB_NAME}}</span>
                                 <a href="#" id="edit-sticker-btn" class="edit-link" style="display: none;">edit</a>
-                            </h2>
+                            </h1>
 
                             <!-- Edit Form (hidden by default) -->
                             <div id="sticker-edit-form" class="sticker-edit-form" style="display: none;">

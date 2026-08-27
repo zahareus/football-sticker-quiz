@@ -1288,6 +1288,7 @@ body.quiz-result .result-right-panel {
 }
 
 .sticker-detail-club-name {
+    text-align: left; /* it is an h1 now; overrides the centred default h1 rule */
     font-size: 1.3em;
     font-weight: 700;
     color: var(--color-text);
