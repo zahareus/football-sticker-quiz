@@ -449,8 +449,11 @@ function routeContent() {
         document.getElementById('catalogue-container').classList.add('container');
         loadCountryDetails(countryCode.toUpperCase());
     } else {
-        // Main catalogue page - custom layout, no container class
-        mainHeading.style.display = 'none';
+        // Main catalogue page - custom layout, no container class.
+        // Remove rather than hide: the hero rendered below brings its own h1,
+        // and a display:none h1 alongside it is the exact pattern Google
+        // devalues. Club/country/sticker views keep the element and use it.
+        mainHeading.remove();
         loadContinentsAndCountries();
     }
 }
