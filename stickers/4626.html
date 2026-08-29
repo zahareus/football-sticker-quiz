@@ -185,7 +185,7 @@
                                      fetchpriority="high">
                             </picture>
                         </div>
-                        <div class="sticker-nav-buttons"><a href="/stickers/4625.html" class="btn btn-nav sticker-nav-btn">← #4625</a><span class="sticker-nav-placeholder"></span></div>
+                        <div class="sticker-nav-buttons"><a href="/stickers/4625.html" class="btn btn-nav sticker-nav-btn">← #4625</a><a href="/stickers/4627.html" class="btn btn-nav sticker-nav-btn">#4627 →</a></div>
                     </div>
 
                     <div class="sticker-detail-right-panel">
@@ -762,19 +762,6 @@
                 })();
 
                 (function() {
-                    L.marker([38.7008, -9.41820277777778], {
-                        icon: L.icon({
-                            iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
-                            iconSize: [18, 30],
-                            iconAnchor: [9, 30],
-                            popupAnchor: [1, -25]
-                        }),
-                        opacity: 0.6
-                    }).addTo(map)
-                    .bindPopup('<div class="nearby-sticker-popup"><strong>SL Benfica</strong><a href="/stickers/4618.html" class="map-popup-link">View</a></div>');
-                })();
-
-                (function() {
                     L.marker([38.6938277777778, -9.41845], {
                         icon: L.icon({
                             iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
@@ -788,7 +775,7 @@
                 })();
 
                 (function() {
-                    L.marker([38.6918833333333, -9.42116111111111], {
+                    L.marker([38.7008, -9.41820277777778], {
                         icon: L.icon({
                             iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
                             iconSize: [18, 30],
@@ -797,7 +784,7 @@
                         }),
                         opacity: 0.6
                     }).addTo(map)
-                    .bindPopup('<div class="nearby-sticker-popup"><strong>CFR Cluj</strong><a href="/stickers/4573.html" class="map-popup-link">View</a></div>');
+                    .bindPopup('<div class="nearby-sticker-popup"><strong>SL Benfica</strong><a href="/stickers/4618.html" class="map-popup-link">View</a></div>');
                 })();
 
                 (function() {
@@ -811,6 +798,19 @@
                         opacity: 0.6
                     }).addTo(map)
                     .bindPopup('<div class="nearby-sticker-popup"><strong>G.D. Estoril Praia</strong><a href="/stickers/4584.html" class="map-popup-link">View</a></div>');
+                })();
+
+                (function() {
+                    L.marker([38.6918833333333, -9.42116111111111], {
+                        icon: L.icon({
+                            iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
+                            iconSize: [18, 30],
+                            iconAnchor: [9, 30],
+                            popupAnchor: [1, -25]
+                        }),
+                        opacity: 0.6
+                    }).addTo(map)
+                    .bindPopup('<div class="nearby-sticker-popup"><strong>CFR Cluj</strong><a href="/stickers/4573.html" class="map-popup-link">View</a></div>');
                 })();
 
                 // Current sticker — larger marker, opened popup
@@ -866,10 +866,10 @@
                     [38.6950888888889, -9.41918333333333],
                     [38.699025, -9.42028333333333],
                     [38.6990444444444, -9.42033055555556],
-                    [38.7008, -9.41820277777778],
                     [38.6938277777778, -9.41845],
-                    [38.6918833333333, -9.42116111111111],
-                    [38.6917916666667, -9.42113888888889]
+                    [38.7008, -9.41820277777778],
+                    [38.6917916666667, -9.42113888888889],
+                    [38.6918833333333, -9.42116111111111]
                 ]);
                 map.fitBounds(bounds, { padding: [30, 30], maxZoom: 14 });
                 

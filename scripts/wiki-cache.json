@@ -6633,5 +6633,14 @@
     "capacity": "20,087",
     "league": "Ligue 3",
     "website": "http://www.asnl.net/"
+  },
+  "1293": {
+    "wikiUrl": "https://bs.wikipedia.org/wiki/NK_Travnik",
+    "intro": "NK Travnik (Bosnian: Nogometni Klub Travnik), commonly known as Travnik is a professional association football club from the city of Travnik that is situated in Bosnia and Herzegovina.\nCurrently, Travnik plays in the First League of the Federation of Bosnia and Herzegovina and plays its home matches on Stadion Pirota which has a capacity of 3,076 seats..",
+    "founded": "1922",
+    "stadium": "Stadion Pirota",
+    "capacity": "3,076",
+    "league": null,
+    "website": "http://www.nktravnik.ba/"
   }
 }
