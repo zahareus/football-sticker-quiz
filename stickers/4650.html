@@ -601,6 +601,19 @@
                 })();
 
                 (function() {
+                    L.marker([41.1623083333333, -8.58482222222222], {
+                        icon: L.icon({
+                            iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
+                            iconSize: [18, 30],
+                            iconAnchor: [9, 30],
+                            popupAnchor: [1, -25]
+                        }),
+                        opacity: 0.6
+                    }).addTo(map)
+                    .bindPopup('<div class="nearby-sticker-popup"><strong>FC Lorient</strong><a href="/stickers/4652.html" class="map-popup-link">View</a></div>');
+                })();
+
+                (function() {
                     L.marker([41.1623222222222, -8.58482777777778], {
                         icon: L.icon({
                             iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
@@ -654,6 +667,7 @@
                     [41.1606805555556, -8.58218055555555],
                     [41.1611527777778, -8.58217777777778],
                     [41.1611527777778, -8.582175],
+                    [41.1623083333333, -8.58482222222222],
                     [41.1623222222222, -8.58482777777778]
                 ]);
                 map.fitBounds(bounds, { padding: [30, 30], maxZoom: 14 });
