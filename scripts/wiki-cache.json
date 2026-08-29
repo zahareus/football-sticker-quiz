@@ -6678,5 +6678,14 @@
     "capacity": null,
     "league": "Terceira Divisão",
     "website": null
+  },
+  "1304": {
+    "wikiUrl": "https://en.wikipedia.org/wiki/Swansea_City_A.F.C.",
+    "intro": "Swansea City Association Football Club ( SWON-zee; Welsh: Clwb Pêl-droed Dinas Abertawe) is a professional football club based in Swansea, Wales. They compete in the EFL Championship, the second tier of English football.",
+    "founded": "1912",
+    "stadium": "Liberty Stadium",
+    "capacity": "20,750",
+    "league": "EFL Championship",
+    "website": "https://www.swanseacity.com/"
   }
 }
