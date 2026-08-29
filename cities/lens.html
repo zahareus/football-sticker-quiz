@@ -1229,15 +1229,6 @@
                          loading="lazy"
                          decoding="async">
                 </a>
-                <a href="/stickers/4240.html" class="sticker-preview-link">
-                    <img src="/img/club_695/1786188460379_IMG_2347_thumb.webp?v=2026-05-27"
-                         alt="Racing Club de Lens football sticker #4240 found in this city"
-                         data-sticker-id="4240"
-                         class="sticker-preview-image"
-                         width="200" height="200"
-                         loading="lazy"
-                         decoding="async">
-                </a>
                 <a href="/stickers/4160.html" class="sticker-preview-link">
                     <img src="/img/club_666/1786185971317_IMG_2254_thumb.webp?v=2026-05-27"
                          alt="Olympique de Marseille football sticker #4160 found in this city"
@@ -1278,6 +1269,15 @@
                     <img src="/img/club_709/1786187702495_IMG_2303_thumb.webp?v=2026-05-27"
                          alt="AJ Auxerre football sticker #4209 found in this city"
                          data-sticker-id="4209"
+                         class="sticker-preview-image"
+                         width="200" height="200"
+                         loading="lazy"
+                         decoding="async">
+                </a>
+                <a href="/stickers/4240.html" class="sticker-preview-link">
+                    <img src="/img/club_695/1786188460379_IMG_2347_thumb.webp?v=2026-05-27"
+                         alt="Racing Club de Lens football sticker #4240 found in this city"
+                         data-sticker-id="4240"
                          class="sticker-preview-image"
                          width="200" height="200"
                          loading="lazy"
@@ -2161,13 +2161,6 @@
                 })();
 
                 (function() {
-                    const marker = L.marker([50.4320277777778, 2.817475]).addTo(cityMap);
-                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>Racing Club de Lens</strong><a href="/stickers/4240.html" class="map-popup-link">View</a></div>');
-                    marker.on('mouseover', function() { this.openPopup(); });
-                    marker.on('click', function() { this.openPopup(); });
-                })();
-
-                (function() {
                     const marker = L.marker([50.4288083333333, 2.82721111111111]).addTo(cityMap);
                     marker.bindPopup('<div class="nearby-sticker-popup"><strong>Olympique de Marseille</strong><a href="/stickers/4160.html" class="map-popup-link">View</a></div>');
                     marker.on('mouseover', function() { this.openPopup(); });
@@ -2198,6 +2191,13 @@
                 (function() {
                     const marker = L.marker([50.4302222222222, 2.81977777777778]).addTo(cityMap);
                     marker.bindPopup('<div class="nearby-sticker-popup"><strong>AJ Auxerre</strong><a href="/stickers/4209.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([50.4320277777778, 2.817475]).addTo(cityMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>Racing Club de Lens</strong><a href="/stickers/4240.html" class="map-popup-link">View</a></div>');
                     marker.on('mouseover', function() { this.openPopup(); });
                     marker.on('click', function() { this.openPopup(); });
                 })();
@@ -2322,12 +2322,12 @@
                     [50.4298027777778, 2.82094722222222],
                     [50.4307277777778, 2.81871944444444],
                     [50.4319222222222, 2.81785277777778],
-                    [50.4320277777778, 2.817475],
                     [50.4288083333333, 2.82721111111111],
                     [50.430375, 2.81963333333333],
                     [50.4323666666667, 2.81763333333333],
                     [50.4302305555556, 2.81978055555556],
-                    [50.4302222222222, 2.81977777777778]
+                    [50.4302222222222, 2.81977777777778],
+                    [50.4320277777778, 2.817475]
                 ]);
                 cityMap.fitBounds(bounds, { padding: [30, 30], maxZoom: 15 });
                 
