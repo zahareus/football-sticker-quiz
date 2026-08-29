@@ -260,6 +260,15 @@
                          loading="lazy"
                          decoding="async">
                 </a>
+                <a href="/stickers/2809.html" class="sticker-preview-link">
+                    <img src="/img/club_886/1766183389704_IMG_7630_thumb.webp?v=2026-05-27"
+                         alt="MSV Duisburg football sticker #2809 found in this city"
+                         data-sticker-id="2809"
+                         class="sticker-preview-image"
+                         width="200" height="200"
+                         loading="lazy"
+                         decoding="async">
+                </a>
                 <a href="/stickers/2819.html" class="sticker-preview-link">
                     <img src="/img/club_957/1766184753228_IMG_7613_thumb.webp?v=2026-05-27"
                          alt="1 FC Magdeburg football sticker #2819 found in this city"
@@ -273,15 +282,6 @@
                     <img src="/img/club_1090/1766183481028_IMG_7625_thumb.webp?v=2026-05-27"
                          alt="FC Den Bosch football sticker #2810 found in this city"
                          data-sticker-id="2810"
-                         class="sticker-preview-image"
-                         width="200" height="200"
-                         loading="lazy"
-                         decoding="async">
-                </a>
-                <a href="/stickers/2809.html" class="sticker-preview-link">
-                    <img src="/img/club_886/1766183389704_IMG_7630_thumb.webp?v=2026-05-27"
-                         alt="MSV Duisburg football sticker #2809 found in this city"
-                         data-sticker-id="2809"
                          class="sticker-preview-image"
                          width="200" height="200"
                          loading="lazy"
@@ -368,6 +368,15 @@
                          loading="lazy"
                          decoding="async">
                 </a>
+                <a href="/stickers/2859.html" class="sticker-preview-link">
+                    <img src="/img/club_906/1766231328691_IMG_7700_thumb.webp?v=2026-05-27"
+                         alt="Karlsruher SC football sticker #2859 found in this city"
+                         data-sticker-id="2859"
+                         class="sticker-preview-image"
+                         width="200" height="200"
+                         loading="lazy"
+                         decoding="async">
+                </a>
                 <a href="/stickers/2865.html" class="sticker-preview-link">
                     <img src="/img/club_882/1766232850083_IMG_7683_thumb.webp?v=2026-05-27"
                          alt="TV Rönkhausen 1892 eV football sticker #2865 found in this city"
@@ -381,15 +390,6 @@
                     <img src="/img/club_961/1766232729396_IMG_7716_thumb.webp?v=2026-05-27"
                          alt="Borussia Mönchengladbach football sticker #2863 found in this city"
                          data-sticker-id="2863"
-                         class="sticker-preview-image"
-                         width="200" height="200"
-                         loading="lazy"
-                         decoding="async">
-                </a>
-                <a href="/stickers/2859.html" class="sticker-preview-link">
-                    <img src="/img/club_906/1766231328691_IMG_7700_thumb.webp?v=2026-05-27"
-                         alt="Karlsruher SC football sticker #2859 found in this city"
-                         data-sticker-id="2859"
                          class="sticker-preview-image"
                          width="200" height="200"
                          loading="lazy"
@@ -805,6 +805,13 @@
                 })();
 
                 (function() {
+                    const marker = L.marker([52.1155806, 4.2829889]).addTo(cityMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>MSV Duisburg</strong><a href="/stickers/2809.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
                     const marker = L.marker([52.1116472, 4.2789889]).addTo(cityMap);
                     marker.bindPopup('<div class="nearby-sticker-popup"><strong>1 FC Magdeburg</strong><a href="/stickers/2819.html" class="map-popup-link">View</a></div>');
                     marker.on('mouseover', function() { this.openPopup(); });
@@ -814,13 +821,6 @@
                 (function() {
                     const marker = L.marker([52.1152806, 4.2830389]).addTo(cityMap);
                     marker.bindPopup('<div class="nearby-sticker-popup"><strong>FC Den Bosch</strong><a href="/stickers/2810.html" class="map-popup-link">View</a></div>');
-                    marker.on('mouseover', function() { this.openPopup(); });
-                    marker.on('click', function() { this.openPopup(); });
-                })();
-
-                (function() {
-                    const marker = L.marker([52.1155806, 4.2829889]).addTo(cityMap);
-                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>MSV Duisburg</strong><a href="/stickers/2809.html" class="map-popup-link">View</a></div>');
                     marker.on('mouseover', function() { this.openPopup(); });
                     marker.on('click', function() { this.openPopup(); });
                 })();
@@ -889,6 +889,13 @@
                 })();
 
                 (function() {
+                    const marker = L.marker([52.0793139, 4.3109389]).addTo(cityMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>Karlsruher SC</strong><a href="/stickers/2859.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
                     const marker = L.marker([52.1112972, 4.2808361]).addTo(cityMap);
                     marker.bindPopup('<div class="nearby-sticker-popup"><strong>TV Rönkhausen 1892 eV</strong><a href="/stickers/2865.html" class="map-popup-link">View</a></div>');
                     marker.on('mouseover', function() { this.openPopup(); });
@@ -898,13 +905,6 @@
                 (function() {
                     const marker = L.marker([52.0798861, 4.309825]).addTo(cityMap);
                     marker.bindPopup('<div class="nearby-sticker-popup"><strong>Borussia Mönchengladbach</strong><a href="/stickers/2863.html" class="map-popup-link">View</a></div>');
-                    marker.on('mouseover', function() { this.openPopup(); });
-                    marker.on('click', function() { this.openPopup(); });
-                })();
-
-                (function() {
-                    const marker = L.marker([52.0793139, 4.3109389]).addTo(cityMap);
-                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>Karlsruher SC</strong><a href="/stickers/2859.html" class="map-popup-link">View</a></div>');
                     marker.on('mouseover', function() { this.openPopup(); });
                     marker.on('click', function() { this.openPopup(); });
                 })();
@@ -1145,9 +1145,9 @@
                     [52.1147778, 4.2828444],
                     [52.1160389, 4.28235],
                     [52.1114778, 4.2794639],
+                    [52.1155806, 4.2829889],
                     [52.1116472, 4.2789889],
                     [52.1152806, 4.2830389],
-                    [52.1155806, 4.2829889],
                     [52.115325, 4.283025],
                     [52.112525, 4.2794],
                     [52.1117361, 4.2789167],
@@ -1157,9 +1157,9 @@
                     [52.0810083, 4.3130944],
                     [52.0798861, 4.309825],
                     [52.0781889, 4.3092417],
+                    [52.0793139, 4.3109389],
                     [52.1112972, 4.2808361],
                     [52.0798861, 4.309825],
-                    [52.0793139, 4.3109389],
                     [52.116025, 4.2823639],
                     [52.0786944, 4.3089444],
                     [52.0811833, 4.3131278],

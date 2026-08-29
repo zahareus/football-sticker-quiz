@@ -512,6 +512,15 @@
                          loading="lazy"
                          decoding="async">
                 </a>
+                <a href="/stickers/3230.html" class="sticker-preview-link">
+                    <img src="/img/club_697/1775419744965_IMG_8879_thumb.webp?v=2026-05-27"
+                         alt="AS Saint-Étienne football sticker #3230 found in this city"
+                         data-sticker-id="3230"
+                         class="sticker-preview-image"
+                         width="200" height="200"
+                         loading="lazy"
+                         decoding="async">
+                </a>
                 <a href="/stickers/3157.html" class="sticker-preview-link">
                     <img src="/img/club_701/1774787060399_IMG_8725_thumb.webp?v=2026-05-27"
                          alt="Nantes football sticker #3157 found in this city"
@@ -534,15 +543,6 @@
                     <img src="/img/club_701/1775419764103_IMG_8877_thumb.webp?v=2026-05-27"
                          alt="Nantes football sticker #3231 found in this city"
                          data-sticker-id="3231"
-                         class="sticker-preview-image"
-                         width="200" height="200"
-                         loading="lazy"
-                         decoding="async">
-                </a>
-                <a href="/stickers/3230.html" class="sticker-preview-link">
-                    <img src="/img/club_697/1775419744965_IMG_8879_thumb.webp?v=2026-05-27"
-                         alt="AS Saint-Étienne football sticker #3230 found in this city"
-                         data-sticker-id="3230"
                          class="sticker-preview-image"
                          width="200" height="200"
                          loading="lazy"
@@ -992,6 +992,13 @@
                 })();
 
                 (function() {
+                    const marker = L.marker([47.2150277777778, -1.54196944444444]).addTo(cityMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>AS Saint-Étienne</strong><a href="/stickers/3230.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
                     const marker = L.marker([47.2133416666667, -1.55883055555556]).addTo(cityMap);
                     marker.bindPopup('<div class="nearby-sticker-popup"><strong>Nantes</strong><a href="/stickers/3157.html" class="map-popup-link">View</a></div>');
                     marker.on('mouseover', function() { this.openPopup(); });
@@ -1008,13 +1015,6 @@
                 (function() {
                     const marker = L.marker([47.2161722222222, -1.54191944444444]).addTo(cityMap);
                     marker.bindPopup('<div class="nearby-sticker-popup"><strong>Nantes</strong><a href="/stickers/3231.html" class="map-popup-link">View</a></div>');
-                    marker.on('mouseover', function() { this.openPopup(); });
-                    marker.on('click', function() { this.openPopup(); });
-                })();
-
-                (function() {
-                    const marker = L.marker([47.2150277777778, -1.54196944444444]).addTo(cityMap);
-                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>AS Saint-Étienne</strong><a href="/stickers/3230.html" class="map-popup-link">View</a></div>');
                     marker.on('mouseover', function() { this.openPopup(); });
                     marker.on('click', function() { this.openPopup(); });
                 })();
@@ -1157,10 +1157,10 @@
                     [47.256675, -1.52670555555556],
                     [47.2566444444444, -1.526725],
                     [47.2584888888889, -1.52608055555556],
+                    [47.2150277777778, -1.54196944444444],
                     [47.2133416666667, -1.55883055555556],
                     [47.1579861111111, -1.60199722222222],
                     [47.2161722222222, -1.54191944444444],
-                    [47.2150277777778, -1.54196944444444],
                     [47.2566861111111, -1.52666388888889],
                     [47.2577583333333, -1.52653611111111],
                     [47.2569, -1.52669722222222],

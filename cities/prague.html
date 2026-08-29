@@ -962,15 +962,6 @@
                          loading="lazy"
                          decoding="async">
                 </a>
-                <a href="/stickers/3255.html" class="sticker-preview-link">
-                    <img src="/img/club_866/1775994961059_IMG_9168_thumb.webp?v=2026-05-27"
-                         alt="1 FCA Darmstadt football sticker #3255 found in this city"
-                         data-sticker-id="3255"
-                         class="sticker-preview-image"
-                         width="200" height="200"
-                         loading="lazy"
-                         decoding="async">
-                </a>
                 <a href="/stickers/4035.html" class="sticker-preview-link">
                     <img src="/img/club_945/1785512502524_IMG_1591_thumb.webp?v=2026-05-27"
                          alt="1 FC Union Berlin football sticker #4035 found in this city"
@@ -984,6 +975,15 @@
                     <img src="/img/club_1238/1785512799230_IMG_1574_thumb.webp?v=2026-05-27"
                          alt="FK Union Žižkov football sticker #4048 found in this city"
                          data-sticker-id="4048"
+                         class="sticker-preview-image"
+                         width="200" height="200"
+                         loading="lazy"
+                         decoding="async">
+                </a>
+                <a href="/stickers/3255.html" class="sticker-preview-link">
+                    <img src="/img/club_866/1775994961059_IMG_9168_thumb.webp?v=2026-05-27"
+                         alt="1 FCA Darmstadt football sticker #3255 found in this city"
+                         data-sticker-id="3255"
                          class="sticker-preview-image"
                          width="200" height="200"
                          loading="lazy"
@@ -2144,13 +2144,6 @@
                 })();
 
                 (function() {
-                    const marker = L.marker([50.0809527777778, 14.4133972222222]).addTo(cityMap);
-                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>1 FCA Darmstadt</strong><a href="/stickers/3255.html" class="map-popup-link">View</a></div>');
-                    marker.on('mouseover', function() { this.openPopup(); });
-                    marker.on('click', function() { this.openPopup(); });
-                })();
-
-                (function() {
                     const marker = L.marker([50.0920861111111, 14.4418861111111]).addTo(cityMap);
                     marker.bindPopup('<div class="nearby-sticker-popup"><strong>1 FC Union Berlin</strong><a href="/stickers/4035.html" class="map-popup-link">View</a></div>');
                     marker.on('mouseover', function() { this.openPopup(); });
@@ -2160,6 +2153,13 @@
                 (function() {
                     const marker = L.marker([50.1049138888889, 14.4653861111111]).addTo(cityMap);
                     marker.bindPopup('<div class="nearby-sticker-popup"><strong>FK Union Žižkov</strong><a href="/stickers/4048.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([50.0809527777778, 14.4133972222222]).addTo(cityMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>1 FCA Darmstadt</strong><a href="/stickers/3255.html" class="map-popup-link">View</a></div>');
                     marker.on('mouseover', function() { this.openPopup(); });
                     marker.on('click', function() { this.openPopup(); });
                 })();
@@ -2655,9 +2655,9 @@
                     [50.0773805555556, 14.423675],
                     [50.0927805555556, 14.4417888888889],
                     [50.1055, 14.2673694444444],
-                    [50.0809527777778, 14.4133972222222],
                     [50.0920861111111, 14.4418861111111],
                     [50.1049138888889, 14.4653861111111],
+                    [50.0809527777778, 14.4133972222222],
                     [50.0731111111111, 14.4360916666667],
                     [50.0818222222222, 14.4173972222222],
                     [50.0946305555556, 14.4538777777778],
