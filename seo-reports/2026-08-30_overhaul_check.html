@@ -1,0 +1,229 @@
+<title>StickerHunt Visibility Check — 30.08</title>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;800&family=IBM+Plex+Mono:wght@400;600&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&display=swap">
+<style>
+:root{
+  --ground:#F2F4F3; --panel:#FFFFFF; --sunk:#E7EBE9;
+  --ink:#171C1A; --ink-2:#4A5551; --ink-3:#7A8783;
+  --line:#D3DAD7; --line-2:#E4E9E7;
+  --accent:#1F6B5C; --accent-soft:#DCEBE6;
+  --good:#2E7D4F; --warn:#9A6410; --bad:#A8382F;
+  --good-bg:#E1F0E6; --warn-bg:#F6EBD6; --bad-bg:#F6E2E0;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --ground:#0F1413; --panel:#171E1C; --sunk:#131A18;
+    --ink:#E8EDEB; --ink-2:#A8B5B1; --ink-3:#78847F;
+    --line:#2A3532; --line-2:#212B29;
+    --accent:#6FC9B2; --accent-soft:#17322C;
+    --good:#78C795; --warn:#D9AB63; --bad:#E5847A;
+    --good-bg:#16301F; --warn-bg:#33260F; --bad-bg:#331B18;
+  }
+}
+:root[data-theme="dark"]{
+  --ground:#0F1413; --panel:#171E1C; --sunk:#131A18;
+  --ink:#E8EDEB; --ink-2:#A8B5B1; --ink-3:#78847F;
+  --line:#2A3532; --line-2:#212B29;
+  --accent:#6FC9B2; --accent-soft:#17322C;
+  --good:#78C795; --warn:#D9AB63; --bad:#E5847A;
+  --good-bg:#16301F; --warn-bg:#33260F; --bad-bg:#331B18;
+}
+*{box-sizing:border-box}
+body{background:var(--ground);color:var(--ink);
+  font-family:"Source Serif 4",Georgia,serif;font-size:17px;line-height:1.62;margin:0}
+.wrap{max-width:860px;margin:0 auto;padding:0 24px 96px}
+h1,h2,h3,.ui{font-family:Archivo,"Helvetica Neue",Arial,sans-serif}
+h1,h2,h3{text-wrap:balance;margin:0}
+
+header{border-bottom:2px solid var(--ink);padding:56px 0 20px;
+  display:flex;flex-wrap:wrap;gap:20px;align-items:flex-end;justify-content:space-between}
+.eyebrow{font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--accent);font-weight:600}
+h1{font-size:clamp(30px,5vw,44px);font-weight:800;letter-spacing:-.02em;line-height:1.06;margin-top:10px}
+.window{font-family:"IBM Plex Mono",monospace;font-size:12.5px;color:var(--ink-2);
+  text-align:right;line-height:1.7}
+.window b{color:var(--ink);font-weight:600}
+
+.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(158px,1fr));gap:1px;
+  background:var(--line);border:1px solid var(--line);margin:28px 0 44px}
+.tile{background:var(--panel);padding:16px 16px 14px}
+.tile .k{font-family:Archivo,sans-serif;font-size:10.5px;letter-spacing:.11em;
+  text-transform:uppercase;color:var(--ink-3);font-weight:600}
+.tile .v{font-family:"IBM Plex Mono",monospace;font-variant-numeric:tabular-nums;
+  font-size:27px;font-weight:600;margin-top:7px;letter-spacing:-.02em}
+.tile .d{font-family:"IBM Plex Mono",monospace;font-size:11.5px;margin-top:3px;color:var(--ink-3)}
+.up{color:var(--good)}.down{color:var(--bad)}.flat{color:var(--ink-3)}
+
+section{margin-top:44px}
+h2{font-size:12px;letter-spacing:.15em;text-transform:uppercase;font-weight:700;
+  color:var(--ink-3);padding-bottom:9px;border-bottom:1px solid var(--line);margin-bottom:20px}
+h3{font-size:20px;font-weight:700;letter-spacing:-.01em;margin:30px 0 8px}
+h3 .n{font-family:"IBM Plex Mono",monospace;color:var(--accent);font-size:15px;margin-right:9px}
+p{margin:0 0 15px;max-width:66ch}
+ul{max-width:66ch;padding-left:20px;margin:0 0 15px}li{margin-bottom:7px}
+strong{font-weight:600}
+.lede{font-size:19px;color:var(--ink-2)}
+.lede strong{color:var(--ink)}
+
+.scroll{overflow-x:auto;border:1px solid var(--line);background:var(--panel)}
+table{border-collapse:collapse;width:100%;font-family:"IBM Plex Mono",monospace;
+  font-size:12.5px;font-variant-numeric:tabular-nums;white-space:nowrap}
+th,td{padding:8px 13px;text-align:right;border-bottom:1px solid var(--line-2)}
+th:first-child,td:first-child{text-align:left;white-space:normal;min-width:170px}
+thead th{font-family:Archivo,sans-serif;font-size:10.5px;letter-spacing:.09em;
+  text-transform:uppercase;color:var(--ink-3);background:var(--sunk);
+  position:sticky;top:0;border-bottom:1px solid var(--line)}
+tbody tr:last-child td{border-bottom:0}
+td.now{font-weight:600;background:var(--accent-soft);color:var(--ink)}
+
+.flag{display:inline-block;padding:1px 6px;border-radius:2px;font-family:Archivo,sans-serif;
+  font-size:10px;font-weight:700;letter-spacing:.05em;margin-left:6px;vertical-align:1px}
+.f-good{background:var(--good-bg);color:var(--good)}
+.f-warn{background:var(--warn-bg);color:var(--warn)}
+.f-bad{background:var(--bad-bg);color:var(--bad)}
+
+.note{background:var(--panel);border:1px solid var(--line);border-left:3px solid var(--accent);
+  padding:15px 18px;margin:22px 0;max-width:66ch}
+.note p:last-child{margin-bottom:0}
+.note .t{font-family:Archivo,sans-serif;font-size:11px;letter-spacing:.1em;text-transform:uppercase;
+  font-weight:700;color:var(--accent);margin-bottom:6px}
+.note.alarm{border-left-color:var(--bad)}
+.note.alarm .t{color:var(--bad)}
+
+.next{background:var(--panel);border:1px solid var(--line);padding:6px 0}
+.next div{padding:11px 18px;border-bottom:1px solid var(--line-2);max-width:none}
+.next div:last-child{border-bottom:0}
+.next b{font-family:Archivo,sans-serif;font-size:13px}
+
+footer{margin-top:56px;padding-top:18px;border-top:1px solid var(--line);
+  font-family:"IBM Plex Mono",monospace;font-size:11.5px;color:var(--ink-3);line-height:1.8}
+a{color:var(--accent)}
+</style>
+
+<div class="wrap">
+<header>
+  <div>
+    <div class="eyebrow">Замір 12 · двотижневий цикл</div>
+    <h1>StickerHunt: чи зрушила видимість</h1>
+  </div>
+  <div class="window">
+    вікно <b>30.07 – 27.08.2026</b><br>29 днів · GSC лаг 3 дні<br>звіт від <b>30.08.2026</b>
+  </div>
+</header>
+
+<div class="tiles">
+  <div class="tile"><div class="k">Покази / день</div><div class="v">16.7</div><div class="d down">↓ з 18.1</div></div>
+  <div class="tile"><div class="k">Середня позиція</div><div class="v">39.2</div><div class="d down">↓ з 34.6</div></div>
+  <div class="tile"><div class="k">Кліки за 29 днів</div><div class="v">7</div><div class="d down">↓ з 11</div></div>
+  <div class="tile"><div class="k">Сторінок на сайті</div><div class="v">4722</div><div class="d up">↑ +748 (+18.8%)</div></div>
+  <div class="tile"><div class="k">Referring domains</div><div class="v">0</div><div class="d flat">без змін з квітня</div></div>
+</div>
+
+<p class="lede"><strong>Каталог виріс на 18.8% — найбільший приріст за всю історію циклів. Показів стало менше, позиція просіла ще на пʼять пунктів.</strong> Це четвертий замір поспіль з однаковою картиною. Водночас обхід верхівки сайту, який вимирав два місяці, повністю ожив.</p>
+
+<section>
+<h2>Якщо ви тут уперше</h2>
+<p>StickerHunt — каталог футбольних наліпок: близько 4700 сторінок стікерів і 800 сторінок клубів. Сайт технічно справний, але в пошуку його майже не видно: одиниці кліків на місяць.</p>
+<p>Лікуємо не помилки розмітки — їх майже не лишилось — а брак авторитету домену: на сайт не веде жодне зовнішнє посилання. Кожні два тижні міряємо одним і тим самим способом, чи щось зрушило.</p>
+</section>
+
+<section>
+<h2>Що робилося у вікні</h2>
+<p>Дерево звірено з <code>origin/main</code>. У вікно 30.07–27.08 потрапили три речі:</p>
+<ul>
+<li><strong>Наповнення:</strong> +748 стікерів (3974 → 4722), +76 клубів, +11 міст.</li>
+<li><strong>Технічна сесія 15–16.08:</strong> безпека, екранування в генераторах, гарди CI.</li>
+<li><strong>Переподача сайтмепів 16.08:</strong> четвертий шард стікерів нарешті поданий окремо.</li>
+</ul>
+<div class="note">
+<div class="t">Поза вікном</div>
+<p>On-page правки 25–28.08 (описи, заголовки, alt-тексти на 5483 сторінках) викочені за два-пʼять днів до кінця вікна. Google їх ще не переварив, тому ефект <strong>цього циклу не міряємо</strong>: перший сигнал буде 13.09, вердикт — 27.09.</p>
+</div>
+</section>
+
+<section>
+<h2>Цифри</h2>
+<div class="scroll"><table>
+<thead><tr><th>Метрика (29 днів)</th><th>07.07</th><th>20.07</th><th>03.08</th><th>16.08</th><th>30.08</th></tr></thead>
+<tbody>
+<tr><td>Кліки WEB</td><td>4</td><td>7</td><td>8</td><td>11</td><td class="now">7</td></tr>
+<tr><td>Покази WEB</td><td>287</td><td>483</td><td>653</td><td>526</td><td class="now">484</td></tr>
+<tr><td>Покази / день</td><td>9.9</td><td>16.7</td><td>22.5</td><td>18.1</td><td class="now">16.7</td></tr>
+<tr><td>Позиція WEB</td><td>33.05</td><td>26.57</td><td>29.05</td><td>34.62</td><td class="now">39.24</td></tr>
+<tr><td>CTR WEB</td><td>1.39%</td><td>1.45%</td><td>1.23%</td><td>2.09%</td><td class="now">1.45%</td></tr>
+<tr><td>Кліки / покази IMAGE</td><td>1/15</td><td>2/11</td><td>2/8</td><td>0/7</td><td class="now">0/11</td></tr>
+<tr><td>Картинок у сайтмепах</td><td>0</td><td>2580</td><td>2870</td><td>2982</td><td class="now">3477</td></tr>
+<tr><td>CLS (лаб)</td><td>0.000</td><td>0.000</td><td>0.000</td><td>0.000</td><td class="now">0.000</td></tr>
+<tr><td>Ізольовані стікери</td><td>0</td><td>0</td><td>0</td><td>2</td><td class="now">0</td></tr>
+<tr><td>Головна — днів без обходу</td><td>—</td><td>—</td><td>23</td><td>2</td><td class="now">10</td></tr>
+<tr><td>clubs/617 (флагман)</td><td>—</td><td>—</td><td>7</td><td>20</td><td class="now">2</td></tr>
+<tr><td>catalogue (розподільник)</td><td>—</td><td>40</td><td>54</td><td>67</td><td class="now">9</td></tr>
+<tr><td>stickers/3201 (глибина)</td><td>57</td><td>70</td><td>84</td><td>97</td><td class="now">111</td></tr>
+<tr><td>clubs/1095 (деіндексований)</td><td>93</td><td>106</td><td>120</td><td>133</td><td class="now">147</td></tr>
+</tbody></table></div>
+</section>
+
+<section>
+<h2>Що це означає</h2>
+
+<h3><span class="n">01</span>Каталог росте — видимість падає<span class="flag f-bad">4-те підтвердження</span></h3>
+<p>Плюс 18.8% сторінок за два тижні, і водночас покази на день 18.1 → 16.7, середня позиція 34.6 → 39.2. Нас показують рідше і ще далі від першої сторінки.</p>
+<p>Це вже не збіг: чотири заміри поспіль однакова картина. Пояснення просте — Google має обмежений бюджет обходу на домен без авторитету. Розділити його на 4722 сторінки замість 3974 означає менше уваги кожній.</p>
+
+<h3><span class="n">02</span>Обхід верхівки сайту ожив<span class="flag f-good">найкраща новина</span></h3>
+<p><code>catalogue.html</code> — сторінка, що роздає 982 внутрішні посилання, — була у вільному падінні: 40 → 54 → 67 днів без обходу, і от-от випала б з ротації остаточно. Зараз <strong>9 днів</strong>. Флагманський клуб <code>clubs/617</code>: 20 днів → <strong>2 дні</strong>.</p>
+<p>Найімовірніша причина — переподача сайтмепів 16.08. У Search Console тепер 7 карт замість 5, четвертий шард стікерів Google завантажив 28.08. Дірка в подачі, відкрита з 07.07, <strong>закрита</strong>.</p>
+
+<h3><span class="n">03</span>Дно каталогу продовжує вимирати</h3>
+<p><code>stickers/3201</code> — 111 днів без обходу: Google показує травневу версію сторінки. <code>clubs/1095</code> — 147 днів і досі «Crawled — currently not indexed»: сторінка справна, Google її бачив і вирішив не тримати в індексі.</p>
+<p>Нових деіндексацій у діагностичній вибірці немає, але вибірка — пʼять URL, це індикатор, а не перепис. Разом із попереднім пунктом складається чітка картина: <strong>бюджет обходу не зник, він перерозподілився на верхівку</strong>, а хвіст лишився без уваги.</p>
+
+<h3><span class="n">04</span>Сироти вилікувані — цього разу</h3>
+<p>Ізольованих стікерів 0 з 4722 (було 2). Але причина пропуску в автоматичній регенерації не усунена, тож наступного циклу вони можуть повернутись. Це не перемога, це затишшя.</p>
+
+<h3><span class="n">05</span>Технічна сесія ефекту не дала — і не мала</h3>
+<p>Безпека й гарди CI не є факторами ранжування. Записуємо як «перевірено, нейтрально», щоб наступного разу не шукати в них пояснень.</p>
+
+<h3><span class="n">06</span>Швидкість: без змін, без польових даних</h3>
+<p>CLS 0.000 скрізь. Лабораторний LCP 5.9–7.5 с — повільно, але даних CrUX від реальних відвідувачів досі немає: трафіку замало, щоб Google їх зібрав. Тому все лабораторне й консультативне.</p>
+</section>
+
+<section>
+<h2>Чесна атрибуція</h2>
+<p>У вікні було рівно дві дії, здатні вплинути: <strong>наповнення</strong> (величезне) і <strong>переподача сайтмепів</strong>. Перше корелює з падінням показів, друге — з оживанням обходу верхівки.</p>
+<p>Альтернативне пояснення падіння показів — серпневе затишшя в пошуку загалом; спростувати його даними одного домену неможливо. Але воно не пояснює, чому падіння почалось у липні й тримається чотири заміри поспіль саме на тлі приросту сторінок.</p>
+</section>
+
+<section>
+<h2>Що це означає для роботи далі</h2>
+<div class="note alarm">
+<div class="t">Головний KPI</div>
+<p>Referring domains досі <strong>0</strong>. Це фактично єдина метрика, що має значення, і вона не зрушила з квітня.</p>
+</div>
+<p>Усе, що можна було зробити технічно, вже зроблено або майже зроблено: розмітка вичищена, сайтмепи подані, сироти виловлені, CLS нульовий, обхід верхівки відновлений. <strong>Технічний важіль вичерпано.</strong></p>
+<p>Лишились два невикористані важелі, обидва не технічні:</p>
+<ul>
+<li><strong>Авторитет домену</strong> — хоч одне зовнішнє посилання на сайт.</li>
+<li><strong>Контент</strong> — сторінки міст по 119 слів, там просто нема чого ранжувати.</li>
+</ul>
+<p>І висновок, що напрошується четвертий цикл поспіль, але його ще не приймали як рішення: <strong>зупинити або сповільнити нарощування каталогу, доки не зʼявиться авторитет.</strong> Кожна нова тисяча сторінок зараз купується ціною видимості наявних.</p>
+</section>
+
+<section>
+<h2>Наступний замір — 13.09</h2>
+<div class="next">
+<div><b>Referring domains</b> — досі нуль?</div>
+<div><b>Покази / день</b> — 22.5 → 18.1 → 16.7 → ? Чи є дно</div>
+<div><b>Обхід верхівки</b> — чи втримались catalogue і clubs/617 після закриття дірки з сайтмепами</div>
+<div><b>Перший сигнал по on-page правках 28.08</b> — вікно 13.08–10.09, приблизно 13 днів після викочення. Дивитись покази, не CTR: на позиції 39 сніпет ніхто не бачить. Це тренд, не вердикт</div>
+<div><b>Перший справжній crawl-diff</b> — 30.08 → 13.09. Масова зміна тайтлів і описів буде очікуваною: це наша правка, не регресія</div>
+<div><b>Ізольовані стікери</b> — чи повернулись</div>
+<div><b>Нові деіндексації</b> — після clubs/1095</div>
+</div>
+</section>
+
+<footer>
+Джерела: Search Console API (searchanalytics + urlInspection), <code>scripts/internal-links-audit.js</code>, PageSpeed Insights, <code>git log origin/main</code>.<br>
+Сирі дані: <code>seo-reports/2026-08-30_overhaul_check.md</code> · попередній замір: 16.08.2026
+</footer>
+</div>
