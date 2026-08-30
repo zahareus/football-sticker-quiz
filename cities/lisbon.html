@@ -2888,15 +2888,6 @@
                          loading="lazy"
                          decoding="async">
                 </a>
-                <a href="/stickers/4541.html" class="sticker-preview-link">
-                    <img src="/img/club_657/1787159945729_IMG_3378_thumb.webp?v=2026-05-27"
-                         alt="Paris Saint-Germain football sticker #4541 found in this city"
-                         data-sticker-id="4541"
-                         class="sticker-preview-image"
-                         width="200" height="200"
-                         loading="lazy"
-                         decoding="async">
-                </a>
                 <a href="/stickers/3879.html" class="sticker-preview-link">
                     <img src="/img/club_1144/1784971791376_IMG_1106_thumb.webp?v=2026-05-27"
                          alt="GKS Katowice football sticker #3879 found in this city"
@@ -2928,6 +2919,15 @@
                     <img src="/img/club_621/1785079629576_IMG_1130_thumb.webp?v=2026-05-27"
                          alt="SL Benfica football sticker #3904 found in this city"
                          data-sticker-id="3904"
+                         class="sticker-preview-image"
+                         width="200" height="200"
+                         loading="lazy"
+                         decoding="async">
+                </a>
+                <a href="/stickers/4541.html" class="sticker-preview-link">
+                    <img src="/img/club_657/1787159945729_IMG_3378_thumb.webp?v=2026-05-27"
+                         alt="Paris Saint-Germain football sticker #4541 found in this city"
+                         data-sticker-id="4541"
                          class="sticker-preview-image"
                          width="200" height="200"
                          loading="lazy"
@@ -5764,13 +5764,6 @@
                 })();
 
                 (function() {
-                    const marker = L.marker([38.7094833333333, -9.14348611111111]).addTo(cityMap);
-                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>Paris Saint-Germain</strong><a href="/stickers/4541.html" class="map-popup-link">View</a></div>');
-                    marker.on('mouseover', function() { this.openPopup(); });
-                    marker.on('click', function() { this.openPopup(); });
-                })();
-
-                (function() {
                     const marker = L.marker([38.7508194444444, -9.18086666666667]).addTo(cityMap);
                     marker.bindPopup('<div class="nearby-sticker-popup"><strong>GKS Katowice</strong><a href="/stickers/3879.html" class="map-popup-link">View</a></div>');
                     marker.on('mouseover', function() { this.openPopup(); });
@@ -5794,6 +5787,13 @@
                 (function() {
                     const marker = L.marker([38.7498083333333, -9.18013888888889]).addTo(cityMap);
                     marker.bindPopup('<div class="nearby-sticker-popup"><strong>SL Benfica</strong><a href="/stickers/3904.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
+                    const marker = L.marker([38.7094833333333, -9.14348611111111]).addTo(cityMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>Paris Saint-Germain</strong><a href="/stickers/4541.html" class="map-popup-link">View</a></div>');
                     marker.on('mouseover', function() { this.openPopup(); });
                     marker.on('click', function() { this.openPopup(); });
                 })();
@@ -6630,11 +6630,11 @@
                     [38.7087694444444, -9.14606388888889],
                     [38.7081305555556, -9.14368611111111],
                     [38.711875, -9.13976111111111],
-                    [38.7094833333333, -9.14348611111111],
                     [38.7508194444444, -9.18086666666667],
                     [38.7097166666667, -9.14318611111111],
                     [38.7342305555556, -9.15396944444444],
                     [38.7498083333333, -9.18013888888889],
+                    [38.7094833333333, -9.14348611111111],
                     [38.7094333333333, -9.14349444444444],
                     [38.7708055555556, -9.12838055555556],
                     [38.7077833333333, -9.14446111111111],
