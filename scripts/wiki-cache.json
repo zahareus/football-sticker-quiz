@@ -6705,5 +6705,14 @@
     "capacity": "22,372",
     "league": "Ekstraklasa",
     "website": "http://www.jagiellonia.pl/"
+  },
+  "1309": {
+    "wikiUrl": "https://en.wikipedia.org/wiki/ASD_FC_SS_Nola_1925",
+    "intro": "A.S.D. S.S.",
+    "founded": "1925",
+    "stadium": null,
+    "capacity": null,
+    "league": "Serie D",
+    "website": "https://nolacalcio.com/"
   }
 }
