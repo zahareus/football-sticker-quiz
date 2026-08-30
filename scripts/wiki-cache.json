@@ -6714,5 +6714,14 @@
     "capacity": null,
     "league": "Serie D",
     "website": "https://nolacalcio.com/"
+  },
+  "1311": {
+    "wikiUrl": "https://en.wikipedia.org/wiki/Lillestr%C3%B8m_SK",
+    "intro": "Lillestrøm Sportsklubb is a Norwegian professional football club based in the city of Lillestrøm, just outside of the capital Oslo, currently playing in Eliteserien. The club was founded in 1917, after the merger of two local football clubs.",
+    "founded": "1917",
+    "stadium": "Åråsen Stadion",
+    "capacity": "12,250",
+    "league": "Eliteserien",
+    "website": "https://www.lsk.no/"
   }
 }
