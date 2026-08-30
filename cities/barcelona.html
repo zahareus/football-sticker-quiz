@@ -1124,6 +1124,15 @@
                          loading="lazy"
                          decoding="async">
                 </a>
+                <a href="/stickers/4430.html" class="sticker-preview-link">
+                    <img src="/img/club_746/1786795016798_IMG_2999_thumb.webp?v=2026-05-27"
+                         alt="Pogoń Szczecin football sticker #4430 found in this city"
+                         data-sticker-id="4430"
+                         class="sticker-preview-image"
+                         width="200" height="200"
+                         loading="lazy"
+                         decoding="async">
+                </a>
                 <a href="/stickers/4414.html" class="sticker-preview-link">
                     <img src="/img/club_937/1786794940533_IMG_2997_thumb.webp?v=2026-05-27"
                          alt="1 FC Köln football sticker #4414 found in this city"
@@ -1155,15 +1164,6 @@
                     <img src="/img/club_183/1786795005872_IMG_3024_thumb.webp?v=2026-05-27"
                          alt="FK Željezničar Sarajevo football sticker #4421 found in this city"
                          data-sticker-id="4421"
-                         class="sticker-preview-image"
-                         width="200" height="200"
-                         loading="lazy"
-                         decoding="async">
-                </a>
-                <a href="/stickers/4430.html" class="sticker-preview-link">
-                    <img src="/img/club_746/1786795016798_IMG_2999_thumb.webp?v=2026-05-27"
-                         alt="Pogoń Szczecin football sticker #4430 found in this city"
-                         data-sticker-id="4430"
                          class="sticker-preview-image"
                          width="200" height="200"
                          loading="lazy"
@@ -2179,6 +2179,13 @@
                 })();
 
                 (function() {
+                    const marker = L.marker([41.3645527777778, 2.16625]).addTo(cityMap);
+                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>Pogoń Szczecin</strong><a href="/stickers/4430.html" class="map-popup-link">View</a></div>');
+                    marker.on('mouseover', function() { this.openPopup(); });
+                    marker.on('click', function() { this.openPopup(); });
+                })();
+
+                (function() {
                     const marker = L.marker([41.3645444444444, 2.16625277777778]).addTo(cityMap);
                     marker.bindPopup('<div class="nearby-sticker-popup"><strong>1 FC Köln</strong><a href="/stickers/4414.html" class="map-popup-link">View</a></div>');
                     marker.on('mouseover', function() { this.openPopup(); });
@@ -2202,13 +2209,6 @@
                 (function() {
                     const marker = L.marker([41.3647166666667, 2.16673333333333]).addTo(cityMap);
                     marker.bindPopup('<div class="nearby-sticker-popup"><strong>FK Željezničar Sarajevo</strong><a href="/stickers/4421.html" class="map-popup-link">View</a></div>');
-                    marker.on('mouseover', function() { this.openPopup(); });
-                    marker.on('click', function() { this.openPopup(); });
-                })();
-
-                (function() {
-                    const marker = L.marker([41.3645527777778, 2.16625]).addTo(cityMap);
-                    marker.bindPopup('<div class="nearby-sticker-popup"><strong>Pogoń Szczecin</strong><a href="/stickers/4430.html" class="map-popup-link">View</a></div>');
                     marker.on('mouseover', function() { this.openPopup(); });
                     marker.on('click', function() { this.openPopup(); });
                 })();
@@ -2489,11 +2489,11 @@
                     [41.3661222222222, 2.15653055555556],
                     [41.3661166666667, 2.1559],
                     [41.389975, 2.18448611111111],
+                    [41.3645527777778, 2.16625],
                     [41.3645444444444, 2.16625277777778],
                     [41.3646388888889, 2.16660833333333],
                     [41.3639333333333, 2.16709444444444],
                     [41.3647166666667, 2.16673333333333],
-                    [41.3645527777778, 2.16625],
                     [41.36905, 2.163225],
                     [41.3847083333333, 2.17151666666667],
                     [41.3664027777778, 2.15699444444444],
