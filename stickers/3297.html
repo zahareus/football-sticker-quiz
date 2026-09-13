@@ -646,7 +646,13 @@
 
                 if (!error && profile && profile.can_edit) {
                     stickerPageState.canEdit = true;
-                    document.getElementById('edit-sticker-btn').style.display = 'inline';
+                    const h1 = document.querySelector('.sticker-detail-club-name');
+                    const editBtn = document.createElement('a');
+                    editBtn.id = 'edit-sticker-btn';
+                    editBtn.className = 'edit-link';
+                    editBtn.href = '#';
+                    editBtn.textContent = 'edit';
+                    h1.appendChild(editBtn);
                     initEditFunctionality(supabase);
                 }
             } catch (err) {
