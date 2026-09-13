@@ -120,7 +120,6 @@
                                  Replaces a display:none h1 that Google devalued. -->
                             <h1 class="sticker-detail-club-name">
                                 <span id="club-name-display">{{CLUB_NAME}}</span>
-                                <a href="#" id="edit-sticker-btn" class="edit-link" style="display: none;">edit</a>
                             </h1>
 
                             <!-- Edit Form (hidden by default) -->
@@ -269,7 +268,17 @@
 
                 if (!error && profile && profile.can_edit) {
                     stickerPageState.canEdit = true;
-                    document.getElementById('edit-sticker-btn').style.display = 'inline';
+                    // Built at runtime, never in the static HTML: an anchor inside the
+                    // <h1> made the heading read "FC Porto edit" to every crawler on all
+                    // 4722 pages. It still lives inside the h1 so .edit-link keeps
+                    // inheriting its 0.5em from the heading.
+                    const h1 = document.querySelector('.sticker-detail-club-name');
+                    const editBtn = document.createElement('a');
+                    editBtn.id = 'edit-sticker-btn';
+                    editBtn.className = 'edit-link';
+                    editBtn.href = '#';
+                    editBtn.textContent = 'edit';
+                    h1.appendChild(editBtn);
                     initEditFunctionality(supabase);
                 }
             } catch (err) {
