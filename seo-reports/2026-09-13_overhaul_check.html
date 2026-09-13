@@ -1,0 +1,294 @@
+<title>Замір 13 — StickerHunt</title>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&family=IBM+Plex+Mono:wght@400;600&display=swap">
+<style>
+:root{
+  --paper:#f6f7f6; --card:#fffffe; --ink:#15171a; --ink-2:#3d434a;
+  --mute:#6d757e; --rule:#dfe2df; --rule-2:#eceeec;
+  --accent:#d8382b; --good:#15795a; --warn:#a45a10; --cool:#2b5f8f;
+  --shadow:0 1px 2px rgba(21,23,26,.05);
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --paper:#111315; --card:#191c1f; --ink:#e9ebe9; --ink-2:#c2c7cb;
+  --mute:#8d959c; --rule:#2b3034; --rule-2:#22262a;
+  --accent:#f26a5c; --good:#4cb896; --warn:#d99340; --cool:#77aada;
+  --shadow:0 1px 2px rgba(0,0,0,.35);
+}}
+:root[data-theme="dark"]{
+  --paper:#111315; --card:#191c1f; --ink:#e9ebe9; --ink-2:#c2c7cb;
+  --mute:#8d959c; --rule:#2b3034; --rule-2:#22262a;
+  --accent:#f26a5c; --good:#4cb896; --warn:#d99340; --cool:#77aada;
+  --shadow:0 1px 2px rgba(0,0,0,.35);
+}
+*{box-sizing:border-box}
+body{background:var(--paper);color:var(--ink);
+  font-family:"Source Serif 4",Georgia,serif;font-size:17px;line-height:1.62;
+  margin:0;padding-block:0 72px;padding-left:20px;padding-right:20px;}
+.wrap{max-width:760px;margin:0 auto;display:flex;flex-direction:column;gap:34px}
+h1,h2,h3,.disp{font-family:"Bricolage Grotesque","Helvetica Neue",sans-serif;text-wrap:balance;margin:0}
+.mono{font-family:"IBM Plex Mono",ui-monospace,monospace;font-variant-numeric:tabular-nums}
+
+header{padding-top:56px;display:flex;flex-direction:column;gap:14px}
+.eyebrow{font-family:"IBM Plex Mono",monospace;font-size:12px;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--mute);display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.eyebrow b{color:var(--accent);font-weight:600}
+h1{font-size:clamp(34px,6.2vw,52px);font-weight:800;line-height:1.06;letter-spacing:-.02em}
+.dek{font-size:19px;color:var(--ink-2);max-width:62ch}
+.dek em{font-style:italic;color:var(--ink)}
+
+section{display:flex;flex-direction:column;gap:14px}
+h2{font-size:13px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--mute);padding-bottom:8px;border-bottom:1px solid var(--rule)}
+h3{font-size:20px;font-weight:700;letter-spacing:-.01em}
+p{margin:0;max-width:66ch}
+p+p{margin-top:-2px}
+strong{font-weight:600}
+.lede{font-size:18px}
+
+.verdict{display:flex;flex-direction:column;gap:10px;padding:22px 24px;
+  background:var(--card);border:1px solid var(--rule);border-left:4px solid var(--accent);
+  box-shadow:var(--shadow)}
+.verdict p{font-size:18px}
+
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(148px,1fr));gap:1px;
+  background:var(--rule);border:1px solid var(--rule)}
+.kpi{background:var(--card);padding:16px 16px 14px;display:flex;flex-direction:column;gap:3px}
+.kpi .k{font-family:"IBM Plex Mono",monospace;font-size:10.5px;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--mute)}
+.kpi .v{font-family:"Bricolage Grotesque",sans-serif;font-size:30px;font-weight:700;
+  line-height:1.1;font-variant-numeric:tabular-nums;letter-spacing:-.02em}
+.kpi .d{font-family:"IBM Plex Mono",monospace;font-size:12px;color:var(--mute)}
+.down .v{color:var(--accent)} .up .v{color:var(--good)} .flat .v{color:var(--ink)}
+
+figure{margin:0;display:flex;flex-direction:column;gap:9px}
+figcaption{font-size:13.5px;color:var(--mute);line-height:1.5}
+.chart{background:var(--card);border:1px solid var(--rule);padding:14px 12px 8px}
+svg{display:block;width:100%;height:auto;max-width:100%}
+
+.tablewrap{overflow-x:auto;border:1px solid var(--rule);background:var(--card)}
+table{border-collapse:collapse;width:100%;font-family:"IBM Plex Mono",monospace;
+  font-size:12.5px;font-variant-numeric:tabular-nums;white-space:nowrap}
+th,td{padding:7px 11px;text-align:right;border-bottom:1px solid var(--rule-2)}
+th:first-child,td:first-child{text-align:left;white-space:normal;min-width:150px;
+  font-family:"Source Serif 4",serif;font-size:14px}
+thead th{position:sticky;top:0;background:var(--card);color:var(--mute);
+  font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;font-weight:600;
+  border-bottom:1px solid var(--rule)}
+tbody tr:last-child td{border-bottom:0}
+td.now{font-weight:600;color:var(--ink);background:color-mix(in srgb,var(--accent) 6%,transparent)}
+.tag{color:var(--mute)}
+.bad{color:var(--accent)} .ok{color:var(--good)} .wn{color:var(--warn)}
+
+ul{margin:0;padding-left:0;list-style:none;display:flex;flex-direction:column;gap:11px}
+li{display:grid;grid-template-columns:22px 1fr;gap:10px;align-items:start;max-width:66ch}
+li .m{font-family:"IBM Plex Mono",monospace;font-size:13px;color:var(--mute);padding-top:3px}
+li .m.g{color:var(--good)} li .m.r{color:var(--accent)}
+
+.snips{display:flex;flex-direction:column;gap:0;border:1px solid var(--rule);background:var(--card)}
+.snip{padding:13px 16px;border-bottom:1px solid var(--rule-2);display:flex;flex-direction:column;gap:3px}
+.snip:last-child{border-bottom:0}
+.snip .u{font-family:"IBM Plex Mono",monospace;font-size:11px;color:var(--cool)}
+.snip .t{font-family:"Source Serif 4",serif;font-size:15px;color:var(--ink);font-weight:600}
+.snip .x{font-size:13.5px;color:var(--ink-2);line-height:1.45}
+.snip .n{font-family:"IBM Plex Mono",monospace;font-size:11px;color:var(--mute)}
+
+.pend{padding:16px 18px;border:1px dashed var(--rule);background:var(--card);
+  font-size:15px;color:var(--ink-2)}
+footer{border-top:1px solid var(--rule);padding-top:16px;font-size:13px;color:var(--mute)}
+footer p{max-width:66ch}
+@media (max-width:520px){body{font-size:16px}.kpi .v{font-size:26px}}
+</style>
+
+<div class="wrap">
+<header>
+  <div class="eyebrow"><b>Замір 13</b><span>·</span><span>13 вересня 2026</span><span>·</span><span>вікно 13.08 — 10.09</span></div>
+  <h1>Каталог перестав рости. Показів усе одно менше.</h1>
+  <p class="dek">Двотижнева перевірка SEO StickerHunt — 4722 сторінки стікерів, 817 клубів, 59 країн. Уперше за всю історію замірів <em>у вікно не додали жодної сторінки</em>, тож улюблене пояснення попередніх циклів цього разу не працює.</p>
+</header>
+
+<section>
+  <h2>Коротко</h2>
+  <div class="verdict">
+    <p><strong>Видимість падає третій цикл поспіль — 22.5 → 18.1 → 16.7 → 13.5 показів на день.</strong> Раніше ми пояснювали це розмиттям: сайт ріс швидше, ніж Google встигав його обходити. Цього разу сайт не ріс узагалі, а падіння продовжилось. Пояснення вичерпалось.</p>
+    <p>Побічно цикл виніс на поверхню давню дірку: у головному заголовку <strong>всіх 4722 сторінок стікерів</strong> сидить слово «edit» — схована кнопка редагування лежить усередині <span class="mono">h1</span>. Деталі нижче.</p>
+    <p>Чесно про альтернативу: у те саме вікно потрапив <strong>spam update Google 18–21.08</strong> і наші on-page правки 28.08. На обсягах у 392 покази за місяць розділити три причини статистично неможливо — і вдавати, що можна, не буду.</p>
+  </div>
+</section>
+
+<section>
+  <h2>Головні цифри за 29 днів</h2>
+  <div class="kpis">
+    <div class="kpi down"><span class="k">Покази / день</span><span class="v">13.5</span><span class="d">було 16.7</span></div>
+    <div class="kpi down"><span class="k">Середня позиція</span><span class="v">41.7</span><span class="d">було 39.2</span></div>
+    <div class="kpi down"><span class="k">Кліки за місяць</span><span class="v">1</span><span class="d">було 7</span></div>
+    <div class="kpi flat"><span class="k">Приріст сторінок</span><span class="v">0</span><span class="d">було +748</span></div>
+    <div class="kpi up"><span class="k">Кліки з картинок</span><span class="v">1</span><span class="d">перший з липня</span></div>
+    <div class="kpi flat"><span class="k">Сайтів з лінками</span><span class="v">0</span><span class="d">13 замірів поспіль</span></div>
+  </div>
+</section>
+
+<section>
+  <h2>Що відбувалось день за днем</h2>
+  <figure>
+    <div class="chart">
+      <svg viewBox="0 0 720 200" role="img" aria-label="Покази на день з 13 серпня по 10 вересня: пік 30 на початку вікна, 3 покази в останній день">
+        <g class="mono" font-family="IBM Plex Mono, monospace" font-size="10" fill="var(--mute)">
+          <text x="0" y="14">30</text><text x="0" y="166">0</text>
+        </g>
+        <line x1="26" y1="10" x2="720" y2="10" stroke="var(--rule-2)" stroke-width="1"/>
+        <line x1="26" y1="86" x2="720" y2="86" stroke="var(--rule-2)" stroke-width="1"/>
+        <line x1="26" y1="162" x2="720" y2="162" stroke="var(--rule)" stroke-width="1"/>
+        <g fill="var(--cool)" opacity="0.82">
+          <rect x="28" y="76.9" width="16" height="85.1"/><rect x="51.6" y="10" width="16" height="152"/>
+          <rect x="75.2" y="76.9" width="16" height="85.1"/><rect x="98.8" y="50.5" width="16" height="111.5"/>
+          <rect x="122.4" y="81.9" width="16" height="80.1"/><rect x="146" y="111.3" width="16" height="50.7"/>
+          <rect x="169.6" y="50.5" width="16" height="111.5"/><rect x="193.2" y="76.9" width="16" height="85.1"/>
+          <rect x="216.8" y="116.4" width="16" height="45.6"/><rect x="240.4" y="116.4" width="16" height="45.6"/>
+          <rect x="264" y="136.7" width="16" height="25.3"/><rect x="287.6" y="126.5" width="16" height="35.5"/>
+          <rect x="311.2" y="101.2" width="16" height="60.8"/><rect x="334.8" y="106.3" width="16" height="55.7"/>
+          <rect x="358.4" y="91" width="16" height="71"/><rect x="382" y="76.9" width="16" height="85.1"/>
+          <rect x="405.6" y="70.8" width="16" height="91.2"/><rect x="429.2" y="70.8" width="16" height="91.2"/>
+          <rect x="452.8" y="65.7" width="16" height="96.3"/><rect x="476.4" y="50.5" width="16" height="111.5"/>
+          <rect x="500" y="126.5" width="16" height="35.5"/><rect x="523.6" y="101.2" width="16" height="60.8"/>
+          <rect x="547.2" y="131.6" width="16" height="30.4"/><rect x="570.8" y="91" width="16" height="71"/>
+          <rect x="594.4" y="106.3" width="16" height="55.7"/><rect x="618" y="121.5" width="16" height="40.5"/>
+          <rect x="641.6" y="116.4" width="16" height="45.6"/><rect x="665.2" y="111.3" width="16" height="50.7"/>
+        </g>
+        <rect x="688.8" y="146.8" width="16" height="15.2" fill="var(--accent)"/>
+        <g font-family="IBM Plex Mono, monospace" font-size="10" fill="var(--mute)">
+          <text x="28" y="177">13.08</text><text x="358" y="177" text-anchor="middle">27.08</text>
+          <text x="705" y="177" text-anchor="end">10.09</text>
+        </g>
+        <line x1="169" y1="10" x2="169" y2="162" stroke="var(--warn)" stroke-width="1" stroke-dasharray="3 3"/>
+        <line x1="240" y1="10" x2="240" y2="162" stroke="var(--warn)" stroke-width="1" stroke-dasharray="3 3"/>
+        <text x="204" y="194" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="10" fill="var(--warn)">spam update 18–21.08</text>
+        <line x1="429" y1="10" x2="429" y2="162" stroke="var(--good)" stroke-width="1" stroke-dasharray="3 3"/>
+        <text x="429" y="194" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="10" fill="var(--good)">on-page правки 28.08</text>
+      </svg>
+    </div>
+    <figcaption>Покази у звичайному пошуку, по днях. Останній день вікна — 3 покази. Це не рівне плато, а спадна лінія: другий тиждень вересня гірший за будь-який тиждень серпня.</figcaption>
+  </figure>
+</section>
+
+<section>
+  <h2>Що це означає простою мовою</h2>
+  <h3>Нас показують рідше і глибше</h3>
+  <p>13.5 показів на день — найменше з червня. Середня позиція <span class="mono">41.7</span> — це приблизно четвертий десяток результатів, тобто друга-третя сторінка. На такій глибині людина просто не гортає.</p>
+  <p>Тому <strong>CTR цього циклу (0.26%) обговорювати немає сенсу</strong>. Це не проблема того, як виглядає наш рядок у видачі — це проблема того, що цей рядок ніхто не бачить.</p>
+
+  <h3>Google прийшов один раз і пішов</h3>
+  <p>Інспекція сторінок показує чіткий слід: великий обхід був 20–21 серпня — рівно на спам-апдейті. Після нього майже три тижні тиші. Головну останній раз дивились 12 днів тому, каталог — 23 дні, флагманський клуб — 16.</p>
+  <p>Це гірше за чудові показники минулого циклу (2 і 9 днів), але далеко від передаварійних 67. Верхівка сайту жива, просто Google перестав заходити часто.</p>
+
+  <h3>Дно каталогу вимирає далі</h3>
+  <p>Сторінку стікера <span class="mono">#3201</span> Google не обходив <strong>125 днів</strong>, клуб <span class="mono">#1095</span> — <strong>161 день</strong>, і той досі не в індексі. Практично це означає, що у видачі люди бачать травневу і квітневу версії цих сторінок — з нашими старими заголовками, до правок.</p>
+</section>
+
+<section>
+  <h2>On-page правки 28.08 — перший сигнал</h2>
+  <p class="lede">Це тренд, а не вердикт: вікно покриває лише 13 днів після правок. Повний вердикт — на замірі 27.09. Але одну річ уже видно точно.</p>
+  <p>Я подивився десять живих сніпетів у видачі за <span class="mono">site:stickerhunt.club/stickers/</span>. <strong>Жоден із десяти не бере наш <span class="mono">meta description</span>.</strong> Google у всіх випадках пише опис сам — з тіла сторінки.</p>
+  <div class="snips">
+    <div class="snip">
+      <span class="u">stickers/2760.html</span>
+      <span class="t">Cosenza Calcio Sticker #2760 | StickerHunt</span>
+      <span class="x">Sticker #2760 from Cosenza Calcio, a football club from Italy. Cosenza Calcio was founded in 1914 and competes in Serie B.</span>
+      <span class="n">↑ це текст із тіла сторінки, не наш метаопис</span>
+    </div>
+    <div class="snip">
+      <span class="u">наш meta description на цій же сторінці</span>
+      <span class="x">Football sticker #2760 from Cosenza Calcio, Italy. Can you identify this Cosenza Calcio sticker? Browse our collection.</span>
+      <span class="n">↑ Google його проігнорував</span>
+    </div>
+    <div class="snip">
+      <span class="u">stickers/3203.html</span>
+      <span class="t">Legia Warsaw Sticker #3203 — Identify This Football Sticker</span>
+      <span class="n">↑ це СТАРИЙ заголовок, до правок 28.08. Google обходив цю сторінку 5 квітня. Три з десяти заголовків у видачі — досі довоєнні.</span>
+    </div>
+  </div>
+  <p>Що з цього випливає чесно:</p>
+  <ul>
+    <li><span class="m g">✓</span><span>Правка <strong>«один опис замість восьми»</strong> свою задачу виконала — дублів більше нема, Google не мусить обирати опис навмання. Це вже підтверджено краулом 28.08: дублів метатегів 86 → 0.</span></li>
+    <li><span class="m r">✗</span><span>Але <strong>на сніпет вона не впливає</strong>. Сніпет пише Google із тексту сторінки. Важіль тут — тіло сторінки, а не метатег. Це змінює пріоритети: далі працювати з текстом, а не з метаданими.</span></li>
+    <li><span class="m">~</span><span><strong>Покази не зрушили</strong> — 16.7 → 13.5. Це не «правки зашкодили»: у тому ж вікні лежить апдейт Google і трьохтижнева пауза в обході. Плюс третина сторінок у видачі досі в доправковій версії — вимірювати ефект того, чого Google ще не бачив, зарано.</span></li>
+    <li><span class="m g">↑</span><span><strong>Картинки ожили слабко, але в правильний бік:</strong> 0 кліків / 11 показів → 1 клік / 14 показів. Це єдиний прямий вимір ефекту <span class="mono">alt</span>. Обсяги мізерні — на межі шуму.</span></li>
+  </ul>
+</section>
+
+<section>
+  <h2>Уся історія вимірів</h2>
+  <div class="tablewrap">
+  <table>
+    <thead><tr><th>Метрика (29 днів)</th><th>07.07</th><th>20.07</th><th>03.08</th><th>16.08</th><th>30.08</th><th>13.09</th></tr></thead>
+    <tbody>
+      <tr><td>Покази / день</td><td>9.9</td><td>16.7</td><td>22.5</td><td>18.1</td><td>16.7</td><td class="now bad">13.5</td></tr>
+      <tr><td>Покази, усього</td><td>287</td><td>483</td><td>653</td><td>526</td><td>484</td><td class="now bad">392</td></tr>
+      <tr><td>Кліки</td><td>4</td><td>7</td><td>8</td><td>11</td><td>7</td><td class="now bad">1</td></tr>
+      <tr><td>Середня позиція</td><td>33.1</td><td>26.6</td><td>29.1</td><td>34.6</td><td>39.2</td><td class="now bad">41.7</td></tr>
+      <tr><td>Картинки: кліки / покази</td><td>1/15</td><td>2/11</td><td>2/8</td><td>0/7</td><td>0/11</td><td class="now ok">1/14</td></tr>
+      <tr><td>Картинок подано в сайтмеп</td><td>0</td><td>2580</td><td>2870</td><td>2982</td><td>3477</td><td class="now ok">3618</td></tr>
+      <tr><td>Сайтів, що лінкують на нас</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td class="now">0</td></tr>
+      <tr><td>Стрибок верстки (CLS)</td><td>0.000</td><td>0.000</td><td>0.000</td><td>0.000</td><td>0.000</td><td class="now ok">0.000</td></tr>
+      <tr><td>Сторінок без вхідних лінків</td><td>0</td><td>0</td><td>0</td><td>2</td><td>0</td><td class="now ok">0</td></tr>
+      <tr><td>Головну обходили, днів тому</td><td class="tag">—</td><td class="tag">—</td><td>23</td><td>2</td><td>10</td><td class="now">12</td></tr>
+      <tr><td>Каталог обходили, днів тому</td><td class="tag">—</td><td>40</td><td>54</td><td>67</td><td>9</td><td class="now wn">23</td></tr>
+      <tr><td>Клуб #617 обходили, днів тому</td><td class="tag">—</td><td class="tag">—</td><td>7</td><td>20</td><td>2</td><td class="now wn">16</td></tr>
+      <tr><td>Стікер #3201 обходили, днів тому</td><td>57</td><td>70</td><td>84</td><td>97</td><td>111</td><td class="now bad">125</td></tr>
+      <tr><td>Клуб #1095 обходили, днів тому</td><td>93</td><td>106</td><td>120</td><td>133</td><td>147</td><td class="now bad">161</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <figcaption>Вікно завжди однакове: дата заміру мінус 31 день … мінус 3 дні. Клуб #1095 усі 13 замірів має статус «обійдено, але не проіндексовано».</figcaption>
+</section>
+
+<section>
+  <h2>Технічні перевірки</h2>
+  <ul>
+    <li><span class="m g">✓</span><span><strong>Сайтмепи:</strong> 7 карт, нуль помилок. Усі шарди Google викачав за останні шість днів, один — сьогодні вночі. Картинок подано 3618 (було 3477). Індексний <span class="mono">sitemap.xml</span> досі висить у статусі «очікує» з 16.08, але шарди подані поштучно і читаються — це вже не блокер.</span></li>
+    <li><span class="m g">✓</span><span><strong>Сторінки-сироти:</strong> 0 з 4722 стікерів і 0 з 817 клубів. Причину пропуску в автоматичній регенерації не усунуто, але за цикл без приросту вона й не мала шансу спрацювати.</span></li>
+    <li><span class="m g">✓</span><span><strong>Стрибок верстки:</strong> 0.000 на всіх перевірених сторінках.</span></li>
+    <li><span class="m">~</span><span><strong>Швидкість:</strong> лабораторне завантаження — головна 2.1 с, стікер 8.7 с, клуб 7.0 с. Реальних вимірів від Google (CrUX) досі нема: трафіку не вистачає, щоб він їх зібрав. Тобто швидкість поки ні на що не впливає — просто тому, що нікому впливати.</span></li>
+  </ul>
+  <h3>Крок 6 — порівняння краулів, 30.08 → 13.09</h3>
+  <p>Прогін валідний: обійдено <span class="mono">5667</span> сторінок при ліміті <span class="mono">8000</span> (тобто краул не обрізало), попереджень нуль.</p>
+  <div class="kpis">
+    <div class="kpi flat"><span class="k">Додано</span><span class="v">0</span><span class="d">сторінок</span></div>
+    <div class="kpi flat"><span class="k">Зникло</span><span class="v">0</span><span class="d">сторінок</span></div>
+    <div class="kpi flat"><span class="k">Змінився текст</span><span class="v">86</span><span class="d">нічний city-sweep</span></div>
+    <div class="kpi flat"><span class="k">Нових помилок</span><span class="v">0</span><span class="d">404, редиректи</span></div>
+  </div>
+  <p><strong>Відкрите питання закрите: диф справді ловить внесену зміну, і він чесний.</strong> Єдина зміна в репозиторії за вікно — нічне оновлення карт міст 31.08 (Порту, Торрев&#39;єха, Ельче, Віла-Нова-де-Гая). Диф показав рівно 86 змінених сторінок і нуль доданих чи зниклих — це збігається з реальністю. Шуму з «зниклих» URL, якого боялись через обрізку краулу, не було.</p>
+  <p>А от очікування з методики — «побачимо масову зміну заголовків, це наша правка 28.08» — <strong>виявилось хибним</strong>. Точка відліку 30.08 закладалась уже після правок, тож вони в цей диф не потрапили за визначенням. Записую, щоб наступного циклу цього не шукали.</p>
+
+  <h3 style="color:var(--accent)">Знахідка: у заголовку кожної сторінки стікера сидить чуже слово</h3>
+  <p>У сирих даних дифу видно, що краулер читає заголовок сторінки як <strong>«FC Porto edit»</strong>, «1 FC Köln edit», «Hammarby edit». Перевірив руками по файлах — так і є:</p>
+  <div class="snips"><div class="snip">
+    <span class="u">stickers/4629.html — вміст h1</span>
+    <span class="x mono" style="font-size:12.5px;white-space:pre-wrap">&lt;h1 class="sticker-detail-club-name"&gt;
+  &lt;span id="club-name-display"&gt;FC Porto&lt;/span&gt;
+  &lt;a href="#" id="edit-sticker-btn" style="display: none;"&gt;edit&lt;/a&gt;
+&lt;/h1&gt;</span>
+    <span class="n">↑ кнопка редагування для авторизованих лежить ВСЕРЕДИНІ заголовка</span>
+  </div></div>
+  <p>Для людини кнопка схована, і візуально все гаразд. Але текстом головного заголовка для будь-якого парсера — Google включно — є «FC Porto edit».</p>
+  <ul>
+    <li><span class="m r">!</span><span><strong>Масштаб: 4722 з 4722 сторінок стікерів.</strong> Перевірено скриптом по всіх файлах, не вибіркою.</span></li>
+    <li><span class="m">~</span><span><strong>Це не поломка цього циклу.</strong> Так само було й у точці відліку 30.08. Джерело — давній коміт про редагування стікерів авторизованими, задовго до серпневих правок.</span></li>
+    <li><span class="m r">!</span><span><strong>Але б&#39;є саме по тому, що ми правили 28.08.</strong> Сенс тієї правки був зробити заголовок назвою клубу. Фактично заголовок — це назва клубу плюс «edit».</span></li>
+    <li><span class="m">~</span><span>Знахідку дав <em>не</em> сам інструмент — він позначив ці сторінки просто як «змінився текст», низький пріоритет. Вона видна в сирих доказах. Цінність кроку 6 цього разу була не у висновках, а в тому, що він приніс заголовки з усього сайту одним масивом.</span></li>
+  </ul>
+  <p><strong>Що робити:</strong> винести кнопку редагування за межі заголовка в шаблоні стікера і перегенерувати канонічним генератором. Заведено окремою задачею.</p>
+</section>
+
+<section>
+  <h2>Що це означає для роботи далі</h2>
+  <p class="lede">Чотири цикли поспіль висновок був один: «нарощування каталогу не купує видимість». Цей цикл додає до нього неприємне уточнення — <strong>зупинка нарощування її теж не купує</strong>.</p>
+  <p>Тобто важіль не в темпі генерації сторінок узагалі. Обидві крайності дали той самий результат. Залишається те, що ми відкладали тринадцять замірів поспіль: <strong>нуль сайтів у світі лінкують на stickerhunt.club</strong>. Для Google це домен без жодного зовнішнього підтвердження, і жодна кількість технічно бездоганних сторінок цього не замінює.</p>
+  <p>Друге, вужче: перевірка сніпетів показала, де реальний важіль у тексті — <strong>у тілі сторінки, не в метатегах</strong>. Google уже зараз бере наш опис клубу з тексту. Зробити цей текст кращим — єдина on-page робота, яка ще має сенс.</p>
+  <p>Вердикт по правках 28.08 — на замірі <span class="mono">27.09</span>, коли вікно буде повністю після них.</p>
+</section>
+
+<footer>
+  <p>Замір 13 від overhaul 02.04.2026. Дані: Google Search Console (searchanalytics + URL Inspection), DataForSEO SERP, локальний аудит внутрішніх лінків, PageSpeed Insights. Сирі дані — <span class="mono">seo-reports/2026-09-13_overhaul_check.md</span>.</p>
+</footer>
+</div>
