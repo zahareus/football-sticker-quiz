@@ -6723,5 +6723,14 @@
     "capacity": "12,250",
     "league": "Eliteserien",
     "website": "https://www.lsk.no/"
+  },
+  "1314": {
+    "wikiUrl": "https://en.wikipedia.org/wiki/Bradford_City_A.F.C.",
+    "intro": "Bradford City Association Football Club is an English professional football club in Bradford, West Yorkshire. The club competes in EFL League One, the third tier of English football, and is managed by Graham Alexander.\nThe club was founded in 1903 and immediately elected into the Football League Second Division.",
+    "founded": "1903",
+    "stadium": "Valley Parade",
+    "capacity": "25,136",
+    "league": "EFL League One",
+    "website": "https://www.bradfordcityfc.co.uk/"
   }
 }
