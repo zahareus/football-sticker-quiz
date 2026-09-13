@@ -19,3 +19,17 @@ describe('sticker page heading', () => {
         expect(template).toContain('<span id="club-name-display">{{CLUB_NAME}}</span>');
     });
 });
+
+describe('generated sticker pages', () => {
+    const dir = join(process.cwd(), 'stickers');
+    const pages = readdirSync(dir).filter(f => f.endsWith('.html'));
+
+    it('carry no edit anchor in the heading', () => {
+        const dirty = pages.filter(page => {
+            const h1 = readFileSync(join(dir, page), 'utf8')
+                .match(/<h1 class="sticker-detail-club-name">[\s\S]*?<\/h1>/);
+            return h1 && h1[0].includes('edit-sticker-btn');
+        });
+        expect(dirty).toEqual([]);
+    });
+});
