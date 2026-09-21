@@ -30,7 +30,7 @@ Global football fan sticker database with quiz, battle mode, and interactive map
 - **Generator** — Node script that renders static HTML from DB + `templates/`. Several page types have DUPLICATE generator code paths; only the canonical one per type is safe (see Iron Rules).
 - **Placeholder** — `{{TOKEN}}` in templates. A generator whose data object lags the template would leak raw `{{...}}` to prod; guards make it throw instead.
 - **Poller** — hourly n8n workflow "SH clubs poller" that diffs `clubs` and catches regenerations lost by GitHub's concurrency queue. Load-bearing fallback.
-- **City sweep** — nightly workflow (`scripts/sweep-city-maps.js`, 02:30 UTC) regenerating all sticker pages of cities touched by uploads (map markers / "Also found in" blocks are baked at generation time and go stale otherwise).
+- **City sweep** — nightly workflow (`scripts/sweep-city-maps.js`, 02:30 UTC) regenerating all sticker pages of cities touched by uploads (the "Also found in" strip is baked at generation time and goes stale otherwise; map markers load client-side since 2026-09-21).
 - **Upload / batch upload** — `upload.html` (single, triggers Zernio social post) and `upload-batch.html` (many, no posts) → n8n → Supabase → repository_dispatch page generation.
 
 ## 🔴 Iron Rules (violating any of these has caused real production incidents)
