@@ -306,71 +306,37 @@
                     attribution: '© OpenStreetMap contributors'
                 }).addTo(map);
 
-                
-                (function() {
-                    L.marker([38.7802722222222, -9.49698055555555], {
-                        icon: L.icon({
-                            iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
-                            iconSize: [18, 30],
-                            iconAnchor: [9, 30],
-                            popupAnchor: [1, -25]
-                        }),
-                        opacity: 0.6
-                    }).addTo(map)
-                    .bindPopup('<div class="nearby-sticker-popup"><strong>FC Rot-Weiß Erfurt</strong><a href="/stickers/4602.html" class="map-popup-link">View</a></div>');
-                })();
-
-                (function() {
-                    L.marker([38.7805055555556, -9.49877777777778], {
-                        icon: L.icon({
-                            iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
-                            iconSize: [18, 30],
-                            iconAnchor: [9, 30],
-                            popupAnchor: [1, -25]
-                        }),
-                        opacity: 0.6
-                    }).addTo(map)
-                    .bindPopup('<div class="nearby-sticker-popup"><strong>Genoa CFC</strong><a href="/stickers/4604.html" class="map-popup-link">View</a></div>');
-                })();
-
-                (function() {
-                    L.marker([38.7805, -9.49878888888889], {
-                        icon: L.icon({
-                            iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
-                            iconSize: [18, 30],
-                            iconAnchor: [9, 30],
-                            popupAnchor: [1, -25]
-                        }),
-                        opacity: 0.6
-                    }).addTo(map)
-                    .bindPopup('<div class="nearby-sticker-popup"><strong>G.D. Estoril Praia</strong><a href="/stickers/4605.html" class="map-popup-link">View</a></div>');
-                })();
-
-                (function() {
-                    L.marker([38.7804888888889, -9.49879444444444], {
-                        icon: L.icon({
-                            iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
-                            iconSize: [18, 30],
-                            iconAnchor: [9, 30],
-                            popupAnchor: [1, -25]
-                        }),
-                        opacity: 0.6
-                    }).addTo(map)
-                    .bindPopup('<div class="nearby-sticker-popup"><strong>AS Sambenedettese</strong><a href="/stickers/4606.html" class="map-popup-link">View</a></div>');
-                })();
-
-                (function() {
-                    L.marker([38.7804833333333, -9.49879444444444], {
-                        icon: L.icon({
-                            iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
-                            iconSize: [18, 30],
-                            iconAnchor: [9, 30],
-                            popupAnchor: [1, -25]
-                        }),
-                        opacity: 0.6
-                    }).addTo(map)
-                    .bindPopup('<div class="nearby-sticker-popup"><strong>FC Girondins de Bordeaux</strong><a href="/stickers/4607.html" class="map-popup-link">View</a></div>');
-                })();
+                // Nearby stickers from the same location, loaded after the map is up.
+                // No fitBounds: the view stays centred on this sticker so the map
+                // does not jump when the markers arrive.
+                const nearbyLocation = "Colares, Portugal";
+                const sb = (typeof getSupabaseClient === 'function') ? getSupabaseClient() : null;
+                if (sb && nearbyLocation) {
+                    const nearbyIcon = L.icon({
+                        iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
+                        iconSize: [18, 30],
+                        iconAnchor: [9, 30],
+                        popupAnchor: [1, -25]
+                    });
+                    const esc = (typeof escapeHtml === 'function') ? escapeHtml : function(s) { return String(s); };
+                    sb.from('stickers')
+                        .select('id, latitude, longitude, clubs(name)')
+                        .eq('location', nearbyLocation)
+                        .neq('id', 4603)
+                        .limit(500)
+                        .then(function(res) {
+                            const rows = res.data || [];
+                            if (rows.length === 500) console.warn('sticker-map: nearby limit hit, some markers not shown');
+                            rows.forEach(function(s) {
+                                if (!s.latitude || !s.longitude) return;
+                                const name = esc(s.clubs && s.clubs.name ? s.clubs.name : 'Unknown Club');
+                                L.marker([s.latitude, s.longitude], { icon: nearbyIcon, opacity: 0.6 })
+                                    .addTo(map)
+                                    .bindPopup('<div class="nearby-sticker-popup"><strong>' + name + '</strong><a href="/stickers/' + s.id + '.html" class="map-popup-link">View</a></div>');
+                            });
+                        })
+                        .catch(function(err) { console.warn('sticker-map: nearby markers not loaded', err); });
+                }
 
                 // Current sticker — larger marker, opened popup
                 L.marker([38.7805111111111, -9.49876666666667], {
@@ -386,18 +352,6 @@
                     zIndexOffset: 1000
                 }).addTo(map)
                     .bindPopup('<strong>Modena</strong> ← this sticker').openPopup();
-
-                
-                const bounds = L.latLngBounds([
-                    [38.7805111111111, -9.49876666666667],
-                    [38.7802722222222, -9.49698055555555],
-                    [38.7805055555556, -9.49877777777778],
-                    [38.7805, -9.49878888888889],
-                    [38.7804888888889, -9.49879444444444],
-                    [38.7804833333333, -9.49879444444444]
-                ]);
-                map.fitBounds(bounds, { padding: [30, 30], maxZoom: 14 });
-                
             }
         });
     
@@ -477,6 +431,10 @@
 
                 if (!error && profile && profile.can_edit) {
                     stickerPageState.canEdit = true;
+                    // Built at runtime, never in the static HTML: an anchor inside the
+                    // <h1> made the heading read "FC Porto edit" to every crawler on all
+                    // 4722 pages. It still lives inside the h1 so .edit-link keeps
+                    // inheriting its 0.5em from the heading.
                     const h1 = document.querySelector('.sticker-detail-club-name');
                     const editBtn = document.createElement('a');
                     editBtn.id = 'edit-sticker-btn';

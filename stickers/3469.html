@@ -298,71 +298,37 @@
                     attribution: '© OpenStreetMap contributors'
                 }).addTo(map);
 
-                
-                (function() {
-                    L.marker([38.2875694444444, -0.553586111111111], {
-                        icon: L.icon({
-                            iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
-                            iconSize: [18, 30],
-                            iconAnchor: [9, 30],
-                            popupAnchor: [1, -25]
-                        }),
-                        opacity: 0.6
-                    }).addTo(map)
-                    .bindPopup('<div class="nearby-sticker-popup"><strong>Olympique de Marseille</strong><a href="/stickers/3501.html" class="map-popup-link">View</a></div>');
-                })();
-
-                (function() {
-                    L.marker([38.28745, -0.552972222222222], {
-                        icon: L.icon({
-                            iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
-                            iconSize: [18, 30],
-                            iconAnchor: [9, 30],
-                            popupAnchor: [1, -25]
-                        }),
-                        opacity: 0.6
-                    }).addTo(map)
-                    .bindPopup('<div class="nearby-sticker-popup"><strong>KAA Gent</strong><a href="/stickers/3470.html" class="map-popup-link">View</a></div>');
-                })();
-
-                (function() {
-                    L.marker([38.2875111111111, -0.553241666666667], {
-                        icon: L.icon({
-                            iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
-                            iconSize: [18, 30],
-                            iconAnchor: [9, 30],
-                            popupAnchor: [1, -25]
-                        }),
-                        opacity: 0.6
-                    }).addTo(map)
-                    .bindPopup('<div class="nearby-sticker-popup"><strong>Standard Liège</strong><a href="/stickers/3106.html" class="map-popup-link">View</a></div>');
-                })();
-
-                (function() {
-                    L.marker([38.2872361111111, -0.553308333333333], {
-                        icon: L.icon({
-                            iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
-                            iconSize: [18, 30],
-                            iconAnchor: [9, 30],
-                            popupAnchor: [1, -25]
-                        }),
-                        opacity: 0.6
-                    }).addTo(map)
-                    .bindPopup('<div class="nearby-sticker-popup"><strong>Juventus FC</strong><a href="/stickers/3093.html" class="map-popup-link">View</a></div>');
-                })();
-
-                (function() {
-                    L.marker([38.2872416666667, -0.551436111111111], {
-                        icon: L.icon({
-                            iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
-                            iconSize: [18, 30],
-                            iconAnchor: [9, 30],
-                            popupAnchor: [1, -25]
-                        }),
-                        opacity: 0.6
-                    }).addTo(map)
-                    .bindPopup('<div class="nearby-sticker-popup"><strong>SV Bekond</strong><a href="/stickers/2323.html" class="map-popup-link">View</a></div>');
-                })();
+                // Nearby stickers from the same location, loaded after the map is up.
+                // No fitBounds: the view stays centred on this sticker so the map
+                // does not jump when the markers arrive.
+                const nearbyLocation = "Elche, Spain";
+                const sb = (typeof getSupabaseClient === 'function') ? getSupabaseClient() : null;
+                if (sb && nearbyLocation) {
+                    const nearbyIcon = L.icon({
+                        iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
+                        iconSize: [18, 30],
+                        iconAnchor: [9, 30],
+                        popupAnchor: [1, -25]
+                    });
+                    const esc = (typeof escapeHtml === 'function') ? escapeHtml : function(s) { return String(s); };
+                    sb.from('stickers')
+                        .select('id, latitude, longitude, clubs(name)')
+                        .eq('location', nearbyLocation)
+                        .neq('id', 3469)
+                        .limit(500)
+                        .then(function(res) {
+                            const rows = res.data || [];
+                            if (rows.length === 500) console.warn('sticker-map: nearby limit hit, some markers not shown');
+                            rows.forEach(function(s) {
+                                if (!s.latitude || !s.longitude) return;
+                                const name = esc(s.clubs && s.clubs.name ? s.clubs.name : 'Unknown Club');
+                                L.marker([s.latitude, s.longitude], { icon: nearbyIcon, opacity: 0.6 })
+                                    .addTo(map)
+                                    .bindPopup('<div class="nearby-sticker-popup"><strong>' + name + '</strong><a href="/stickers/' + s.id + '.html" class="map-popup-link">View</a></div>');
+                            });
+                        })
+                        .catch(function(err) { console.warn('sticker-map: nearby markers not loaded', err); });
+                }
 
                 // Current sticker — larger marker, opened popup
                 L.marker([38.2874611111111, -0.552952777777778], {
@@ -378,18 +344,6 @@
                     zIndexOffset: 1000
                 }).addTo(map)
                     .bindPopup('<strong>Plymouth Argyle F.C.</strong> ← this sticker').openPopup();
-
-                
-                const bounds = L.latLngBounds([
-                    [38.2874611111111, -0.552952777777778],
-                    [38.2875694444444, -0.553586111111111],
-                    [38.28745, -0.552972222222222],
-                    [38.2875111111111, -0.553241666666667],
-                    [38.2872361111111, -0.553308333333333],
-                    [38.2872416666667, -0.551436111111111]
-                ]);
-                map.fitBounds(bounds, { padding: [30, 30], maxZoom: 14 });
-                
             }
         });
     
@@ -469,6 +423,10 @@
 
                 if (!error && profile && profile.can_edit) {
                     stickerPageState.canEdit = true;
+                    // Built at runtime, never in the static HTML: an anchor inside the
+                    // <h1> made the heading read "FC Porto edit" to every crawler on all
+                    // 4722 pages. It still lives inside the h1 so .edit-link keeps
+                    // inheriting its 0.5em from the heading.
                     const h1 = document.querySelector('.sticker-detail-club-name');
                     const editBtn = document.createElement('a');
                     editBtn.id = 'edit-sticker-btn';
