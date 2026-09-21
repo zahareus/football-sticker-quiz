@@ -552,7 +552,8 @@ function generateMapInitScript(sticker, clubName, nearbyStickers = []) {
                                     .addTo(map)
                                     .bindPopup('<div class="nearby-sticker-popup"><strong>' + name + '</strong><a href="/stickers/' + s.id + '.html" class="map-popup-link">View</a></div>');
                             });
-                        });
+                        })
+                        .catch(function(err) { console.warn('sticker-map: nearby markers not loaded', err); });
                 }
 
                 // Current sticker — larger marker, opened popup
