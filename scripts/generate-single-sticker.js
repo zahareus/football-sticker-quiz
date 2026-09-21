@@ -503,33 +503,18 @@ function findNearbyStickers(currentSticker, allStickers, radiusKm = 50, maxCount
     return nearby.slice(0, maxCount);
 }
 
+// Nearby markers are fetched in the browser, not baked in. Baking one marker
+// per same-city sticker put 300+ IIFEs (~270 KB) into every page of a big city
+// and grew stickers/ to 380 MB — which is what each Vercel deploy stores.
+// The query is the same `.eq('location')` the generator used, so the set of
+// markers on the map does not change, only where it comes from. The visible
+// "Also found in" strip (generateNearbyStickers) stays baked: crawlable links.
+// nearbyStickers is kept in the signature so callers stay untouched.
 function generateMapInitScript(sticker, clubName, nearbyStickers = []) {
     if (!sticker.latitude || !sticker.longitude) return '';
 
-    // Filter nearby stickers that have coordinates
-    const withCoords = nearbyStickers.filter(s => s.latitude && s.longitude);
-
-    let nearbyMarkersCode = '';
-    if (withCoords.length > 0) {
-        nearbyMarkersCode = withCoords.map(nearby => {
-            const escapedClubName = escapeForJsHtmlString(stripEmoji(nearby.clubName || ''));
-            return `
-                (function() {
-                    L.marker([${nearby.latitude}, ${nearby.longitude}], {
-                        icon: L.icon({
-                            iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
-                            iconSize: [18, 30],
-                            iconAnchor: [9, 30],
-                            popupAnchor: [1, -25]
-                        }),
-                        opacity: 0.6
-                    }).addTo(map)
-                    .bindPopup('<div class="nearby-sticker-popup"><strong>${escapedClubName}</strong><a href="/stickers/${nearby.id}.html" class="map-popup-link">View</a></div>');
-                })();`;
-        }).join('\n');
-    }
-
     const escapedName = clubName ? escapeForJsHtmlString(stripEmoji(clubName)) : 'This sticker';
+    const locationJs = sticker.location ? JSON.stringify(String(sticker.location)) : 'null';
 
     return `
         document.addEventListener('DOMContentLoaded', function() {
@@ -539,7 +524,36 @@ function generateMapInitScript(sticker, clubName, nearbyStickers = []) {
                     attribution: '© OpenStreetMap contributors'
                 }).addTo(map);
 
-                ${nearbyMarkersCode}
+                // Nearby stickers from the same location, loaded after the map is up.
+                // No fitBounds: the view stays centred on this sticker so the map
+                // does not jump when the markers arrive.
+                const nearbyLocation = ${locationJs};
+                const sb = (typeof getSupabaseClient === 'function') ? getSupabaseClient() : null;
+                if (sb && nearbyLocation) {
+                    const nearbyIcon = L.icon({
+                        iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
+                        iconSize: [18, 30],
+                        iconAnchor: [9, 30],
+                        popupAnchor: [1, -25]
+                    });
+                    const esc = (typeof escapeHtml === 'function') ? escapeHtml : function(s) { return String(s); };
+                    sb.from('stickers')
+                        .select('id, latitude, longitude, clubs(name)')
+                        .eq('location', nearbyLocation)
+                        .neq('id', ${Number(sticker.id)})
+                        .limit(500)
+                        .then(function(res) {
+                            const rows = res.data || [];
+                            if (rows.length === 500) console.warn('sticker-map: nearby limit hit, some markers not shown');
+                            rows.forEach(function(s) {
+                                if (!s.latitude || !s.longitude) return;
+                                const name = esc(s.clubs && s.clubs.name ? s.clubs.name : 'Unknown Club');
+                                L.marker([s.latitude, s.longitude], { icon: nearbyIcon, opacity: 0.6 })
+                                    .addTo(map)
+                                    .bindPopup('<div class="nearby-sticker-popup"><strong>' + name + '</strong><a href="/stickers/' + s.id + '.html" class="map-popup-link">View</a></div>');
+                            });
+                        });
+                }
 
                 // Current sticker — larger marker, opened popup
                 L.marker([${sticker.latitude}, ${sticker.longitude}], {
@@ -555,14 +569,6 @@ function generateMapInitScript(sticker, clubName, nearbyStickers = []) {
                     zIndexOffset: 1000
                 }).addTo(map)
                     .bindPopup('<strong>${escapedName}</strong> ← this sticker').openPopup();
-
-                ${withCoords.length > 0 ? `
-                const bounds = L.latLngBounds([
-                    [${sticker.latitude}, ${sticker.longitude}],
-                    ${withCoords.slice(0, 50).map(n => `[${n.latitude}, ${n.longitude}]`).join(',\n                    ')}
-                ]);
-                map.fitBounds(bounds, { padding: [30, 30], maxZoom: 14 });
-                ` : ''}
             }
         });
     `;
