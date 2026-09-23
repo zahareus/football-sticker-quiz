@@ -89,7 +89,7 @@ Plus new scripts:
 - **Next SEO audit:** ~31.03.2026
 - **GSC property:** sc-domain:stickerhunt.club
 - **Baseline (17.03.2026):** 185 clicks, 4308 impr, CTR 4.29%, pos 9.2
-- **Previous report:** ~/Claude Code/stickerhunt/seo-reports/2026-03-17_report.pdf
+- **Previous report:** ~/Claude Code/products/stickerhunt/seo-reports/2026-03-17_report.pdf
 
 ### What to check at next audit
 1. Impact of new titles/H1/meta on impressions and CTR

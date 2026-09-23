@@ -14,7 +14,7 @@
 # macOS bash 3.2 — keep `set -u` off so empty arrays don't trip us
 # `set -e` would kill the run on a single sticker failure — also off intentionally
 
-ROOT="/Users/victorzakharchenko/Claude Code/stickerhunt"
+ROOT="/Users/victorzakharchenko/Claude Code/products/stickerhunt"
 cd "$ROOT" || { echo "ROOT not found"; exit 1; }
 
 CHECKPOINT="/tmp/regen-checkpoint.txt"

@@ -239,7 +239,7 @@
 Команди до запуску в порядку пріоритету:
 
 ```bash
-cd ~/Claude\ Code/stickerhunt/scripts
+cd ~/Claude\ Code/products/stickerhunt/scripts
 
 # 1. Згенерувати 5 пропущених sticker pages (3210, 3213, 3214, 3324, 3359)
 for id in 3210 3213 3214 3324 3359; do
@@ -253,11 +253,11 @@ node optimize-images.js --from=3202 --missing-only
 node generate-city-pages.js
 
 # 4. Видалити зомбі-файли districts (вручну, після регенерації Istanbul)
-rm ~/Claude\ Code/stickerhunt/cities/beyo-lu.html
-rm ~/Claude\ Code/stickerhunt/cities/kad-k-y.html
+rm ~/Claude\ Code/products/stickerhunt/cities/beyo-lu.html
+rm ~/Claude\ Code/products/stickerhunt/cities/kad-k-y.html
 
 # 5. Видалити (або перевірити) ARM.html якщо в БД нема стікерів вірменських клубів
-ls -la ~/Claude\ Code/stickerhunt/countries/ARM.html
+ls -la ~/Claude\ Code/products/stickerhunt/countries/ARM.html
 
 # 6. Регенерація club pages (закриє ±1 розбіжності)
 node regenerate-club-pages.js
@@ -268,7 +268,7 @@ node regenerate-country-pages.js
 # 8. Регенерація sitemaps — критично, якщо є окремий скрипт.
 # У scripts/ явного sitemap-generator не видно — варто перевірити, чи ця задача
 # взагалі автоматизована, чи робилася руками раз. Перевірити .github/workflows/
-ls ~/Claude\ Code/stickerhunt/.github/workflows/
+ls ~/Claude\ Code/products/stickerhunt/.github/workflows/
 ```
 
 **Окремо перевірити:**

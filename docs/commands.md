@@ -10,7 +10,7 @@
 > for now, but nothing should call them.
 
 ```bash
-cd "/Users/victorzakharchenko/Claude Code/stickerhunt/scripts"
+cd "/Users/victorzakharchenko/Claude Code/products/stickerhunt/scripts"
 
 # Install dependencies (first time)
 npm install
@@ -36,7 +36,7 @@ node generate-static-pages.js --homepage-only
 ## Image Optimization
 
 ```bash
-cd "/Users/victorzakharchenko/Claude Code/stickerhunt/scripts"
+cd "/Users/victorzakharchenko/Claude Code/products/stickerhunt/scripts"
 
 # Dry run (preview what will be optimized)
 npm run optimize:dry
@@ -50,7 +50,7 @@ Note: full optimization takes 30-60 minutes for all stickers.
 ## Git Workflow
 
 ```bash
-cd "/Users/victorzakharchenko/Claude Code/stickerhunt"
+cd "/Users/victorzakharchenko/Claude Code/products/stickerhunt"
 
 git add stickers/ clubs/ countries/ cities/ sitemap*.xml
 git commit -m "Regenerate static pages"
@@ -60,7 +60,7 @@ git push
 ## Testing
 
 ```bash
-cd "/Users/victorzakharchenko/Claude Code/stickerhunt/scripts"
+cd "/Users/victorzakharchenko/Claude Code/products/stickerhunt/scripts"
 
 # Run all 53 generator tests
 node test-generators.js
