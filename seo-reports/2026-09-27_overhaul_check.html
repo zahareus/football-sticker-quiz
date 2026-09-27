@@ -1,0 +1,273 @@
+<title>Замір 14 — StickerHunt</title>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&family=IBM+Plex+Mono:wght@400;600&display=swap">
+<style>
+:root{
+  --paper:#f6f7f6; --card:#fffffe; --ink:#15171a; --ink-2:#3d434a;
+  --mute:#6d757e; --rule:#dfe2df; --rule-2:#eceeec;
+  --accent:#d8382b; --good:#15795a; --warn:#a45a10; --cool:#2b5f8f;
+  --shadow:0 1px 2px rgba(21,23,26,.05);
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --paper:#111315; --card:#191c1f; --ink:#e9ebe9; --ink-2:#c2c7cb;
+  --mute:#8d959c; --rule:#2b3034; --rule-2:#22262a;
+  --accent:#f26a5c; --good:#4cb896; --warn:#d99340; --cool:#77aada;
+  --shadow:0 1px 2px rgba(0,0,0,.35);
+}}
+:root[data-theme="dark"]{
+  --paper:#111315; --card:#191c1f; --ink:#e9ebe9; --ink-2:#c2c7cb;
+  --mute:#8d959c; --rule:#2b3034; --rule-2:#22262a;
+  --accent:#f26a5c; --good:#4cb896; --warn:#d99340; --cool:#77aada;
+  --shadow:0 1px 2px rgba(0,0,0,.35);
+}
+*{box-sizing:border-box}
+body{background:var(--paper);color:var(--ink);
+  font-family:"Source Serif 4",Georgia,serif;font-size:17px;line-height:1.62;
+  margin:0;padding-block:0 72px;padding-left:20px;padding-right:20px;}
+.wrap{max-width:760px;margin:0 auto;display:flex;flex-direction:column;gap:34px}
+h1,h2,h3,.disp{font-family:"Bricolage Grotesque","Helvetica Neue",sans-serif;text-wrap:balance;margin:0}
+.mono{font-family:"IBM Plex Mono",ui-monospace,monospace;font-variant-numeric:tabular-nums}
+
+header{padding-top:56px;display:flex;flex-direction:column;gap:14px}
+.eyebrow{font-family:"IBM Plex Mono",monospace;font-size:12px;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--mute);display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.eyebrow b{color:var(--accent);font-weight:600}
+h1{font-size:clamp(34px,6.2vw,52px);font-weight:800;line-height:1.06;letter-spacing:-.02em}
+.dek{font-size:19px;color:var(--ink-2);max-width:62ch}
+.dek em{font-style:italic;color:var(--ink)}
+
+section{display:flex;flex-direction:column;gap:14px}
+h2{font-size:13px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--mute);padding-bottom:8px;border-bottom:1px solid var(--rule)}
+h3{font-size:20px;font-weight:700;letter-spacing:-.01em}
+p{margin:0;max-width:66ch}
+p+p{margin-top:-2px}
+strong{font-weight:600}
+.lede{font-size:18px}
+
+.verdict{display:flex;flex-direction:column;gap:10px;padding:22px 24px;
+  background:var(--card);border:1px solid var(--rule);border-left:4px solid var(--accent);
+  box-shadow:var(--shadow)}
+.verdict p{font-size:18px}
+
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(148px,1fr));gap:1px;
+  background:var(--rule);border:1px solid var(--rule)}
+.kpi{background:var(--card);padding:16px 16px 14px;display:flex;flex-direction:column;gap:3px}
+.kpi .k{font-family:"IBM Plex Mono",monospace;font-size:10.5px;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--mute)}
+.kpi .v{font-family:"Bricolage Grotesque",sans-serif;font-size:30px;font-weight:700;
+  line-height:1.1;font-variant-numeric:tabular-nums;letter-spacing:-.02em}
+.kpi .d{font-family:"IBM Plex Mono",monospace;font-size:12px;color:var(--mute)}
+.down .v{color:var(--accent)} .up .v{color:var(--good)} .flat .v{color:var(--ink)}
+
+figure{margin:0;display:flex;flex-direction:column;gap:9px}
+figcaption{font-size:13.5px;color:var(--mute);line-height:1.5}
+.chart{background:var(--card);border:1px solid var(--rule);padding:14px 12px 8px}
+svg{display:block;width:100%;height:auto;max-width:100%}
+
+.tablewrap{overflow-x:auto;border:1px solid var(--rule);background:var(--card)}
+table{border-collapse:collapse;width:100%;font-family:"IBM Plex Mono",monospace;
+  font-size:12.5px;font-variant-numeric:tabular-nums;white-space:nowrap}
+th,td{padding:7px 11px;text-align:right;border-bottom:1px solid var(--rule-2)}
+th:first-child,td:first-child{text-align:left;white-space:normal;min-width:150px;
+  font-family:"Source Serif 4",serif;font-size:14px}
+thead th{position:sticky;top:0;background:var(--card);color:var(--mute);
+  font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;font-weight:600;
+  border-bottom:1px solid var(--rule)}
+tbody tr:last-child td{border-bottom:0}
+td.now{font-weight:600;color:var(--ink);background:color-mix(in srgb,var(--accent) 6%,transparent)}
+.tag{color:var(--mute)}
+.bad{color:var(--accent)} .ok{color:var(--good)} .wn{color:var(--warn)}
+
+ul{margin:0;padding-left:0;list-style:none;display:flex;flex-direction:column;gap:11px}
+li{display:grid;grid-template-columns:22px 1fr;gap:10px;align-items:start;max-width:66ch}
+li .m{font-family:"IBM Plex Mono",monospace;font-size:13px;color:var(--mute);padding-top:3px}
+li .m.g{color:var(--good)} li .m.r{color:var(--accent)}
+
+.snips{display:flex;flex-direction:column;gap:0;border:1px solid var(--rule);background:var(--card)}
+.snip{padding:13px 16px;border-bottom:1px solid var(--rule-2);display:flex;flex-direction:column;gap:3px}
+.snip:last-child{border-bottom:0}
+.snip .u{font-family:"IBM Plex Mono",monospace;font-size:11px;color:var(--cool)}
+.snip .t{font-family:"Source Serif 4",serif;font-size:15px;color:var(--ink);font-weight:600}
+.snip .x{font-size:13.5px;color:var(--ink-2);line-height:1.45}
+.snip .n{font-family:"IBM Plex Mono",monospace;font-size:11px;color:var(--mute)}
+
+.pend{padding:16px 18px;border:1px dashed var(--rule);background:var(--card);
+  font-size:15px;color:var(--ink-2)}
+footer{border-top:1px solid var(--rule);padding-top:16px;font-size:13px;color:var(--mute)}
+footer p{max-width:66ch}
+@media (max-width:520px){body{font-size:16px}.kpi .v{font-size:26px}}
+</style>
+
+<div class="wrap">
+<header>
+  <div class="eyebrow"><b>Замір 14</b><span>·</span><span>27 вересня 2026</span><span>·</span><span>вікно 27.08 — 24.09</span></div>
+  <h1>Стікери пішли вгору. Клуби потягнули сайт униз.</h1>
+  <p class="dek">Двотижнева перевірка SEO StickerHunt: 4783 сторінки стікерів, 819 клубів, 59 країн. Це перше вікно, що цілком припадає на час після on-page правок 28.08, тож тут має бути вердикт по них. Він є, але несподіваний: <em>правки зачепили одну частину сайту, а впала інша</em>.</p>
+</header>
+
+<section>
+  <h2>Коротко</h2>
+  <div class="verdict">
+    <p><strong>Видимість упала до нового дна: 9.6 показу на день</strong> (було 16.9 у місяць до правок). У другій половині вікна лише 6 на день.</p>
+    <p>Але падіння не суцільне. <strong>Сторінки стікерів, які ми правили, виросли</strong>: з 36 до 63 показів. <strong>Клубні сторінки, яких правки майже не торкнулись, обвалились</strong>: з 386 до 175. 110 клубів зовсім зникли з видачі, хоча всі вони в індексі й Google обходив їх у вересні. Технічно з ними все гаразд.</p>
+    <p>Нова погана новина: Google викинув з індексу <span class="mono">stickers/3201</span>, другу з наших діагностичних сторінок. Добра новина не про SEO: сховище деплоїв Vercel упало з 65,75 до 1,34 ГБ, тож ту тему закрито.</p>
+  </div>
+</section>
+
+<section>
+  <h2>Головні цифри за 29 днів</h2>
+  <div class="kpis">
+    <div class="kpi down"><span class="k">Покази / день</span><span class="v">9.6</span><span class="d">було 16.9</span></div>
+    <div class="kpi flat"><span class="k">Середня позиція</span><span class="v">39.6</span><span class="d">було 38.9</span></div>
+    <div class="kpi down"><span class="k">Кліки за місяць</span><span class="v">3</span><span class="d">було 7</span></div>
+    <div class="kpi up"><span class="k">Покази стікерів</span><span class="v">63</span><span class="d">було 36</span></div>
+    <div class="kpi down"><span class="k">Покази клубів</span><span class="v">175</span><span class="d">було 386</span></div>
+    <div class="kpi flat"><span class="k">Сайтів з лінками</span><span class="v">0</span><span class="d">14 замірів поспіль</span></div>
+  </div>
+  <figcaption>«Було» — вікно 28.07–25.08, останній повний місяць до правок. Саме з ним методика велить порівнювати для вердикту.</figcaption>
+</section>
+
+<section>
+  <h2>Що відбувалось день за днем</h2>
+  <figure>
+    <div class="chart">
+      <svg viewBox="0 0 720 200" role="img" aria-label="Покази на день з 27 серпня по 24 вересня: 14–22 на початку вікна, 2–6 наприкінці">
+        <g font-family="IBM Plex Mono, monospace" font-size="10" fill="var(--mute)">
+          <text x="0" y="14">25</text><text x="0" y="166">0</text>
+        </g>
+        <line x1="26" y1="10" x2="720" y2="10" stroke="var(--rule-2)" stroke-width="1"/>
+        <line x1="26" y1="86" x2="720" y2="86" stroke="var(--rule-2)" stroke-width="1"/>
+        <line x1="26" y1="162" x2="720" y2="162" stroke="var(--rule)" stroke-width="1"/>
+        <g fill="var(--cool)" opacity="0.82">
+<rect x="28.0" y="76.9" width="16" height="85.1"/><rect x="51.6" y="58.6" width="16" height="103.4"/><rect x="75.2" y="52.6" width="16" height="109.4"/><rect x="98.8" y="52.6" width="16" height="109.4"/><rect x="122.4" y="46.5" width="16" height="115.5"/><rect x="146.0" y="28.2" width="16" height="133.8"/><rect x="169.6" y="119.4" width="16" height="42.6"/><rect x="193.2" y="89.0" width="16" height="73.0"/><rect x="216.8" y="125.5" width="16" height="36.5"/><rect x="240.4" y="76.9" width="16" height="85.1"/><rect x="264.0" y="95.1" width="16" height="66.9"/><rect x="287.6" y="113.4" width="16" height="48.6"/><rect x="311.2" y="107.3" width="16" height="54.7"/><rect x="334.8" y="101.2" width="16" height="60.8"/><rect x="358.4" y="143.8" width="16" height="18.2"/><rect x="382.0" y="101.2" width="16" height="60.8"/><rect x="405.6" y="83.0" width="16" height="79.0"/><rect x="429.2" y="101.2" width="16" height="60.8"/><rect x="452.8" y="119.4" width="16" height="42.6"/><rect x="476.4" y="131.6" width="16" height="30.4"/><rect x="500.0" y="143.8" width="16" height="18.2"/><rect x="523.6" y="125.5" width="16" height="36.5"/><rect x="547.2" y="101.2" width="16" height="60.8"/><rect x="570.8" y="131.6" width="16" height="30.4"/><rect x="594.4" y="143.8" width="16" height="18.2"/><rect x="618.0" y="149.8" width="16" height="12.2"/><rect x="641.6" y="137.7" width="16" height="24.3"/><rect x="665.2" y="125.5" width="16" height="36.5"/><rect x="688.8" y="131.6" width="16" height="30.4"/>
+        </g>
+        <g font-family="IBM Plex Mono, monospace" font-size="10" fill="var(--mute)">
+          <text x="28" y="177">27.08</text><text x="366" y="177" text-anchor="middle">10.09</text>
+          <text x="705" y="177" text-anchor="end">24.09</text>
+        </g>
+        <line x1="60" y1="10" x2="60" y2="162" stroke="var(--good)" stroke-width="1" stroke-dasharray="3 3"/>
+        <text x="60" y="194" text-anchor="start" font-family="IBM Plex Mono, monospace" font-size="10" fill="var(--good)">on-page 28.08</text>
+        <line x1="437" y1="10" x2="437" y2="162" stroke="var(--good)" stroke-width="1" stroke-dasharray="3 3"/>
+        <text x="437" y="194" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="10" fill="var(--good)">h1 13.09</text>
+        <line x1="626" y1="10" x2="626" y2="162" stroke="var(--warn)" stroke-width="1" stroke-dasharray="3 3"/>
+        <text x="626" y="194" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="10" fill="var(--warn)">карта 21.09</text>
+      </svg>
+    </div>
+    <figcaption>Покази у звичайному пошуку по днях. Перша половина вікна: 13 на день, друга: 6. Спад почався 2 вересня, тобто раніше за правку h1 і за перебудову карти, тож ті дві зміни не можуть бути його початковою причиною.</figcaption>
+  </figure>
+</section>
+
+<section>
+  <h2>Що це означає простою мовою</h2>
+  <h3>Сайт розійшовся на дві частини</h3>
+  <p>Досі ми дивились на сайт як на одне ціле. Цього разу я розклав покази за типом сторінки, і картина розпалась надвоє.</p>
+  <div class="tablewrap">
+  <table>
+    <thead><tr><th>Тип сторінок</th><th>Покази до</th><th>Покази після</th><th>Сторінок у видачі до</th><th>після</th></tr></thead>
+    <tbody>
+      <tr><td>Клуби</td><td>386</td><td class="now bad">175</td><td>149</td><td class="now bad">65</td></tr>
+      <tr><td>Стікери</td><td>36</td><td class="now ok">63</td><td>13</td><td class="now ok">30</td></tr>
+      <tr><td>Країни</td><td>55</td><td class="now">63</td><td>28</td><td class="now">21</td></tr>
+      <tr><td>Міста</td><td>14</td><td class="now">11</td><td>8</td><td class="now">6</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <p>Клуби — це 80% нашої видимості, тож їхнє падіння і є падінням сайту. Стікери виросли майже вдвічі, але з таких малих чисел, що загальної картини це не рятує.</p>
+
+  <h3>Клуби не зламані. Вони просто перестали вигравати</h3>
+  <p>110 клубних сторінок мали покази в серпні й не мають жодного у вересні. Я перевірив вісім найбільших через Google: <strong>усі вісім в індексі, шість обійдено у вересні</strong>. Отже, Google їх бачить, знає і свіжо переглянув, але більше не ставить у видачу.</p>
+  <p>Це не той випадок, коли щось можна полагодити в коді. Ізольованих сторінок нема, сайтмепи чисті, заголовки клубів 28.08 не мінялись.</p>
+
+  <h3>Одну версію я перевірив і відкинув</h3>
+  <p>28.08 ми прибрали з клубних сторінок вісім мовних метаописів: німецький, шведський, турецький тощо. Напрошувалось пояснення, що клуби через це втратили неанглійські запити. Дані кажуть протилежне: <strong>неанглійські покази клубів зросли (11 → 27), а впали англійські (213 → 93)</strong>. Версію закрито.</p>
+
+  <h3>Друга сторінка-індикатор випала з індексу</h3>
+  <p>Сторінка <span class="mono">stickers/3201</span> 13.09 ще була в індексі, хай і в травневій версії. Тепер вона має статус «обійдено, але не проіндексовано», хоча Google її не переобходив. З <span class="mono">clubs/1095</span> у червні було те саме. Дно каталогу не просто старіє, його починають викидати.</p>
+</section>
+
+<section>
+  <h2>Вердикт по on-page правках 28.08</h2>
+  <p class="lede">Правки не зашкодили. Там, де вони щось змінили, покази зросли. Але тягнуть униз не ці сторінки.</p>
+  <ul>
+    <li><span class="m g">↑</span><span><strong>Стікери:</strong> 36 → 63 покази, 13 → 30 сторінок у видачі. Саме тут ми правили заголовки, а 13.09 ще й прибрали «edit» з h1. На таких обсягах це сигнал, не доказ.</span></li>
+    <li><span class="m g">✓</span><span><strong>Заголовки в індексі оновлено на 80%:</strong> у живій видачі старих лише 4 з 20 (13.09 було 3 з 10). Google доганяє.</span></li>
+    <li><span class="m r">✗</span><span><strong>Метаопис Google не бере зовсім:</strong> 0 з 20. Опис він, як і два тижні тому, бере з тіла сторінки: «Sticker #3204 from AIK Stockholm, a football club from Sweden. AIK Stockholm was founded in 1891…». Отже, важіль у тексті сторінки, а не в метатегах.</span></li>
+    <li><span class="m">~</span><span><strong>Картинки:</strong> 0/9 → 1/15 (клік/покази), позиція 77 → 18. Рух у правильний бік, але числа на межі шуму.</span></li>
+    <li><span class="m r">!</span><span><strong>Сайт загалом:</strong> −43% показів. Цю втрату дали клуби, а не правки.</span></li>
+  </ul>
+</section>
+
+<section>
+  <h2>Уся історія вимірів</h2>
+  <div class="tablewrap">
+  <table>
+    <thead><tr><th>Метрика (29 днів)</th><th>20.07</th><th>03.08</th><th>16.08</th><th>30.08</th><th>13.09</th><th>27.09</th></tr></thead>
+    <tbody>
+      <tr><td>Покази / день</td><td>16.7</td><td>22.5</td><td>18.1</td><td>16.7</td><td>13.5</td><td class="now bad">9.6</td></tr>
+      <tr><td>Покази, усього</td><td>483</td><td>653</td><td>526</td><td>484</td><td>392</td><td class="now bad">277</td></tr>
+      <tr><td>Кліки</td><td>7</td><td>8</td><td>11</td><td>7</td><td>1</td><td class="now">3</td></tr>
+      <tr><td>Середня позиція</td><td>26.6</td><td>29.1</td><td>34.6</td><td>39.2</td><td>41.7</td><td class="now">39.6</td></tr>
+      <tr><td>Картинки: кліки / покази</td><td>2/11</td><td>2/8</td><td>0/7</td><td>0/11</td><td>1/14</td><td class="now ok">1/15</td></tr>
+      <tr><td>Картинок подано в сайтмеп</td><td>2580</td><td>2870</td><td>2982</td><td>3477</td><td>3618</td><td class="now ok">3679</td></tr>
+      <tr><td>Сайтів, що лінкують на нас</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td class="now">0</td></tr>
+      <tr><td>Стрибок верстки (CLS)</td><td>0.000</td><td>0.000</td><td>0.000</td><td>0.000</td><td>0.000</td><td class="now ok">0.000</td></tr>
+      <tr><td>Сторінок без вхідних лінків</td><td>0</td><td>0</td><td>2</td><td>0</td><td>0</td><td class="now ok">0</td></tr>
+      <tr><td>Головну обходили, днів тому</td><td class="tag">—</td><td>23</td><td>2</td><td>10</td><td>12</td><td class="now">8</td></tr>
+      <tr><td>Каталог обходили, днів тому</td><td>40</td><td>54</td><td>67</td><td>9</td><td>23</td><td class="now">13</td></tr>
+      <tr><td>Клуб #617 обходили, днів тому</td><td class="tag">—</td><td>7</td><td>20</td><td>2</td><td>16</td><td class="now wn">30</td></tr>
+      <tr><td>Стікер #3201 обходили, днів тому</td><td>70</td><td>84</td><td>97</td><td>111</td><td>125</td><td class="now bad">139 · не в індексі</td></tr>
+      <tr><td>Клуб #1095 обходили, днів тому</td><td>106</td><td>120</td><td>133</td><td>147</td><td>161</td><td class="now bad">175 · не в індексі</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <figcaption>Вікно завжди однакове: дата заміру мінус 31 день … мінус 3 дні.</figcaption>
+</section>
+
+<section>
+  <h2>Що ще сталось у вікні</h2>
+  <ul>
+    <li><span class="m">·</span><span><strong>Наші зміни:</strong> on-page правки 28.08; «edit» прибрано з h1 усіх сторінок стікерів 13.09; +61 стікер 13.09 (4722 → 4783); карта на сторінці стікера з 21.09 вантажить маркери в браузері, ~3500 сторінок перегенеровано й полегшено.</span></li>
+    <li><span class="m">·</span><span><strong>Google:</strong> spam update 18–21.08 був до вікна. <strong>Новий September spam update стартував 24.09</strong>, в останній день вікна, тому на ці цифри він не вплинув. Повністю він потрапить у замір 11.10. Core update у вікні не було.</span></li>
+    <li><span class="m">·</span><span><strong>Дистрибуції не було.</strong> Зовнішніх лінків як і раніше нуль.</span></li>
+  </ul>
+</section>
+
+<section>
+  <h2>Технічні перевірки</h2>
+  <ul>
+    <li><span class="m g">✓</span><span><strong>Сайтмепи:</strong> 7 карт, нуль помилок, усі шарди Google викачав 17–26.09. Картинок подано 3679.</span></li>
+    <li><span class="m g">✓</span><span><strong>Сторінки-сироти:</strong> 0 з 4783 стікерів і 0 з 819 клубів.</span></li>
+    <li><span class="m g">✓</span><span><strong>Стрибок верстки:</strong> 0.000 скрізь.</span></li>
+    <li><span class="m">~</span><span><strong>Швидкість (лабораторна):</strong> головна 6.0 с, стікер 8.6 с, клуб 7.8 с. Реальних вимірів від Google досі нема, трафіку замало. Головна скаче між замірами від 0.7 до 6 с — це шум лабораторії, не зміна сайту.</span></li>
+    <li><span class="m g">✓</span><span><strong>Vercel, сховище деплоїв:</strong> 1,34 ГБ з 10 (21.09 було 65,75). Після 21.09 було два нові деплої, і цифра не зросла. Vercel тримає лише 4 останні деплої. Тему закрито, батчинг деплоїв не потрібен.</span></li>
+  </ul>
+  <h3>Крок 6 — порівняння краулів, 13.09 → 27.09</h3>
+  <p>Прогін валідний: обійдено <span class="mono">5732</span> сторінки при ліміті <span class="mono">8000</span>, попереджень нуль. Попередній прогін — 13.09, 5667 сторінок, той самий ліміт.</p>
+  <div class="kpis">
+    <div class="kpi flat"><span class="k">Додано</span><span class="v">65</span><span class="d">61 стікер, 2 клуби, 2 міста</span></div>
+    <div class="kpi flat"><span class="k">Зникло</span><span class="v">0</span><span class="d">сторінок</span></div>
+    <div class="kpi flat"><span class="k">Змінилось</span><span class="v">4773</span><span class="d">h1 і карта стікерів</span></div>
+    <div class="kpi flat"><span class="k">Нових помилок</span><span class="v">0</span><span class="d">404, редиректи, noindex</span></div>
+  </div>
+  <p><strong>Диф знову збігся з реальністю.</strong> 65 доданих — рівно приріст каталогу 13.09. 4773 змінених — це майже всі 4783 сторінки стікерів: 13.09 ми прибрали «edit» із заголовка, а 21.09 перебудували карту. Решта — каталог, головна і країни, де змінилась кількість клубів і стікерів у заголовку («England — 55 → 56 Clubs»).</p>
+  <p>Сам інструмент віддає лише п'ять рядків із 4838, тому головне я перевірив руками:</p>
+  <ul>
+    <li><span class="m g">✓</span><span><strong>Фікс заголовка підтверджено по всьому сайту.</strong> На сторінці стікера #1717 13.09 заголовок читався як «FC Augsburg edit», тепер — «FC Augsburg». Скрипт по всіх 4783 файлах: жоден заголовок більше не закінчується на «edit».</span></li>
+    <li><span class="m g">✓</span><span><strong>Усі п'ять «змін заголовка», які інструмент позначив середнім пріоритетом, пояснюються.</strong> У каталогу й країн змінилось число в заголовку, у стікерів зник «edit». Жодна не зачіпає ключових слів.</span></li>
+    <li><span class="m">~</span><span><strong>Перевірив і відкинув:</strong> у заголовках сторінок країн стоїть прапор-емодзі («🏴 England»). Саме прапори в заголовках клубів колись давали стрибок верстки 0.35. Тут стрибка нема (0 на мобільному й десктопі), і так було ще до вікна. Проблемою не вважаю.</span></li>
+  </ul>
+</section>
+
+<section>
+  <h2>Що це означає для роботи далі</h2>
+  <p class="lede">Питання «чи допомагають on-page правки» закрито: де вони щось змінили, там стало трохи краще. Відкрилось інше: <strong>чому Google перестав показувати клуби</strong>.</p>
+  <p>Технічну відповідь ми вже відкинули: клуби в індексі, свіжо обійдені, пов'язані лінками, заголовки ті самі. Лишається те, що ми називали й раніше: сторінки клубів тонкі (назва, рік заснування, сітка стікерів), а домен не має жодного зовнішнього підтвердження. Коли Google переоцінює, на яких запитах нас показувати, він віддає «Beşiktaş stickers» сайтам, яким довіряє більше.</p>
+  <p>Звідси два практичні кроки. Перший — <strong>текст на клубних сторінках</strong>: сніпети показують, що Google бере опис саме з тіла сторінки. Другий — <strong>зовнішні посилання</strong>: їх нуль чотирнадцятий замір поспіль.</p>
+  <p>На замірі 11.10 у вікні буде повністю September spam update, тож цифри знову буде важко атрибутувати. Варто закласти це заздалегідь.</p>
+</section>
+
+<footer>
+  <p>Замір 14 від overhaul 02.04.2026. Дані: Google Search Console (searchanalytics + URL Inspection), DataForSEO SERP, локальний аудит внутрішніх лінків, PageSpeed Insights, seoskill crawl-diff, Vercel Usage. Сирі дані — <span class="mono">seo-reports/2026-09-27_overhaul_check.md</span>.</p>
+</footer>
+</div>
