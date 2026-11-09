@@ -51,4 +51,7 @@
 
 ## Хвости
 - `sitemap.xml` isPending (не блокер); 6 битих лінків генератора (cities/riga|tallinn|dubrovnik|milan|pendik, countries/.html).
-- Беклінки: рядок у `ops/seo-kb/backlinks/baseline/README.md` ще не дописаний.
+- Беклінки: рядок 09.11 дописано в `ops/seo-kb/backlinks/baseline/README.md` (коміт 8c0c81b).
+
+## Допис: crawl-diff (крок 6)
+Прогін `limit=8000`, `crawled=5732 < 8000`, `warnings:[]`. Обидва фонові запуски (мій перший, що я вважав невдалим, і другий) писали в один файл, тому вивід змішався; чистим лишився лише diff «сьогоднішній run → сьогоднішній run» (0 змін, run `15844b92`, previous `b2eb4fd7`), він нічого не каже про baseline. Із змішаного залишку витягнуто URL-и зі змінами: ті самі 6 відомих 404 (`cities/riga|tallinn|dubrovnik|milan|pendik`, `countries/.html`; curl: riga і countries/ досі 404) плюс `robots.txt` («Main content changed», low). У репо `robots.txt` не змінювався (останній коміт старий), живий віддає 200 і простий текст; ймовірне джерело зміни не встановлено (кандидат: edge/Cloudflare). Підсумкових added/removed/newErrors проти baseline `6c8d9e94` НЕ маю: вважати цей крок виконаним частково. Наступний цикл: запускати один прогін, вивід в окремий файл.
