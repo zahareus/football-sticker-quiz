@@ -1,0 +1,92 @@
+<title>StickerHunt SEO 09.11</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<style>
+/* layout: одна колонка звіту, таблиця порівняння циклів, короткі блоки */
+:root{--bg:#f6f7f4;--fg:#1d2420;--mut:#5d675f;--line:#d8ddd5;--acc:#1f6f54;--bad:#a83a2a;--ok:#2d7a45;--card:#fdfdfb;--font:"Source Sans 3",system-ui,sans-serif;--mono:"IBM Plex Mono",ui-monospace,monospace}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#121715;--fg:#e4e9e3;--mut:#9aa59c;--line:#2c352f;--acc:#59c29a;--bad:#e5806f;--ok:#6cc487;--card:#1a211e;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#121715;--fg:#e4e9e3;--mut:#9aa59c;--line:#2c352f;--acc:#59c29a;--bad:#e5806f;--ok:#6cc487;--card:#1a211e;color-scheme:dark}
+body{background:var(--bg);color:var(--fg);font-family:var(--font);font-size:16px;line-height:1.55;padding-block:24px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+main{max-width:760px;margin:0 auto;display:flex;flex-direction:column;gap:22px}
+h1{font-size:1.7rem;line-height:1.2;margin:0;text-wrap:balance}
+h2{font-size:1.1rem;margin:0 0 6px;text-wrap:balance}
+p{margin:0 0 8px;max-width:65ch}
+.sub{color:var(--mut)}
+.wrap{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-variant-numeric:tabular-nums;font-size:.95rem}
+th,td{text-align:left;padding:7px 10px;border-bottom:1px solid var(--line);white-space:nowrap}
+th{font-size:.8rem;letter-spacing:.04em;text-transform:uppercase;color:var(--mut)}
+td.n{font-family:var(--mono)}
+.bad{color:var(--bad)}.ok{color:var(--ok)}
+.box{background:var(--card);border:1px solid var(--line);border-radius:6px;padding:14px 16px}
+ul{margin:0;padding-left:20px}
+</style>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono&family=Source+Sans+3:wght@400;600&display=swap">
+<main>
+<header>
+<h1>StickerHunt SEO: чек 09.11.2026</h1>
+<p class="sub">Вікно GSC 09.10 – 06.11 (29 днів). Попередній цикл 13.10. Репо без змін з 13.10: каталог той самий, 4783 стікери і 819 клубів, SEO-робіт не було.</p>
+</header>
+
+<section class="box">
+<h2>Коротко</h2>
+<p>Видимість у Google падає шостий цикл поспіль, хоча сайт не чіпали. Покази за день 4.2, на початку серпня було 22.5. Технічний шар чистий: сайтмепи без помилок, ізольованих сторінок нема, CLS нульовий. Нове погіршення одне: сторінку <b>stickers/3201</b> Google тепер взагалі не знає. Причину спаду я не встановив.</p>
+</section>
+
+<section>
+<h2>Метрики за 29 днів</h2>
+<div class="wrap"><table>
+<tr><th>Метрика</th><th>13.10</th><th>09.11</th></tr>
+<tr><td>Покази WEB</td><td class="n">167</td><td class="n bad">122</td></tr>
+<tr><td>Покази на день</td><td class="n">5.8</td><td class="n bad">4.2</td></tr>
+<tr><td>Кліки WEB</td><td class="n">4</td><td class="n">2</td></tr>
+<tr><td>Позиція WEB</td><td class="n">32.46</td><td class="n">36.10</td></tr>
+<tr><td>IMAGE кліки / покази</td><td class="n">0 / 10</td><td class="n">0 / 2</td></tr>
+<tr><td>Зображень у сайтмепах</td><td class="n">3679</td><td class="n">3679</td></tr>
+<tr><td>Ізольовані клуби / стікери</td><td class="n">0 / 0</td><td class="n ok">0 / 0</td></tr>
+<tr><td>CLS (lab)</td><td class="n">0.000</td><td class="n ok">0.000</td></tr>
+<tr><td>Referring domains</td><td class="n">не міряли</td><td class="n">69, чистих зовнішніх 1</td></tr>
+</table></div>
+<p class="sub">Що це значить: Google показує сайт у видачі все рідше. Позиція на таких малих числах шумить, на неї не спираюсь.</p>
+</section>
+
+<section>
+<h2>За типом сторінки (покази / сторінок)</h2>
+<div class="wrap"><table>
+<tr><th>Тип</th><th>13.10</th><th>09.11</th></tr>
+<tr><td>Стікери</td><td class="n">77 / 38</td><td class="n bad">40 / 27</td></tr>
+<tr><td>Клуби</td><td class="n">92 / 42</td><td class="n bad">67 / 36</td></tr>
+<tr><td>Країни</td><td class="n">31</td><td class="n bad">17</td></tr>
+<tr><td>Міста</td><td class="n">5</td><td class="n">10</td></tr>
+</table></div>
+<p class="sub">Стікери повернулися вниз після двох циклів росту.</p>
+</section>
+
+<section>
+<h2>Чи ходить Google на сайт</h2>
+<div class="wrap"><table>
+<tr><th>Сторінка</th><th>Стан</th></tr>
+<tr><td>Головна</td><td>в індексі, краул 5 днів тому</td></tr>
+<tr><td>catalogue</td><td>в індексі, краул 3 дні тому</td></tr>
+<tr><td>clubs/617 (флагман)</td><td>в індексі, краул 40 днів тому (було 13)</td></tr>
+<tr><td>stickers/3201</td><td class="bad">URL невідомий Google (було: не в індексі)</td></tr>
+<tr><td>clubs/1095</td><td class="bad">Crawled, не в індексі, краул 05.04</td></tr>
+</table></div>
+<p class="sub">Верхівка сайту обходиться, дно ні. Сайтмепи: 0 помилок, шарди завантажуються регулярно.</p>
+</section>
+
+<section>
+<h2>Швидкість (lab, CrUX даних нема)</h2>
+<p>Головна LCP 4.7 с, stickers/3201 LCP 7.0 с, clubs/695 LCP 1.9 с, CLS 0.000 скрізь. Консультативно, не гейт.</p>
+</section>
+
+<section>
+<h2>Новий крок: striking-distance і quick-wins</h2>
+<p>Перший прогін (baseline), 90 днів, 185 рядків запит × сторінка. Обидва звіти: <b>0</b>. У позиціях 10–20 нічого нема, у позиціях 4–10 теж. Для сайту в ямі це очікувано.</p>
+</section>
+
+<section>
+<h2>Атрибуція і висновок</h2>
+<p>У вікні наших змін не було, spam update Google 24.09–08.10 закінчився до його початку. Сторонні події листопада я не перевіряв. Спад триває без зовнішнього поштовху, тому важіль лишається поза сайтом: авторитет, тобто зовнішні посилання (чистий зовнішній донор один).</p>
+<p class="sub">Хвости: індексний sitemap.xml у стані isPending, 6 битих лінків генератора на міста і країну, крок crawl-diff дописується окремим коментарем.</p>
+</section>
+</main>
