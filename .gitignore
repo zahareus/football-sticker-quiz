@@ -22,3 +22,6 @@ backups-local/
 cls-*.mjs
 preflight-check.mjs
 scripts/__pycache__/
+
+n8n-backup-*.json
+zernio-queue-backup-*.json
